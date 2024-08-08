@@ -66,7 +66,8 @@ namespace Scenes.LoginScene.Scripts
 
         private void SaveUserToTxtFile(string hashedUsername, string hashedPassword, string salt)
         {
-            string path = Application.persistentDataPath + "/users.txt";
+            string path = Application.dataPath + "/users.txt";
+            //string path = Application.persistentDataPath + "/users.txt";
             string userData = hashedUsername + ";" + hashedPassword + ";" + salt + "\n";
             File.AppendAllText(path, userData);
             Debug.Log("User saved successfully.");

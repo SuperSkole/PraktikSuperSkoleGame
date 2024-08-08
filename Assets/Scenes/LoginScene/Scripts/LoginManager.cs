@@ -58,7 +58,8 @@ public class LoginManager : MonoBehaviour
     private bool ValidateLogin(string username, string inputPassword)
     {
         // Define path to file
-        string path = Application.persistentDataPath + "/users.txt";
+        string path = Application.dataPath+ "/users.txt";
+        //string path = Application.persistentDataPath + "/users.txt";
         if (File.Exists(path))
         {
             // Read all lines in file
