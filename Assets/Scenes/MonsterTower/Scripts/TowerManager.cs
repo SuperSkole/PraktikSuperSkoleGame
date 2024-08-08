@@ -10,6 +10,7 @@ public class TowerManager : MonoBehaviour
 
     private int towerHeight;
     private int towerWidth;
+    private int towerDepth;
 
 
     private bool updateDimensions=true;
@@ -47,6 +48,7 @@ public class TowerManager : MonoBehaviour
 
         towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
         towerHeight = brickLanes.Count;
+        towerDepth = 3;
 
         allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
         allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
@@ -104,7 +106,7 @@ public class TowerManager : MonoBehaviour
 
                 for (int x = 0; x < towerWidth; x++)
                 {
-                    Vector3 SpaceBetween = new Vector3(x * 2, y * 2, 0);
+                    Vector3 SpaceBetween = new Vector3(x * 2, y * 0, 0);
                     Vector3 brickPos = gameObject.transform.position + new Vector3(x * brick.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brick.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
                     Debug.Log("brickPos:" + brickPos);
 
@@ -125,8 +127,26 @@ public class TowerManager : MonoBehaviour
                     var brickInstans = Instantiate(brick, brickPos, Quaternion.identity);
 
                     brickInstans.transform.parent = gameObject.transform;
+
+
+                    for (int z = 1; z< towerDepth; z++)
+                    {
+                        Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
+                        Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brick.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brick.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brick.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
+                        Debug.Log("brickPos:" + brickPos);
+
+                        brick.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = null;
+                        var brickInstansZ = Instantiate(brick, brickPosZ, Quaternion.identity);
+
+                        brickInstansZ.transform.parent = gameObject.transform;
+
+                        
+                    }
+
                 }
 
+
+               
             }
 
 
