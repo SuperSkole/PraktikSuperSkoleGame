@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.RulleMarie.Managers
+namespace Scenes.Minigames.WordFactory.Scripts.Managers
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance { get; private set; }
 
         private List<GameObject> gears = new List<GameObject>();
+        
 
         public int numberOfGears = 2; // Default to 2 gears
         public int numberOfTeeth = 8; // Default to 8 teeth per gear

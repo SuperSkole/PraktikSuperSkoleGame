@@ -2,9 +2,9 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Minigames.RulleMarie.Managers;
+using Scenes.Minigames.WordFactory.Scripts.Managers;
 
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     public class LetterHandler : MonoBehaviour
     {

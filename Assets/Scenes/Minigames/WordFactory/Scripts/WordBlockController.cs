@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     [RequireComponent(typeof(Rigidbody))]
     public class WordBlockController : MonoBehaviour
