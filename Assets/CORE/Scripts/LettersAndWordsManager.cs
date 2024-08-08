@@ -7,10 +7,8 @@ namespace CORE.Scripts
 {
     public static class LettersAndWordsManager
     {
-        // Used hashset for the O(1) look up  
-        private static readonly HashSet<string> TwoLetterWords = new HashSet<string>();
-        private static readonly HashSet<string> ThreeLetterWords = new HashSet<string>();
-        private static readonly HashSet<string> FourLetterWords = new HashSet<string>();
+        // Used dictionary of hashset as both have O(1) look up  
+        private static Dictionary<string, HashSet<string>> wordSets = new Dictionary<string, HashSet<string>>();
     
         private static readonly HashSet<char> AllDanishLetters = new HashSet<char>
         {
@@ -40,43 +38,11 @@ namespace CORE.Scripts
             {'Z', 10}, {'Æ', 6}, {'Ø', 7}, {'Å', 6}
         };
 
-        private static readonly HashSet<string> ValidWords = new HashSet<string>();
+        // private static readonly HashSet<string> ValidWords = new HashSet<string>();
 
         static LettersAndWordsManager()
         {
-            LoadWordsFromCSV();
-            PopulateTestWords();
-        }
-    
-        private static void LoadWordsFromCSV()
-        {
-            // find path to file in folder teachingdata + unity assets path
-            string filePath = Path.Combine(Application.dataPath, "TeachingData", "Words_Danish_2L.csv");
-            try
-            {
-                string[] lines = File.ReadAllLines(filePath);
-                foreach (string line in lines)
-                {
-                    string word = line.Trim();
-                    switch (word.Length)
-                    {
-                        case 2:
-                            TwoLetterWords.Add(word.ToUpper());
-                            break;
-                        case 3:
-                            ThreeLetterWords.Add(word.ToUpper());
-                            break;
-                        case 4:
-                            FourLetterWords.Add(word.ToUpper());
-                            break;
-                    }
-                }
-                Debug.Log("Words loaded successfully.");
-            }
-            catch (IOException ex)
-            {
-                Debug.LogError("Error loading words from CSV: " + ex.Message);
-            }
+            //PopulateTestWords();
         }
 
         private static void PopulateTestWords()
@@ -85,22 +51,61 @@ namespace CORE.Scripts
 
             foreach (string word in words)
             {
-                ValidWords.Add(word.ToUpper());
+                // ValidWords.Add(word.ToUpper());
             }
         }
-
-        public static List<string> GetRandomWords(int count)
+        
+        public static void AddWordToSet(string setName, string word)
         {
-            List<string> chosenWords = ValidWords.OrderBy(word => Random.value).Take(count).ToList();
-            Debug.Log($"Selected Words: {string.Join(", ", chosenWords)}");
-            return chosenWords;
+            if (!wordSets.ContainsKey(setName))
+            {
+                wordSets[setName] = new HashSet<string>();
+            }
+            wordSets[setName].Add(word.ToUpper());
         }
 
-        public static HashSet<string> GetValidWords()
+        public static HashSet<string> GetWordsFromSet(string setName)
         {
-            // Return a copy to avoid external modification
-            return new HashSet<string>(ValidWords);
+            if (wordSets.ContainsKey(setName))
+            {
+                // Return a copy to avoid external modification
+                return new HashSet<string>(wordSets[setName]);
+            }
+            // Return an empty set if not found
+            return new HashSet<string>(); 
         }
+        
+        public static HashSet<string> GetWordsByLength(int length)
+        {
+            string setName = $"Words_Danish_{length}L";
+            return GetWordsFromSet(setName);
+        }
+
+        public static List<string> GetRandomWordsByLength(int length, int count)
+        {
+            string setName = $"Words_Danish_{length}L";
+            if (wordSets.ContainsKey(setName))
+            {
+                return wordSets[setName].OrderBy(word => Random.value).Take(count).ToList();
+            }
+            
+            // Return an empty list if the set is not found and log error
+            Debug.Log("LettersAndWordsManager: GetRandomWordsByLength() returned empty list");
+            return new List<string>(); 
+        }
+
+        // public static List<string> GetRandomWords(int count)
+        // {
+        //     List<string> chosenWords = ValidWords.OrderBy(word => Random.value).Take(count).ToList();
+        //     Debug.Log($"Selected Words: {string.Join(", ", chosenWords)}");
+        //     return chosenWords;
+        // }
+
+        // public static HashSet<string> GetValidWords()
+        // {
+        //     // Return a copy to avoid external modification
+        //     return new HashSet<string>(ValidWords);
+        // }
 
         public static List<char> GetRandomLetters(int count)
         {
