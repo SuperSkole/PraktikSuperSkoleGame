@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     public class WordBuilder : MonoBehaviour
     {

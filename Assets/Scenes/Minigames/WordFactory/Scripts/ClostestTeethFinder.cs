@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     public class ClosestTeethFinder : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
 
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     public class ColorTooth : MonoBehaviour
     {

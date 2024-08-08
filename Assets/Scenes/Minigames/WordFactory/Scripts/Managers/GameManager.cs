@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Minigames.RulleMarie.Managers
+namespace Scenes.Minigames.WordFactory.Scripts.Managers
 {
     public class GameManager : MonoBehaviour
     {

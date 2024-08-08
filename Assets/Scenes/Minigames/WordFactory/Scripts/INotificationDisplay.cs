@@ -1,4 +1,4 @@
-namespace Minigames.RulleMarie
+namespace Scenes.Minigames.WordFactory.Scripts
 {
     public interface INotificationDisplay
     {

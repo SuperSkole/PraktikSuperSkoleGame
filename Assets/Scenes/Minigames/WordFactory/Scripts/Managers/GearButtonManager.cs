@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Minigames.RulleMarie.Managers
+namespace Scenes.Minigames.WordFactory.Scripts.Managers
 {
     public class GearButtonManager : MonoBehaviour
     {

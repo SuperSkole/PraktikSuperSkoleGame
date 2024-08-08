@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Minigames.RulleMarie.Managers
+namespace Scenes.Minigames.WordFactory.Scripts.Managers
 {
     public class WordCheckManager : MonoBehaviour
     {
