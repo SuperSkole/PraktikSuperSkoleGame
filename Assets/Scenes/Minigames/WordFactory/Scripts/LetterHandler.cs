@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using CORE.Scripts;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
 
 namespace Scenes.Minigames.WordFactory.Scripts
@@ -32,7 +33,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             int numberOfWords = numberOfTeeth - difficulty;
 
             // Fetch random words equal to the number of required words
-            List<string> words = LetterAndWordCollections.GetRandomWords(numberOfWords);
+            List<string> words = LettersAndWordsManager.GetRandomWords(numberOfWords);
 
             // Ensure we have enough words
             if (words.Count < numberOfWords)
@@ -69,7 +70,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
                     else
                     {
                         // Add a random letter if the word is shorter than the number of gears
-                        gearLetters[gearIndex].Add(LetterAndWordCollections.GetRandomLetters(1).First());
+                        gearLetters[gearIndex].Add(LettersAndWordsManager.GetRandomLetters(1).First());
                     }
                 }
             }
@@ -84,7 +85,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             {
                 while (gear.Count < numberOfTeeth)
                 {
-                    gear.Add(LetterAndWordCollections.GetRandomLetters(1).First());
+                    gear.Add(LettersAndWordsManager.GetRandomLetters(1).First());
                 }
             }
         }

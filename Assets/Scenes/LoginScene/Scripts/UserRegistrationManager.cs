@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using System;
-using UnityEngine.Serialization;
 using TMPro;
 
 namespace Scenes.LoginScene.Scripts
@@ -33,7 +31,7 @@ namespace Scenes.LoginScene.Scripts
         
         public void OnRegisterButtonClicked()
         {
-            // remove evtual spaces before/after username
+            // remove eventual spaces before/after username
             string username = usernameInput.text.Trim(); 
             string password = passwordInput.text;
 
@@ -65,9 +63,9 @@ namespace Scenes.LoginScene.Scripts
         }
 
         private void SaveUserToTxtFile(string hashedUsername, string hashedPassword, string salt)
-        {
-            string path = Application.dataPath + "/users.txt";
-            //string path = Application.persistentDataPath + "/users.txt";
+        {            
+            string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
+            string path = Path.Combine(userDataPath, "users.txt");
             string userData = hashedUsername + ";" + hashedPassword + ";" + salt + "\n";
             File.AppendAllText(path, userData);
             Debug.Log("User saved successfully.");

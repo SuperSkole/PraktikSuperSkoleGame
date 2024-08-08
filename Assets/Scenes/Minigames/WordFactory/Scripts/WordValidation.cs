@@ -1,3 +1,4 @@
+using CORE.Scripts;
 using UnityEngine;
 
 namespace Scenes.Minigames.WordFactory.Scripts
@@ -6,7 +7,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
     {
         public bool IsValidWord(string word)
         {
-            return LetterAndWordCollections.GetValidWords().Contains(word.ToUpper());
+            return LettersAndWordsManager.GetValidWords().Contains(word.ToUpper());
         }
     }
 }
