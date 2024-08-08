@@ -134,6 +134,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 4563195224083046244}
   board: {fileID: 0}
+  defaultMaterial: {fileID: 0}
+  correctMaterial: {fileID: 2100000, guid: d0bddb35d1629ff469d35217ef085b5d, type: 2}
+  incorrectMaterial: {fileID: 2100000, guid: ae3bba3d956795045a93489e0be8bb54, type: 2}
+  meshRenderer: {fileID: 0}
 --- !u!1 &6055746406009689488
 GameObject:
   m_ObjectHideFlags: 0
