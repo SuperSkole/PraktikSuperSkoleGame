@@ -11,7 +11,7 @@ public class MonsterManager : MonoBehaviour
     //The player the monster tries to catch
     [SerializeField]private GameObject player;
     //The time in seconds between the monsters attempts to move toward the player
-    [SerializeField]private int walkDelay = 5;
+    [SerializeField]private float walkDelay = 1.5f;
 
     [SerializeField]private int throwRange = 5;
     // Start is called before the first frame update
@@ -27,7 +27,7 @@ public class MonsterManager : MonoBehaviour
         if (canWalk){
             Vector3 velocity = player.transform.position - transform.position;
             Debug.Log(velocity);
-            if((velocity.x <= 1 && velocity.x >= -1) || (Random.Range(0, 2) == 0)){
+            if((velocity.x < 1 && velocity.x > -1) || (Random.Range(0, 2) == 0)){
                 velocity.x = 0;
                 if(velocity.z > 0){
                     velocity.z = 1;
@@ -76,6 +76,19 @@ public class MonsterManager : MonoBehaviour
             zDirection = -1;
         }
         Vector3 newDeltaPos = new Vector3(xDirection * Random.Range(0, throwRange), 0, zDirection * Random.Range(0, throwRange));
+        Vector3 newPos = newDeltaPos + player.transform.position;
+        if(newPos.x > 19.5f){
+            newDeltaPos.x = 19.5f - player.transform.position.x;
+        }
+        if(newPos.z > 19.5f){
+            newDeltaPos.z = 19.5f - player.transform.position.z;
+        }
+        if(newPos.x < 10.5f){
+            newDeltaPos.x = player.transform.position.x - 10.5f;
+        }
+        if(newPos.z < 10.5f){
+            newDeltaPos.z = player.transform.position.z - 10.5f;
+        }
         player.transform.Translate(newDeltaPos);
     }
 }

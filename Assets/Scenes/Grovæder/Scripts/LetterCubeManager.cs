@@ -12,6 +12,12 @@ public class LetterCubeManager : MonoBehaviour
     //The gameboard the letter cube is connected to
     [SerializeField]private BoardManager board;
 
+    [SerializeField]private Material defaultMaterial;
+    [SerializeField]private Material correctMaterial;
+    [SerializeField]private Material incorrectMaterial;
+
+    [SerializeField]private MeshRenderer meshRenderer;
+
     //Whether the lettercube currently displays a letter
     private bool active;
 
@@ -32,14 +38,26 @@ public class LetterCubeManager : MonoBehaviour
 
     //Reacts to the players stepping on it and reacts according to if the letter is the correct one
     void OnTriggerEnter(Collider other){
+        if(meshRenderer == null){
+            meshRenderer = gameObject.GetComponent<MeshRenderer>();
+            defaultMaterial = meshRenderer.material;
+        }
         if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter)){
-            SelfDeactivate();
+            StartCoroutine(incorrectGuess());
+            board.GetPlayerManager().IncorrectGuess();
+        }
+        else if(active && other.gameObject.tag == "Player"){
+            StartCoroutine(CorrectGuess());
         }
     }
 
     //Overload on the activate method in case it is not important whether the letter is lower case. Takes the desired letter as input
     public void Activate(string letter){
         Activate(letter, false);
+    }
+
+    public string GetLetter(){
+        return letter;
     }
 
     //Sets the letter of the letterbox and activates it by moving it upwards. If capitalization is not important it sets it to lower case half of the time randomly
@@ -74,4 +92,17 @@ public class LetterCubeManager : MonoBehaviour
         board.ReplaceLetter(this);
     }
 
+    IEnumerator incorrectGuess(){
+        meshRenderer.material = incorrectMaterial;
+        yield return new WaitForSeconds(6);
+        meshRenderer.material = defaultMaterial;
+        SelfDeactivate();
+    }
+
+    IEnumerator CorrectGuess(){
+        meshRenderer.material = correctMaterial;
+        yield return new WaitForSeconds(1);
+        meshRenderer.material = defaultMaterial;
+        SelfDeactivate();
+    }
 }

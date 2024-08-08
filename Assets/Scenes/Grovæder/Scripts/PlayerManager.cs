@@ -1,34 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public GameObject player;
+    [SerializeField]private float MoveDelayRemaining = 0;
+    [SerializeField]private GameObject textObject;
+    private TextMeshPro cooldownText;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        cooldownText = textObject.GetComponent<TextMeshPro>();
+        cooldownText.text = "";
     }
-
+    
     // Update is called once per frame
     void Update()
     {
-        Vector3 posCorrect = new Vector3(0, 0, 0);
-        if (transform.position.x > 19.5f){
-            transform.Translate(transform.position.x - 19.5f, 0, 0);
+        if(MoveDelayRemaining == 0){
+            if(Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f){
+            transform.Translate(1, 0, 0);
+            }
+            else if(Input.GetKeyDown(KeyCode.S) && transform.position.x > 10.5f){
+                transform.Translate(-1, 0, 0);
+            }
+            else if(Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f){
+                transform.Translate(0, 0, 1);
+            }
+            else if(Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f){
+                transform.Translate(0, 0, -1);
+            }
         }
-        if(Input.GetKeyDown(KeyCode.W) && player.transform.position.x < 19.5f){
-            player.transform.Translate(1, 0, 0);
+        else{
+            MoveDelayRemaining -= Time.deltaTime;
+            if(MoveDelayRemaining < 0){
+                MoveDelayRemaining = 0;
+                cooldownText.text = "";
+            }
+            else {
+                cooldownText.text = MoveDelayRemaining + " sek. tilbage";
+            }
         }
-        else if(Input.GetKeyDown(KeyCode.S) && player.transform.position.x > 10.5f){
-            player.transform.Translate(-1, 0, 0);
-        }
-        else if(Input.GetKeyDown(KeyCode.A) && player.transform.position.z < -10.5f){
-            player.transform.Translate(0, 0, 1);
-        }
-        else if(Input.GetKeyDown(KeyCode.D) && player.transform.position.z > -19.5f){
-            player.transform.Translate(0, 0, -1);
-        }
+    }
+
+    public void IncorrectGuess(){
+        MoveDelayRemaining = 6;
+        cooldownText.text = MoveDelayRemaining + " sek. tilbage";
     }
 }

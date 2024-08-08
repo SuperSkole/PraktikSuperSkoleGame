@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -537033292649417032}
   m_Layer: 0
   m_Name: Monster
-  m_TagString: Player
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,3 +122,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   walkDelay: 5
+  throwRange: 5

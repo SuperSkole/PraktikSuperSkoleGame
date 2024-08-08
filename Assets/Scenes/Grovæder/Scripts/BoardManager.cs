@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BoardManager : MonoBehaviour
@@ -13,10 +14,19 @@ public class BoardManager : MonoBehaviour
     private List<LetterCubeManager>activeLetterCubeManagers = new List<LetterCubeManager>();
     //The letter which the player is currently looking for 
     private string correctLetter = "A";
+    [SerializeField]private int correctLetterCount = 0;
+
+    [SerializeField]private GameObject answerTextObject;
+    [SerializeField]private TextMeshProUGUI answerText;
+
+    [SerializeField]private GameObject player;
+    private PlayerManager playerManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerManager = player.GetComponent<PlayerManager>();
+        answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
         //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
         foreach (GameObject l in letterCubes){
             LetterCubeManager lCM = l.GetComponent<LetterCubeManager>();
@@ -28,6 +38,10 @@ public class BoardManager : MonoBehaviour
         NewLetters();
         
 
+    }
+
+    public PlayerManager GetPlayerManager(){
+        return playerManager;
     }
 
     // Update is called once per frame
@@ -48,6 +62,7 @@ public class BoardManager : MonoBehaviour
 
     //activates a given number of letterboxes
     private void NewLetters(int count){
+        correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
         foreach (LetterCubeManager lCM in activeLetterCubeManagers){
             lCM.Deactivate();
@@ -56,6 +71,9 @@ public class BoardManager : MonoBehaviour
         //finds new letterboxes to be activated and assigns them a random letter
         for (int i = 0; i < count; i++){
             string letter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+            if(IsCorrectLetter(letter)){
+                correctLetterCount++;
+            }
             activeLetterCubeManagers.Add(letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)]);
             activeLetterCubeManagers[i].Activate(letter);
         }
@@ -67,8 +85,10 @@ public class BoardManager : MonoBehaviour
                 break;
             }
         }
-        correctLetterBox.Activate(correctLetter, true);
+        correctLetterBox.Activate(correctLetter.ToLower(), true);
+        correctLetterCount++;
         activeLetterCubeManagers.Add(correctLetterBox);
+        answerText.text = "Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.";
     }
 
     //replaces a random active letterbox
@@ -76,14 +96,15 @@ public class BoardManager : MonoBehaviour
         ReplaceLetter(activeLetterCubeManagers[UnityEngine.Random.Range(0, activeLetterCubeManagers.Count)]);
     }
 
-    public void PlayerReplaceLetter(LetterCubeManager letter){
-        ReplaceLetter(letter);
-    }
-
     //replaces a specific letterbox
     public void ReplaceLetter(LetterCubeManager letter){
+        if(IsCorrectLetter(letter.GetLetter())){
+            correctLetterCount--;
+            answerText.text = "Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.";
+        }
         letter.Deactivate();
         activeLetterCubeManagers.Remove(letter);
+        
         LetterCubeManager newLetter;
         //finds a new random letterbox which is not active and is not the one which should be replaced
         while(true){
@@ -93,10 +114,15 @@ public class BoardManager : MonoBehaviour
             }
         }
         activeLetterCubeManagers.Add(newLetter);
-        newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+        if(correctLetterCount > 0){
+            newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+        }
+        else{
+            NewLetters();
+        }
     }
 
     public bool IsCorrectLetter(string letter){
-        return letter == correctLetter;
+        return letter.ToLower() == correctLetter.ToLower();
     }
 }
