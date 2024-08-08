@@ -16,6 +16,7 @@ public class MonsterTowerManager : MonoBehaviour
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject noAmmoText;
     [SerializeField] GameObject[] ammoDisplay;
+    [SerializeField] CatapultAming catapultAming;
     RaycastHit hit;
     Ray ray;
     [SerializeField] AmmoPupUp pupUp;
@@ -89,7 +90,8 @@ public class MonsterTowerManager : MonoBehaviour
         if (hit.transform != null)
         {
             //do stuff with cheking if the click is right or wrong
-
+            catapultAming.shoot(hit.point);
+            return;
             currentQuestionIndex++;
             currentQuestion = GetQuestion();
             SetDispay(currentQuestion);
