@@ -14,7 +14,7 @@ public class BrickController : MonoBehaviour
     {
         if(sprite==correctSprite)
         {
-            gameObject.GetComponentInParent<TowerManager>().CorrectAnswer = true;
+            gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
         }
     }
 
@@ -36,7 +36,7 @@ public class BrickController : MonoBehaviour
         {
             if (sprite == correctSprite)
             {
-                gameObject.GetComponentInParent<TowerManager>().CorrectAnswer = true;
+                gameObject.GetComponentInParent<TowerManager>().correctAnswer= true;
             }
         }
     }
