@@ -9,6 +9,10 @@ public class MonsterTowerManager : MonoBehaviour
 {
 
     int ammo = 10;
+    int totalXPGaind = 0;
+    int totalGoldGaind = 0;
+    [SerializeField] int xpPrQuestion = 1;
+    [SerializeField] int goldPrQuestion = 2;
     Dictionary<string, (Image, Image[])> questions;
     string currentQuestion;
     int currentQuestionIndex = 0;
@@ -85,21 +89,30 @@ public class MonsterTowerManager : MonoBehaviour
     void Cliced()
     {
         if(ammo <= 0) return;
+
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out hit);
-        if (hit.transform != null)
-        {
-            //do stuff with cheking if the click is right or wrong
+        if (hit.transform == null) return;
 
-            catapultAming.Shoot(hit.point);
-            RemoveAmmo();
-            if (questions != null) 
-            {
-                currentQuestionIndex++;
-                currentQuestion = GetQuestion();
-                SetDispay(currentQuestion);
-            }
+        Transform comp = hit.transform.gameObject.GetComponent<Transform>();
+        if (comp == null) return;
+
+        catapultAming.Shoot(hit.point);
+        RemoveAmmo();
+        if (true) return;//change to check if hit is the wrong answer
+
+        totalXPGaind += xpPrQuestion;
+        totalGoldGaind += xpPrQuestion;
+        if(currentQuestionIndex >= questions.Count) // end of game
+        {
+            StateNameController.SetXPandGoldandCheck(totalXPGaind, totalGoldGaind);
         }
+
+        if (questions == null) return;
+            
+        currentQuestionIndex++;
+        currentQuestion = GetQuestion();
+        SetDispay(currentQuestion);
     }
 
     /// <summary>
