@@ -7,13 +7,13 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour
 {
     //List of all lettercubes on the board. Other types of gameobjects should not be added.
-    [SerializeField]private List<GameObject>letterCubes = new List<GameObject>();
+    [SerializeField]private List<GameObject>letterCubeObjects = new List<GameObject>();
 
     //List of all letterCube managers on the board
-    private List<LetterCubeManager>letterCubeManagers = new List<LetterCubeManager>();
+    private List<LetterCube>letterCubes = new List<LetterCube>();
 
     //List of all lettercubemanagers which currently displays a letter
-    private List<LetterCubeManager>activeLetterCubeManagers = new List<LetterCubeManager>();
+    private List<LetterCube>activeLetterCubes = new List<LetterCube>();
 
     //The letter which the player is currently looking for 
     private string correctLetter = "A";
@@ -27,20 +27,20 @@ public class BoardManager : MonoBehaviour
     //The text field containing the text telling the player which letter to find
     [SerializeField]private TextMeshProUGUI answerText;
 
-    [SerializeField]private GameObject player;
-    private PlayerManager playerManager;
+    [SerializeField]private GameObject playerObject;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerManager = player.GetComponent<PlayerManager>();
+        player = playerObject.GetComponent<Player>();
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
         //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
-        foreach (GameObject l in letterCubes){
-            LetterCubeManager lCM = l.GetComponent<LetterCubeManager>();
-            if (lCM != null){
-                letterCubeManagers.Add(lCM);
-                lCM.SetBoard(this);
+        foreach (GameObject l in letterCubeObjects){
+            LetterCube lC = l.GetComponent<LetterCube>();
+            if (lC != null){
+                letterCubes.Add(lC);
+                lC.SetBoard(this);
             }
         }
         NewLetters();
@@ -48,8 +48,8 @@ public class BoardManager : MonoBehaviour
 
     }
 
-    public PlayerManager GetPlayerManager(){
-        return playerManager;
+    public Player GetPlayerManager(){
+        return player;
     }
 
     // Update is called once per frame
@@ -72,56 +72,56 @@ public class BoardManager : MonoBehaviour
     private void NewLetters(int count){
         correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
-        foreach (LetterCubeManager lCM in activeLetterCubeManagers){
-            lCM.Deactivate();
+        foreach (LetterCube lC in activeLetterCubes){
+            lC.Deactivate();
         }
-        activeLetterCubeManagers.Clear();
+        activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
             string letter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
             if(IsCorrectLetter(letter)){
                 correctLetterCount++;
             }
-            activeLetterCubeManagers.Add(letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)]);
-            activeLetterCubeManagers[i].Activate(letter);
+            activeLetterCubes.Add(letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)]);
+            activeLetterCubes[i].Activate(letter);
         }
         //finds a random letterbox for the correct letter which has not already been activated
-        LetterCubeManager correctLetterBox;
+        LetterCube correctLetterBox;
         while(true){
-            correctLetterBox = letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)];
-            if(!activeLetterCubeManagers.Contains(correctLetterBox)){
+            correctLetterBox = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+            if(!activeLetterCubes.Contains(correctLetterBox)){
                 break;
             }
         }
         correctLetterBox.Activate(correctLetter.ToLower(), true);
         correctLetterCount++;
-        activeLetterCubeManagers.Add(correctLetterBox);
+        activeLetterCubes.Add(correctLetterBox);
         answerText.text = "Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.";
     }
 
     //replaces a random active letterbox
     private void ReplaceRandomLetter(){
-        ReplaceLetter(activeLetterCubeManagers[UnityEngine.Random.Range(0, activeLetterCubeManagers.Count)]);
+        ReplaceLetter(activeLetterCubes[UnityEngine.Random.Range(0, activeLetterCubes.Count)]);
     }
 
     //replaces a specific letterbox
-    public void ReplaceLetter(LetterCubeManager letter){
+    public void ReplaceLetter(LetterCube letter){
         if(IsCorrectLetter(letter.GetLetter())){
             correctLetterCount--;
             answerText.text = "Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.";
         }
         letter.Deactivate();
-        activeLetterCubeManagers.Remove(letter);
+        activeLetterCubes.Remove(letter);
         
-        LetterCubeManager newLetter;
+        LetterCube newLetter;
         //finds a new random letterbox which is not active and is not the one which should be replaced
         while(true){
-            newLetter = letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)];
-            if(newLetter != letter && !activeLetterCubeManagers.Contains(newLetter)){
+            newLetter = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+            if(newLetter != letter && !activeLetterCubes.Contains(newLetter)){
                 break;
             }
         }
-        activeLetterCubeManagers.Add(newLetter);
+        activeLetterCubes.Add(newLetter);
         if(correctLetterCount > 0){
             newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
         }

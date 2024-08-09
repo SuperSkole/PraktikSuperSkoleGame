@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 
 //Manager for letter cubes in the Grovæder game.
-public class LetterCubeManager : MonoBehaviour
+public class LetterCube : MonoBehaviour
 {
     //Text field of the LetterCube
     [SerializeField]private TextMeshPro text;
