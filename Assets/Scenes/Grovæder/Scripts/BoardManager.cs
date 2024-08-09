@@ -6,25 +6,39 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
-    //List of all lettercubes on the board. Other types of gameobjects should not be added.
+    /// <summary>
+    /// List of all lettercube gameobjects on the board. Other types of gameobjects should not be added.
+    /// </summary>
     [SerializeField]private List<GameObject>letterCubeObjects = new List<GameObject>();
 
-    //List of all letterCube managers on the board
+    /// <summary>
+    /// List of all letterCubes on the board
+    /// </summary>
     private List<LetterCube>letterCubes = new List<LetterCube>();
 
-    //List of all lettercubemanagers which currently displays a letter
+    /// <summary>
+    /// List of all lettercubes which currently displays a letter
+    /// </summary>
     private List<LetterCube>activeLetterCubes = new List<LetterCube>();
 
-    //The letter which the player is currently looking for 
+    /// <summary>
+    /// List of all lettercubes which currently displays a letter
+    /// </summary>
     private string correctLetter = "A";
 
-    //Number of correct letters on the board
+    /// <summary>
+    /// List of all lettercubes which currently displays a letter
+    /// </summary>
     [SerializeField]private int correctLetterCount = 0;
 
-    //Game object containing the text field telling which letter the player should find
+    /// <summary>
+    /// List of all lettercubes which currently displays a letter
+    /// </summary>
     [SerializeField]private GameObject answerTextObject;
 
-    //The text field containing the text telling the player which letter to find
+    /// <summary>
+    /// The text field containing the text telling the player which letter to find
+    /// </summary>
     [SerializeField]private TextMeshProUGUI answerText;
 
     [SerializeField]private GameObject playerObject;

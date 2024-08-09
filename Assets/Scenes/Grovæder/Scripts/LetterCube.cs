@@ -95,7 +95,7 @@ public class LetterCube : MonoBehaviour
     }
 
     //Changes the color of the lettercube for some time if it does not contain the correct letter
-    IEnumerator incorrectGuess(){
+    IEnumerator IncorrectGuess(){
         meshRenderer.material = incorrectMaterial;
         yield return new WaitForSeconds(6);
         meshRenderer.material = defaultMaterial;
