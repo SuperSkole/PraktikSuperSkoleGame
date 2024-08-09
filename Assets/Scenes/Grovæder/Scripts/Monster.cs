@@ -32,7 +32,7 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Throws the player if they have reached the center of the field.
+        //Throws the player if they have reached the center of the tile.
         if(overlappingWithPlayer && playerObject.transform.position == player.CurrentDestination){
             overlappingWithPlayer = false;
             ThrowPlayer();
@@ -88,7 +88,6 @@ public class Monster : MonoBehaviour
 
     //Throws the player towards a random point on the board
     void ThrowPlayer(){
-        Debug.Log("Throwing player");
         int xDirection = 1;
         int zDirection = 1;
         if(Random.Range(0,2) == 0){
