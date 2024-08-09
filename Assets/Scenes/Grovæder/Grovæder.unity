@@ -4034,6 +4034,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1777014168}
+    - target: {fileID: -537033292649417032, guid: 62ca29d52e064d649b85b9067a6ae05b, type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1777014168}
     - target: {fileID: 3320511404812724002, guid: 62ca29d52e064d649b85b9067a6ae05b, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8
@@ -7590,11 +7594,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae5c1f3e28cf46c4584d982e4e1bb09e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  letterCubes:
+  letterCubeObjects:
   - {fileID: 1120448725}
-  - {fileID: 1376842574}
   - {fileID: 991388515}
   - {fileID: 977677917}
+  - {fileID: 1376842574}
   - {fileID: 1111296133}
   - {fileID: 11613299}
   - {fileID: 1623715731}
@@ -7609,8 +7613,6 @@ MonoBehaviour:
   - {fileID: 256988321}
   - {fileID: 194210418}
   - {fileID: 758416506}
-  - {fileID: 133457733}
-  - {fileID: 2000952125}
   - {fileID: 1987190162}
   - {fileID: 229515530}
   - {fileID: 1591810175}
@@ -7621,6 +7623,8 @@ MonoBehaviour:
   - {fileID: 1686600635}
   - {fileID: 1573217345}
   - {fileID: 411484358}
+  - {fileID: 133457733}
+  - {fileID: 2000952125}
   - {fileID: 149672471}
   - {fileID: 1800810512}
   - {fileID: 356449052}
@@ -7694,7 +7698,7 @@ MonoBehaviour:
   correctLetterCount: 0
   answerTextObject: {fileID: 1323903472}
   answerText: {fileID: 0}
-  player: {fileID: 1777014168}
+  playerObject: {fileID: 1777014168}
 --- !u!1 &1210221080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5984104342079197732, guid: 1a854bdac77a3c44bae747d83ed23583, type: 3}
@@ -7905,8 +7909,8 @@ Transform:
   m_GameObject: {fileID: 1235219927}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.648058, y: -0.04, z: 5.9839296}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalPosition: {x: 13.9, y: -0.04, z: 15.81}
+  m_LocalScale: {x: 4, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
