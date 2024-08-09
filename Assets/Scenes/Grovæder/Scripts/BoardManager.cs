@@ -8,15 +8,23 @@ public class BoardManager : MonoBehaviour
 {
     //List of all lettercubes on the board. Other types of gameobjects should not be added.
     [SerializeField]private List<GameObject>letterCubes = new List<GameObject>();
+
     //List of all letterCube managers on the board
     private List<LetterCubeManager>letterCubeManagers = new List<LetterCubeManager>();
+
     //List of all lettercubemanagers which currently displays a letter
     private List<LetterCubeManager>activeLetterCubeManagers = new List<LetterCubeManager>();
+
     //The letter which the player is currently looking for 
     private string correctLetter = "A";
+
+    //Number of correct letters on the board
     [SerializeField]private int correctLetterCount = 0;
 
+    //Game object containing the text field telling which letter the player should find
     [SerializeField]private GameObject answerTextObject;
+
+    //The text field containing the text telling the player which letter to find
     [SerializeField]private TextMeshProUGUI answerText;
 
     [SerializeField]private GameObject player;
@@ -68,7 +76,7 @@ public class BoardManager : MonoBehaviour
             lCM.Deactivate();
         }
         activeLetterCubeManagers.Clear();
-        //finds new letterboxes to be activated and assigns them a random letter
+        //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
             string letter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
             if(IsCorrectLetter(letter)){
@@ -77,7 +85,7 @@ public class BoardManager : MonoBehaviour
             activeLetterCubeManagers.Add(letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)]);
             activeLetterCubeManagers[i].Activate(letter);
         }
-        //finds a random letterbox for the correct letter which has not allready been activated
+        //finds a random letterbox for the correct letter which has not already been activated
         LetterCubeManager correctLetterBox;
         while(true){
             correctLetterBox = letterCubeManagers[UnityEngine.Random.Range(0, letterCubeManagers.Count)];
@@ -122,6 +130,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
+    //Checks whether a letter is the correct one. As it is not case sensistive both are lowered for the comparison.
     public bool IsCorrectLetter(string letter){
         return letter.ToLower() == correctLetter.ToLower();
     }
