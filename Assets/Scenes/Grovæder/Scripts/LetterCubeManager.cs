@@ -12,6 +12,7 @@ public class LetterCubeManager : MonoBehaviour
     //The gameboard the letter cube is connected to
     [SerializeField]private BoardManager board;
 
+    //Materials to change the color of the cube depending on the current status
     [SerializeField]private Material defaultMaterial;
     [SerializeField]private Material correctMaterial;
     [SerializeField]private Material incorrectMaterial;
@@ -84,6 +85,7 @@ public class LetterCubeManager : MonoBehaviour
         }
     }
 
+    
     public void SetBoard(BoardManager board){
         this.board = board;
     }
@@ -92,6 +94,7 @@ public class LetterCubeManager : MonoBehaviour
         board.ReplaceLetter(this);
     }
 
+    //Changes the color of the lettercube for some time if it does not contain the correct letter
     IEnumerator incorrectGuess(){
         meshRenderer.material = incorrectMaterial;
         yield return new WaitForSeconds(6);
@@ -99,6 +102,7 @@ public class LetterCubeManager : MonoBehaviour
         SelfDeactivate();
     }
 
+    //Changes the color of the lettercube if it contains the correct letter
     IEnumerator CorrectGuess(){
         meshRenderer.material = correctMaterial;
         yield return new WaitForSeconds(1);

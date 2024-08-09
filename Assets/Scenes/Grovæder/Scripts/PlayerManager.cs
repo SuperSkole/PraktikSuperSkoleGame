@@ -6,7 +6,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    //How much time remains before the player is allowed to move
     [SerializeField]private float MoveDelayRemaining = 0;
+
+    //Gameobject containing the cooldown text
     [SerializeField]private GameObject textObject;
     private TextMeshPro cooldownText;
 
@@ -36,6 +39,7 @@ public class PlayerManager : MonoBehaviour
                 transform.Translate(0, 0, -1);
             }
         }
+        //Code to count down time remaining on the cooldown and to update the display
         else{
             MoveDelayRemaining -= Time.deltaTime;
             if(MoveDelayRemaining < 0){
@@ -48,6 +52,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //code to start the delay in the players movement.
     public void IncorrectGuess(){
         MoveDelayRemaining = 6;
         cooldownText.text = MoveDelayRemaining + " sek. tilbage";
