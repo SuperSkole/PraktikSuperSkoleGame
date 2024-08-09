@@ -16,6 +16,7 @@ public class TowerManager : MonoBehaviour
 
     private bool updateDimensions = false;
     [SerializeField] GameObject brick;
+    [SerializeField] GameObject explosion;
 
     [SerializeField] public List<Sprite> wrongImages;
 
@@ -32,6 +33,9 @@ public class TowerManager : MonoBehaviour
     private int currentLane = 0;
 
     public bool correctAnswer = false;
+
+    private Vector3 correctAnswerPosition; 
+   
 
 
 
@@ -54,6 +58,8 @@ public class TowerManager : MonoBehaviour
 
         allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
         allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
+
+        
 
 
         updateDimensions = true;
@@ -103,6 +109,11 @@ public class TowerManager : MonoBehaviour
         if(correctAnswer == true)
         {
 
+            explosion.transform.position = correctAnswerPosition;
+            Instantiate(explosion);
+
+            
+
 
             brickLanes.RemoveAt(currentLane);
 
@@ -143,6 +154,8 @@ public class TowerManager : MonoBehaviour
             }
 
 
+            
+
             for (int y = 0; y < towerHeight; y++)
             {
 
@@ -161,8 +174,15 @@ public class TowerManager : MonoBehaviour
                     if (y == 0)
                     {
                         brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = allImagesInCurrentRow[x];
+
                         brick.GetComponent<BrickController>().correctSprite = brickLanes[currentLane].correctImage;
                         brick.GetComponent<BrickController>().sprite = allImagesInCurrentRow[x];
+
+
+                        if (allImagesInCurrentRow[x] == brickLanes[currentLane].correctImage)
+                        {
+                            correctAnswerPosition = brickPos;
+                        }
                     }
                     else
                     {
