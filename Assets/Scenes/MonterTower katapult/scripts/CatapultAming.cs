@@ -39,7 +39,7 @@ public class CatapultAming : MonoBehaviour
     /// it spawns and fires a projectile
     /// </summary>
     /// <param name="target">the target you want to hit</param>
-    public void shoot(Vector3 target)
+    public void Shoot(Vector3 target)
     {
         GameObject temp = Instantiate(prjectipePrefab,shootPos.position,quaternion.identity);
         Rigidbody rb = temp.GetComponent<Rigidbody>();

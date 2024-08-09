@@ -90,12 +90,15 @@ public class MonsterTowerManager : MonoBehaviour
         if (hit.transform != null)
         {
             //do stuff with cheking if the click is right or wrong
-            catapultAming.shoot(hit.point);
-            return;
-            currentQuestionIndex++;
-            currentQuestion = GetQuestion();
-            SetDispay(currentQuestion);
+
+            catapultAming.Shoot(hit.point);
             RemoveAmmo();
+            if (questions != null) 
+            {
+                currentQuestionIndex++;
+                currentQuestion = GetQuestion();
+                SetDispay(currentQuestion);
+            }
         }
     }
 
