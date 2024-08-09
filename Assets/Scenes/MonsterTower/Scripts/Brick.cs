@@ -2,21 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//Checks if the sprite the brick has is the correct sprite. 
-// Start check by setting checkCollision=true.
-public class BrickController : MonoBehaviour
+public class Brick : MonoBehaviour
 {
     // Start is called before the first frame update
     public Sprite sprite;
     public Sprite correctSprite;
 
-    [SerializeField] bool checkCollision;
+    public bool checkCollision;
+    public bool isShootable;
+  
 
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -25,7 +20,7 @@ public class BrickController : MonoBehaviour
         {
             if (sprite == correctSprite)
             {
-                gameObject.GetComponentInParent<TowerManager>().correctAnswer= true;
+                gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
             }
         }
     }

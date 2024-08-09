@@ -11,12 +11,11 @@ public class TowerManager : MonoBehaviour
 
     private int towerHeight;
     private int towerWidth;
-    private int towerDepth;
+    private int towerDepth = 3;
 
 
     private bool updateDimensions = false;
-    [SerializeField] GameObject brick;
-    [SerializeField] GameObject explosion;
+    [SerializeField] GameObject brickPrefab;
 
     [SerializeField] public List<Sprite> wrongImages;
 
@@ -28,14 +27,11 @@ public class TowerManager : MonoBehaviour
     private List<Sprite> allImagesInCurrentRow;
 
   
-    private List <BrickManager> brickLanes;
+    private List <BrickData> brickLanes;
 
     private int currentLane = 0;
 
     public bool correctAnswer = false;
-
-    private Vector3 correctAnswerPosition; 
-   
 
 
 
@@ -45,21 +41,19 @@ public class TowerManager : MonoBehaviour
     
     void Start()
     {
-        brickLanes = new List<BrickManager>()
+        brickLanes = new List<BrickData>()
         {
-            new BrickManager("hello",image,wrongImages),
-            new BrickManager("goodbye",image,wrongImages2)
+            new BrickData("hello",image,wrongImages),
+            new BrickData("goodbye",image,wrongImages2)
 
         };
 
+        //why is this here 2 times (here and in a function)?
         towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
         towerHeight = brickLanes.Count;
-        towerDepth = 3;
 
         allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
         allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
-
-        
 
 
         updateDimensions = true;
@@ -78,13 +72,12 @@ public class TowerManager : MonoBehaviour
     /// Method for setting the towerdata which is a list of Brickmanagers that holds a sentence,Correct image and list of incorrect images.
     /// </summary>
     /// <param name="bricks"></param>
-    public void SetTowerData(List<BrickManager> bricks)
+    public void SetTowerData(List<BrickData> bricks)
     {
         this.brickLanes = bricks;
 
         towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
         towerHeight = brickLanes.Count;
-        towerDepth = 3;
 
         allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
         allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
@@ -109,17 +102,13 @@ public class TowerManager : MonoBehaviour
         if(correctAnswer == true)
         {
 
-            explosion.transform.position = correctAnswerPosition;
-            Instantiate(explosion);
-
-            
-
 
             brickLanes.RemoveAt(currentLane);
 
 
             if (brickLanes.Count!=0)
             {
+                //you got a function for this?
                 towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
                 towerHeight = brickLanes.Count;
 
@@ -135,6 +124,7 @@ public class TowerManager : MonoBehaviour
                 {
                     Destroy(gameObject.transform.GetChild(i).gameObject);
                 }
+
 
                 correctAnswer = false;
             }
@@ -154,15 +144,13 @@ public class TowerManager : MonoBehaviour
             }
 
 
-            
-
             for (int y = 0; y < towerHeight; y++)
             {
 
                 for (int x = 0; x < towerWidth; x++)
                 {
                     Vector3 SpaceBetween = new Vector3(x * 2, y * 0, 0);
-                    Vector3 brickPos = gameObject.transform.position + new Vector3(x * brick.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brick.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
+                    Vector3 brickPos = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
                     // Debug.Log("brickPos:" + brickPos);
 
 
@@ -171,26 +159,22 @@ public class TowerManager : MonoBehaviour
                     // The image is taken from the list of allImagesInCurrentRow
                     // the brick also gets info on the correct image and the image that it is. 
                     // Only the front row of the lowest lane of bricks gets an image so therefor y==0
+                    Brick controller = brickPrefab.GetComponent<Brick>();
                     if (y == 0)
                     {
-                        brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = allImagesInCurrentRow[x];
-
-                        brick.GetComponent<BrickController>().correctSprite = brickLanes[currentLane].correctImage;
-                        brick.GetComponent<BrickController>().sprite = allImagesInCurrentRow[x];
-
-
-                        if (allImagesInCurrentRow[x] == brickLanes[currentLane].correctImage)
-                        {
-                            correctAnswerPosition = brickPos;
-                        }
+                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = allImagesInCurrentRow[x];
+                        controller.correctSprite = brickLanes[currentLane].correctImage;
+                        controller.sprite = allImagesInCurrentRow[x];
+                        controller.isShootable = true;
                     }
                     else
                     {
-                        brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
+                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
+                        controller.isShootable = false;
                     }
 
                     //instantiates the brick and makes it parrent to the tower gameobject. 
-                    var brickInstans = Instantiate(brick, brickPos, Quaternion.identity);
+                    var brickInstans = Instantiate(brickPrefab, brickPos, Quaternion.identity);
 
                     brickInstans.transform.parent = gameObject.transform;
 
@@ -200,11 +184,11 @@ public class TowerManager : MonoBehaviour
                     for (int z = 1; z< towerDepth; z++)
                     {
                         Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
-                        Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brick.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brick.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brick.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
+                        Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
                         Debug.Log("brickPos:" + brickPos);
 
-                        brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
-                        var brickInstansZ = Instantiate(brick, brickPosZ, Quaternion.identity);
+                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
+                        var brickInstansZ = Instantiate(brickPrefab, brickPosZ, Quaternion.identity);
 
                         brickInstansZ.transform.parent = gameObject.transform;
 
