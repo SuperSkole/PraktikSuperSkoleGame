@@ -125,6 +125,7 @@ public class TowerManager : MonoBehaviour
                     Destroy(gameObject.transform.GetChild(i).gameObject);
                 }
 
+
                 correctAnswer = false;
             }
 
@@ -163,10 +164,12 @@ public class TowerManager : MonoBehaviour
                         brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = allImagesInCurrentRow[x];
                         brick.GetComponent<BrickController>().correctSprite = brickLanes[currentLane].correctImage;
                         brick.GetComponent<BrickController>().sprite = allImagesInCurrentRow[x];
+                        brick.GetComponent<BrickController>().isShootable = true;
                     }
                     else
                     {
                         brick.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
+                        brick.GetComponent<BrickController>().isShootable = false;
                     }
 
                     //instantiates the brick and makes it parrent to the tower gameobject. 

@@ -39,11 +39,12 @@ public class CatapultAming : MonoBehaviour
     /// it spawns and fires a projectile
     /// </summary>
     /// <param name="target">the target you want to hit</param>
-    public void Shoot(Vector3 target)
+    public void Shoot(Vector3 target, BrickController brick)
     {
         GameObject temp = Instantiate(prjectipePrefab,shootPos.position,quaternion.identity);
         Rigidbody rb = temp.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.velocity = CalcolateAngle(target);
+        temp.GetComponent<AmmoDeletor>().hitbox(brick);
     }
 }

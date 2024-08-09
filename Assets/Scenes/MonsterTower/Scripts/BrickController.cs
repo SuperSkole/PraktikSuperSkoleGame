@@ -8,7 +8,8 @@ public class BrickController : MonoBehaviour
     public Sprite sprite;
     public Sprite correctSprite;
 
-    [SerializeField] bool checkCollision;
+    public bool checkCollision;
+    public bool isShootable;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -17,8 +18,6 @@ public class BrickController : MonoBehaviour
             gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
         }
     }
-
-
 
 
 

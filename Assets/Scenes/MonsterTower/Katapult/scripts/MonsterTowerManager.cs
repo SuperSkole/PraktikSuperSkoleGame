@@ -94,10 +94,9 @@ public class MonsterTowerManager : MonoBehaviour
         Physics.Raycast(ray, out hit);
         if (hit.transform == null) return;
 
-        Transform comp = hit.transform.gameObject.GetComponent<Transform>();
-        if (comp == null) return;
-
-        catapultAming.Shoot(hit.point);
+        BrickController comp = hit.transform.gameObject.GetComponent<BrickController>();
+        if (comp == null || comp.isShootable == false) return;
+        catapultAming.Shoot(hit.point, comp);
         RemoveAmmo();
         if (true) return;//change to check if hit is the wrong answer
 
