@@ -44,7 +44,7 @@ public class LetterCube : MonoBehaviour
             defaultMaterial = meshRenderer.material;
         }
         if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter)){
-            StartCoroutine(incorrectGuess());
+            StartCoroutine(IncorrectGuess());
             board.GetPlayerManager().IncorrectGuess();
         }
         else if(active && other.gameObject.tag == "Player"){
