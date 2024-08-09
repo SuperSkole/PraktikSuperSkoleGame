@@ -22,7 +22,7 @@ public class AmmoPupUp : MonoBehaviour
     /// <summary>
     /// sets the tooltip and shows it
     /// </summary>
-    /// <param name="text"></param>
+    /// <param name="text">the text the tooltip is set to</param>
     public void SetAndShowToolTip(string text)
     {
         textFeld.text = text;

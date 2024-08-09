@@ -7,7 +7,7 @@ using UnityEngine;
 public class CatapultAming : MonoBehaviour
 {
     [SerializeField] GameObject prjectipePrefab;
-    [SerializeField] GameObject Catapult;
+    [SerializeField] GameObject catapult;
     [SerializeField] Transform shootPos;
     [SerializeField] float hight = 1;
 
@@ -16,9 +16,9 @@ public class CatapultAming : MonoBehaviour
     /// </summary>
     /// <param name="target">the target you want to hit</param>
     /// <returns></returns>
-    Vector3 CalcolateAngle(Vector3 target)
+    Vector3 CalcolateTerejectory(Vector3 target)
     {
-        Vector3 output = Vector3.zero;
+        Vector3 output;
         hight = 4;
         do
         {
@@ -39,12 +39,12 @@ public class CatapultAming : MonoBehaviour
     /// it spawns and fires a projectile
     /// </summary>
     /// <param name="target">the target you want to hit</param>
-    public void Shoot(Vector3 target, BrickController brick)
+    public void Shoot(Vector3 target, Brick brick)
     {
         GameObject temp = Instantiate(prjectipePrefab,shootPos.position,quaternion.identity);
         Rigidbody rb = temp.GetComponent<Rigidbody>();
         rb.isKinematic = false;
-        rb.velocity = CalcolateAngle(target);
-        temp.GetComponent<AmmoDeletor>().hitbox(brick);
+        rb.velocity = CalcolateTerejectory(target);
+        temp.GetComponent<AmmoDeletor>().Hitbox(brick);
     }
 }

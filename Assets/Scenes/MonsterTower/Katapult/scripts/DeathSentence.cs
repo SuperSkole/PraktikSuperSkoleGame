@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeathSentence : MonoBehaviour
 {
-    [SerializeField] float AgeLimit;
+    [SerializeField] float ageLimit;
     float age;
 
     /// <summary>
@@ -12,7 +12,7 @@ public class DeathSentence : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (age > AgeLimit)
+        if (age > ageLimit)
         {
             Destroy(gameObject);
             return;

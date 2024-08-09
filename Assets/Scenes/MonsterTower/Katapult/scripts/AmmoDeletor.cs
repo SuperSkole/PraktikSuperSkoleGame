@@ -5,7 +5,7 @@ using UnityEngine;
 public class AmmoDeletor : MonoBehaviour
 {
     [SerializeField] GameObject particals;
-    BrickController targetbrick;
+    Brick targetBrick;
     /// <summary>
     /// when anything enters the trigger it spawns the particals and destroyes this gameobject
     /// </summary>
@@ -13,12 +13,12 @@ public class AmmoDeletor : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Instantiate(particals,transform.position,Quaternion.identity);
-        targetbrick.checkCollision = true;
+        targetBrick.checkCollision = true;
         Destroy(gameObject);
     }
 
-    public void hitbox(BrickController brick)
+    public void Hitbox(Brick brick)
     {
-        targetbrick = brick;
+        targetBrick = brick;
     }
 }

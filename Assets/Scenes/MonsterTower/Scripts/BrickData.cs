@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickManager : MonoBehaviour
+public class BrickData : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -10,25 +10,12 @@ public class BrickManager : MonoBehaviour
     public Sprite correctImage;
     public List<Sprite> wrongImages;
 
-    public BrickManager(string sentence,Sprite correctImage,List<Sprite>wrongImages)
+    public BrickData(string sentence,Sprite correctImage,List<Sprite>wrongImages)
     {
         this.sentence = sentence;
         this.correctImage = correctImage;
         this.wrongImages = wrongImages;
 
 
-    }
-
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickController : MonoBehaviour
+public class Brick : MonoBehaviour
 {
     // Start is called before the first frame update
     public Sprite sprite;
@@ -10,23 +10,8 @@ public class BrickController : MonoBehaviour
 
     public bool checkCollision;
     public bool isShootable;
+  
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(sprite==correctSprite)
-        {
-            gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
-        }
-    }
-
-
-
-    
-
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -35,7 +20,7 @@ public class BrickController : MonoBehaviour
         {
             if (sprite == correctSprite)
             {
-                gameObject.GetComponentInParent<TowerManager>().correctAnswer= true;
+                gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
             }
         }
     }
