@@ -6,6 +6,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class TowerManager : MonoBehaviour
 {
 
@@ -20,6 +22,10 @@ public class TowerManager : MonoBehaviour
     [SerializeField] public List<Sprite> wrongImages;
 
     [SerializeField] public List<Sprite> wrongImages2;
+
+    
+
+    
 
     [SerializeField] Sprite image;
 
@@ -150,6 +156,21 @@ public class TowerManager : MonoBehaviour
                 for (int x = 0; x < towerWidth; x++)
                 {
                     Vector3 SpaceBetween = new Vector3(x * 2, y * 0, 0);
+
+                    float count = 6;
+
+                    float circleposition = x / count;
+                    float radius = 2;
+                    float x_i = Mathf.Sin(circleposition * Mathf.PI * 2.0f) * radius;
+                    float z_i = Mathf.Cos(circleposition * Mathf.PI * 2.0f) * radius;
+
+                    
+
+                    Vector3 newPos =gameObject.transform.position+ new Vector3(x_i, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y,z_i);
+
+
+
+                 
                     Vector3 brickPos = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
                     // Debug.Log("brickPos:" + brickPos);
 
@@ -174,26 +195,26 @@ public class TowerManager : MonoBehaviour
                     }
 
                     //instantiates the brick and makes it parrent to the tower gameobject. 
-                    var brickInstans = Instantiate(brickPrefab, brickPos, Quaternion.identity);
+                    var brickInstans = Instantiate(brickPrefab, newPos, Quaternion.identity);
 
                     brickInstans.transform.parent = gameObject.transform;
 
 
 
-                    // builds the depth of the tower. 
-                    for (int z = 1; z< towerDepth; z++)
-                    {
-                        Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
-                        Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
-                        Debug.Log("brickPos:" + brickPos);
+                    //// builds the depth of the tower. 
+                    //for (int z = 1; z< towerDepth; z++)
+                    //{
+                    //    Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
+                    //    Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
+                    //    Debug.Log("brickPos:" + brickPos);
 
-                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
-                        var brickInstansZ = Instantiate(brickPrefab, brickPosZ, Quaternion.identity);
+                    //    brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
+                    //    var brickInstansZ = Instantiate(brickPrefab, brickPosZ, Quaternion.identity);
 
-                        brickInstansZ.transform.parent = gameObject.transform;
+                    //    brickInstansZ.transform.parent = gameObject.transform;
 
                         
-                    }
+                    //}
 
                 }
 
