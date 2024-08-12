@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CORE.Scripts;
 using UnityEngine;
 
 /// <summary>
@@ -37,24 +38,24 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
     /// </summary>
     public void GetLetters()
     {
-        //correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+        correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
         }
-        int count = UnityEngine.Random.Range(1, 11);
+        int count = Random.Range(1, 11);
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
-            string letter = null;//LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+            string letter = LetterManager.GetRandomLetters(1)[0].ToString();
             if(IsCorrectLetter(letter)){
                 correctLetterCount++;
             }
-            LetterCube potentialCube = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
             //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
             while(activeLetterCubes.Contains(potentialCube)){
-                potentialCube = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
             activeLetterCubes[i].Activate(letter);
@@ -62,7 +63,7 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         //finds a random letterbox for the correct letter which has not already been activated
         LetterCube correctLetterBox;
         while(true){
-            correctLetterBox = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+            correctLetterBox = letterCubes[Random.Range(0, letterCubes.Count)];
             if(!activeLetterCubes.Contains(correctLetterBox)){
                 break;
             }
@@ -99,16 +100,16 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         LetterCube newLetter;
         //finds a new random letterbox which is not active and is not the one which should be replaced
         while(true){
-            newLetter = letterCubes[UnityEngine.Random.Range(0, letterCubes.Count)];
+            newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
             if(newLetter != letter && !activeLetterCubes.Contains(newLetter)){
                 break;
             }
         }
         activeLetterCubes.Add(newLetter);
         if(correctLetterCount > 0){
-            //newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+            newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
             while(newLetter.GetLetter() == correctLetter){
-                //newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+                newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
             }
         }
         else{
