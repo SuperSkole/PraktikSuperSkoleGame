@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
@@ -10,6 +8,7 @@ public class PlacementSystem : MonoBehaviour
     [SerializeField] private ObjectsDataBaseSO database;
     [SerializeField] private GameObject gridVisualization;
 
+    public GameObject GridVisualization { get { return gridVisualization; } private set { } }
     private GridData floorData, furnitureData;
 
     [SerializeField] private PreviewSystem preview;
@@ -17,6 +16,7 @@ public class PlacementSystem : MonoBehaviour
 
     [SerializeField] private ObjectPlacer objectPlacer;
     IBuildingState buildingState;
+
 
 
     private void Start()
@@ -76,7 +76,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void StopPlacement()
     {
-        if (buildingState ==null)
+        if (buildingState == null)
         {
             return;
         }
@@ -90,7 +90,7 @@ public class PlacementSystem : MonoBehaviour
 
     private void Update()
     {
-        if (buildingState == null )
+        if (buildingState == null)
         {
             return;
         }
