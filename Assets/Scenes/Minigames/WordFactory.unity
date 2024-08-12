@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -282,7 +281,7 @@ MonoBehaviour:
   gameManager: {fileID: 1086093601}
   closestTeethFinder: {fileID: 2029512484}
   wordBuilder: {fileID: 945164226}
-  wordValidation: {fileID: 827242759}
+  wordValidator: {fileID: 827242759}
   scoreManager: {fileID: 686904327}
   blockCreator: {fileID: 606711390}
   notificationTextObject: {fileID: 1150243490}
@@ -1616,6 +1615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd8a31a785479e4eb355d6a0516c5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dataLoader: {fileID: 0}
   numberOfGears: 2
   numberOfTeeth: 8
   difficultyLevel: 2
@@ -2302,7 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc90a5ed72d2d640a3d585a53301b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wordValidation: {fileID: 827242759}
+  wordValidator: {fileID: 827242759}
 --- !u!1 &1942002996
 GameObject:
   m_ObjectHideFlags: 0
