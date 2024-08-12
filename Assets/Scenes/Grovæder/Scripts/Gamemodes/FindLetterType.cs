@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Implementation of IGameMode with the goal of finding either all vowels or all consonants.
 /// </summary>
-public class FindLetterType : MonoBehaviour, IGameMode
+public class FindLetterType : IGameMode
 {
     /// <summary>
     /// The correct lettertype
@@ -184,15 +184,4 @@ public class FindLetterType : MonoBehaviour, IGameMode
         correctLetterCount = 0;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
