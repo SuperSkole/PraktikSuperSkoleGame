@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CORE.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,9 +13,9 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         public static event Action<string> OnValidWord;
 
         [SerializeField] private GameManager gameManager;
-        [FormerlySerializedAs("closestLetterFinder")] [SerializeField] private ClosestTeethFinder closestTeethFinder;
+        [SerializeField] private ClosestTeethFinder closestTeethFinder;
         [SerializeField] private WordBuilder wordBuilder;
-        [SerializeField] private WordValidation wordValidation;
+        [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
 
@@ -70,8 +71,9 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         {
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(GameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
+            int wordlength = formedWord.Length;
 
-            if (wordValidation.IsValidWord(formedWord))
+            if (wordValidator.IsValidWord(formedWord, wordlength))
             {
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
