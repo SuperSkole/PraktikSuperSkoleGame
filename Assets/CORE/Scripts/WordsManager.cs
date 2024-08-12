@@ -64,7 +64,8 @@ namespace CORE.Scripts
         }
         private static void PopulateValidWordsWithListofWords(List<string> words)
         {
-            _validWords.UnionWith(words); // Add the new words to the valid set
+            // Add the new words to the valid set
+            _validWords.UnionWith(words); 
             Debug.Log("GameWordUtilities: ValidWords updated with random selection.");
         }
         
