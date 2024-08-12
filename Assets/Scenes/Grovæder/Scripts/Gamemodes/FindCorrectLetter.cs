@@ -38,7 +38,7 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
     /// </summary>
     public void GetLetters()
     {
-        //correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+        correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
