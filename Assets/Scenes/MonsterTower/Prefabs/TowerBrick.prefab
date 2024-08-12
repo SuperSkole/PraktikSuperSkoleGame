@@ -139,7 +139,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 47175cdfe6be9a5449fb6034bfd0de9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -197,6 +197,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 0be4cad76529fde46976d92042128927, type: 3}
   correctSprite: {fileID: 21300000, guid: 0be4cad76529fde46976d92042128927, type: 3}
   checkCollision: 0
+  isShootable: 0
 --- !u!1 &5861010744242582732
 GameObject:
   m_ObjectHideFlags: 0
