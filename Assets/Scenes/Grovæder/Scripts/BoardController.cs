@@ -46,7 +46,7 @@ public class BoardController : MonoBehaviour
 
     }
 
-    public Player GetPlayerManager(){
+    public Player GetPlayer(){
         return player;
     }
 

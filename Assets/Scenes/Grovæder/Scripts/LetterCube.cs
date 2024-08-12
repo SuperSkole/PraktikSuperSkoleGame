@@ -62,7 +62,7 @@ public class LetterCube : MonoBehaviour
         }
         if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter)){
             StartCoroutine(IncorrectGuess());
-            board.GetPlayerManager().IncorrectGuess();
+            board.GetPlayer().IncorrectGuess();
         }
         else if(active && other.gameObject.tag == "Player"){
             StartCoroutine(CorrectGuess());
