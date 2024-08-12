@@ -2,26 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//Class for monster chasing the player in the grovæder game
+/// <summary>
+/// Class for monster chasing the player in the grovæder game
+/// </summary>
 public class Monster : MonoBehaviour
 {
-    //Whether the monster can attempt to walk towards the player
+    /// <summary>
+    /// Whether the monster can attempt to walk towards the player
+    /// </summary>
     private bool canWalk = true;
 
-    //The player the monster tries to catch
+    /// <summary>
+    /// The player the monster tries to catch
+    /// </summary>
     [SerializeField]private GameObject playerObject;
-    //The time in seconds between the monsters attempts to move toward the player
+    /// <summary>
+    /// The time in seconds between the monsters attempts to move toward the player
+    /// </summary>
     [SerializeField]private float walkDelay = 1.5f;
 
     [SerializeField]private int throwRange = 5;
 
-    //The point the monster is currently moving towards.
+    /// <summary>
+    /// The point the monster is currently moving towards.
+    /// </summary>
     [SerializeField]Vector3 currentDestination;
     private float speed = 0.5f;
 
-    private bool overlappingWithPlayer = false;
+    private bool throwingPlayer = false;
+
+    private bool releasingPlayer = false;
+
+    private Vector3 playerDestination;
 
     private Player player;
+
+    private float throwAngle = 0;
+
+    private MeshRenderer renderer;
 
     // Start is called before the first frame update
     void Start()
@@ -33,10 +51,7 @@ public class Monster : MonoBehaviour
     void Update()
     {
         //Throws the player if they have reached the center of the tile.
-        if(overlappingWithPlayer && playerObject.transform.position == player.CurrentDestination){
-            overlappingWithPlayer = false;
-            ThrowPlayer();
-        }
+
         //Finds the direction towards the player and then moves a tile towards the player on either the x or z axis. Afterwards the monster waits before attempting again
         if (canWalk && currentDestination == transform.position){
             Vector3 velocity = playerObject.transform.position - transform.position;
@@ -69,56 +84,69 @@ public class Monster : MonoBehaviour
     }
 
 
-    //Checks if the monster has begun overlapping with the player
+    /// <summary>
+    /// Checks if the monster has begun overlapping with the player
+    /// </summary>
+    /// <param name="other"></param>
     void OnTriggerEnter(Collider other){
         if(player == null){
             player = playerObject.GetComponent<Player>();
         }
+        if(renderer == null){
+            renderer = gameObject.GetComponent<MeshRenderer>();
+        }
         if(other.gameObject.tag == "Player"){
-            overlappingWithPlayer = true;
+            ThrowPlayer();
+            //canWalk = false;
         }
     }
 
-    //Check if the monster has stopped overlapping with the player
-    void OnTriggerExit(Collider other){
-        if(other.gameObject.tag == "Player"){
-            overlappingWithPlayer = false;
-        }
-    }
 
-    //Throws the player towards a random point on the board
+    /// <summary>
+    /// Throws the player towards a random point on the board
+    /// </summary>
     void ThrowPlayer(){
-        int xDirection = 1;
-        int zDirection = 1;
-        if(Random.Range(0,2) == 0){
-            xDirection = -1;
-        }
-        if(Random.Range(0,2) == 0){
-            zDirection = -1;
-        }
-        Vector3 newDeltaPos = new Vector3(xDirection * Random.Range(0, throwRange), 0, zDirection * Random.Range(0, throwRange));
-        Vector3 newPos = newDeltaPos + playerObject.transform.position;
-        
-        //Position correction if the destination is outside the board
-        if(newPos.x > 19.5f){
-            newDeltaPos.x = 19.5f - playerObject.transform.position.x;
-        }
-        if(newPos.z > 19.5f){
-            newDeltaPos.z = 19.5f - playerObject.transform.position.z;
-        }
-        if(newPos.x < 10.5f){
-            newDeltaPos.x = playerObject.transform.position.x - 10.5f;
-        }
-        if(newPos.z < 10.5f){
-            newDeltaPos.z = playerObject.transform.position.z - 10.5f;
-        }
+        if(!throwingPlayer && !releasingPlayer){
+            int xDirection = 1;
+            int zDirection = 1;
+            if(Random.Range(0,2) == 0){
+                xDirection = -1;
+            }
+            if(Random.Range(0,2) == 0){
+                zDirection = -1;
+            }
+            Vector3 newDeltaPos = new Vector3(xDirection * Random.Range(0, throwRange), 0, zDirection * Random.Range(0, throwRange));
+            Vector3 newPos = newDeltaPos + player.CurrentDestination;
+            
+            //Position correction if the destination is outside the board
+            if(newPos.x > 19.5f){
+                newPos.x = 19.5f;
+            }
+            if(newPos.z > 19.5f){
+                newPos.z = 19.5f;
+            }
+            if(newPos.x < 10.5f){
+                newPos.x = 10.5f;
+            }
+            if(newPos.z < 10.5f){
+                newPos.z = 10.5f;
+            }
 
-        playerObject.transform.Translate(newDeltaPos);
-        
-        player.CurrentDestination = playerObject.transform.position;
+            
+            player.CurrentDestination = newPos;
+            //throwingPlayer = true;
+            //player.thrown = true;
+        }
+        if(throwingPlayer){
+            throwAngle += Time.deltaTime * player.speed; // update angle
+            Vector3 direction = Quaternion.AngleAxis(throwAngle, Vector3.forward) * Vector3.up; // calculate direction from center - rotate the up vector Angle degrees clockwise
+            player.CurrentDestination = transform.position + direction * Vector3.Distance(transform.position, playerObject.transform.position); // update position based on center, the direction, and the radius (which is a constant)
+        }
     }
 
-    //Moves the monster
+    /// <summary>
+    /// Moves the monster
+    /// </summary>
     void Move(){
         if(currentDestination != transform.position){
             float step = speed * Time.deltaTime;
