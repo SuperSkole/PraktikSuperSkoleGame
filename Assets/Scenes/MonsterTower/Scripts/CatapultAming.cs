@@ -19,6 +19,7 @@ public class CatapultAming : MonoBehaviour
     Vector3 CalcolateTerejectory(Vector3 target)
     {
         Vector3 output;
+        float grav = Physics.gravity.y;
         hight = 4;
         do
         {
@@ -26,8 +27,8 @@ public class CatapultAming : MonoBehaviour
             float displaymentY = target.y - shootPos.position.y;
             Vector3 displaymentXZ = new Vector3(target.x - shootPos.position.x, 0, target.z - shootPos.position.z);
 
-            Vector3 velocetyY = Vector3.up * Mathf.Sqrt(-2 * Physics.gravity.y * hight);
-            Vector3 velocetyXZ = displaymentXZ / (Mathf.Sqrt(-2 * hight / Physics.gravity.y) + Mathf.Sqrt(2 * (displaymentY - hight) / Physics.gravity.y));
+            Vector3 velocetyY = Vector3.up * Mathf.Sqrt(-2 * grav * hight);
+            Vector3 velocetyXZ = displaymentXZ / (Mathf.Sqrt(-2 * hight / grav) + Mathf.Sqrt(2 * (displaymentY - hight) / grav));
             output = velocetyXZ + velocetyY;
         }
         while (output.IsNaN());
