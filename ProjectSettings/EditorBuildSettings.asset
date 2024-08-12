@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LoginScene.unity
+    guid: 415032ce501f3604ea359207439aed94
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 9d7da1318f4e7dd4bb77cedcab39a1fc
+  - enabled: 1
+    path: Assets/Scenes/Town.unity
+    guid: b2e9eb67b11fa5c4fbf50cbc15e64aa4
+  - enabled: 1
+    path: Assets/Scenes/WordFactoryLoadingscene.unity
+    guid: 53474ce6c094a6a46bcb0be110afe647
+  - enabled: 1
+    path: Assets/Scenes/Minigames/WordFactory.unity
+    guid: 28104d6eece377d428d7d4caed747256
   m_configObjects: {}

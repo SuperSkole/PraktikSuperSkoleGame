@@ -39,7 +39,7 @@ public class SaveGameToJson : MonoBehaviour
         string json = JsonUtility.ToJson(data, true); // 'true' for pretty print.
 
         // Write the JSON string to a file at the specified path.
-        File.WriteAllText(Application.dataPath + SaveName, json); // SaveName should be defined elsewhere in your code.
+        File.WriteAllText(Application.dataPath + SaveName, json); 
     }
     public void LoadFromJson()
     {

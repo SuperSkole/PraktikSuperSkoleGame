@@ -37,7 +37,7 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
     /// </summary>
     public void GetLetters()
     {
-        correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+        //correctLetter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
@@ -46,7 +46,7 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
-            string letter = LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
+            string letter = null;//LetterAndWordCollections.GetRandomLetters(1)[0].ToString();
             if(IsCorrectLetter(letter)){
                 correctLetterCount++;
             }
@@ -106,9 +106,9 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         }
         activeLetterCubes.Add(newLetter);
         if(correctLetterCount > 0){
-            newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+            //newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
             while(newLetter.GetLetter() == correctLetter){
-                newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
+                //newLetter.Activate(LetterAndWordCollections.GetRandomLetters(1)[0].ToString());
             }
         }
         else{
