@@ -11,6 +11,8 @@ namespace CORE.Scripts
     /// </summary>
     public class DataLoader : MonoBehaviour
     {
+        public static bool IsDataLoaded { get; private set; } = false;
+        
         private void Start()
         {
             StartCoroutine(LoadAllCsvFiles());
@@ -18,6 +20,7 @@ namespace CORE.Scripts
         
         private IEnumerator LoadAllCsvFiles()
         {
+            IsDataLoaded = true;
             string directoryPath = Path.Combine(Application.streamingAssetsPath, "WordData");
 
             // Get all CSV files in the directory
@@ -58,7 +61,7 @@ namespace CORE.Scripts
                 string word = lines[i].Trim();
                 if (!string.IsNullOrWhiteSpace(word))
                 {
-                    LettersAndWordsManager.AddWordToSet(setName, word);
+                    WordsManager.AddWordToSet(setName, word);
                 }
             }
 

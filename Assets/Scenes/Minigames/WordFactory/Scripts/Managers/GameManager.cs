@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CORE.Scripts;
 using UnityEngine;
 
 namespace Scenes.Minigames.WordFactory.Scripts.Managers
@@ -8,6 +9,7 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
     {
         public static GameManager Instance { get; private set; }
 
+        [SerializeField] private DataLoader dataLoader;
         private List<GameObject> gears = new List<GameObject>();
         
 
@@ -29,8 +31,6 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
                 DontDestroyOnLoad(gameObject);
             }
         }
-        
-        
 
         public void AddGear(GameObject gear)
         {
