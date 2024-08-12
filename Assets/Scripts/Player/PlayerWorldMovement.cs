@@ -58,7 +58,7 @@ public class PlayerWorldMovement : MonoBehaviour
                     Debug.Log("PlayerWorldMovement/HandleInteraction/NPC 2 is talking");
                     break;
                 case "NPCTesterSkinShop":
-                    whichInteraction[2].Invoke();//Husk at ændre listnerer index nede i FindNPC 
+                    whichInteraction[2].Invoke();//Husk at Ã¦ndre listnerer index nede i FindNPC 
                     Debug.Log("PlayerWorldMovement/HandleInteraction/NPC 1 is talking");
                     break;
                 default:
@@ -232,7 +232,7 @@ public class PlayerWorldMovement : MonoBehaviour
 
                 switch (NPC.gameObject.name)
                 {
-                    //Lav et tidspunkt sådan at man ikke behøver at åben wardrope først før skinshop virker
+                    //Lav et tidspunkt sÃ¥dan at man ikke behÃ¸ver at Ã¥ben wardrope fÃ¸rst fÃ¸r skinshop virker
                     case "NPCTesterRaceOwner":
                         NPCTrackOwner npcTrackScript = NPC.GetComponent<NPCTrackOwner>();
                         //SkinShop skinShopGO = SkinShopGO.GetComponent<SkinShop>();
