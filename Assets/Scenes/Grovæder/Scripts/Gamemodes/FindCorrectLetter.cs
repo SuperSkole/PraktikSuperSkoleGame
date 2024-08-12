@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
 /// </summary>
-public class FindCorrectLetter : MonoBehaviour, IGameMode
+public class FindCorrectLetter : IGameMode
 {
     /// <summary>
     /// The correct letter
@@ -128,15 +128,4 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         boardController = board;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
