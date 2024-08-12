@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.UI;
 
 public class BoardController : MonoBehaviour
 {
@@ -16,22 +17,28 @@ public class BoardController : MonoBehaviour
     /// Game object containing the text field telling which letter the player should find
     /// </summary>
     [SerializeField]private GameObject answerTextObject;
+    
+    [SerializeField]private GameObject answerImageObject;
+
 
     /// <summary>
     /// The text field containing the text telling the player which letter to find
     /// </summary>
     private TextMeshProUGUI answerText;
 
+    private Image answerImage;
+
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new FindCorrectLetter();
+    private IGameMode gameMode = new SpellWord();
 
     // Start is called before the first frame update
     void Start()
     {
         player = playerObject.GetComponent<Player>();
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
+        answerImage = answerImageObject.GetComponent<Image>();
         List<LetterCube>letterCubes = new List<LetterCube>();
         //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
         foreach (GameObject l in letterCubeObjects){
@@ -82,5 +89,10 @@ public class BoardController : MonoBehaviour
     /// <param name="text">the text which should be displayed</param>
     public void SetAnswerText(string text){
         answerText.text = text;
+    }
+
+    public void SetImage(Sprite sprite){
+
+        answerImage.sprite = sprite;
     }
 }
