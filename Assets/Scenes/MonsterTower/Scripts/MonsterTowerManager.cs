@@ -9,10 +9,7 @@ public class MonsterTowerManager : MonoBehaviour
 {
 
     int ammo = 10;
-    Dictionary<string, (Image, Image[])> questions;
-    string currentQuestion;
-    int currentQuestionIndex = 0;
-    [SerializeField] TextMeshProUGUI displayBox;
+
     [SerializeField] Camera mainCamera;
     [SerializeField] GameObject noAmmoText;
     [SerializeField] GameObject[] ammoDisplay;
@@ -21,20 +18,32 @@ public class MonsterTowerManager : MonoBehaviour
     Ray ray;
     [SerializeField] AmmoPupUp pupUp;
 
+    [SerializeField] TowerManager towerManager;
+
+    //temp
+    string[] sentanses;
+    void SetupSentanses()
+    {
+        sentanses[0] = "is på ko";
+        sentanses[1] = "ko på is";
+        sentanses[2] = "gris under ko";
+    }
+
     /// <summary>
     /// call this to setup the minigame
     /// </summary>
     /// <param name="input">the dictionary that contains all the questions and images</param>
-    public void SetDic(Dictionary<string, (Image, Image[])> input)
+    public void SetDic(string[] input)
     {
-        questions = input;
+        sentanses = input;
 
-        currentQuestion = GetQuestion();
-        SetDispay(currentQuestion);
+        
+        towerManager.SetTowerData(sentanses);
     }
 
     void Start()
     {
+        SetupSentanses();
         if (ammo <= 0)
         {
             noAmmoText.SetActive(true);
@@ -60,23 +69,8 @@ public class MonsterTowerManager : MonoBehaviour
             CheckWhatWasClickedOn();
     }
 
-    /// <summary>
-    /// returns the next question
-    /// </summary>
-    /// <returns>the next question</returns>
-    string GetQuestion()
-    {
-        return questions.ElementAt(currentQuestionIndex).Key;
-    }
 
-    /// <summary>
-    /// updates the displaybox to the given string
-    /// </summary>
-    /// <param name="textToDispay">the string the displaybox is set to</param>
-    void SetDispay(string textToDispay)
-    {
-        displayBox.text = textToDispay;
-    }
+
 
     /// <summary>
     /// sends out a ray to detect what was cliced on.
@@ -94,12 +88,8 @@ public class MonsterTowerManager : MonoBehaviour
         if (comp == null || comp.isShootable == false) return;
         catapultAming.Shoot(hit.point, comp);
         RemoveAmmo();
-
-        if (questions == null) return;
             
-        currentQuestionIndex++;
-        currentQuestion = GetQuestion();
-        SetDispay(currentQuestion);
+
     }
 
     /// <summary>

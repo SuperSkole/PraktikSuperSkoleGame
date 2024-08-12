@@ -1116,7 +1116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a8746170ea07f6489a601e1d8512f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayBox: {fileID: 1980325502}
   mainCamera: {fileID: 1111141038}
   noAmmoText: {fileID: 56393955}
   ammoDisplay:
@@ -1132,6 +1131,7 @@ MonoBehaviour:
   - {fileID: 226027108}
   catapultAming: {fileID: 525595729}
   pupUp: {fileID: 1269879643}
+  towerManager: {fileID: 0}
 --- !u!54 &525595727
 Rigidbody:
   m_ObjectHideFlags: 0

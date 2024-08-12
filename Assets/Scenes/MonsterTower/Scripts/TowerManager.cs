@@ -2,6 +2,10 @@ using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using CORE.Scripts;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,48 +19,55 @@ public class TowerManager : MonoBehaviour
 
     private bool updateDimensions = false;
     [SerializeField] GameObject brickPrefab;
-
     [SerializeField] public List<Sprite> wrongImages;
-
     [SerializeField] public List<Sprite> wrongImages2;
-
     [SerializeField] Sprite image;
-
-
     private List<Sprite> allImagesInCurrentRow;
-
-  
     private List <BrickData> brickLanes;
-
     private int currentLane = 0;
-
     public bool correctAnswer = false;
 
 
 
+    string currentQuestion;
+    int currentQuestionIndex = 0;
+    [SerializeField] TextMeshProUGUI displayBox;
+    [SerializeField] GameObject imageHolerPrefab;
+    string[] sentanses;
+    int difficulty = 0;
+    GameObject[,] tower;
+
+    RawImage mainImgae;
+    RawImage topImage;
+    RawImage bottomImage;
+
+
     // Start is called before the first frame update
 
-    
-    
+
+
     void Start()
     {
-        brickLanes = new List<BrickData>()
-        {
-            new BrickData("hello",image,wrongImages),
-            new BrickData("goodbye",image,wrongImages2)
-
-        };
-
-        //why is this here 2 times (here and in a function)?
-        towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
-        towerHeight = brickLanes.Count;
-
-        allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
-        allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
-
-
-        updateDimensions = true;
+        BuildTower();
     }
+
+    void BuildTower()
+    {
+        tower = new GameObject[towerWidth , towerHeight];
+        for (int z = 0; z < towerHeight; z++)
+        {
+            for (int x = 0; x < towerWidth; x++)
+            {
+                Vector3 SpaceBetween = new(x * 2, z * 0, 0);
+                Vector3 brickPos = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
+                tower[x, z] = Instantiate(brickPrefab, brickPos, Quaternion.identity);
+                tower[x, z].transform.parent = gameObject.transform;
+
+                GameObject imageholder = Instantiate(imageHolerPrefab, tower[x,z].transform);
+            }
+        }
+    }
+
 
     // Update is called once per frame
     // The tower dimensions gets updated here. 
@@ -66,26 +77,79 @@ public class TowerManager : MonoBehaviour
         TowerDimensionsUpdater();
     }
 
+    /// <summary>
+    /// updates the displaybox to the given string
+    /// </summary>
+    /// <param name="textToDispay">the string the displaybox is set to</param>
+    void SetDispay(string textToDispay)
+    {
+        displayBox.text = textToDispay;
+    }
+
+
+    /// <summary>
+    /// returns the next question
+    /// </summary>
+    /// <returns>the next question</returns>
+    string GetQuestion()
+    {
+        return sentanses[currentQuestionIndex];
+    }
+
 
     /// <summary>
     /// Method for setting the towerdata which is a list of Brickmanagers that holds a sentence,Correct image and list of incorrect images.
     /// </summary>
     /// <param name="bricks"></param>
-    public void SetTowerData(List<BrickData> bricks)
+    public void SetTowerData(string[] sentanses)
     {
-        this.brickLanes = bricks;
+        this.sentanses = sentanses;
+        currentQuestion = GetQuestion();
+        SetDispay(currentQuestion);
+        //this.brickLanes = bricks;
 
-        towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
-        towerHeight = brickLanes.Count;
+        towerWidth = difficulty + 3;
+        towerHeight = sentanses.Length;
 
-        allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
-        allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
+        mainImgae = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
+        topImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+        bottomImage = imageHolerPrefab.transform.GetChild(2).GetComponent<RawImage>();
+
+        SetUpCurrentLevel();
+
+        //allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
+        //allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
 
 
         updateDimensions = true;
     }
 
+    void SetUpCurrentLevel()
+    {
+        StringBuilder currentWord = new();
+        List<string> allWords = new();
+        foreach (char ch in currentQuestion)
+        {
+            if(ch !=  ' ')
+            {
+                allWords.Add(currentWord.ToString());
+                currentWord = new();
+                continue;
+            }
+            currentWord.Append(ch);
+        }
+
+        Image[] images = ImageManager.GetImageFromWord(allWords.ToArray());
+
+        if (allWords[1].ToLower() == "på") topImage.texture = images[0].ConvertTo<Texture>();
+        else bottomImage.texture = images[0].ConvertTo<Texture>();
+        mainImgae.texture = images[1].ConvertTo<Texture>();
+
+
+        GameObject imageholder = Instantiate(imageHolerPrefab);
+    }
    
+
 
     /// <summary>
     /// Method for Updating dimensions of tower with the updateDimensions bool initiating it. 
