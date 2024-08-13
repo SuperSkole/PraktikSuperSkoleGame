@@ -45,6 +45,7 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
     public void GetLetters()
     {
         correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
+
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes)
         {
@@ -80,6 +81,9 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
                 break;
             }
         }
+
+        AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
+
         correctLetterBox.Activate(correctLetter.ToLower(), true);
         correctLetterCount++;
         activeLetterCubes.Add(correctLetterBox);
