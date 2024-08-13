@@ -116,6 +116,8 @@ public class RecognizeSoundOfLetter : IGameMode
 
         if (clip != null)
         {
+            if (currentsoundClip == null)
+                currentsoundClip = GameObject.FindObjectOfType<GrovÆderSoundController>();
             currentsoundClip.SetGrovæderSound(clip); // sends sound to AudioController
         }
         else
