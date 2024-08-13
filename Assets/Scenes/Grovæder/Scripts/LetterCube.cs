@@ -60,11 +60,11 @@ public class LetterCube : MonoBehaviour
             meshRenderer = gameObject.GetComponent<MeshRenderer>();
             defaultMaterial = meshRenderer.material;
         }
-        if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter)){
+        if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter) && !board.GetPlayer().thrown){
             StartCoroutine(IncorrectGuess());
             board.GetPlayer().IncorrectGuess();
         }
-        else if(active && other.gameObject.tag == "Player"){
+        else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown){
             StartCoroutine(CorrectGuess());
         }
     }
