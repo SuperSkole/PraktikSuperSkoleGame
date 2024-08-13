@@ -11,6 +11,8 @@ public class Grov∆derSoundController : MonoBehaviour
     
     private AudioClip letterSoundClip;
 
+
+    //so we can update letterSoundClip via other scipts
     public void SetGrovÊderSound(AudioClip clip)
     {
         letterSoundClip = clip;
@@ -20,9 +22,11 @@ public class Grov∆derSoundController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //plays the audioLetterSource once by pressing space
         if (Input.GetKey(KeyCode.Space))
         {
-            Debug.Log(letterSoundClip);
+            
             audioLetterSource.PlayOneShot(letterSoundClip);
         }
     }

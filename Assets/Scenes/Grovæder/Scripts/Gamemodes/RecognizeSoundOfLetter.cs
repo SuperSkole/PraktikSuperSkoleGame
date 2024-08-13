@@ -109,16 +109,17 @@ public class RecognizeSoundOfLetter : IGameMode
     /// </summary>
     public void CurrentLetterSound()
     {
+        //bruger correctLetter to find the right sound in tempgrovædersound in resource foulder
         string audioFileName = correctLetter.ToLower() + "_audio";
         
-
         AudioClip clip = Resources.Load<AudioClip>($"TempGrovæderSound/{audioFileName}");
 
+        //checks whether or not its null.
         if (clip != null)
         {
             if (currentsoundClip == null)
                 currentsoundClip = GameObject.FindObjectOfType<GrovÆderSoundController>();
-            Debug.Log(clip);
+          
             currentsoundClip.SetGrovæderSound(clip); // sends sound to AudioController
         }
         else
