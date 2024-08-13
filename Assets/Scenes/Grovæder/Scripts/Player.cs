@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
@@ -68,21 +69,21 @@ public class Player : MonoBehaviour
             }
             
         }
-        else if (currentDestination != transform.position){
+        else if (currentDestination != transform.position && !thrown){
             Move();
             if(!hasMoved){
                 hasMoved = true;
             }
         }
         //Code to count down time remaining on the cooldown and to update the display
-        else{
+        else if(MoveDelayRemaining > 0){
             MoveDelayRemaining -= Time.deltaTime;
             if(MoveDelayRemaining < 0){
                 MoveDelayRemaining = 0;
                 cooldownText.text = "";
             }
             else {
-                cooldownText.text = MoveDelayRemaining + " sek. tilbage";
+                cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
             }
         }
     }
@@ -92,7 +93,7 @@ public class Player : MonoBehaviour
     /// </summary>
     public void IncorrectGuess(){
         MoveDelayRemaining = 6;
-        cooldownText.text = MoveDelayRemaining + " sek. tilbage";
+        cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
     }
 
     /// <summary>
