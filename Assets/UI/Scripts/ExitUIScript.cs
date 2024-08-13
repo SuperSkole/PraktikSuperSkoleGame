@@ -40,7 +40,7 @@ public class ExitUIScript : MonoBehaviour
             //load scene hvis der er en
             SceneManager.LoadScene(sceneToLoad);
 
-            //spil yes lyd
+            //spil yes lydeffekt
             AudioSource audioSource = yesButton.GetComponent<AudioSource>();
             if (audioSource != null && panel.activeSelf)
             {
@@ -54,7 +54,7 @@ public class ExitUIScript : MonoBehaviour
         //luk panlet
         panel.SetActive (false);
 
-        //spil no lyd
+        //spil no lydeffekt
         AudioSource audioSource = noButton.GetComponent<AudioSource>();
         if (audioSource != null && panel.activeSelf)
         {
