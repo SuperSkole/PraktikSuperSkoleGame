@@ -128,6 +128,7 @@ public class SpellWord : IGameMode
             while(nL == word[currentIndex]){
                 nL = LetterManager.GetRandomLetters(1)[0];
             }
+
             newLetter.Activate(nL.ToString());
 
         }
