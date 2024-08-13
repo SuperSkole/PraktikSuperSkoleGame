@@ -22,6 +22,8 @@ public class Brick : MonoBehaviour
             {
                 gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
             }
+
+            checkCollision = false;
         }
     }
 }
