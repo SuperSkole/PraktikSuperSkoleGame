@@ -46,7 +46,7 @@ namespace Scenes.LoginScene.Scripts
             {
                 Debug.Log("Login successful: " + username);
                 // TODO: Send username to game 
-                SceneManager.LoadScene("MainMenu"); 
+                SceneManager.LoadScene("MainMenu");
             }
             else
             {
