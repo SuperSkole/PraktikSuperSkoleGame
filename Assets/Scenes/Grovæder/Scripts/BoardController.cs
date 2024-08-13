@@ -31,7 +31,7 @@ public class BoardController : MonoBehaviour
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new SpellWord();
+    private IGameMode gameMode = new RecognizeSoundOfLetter();
 
     // Start is called before the first frame update
     void Start()

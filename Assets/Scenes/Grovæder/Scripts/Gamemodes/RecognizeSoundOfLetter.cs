@@ -5,7 +5,7 @@ using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class NewBehaviourScript : MonoBehaviour, IGameMode
+public class RecognizeSoundOfLetter : IGameMode
 {
     /// <summary>
     /// Change the soundclip to what we need.
@@ -82,12 +82,7 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
             }
         }
 
-        string audioFileName = correctLetter.ToLower() + "_audio";
-        Debug.Log(correctLetter.ToLower() + "_audio");
-
-        AudioClip clip = Resources.Load<AudioClip>($"TempSound/{audioFileName}");
-
-        currentsoundClip.SetGrovæderSound(clip);
+        
 
 
         correctLetterBox.Activate(correctLetter.ToLower(), true);
@@ -95,6 +90,8 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
         activeLetterCubes.Add(correctLetterBox);
         boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
 
+
+        CurrentLetterSound();
     }
 
     /// <summary>
@@ -105,6 +102,26 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
     public bool IsCorrectLetter(string letter)
     {
         return letter.ToLower() == correctLetter.ToLower();
+    }
+
+    /// <summary>
+    /// dictates what the currentLetterSound is.
+    /// </summary>
+    public void CurrentLetterSound()
+    {
+        string audioFileName = correctLetter.ToLower() + "_audio";
+        Debug.Log(correctLetter.ToLower() + "_audio");
+
+        AudioClip clip = Resources.Load<AudioClip>($"TempGrovæderSound/{audioFileName}");
+
+        if (clip != null)
+        {
+            currentsoundClip.SetGrovæderSound(clip); // sends sound to AudioController
+        }
+        else
+        {
+            Debug.LogError("Lydklippet blev ikke fundet!");
+        }
     }
 
     /// <summary>
