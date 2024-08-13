@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -60,11 +58,11 @@ public class LetterCube : MonoBehaviour
             meshRenderer = gameObject.GetComponent<MeshRenderer>();
             defaultMaterial = meshRenderer.material;
         }
-        if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter)){
+        if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
             StartCoroutine(IncorrectGuess());
             board.GetPlayer().IncorrectGuess();
         }
-        else if(active && other.gameObject.tag == "Player"){
+        else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
             StartCoroutine(CorrectGuess());
         }
     }

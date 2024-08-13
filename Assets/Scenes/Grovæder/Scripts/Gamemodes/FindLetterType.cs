@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts;
 using UnityEngine;
@@ -57,6 +56,9 @@ public class FindLetterType : IGameMode
     /// Whether it is vowels or consonants the player is looking for
     /// </summary>
     bool vowelOrConsonant;
+
+
+    int completedRounds = 0;
 
     /// <summary>
     /// Gets the letters for the current game
@@ -168,7 +170,13 @@ public class FindLetterType : IGameMode
 
         }
         else{
-            GetLetters();
+            completedRounds++;
+            if(completedRounds == 5){
+                boardController.Won("Du vandt. Du fandt den korrekte bogstavstype 5 gange");
+            }
+            else{
+                GetLetters();
+            }
         }
     }
 
