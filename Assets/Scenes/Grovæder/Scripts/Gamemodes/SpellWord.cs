@@ -1,18 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts;
 using UnityEngine;
 
 /// <summary>
-/// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
+/// Implementation of IGameMode with the goal of finding either all vowels or all consonants.
 /// </summary>
-public class FindCorrectLetter : IGameMode
+public class SpellWord : IGameMode
 {
     /// <summary>
-    /// The correct letter
+    /// The correct word
     /// </summary>
-    string correctLetter;
+    string word;
 
+
+    int currentIndex;
+
+    List<string> words = new List<string>(){
+        "Bil", "Båd", "Fly"
+    };
+
+    Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+    
     /// <summary>
     /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
     /// </summary>
@@ -24,11 +32,6 @@ public class FindCorrectLetter : IGameMode
     List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
     /// <summary>
-    /// number of correct letters currntly displayed
-    /// </summary>
-    int correctLetterCount;
-
-    /// <summary>
     /// The boardController of the current game
     /// </summary>
     BoardController boardController;
@@ -38,18 +41,26 @@ public class FindCorrectLetter : IGameMode
     /// </summary>
     public void GetLetters()
     {
-        correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
+        currentIndex = 0;
+        word = words[Random.Range(0, words.Count)].ToLower();
+        if(sprites.ContainsKey(word)){
+            boardController.SetImage(sprites[word]);
+        }
+        else{
+            sprites.Add(word, Resources.Load<Sprite>("Pictures/" + word + "_image"));
+            boardController.SetImage(sprites[word]);
+        }
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
         }
-        int count = Random.Range(1, 11);
+        int count = Random.Range(6, 11);
         activeLetterCubes.Clear();
-        //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
+        //finds new letterboxes to be activated and assigns them a random incorrect letter.
         for (int i = 0; i < count; i++){
-            string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-            if(IsCorrectLetter(letter)){
-                correctLetterCount++;
+            char letter = LetterManager.GetRandomLetters(1)[0];
+            while(word.Contains(char.ToLower(letter))){
+                letter = LetterManager.GetRandomLetters(1)[0];
             }
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
@@ -58,30 +69,32 @@ public class FindCorrectLetter : IGameMode
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
-            activeLetterCubes[i].Activate(letter);
+            activeLetterCubes[i].Activate(letter.ToString());
         }
-        //finds a random letterbox for the correct letter which has not already been activated
-        LetterCube correctLetterBox;
-        while(true){
-            correctLetterBox = letterCubes[Random.Range(0, letterCubes.Count)];
-            if(!activeLetterCubes.Contains(correctLetterBox)){
-                break;
+        //finds some new letterboxes and assigns them a correct letter
+        for(int i = 0; i < word.Length; i++){
+            char letter = word[i];
+            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+            //Check to ensure letters arent spawned on an allready activated letter cube.
+            while(activeLetterCubes.Contains(potentialCube)){
+                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
+            activeLetterCubes.Add(potentialCube);
+            activeLetterCubes[i].Activate(letter.ToString());
         }
-        correctLetterBox.Activate(correctLetter.ToLower(), true);
-        correctLetterCount++;
-        activeLetterCubes.Add(correctLetterBox);
-        boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.");
+        boardController.SetAnswerText("");
     }
 
+
     /// <summary>
-    /// Checks if the letter is the same as the correct one
+    /// Checks if the letter is of the correct type
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
     public bool IsCorrectLetter(string letter)
     {
-        return letter.ToLower() == correctLetter.ToLower();
+        return word[currentIndex] == letter.ToLower()[0];
     }
 
     /// <summary>
@@ -91,8 +104,12 @@ public class FindCorrectLetter : IGameMode
     public void ReplaceLetter(LetterCube letter)
     {
         if(IsCorrectLetter(letter.GetLetter())){
-            correctLetterCount--;
-            boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.");
+            currentIndex++;
+            string foundLetters = "";
+            for(int i = 0; i < currentIndex; i++){
+                foundLetters += word[i];
+            }
+            boardController.SetAnswerText(foundLetters);
         }
         letter.Deactivate();
         activeLetterCubes.Remove(letter);
@@ -106,11 +123,13 @@ public class FindCorrectLetter : IGameMode
             }
         }
         activeLetterCubes.Add(newLetter);
-        if(correctLetterCount > 0){
-            newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
-            while(newLetter.GetLetter() == correctLetter){
-                newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
+        if(currentIndex < word.Length ){
+            char nL = LetterManager.GetRandomLetters(1)[0];
+            while(nL == word[currentIndex]){
+                nL = LetterManager.GetRandomLetters(1)[0];
             }
+            newLetter.Activate(nL.ToString());
+
         }
         else{
             GetLetters();
