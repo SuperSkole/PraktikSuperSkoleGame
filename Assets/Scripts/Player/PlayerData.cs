@@ -1,21 +1,22 @@
 using UnityEngine;
 /// <summary>
-/// Holds all the information about the player, is mostly used for saving 
+/// Holds all the information about the player, is used for saving 
 /// </summary>
 [System.Serializable]
-public class CharacterController
+public class PlayerData
 {
-
+    // Player and character Data
+    public string HashedUsername;
     public string playerName;
     public string monsterName;
-
     public int currentGoldAmount;
     public int currentXPAmount;
     public int currentLevel;
 
+    // Positional data
     public Vector3 currentPosition;
 
-
+    // Customization 
     public Color CurrentHeadColor;
     public Color CurrentBodyColor;
     public Color CurrentLegColor;
@@ -23,13 +24,20 @@ public class CharacterController
     public Sprite spriteHead;
     public Sprite spriteBody;
     public Sprite spriteLeg;
-
-    // Default constructor required for serialization
-    public CharacterController() { }
     
-    public CharacterController(string monsterName, string playerName, int currentGoldAmount, 
-        int currentXPAmount, int currentLevel, Vector3 currentPosition,        
-        Color CurrentHeadColor, Color CurrentBodyColor, Color CurrentLegColor, Sprite spriteHead, Sprite spriteBody, Sprite spriteLeg)
+    public PlayerData(
+        string monsterName, 
+        string playerName, 
+        int currentGoldAmount, 
+        int currentXPAmount, 
+        int currentLevel, 
+        Vector3 currentPosition,        
+        Color CurrentHeadColor, 
+        Color CurrentBodyColor, 
+        Color CurrentLegColor, 
+        Sprite spriteHead, 
+        Sprite spriteBody, 
+        Sprite spriteLeg)
     {
         this.playerName = playerName;
         this.monsterName = monsterName;

@@ -72,7 +72,7 @@ public class ShowCusBodyParts : MonoBehaviour
     }
     private void GetPlayerNameFromSaveFile()
     {
-        whichChar = gm.GetComponent<NewGame>().save.MonsterName;
+        whichChar = gm.GetComponent<GameManager>().save.MonsterName;
         whichChar += "(Clone)";
     }
     //For displaying all the different parts that the player can equip
@@ -336,7 +336,7 @@ public class ShowCusBodyParts : MonoBehaviour
     {
         try
         {
-            switch (gm.GetComponent<NewGame>().save.MonsterName)
+            switch (gm.GetComponent<GameManager>().save.MonsterName)
             {
                 case "Girl":
                     Debug.Log("ShowCusBodyParts/ChangeHeadPart/Head Sprite has changed");
@@ -373,7 +373,7 @@ public class ShowCusBodyParts : MonoBehaviour
     {
         try
         {
-            switch (gm.GetComponent<NewGame>().save.MonsterName)
+            switch (gm.GetComponent<GameManager>().save.MonsterName)
             {
                 case "Girl":
                     Debug.Log("ShowCusBodyParts/ChangeBodyPart/Body Sprite has changed");
@@ -408,7 +408,7 @@ public class ShowCusBodyParts : MonoBehaviour
     {
         try
         {
-            switch (gm.GetComponent<NewGame>().save.MonsterName)
+            switch (gm.GetComponent<GameManager>().save.MonsterName)
             {
                 case "Girl":
                     Debug.Log("ShowCusBodyParts/ChangelegPart/Leg sprite has changed");

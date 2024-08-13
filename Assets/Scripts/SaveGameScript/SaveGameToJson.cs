@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveGameToJson : MonoBehaviour
 {
-    [SerializeField] private NewGame gm;
+    [SerializeField] private GameManager gm;
     [SerializeField] private ShopSkinManagement shopSkinManagement;
 
     private string SaveName = "/SaveGameDataFile.json";

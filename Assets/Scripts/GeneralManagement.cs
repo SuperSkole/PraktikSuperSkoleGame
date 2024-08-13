@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GernalManagement : MonoBehaviour
+public class GeneralManagement : MonoBehaviour
 {
     #region attributes
     [SerializeField] private TextMeshProUGUI goldText;
@@ -95,7 +95,7 @@ public class GernalManagement : MonoBehaviour
         {
             goldAmount -= amount;
             goldText.text = goldAmount.ToString();
-            this.gameObject.GetComponent<NewGame>().player.currentGoldAmount = goldAmount;
+            this.gameObject.GetComponent<GameManager>().player.currentGoldAmount = goldAmount;
             return true;
         }
         else
@@ -133,7 +133,7 @@ public class GernalManagement : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             expAmount++;
-            this.gameObject.GetComponent<NewGame>().player.currentXPAmount = expAmount;
+            this.gameObject.GetComponent<GameManager>().player.currentXPAmount = expAmount;
             int requiredXP;
             if (levelsDic.TryGetValue(Level, out requiredXP) && expAmount >= requiredXP)
             {
@@ -145,7 +145,7 @@ public class GernalManagement : MonoBehaviour
                 // Update player information
                 var playertmp = GameObject.FindGameObjectWithTag("Player");
                 playertmp.GetComponent<PlayerWorldMovement>().PlayLevelUpEffect();
-                this.gameObject.GetComponent<NewGame>().player.currentLevel = Level;
+                this.gameObject.GetComponent<GameManager>().player.currentLevel = Level;
                 UpdateValues();
             }
             // Ensure the UI is updated with the current XP amount
@@ -166,7 +166,7 @@ public class GernalManagement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             goldAmount++;
             goldText.text = goldAmount.ToString();
-            this.gameObject.GetComponent<NewGame>().player.currentGoldAmount = goldAmount;
+            this.gameObject.GetComponent<GameManager>().player.currentGoldAmount = goldAmount;
 
         }
     }

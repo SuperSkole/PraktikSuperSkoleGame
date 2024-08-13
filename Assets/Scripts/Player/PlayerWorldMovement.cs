@@ -270,9 +270,9 @@ public class PlayerWorldMovement : MonoBehaviour
     IEnumerator lvlEffectDelay()
     {
         yield return new WaitForSeconds(0.3f);
-        gmSaveToJson.GetComponent<GernalManagement>().EnableLvlTxt(true);
+        gmSaveToJson.GetComponent<GeneralManagement>().EnableLvlTxt(true);
         lvlUpEffect.Play();
         yield return new WaitForSeconds(1.5f);
-        gmSaveToJson.GetComponent<GernalManagement>().EnableLvlTxt(false);
+        gmSaveToJson.GetComponent<GeneralManagement>().EnableLvlTxt(false);
     }
 }

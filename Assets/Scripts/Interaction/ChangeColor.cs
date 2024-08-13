@@ -9,7 +9,7 @@ public class ChangeColor : MonoBehaviour
     private GameObject playerBody;
     private GameObject playerLegs;
 
-    CharacterController player;
+    PlayerData player;
 
     private void OnEnable()
     {
@@ -72,7 +72,7 @@ public class ChangeColor : MonoBehaviour
         try
         {
             playerHead.GetComponent<SpriteRenderer>().color = color;
-            gm.GetComponent<NewGame>().headColor = color;
+            gm.GetComponent<GameManager>().headColor = color;
         }
         catch (System.Exception)
         {
@@ -80,9 +80,9 @@ public class ChangeColor : MonoBehaviour
             Debug.Log("ChangeColor/changeColorClicked/Cant Save head color because there is no head");
         }
         playerBody.GetComponent<SpriteRenderer>().color = color;
-        gm.GetComponent<NewGame>().BodyColor = color;
+        gm.GetComponent<GameManager>().BodyColor = color;
         playerLegs.GetComponent<SpriteRenderer>().color = color;
-        gm.GetComponent<NewGame>().LegColor = color;
+        gm.GetComponent<GameManager>().LegColor = color;
     }
     public void GetPlayerPartsInfo()
     {
@@ -93,7 +93,7 @@ public class ChangeColor : MonoBehaviour
         if (head != null)
         {
             playerHead = head;
-            gm.GetComponent<NewGame>().spriteHead = head;
+            gm.GetComponent<GameManager>().spriteHead = head;
         }
         else
         {
@@ -102,7 +102,7 @@ public class ChangeColor : MonoBehaviour
         if (torso != null)
         {
             playerBody = torso;
-            gm.GetComponent<NewGame>().spriteBody = torso;
+            gm.GetComponent<GameManager>().spriteBody = torso;
 
         }
         else
@@ -112,7 +112,7 @@ public class ChangeColor : MonoBehaviour
         if (legs != null)
         {
             playerLegs = legs;
-            gm.GetComponent<NewGame>().spriteLeg = legs;
+            gm.GetComponent<GameManager>().spriteLeg = legs;
         }
         else
         {
@@ -122,9 +122,9 @@ public class ChangeColor : MonoBehaviour
     }
     public void GiveInfoToNewGame()
     {
-        gm.GetComponent<NewGame>().spriteHead.GetComponent<SpriteRenderer>().color = playerHead.GetComponent<SpriteRenderer>().color;
-        gm.GetComponent<NewGame>().spriteBody.GetComponent<SpriteRenderer>().color = playerBody.GetComponent<SpriteRenderer>().color;
-        gm.GetComponent<NewGame>().spriteLeg.GetComponent<SpriteRenderer>().color = playerLegs.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<GameManager>().spriteHead.GetComponent<SpriteRenderer>().color = playerHead.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<GameManager>().spriteBody.GetComponent<SpriteRenderer>().color = playerBody.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<GameManager>().spriteLeg.GetComponent<SpriteRenderer>().color = playerLegs.GetComponent<SpriteRenderer>().color;
     }
 
 }

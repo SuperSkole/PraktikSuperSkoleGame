@@ -45,6 +45,7 @@ namespace Scenes.LoginScene.Scripts
             if (ValidateLogin(username, password))
             {
                 Debug.Log("Login successful: " + username);
+                // TODO: Send username to game 
                 SceneManager.LoadScene("MainMenu"); 
             }
             else

@@ -9,7 +9,7 @@ public class MoveFloatingNumbers : MonoBehaviour
     [SerializeField] private Transform goldEndPoint;
     [SerializeField] private GameObject xpAmount;
     [SerializeField] private GameObject goldAmount;
-    [SerializeField] private GernalManagement valueInfo;
+    [SerializeField] private GeneralManagement valueInfo;
 
     private float moveDuration = 1.5f; // Duration of the movement
 
