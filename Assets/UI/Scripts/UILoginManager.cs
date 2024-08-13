@@ -37,6 +37,14 @@ public class UILoginManager : MonoBehaviour
         }
     }
 
+    //FYLD LOGIN TJEK LOGIK IND HER
+    public void ActivateSaveOrNewScreen()
+    {
+        DeativateCurrent();
+        SaveOrNew.SetActive(true);
+        currentActiveScreen = SaveOrNew;
+    }
+
     //Vælge karakter
     public void ActivateCharacterChoice()
     {
@@ -45,18 +53,9 @@ public class UILoginManager : MonoBehaviour
         currentActiveScreen = CharacterChoice;
     }
 
-    //Ny eller gammel karakter
-    public void ActivateSaveOrNewScreen()
-    {
-        DeativateCurrent();
-        SaveOrNew.SetActive(true);
-        currentActiveScreen = SaveOrNew;
-    }
-
     //Starte et save
-    public void ActivateSaveSceneScreen()
+    public void ActivateSaveScene()
     {
-        Debug.log("Klikket");
         DeativateCurrent();
         SaveScene.SetActive(true);
         currentActiveScreen = SaveScene;
