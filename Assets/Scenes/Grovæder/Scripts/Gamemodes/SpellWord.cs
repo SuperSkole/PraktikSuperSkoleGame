@@ -13,6 +13,8 @@ public class SpellWord : IGameMode
     string word;
 
 
+    int correctWords = 0;
+
     int currentIndex;
 
     List<string> words = new List<string>(){
@@ -133,7 +135,13 @@ public class SpellWord : IGameMode
 
         }
         else{
-            GetLetters();
+            correctWords++;
+            if(correctWords == 3){
+                boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
+            }
+            else {
+                GetLetters();
+            }
         }
     }
 
