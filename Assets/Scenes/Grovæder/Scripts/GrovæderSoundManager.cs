@@ -11,6 +11,11 @@ public class GrovÆderSoundController : MonoBehaviour
     
     private AudioClip letterSoundClip;
 
+    public void SetGrovæderSound(AudioClip clip)
+    {
+        letterSoundClip = clip;
+    }
+
     // Update is called once per frame
     void Update()
     {

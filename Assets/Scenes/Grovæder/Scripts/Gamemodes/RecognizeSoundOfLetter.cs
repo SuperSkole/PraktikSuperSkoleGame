@@ -82,7 +82,13 @@ public class NewBehaviourScript : MonoBehaviour, IGameMode
             }
         }
 
-        AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
+        string audioFileName = correctLetter.ToLower() + "_audio";
+        Debug.Log(correctLetter.ToLower() + "_audio");
+
+        AudioClip clip = Resources.Load<AudioClip>($"TempSound/{audioFileName}");
+
+        currentsoundClip.SetGrovæderSound(clip);
+
 
         correctLetterBox.Activate(correctLetter.ToLower(), true);
         correctLetterCount++;
