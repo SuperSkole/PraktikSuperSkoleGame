@@ -24,6 +24,7 @@ public class MonsterTowerManager : MonoBehaviour
     string[] sentanses;
     void SetupSentanses()
     {
+        sentanses = new string[3];
         sentanses[0] = "is på ko";
         sentanses[1] = "ko på is";
         sentanses[2] = "gris under ko";
@@ -44,6 +45,7 @@ public class MonsterTowerManager : MonoBehaviour
     void Start()
     {
         SetupSentanses();
+        towerManager.SetTowerData(sentanses);
         if (ammo <= 0)
         {
             noAmmoText.SetActive(true);

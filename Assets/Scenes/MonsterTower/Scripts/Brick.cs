@@ -8,20 +8,18 @@ public class Brick : MonoBehaviour
     public Sprite sprite;
     public Sprite correctSprite;
 
-    public bool checkCollision;
-    public bool isShootable;
+    public bool checkCollision = false;
+    public bool isShootable = false;
+    public bool isCorrect = false;
   
 
 
     // Update is called once per frame
     void Update()
     {
-        if (checkCollision == true)
+        if (checkCollision && isCorrect)
         {
-            if (sprite == correctSprite)
-            {
-                gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
-            }
+            gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using CORE.Scripts;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,28 +43,53 @@ public class TowerManager : MonoBehaviour
     RawImage bottomImage;
 
 
+    float towerRadius = 5f;
+    int layerObjects = 14;
     // Start is called before the first frame update
 
 
 
     void Start()
     {
-        BuildTower();
+        
     }
 
     void BuildTower()
     {
-        tower = new GameObject[towerWidth , towerHeight];
+        tower = new GameObject[layerObjects, towerHeight];
+        float nextAngle = 2 * Mathf.PI / layerObjects;
+        float angle = 180.1f;
+        Brick controller = brickPrefab.GetComponent<Brick>();
+
         for (int z = 0; z < towerHeight; z++)
         {
-            for (int x = 0; x < towerWidth; x++)
+            int correctImageIndex = UnityEngine.Random.Range(0,towerWidth-1);
+            for (int x = 0; x < layerObjects; x++)
             {
-                Vector3 SpaceBetween = new(x * 2, z * 0, 0);
-                Vector3 brickPos = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
-                tower[x, z] = Instantiate(brickPrefab, brickPos, Quaternion.identity);
-                tower[x, z].transform.parent = gameObject.transform;
+                float posX = Mathf.Cos(angle) * towerRadius;
+                float posY = Mathf.Sin(angle) * towerRadius;
+                Vector3 brickPos = transform.position + new Vector3(posX,z * 3,posY);
+                if(z == 0 && x <= towerWidth)
+                    controller.isShootable = true;
+                else
+                    controller.isShootable = false;
+                if(x == correctImageIndex)
+                    controller.isCorrect = true;
+                else 
+                    controller.isCorrect = false;
 
+                tower[x, z] = Instantiate(brickPrefab, brickPos, quaternion.Euler(0,-angle,0));
+                tower[x, z].transform.parent = transform;
+
+                angle += nextAngle;
+                if (x >= towerWidth-1) continue;
+
+                if (x == correctImageIndex)
+                    SetCorrectImage();
+                else
+                    SetRandomImage();
                 GameObject imageholder = Instantiate(imageHolerPrefab, tower[x,z].transform);
+                imageholder.transform.position = new(0,0,-0.51f);
             }
         }
     }
@@ -74,7 +100,23 @@ public class TowerManager : MonoBehaviour
     void Update()
     {
 
-        TowerDimensionsUpdater();
+        //TowerDimensionsUpdater();
+        if(correctAnswer)
+        {
+            correctAnswer = false;
+            for (int x = 0; x < layerObjects; x++)
+            {
+                Destroy(tower[x , currentQuestionIndex]);
+                if (currentQuestionIndex + 1 >= towerHeight) continue;
+
+                GameObject temp = tower[x , currentQuestionIndex + 1];
+                temp.transform.GetChild(0).gameObject.SetActive(true);
+                temp.GetComponent<Brick>().isShootable = true;
+            }
+            transform.position += Vector3.down * 3;
+
+            currentQuestionIndex++;
+        }
     }
 
     /// <summary>
@@ -114,8 +156,9 @@ public class TowerManager : MonoBehaviour
         mainImgae = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
         topImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
         bottomImage = imageHolerPrefab.transform.GetChild(2).GetComponent<RawImage>();
+        imageHolerPrefab.SetActive(false);
 
-        SetUpCurrentLevel();
+        BuildTower();
 
         //allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
         //allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
@@ -124,7 +167,7 @@ public class TowerManager : MonoBehaviour
         updateDimensions = true;
     }
 
-    void SetUpCurrentLevel()
+    void SetCorrectImage()
     {
         StringBuilder currentWord = new();
         List<string> allWords = new();
@@ -139,14 +182,22 @@ public class TowerManager : MonoBehaviour
             currentWord.Append(ch);
         }
 
-        Image[] images = ImageManager.GetImageFromWord(allWords.ToArray());
-
+        Sprite[] images = ImageManager.GetImageFromWord(allWords.ToArray());
+        if (images == null || images[0] == null || images[1] == null) return;
         if (allWords[1].ToLower() == "på") topImage.texture = images[0].ConvertTo<Texture>();
         else bottomImage.texture = images[0].ConvertTo<Texture>();
         mainImgae.texture = images[1].ConvertTo<Texture>();
+    }
 
-
-        GameObject imageholder = Instantiate(imageHolerPrefab);
+    void SetRandomImage()
+    {
+        Sprite[] images = ImageManager.GetRandomImage(2);
+        if (images == null || images[0] == null || images[1] == null) return;
+        mainImgae.texture = images[0].ConvertTo<Texture>();
+        if(UnityEngine.Random.Range(0,1) == 1) 
+            topImage.texture = images[1].ConvertTo<Texture>();
+        else
+            bottomImage.texture = images[1].ConvertTo<Texture>();
     }
    
 
@@ -164,11 +215,7 @@ public class TowerManager : MonoBehaviour
 
         if(correctAnswer == true)
         {
-
-
             brickLanes.RemoveAt(currentLane);
-
-
             if (brickLanes.Count!=0)
             {
                 //you got a function for this?
