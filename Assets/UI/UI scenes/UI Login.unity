@@ -136,10 +136,10 @@ GameObject:
   m_Layer: 5
   m_Name: Save Scene
   m_TagString: Untagged
-  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &360316515
 RectTransform:
   m_ObjectHideFlags: 0
@@ -278,6 +278,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 815678544}
+  - {fileID: 1027093587}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -296,7 +297,7 @@ GameObject:
   - component: {fileID: 815678544}
   - component: {fileID: 815678545}
   m_Layer: 5
-  m_Name: The charatcer panels
+  m_Name: The Login Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -317,6 +318,7 @@ RectTransform:
   - {fileID: 1783508363}
   - {fileID: 1743278617}
   - {fileID: 360316515}
+  - {fileID: 1088993515}
   m_Father: {fileID: 525626478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -576,6 +578,134 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1027093586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1027093587}
+  - component: {fileID: 1027093588}
+  m_Layer: 5
+  m_Name: UI Login Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1027093587
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027093586}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 525626478}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1027093588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027093586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a132f5071a88f43b9bc9099918e2c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterChoice: {fileID: 1743278616}
+  SaveOrNew: {fileID: 1783508362}
+  LogInScreen: {fileID: 1088993514}
+  SaveScene: {fileID: 360316514}
+  sceneName: 
+--- !u!1 &1088993514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088993515}
+  - component: {fileID: 1088993517}
+  - component: {fileID: 1088993516}
+  m_Layer: 5
+  m_Name: Log In screen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1088993515
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088993514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 815678544}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1088993516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088993514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1088993517
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088993514}
+  m_CullTransparentMesh: 1
 --- !u!1 &1257854826
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,13 +794,13 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
+        - m_Target: {fileID: 1027093588}
+          m_TargetAssemblyTypeName: UILoginManager, Assembly-CSharp
+          m_MethodName: ActivateSaveSceneScreen
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -941,7 +1071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.x
@@ -949,7 +1079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_SizeDelta.x
@@ -989,11 +1119,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 865.4303
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -991.6806
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1090,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1783508363
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1131,7 +1261,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1784856946}
   - component: {fileID: 1784856948}
-  - component: {fileID: 1784856947}
   m_Layer: 5
   m_Name: CharacterChoicePanel
   m_TagString: Untagged
@@ -1158,36 +1287,6 @@ RectTransform:
   m_AnchoredPosition: {x: -7.499939, y: -9}
   m_SizeDelta: {x: -243, y: -220}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1784856947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1784856945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1784856948
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1222,7 +1321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1230,7 +1329,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1270,11 +1369,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 865.4303
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -599.00836
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1446,13 +1545,13 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
+        - m_Target: {fileID: 1027093588}
+          m_TargetAssemblyTypeName: UILoginManager, Assembly-CSharp
+          m_MethodName: ActivateCharacterChoice
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -1589,7 +1688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1597,7 +1696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1637,11 +1736,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 865.4303
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -206.33612
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
