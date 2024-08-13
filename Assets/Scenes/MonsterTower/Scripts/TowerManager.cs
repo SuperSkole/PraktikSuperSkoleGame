@@ -184,7 +184,7 @@ public class TowerManager : MonoBehaviour
                     {
                         Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
                         Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
-                        //Debug.Log("brickPos:" + brickPos);
+                        Debug.Log("brickPos:" + brickPos);
 
                         brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
                         var brickInstansZ = Instantiate(brickPrefab, brickPosZ, Quaternion.identity);
@@ -192,7 +192,7 @@ public class TowerManager : MonoBehaviour
                         brickInstansZ.transform.parent = gameObject.transform;
 
                         
-                    }
+                    }   
 
                 }
 
