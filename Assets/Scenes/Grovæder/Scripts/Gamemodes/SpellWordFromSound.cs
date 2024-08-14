@@ -40,6 +40,11 @@ public class SpellWordFromSound : IGameMode
     /// </summary>
     BoardController boardController;
 
+
+    int minWrongLetters = 6;
+
+    int maxWrongLetters = 10;
+
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
@@ -196,6 +201,28 @@ public class SpellWordFromSound : IGameMode
         this.letterCubes = letterCubes;
         boardController = board;
     }
+
+    /// <summary>
+    /// Currently does nothing
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectLetters(int min, int max)
+    {
+
+    }
+
+    /// <summary>
+    /// Sets the minimum and maximum wrong letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxWrongLetters(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
+    }
+
 
     // Update is called once per frame
     void Update()
