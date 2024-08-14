@@ -41,21 +41,21 @@ namespace Scenes.LoginScene.Scripts
         {
             string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
             string path = Path.Combine(userDataPath, "users.txt");
-
-            // Create a salt and hash the username to check against existing entries.
-            string salt = GenerateHashManager.GenerateSalt(16); 
-            string hashedUsername = GenerateHashManager.GenerateHash(username, salt);
-
-            if (UserExists(hashedUsername, path))
+            
+            // Check if the plaintext username already exists in the data file.
+            if (UserExists(username, path))
             {
                 Debug.LogError("User already exists.");
                 return;
             }
-            
-            // if user doesnt exist we can Hash password with ´salt
+
+            // if user doesnt exist we can Create a salt and hash the username and password 
+            string salt = GenerateHashManager.GenerateSalt(16); 
+            string hashedUsername = GenerateHashManager.GenerateHash(username, salt);
             string hashedPassword = GenerateHashManager.GenerateHash(password, salt);
             
-            SaveUserToTxtFile(hashedUsername, hashedPassword, salt);
+            // TODO: consider saving hash username
+            SaveUserToTxtFile(username, hashedPassword, salt);
         }
         
         public void ClearInputFields()
@@ -83,11 +83,13 @@ namespace Scenes.LoginScene.Scripts
                     string[] data = line.Split(';');
                     if (data.Length == 3 && data[0] == hashedUsername)
                     {
-                        return true; // User exists
+                        // User exists
+                        return true; 
                     }
                 }
             }
-            return false; // No user found
+            // No user found with that name
+            return false; 
         }
     }
 }
