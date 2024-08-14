@@ -11,6 +11,8 @@ public class Grov∆derSoundController : MonoBehaviour
     
     private AudioClip letterSoundClip;
 
+    private bool keydown = false;
+
 
     //so we can update letterSoundClip via other scipts
     public void SetGrovÊderSound(AudioClip clip)
@@ -24,10 +26,17 @@ public class Grov∆derSoundController : MonoBehaviour
     {
 
         //plays the audioLetterSource once by pressing space
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && keydown == false)
         {
+            keydown = true;
             
             audioLetterSource.PlayOneShot(letterSoundClip);
         }
+
+        if (Input.GetKeyUp(KeyCode.Space) && keydown == true)
+        {
+            keydown = false;
+        }
+
     }
 }
