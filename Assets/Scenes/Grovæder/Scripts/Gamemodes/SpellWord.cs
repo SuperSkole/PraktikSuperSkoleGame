@@ -143,6 +143,7 @@ public class SpellWord : IGameMode
             }
             boardController.SetAnswerText(foundWordPart);
         }
+        string oldLetter = letter.GetLetter();
         letter.Deactivate();
         activeLetterCubes.Remove(letter);
         
@@ -156,10 +157,10 @@ public class SpellWord : IGameMode
         }
         activeLetterCubes.Add(newLetter);
         if(currentIndex < word.Length ){
-            currentLetter = word[currentIndex];
+            //currentLetter = word[currentIndex];
             char nL = LetterManager.GetRandomLetters(1)[0];
-            while(nL == word[currentIndex]){
-                nL = LetterManager.GetRandomLetters(1)[0];
+            if(word.Contains(oldLetter)){
+                nL = oldLetter[0];
             }
 
             newLetter.Activate(nL.ToString());
