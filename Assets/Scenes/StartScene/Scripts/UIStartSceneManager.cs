@@ -6,37 +6,31 @@ namespace Scenes.StartScene.Scripts
 {
     public class UIStartSceneManager : MonoBehaviour
     {
-        //Bruger dette script til at håndtere UI screens og karaktervalg.
+        // Manages UI screens and character selection.
 
-        //--UI SCREENS--
+        // Reference to various UI screens.
         [SerializeField] private GameObject startScreen;
         [SerializeField] private GameObject characterChoiceScreen;
         [SerializeField] private GameObject loadOldSaveScreen;
 
-        //Game verdenen
+        // Name of the game scene to load.
         [SerializeField] private string sceneName;
 
-        //nuværende aktive UI screen
+        // Currently active UI screen.
         private GameObject currentActiveScreen;
 
-        //--karakter--
+        // Reference to the image displaying the character selection.
+        [SerializeField] private Image displayImage;
 
-        //nuværende karaktervalg
-        private CharacterChoice currentChoice;
-        private string CurrentId;
-
-        [SerializeField] Image displayImage;
-
-        //starter ud med login aktiveret først
+        // Initializes the start screen as active upon loading.
         private void Awake ()
         {
             startScreen.SetActive(true);
             currentActiveScreen = startScreen;
         }
 
-
-        //slukker det sidste panel der var
-        private void DeativateCurrent()
+        // Deactivates the currently active UI screen.
+        private void DeactivateCurrent()
         {
             if (currentActiveScreen != null)
             {
@@ -44,37 +38,34 @@ namespace Scenes.StartScene.Scripts
             }
         }
 
-        //FYLD LOGIN TJEK LOGIK IND HER
+        // Activates the start screen and deactivates the current screen.
         public void ActivateStartScreen()
         {
-            DeativateCurrent();
+            DeactivateCurrent();
             startScreen.SetActive(true);
             currentActiveScreen = startScreen;
         }
 
-        //Vælge karakter
+        // Activates the character choice screen and deactivates the current screen.
         public void ActivateCharacterChoice()
         {
-            DeativateCurrent();
+            DeactivateCurrent();
             characterChoiceScreen.SetActive(true);
             currentActiveScreen = characterChoiceScreen;
         }
 
-        //Starte et save
+        // Activates the load old save screen and deactivates the current screen.
         public void ActivateSaveScene()
         {
-            DeativateCurrent();
+            DeactivateCurrent();
             loadOldSaveScreen.SetActive(true);
             currentActiveScreen = loadOldSaveScreen;
         }
 
-        //til spil verdenen
+        // Changes to the specified game scene, loading player information if necessary.
         public void ChangeToGameScene()
         {
-            //Skal lige loade spillerens nuværende info før scenen skifter
-
             SceneManager.LoadScene(sceneName);
         }
-
     }
 }
