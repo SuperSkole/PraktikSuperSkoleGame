@@ -38,6 +38,10 @@ public class BoardController : MonoBehaviour
 
     private IGameMode gameMode = new SpellWord();
 
+    [SerializeField]GameObject monsterPrefab;
+
+    private DifficultyManager difficultyManager = new DifficultyManager();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,8 +52,10 @@ public class BoardController : MonoBehaviour
         answerImage.enabled = false;
         List<LetterCube>letterCubes = new List<LetterCube>();
         gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
-
         gameOverText.text = "";
+        difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
+        difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
+
         //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
         foreach (GameObject l in letterCubeObjects){
             LetterCube lC = l.GetComponent<LetterCube>();
@@ -125,5 +131,33 @@ public class BoardController : MonoBehaviour
     /// <param name="winText">The text to display</param>
     public void Won(string winText){
         gameOverText.text = winText;
+    }
+
+
+    /// <summary>
+    /// Instantiates a monster at the given coordinates
+    /// </summary>
+    /// <param name="monster">The monster which should be instantiated</param>
+    /// <param name="pos">The position at which it should be instantiated</param>
+    public void InstantitateMonster(GameObject monster, Vector3 pos){
+        Instantiate(monster, pos, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Changes the minimum and maximum wrong letters which appear on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void ChangeMinAndMaxWrongLetters(int min, int max){
+        gameMode.SetMinAndMaxWrongLetters(min, max);
+    }
+
+    /// <summary>
+    /// Changes the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void ChangeMinAndMaxCorrectLetters(int min, int max){
+        gameMode.SetMinAndMaxCorrectLetters(min, max);
     }
 }

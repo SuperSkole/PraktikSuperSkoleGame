@@ -33,4 +33,19 @@ public interface IGameMode
     /// <param name="letter">The letter which should be replaced</param>
     public void ReplaceLetter(LetterCube letter);
 
+
+    /// <summary>
+    /// Sets the minimum and maximum wrong letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxWrongLetters(int min, int max);
+
+    /// <summary>
+    /// Sets the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectLetters(int min, int max);
+
 }
