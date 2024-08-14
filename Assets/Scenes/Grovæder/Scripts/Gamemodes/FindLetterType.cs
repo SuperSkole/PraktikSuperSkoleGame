@@ -60,6 +60,12 @@ public class FindLetterType : IGameMode
 
     int completedRounds = 0;
 
+    int minWrongLetters = 6;
+    int maxWrongLetters = 10;
+
+    int minCorrectLetters = 1;
+    int maxCorrectLetters = 5;
+
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
@@ -79,7 +85,7 @@ public class FindLetterType : IGameMode
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
         }
-        int count = Random.Range(6, 11);
+        int count = Random.Range(minWrongLetters, maxWrongLetters);
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random incorrect letter.
         for (int i = 0; i < count; i++){
@@ -94,7 +100,7 @@ public class FindLetterType : IGameMode
             activeLetterCubes[i].Activate(letter.ToString());
         }
         //finds some new letterboxes and assigns them a correct letter
-        for(int i = 0; i < count - 5; i++){
+        for(int i = 0; i < Random.Range(minCorrectLetters, maxCorrectLetters); i++){
             char letter = GetLetter(true);
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
@@ -192,4 +198,15 @@ public class FindLetterType : IGameMode
         correctLetterCount = 0;
     }
 
+    public void SetMinAndMaxWrongLetters(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
+    }
+
+    public void SetMinAndMaxCorrectLetters(int min, int max)
+    {
+        minCorrectLetters = min;
+        maxCorrectLetters = max;
+    }
 }

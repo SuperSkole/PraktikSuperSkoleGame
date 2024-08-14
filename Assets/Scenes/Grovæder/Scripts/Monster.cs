@@ -13,7 +13,7 @@ public class Monster : MonoBehaviour
     /// <summary>
     /// The player the monster tries to catch
     /// </summary>
-    [SerializeField]private GameObject playerObject;
+    public GameObject playerObject;
     /// <summary>
     /// The time in seconds between the monsters attempts to move toward the player
     /// </summary>
@@ -25,7 +25,7 @@ public class Monster : MonoBehaviour
     /// The point the monster is currently moving towards.
     /// </summary>
     [SerializeField]Vector3 currentDestination;
-    private float speed = 0.5f;
+    public float speed = 0.5f;
 
     private bool throwingPlayer = false;
 
@@ -54,6 +54,7 @@ public class Monster : MonoBehaviour
     /// The progress of the player over their arc around the monster
     /// </summary>
     private float count;
+
 
     // Start is called before the first frame update
     void Start()
@@ -112,7 +113,7 @@ public class Monster : MonoBehaviour
     /// <param name="other"></param>
     void OnTriggerEnter(Collider other){
         
-        if(other.gameObject.tag == "Player"){
+        if(other.gameObject.tag == "Player" && !player.thrown){
             ThrowPlayer();
             //canWalk = false;
         }

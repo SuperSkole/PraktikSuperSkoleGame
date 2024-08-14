@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CORE.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -34,6 +35,14 @@ public class FindCorrectLetter : IGameMode
 
     int correctLetters = 0;
 
+    int maxWrongLetters = 10;
+
+    int minWrongLetters = 1;
+
+    int maxCorrectLetters = 5;
+
+    int minCorrectLetters = 1;
+
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
@@ -44,34 +53,37 @@ public class FindCorrectLetter : IGameMode
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
         }
-        int count = Random.Range(1, 11);
+        int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
             string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-            if(IsCorrectLetter(letter)){
-                correctLetterCount++;
+            while(IsCorrectLetter(letter)){
+                letter = LetterManager.GetRandomLetters(1)[0].ToString();
             }
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
             //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-            while(activeLetterCubes.Contains(potentialCube)){
+            while(activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position ){
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
             activeLetterCubes[i].Activate(letter);
         }
-        //finds a random letterbox for the correct letter which has not already been activated
-        LetterCube correctLetterBox;
-        while(true){
-            correctLetterBox = letterCubes[Random.Range(0, letterCubes.Count)];
-            if(!activeLetterCubes.Contains(correctLetterBox)){
-                break;
+        //creates a random number of correct letters on the board
+        int wrongCubeCount = activeLetterCubes.Count;
+        count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+        for(int i = 0; i < count; i++){
+            string letter = correctLetter.ToLower();
+            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+            //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
+            while(activeLetterCubes.Contains(potentialCube)){
+                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
+            activeLetterCubes.Add(potentialCube);
+            activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
+            correctLetterCount++;
         }
-        correctLetterBox.Activate(correctLetter.ToLower(), true);
-        correctLetterCount++;
-        activeLetterCubes.Add(correctLetterBox);
         boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.");
     }
 
@@ -138,4 +150,25 @@ public class FindCorrectLetter : IGameMode
         boardController = board;
     }
 
+    /// <summary>
+    /// Sets the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectLetters(int min, int max)
+    {
+        minCorrectLetters = min;
+        maxCorrectLetters = max;
+    }
+
+    /// <summary>
+    /// Sets the minimum and maximum wrong letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxWrongLetters(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
+    }
 }
