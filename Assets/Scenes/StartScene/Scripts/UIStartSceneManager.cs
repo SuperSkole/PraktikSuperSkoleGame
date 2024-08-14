@@ -1,57 +1,85 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Scenes.StartScene.Scripts
 {
     public class UIStartSceneManager : MonoBehaviour
     {
-        // Screen to choose between using an existing save or creating a new one
-        [SerializeField] private GameObject SaveOrNew;
-        // Screen for character selection
-        [SerializeField] private GameObject CharacterChoice;
-        // Screen showing saved games
-        [SerializeField] private GameObject SaveScene;
+        //Bruger dette script til at håndtere UI screens og karaktervalg.
 
-        // Name of the game world scene
+        //--UI SCREENS--
+
+        //der hvor du vælger din karakter
+        [SerializeField] GameObject CharacterChoice;
+        //der hvor du vælger om du laver ny karakter eller bruger gammel
+        [SerializeField] GameObject SaveOrNew;
+
+        //Der hvor savesene ligger
+        [SerializeField] GameObject SaveScene;
+
+        //Game verdenen
         [SerializeField] private string sceneName;
 
-        // Currently active UI screen
+        //nuværende aktive UI screen
         private GameObject currentActiveScreen;
 
-        // Activates a given screen and deactivates the current one
-        private void ActivateScreen(GameObject newScreen)
+        //--karakter--
+
+        //nuværende karaktervalg
+        private CharacterChoice currentChoice;
+        private string CurrentId;
+
+        [SerializeField] Image displayImage;
+
+        //starter ud med login aktiveret først
+        private void Awake ()
+        {
+            SaveOrNew.SetActive(true);
+            currentActiveScreen = SaveOrNew;
+        }
+
+
+        //slukker det sidste panel der var
+        private void DeativateCurrent()
         {
             if (currentActiveScreen != null)
             {
                 currentActiveScreen.SetActive(false);
             }
-            newScreen.SetActive(true);
-            currentActiveScreen = newScreen;
         }
 
-        // Activates the screen to choose new or existing game
+        //FYLD LOGIN TJEK LOGIK IND HER
         public void ActivateSaveOrNewScreen()
         {
-            ActivateScreen(SaveOrNew);
+            DeativateCurrent();
+            SaveOrNew.SetActive(true);
+            currentActiveScreen = SaveOrNew;
         }
 
-        // Activates the character choice screen
+        //Vælge karakter
         public void ActivateCharacterChoice()
         {
-            ActivateScreen(CharacterChoice);
+            DeativateCurrent();
+            CharacterChoice.SetActive(true);
+            currentActiveScreen = CharacterChoice;
         }
 
-        // Activates the save game screen
+        //Starte et save
         public void ActivateSaveScene()
         {
-            ActivateScreen(SaveScene);
+            DeativateCurrent();
+            SaveScene.SetActive(true);
+            currentActiveScreen = SaveScene;
         }
 
-        // Transitions to the game world scene, loading necessary player data
+        //til spil verdenen
         public void ChangeToGameScene()
         {
-            // Ensure player data is loaded before scene transition
+            //Skal lige loade spillerens nuværende info før scenen skifter
+
             SceneManager.LoadScene(sceneName);
         }
+
     }
 }
