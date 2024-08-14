@@ -84,8 +84,9 @@ namespace CORE.Scripts
         public static Texture2D GetImageFromWord(string inputWord)
         {
             Texture2D image = null;
-
-            List<Texture2D> data = imageDictionary[inputWord];
+            List<Texture2D> data;
+            if(!imageDictionary.TryGetValue(inputWord,out data))
+                data = null;
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0,data.Count)];
             else
@@ -102,14 +103,16 @@ namespace CORE.Scripts
         /// takes in an array of words and reterns an array of corrisponting images.
         /// </summary>
         /// <param name="inputWords">the words you want to get images for</param>
-        /// <returns>a UnityEngine.UI image or if it couldent find anny image it returnes NULL</returns>
+        /// <returns>a image or if it couldent find anny image it returnes NULL</returns>
         public static Texture2D[] GetImageFromWord(string[] inputWords)
         {
             Texture2D[] images = new Texture2D[inputWords.Length];
 
             for (int i = 0; i < inputWords.Length; i++)
             {
-                List<Texture2D> data = imageDictionary[inputWords[i]];
+                List<Texture2D> data;
+                if (!imageDictionary.TryGetValue(inputWords[i], out data))
+                    data = null;
                 if (data.Count > 1)
                     images[i] = data[UnityEngine.Random.Range(0, data.Count)];
                 else
@@ -146,20 +149,6 @@ namespace CORE.Scripts
 
 
             return image;
-        }
-    }
-
-
-    public struct LoadeImage : IJob
-    {
-        public FixedString128Bytes path;
-        public FixedString64Bytes fileName;
-        public Texture2D texture;
-        public void Execute()
-        {
-            //loade data
-            byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(path.ToString());
-            texture.LoadImage(bytes);
         }
     }
 }
