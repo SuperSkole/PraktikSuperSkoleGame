@@ -38,6 +38,10 @@ public class BoardController : MonoBehaviour
 
     private IGameMode gameMode = new RecognizeSoundOfLetter();
 
+    [SerializeField]GameObject monsterPrefab;
+
+    private DifficultyManager difficultyManager = new DifficultyManager();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,8 +52,10 @@ public class BoardController : MonoBehaviour
         answerImage.enabled = false;
         List<LetterCube>letterCubes = new List<LetterCube>();
         gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
-
         gameOverText.text = "";
+        difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
+        difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
+
         //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
         foreach (GameObject l in letterCubeObjects){
             LetterCube lC = l.GetComponent<LetterCube>();
@@ -59,7 +65,7 @@ public class BoardController : MonoBehaviour
             }
         }
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
-        gameMode.GetLetters();
+        gameMode.GetSymbols();
     }
 
     public Player GetPlayer(){
@@ -70,7 +76,7 @@ public class BoardController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.R)){
-            gameMode.GetLetters();
+            gameMode.GetSymbols();
         }
     }
 
@@ -80,7 +86,7 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="letter">The letterbox which should be replaced</param>
     public void ReplaceLetter(LetterCube letter){
-        gameMode.ReplaceLetter(letter);
+        gameMode.ReplaceSymbol(letter);
     }
 
     /// <summary>
@@ -88,8 +94,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="letter"></param>
     /// <returns>whether the letter is the same as the correct one</returns>
-    public bool IsCorrectLetter(string letter){
-        return gameMode.IsCorrectLetter(letter);
+    public bool IsCorrectSymbol(string letter){
+        return gameMode.IsCorrectSymbol(letter);
     }
 
     /// <summary>
@@ -125,5 +131,33 @@ public class BoardController : MonoBehaviour
     /// <param name="winText">The text to display</param>
     public void Won(string winText){
         gameOverText.text = winText;
+    }
+
+
+    /// <summary>
+    /// Instantiates a monster at the given coordinates
+    /// </summary>
+    /// <param name="monster">The monster which should be instantiated</param>
+    /// <param name="pos">The position at which it should be instantiated</param>
+    public void InstantitateMonster(GameObject monster, Vector3 pos){
+        Instantiate(monster, pos, Quaternion.identity);
+    }
+
+    /// <summary>
+    /// Changes the minimum and maximum wrong letters which appear on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void ChangeMinAndMaxWrongSymbols(int min, int max){
+        gameMode.SetMinAndMaxWrongSymbols(min, max);
+    }
+
+    /// <summary>
+    /// Changes the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void ChangeMinAndMaxCorrectSymbols(int min, int max){
+        gameMode.SetMinAndMaxCorrectSymbols(min, max);
     }
 }
