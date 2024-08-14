@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts;
 using UnityEngine;
@@ -32,6 +31,8 @@ public class FindCorrectLetter : IGameMode
     /// The boardController of the current game
     /// </summary>
     BoardController boardController;
+
+    int correctLetters = 0;
 
     /// <summary>
     /// Gets the letters for the current game
@@ -113,7 +114,16 @@ public class FindCorrectLetter : IGameMode
             }
         }
         else{
-            GetLetters();
+            correctLetters++;
+            if(correctLetters < 5){
+                GetLetters();
+            }
+            else {
+                foreach(LetterCube letterCube in activeLetterCubes){
+                    letterCube.Deactivate();
+                }
+                boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+            }
         }
     }
 

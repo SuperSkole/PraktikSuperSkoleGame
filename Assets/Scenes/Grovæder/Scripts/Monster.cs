@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.VFX;
 
 /// <summary>
 /// Class for monster chasing the player in the grovæder game
@@ -63,6 +59,9 @@ public class Monster : MonoBehaviour
     void Start()
     {
         currentDestination = transform.position;
+        if(player == null){
+            player = playerObject.GetComponent<Player>();
+        }
     }
 
     // Update is called once per frame
@@ -112,9 +111,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     /// <param name="other"></param>
     void OnTriggerEnter(Collider other){
-        if(player == null){
-            player = playerObject.GetComponent<Player>();
-        }
+        
         if(other.gameObject.tag == "Player"){
             ThrowPlayer();
             //canWalk = false;
@@ -127,6 +124,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     void ThrowPlayer(){
         if(!throwingPlayer && !releasingPlayer){
+            player.LivesRemaining--;
             count = 0;
             int xDirection = 1;
             int zDirection = 1;
@@ -137,21 +135,35 @@ public class Monster : MonoBehaviour
                 zDirection = -1;
             }
             Vector3 newDeltaPos = new Vector3(xDirection * Random.Range(0, throwRange), 0, zDirection * Random.Range(0, throwRange));
+            if(newDeltaPos.x == 0 && newDeltaPos.z == 0){
+                if(Random.Range(0, 2) == 0){
+                    newDeltaPos.x = 1;
+                }
+                else{
+                    newDeltaPos.z = 1;
+                }
+            }
             Vector3 newPos = newDeltaPos + player.CurrentDestination;
             
             //Position correction if the destination is outside the board
-            if(newPos.x > 19.5f){
+            if(player.LivesRemaining > 0){
+                if(newPos.x > 19.5f){
                 newPos.x = 19.5f;
+                }
+                if(newPos.z > 19.5f){
+                    newPos.z = 19.5f;
+                }
+                if(newPos.x < 10.5f){
+                    newPos.x = 10.5f;
+                }
+                if(newPos.z < 10.5f){
+                    newPos.z = 10.5f;
+                }
             }
-            if(newPos.z > 19.5f){
-                newPos.z = 19.5f;
+            else {
+                throwRange++;
             }
-            if(newPos.x < 10.5f){
-                newPos.x = 10.5f;
-            }
-            if(newPos.z < 10.5f){
-                newPos.z = 10.5f;
-            }
+            
 
             
             playerDestination = newPos;
@@ -199,7 +211,6 @@ public class Monster : MonoBehaviour
         else {
             throwingPlayer = false;
             canWalk = true;
-            player.thrown = false;
             player.CurrentDestination = playerDestination;
         }
     }
@@ -210,6 +221,9 @@ public class Monster : MonoBehaviour
     void Move(){
         if(currentDestination != transform.position){
             float step = speed * Time.deltaTime;
+            if(player.hasMoveDelay){
+                step *= 2;
+            }
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
         }
     }
