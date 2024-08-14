@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Unity.Collections;
 using Unity.Jobs;
@@ -133,7 +134,16 @@ namespace CORE.Scripts
         public static Texture2D GetRandomImage()
         {
             Texture2D image = null;
-
+            List<Texture2D> data;
+            data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+            if (data.Count > 1)
+                image = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+                image = data[0];
+            if (image == null)
+            {
+                Debug.LogError($"Error getting a random image");
+            }
 
             return image;
         }
@@ -145,10 +155,23 @@ namespace CORE.Scripts
         /// <returns>an array of random images</returns>
         public static Texture2D[] GetRandomImage(int amonunt)
         {
-            Texture2D[] image = null;
+            Texture2D[] images = new Texture2D[amonunt];
 
+            for (int i = 0; i < amonunt; i++)
+            {
+                List<Texture2D> data;
+                data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+                if (data.Count > 1)
+                    images[i] = data[UnityEngine.Random.Range(0, data.Count)];
+                else
+                    images[i] = data[0];
+                if (images[i] == null)
+                {
+                    Debug.LogError($"Error getting random images");
+                }
+            }
 
-            return image;
+            return images;
         }
     }
 }
