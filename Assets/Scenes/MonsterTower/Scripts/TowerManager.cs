@@ -125,6 +125,10 @@ public class TowerManager : MonoBehaviour
                 if (i <= amountOfOptions - 1)
                 {
                     tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+
+                    Brick brickComponent = tower[i, rowToDelete].GetComponent<Brick>();
+                     brickComponent.isShootable = true;
+                   
                 }
             }
 
@@ -187,7 +191,10 @@ public class TowerManager : MonoBehaviour
                 if (x <= amountOfOptions-1)
                 {
                     Brick brickComponent = tower[x, z].GetComponent<Brick>();
-                    brickComponent.isShootable = true;
+                    if (z == 0)
+                    {
+                        brickComponent.isShootable = true;
+                    }
                     // The images are set here and instantiatetd on the right bricks. 
                     // and based on the value of correctImageIndex the right answer is set. 
                     if (x == correctImageIndex)
