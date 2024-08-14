@@ -67,13 +67,19 @@ namespace Scenes.LoginScene.Scripts
                         string storedHash = data[1];
                         string storedSalt = data[2];
 
-                        // Checks if the hashed version of the input username, with the stored salt, matches the stored hashed username
-                        if (GenerateHashManager.GenerateHash(username, storedSalt) == storedUsername)
+                        if (username == storedUsername)
                         {
-                            // If the username is correct, it then checks if the hashed version of the input password, with the same stored salt,
-                            // matches the stored hashed password, and return true/false
                             return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
                         }
+                        
+                        // TODO fix hashed username check
+                        // // Checks if the hashed version of the input username, with the stored salt, matches the stored hashed username
+                        // if (GenerateHashManager.GenerateHash(username, storedSalt) == storedUsername)
+                        // {
+                        //     // If the username is correct, it then checks if the hashed version of the input password, with the same stored salt,
+                        //     // matches the stored hashed password, and return true/false
+                        //     return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
+                        // }
 
                     }
                 }
