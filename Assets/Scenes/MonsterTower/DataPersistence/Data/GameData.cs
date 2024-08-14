@@ -7,7 +7,9 @@ using UnityEngine;
 public class GameData 
 {
 
-    List<BrickData> brickLanes=new List<BrickData>();
+   
+
+   public List<BrickData> brickLanes=new List<BrickData>();
 
     public GameData(List<BrickData> brickLanes)
     {

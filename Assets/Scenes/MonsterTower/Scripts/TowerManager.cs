@@ -11,7 +11,7 @@ using UnityEngine.UIElements;
 
 
 
-public class TowerManager : MonoBehaviour
+public class TowerManager : MonoBehaviour,IDataPersistence
 {
 
     private int towerHeight;
@@ -49,29 +49,26 @@ public class TowerManager : MonoBehaviour
 
     private int amountOfOptions = 5;
 
-    
+
+
+    private List<BrickData> loadedBrickLanes;
 
 
 
     // Start is called before the first frame update
 
 
-   
+
     void Start()
     {
-        brickLanes = new List<BrickData>()
-        {
-            new BrickData("hello",image,wrongImages),
-            new BrickData("goodbye",image,wrongImages2)
-
-        };
+        
 
         //why is this here 2 times (here and in a function)?
       
-        towerHeight = brickLanes.Count;
+        towerHeight = loadedBrickLanes.Count;
 
-        allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
-        allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
+        allImagesInCurrentRow = loadedBrickLanes[currentLane].wrongImages;
+        allImagesInCurrentRow.Add(loadedBrickLanes[currentLane].correctImage);
         brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
         BuildTower();
@@ -109,6 +106,7 @@ public class TowerManager : MonoBehaviour
 
             }
 
+            loadedBrickLanes.RemoveAt(0);
 
 
 
@@ -220,9 +218,9 @@ public class TowerManager : MonoBehaviour
                     else
                     {
 
-                        brickComponent.sprite = brickLanes[currentLane].wrongImages[0];
+                        brickComponent.sprite = loadedBrickLanes[currentLane].wrongImages[0];
                         brickComponent.correctSprite = image;
-                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = brickLanes[currentLane].wrongImages[0];
+                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = loadedBrickLanes[currentLane].wrongImages[0];
                         var instCanvas =Instantiate(canvasPrefab, tower[x, z].transform);
 
                         if (z != 0)
@@ -244,8 +242,13 @@ public class TowerManager : MonoBehaviour
 
     }
 
+    public void LoadData(GameData data)
+    {
+        this.loadedBrickLanes = data.brickLanes;
+    }
 
-
-
-    
+    public void SaveData(ref GameData data)
+    {
+        data.brickLanes = this.loadedBrickLanes;
+    }
 }
