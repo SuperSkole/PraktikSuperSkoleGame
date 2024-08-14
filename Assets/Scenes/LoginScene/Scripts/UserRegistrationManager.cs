@@ -8,24 +8,12 @@ namespace Scenes.LoginScene.Scripts
     public class UserRegistrationManager : MonoBehaviour
     {
         [SerializeField] private TMP_InputField usernameInput; 
-        [SerializeField] private TMP_InputField passwordInput; 
-        [SerializeField] private Button registerButton;
+        [SerializeField] private TMP_InputField passwordInput;
+        
+        public TMP_InputField UsernameInput => usernameInput;
+        public TMP_InputField PasswordInput => passwordInput;
     
-        void Start()
-        {
-            // Initially disable the button
-            registerButton.interactable = false;
-
-            // Add listeners to the input fields to check for changes
-            usernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            passwordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-        }
-
-        void ValidateInput()
-        {
-            // Check if both fields are non-empty
-            registerButton.interactable = !string.IsNullOrEmpty(usernameInput.text) && !string.IsNullOrEmpty(passwordInput.text);
-        }
+        
         
         
         
@@ -47,19 +35,33 @@ namespace Scenes.LoginScene.Scripts
             usernameInput.text = "";
             passwordInput.text = "";
         }
-        
-        
 
-        private void RegisterUser(string username, string password)
+
+        public void RegisterUser(string username, string password)
         {
-            // Create a 16 bytes salt
+            string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
+            string path = Path.Combine(userDataPath, "users.txt");
+
+            // Create a salt and hash the username to check against existing entries.
             string salt = GenerateHashManager.GenerateSalt(16); 
-            // Hash password with ´salt
-            string hashedPassword = GenerateHashManager.GenerateHash(password, salt);
-            // Hash username with ´salt
             string hashedUsername = GenerateHashManager.GenerateHash(username, salt);
+
+            if (UserExists(hashedUsername, path))
+            {
+                Debug.LogError("User already exists.");
+                return;
+            }
+            
+            // if user doesnt exist we can Hash password with ´salt
+            string hashedPassword = GenerateHashManager.GenerateHash(password, salt);
             
             SaveUserToTxtFile(hashedUsername, hashedPassword, salt);
+        }
+        
+        public void ClearInputFields()
+        {
+            usernameInput.text = "";
+            passwordInput.text = "";
         }
 
         private void SaveUserToTxtFile(string hashedUsername, string hashedPassword, string salt)
@@ -69,6 +71,23 @@ namespace Scenes.LoginScene.Scripts
             string userData = hashedUsername + ";" + hashedPassword + ";" + salt + "\n";
             File.AppendAllText(path, userData);
             Debug.Log("User saved successfully.");
+        }
+        
+        private bool UserExists(string hashedUsername, string path)
+        {
+            if (File.Exists(path))
+            {
+                string[] lines = File.ReadAllLines(path);
+                foreach (string line in lines)
+                {
+                    string[] data = line.Split(';');
+                    if (data.Length == 3 && data[0] == hashedUsername)
+                    {
+                        return true; // User exists
+                    }
+                }
+            }
+            return false; // No user found
         }
     }
 }

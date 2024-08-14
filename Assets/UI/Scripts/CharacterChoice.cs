@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using Scenes.StartScene.Scripts;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class CharacterChoice : MonoBehaviour
 {
-    [SerializeField] UILoginManager uiLoginManager;
+    [SerializeField] UIStartSceneManager uiStartSceneManager;
     [SerializeField] string thisId;
 
 }
