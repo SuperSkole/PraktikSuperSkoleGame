@@ -19,6 +19,8 @@ public class TowerManager : MonoBehaviour
   
     private GameObject[,] tower;
 
+    private int rowToDelete=0;
+
 
     [SerializeField] GameObject brickPrefab;
 
@@ -97,10 +99,29 @@ public class TowerManager : MonoBehaviour
     // Lastly the whole tower is lowered the same amount as the height of a brick. 
     void DestroyLowestTowerLane()
     {
+
+            for (int i = 0; i < numberOfBricksInLane; i++)
+        {
+          
+                Destroy(tower[i, rowToDelete]);
+            
+         }
+        
+
+
+
+        rowToDelete++;
+
+        // sets the next rows pictures active and shows them. 
+
         for (int i = 0; i < numberOfBricksInLane; i++)
         {
-            Destroy(tower[i, 0]);
+            if (i <= amountOfOptions - 1)
+            {
+                tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
+
 
         gameObject.transform.Translate(0, -brickDimensions.y, 0);
 
@@ -160,6 +181,7 @@ public class TowerManager : MonoBehaviour
                 if (x <= amountOfOptions-1)
                 {
                     Brick brickComponent = tower[x, z].GetComponent<Brick>();
+                    brickComponent.isShootable = true;
                     // The images are set here and instantiatetd on the right bricks. 
                     // and based on the value of correctImageIndex the right answer is set. 
                     if (x == correctImageIndex)
@@ -168,9 +190,18 @@ public class TowerManager : MonoBehaviour
                         // The image for the brick and the correct image is given to the brick and can be used to check if the right brick is chosen.
                         brickComponent.sprite = image;
                         brickComponent.correctSprite = image;
+                        
+                       
 
                         canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = image;
-                         Instantiate(canvasPrefab, tower[x, z].transform);
+                         var instCanvas=Instantiate(canvasPrefab, tower[x, z].transform);
+
+                        // makes all the other options besides those on the lowest lane not active. 
+                        if(z!=0)
+                        {
+                            instCanvas.SetActive(false);
+                        }
+
                        
                     }
                     else
@@ -179,7 +210,12 @@ public class TowerManager : MonoBehaviour
                         brickComponent.sprite = brickLanes[currentLane].wrongImages[0];
                         brickComponent.correctSprite = image;
                         canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = brickLanes[currentLane].wrongImages[0];
-                       Instantiate(canvasPrefab, tower[x, z].transform);
+                        var instCanvas =Instantiate(canvasPrefab, tower[x, z].transform);
+
+                        if (z != 0)
+                        {
+                            instCanvas.SetActive(false);
+                        }
 
 
                     }
