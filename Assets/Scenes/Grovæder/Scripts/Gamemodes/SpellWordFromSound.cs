@@ -101,6 +101,8 @@ public class SpellWordFromSound : IGameMode
             activeLetterCubes[i].Activate(letter.ToString());
         }
         boardController.SetAnswerText("");
+        boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige.");
+
 
 
 
