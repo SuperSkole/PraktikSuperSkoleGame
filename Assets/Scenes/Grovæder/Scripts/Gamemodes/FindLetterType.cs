@@ -69,7 +69,7 @@ public class FindLetterType : IGameMode
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         if(Random.Range(0, 2) == 0){
             correctLetterTypes = vowels;
@@ -144,7 +144,7 @@ public class FindLetterType : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
         return correctLetterTypes.Contains(letter.ToUpper()[0]);
     }
@@ -153,9 +153,9 @@ public class FindLetterType : IGameMode
     /// Replaces an active lettercube with another one
     /// </summary>
     /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        if(IsCorrectLetter(letter.GetLetter())){
+        if(IsCorrectSymbol(letter.GetLetter())){
             correctLetterCount--;
             boardController.SetAnswerText("Led efter " + letterType + ". Der er " + correctLetterCount + " tilbage.");
         }
@@ -181,7 +181,7 @@ public class FindLetterType : IGameMode
                 boardController.Won("Du vandt. Du fandt den korrekte bogstavstype 5 gange");
             }
             else{
-                GetLetters();
+                GetSymbols();
             }
         }
     }
@@ -198,13 +198,13 @@ public class FindLetterType : IGameMode
         correctLetterCount = 0;
     }
 
-    public void SetMinAndMaxWrongLetters(int min, int max)
+    public void SetMinAndMaxWrongSymbols(int min, int max)
     {
         minWrongLetters = min;
         maxWrongLetters = max;
     }
 
-    public void SetMinAndMaxCorrectLetters(int min, int max)
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
     {
         minCorrectLetters = min;
         maxCorrectLetters = max;

@@ -3,7 +3,7 @@ using CORE.Scripts;
 using UnityEngine;
 
 /// <summary>
-/// Implementation of IGameMode with the goal of finding either all vowels or all consonants.
+/// Implementation of IGameMode with the goal of spelling a word based on an image.
 /// </summary>
 public class SpellWord : IGameMode
 {
@@ -53,7 +53,7 @@ public class SpellWord : IGameMode
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         currentIndex = 0;
         word = words[Random.Range(0, words.Count)].ToLower();
@@ -107,7 +107,7 @@ public class SpellWord : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
         if(currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1){
             currentIndex++;
@@ -130,7 +130,7 @@ public class SpellWord : IGameMode
     /// Replaces an active lettercube with another one
     /// </summary>
     /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
         //Updates the display of letters which the player has already found
         if(foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString()){
@@ -172,7 +172,7 @@ public class SpellWord : IGameMode
                 boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
             }
             else {
-                GetLetters();
+                GetSymbols();
             }
         }
     }
@@ -194,7 +194,7 @@ public class SpellWord : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxCorrectLetters(int min, int max)
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
     {
         
     }
@@ -204,7 +204,7 @@ public class SpellWord : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxWrongLetters(int min, int max)
+    public void SetMinAndMaxWrongSymbols(int min, int max)
     {
         minWrongLetters = min;
         maxWrongLetters = max;
