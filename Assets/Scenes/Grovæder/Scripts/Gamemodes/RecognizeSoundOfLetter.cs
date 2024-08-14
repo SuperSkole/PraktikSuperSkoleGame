@@ -46,6 +46,8 @@ public class RecognizeSoundOfLetter : IGameMode
     {
         correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
 
+
+
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes)
         {
