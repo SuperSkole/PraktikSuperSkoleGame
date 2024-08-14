@@ -37,6 +37,16 @@ public class RecognizeSoundOfLetter : IGameMode
     /// </summary>
     BoardController boardController;
 
+    int correctLetters = 0;
+
+    int maxWrongLetters = 10;
+
+    int minWrongLetters = 1;
+
+    int maxCorrectLetters = 5;
+
+    int minCorrectLetters = 1;
+
 
 
     /// <summary>
@@ -186,5 +196,28 @@ public class RecognizeSoundOfLetter : IGameMode
     void Update()
     {
       
+    }
+
+
+    /// <summary>
+    /// Sets the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectLetters(int min, int max)
+    {
+        minCorrectLetters = min;
+        maxCorrectLetters = max;
+    }
+
+    /// <summary>
+    /// Sets the minimum and maximum wrong letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxWrongLetters(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
     }
 }
