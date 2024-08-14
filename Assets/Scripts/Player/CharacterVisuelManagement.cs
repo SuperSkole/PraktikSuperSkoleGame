@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class characterManagement : MonoBehaviour
+public class CharacterVisuelManagement : MonoBehaviour
 {
     public GameObject characterHead;
     public GameObject characterBody;
@@ -13,7 +13,7 @@ public class characterManagement : MonoBehaviour
     //public List<Color> characterBodyColor = new List<Color>() { };
 
     //public List<Color> characterLegColor = new List<Color>() { };
-    CharacterController player;
+    PlayerData player;
 
     //public Color CurrentHeadColor;
     //public Color CurrentBodyColor;
@@ -30,11 +30,11 @@ public class characterManagement : MonoBehaviour
 
     public void JustCreatedChar(GameObject gm)
     {
-        player = gm.GetComponent<NewGame>().ReturnPlayer();
+        player = gm.GetComponent<GameManager>().ReturnPlayer();
 
-        characterHead.GetComponent<SpriteRenderer>().color = player.CurrentHeadColor;
-        characterBody.GetComponent<SpriteRenderer>().color = player.CurrentBodyColor;
-        characterLeg.GetComponent<SpriteRenderer>().color = player.CurrentLegColor; 
+        characterHead.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
+        characterBody.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
+        characterLeg.GetComponent<SpriteRenderer>().color = player.currentLegColor; 
         
         characterHead.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
         characterBody.GetComponent<SpriteRenderer>().sprite = player.spriteBody;

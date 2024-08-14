@@ -10,15 +10,15 @@ public class TestingGoldAndExp : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.T))
         {
-            GameManger.GetComponent<GernalManagement>().AddGold(10);
+            GameManger.GetComponent<GeneralManagement>().AddGold(10);
         }
         if (Input.GetKeyDown(KeyCode.Y))
         {
-            GameManger.GetComponent<GernalManagement>().AddEXP(5);
+            GameManger.GetComponent<GeneralManagement>().AddEXP(5);
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            GameManger.GetComponent<GernalManagement>().RemoveGold(5);
+            GameManger.GetComponent<GeneralManagement>().RemoveGold(5);
         }
 
     }

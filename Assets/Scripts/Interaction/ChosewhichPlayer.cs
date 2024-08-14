@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ChosewhichPlayer : MonoBehaviour
@@ -12,7 +13,7 @@ public class ChosewhichPlayer : MonoBehaviour
     [SerializeField] private GameObject CharCreate;
     [SerializeField] private Transform SpawnCharPoint;
     private GameObject SpawnCharObj;
-    [SerializeField] private NewGame gmNewGame;
+    [FormerlySerializedAs("gmNewGame")] [SerializeField] private GameManager gmGameManager;
     [SerializeField] private ShopSkinManagement gmSkins;
     public void ChangeImageOfPlayer(GameObject icon)
     {
@@ -48,7 +49,7 @@ public class ChosewhichPlayer : MonoBehaviour
                 break;
         }
 
-        gmNewGame.SetMonsterName(avatarName);
+        gmGameManager.SetMonsterName(avatarName);
         Instantiate(SpawnCharObj, SpawnCharPoint);
         
         //CharCreate.GetComponent<SeeChoosenPlayer>().TakeINFO(avatarName);

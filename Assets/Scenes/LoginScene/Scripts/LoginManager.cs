@@ -10,23 +10,12 @@ namespace Scenes.LoginScene.Scripts
     {
         [SerializeField] private TMP_InputField usernameInput; 
         [SerializeField] private TMP_InputField passwordInput; 
-        [SerializeField] private Button loginButton;
+        
     
-        void Start()
-        {
-            // Initially disable the login button
-            loginButton.interactable = false;
+        public TMP_InputField UsernameInput => usernameInput;
+        public TMP_InputField PasswordInput => passwordInput;
 
-            // Add listeners to the input fields to check for changes
-            usernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            passwordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-        }
-
-        void ValidateInput()
-        {
-            // Check if both fields are non-empty
-            loginButton.interactable = !string.IsNullOrEmpty(usernameInput.text) && !string.IsNullOrEmpty(passwordInput.text);
-        }
+        
     
         public void OnLoginButtonClicked()
         {
@@ -45,7 +34,8 @@ namespace Scenes.LoginScene.Scripts
             if (ValidateLogin(username, password))
             {
                 Debug.Log("Login successful: " + username);
-                SceneManager.LoadScene("MainMenu"); 
+                // TODO: Send username to game 
+                SceneManager.LoadScene("MainMenu");
             }
             else
             {
@@ -56,7 +46,7 @@ namespace Scenes.LoginScene.Scripts
             passwordInput.text = "";
         }
     
-        private bool ValidateLogin(string username, string inputPassword)
+        public bool ValidateLogin(string username, string inputPassword)
         {
             // Define path to file
             string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");

@@ -7,12 +7,13 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class NewGame : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     #region attributes
+    [SerializeField] private TMP_InputField usernameInput;
     [SerializeField] private TextMeshProUGUI nameInput;
     [SerializeField] private TextMeshProUGUI playerName;
-    public CharacterController player;
+    public PlayerData player;
 
     [Header("Player Start up")]
     [SerializeField] private Transform SpawnCharPoint;
@@ -41,7 +42,7 @@ public class NewGame : MonoBehaviour
     public GameObject spriteHead;
     public GameObject spriteBody;
     public GameObject spriteLeg;
-    public NewGame() { }
+    public GameManager() { }
 
     public SaveData save;
 
@@ -80,7 +81,7 @@ public class NewGame : MonoBehaviour
     /// </summary>
     public void CreateNewChar()
     {
-        player = new CharacterController(
+        player = new PlayerData(
             monsterName, nameInput.text, 0, 0, 1, 
             SpawnCharPoint.position,
             headColor, BodyColor, LegColor,
@@ -95,7 +96,7 @@ public class NewGame : MonoBehaviour
     {
         this.monsterName = monsterName;
     }
-    public CharacterController ReturnPlayer()
+    public PlayerData ReturnPlayer()
     {
         return player;
     }
@@ -109,7 +110,7 @@ public class NewGame : MonoBehaviour
         loadedPlayer.GetComponent<PlayerWorldMovement>().GenerateInteractions();
         skinsMa.StartMapping();
         save = saveData;
-        player = new CharacterController(
+        player = new PlayerData(
             saveData.MonsterName,
             saveData.PlayerName,
             saveData.GoldAmount,
@@ -141,7 +142,7 @@ public class NewGame : MonoBehaviour
 
         #region Sets UI Items accordingly
         playerName.text = player.playerName;
-        var goldXP = this.gameObject.GetComponent<GernalManagement>();
+        var goldXP = this.gameObject.GetComponent<GeneralManagement>();
         goldXP.goldAmount = player.currentGoldAmount;
         goldXP.expAmount = player.currentXPAmount;
         goldXP.Level = player.currentLevel;
@@ -152,26 +153,26 @@ public class NewGame : MonoBehaviour
         //The null conditional operator (?.) ensures that if the Transforsm is not found, it won't cause a NullReferenceException
         var head = loadedPlayer.transform.Find("Head")?.gameObject;
         head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
-        head.GetComponent<SpriteRenderer>().color = player.CurrentHeadColor;
+        head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
 
         var body = loadedPlayer.transform.Find("Mainbody")?.gameObject;
         body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
-        body.GetComponent<SpriteRenderer>().color = player.CurrentBodyColor;
+        body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
 
         var Legs = loadedPlayer.transform.Find("Legs")?.gameObject;
         Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
-        Legs.GetComponent<SpriteRenderer>().color = player.CurrentLegColor;
+        Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
 
         spriteHead = loadedPlayer.transform.Find("Head")?.gameObject;
         spriteBody = loadedPlayer.transform.Find("Mainbody")?.gameObject;
         spriteLeg = loadedPlayer.transform.Find("Legs")?.gameObject;
 
-        headColor = player.CurrentHeadColor;
-        BodyColor = player.CurrentBodyColor;
-        LegColor = player.CurrentLegColor;
+        headColor = player.currentHeadColor;
+        BodyColor = player.currentBodyColor;
+        LegColor = player.currentLegColor;
 
 
-        loadedPlayer.GetComponent<characterManagement>().JustCreatedChar(this.gameObject);
+        loadedPlayer.GetComponent<CharacterVisuelManagement>().JustCreatedChar(this.gameObject);
         #endregion
 
         #region Sets GameManger components accordingly
@@ -359,8 +360,8 @@ public class NewGame : MonoBehaviour
 
 
 
-            this.gameObject.GetComponent<GernalManagement>().AddEXP(xp);
-            this.gameObject.GetComponent<GernalManagement>().AddGold(gold);
+            this.gameObject.GetComponent<GeneralManagement>().AddEXP(xp);
+            this.gameObject.GetComponent<GeneralManagement>().AddGold(gold);
             StateNameController.ResetXPandGoldandCheck();
 
         }
