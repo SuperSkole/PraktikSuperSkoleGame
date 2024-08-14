@@ -8,7 +8,7 @@ public class UILoginManager : MonoBehaviour
 {
     //Bruger dette script til at håndtere UI screens og karaktervalg.
 
-    //UI SCREENS
+    //--UI SCREENS--
 
     //der hvor du vælger din karakter
     [SerializeField] GameObject CharacterChoice;
@@ -25,6 +25,7 @@ public class UILoginManager : MonoBehaviour
     //nuværende aktive UI screen
     private GameObject currentActiveScreen;
 
+    //--karakter--
 
     //nuværende karaktervalg
     private CharacterChoice currentChoice;
