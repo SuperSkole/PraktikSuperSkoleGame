@@ -856,6 +856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70624927}
   - component: {fileID: 70624928}
+  - component: {fileID: 70624929}
   m_Layer: 0
   m_Name: Audio Source
   m_TagString: Untagged
@@ -887,7 +888,7 @@ AudioSource:
   m_GameObject: {fileID: 70624926}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7850465786638667849, guid: ee4491611c26cee439ef91ecd64911da, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -974,6 +975,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!170 &70624929
+AudioDistortionFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70624926}
+  m_Enabled: 1
+  m_DistortionLevel: 0.2
 --- !u!1001 &72078550
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12888,7 +12898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f30d8a7849596c449f19127d17ac276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioLetterSource: {fileID: 0}
+  audioLetterSource: {fileID: 70624928}
 --- !u!1 &1915214803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5984104342079197732, guid: 1a854bdac77a3c44bae747d83ed23583, type: 3}
