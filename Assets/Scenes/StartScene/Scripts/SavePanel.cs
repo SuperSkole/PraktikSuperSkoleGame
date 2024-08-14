@@ -1,44 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class SavePanel : MonoBehaviour
+namespace Scenes.StartScene.Scripts
 {
-    private Image thisImage = null;
-    private Image thisName = null;
-    private string thisText = null;
-    private bool thisSaved = false;
-
-    [SerializeField] Image ProfilImage;
-    [SerializeField] Image Playername;
-    [SerializeField] TextMeshProUGUI PlayerText;
-    [SerializeField] Image BlockingImage;
-
-    public void SetSaveData(Image image, Image name, string text, bool isSaved)
+    public class SavePanel : MonoBehaviour
     {
-        //UISaveManager bruger denne funktion til at udfylde SavePanelets variabler
-        thisImage = image;
-        thisName = name;
-        thisText = text;
-        thisSaved = isSaved;
+        [SerializeField] private Image profilImage;
+        [SerializeField] private Image playername;
+        [SerializeField] private TextMeshProUGUI playerText;
+        [SerializeField] private Image blockingImage;
+        
+        private Image thisImage = null;
+        private Image thisName = null;
+        private string thisText = null;
+        private bool thisSaved = false;
 
-        UpdatePanel();
-
-    }
-
-    public void UpdatePanel()
-    {
-        //Hvis saved er sand, åbnes panelet og opdatere UI save Panelet.
-        if (thisSaved)
+        public void SetSaveData(Image image, Image playerName, string text, bool isSaved)
         {
-            BlockingImage.enabled = false;
+            //UISaveManager bruger denne funktion til at udfylde SavePanelets variabler
+            thisImage = image;
+            thisName = playerName;
+            thisText = text;
+            thisSaved = isSaved;
 
-            ProfilImage.sprite = thisImage.sprite;
-            Playername.sprite = thisName.sprite;
-            PlayerText.text = thisText;
+            UpdatePanel();
+
+        }
+
+        public void UpdatePanel()
+        {
+            //Hvis saved er sand, ï¿½bnes panelet og opdatere UI save Panelet.
+            if (thisSaved)
+            {
+                blockingImage.enabled = false;
+
+                profilImage.sprite = thisImage.sprite;
+                playername.sprite = thisName.sprite;
+                playerText.text = thisText;
+            }
         }
     }
 }
