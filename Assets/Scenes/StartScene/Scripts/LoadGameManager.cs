@@ -1,17 +1,21 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 namespace LoadSave
 {
-    public class LoadGameManager
+    public class LoadGameManager : MonoBehaviour
     {
-        private string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
+        public string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
 
-        private GameManager gm; // TODO Change to gamemmanager
+        //private GameManager gm; // TODO Change to gamemmanager
 
-        public LoadGameManager(GameManager gameManagerManager)
+        void Start()
         {
-            gm = gameManagerManager;
+            if (!Directory.Exists(SaveDirectory))
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
         }
         
         public bool DoesSaveFileExist(string hashedUsername)
@@ -19,6 +23,18 @@ namespace LoadSave
             string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
             return File.Exists(filePath);
         }
+        
+        public List<string> GetAllSaveFiles()
+        {
+            List<string> saves = new List<string>();
+            string[] files = Directory.GetFiles(SaveDirectory, "*.json");
+            foreach (string file in files)
+            {
+                saves.Add(Path.GetFileNameWithoutExtension(file));
+            }
+            return saves;
+        }
+
 
         public void LoadGame(string hashedUsername)
         {
@@ -40,6 +56,11 @@ namespace LoadSave
             {
                 Debug.LogError($"Save file not found for user: {hashedUsername}");
             }
+        }
+        
+        public string GetSaveFilePath(string hashedUsername)
+        {
+            return Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
         }
     }
 }

@@ -1,3 +1,4 @@
+using LoadSave;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,5 +41,19 @@ namespace Scenes.StartScene.Scripts
                 playerText.text = thisText;
             }
         }
+        
+        public void UpdatePanelWithSaveData(SaveDataDTO saveData)
+        {
+            if (saveData != null)
+            {
+                //profilImage.sprite = 
+                // playername.text = saveData.PlayerName; 
+                // playerText.text = $"Level: {saveData.PlayerLevel}, Gold: {saveData.GoldAmount}";
+                //blockingImage.enabled = !saveData.isGameStarted;  
+
+                playerText.text = saveData.PlayerName;
+            }
+        }
+
     }
 }
