@@ -6,6 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class UILoginManager : MonoBehaviour
 {
+    //Bruger dette script til at håndtere UI screens og karaktervalg.
+
+    //UI SCREENS
+
     //der hvor du vælger din karakter
     [SerializeField] GameObject CharacterChoice;
     //der hvor du vælger om du laver ny karakter eller bruger gammel
@@ -18,8 +22,15 @@ public class UILoginManager : MonoBehaviour
     //Game verdenen
     [SerializeField] private string sceneName;
 
+    //nuværende aktive UI screen
     private GameObject currentActiveScreen;
 
+
+    //nuværende karaktervalg
+    private CharacterChoice currentChoice;
+    private string CurrentId;
+
+    [SerializeField] Image displayImage;
 
     //starter ud med login aktiveret først
     private void Awake ()
@@ -27,6 +38,7 @@ public class UILoginManager : MonoBehaviour
         LogInScreen.SetActive(true);
         currentActiveScreen = LogInScreen;
     }
+
 
     //slukker det sidste panel der var
     private void DeativateCurrent()
@@ -64,6 +76,8 @@ public class UILoginManager : MonoBehaviour
     //til spil verdenen
     public void ChangeToGameScene()
     {
+        //Skal lige loade spillerens nuværende info før scenen skifter
+
         SceneManager.LoadScene(sceneName);
     }
 
