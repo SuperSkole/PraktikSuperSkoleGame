@@ -9,14 +9,9 @@ namespace Scenes.StartScene.Scripts
         //Bruger dette script til at håndtere UI screens og karaktervalg.
 
         //--UI SCREENS--
-
-        //der hvor du vælger din karakter
-        [SerializeField] GameObject CharacterChoice;
-        //der hvor du vælger om du laver ny karakter eller bruger gammel
-        [SerializeField] GameObject SaveOrNew;
-
-        //Der hvor savesene ligger
-        [SerializeField] GameObject SaveScene;
+        [SerializeField] private GameObject startScreen;
+        [SerializeField] private GameObject characterChoiceScreen;
+        [SerializeField] private GameObject loadOldSaveScreen;
 
         //Game verdenen
         [SerializeField] private string sceneName;
@@ -35,8 +30,8 @@ namespace Scenes.StartScene.Scripts
         //starter ud med login aktiveret først
         private void Awake ()
         {
-            SaveOrNew.SetActive(true);
-            currentActiveScreen = SaveOrNew;
+            startScreen.SetActive(true);
+            currentActiveScreen = startScreen;
         }
 
 
@@ -50,27 +45,27 @@ namespace Scenes.StartScene.Scripts
         }
 
         //FYLD LOGIN TJEK LOGIK IND HER
-        public void ActivateSaveOrNewScreen()
+        public void ActivateStartScreen()
         {
             DeativateCurrent();
-            SaveOrNew.SetActive(true);
-            currentActiveScreen = SaveOrNew;
+            startScreen.SetActive(true);
+            currentActiveScreen = startScreen;
         }
 
         //Vælge karakter
         public void ActivateCharacterChoice()
         {
             DeativateCurrent();
-            CharacterChoice.SetActive(true);
-            currentActiveScreen = CharacterChoice;
+            characterChoiceScreen.SetActive(true);
+            currentActiveScreen = characterChoiceScreen;
         }
 
         //Starte et save
         public void ActivateSaveScene()
         {
             DeativateCurrent();
-            SaveScene.SetActive(true);
-            currentActiveScreen = SaveScene;
+            loadOldSaveScreen.SetActive(true);
+            currentActiveScreen = loadOldSaveScreen;
         }
 
         //til spil verdenen
