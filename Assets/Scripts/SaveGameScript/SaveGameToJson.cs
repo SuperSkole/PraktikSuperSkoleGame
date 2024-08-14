@@ -27,9 +27,9 @@ public class SaveGameToJson : MonoBehaviour
         data.SavedPlayerStartPostion = new SavePlayerPosition(gm.player.currentPosition);
 
         // Save the player's customization choices for colors.
-        data.HeadColor = new SerializableColor(gm.player.CurrentHeadColor); // The color of the player's head.
-        data.BodyColor = new SerializableColor(gm.player.CurrentBodyColor); // The color of the player's body.
-        data.LegColor = new SerializableColor(gm.player.CurrentLegColor); // The color of the player's legs.
+        data.HeadColor = new SerializableColor(gm.player.currentHeadColor); // The color of the player's head.
+        data.BodyColor = new SerializableColor(gm.player.currentBodyColor); // The color of the player's body.
+        data.LegColor = new SerializableColor(gm.player.currentLegColor); // The color of the player's legs.
 
         // Save the skin data for both girl and monster characters.
         data.GirlPurchasedSkins.AddRange(GetSkinData(shopSkinManagement.girlSkins)); // Add purchased girl skins to save data.

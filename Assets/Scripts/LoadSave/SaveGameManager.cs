@@ -34,9 +34,9 @@ namespace LoadSave
                 XPAmount = gm.player.currentXPAmount,
                 PlayerLevel = gm.player.currentLevel,
                 SavedPlayerStartPostion = new SavePlayerPosition(gm.player.currentPosition),
-                HeadColor = new SerializableColor(gm.player.CurrentHeadColor),
-                BodyColor = new SerializableColor(gm.player.CurrentBodyColor),
-                LegColor = new SerializableColor(gm.player.CurrentLegColor)
+                HeadColor = new SerializableColor(gm.player.currentHeadColor),
+                BodyColor = new SerializableColor(gm.player.currentBodyColor),
+                LegColor = new SerializableColor(gm.player.currentLegColor)
             };
             return data;
         }

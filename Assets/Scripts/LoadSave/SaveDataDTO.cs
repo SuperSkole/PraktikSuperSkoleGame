@@ -16,6 +16,13 @@ namespace LoadSave
         public int GoldAmount; 
         public int XPAmount; 
         public int PlayerLevel; 
+        
+        // Progression
+        // collection of words the player has made
+        // collection of letter 
+        // maybe dict so we also can store datetime
+        public List<string> CollectedWords;
+        public List<char> CollectedLetters;
 
         // Positional data
         public SavePlayerPosition SavedPlayerStartPostion; 

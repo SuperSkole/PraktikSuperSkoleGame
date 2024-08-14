@@ -32,9 +32,9 @@ public class CharacterVisuelManagement : MonoBehaviour
     {
         player = gm.GetComponent<GameManager>().ReturnPlayer();
 
-        characterHead.GetComponent<SpriteRenderer>().color = player.CurrentHeadColor;
-        characterBody.GetComponent<SpriteRenderer>().color = player.CurrentBodyColor;
-        characterLeg.GetComponent<SpriteRenderer>().color = player.CurrentLegColor; 
+        characterHead.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
+        characterBody.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
+        characterLeg.GetComponent<SpriteRenderer>().color = player.currentLegColor; 
         
         characterHead.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
         characterBody.GetComponent<SpriteRenderer>().sprite = player.spriteBody;

@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 /// <summary>
 /// Holds all the information about the player, is used for saving 
 /// </summary>
@@ -6,7 +9,7 @@ using UnityEngine;
 public class PlayerData
 {
     // Player and character Data
-    public string HashedUsername;
+    public string hashedUsername;
     public string playerName;
     public string monsterName;
     public int currentGoldAmount;
@@ -17,13 +20,22 @@ public class PlayerData
     public Vector3 currentPosition;
 
     // Customization 
-    public Color CurrentHeadColor;
-    public Color CurrentBodyColor;
-    public Color CurrentLegColor;
+    public Color currentHeadColor;
+    public Color currentBodyColor;
+    public Color currentLegColor;
 
     public Sprite spriteHead;
     public Sprite spriteBody;
     public Sprite spriteLeg;
+    
+    // Progression
+    // collection of words the player has made
+    // collection of letter
+    // maybe dict so we also can store datetime
+    public List<string> CollectedWords;
+    public List<char> CollectedLetters;
+    
+    
     
     public PlayerData(
         string monsterName, 
@@ -32,9 +44,9 @@ public class PlayerData
         int currentXPAmount, 
         int currentLevel, 
         Vector3 currentPosition,        
-        Color CurrentHeadColor, 
-        Color CurrentBodyColor, 
-        Color CurrentLegColor, 
+        Color currentHeadColor, 
+        Color currentBodyColor, 
+        Color currentLegColor, 
         Sprite spriteHead, 
         Sprite spriteBody, 
         Sprite spriteLeg)
@@ -47,13 +59,12 @@ public class PlayerData
 
         this.currentPosition = currentPosition;
 
-        this.CurrentHeadColor = CurrentHeadColor;
-        this.CurrentBodyColor = CurrentBodyColor;
-        this.CurrentLegColor = CurrentLegColor;
+        this.currentHeadColor = currentHeadColor;
+        this.currentBodyColor = currentBodyColor;
+        this.currentLegColor = currentLegColor;
 
         this.spriteHead = spriteHead;
         this.spriteBody = spriteBody;
         this.spriteLeg = spriteLeg;
     }
-   
 }

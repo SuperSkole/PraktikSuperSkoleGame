@@ -153,23 +153,23 @@ public class GameManager : MonoBehaviour
         //The null conditional operator (?.) ensures that if the Transforsm is not found, it won't cause a NullReferenceException
         var head = loadedPlayer.transform.Find("Head")?.gameObject;
         head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
-        head.GetComponent<SpriteRenderer>().color = player.CurrentHeadColor;
+        head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
 
         var body = loadedPlayer.transform.Find("Mainbody")?.gameObject;
         body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
-        body.GetComponent<SpriteRenderer>().color = player.CurrentBodyColor;
+        body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
 
         var Legs = loadedPlayer.transform.Find("Legs")?.gameObject;
         Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
-        Legs.GetComponent<SpriteRenderer>().color = player.CurrentLegColor;
+        Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
 
         spriteHead = loadedPlayer.transform.Find("Head")?.gameObject;
         spriteBody = loadedPlayer.transform.Find("Mainbody")?.gameObject;
         spriteLeg = loadedPlayer.transform.Find("Legs")?.gameObject;
 
-        headColor = player.CurrentHeadColor;
-        BodyColor = player.CurrentBodyColor;
-        LegColor = player.CurrentLegColor;
+        headColor = player.currentHeadColor;
+        BodyColor = player.currentBodyColor;
+        LegColor = player.currentLegColor;
 
 
         loadedPlayer.GetComponent<CharacterVisuelManagement>().JustCreatedChar(this.gameObject);
