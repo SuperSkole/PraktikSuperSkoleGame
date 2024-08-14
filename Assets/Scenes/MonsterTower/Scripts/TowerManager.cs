@@ -99,32 +99,39 @@ public class TowerManager : MonoBehaviour
     void DestroyLowestTowerLane()
     {
 
+        if (rowToDelete < towerHeight)
+        {
+
             for (int i = 0; i < numberOfBricksInLane; i++)
-        {
-          
-                Destroy(tower[i, rowToDelete]);
-            
-         }
-        
-
-
-
-        rowToDelete++;
-
-        // sets the next rows pictures active and shows them. 
-
-        for (int i = 0; i < numberOfBricksInLane; i++)
-        {
-            if (i <= amountOfOptions - 1)
             {
-                tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+
+                Destroy(tower[i, rowToDelete]);
+
             }
+
+
+
+
+            rowToDelete++;
         }
 
+            // sets the next rows pictures active and shows them. 
 
-        gameObject.transform.Translate(0, -brickDimensions.y, 0);
 
-        
+        if(rowToDelete<towerHeight)
+        { 
+            for (int i = 0; i < numberOfBricksInLane; i++)
+            {
+                if (i <= amountOfOptions - 1)
+                {
+                    tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+                }
+            }
+
+
+            gameObject.transform.Translate(0, -brickDimensions.y, 0);
+
+        }
     }
 
 
