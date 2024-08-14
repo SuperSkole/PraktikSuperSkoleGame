@@ -182,7 +182,7 @@ public class TowerManager : MonoBehaviour
             currentWord.Append(ch);
         }
 
-        Sprite[] images = ImageManager.GetImageFromWord(allWords.ToArray());
+        Texture2D[] images = ImageManager.GetImageFromWord(allWords.ToArray());
         if (images == null || images[0] == null || images[1] == null) return;
         if (allWords[1].ToLower() == "på") topImage.texture = images[0].ConvertTo<Texture>();
         else bottomImage.texture = images[0].ConvertTo<Texture>();
@@ -191,7 +191,7 @@ public class TowerManager : MonoBehaviour
 
     void SetRandomImage()
     {
-        Sprite[] images = ImageManager.GetRandomImage(2);
+        Texture2D[] images = ImageManager.GetRandomImage(2);
         if (images == null || images[0] == null || images[1] == null) return;
         mainImgae.texture = images[0].ConvertTo<Texture>();
         if(UnityEngine.Random.Range(0,1) == 1) 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -5,6 +6,7 @@ using System.Text;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
@@ -18,49 +20,62 @@ namespace CORE.Scripts
 
         private void Start()
         {
-            NativeList<JobHandle> jobHandlers = new NativeList<JobHandle>(Allocator.Temp);
-            List<LoadeImage> jobs = new List<LoadeImage>();
+            StartCoroutine(LoadAllTextures());
+        }
+
+        #region loadTexturesAndSetupDic
+
+        private IEnumerator LoadAllTextures()
+        {
+            //IsDataLoaded = true;
             string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
+
+            // Get all CSV files in the directory
             string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
-            foreach (string path in fileEntries)
+            foreach (string filePath in fileEntries)
             {
-                LoadeImage job = new LoadeImage()
+                UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
+                string setName = Path.GetFileNameWithoutExtension(filePath);
+                setName = GetName(setName);
+                yield return request.SendWebRequest();
+                // Early out if the request failed.
+                if (request.result != UnityWebRequest.Result.Success)
                 {
-                    fileName = GetName(path),
-                    path = path
-                };
-                jobs.Add(job);
-                JobHandle jobHandle = job.Schedule();
-                jobHandlers.Add(jobHandle);
-            }
-            JobHandle.CompleteAll(jobHandlers);
-            for (int i = 0; i < jobs.Count; i++)
-            {
-                if(imageDictionary.ContainsKey(jobs[i].fileName))
-                {
-                    imageDictionary[jobs[i].fileName].Add(jobs[i].texture);
+                    Debug.LogError($"Error loading {filePath}:" + request.error);
+                    yield break;
                 }
                 else
                 {
-                    imageDictionary.Add(jobs[i].fileName,new List<Texture2D>());
-                    imageDictionary[jobs[i].fileName].Add(jobs[i].texture);
+                    // Get downloaded asset bundle
+                    Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                    if (imageDictionary.ContainsKey(setName))
+                    {
+                        imageDictionary[setName].Add(texture);
+                    }
+                    else
+                    {
+                        imageDictionary.Add(setName, new List<Texture2D>());
+                        imageDictionary[setName].Add(texture);
+                    }
                 }
-                
             }
         }
 
-        string GetName(string path)
+        string GetName(string name)
         {
             StringBuilder output = new();
-            output.Append(Path.GetFileName(path));
+            output.Append(name);
             int index = output.ToString().LastIndexOf('.');
             int space = output.ToString().LastIndexOf(" ");
             if(space != -1)
-                output.Remove(space, output.Length);
+                output.Remove(space, output.Length - space);
             else if(index != -1)
-                output.Remove(index, output.Length);
+                output.Remove(index, output.Length - index);
             return output.ToString();
         }
+
+        #endregion
+
         /// <summary>
         /// takes in a word and reterns an image corrisponting.
         /// </summary>
@@ -72,7 +87,7 @@ namespace CORE.Scripts
 
             List<Texture2D> data = imageDictionary[inputWord];
             if (data.Count > 1)
-                image = data[Random.Range(0,data.Count)];
+                image = data[UnityEngine.Random.Range(0,data.Count)];
             else
                 image = data[0];
             if(image == null)
@@ -96,7 +111,7 @@ namespace CORE.Scripts
             {
                 List<Texture2D> data = imageDictionary[inputWords[i]];
                 if (data.Count > 1)
-                    images[i] = data[Random.Range(0, data.Count)];
+                    images[i] = data[UnityEngine.Random.Range(0, data.Count)];
                 else
                     images[i] = data[0];
                 if (images[i] == null)
@@ -137,13 +152,13 @@ namespace CORE.Scripts
 
     public struct LoadeImage : IJob
     {
-        public string path;
-        public string fileName;
+        public FixedString128Bytes path;
+        public FixedString64Bytes fileName;
         public Texture2D texture;
         public void Execute()
         {
             //loade data
-            byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(path);
+            byte[] bytes = UnityEngine.Windows.File.ReadAllBytes(path.ToString());
             texture.LoadImage(bytes);
         }
     }
