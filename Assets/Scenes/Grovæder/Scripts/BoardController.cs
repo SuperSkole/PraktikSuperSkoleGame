@@ -1,0 +1,129 @@
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BoardController : MonoBehaviour
+{
+    /// <summary>
+    /// List of all lettercubes on the board. Other types of gameobjects should not be added.
+    /// </summary>
+    [SerializeField]private List<GameObject>letterCubeObjects = new List<GameObject>();
+
+    /// <summary>
+    /// Game object containing the text field telling which letter the player should find
+    /// </summary>
+    [SerializeField]private GameObject answerTextObject;
+    
+    /// <summary>
+    /// Object containing the answer image
+    /// </summary>
+    [SerializeField]private GameObject answerImageObject;
+
+    [SerializeField]private GameObject gameOverObject;
+    /// <summary>
+    /// The text field containing the text telling the player which letter to find
+    /// </summary>
+    private TextMeshProUGUI answerText;
+
+    /// <summary>
+    /// The text field to display text then the game is over both if the player wins or loses
+    /// </summary>
+    private TextMeshProUGUI gameOverText;
+
+    private Image answerImage;
+
+    [SerializeField]private GameObject playerObject;
+    private Player player;
+
+    private IGameMode gameMode = new SpellWord();
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        player = playerObject.GetComponent<Player>();
+        player.board = this;
+        answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
+        answerImage = answerImageObject.GetComponent<Image>();
+        answerImage.enabled = false;
+        List<LetterCube>letterCubes = new List<LetterCube>();
+        gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
+
+        gameOverText.text = "";
+        //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
+        foreach (GameObject l in letterCubeObjects){
+            LetterCube lC = l.GetComponent<LetterCube>();
+            if (lC != null){
+                letterCubes.Add(lC);
+                lC.SetBoard(this);
+            }
+        }
+        gameMode.SetLetterCubesAndBoard(letterCubes, this);
+        gameMode.GetLetters();
+    }
+
+    public Player GetPlayer(){
+        return player;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R)){
+            gameMode.GetLetters();
+        }
+    }
+
+
+    /// <summary>
+    /// tells the gamemode to replace a specific letterbox
+    /// </summary>
+    /// <param name="letter">The letterbox which should be replaced</param>
+    public void ReplaceLetter(LetterCube letter){
+        gameMode.ReplaceLetter(letter);
+    }
+
+    /// <summary>
+    /// Asks the gamemode whether a letter is the correct one.
+    /// </summary>
+    /// <param name="letter"></param>
+    /// <returns>whether the letter is the same as the correct one</returns>
+    public bool IsCorrectLetter(string letter){
+        return gameMode.IsCorrectLetter(letter);
+    }
+
+    /// <summary>
+    /// Sets the text of the answertext ui element
+    /// </summary>
+    /// <param name="text">the text which should be displayed</param>
+    public void SetAnswerText(string text){
+        answerText.text = text;
+    }
+
+
+    /// <summary>
+    /// Sets the answerimage and activates it if it is not allready
+    /// </summary>
+    /// <param name="sprite">the image which should be displayed</param>
+    public void SetImage(Sprite sprite){
+        if(!answerImage.enabled){
+            answerImage.enabled = true;
+        }
+        answerImage.sprite = sprite;
+    }
+
+    /// <summary>
+    /// Called when the player is thrown of the board and loses
+    /// </summary>
+    public void Lost(){
+        gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+    }
+
+    /// <summary>
+    /// Called when the player wins a gamemode
+    /// </summary>
+    /// <param name="winText">The text to display</param>
+    public void Won(string winText){
+        gameOverText.text = winText;
+    }
+}

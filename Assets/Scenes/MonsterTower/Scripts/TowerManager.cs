@@ -1,4 +1,3 @@
-using Minigames.RulleMarie.Managers;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
@@ -81,7 +80,7 @@ public class TowerManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    // The tower´checks if the right answer has been chosen and destroys the lowest tower lane. 
+    // The towerï¿½checks if the right answer has been chosen and destroys the lowest tower lane. 
     void Update()
     {
 
