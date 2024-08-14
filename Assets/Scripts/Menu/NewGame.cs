@@ -51,7 +51,7 @@ public class NewGame : MonoBehaviour
     {
         if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
         {
-            PlayerWorldMovement.allowedToMove = false;
+            PlayerMovement.allowedToMove = false;
             chosePlayerScreen.SetActive(true);
             customizePlayerScreen.SetActive(true);
             SkinShop.SetActive(true);
@@ -59,7 +59,7 @@ public class NewGame : MonoBehaviour
         else
         {
             //Debug.Log("NewGame/Start/Save file found loading from JSON");
-            PlayerWorldMovement.allowedToMove = true;
+            PlayerMovement.allowedToMove = true;
 
             //Needs to be true for events to be added to player
             customizePlayerScreen.SetActive(true);
@@ -89,7 +89,7 @@ public class NewGame : MonoBehaviour
             spriteLeg.GetComponent<SpriteRenderer>().sprite);
 
         playerName.text = player.playerName;
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
     }
     public void SetMonsterName(string monsterName)
     {
