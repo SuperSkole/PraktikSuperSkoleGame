@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class PlayerWorldMovement : MonoBehaviour
 {
     public float moveSpeed = 5.0f; // Adjust the speed as needed
-    public static bool allowedToMove = true;
     public static bool Talking = false;
 
     private Rigidbody rb;
@@ -28,8 +27,8 @@ public class PlayerWorldMovement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        //rb = GetComponent<Rigidbody>();
+        //animator = GetComponent<Animator>();
         gmSaveToJson = GameObject.FindGameObjectWithTag("GM");
     }
 
@@ -37,10 +36,6 @@ public class PlayerWorldMovement : MonoBehaviour
     void Update()
     {
         testingWitch = witchObjCloseTo;
-        if (allowedToMove)
-        {
-            HandleMovement();
-        }
         HandleInteraction();
 
     }
@@ -58,7 +53,7 @@ public class PlayerWorldMovement : MonoBehaviour
                     Debug.Log("PlayerWorldMovement/HandleInteraction/NPC 2 is talking");
                     break;
                 case "NPCTesterSkinShop":
-                    whichInteraction[2].Invoke();//Husk at ændre listnerer index nede i FindNPC 
+                    whichInteraction[2].Invoke();//Husk at Ã¦ndre listnerer index nede i FindNPC 
                     Debug.Log("PlayerWorldMovement/HandleInteraction/NPC 1 is talking");
                     break;
                 default:
@@ -69,41 +64,6 @@ public class PlayerWorldMovement : MonoBehaviour
                     }
                     break;
             }
-        }
-    }
-    void HandleMovement()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        //float tmpVal = horizontalInput + verticalInput;
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
-        //print(horizontalInput);
-        // Move the player
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
-        // Flip the player based on the horizontal input
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            // Moving right
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            // Moving left
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
-        {
-            animator.SetBool("Moving", true);
-        }
-        else
-        {
-            animator.SetBool("Moving", false);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            PlayLevelUpEffect();
         }
     }
 
@@ -232,7 +192,7 @@ public class PlayerWorldMovement : MonoBehaviour
 
                 switch (NPC.gameObject.name)
                 {
-                    //Lav et tidspunkt sådan at man ikke behøver at åben wardrope først før skinshop virker
+                    //Lav et tidspunkt sÃ¥dan at man ikke behÃ¸ver at Ã¥ben wardrope fÃ¸rst fÃ¸r skinshop virker
                     case "NPCTesterRaceOwner":
                         NPCTrackOwner npcTrackScript = NPC.GetComponent<NPCTrackOwner>();
                         //SkinShop skinShopGO = SkinShopGO.GetComponent<SkinShop>();
@@ -270,9 +230,9 @@ public class PlayerWorldMovement : MonoBehaviour
     IEnumerator lvlEffectDelay()
     {
         yield return new WaitForSeconds(0.3f);
-        gmSaveToJson.GetComponent<GernalManagement>().EnableLvlTxt(true);
+        gmSaveToJson.GetComponent<GeneralManagement>().EnableLvlTxt(true);
         lvlUpEffect.Play();
         yield return new WaitForSeconds(1.5f);
-        gmSaveToJson.GetComponent<GernalManagement>().EnableLvlTxt(false);
+        gmSaveToJson.GetComponent<GeneralManagement>().EnableLvlTxt(false);
     }
 }
