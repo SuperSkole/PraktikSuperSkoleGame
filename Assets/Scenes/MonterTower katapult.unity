@@ -1079,9 +1079,9 @@ GameObject:
   m_Component:
   - component: {fileID: 525595725}
   - component: {fileID: 525595726}
-  - component: {fileID: 525595729}
   - component: {fileID: 525595728}
   - component: {fileID: 525595727}
+  - component: {fileID: 525595729}
   m_Layer: 0
   m_Name: minigame manager
   m_TagString: Untagged
@@ -1189,12 +1189,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 525595723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 692ef8b3c35213f47928fbe7b0be6f4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 270ba8da6e31aa24db002829176d9439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prjectipePrefab: {fileID: 8399951662530303645, guid: 5b15b1a8b2463364594ea1f0cfd8adf6, type: 3}
-  catapult: {fileID: 380784041}
-  shootPos: {fileID: 1115762482}
+  catapult: {fileID: 0}
+  shootPos: {fileID: 844273060}
   hight: 5
 --- !u!1001 &535362339
 PrefabInstance:

@@ -53,6 +53,8 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
     private List<BrickData> loadedBrickLanes;
 
+    public bool isLevelLoaded = false;
+
 
 
     // Start is called before the first frame update
@@ -61,10 +63,23 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
     void Start()
     {
-        
 
+        StartCoroutine(WaitUntilDataIsLoaded());
         //why is this here 2 times (here and in a function)?
       
+       
+
+        //updateDimensions = true;
+    }
+
+
+    IEnumerator WaitUntilDataIsLoaded()
+    {
+        while(!isLevelLoaded)
+        {
+            yield return null;
+        }
+
         towerHeight = loadedBrickLanes.Count;
 
         allImagesInCurrentRow = loadedBrickLanes[currentLane].wrongImages;
@@ -72,8 +87,6 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
         BuildTower();
-
-        //updateDimensions = true;
     }
 
     // Update is called once per frame
@@ -161,7 +174,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         {
 
             // Random correct image index is used so the right answer is put randomly between the posible positions. 
-            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions);
+            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions-1);
             for (int x = 0; x < numberOfBricksInLane; x++)
             {
 
@@ -245,6 +258,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
     public void LoadData(GameData data)
     {
         this.loadedBrickLanes = data.brickLanes;
+        isLevelLoaded = true;
     }
 
     public void SaveData(ref GameData data)

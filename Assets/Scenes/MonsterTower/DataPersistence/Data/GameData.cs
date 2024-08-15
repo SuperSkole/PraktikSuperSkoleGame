@@ -9,7 +9,7 @@ public class GameData
 
    
 
-   public List<BrickData> brickLanes=new List<BrickData>();
+   public List<BrickData> brickLanes;
 
     public GameData(List<BrickData> brickLanes)
     {

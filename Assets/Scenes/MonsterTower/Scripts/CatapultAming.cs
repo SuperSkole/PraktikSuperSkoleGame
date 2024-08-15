@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
@@ -42,10 +43,11 @@ public class CatapultAming : MonoBehaviour
     /// <param name="target">the target you want to hit</param>
     public void Shoot(Vector3 target, Brick brick)
     {
-        GameObject temp = Instantiate(prjectipePrefab,shootPos.position,quaternion.identity);
+        GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);
         Rigidbody rb = temp.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.velocity = CalcolateTerejectory(target);
         temp.GetComponent<AmmoDeletor>().Hitbox(brick);
     }
+
 }

@@ -23,6 +23,8 @@ public class DataPersistenceManager : MonoBehaviour
     List<BrickData> defaultBrickLanes=new List<BrickData>();
     private List<IDataPersistence> dataPersistenceObjects;
 
+    
+
      
 
     private void Awake()
