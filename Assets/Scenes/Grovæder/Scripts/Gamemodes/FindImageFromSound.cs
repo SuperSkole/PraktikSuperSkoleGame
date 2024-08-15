@@ -9,12 +9,12 @@ public class FindImageFromSound : IGameMode
 
 
     /// <summary>
-    /// The correct image
+    /// The correct letter
     /// </summary>
-    string correctImageWord;
+    string correctImage;
 
     /// <summary>
-    /// List of all imagecubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+    /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
     /// </summary>
     List<LetterCube> letterCubes;
 
@@ -46,11 +46,9 @@ public class FindImageFromSound : IGameMode
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-
-
-    public void GetLetters()
+    public void GetSymbols()
     {
-        correctImageWord = LetterManager.GetRandomLetters(1)[0].ToString();
+        correctImage = LetterManager.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes)
         {
@@ -62,7 +60,7 @@ public class FindImageFromSound : IGameMode
         for (int i = 0; i < count; i++)
         {
             string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-            while (IsCorrectLetter(letter))
+            while (IsCorrectSymbol(letter))
             {
                 letter = LetterManager.GetRandomLetters(1)[0].ToString();
             }
@@ -81,7 +79,7 @@ public class FindImageFromSound : IGameMode
         count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
         for (int i = 0; i < count; i++)
         {
-            string letter = correctImageWord.ToLower();
+            string letter = correctImage.ToLower();
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
             while (activeLetterCubes.Contains(potentialCube))
@@ -92,22 +90,22 @@ public class FindImageFromSound : IGameMode
             activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
             correctLetterCount++;
         }
-        boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige.");
+        boardController.SetAnswerText("Led efter " + correctImage + ". Der er " + correctLetterCount + " tilbage.");
+    
 
+}
 
+    public bool IsCorrectSymbol(string letter)
+    {
+        return letter.ToLower() == correctImage.ToLower();
     }
 
-    public bool IsCorrectLetter(string word)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        return word.ToLower() == correctImageWord.ToLower();
-    }
-
-    public void ReplaceLetter(LetterCube letter)
-    {
-        if (IsCorrectLetter(letter.GetLetter()))
+        if (IsCorrectSymbol(letter.GetLetter()))
         {
             correctLetterCount--;
-            boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
+            boardController.SetAnswerText("Led efter " + correctImage + ". Der er " + correctLetterCount + " tilbage.");
         }
         letter.Deactivate();
         activeLetterCubes.Remove(letter);
@@ -117,7 +115,6 @@ public class FindImageFromSound : IGameMode
         while (true)
         {
             newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-
             if (newLetter != letter && !activeLetterCubes.Contains(newLetter))
             {
                 break;
@@ -127,24 +124,46 @@ public class FindImageFromSound : IGameMode
         if (correctLetterCount > 0)
         {
             newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
-            while (newLetter.GetLetter() == correctImageWord)
+            while (newLetter.GetLetter() == correctImage)
             {
                 newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
             }
         }
         else
         {
-            GetLetters();
+            correctLetters++;
+            if (correctLetters < 5)
+            {
+                GetSymbols();
+            }
+            else
+            {
+                foreach (LetterCube letterCube in activeLetterCubes)
+                {
+                    letterCube.Deactivate();
+                }
+                boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+            }
         }
     }
 
+    /// <summary>
+    /// Gets the list of lettercubes and the boardController from the boardcontroller
+    /// </summary>
+    /// <param name="letterCubes">List of lettercubes</param>
+    /// <param name="board">the board connected to the lettercubes</param>
     public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
     {
         this.letterCubes = letterCubes;
         boardController = board;
     }
 
-    public void SetMinAndMaxCorrectLetters(int min, int max)
+    /// <summary>
+    /// Sets the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
     {
         minCorrectLetters = min;
         maxCorrectLetters = max;
@@ -155,12 +174,12 @@ public class FindImageFromSound : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxWrongLetters(int min, int max)
+    public void SetMinAndMaxWrongSymbols(int min, int max)
     {
         minWrongLetters = min;
         maxWrongLetters = max;
     }
 
     // Start is called before the first frame update
-   
+
 }
