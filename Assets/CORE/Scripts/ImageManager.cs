@@ -18,6 +18,7 @@ namespace CORE.Scripts
     {
 
         static Dictionary<string, List<Texture2D>> imageDictionary = new();
+        bool isDoneLoading = false;
 
         private void Start()
         {
@@ -60,6 +61,7 @@ namespace CORE.Scripts
                     }
                 }
             }
+            isDoneLoading = true;
         }
 
         string GetName(string name)
