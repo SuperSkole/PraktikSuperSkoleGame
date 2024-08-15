@@ -25,13 +25,8 @@ public class DestroyOnContact : MonoBehaviour
     /// <param name="other"></param>
     public void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
-            StartCoroutine(DestroyWait());
+            Destroy(gameObject);
         }
         
-    }
-
-    IEnumerator DestroyWait(){
-        yield return new WaitForSeconds(5);
-        Destroy(gameObject);
     }
 }
