@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,13 @@ public class LetterCube : MonoBehaviour
     /// Text field of the LetterCube
     /// </summary>
     [SerializeField]private TextMeshPro text;
+
+    [SerializeField]private GameObject imageObject;
+
+    private SpriteRenderer spriteRenderer;
+
+    
+
     /// <summary>
     /// The gameboard the letter cube is connected to
     /// </summary>
@@ -88,6 +96,18 @@ public class LetterCube : MonoBehaviour
     /// <param name="letter">The letter which should be displayed</param>
     public void Activate(string letter){
         Activate(letter, false);
+    }
+
+    public void ActivateImage(Sprite sprite, string currentWord)
+    {
+        spriteRenderer.sprite = sprite;
+
+
+        if (!active)
+        {
+            active = true;
+            transform.Translate(0, 0.2f, 0);
+        }
     }
 
     public string GetLetter(){
