@@ -18,7 +18,7 @@ namespace CORE.Scripts
     {
 
         static Dictionary<string, List<Texture2D>> imageDictionary = new();
-        bool isDoneLoading = false;
+        public static bool IsDataLoaded { get; private set; } = false;
 
         private void Start()
         {
@@ -61,7 +61,7 @@ namespace CORE.Scripts
                     }
                 }
             }
-            isDoneLoading = true;
+            IsDataLoaded = true;
         }
 
         string GetName(string name)
@@ -79,6 +79,8 @@ namespace CORE.Scripts
 
         #endregion
 
+
+
         /// <summary>
         /// takes in a word and reterns an image corrisponting.
         /// </summary>
@@ -86,18 +88,17 @@ namespace CORE.Scripts
         /// <returns>a image or if it couldent find an image it returnes NULL</returns>
         public static Texture2D GetImageFromWord(string inputWord)
         {
-            Texture2D image = null;
-            List<Texture2D> data;
-            if(!imageDictionary.TryGetValue(inputWord,out data))
+            if (!imageDictionary.TryGetValue(inputWord, out List<Texture2D> data))
                 data = null;
-            if (data.Count > 1)
-                image = data[UnityEngine.Random.Range(0,data.Count)];
-            else
-                image = data[0];
-            if(image == null)
+            Texture2D image;
+            if (data == null)
             {
                 Debug.LogError($"Error getting image for the word: {inputWord.ToLower()}");
             }
+            if (data.Count > 1)
+                image = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+                image = data[0];
 
             return image;
         }
@@ -116,14 +117,14 @@ namespace CORE.Scripts
                 List<Texture2D> data;
                 if (!imageDictionary.TryGetValue(inputWords[i], out data))
                     data = null;
+                if (data == null)
+                {
+                    Debug.LogError($"Error getting image for the word: {inputWords[i].ToLower()}");
+                }
                 if (data.Count > 1)
                     images[i] = data[UnityEngine.Random.Range(0, data.Count)];
                 else
                     images[i] = data[0];
-                if (images[i] == null)
-                {
-                    Debug.LogError($"Error getting image for the word: {inputWords[i].ToLower()}");
-                }
             }
 
             return images;
@@ -135,17 +136,17 @@ namespace CORE.Scripts
         /// <returns>a random image</returns>
         public static Texture2D GetRandomImage()
         {
-            Texture2D image = null;
             List<Texture2D> data;
             data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+            Texture2D image;
+            if (data == null)
+            {
+                Debug.LogError($"Error getting a random image");
+            }
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
             else
                 image = data[0];
-            if (image == null)
-            {
-                Debug.LogError($"Error getting a random image");
-            }
 
             return image;
         }
@@ -163,14 +164,14 @@ namespace CORE.Scripts
             {
                 List<Texture2D> data;
                 data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+                if (data == null)
+                {
+                    Debug.LogError($"Error getting random images");
+                }
                 if (data.Count > 1)
                     images[i] = data[UnityEngine.Random.Range(0, data.Count)];
                 else
                     images[i] = data[0];
-                if (images[i] == null)
-                {
-                    Debug.LogError($"Error getting random images");
-                }
             }
 
             return images;

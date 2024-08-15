@@ -40,7 +40,7 @@ public class TowerManager : MonoBehaviour
 
     private Vector3 brickDimensions;
 
-    private int amountOfOptions = 5;
+    private int amountOfOptions = 4;
 
     
 
@@ -52,7 +52,6 @@ public class TowerManager : MonoBehaviour
     [SerializeField] GameObject imageHolerPrefab;
     string[] sentanses;
 
-    RawImage mainImgae;
     RawImage topImage;
     RawImage bottomImage;
     // Start is called before the first frame update
@@ -64,23 +63,33 @@ public class TowerManager : MonoBehaviour
 
     }
 
+    IEnumerator WaitUntillDataIsLoaded()
+    {
+        while (!ImageManager.IsDataLoaded)
+        {
+            yield return null;
+        }
+        BuildTower();
+    }
+
     public void SetTowerData(string[] input)
     {
         towerHeight = input.Length;
         sentanses = input;
 
-        mainImgae = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-        topImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
-        bottomImage = imageHolerPrefab.transform.GetChild(2).GetComponent<RawImage>();
+        topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
+        bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
         brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
         SetNextQuestion();
-        BuildTower();
+        StartCoroutine(WaitUntillDataIsLoaded());
     }
 
     void SetNextQuestion()
     {
+        if (sentanses.Length <= currentQuestionIndex) return;
         currentQuestion = sentanses[currentQuestionIndex];
+        displayBox.text = currentQuestion;
         currentQuestionIndex++;
     }
 
@@ -91,6 +100,7 @@ public class TowerManager : MonoBehaviour
 
         if (correctAnswer)
         {
+            SetNextQuestion();
             DestroyLowestTowerLane();
             correctAnswer = false;
         }
@@ -146,7 +156,7 @@ public class TowerManager : MonoBehaviour
         {
 
             // Random correct image index is used so the right answer is put randomly between the posible positions. 
-            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions);
+            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions - 1);
             for (int x = 0; x < numberOfBricksInLane; x++)
             {
                 //the new position of each brick is calculated based on angle,tower radius and the dimension of the brick. 
@@ -166,24 +176,27 @@ public class TowerManager : MonoBehaviour
                 tower[x, z].transform.parent = gameObject.transform;
 
                 // The amount of options is a value that can be set based on difficulty if more potenial options is needed.
-                if (x <= amountOfOptions-1)
+                if (x <= amountOfOptions - 1)
                 {
                     Brick brickComponent = tower[x, z].GetComponent<Brick>();
-                    if (z == 0)
-                    {
-                        brickComponent.isShootable = true;
-                    }
                     // The images are set here and instantiatetd on the right bricks. 
                     // and based on the value of correctImageIndex the right answer is set. 
                     if (x == correctImageIndex)
-                        SetCorrectImage();
+                    {
+                        SetCorrectImage(sentanses[z]);
+                        brickComponent.isCorrect = true;
+                    }
                     else
                         SetRandomImage();
                     GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
-                    imageholder.transform.position = new(0, 0, -0.51f);
+                    imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                    if (z == 0)
+                    {
+                        brickComponent.isShootable = true;
+                        imageholder.SetActive(true);
+                    }
 
                 }
-
                 // startAngle is updated so the next brick gets placed further along the circle.
 
                 startAngle += towerAngle;
@@ -193,14 +206,50 @@ public class TowerManager : MonoBehaviour
 
     }
 
-    void SetCorrectImage()
+    void SetCorrectImage(string sent)
     {
+        List<string> words = new();
+        StringBuilder currentWord = new();
+        for (int i = 0; i < sent.Length; i++)
+        {
+            char ch = sent[i];
+            if(ch == ' ')
+            {
+                words.Add(currentWord.ToString());
+                currentWord = new StringBuilder();
+                continue;
+            }
 
+            currentWord.Append(ch);
+        }
+        words.Add(currentWord.ToString());
+        if (words.Count < 3)
+        {
+            Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
+            SetRandomImage();
+            return;
+        }
+
+        switch (words[1])
+        {
+            case "på":
+                bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
+                topImage.texture = ImageManager.GetImageFromWord(words[0]);
+                break;
+            case "under":
+                topImage.texture = ImageManager.GetImageFromWord(words[2]);
+                bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
+                break;
+            default:
+                Debug.Log("word is not in switch case please add it.");
+                break;
+        }
     }
 
     void SetRandomImage()
-    {
-
+    { 
+        bottomImage.texture = ImageManager.GetRandomImage();
+        topImage.texture = ImageManager.GetRandomImage();
     }
 
 

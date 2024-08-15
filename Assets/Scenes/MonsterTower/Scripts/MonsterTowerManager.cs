@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CORE.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +28,7 @@ public class MonsterTowerManager : MonoBehaviour
         sentanses = new string[3];
         sentanses[0] = "is på ko";
         sentanses[1] = "ko på is";
-        sentanses[2] = "gris under ko";
+        sentanses[2] = "gås under ko";
     }
 
     /// <summary>
@@ -41,6 +42,8 @@ public class MonsterTowerManager : MonoBehaviour
         
         towerManager.SetTowerData(sentanses);
     }
+
+
 
     void Start()
     {
