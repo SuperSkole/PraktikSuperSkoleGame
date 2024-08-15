@@ -42,6 +42,8 @@ public class BoardController : MonoBehaviour
 
     private DifficultyManager difficultyManager = new DifficultyManager();
 
+    public MonsterHivemind monsterHivemind = new MonsterHivemind();
+
     // Start is called before the first frame update
     public void GameModeSet(IGameMode targetMode)
     {
@@ -129,6 +131,7 @@ public class BoardController : MonoBehaviour
     /// </summary>
     public void Lost(){
         gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+        monsterHivemind.OnGameOver();
     }
 
     /// <summary>
@@ -137,6 +140,7 @@ public class BoardController : MonoBehaviour
     /// <param name="winText">The text to display</param>
     public void Won(string winText){
         gameOverText.text = winText;
+        monsterHivemind.OnGameOver();
     }
 
 
@@ -146,7 +150,8 @@ public class BoardController : MonoBehaviour
     /// <param name="monster">The monster which should be instantiated</param>
     /// <param name="pos">The position at which it should be instantiated</param>
     public void InstantitateMonster(GameObject monster, Vector3 pos){
-        Instantiate(monster, pos, Quaternion.identity);
+        GameObject monsterObject = Instantiate(monster, pos, Quaternion.identity);
+        monsterHivemind.monsters.Add(monsterObject.GetComponent<Monster>());
     }
 
     /// <summary>
