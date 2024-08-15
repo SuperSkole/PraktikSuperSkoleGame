@@ -9,24 +9,45 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+
+
+
 
 public class TowerManager : MonoBehaviour
 {
 
     private int towerHeight;
-    private int towerWidth;
-    private int towerDepth = 3;
+  
+    private GameObject[,] tower;
+
+    private int rowToDelete=0;
 
 
-    private bool updateDimensions = false;
     [SerializeField] GameObject brickPrefab;
+
+    [SerializeField] GameObject canvasPrefab;
+
     [SerializeField] public List<Sprite> wrongImages;
     [SerializeField] public List<Sprite> wrongImages2;
+    
     [SerializeField] Sprite image;
+
+    private int towerRadius = 20;
+    private int numberOfBricksInLane = 40;
+  
+
+
     private List<Sprite> allImagesInCurrentRow;
     private List <BrickData> brickLanes;
     private int currentLane = 0;
     public bool correctAnswer = false;
+
+    private Vector3 brickDimensions;
+
+    private int amountOfOptions = 5;
+
+    
 
 
 
@@ -48,10 +69,27 @@ public class TowerManager : MonoBehaviour
     // Start is called before the first frame update
 
 
-
+   
     void Start()
     {
-        
+        brickLanes = new List<BrickData>()
+        {
+            new BrickData("hello",image,wrongImages),
+            new BrickData("goodbye",image,wrongImages2)
+
+        };
+
+        //why is this here 2 times (here and in a function)?
+      
+        towerHeight = brickLanes.Count;
+
+        allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
+        allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
+        brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+
+        BuildTower();
+
+        //updateDimensions = true;
     }
 
     void BuildTower()
@@ -96,229 +134,172 @@ public class TowerManager : MonoBehaviour
 
 
     // Update is called once per frame
-    // The tower dimensions gets updated here. 
+    // The towerï¿½checks if the right answer has been chosen and destroys the lowest tower lane. 
     void Update()
     {
 
-        //TowerDimensionsUpdater();
-        if(correctAnswer)
+        if (correctAnswer == true)
         {
+            DestroyLowestTowerLane();
+
             correctAnswer = false;
-            for (int x = 0; x < layerObjects; x++)
-            {
-                Destroy(tower[x , currentQuestionIndex]);
-                if (currentQuestionIndex + 1 >= towerHeight) continue;
 
-                GameObject temp = tower[x , currentQuestionIndex + 1];
-                temp.transform.GetChild(0).gameObject.SetActive(true);
-                temp.GetComponent<Brick>().isShootable = true;
-            }
-            transform.position += Vector3.down * 3;
-
-            currentQuestionIndex++;
         }
+       
     }
 
-    /// <summary>
-    /// updates the displaybox to the given string
-    /// </summary>
-    /// <param name="textToDispay">the string the displaybox is set to</param>
-    void SetDispay(string textToDispay)
+    // the lowest tower lane is destroyed by knowing the numberOfBricksInLane and the accessing the 2d tower array that have all the bricks.
+    // Lastly the whole tower is lowered the same amount as the height of a brick. 
+    void DestroyLowestTowerLane()
     {
-        displayBox.text = textToDispay;
-    }
 
-
-    /// <summary>
-    /// returns the next question
-    /// </summary>
-    /// <returns>the next question</returns>
-    string GetQuestion()
-    {
-        return sentanses[currentQuestionIndex];
-    }
-
-
-    /// <summary>
-    /// Method for setting the towerdata which is a list of Brickmanagers that holds a sentence,Correct image and list of incorrect images.
-    /// </summary>
-    /// <param name="bricks"></param>
-    public void SetTowerData(string[] sentanses)
-    {
-        this.sentanses = sentanses;
-        currentQuestion = GetQuestion();
-        SetDispay(currentQuestion);
-        //this.brickLanes = bricks;
-
-        towerWidth = difficulty + 3;
-        towerHeight = sentanses.Length;
-
-        mainImgae = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-        topImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
-        bottomImage = imageHolerPrefab.transform.GetChild(2).GetComponent<RawImage>();
-        imageHolerPrefab.SetActive(false);
-
-        BuildTower();
-
-        //allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
-        //allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
-
-
-        updateDimensions = true;
-    }
-
-    void SetCorrectImage()
-    {
-        StringBuilder currentWord = new();
-        List<string> allWords = new();
-        foreach (char ch in currentQuestion)
+        if (rowToDelete < towerHeight)
         {
-            if(ch !=  ' ')
+
+            for (int i = 0; i < numberOfBricksInLane; i++)
             {
-                allWords.Add(currentWord.ToString());
-                currentWord = new();
-                continue;
+
+                Destroy(tower[i, rowToDelete]);
+
             }
-            currentWord.Append(ch);
+
+
+
+
+            rowToDelete++;
         }
 
-        Texture2D[] images = ImageManager.GetImageFromWord(allWords.ToArray());
-        if (images == null || images[0] == null || images[1] == null) return;
-        if (allWords[1].ToLower() == "på") topImage.texture = images[0].ConvertTo<Texture>();
-        else bottomImage.texture = images[0].ConvertTo<Texture>();
-        mainImgae.texture = images[1].ConvertTo<Texture>();
-    }
+            // sets the next rows pictures active and shows them. 
 
-    void SetRandomImage()
-    {
-        Texture2D[] images = ImageManager.GetRandomImage(2);
-        if (images == null || images[0] == null || images[1] == null) return;
-        mainImgae.texture = images[0].ConvertTo<Texture>();
-        if(UnityEngine.Random.Range(0,1) == 1) 
-            topImage.texture = images[1].ConvertTo<Texture>();
-        else
-            bottomImage.texture = images[1].ConvertTo<Texture>();
+
+        if(rowToDelete<towerHeight)
+        { 
+            for (int i = 0; i < numberOfBricksInLane; i++)
+            {
+                if (i <= amountOfOptions - 1)
+                {
+                    tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+
+                    Brick brickComponent = tower[i, rowToDelete].GetComponent<Brick>();
+                     brickComponent.isShootable = true;
+                   
+                }
+            }
+
+
+            gameObject.transform.Translate(0, -brickDimensions.y, 0);
+
+        }
     }
-   
 
 
     /// <summary>
-    /// Method for Updating dimensions of tower with the updateDimensions bool initiating it. 
-    /// The dimensions are based on towerWidth and towerHeight that is set when you use the method SetTowerData.
+    /// Method for building the tower based on numberOfBricksInLane, a list of brick data,towerHeight and radius. 
+    /// The bricks are put into a 2D array with the parameteres x and z.
+    /// x is the id of the brick in the x-axis. 
+    /// z is the id of the height/lane the brick is in.  
+    ///
     /// </summary>
     /// 
-    public void TowerDimensionsUpdater()
+    void BuildTower()
     {
-        //When the correct answer bool is set to true the current lane will be removed from the list of bricklanes. 
-        // The tower width and height will be set according to the next lanes number of wrong images+1 and the number of lanes left.
-        // If there is no more lanes left then all of the children of the tower, which is the bricks, is destroyed. 
 
-        if(correctAnswer == true)
+        //The tower angle is a value that represents the angle between the bricks and center of the tower. 
+        //The start angle is an angle i chose based on where i want the tower to start build. 
+        // The reason for this is so the first bricks in the 2d tower array is the ones used for displaying the pictures.
+
+        float towerAngle = 2*Mathf.PI / numberOfBricksInLane;
+        float startAngle = 180.3f;
+        tower = new GameObject[numberOfBricksInLane, towerHeight];
+
+        // the tower is built based on tower height and numberOfBricksInLane with a for loop. 
+        for (int z = 0; z < towerHeight; z++)
         {
-            brickLanes.RemoveAt(currentLane);
-            if (brickLanes.Count!=0)
-            {
-                //you got a function for this?
-                towerWidth = brickLanes[currentLane].wrongImages.Count + 1;
-                towerHeight = brickLanes.Count;
 
-                allImagesInCurrentRow = brickLanes[currentLane].wrongImages;
-                allImagesInCurrentRow.Add(brickLanes[currentLane].correctImage);
-
-                correctAnswer = false;
-                updateDimensions = true;
-            }
-            else
+            // Random correct image index is used so the right answer is put randomly between the posible positions. 
+            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions);
+            for (int x = 0; x < numberOfBricksInLane; x++)
             {
-                for (int i = gameObject.transform.childCount - 1; i >= 0; i--)
+
+                //the new position of each brick is calculated based on angle,tower radius and the dimension of the brick. 
+                //Calculating x and z with x=cos(v)*r and z=sin(v)*r
+                // y is calculated based on the y dimension of the brick so the next lane is directly on top of the previus one.  
+                Vector3 newPos = gameObject.transform.position+new Vector3(Mathf.Cos(startAngle) * towerRadius, z * brickDimensions.y, Mathf.Sin(startAngle) * towerRadius);
+
+       
+
+                // brick is the instantiated and the angle set as startangle. 
+                // The brick is put into the 2d tower array. 
+                // the brick is rotated so the picture would be facing the right way.
+                // Then the towerobject is set as the parrent to the brick. 
+
+                tower[x, z] = Instantiate(brickPrefab, newPos, quaternion.Euler(0,-startAngle,0));
+                tower[x, z].transform.Rotate(new Vector3(0, -90, 0));
+                tower[x, z].transform.parent = gameObject.transform;
+
+
+
+
+                // The amount of options is a value that can be set based on difficulty if more potenial options is needed.
+            
+                if (x <= amountOfOptions-1)
                 {
-                    Destroy(gameObject.transform.GetChild(i).gameObject);
-                }
-
-
-                correctAnswer = false;
-            }
-
-           
-
-        }
-
-
-        // Deletes all bricks and inserts them according to the tower height and width set at the moment. 
-        // Also sets the bricks images on the front lowest lane to the images from the current lane. 
-        if (updateDimensions == true)
-        {
-            for (int i = gameObject.transform.childCount - 1; i >= 0; i--)
-            {
-                Destroy(gameObject.transform.GetChild(i).gameObject);
-            }
-
-
-            for (int y = 0; y < towerHeight; y++)
-            {
-
-                for (int x = 0; x < towerWidth; x++)
-                {
-                    Vector3 SpaceBetween = new Vector3(x * 2, y * 0, 0);
-                    Vector3 brickPos = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, 0);
-                    // Debug.Log("brickPos:" + brickPos);
-
-
-                    // Gets a hold of the child of the child to the brick which is an image component.
-                    // Then sets the sprite to the image for the current box in the row.
-                    // The image is taken from the list of allImagesInCurrentRow
-                    // the brick also gets info on the correct image and the image that it is. 
-                    // Only the front row of the lowest lane of bricks gets an image so therefor y==0
-                    Brick controller = brickPrefab.GetComponent<Brick>();
-                    if (y == 0)
+                    Brick brickComponent = tower[x, z].GetComponent<Brick>();
+                    if (z == 0)
                     {
-                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = allImagesInCurrentRow[x];
-                        controller.correctSprite = brickLanes[currentLane].correctImage;
-                        controller.sprite = allImagesInCurrentRow[x];
-                        controller.isShootable = true;
+                        brickComponent.isShootable = true;
+                    }
+                    // The images are set here and instantiatetd on the right bricks. 
+                    // and based on the value of correctImageIndex the right answer is set. 
+                    if (x == correctImageIndex)
+                    {
+
+                        // The image for the brick and the correct image is given to the brick and can be used to check if the right brick is chosen.
+                        brickComponent.sprite = image;
+                        brickComponent.correctSprite = image;
+                        
+                       
+
+                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = image;
+                         var instCanvas=Instantiate(canvasPrefab, tower[x, z].transform);
+
+                        // makes all the other options besides those on the lowest lane not active. 
+                        if(z!=0)
+                        {
+                            instCanvas.SetActive(false);
+                        }
+
+                       
                     }
                     else
                     {
-                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
-                        controller.isShootable = false;
-                    }
 
-                    //instantiates the brick and makes it parrent to the tower gameobject. 
-                    var brickInstans = Instantiate(brickPrefab, brickPos, Quaternion.identity);
+                        brickComponent.sprite = brickLanes[currentLane].wrongImages[0];
+                        brickComponent.correctSprite = image;
+                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = brickLanes[currentLane].wrongImages[0];
+                        var instCanvas =Instantiate(canvasPrefab, tower[x, z].transform);
 
-                    brickInstans.transform.parent = gameObject.transform;
+                        if (z != 0)
+                        {
+                            instCanvas.SetActive(false);
+                        }
 
 
-
-                    // builds the depth of the tower. 
-                    for (int z = 1; z< towerDepth; z++)
-                    {
-                        Vector3 SpaceBetweenZ = new Vector3(x*1, y * 0, z*1);
-                        Vector3 brickPosZ = gameObject.transform.position + new Vector3(x * brickPrefab.GetComponent<MeshRenderer>().bounds.size.x + SpaceBetween.x, y * brickPrefab.GetComponent<MeshRenderer>().bounds.size.y + SpaceBetween.y, z * brickPrefab.GetComponent<MeshRenderer>().bounds.size.z + SpaceBetween.z);
-                        //Debug.Log("brickPos:" + brickPos);
-
-                        brickPrefab.transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = null;
-                        var brickInstansZ = Instantiate(brickPrefab, brickPosZ, Quaternion.identity);
-
-                        brickInstansZ.transform.parent = gameObject.transform;
-
-                        
                     }
 
                 }
 
+                // startAngle is updated so the next brick gets placed further along the circle.
 
-               
+                startAngle += towerAngle;
+
             }
-
-
-           
-
-            updateDimensions = false;
-
         }
+
     }
-    
+
+
+
 
     
 }

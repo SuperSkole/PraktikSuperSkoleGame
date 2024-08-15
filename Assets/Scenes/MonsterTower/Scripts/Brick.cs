@@ -20,6 +20,7 @@ public class Brick : MonoBehaviour
         if (checkCollision && isCorrect)
         {
             gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
+            checkCollision = false;
         }
     }
 }

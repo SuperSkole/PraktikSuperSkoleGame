@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrickData : MonoBehaviour
+public class BrickData
 {
     // Start is called before the first frame update
 

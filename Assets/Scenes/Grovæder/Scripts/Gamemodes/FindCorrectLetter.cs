@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
 /// </summary>
-public class FindCorrectLetter : MonoBehaviour, IGameMode
+public class FindCorrectLetter : IGameMode
 {
     /// <summary>
     /// The correct letter
@@ -32,6 +31,8 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
     /// The boardController of the current game
     /// </summary>
     BoardController boardController;
+
+    int correctLetters = 0;
 
     /// <summary>
     /// Gets the letters for the current game
@@ -113,7 +114,16 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
             }
         }
         else{
-            GetLetters();
+            correctLetters++;
+            if(correctLetters < 5){
+                GetLetters();
+            }
+            else {
+                foreach(LetterCube letterCube in activeLetterCubes){
+                    letterCube.Deactivate();
+                }
+                boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+            }
         }
     }
 
@@ -128,15 +138,4 @@ public class FindCorrectLetter : MonoBehaviour, IGameMode
         boardController = board;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
