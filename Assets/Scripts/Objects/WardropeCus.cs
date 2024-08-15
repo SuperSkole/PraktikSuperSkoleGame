@@ -8,7 +8,7 @@ public class WardropeCus : MonoBehaviour
 
     public void HandleCustomzation()
     {
-        PlayerWorldMovement.allowedToMove = false;
+        PlayerMovement.allowedToMove = false;
         //customizationScreen.GetComponent<SetCuzCurrentColor>().OpeningScreen();
         customizationScreen.SetActive(true);
     }
@@ -16,7 +16,7 @@ public class WardropeCus : MonoBehaviour
     public void DisableCuz()
     {
         customizationScreen.SetActive(false);
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
     }
 
 }

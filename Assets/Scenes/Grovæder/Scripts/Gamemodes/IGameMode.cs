@@ -18,20 +18,20 @@ public interface IGameMode
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters();
+    public void GetSymbols();
 
     /// <summary>
     /// Checks if the letter is the same as the correct one
     /// </summary>
-    /// <param name="letter">The letter which should be checked</param>
+    /// <param name="symbol">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter);
+    public bool IsCorrectSymbol(string symbol);
 
     /// <summary>
     /// Replaces an active lettercube with another one
     /// </summary>
-    /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter);
+    /// <param name="symbol">The symbol which should be replaced</param>
+    public void ReplaceSymbol(LetterCube symbol);
 
 
     /// <summary>
@@ -39,13 +39,13 @@ public interface IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxWrongLetters(int min, int max);
+    public void SetMinAndMaxWrongSymbols(int min, int max);
 
     /// <summary>
     /// Sets the minimum and maximum correct letters which appears on the board
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxCorrectLetters(int min, int max);
+    public void SetMinAndMaxCorrectSymbols(int min, int max);
 
 }

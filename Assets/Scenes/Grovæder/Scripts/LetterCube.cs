@@ -28,7 +28,7 @@ public class LetterCube : MonoBehaviour
     /// <summary>
     /// Whether the lettercube currently displays a letter
     /// </summary>
-    private bool active;
+    public bool active;
 
     /// <summary>
     /// Which letter the letter cube displays
@@ -61,7 +61,7 @@ public class LetterCube : MonoBehaviour
             defaultMaterial = meshRenderer.material;
         }
         if(!readyForDeactivation){
-            if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
+            if(other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
                 StartCoroutine(IncorrectGuess());
                 board.GetPlayer().IncorrectGuess();
             }
