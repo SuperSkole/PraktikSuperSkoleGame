@@ -31,11 +31,12 @@ public class BoardController : MonoBehaviour
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new SpellWord();
+    private IGameMode gameMode;
 
     // Start is called before the first frame update
-    void Start()
+    public void GameModeSet(IGameMode modeSet)
     {
+        gameMode = modeSet;
         player = playerObject.GetComponent<Player>();
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
         answerImage = answerImageObject.GetComponent<Image>();
@@ -51,6 +52,10 @@ public class BoardController : MonoBehaviour
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
         gameMode.GetLetters();
 
+    }
+    private void Start()
+    {
+        
     }
 
     public Player GetPlayer(){

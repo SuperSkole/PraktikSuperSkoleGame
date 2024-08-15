@@ -18,8 +18,10 @@ public class SetGameModeAndDestroy : MonoBehaviour
     {
         switch (gamemode)
         {
+            //
             case 1:
-
+                BoardController target = FindObjectOfType<BoardController>();
+                target.GameModeSet(new SpellWord());
                 break;
 
             case 2:
@@ -45,7 +47,7 @@ public class SetGameModeAndDestroy : MonoBehaviour
 
         Destroy(gameObject);
     }
-
+    
     public void Setgamemode(int gamemodeID)
     {
         gamemode = gamemodeID;
