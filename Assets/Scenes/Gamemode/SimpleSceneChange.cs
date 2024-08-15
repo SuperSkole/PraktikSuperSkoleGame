@@ -3,15 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class SimpleSceneChange : MonoBehaviour
 {
+    //changes scene to monstertower
     public void SwitchToMonsterTårn(string gamemode)
     {
         SceneManager.LoadScene("MonterTower katapult");
-        //use gamemode to change which gamemode is used
     }
+    // changes scene to grovæder
     public void SwitchToGrovæder(string gamemode)
     {
         SceneManager.LoadScene("Grovæder");
-        //use gamemode to change which gamemode is used
     }
 
 }

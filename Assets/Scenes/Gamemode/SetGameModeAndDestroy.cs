@@ -49,7 +49,7 @@ public class SetGameModeAndDestroy : MonoBehaviour
 
         Destroy(gameObject);
     }
-    
+    //sets a value so the OnSceneChange script can correctly determine which objects to look for and what modes to set
     public void Setgamemode(int gamemodeID)
     {
         gamemode = gamemodeID;
