@@ -17,7 +17,7 @@ public class LetterCube : MonoBehaviour
 
     [SerializeField]private GameObject imageObject;
 
-    private SpriteRenderer spriteRenderer;
+    private Texture2D texture;
 
     private string isCurrentWord;
 
@@ -101,16 +101,26 @@ public class LetterCube : MonoBehaviour
         Activate(letter, false);
     }
 
-    public void ActivateImage(Sprite sprite, string currentWord)
+    public void ActivateImage(Texture2D texture2D, string word )
     {
-        spriteRenderer.sprite = sprite;
-        isCurrentWord = currentWord;
+        texture = texture2D;
+        isCurrentWord = word;
 
         if (!active)
         {
             active = true;
             transform.Translate(0, 0.2f, 0);
         }
+    }
+
+    /// <summary>
+    /// Same as Below but Meant for the find imageGamemode
+    /// </summary>
+    /// <param name="texture2D"></param>
+    /// <param name="currentWord"></param>
+    public void ActivateImage(Texture2D texture2D)
+    {
+        ActivateImage(texture2D, isCurrentWord);
     }
 
     public string GetLetter(){
@@ -153,7 +163,7 @@ public class LetterCube : MonoBehaviour
 
     public void DeactivateImage()
     {
-        spriteRenderer.sprite = null;
+        texture = null;
         isCurrentWord = ".";
 
         if (active)

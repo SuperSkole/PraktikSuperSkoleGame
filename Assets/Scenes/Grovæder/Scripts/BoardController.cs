@@ -36,7 +36,7 @@ public class BoardController : MonoBehaviour
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new FindCorrectLetter();
+    private IGameMode gameMode = new FindImageFromSound();
 
     [SerializeField]GameObject monsterPrefab;
 
