@@ -37,6 +37,10 @@ public class Monster : MonoBehaviour
 
     [SerializeField]private GameObject targetMarker;
 
+    [SerializeField]private GameObject rangeMarker;
+
+    GameObject spawnedRangeMarker;
+
     /// <summary>
     /// The point at which the monster releases the player then throwing them
     /// </summary>
@@ -127,6 +131,9 @@ public class Monster : MonoBehaviour
     /// </summary>
     void ThrowPlayer(){
         if(!throwingPlayer && !releasingPlayer){
+            Vector3 scale = new Vector3(throwRange + 1, 0, throwRange + 1);
+            spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
+            spawnedRangeMarker.transform.localScale = scale;
             player.LivesRemaining--;
             count = 0;
             int xDirection = 1;
@@ -216,6 +223,7 @@ public class Monster : MonoBehaviour
             canWalk = true;
             player.CurrentDestination = playerDestination;
             Instantiate(targetMarker, playerDestination, Quaternion.identity);
+            Destroy(spawnedRangeMarker);
         }
     }
 
