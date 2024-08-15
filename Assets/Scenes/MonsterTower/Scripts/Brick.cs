@@ -16,12 +16,15 @@ public class Brick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (checkCollision == true)
+
+        if (checkCollision == true && isShootable == true)
         {
             if (sprite == correctSprite)
             {
                 gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
             }
+
+            checkCollision = false;
         }
     }
 }

@@ -19,8 +19,8 @@ namespace Scenes.Minigames.WordFactory.Scripts
         
         private void Awake()
         {
-            numberOfGears = GameManager.Instance.GetNumberOfGears();
-            numberOfTeeth = GameManager.Instance.GetNumberOfTeeth();
+            numberOfGears = Managers.GameManager.Instance.GetNumberOfGears();
+            numberOfTeeth = Managers.GameManager.Instance.GetNumberOfTeeth();
             
             // Set the semi-circle radius to accommodate gear spacing correctly
             semiCircleRadius = (cylinderScaleXZ / 2) + 0.6f + (numberOfGears - 2);  // half diameter + teeth outward position
@@ -34,7 +34,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             // Remaining setup
             letterHandler.DistributeLetters();
             
-            ColorTooth.RequestBlinkAllTeethRandomly(GameManager.Instance.GetGears().ToArray());
+            ColorTooth.RequestBlinkAllTeethRandomly(Managers.GameManager.Instance.GetGears().ToArray());
         }
 
         private void PlaceGearsSemiCircular(int numberOfGears, int numberOfTeeth)
@@ -53,7 +53,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
                     5);  // z is constant, moved back
 
                 GameObject gear = InstantiateGear($"Gear{i + 1}", gearPosition, i, numberOfTeeth);
-                GameManager.Instance.AddGear(gear);
+                Managers.GameManager.Instance.AddGear(gear);
                 gearButtonManager.CreateButtonsForGear(gear);
             }
         }
