@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
+
 
 /// <summary>
 /// Manager for letter cubes in the Grovæder game.
@@ -17,7 +17,9 @@ public class LetterCube : MonoBehaviour
 
     [SerializeField]private GameObject imageObject;
 
-    private Texture2D texture;
+    private Sprite texture;
+
+    private SpriteRenderer spriteRenderer;
 
     private string isCurrentWord;
 
@@ -62,7 +64,7 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
+        spriteRenderer = imageObject.GetComponent<SpriteRenderer>();
     }
 
     /// <summary>
@@ -101,10 +103,11 @@ public class LetterCube : MonoBehaviour
         Activate(letter, false);
     }
 
-    public void ActivateImage(Texture2D texture2D, string word )
+    public void ActivateImage(Sprite sprite, string word )
     {
-        texture = texture2D;
-        isCurrentWord = word;
+        
+        spriteRenderer.sprite = sprite;
+        letter = word;
 
         if (!active)
         {
@@ -118,9 +121,9 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     /// <param name="texture2D"></param>
     /// <param name="currentWord"></param>
-    public void ActivateImage(Texture2D texture2D)
+    public void ActivateImage(Sprite sprite)
     {
-        ActivateImage(texture2D, isCurrentWord);
+        ActivateImage(sprite, isCurrentWord);
     }
 
     public string GetLetter(){

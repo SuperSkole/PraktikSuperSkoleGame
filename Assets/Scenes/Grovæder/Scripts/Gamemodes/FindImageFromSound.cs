@@ -2,6 +2,7 @@ using CORE.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class FindImageFromSound : IGameMode
 {
 
@@ -19,7 +20,7 @@ public class FindImageFromSound : IGameMode
 
     string currentWord;
 
-    string word;
+    
 
     /// <summary>
     /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
@@ -30,6 +31,10 @@ public class FindImageFromSound : IGameMode
     /// The lettercubes displaying a letter
     /// </summary>
     List<LetterCube> activeLetterCubes = new List<LetterCube>();
+
+    
+
+    Dictionary<string, Sprite> texture = new Dictionary<string, Sprite>();
 
     /// <summary>
     /// number of correct letters currntly displayed
@@ -56,7 +61,7 @@ public class FindImageFromSound : IGameMode
     /// </summary>
     public void GetSymbols()
     {
-        word = words[Random.Range(0, words.Count)].ToLower();
+        currentWord = words[Random.Range(0, words.Count)].ToLower();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes)
         {
@@ -67,11 +72,14 @@ public class FindImageFromSound : IGameMode
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++)
         {
-            Texture2D image = ImageManager.GetRandomImage();
-            while (IsCorrectSymbol(word))
+            string randoImage = words[Random.Range(0, words.Count)];
+            if (!texture.ContainsKey(randoImage))
             {
-                image = ImageManager.GetRandomImage();
+                texture.Add(randoImage, Resources.Load<Sprite>("Pictures/" + randoImage + "_image"));
             }
+
+            Sprite image = texture[randoImage];
+
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
             //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
@@ -80,17 +88,23 @@ public class FindImageFromSound : IGameMode
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
-            activeLetterCubes[i].ActivateImage(image);
+            activeLetterCubes[i].ActivateImage(image, randoImage);
         }
         //creates a random number of correct letters on the board
         int wrongCubeCount = activeLetterCubes.Count;
         count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
         for (int i = 0; i < count; i++)
         {
+            if (!texture.ContainsKey(currentWord))
+            {
+                texture.Add(currentWord, Resources.Load<Sprite>("Pictures/" + currentWord + "_image"));
+
+            }
+
             string image = currentWord.ToLower();
-            string imageFileName = currentWord.ToUpper() + "_image";
+            string imageFileName = currentWord + "_image";
             Debug.Log(imageFileName);
-            Texture2D currentImage = Resources.Load<Texture2D>($"Pictures/{imageFileName}");
+            Sprite currentImage = texture[currentWord];
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
             while (activeLetterCubes.Contains(potentialCube))
@@ -114,7 +128,7 @@ public class FindImageFromSound : IGameMode
     public void CurrentWordSound()
     {
         //bruger correctLetter to find the right sound in tempgrovædersound in resource foulder
-        string audioFileName = word.ToLower() + "_audio";
+        string audioFileName = currentWord.ToLower() + "_audio";
 
         AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
 
@@ -143,6 +157,8 @@ public class FindImageFromSound : IGameMode
         activeLetterCubes.Remove(image);
 
         LetterCube newImage;
+        
+
         //finds a new random letterbox which is not active and is not the one which should be replaced
         while (true)
         {
@@ -155,11 +171,19 @@ public class FindImageFromSound : IGameMode
         activeLetterCubes.Add(newImage);
         if (correctLetterCount > 0)
         {
-            newImage.ActivateImage(ImageManager.GetRandomImage());
-            while (newImage.GetLetter() == currentWord)
+           string randoWords = words[Random.Range(0, words.Count)].ToLower();
+            while (randoWords == currentWord)
             {
-                newImage.ActivateImage(ImageManager.GetRandomImage());
+                randoWords = words[Random.Range(0, words.Count)].ToLower();
             }
+
+            if (!texture.ContainsKey(randoWords))
+            {
+                texture.Add(randoWords, Resources.Load<Sprite>("Pictures/" + randoWords + "_image"));
+
+            }
+
+            newImage.ActivateImage(texture[randoWords], randoWords);
         }
         else
         {
@@ -174,9 +198,9 @@ public class FindImageFromSound : IGameMode
                 {
                     letterCube.Deactivate();
                 }
-                boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+                boardController.Won("Du vandt. Du fandt det korrekte Billede fem gange");
             }
-        }
+        } 
     }
 
     /// <summary>
