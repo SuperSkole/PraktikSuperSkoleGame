@@ -138,6 +138,19 @@ MonoBehaviour:
   correctMaterial: {fileID: 2100000, guid: d0bddb35d1629ff469d35217ef085b5d, type: 2}
   incorrectMaterial: {fileID: 2100000, guid: ae3bba3d956795045a93489e0be8bb54, type: 2}
   meshRenderer: {fileID: 0}
+  randomizeFont: 0
+  fonts:
+  - {fileID: 11400000, guid: d7dfd4eb900327747885ae2566461b1d, type: 2}
+  - {fileID: 11400000, guid: 1f50735cd48cacc4eaee6ffd80b4aa1b, type: 2}
+  - {fileID: 11400000, guid: 82653ea2aed929246a3e6c3adfca40eb, type: 2}
+  - {fileID: 11400000, guid: 745555da8b3697e45a197aefe007e00d, type: 2}
+  - {fileID: 11400000, guid: ed47e23c9210e2640943a43f6ea1e5a9, type: 2}
+  - {fileID: 11400000, guid: 6a9b8c35df908914597e42596b2d545c, type: 2}
+  - {fileID: 11400000, guid: 5f42e853c1313344bb07f7765a51b0c0, type: 2}
+  - {fileID: 11400000, guid: c43e504418dd2e24aa06dbbc36312c9d, type: 2}
+  - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  active: 0
 --- !u!1 &6055746406009689488
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,8 +259,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -22,6 +23,16 @@ public class LetterCube : MonoBehaviour
     [SerializeField]private Material incorrectMaterial;
 
     [SerializeField]private MeshRenderer meshRenderer;
+
+    /// <summary>
+    /// Whether the font used for the displayed symbol should be randomized
+    /// </summary>
+    public bool randomizeFont = false;
+
+    /// <summary>
+    /// List of the fonts which the lettercube can select.
+    /// </summary>
+    [SerializeField] List<TMP_FontAsset> fonts;
 
 
     bool readyForDeactivation = false;
@@ -92,6 +103,9 @@ public class LetterCube : MonoBehaviour
         int lower = Random.Range(0, 2);
         if(lower == 0 && !specific){
             letter = letter.ToLower();
+        }
+        if(randomizeFont){
+            text.font = fonts[Random.Range(0, fonts.Count)];
         }
         text.text = letter;
         this.letter = letter;
