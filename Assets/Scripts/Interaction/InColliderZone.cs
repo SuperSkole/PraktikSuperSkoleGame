@@ -18,9 +18,13 @@ public class InColliderZone : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            parent.action = action;
-            parent.inZone = true;
-
+            //Some Obj dont need a parent to work, a quick failsafe
+            try { 
+                parent.action = action;
+                parent.inZone = true;
+            }
+            catch { }          
+            
             if (isDoor)
             {
                 try { door.GetComponent<OpenCloseDoor>().OpenDoor(); }
@@ -50,8 +54,12 @@ public class InColliderZone : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            parent.action = null;
-            parent.inZone = false;
+            try {
+                parent.action = null;
+                parent.inZone = false;
+            }
+            catch { }
+            
             if (isDoor) { door.GetComponent<OpenCloseDoor>().CloseDoor(); }
             //Debug.Log($"Interactions/OnTriggerExit/Obj: {gameObject.name}");
 

@@ -4,12 +4,16 @@ public class PlacementSystem : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Grid grid;
+    [SerializeField] HouseSaving saveManager;
 
     [SerializeField] private ObjectsDataBaseSO database;
     [SerializeField] private GameObject gridVisualization;
 
     public GameObject GridVisualization { get { return gridVisualization; } private set { } }
     private GridData floorData, furnitureData;
+
+    public GridData FloorData { get { return floorData; } set { floorData = value; } }
+    public GridData FurnitureData { get { return furnitureData; } set { furnitureData = value; } }
 
     [SerializeField] private PreviewSystem preview;
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
@@ -22,10 +26,14 @@ public class PlacementSystem : MonoBehaviour
     {
         // Stop any ongoing placement process.
         StopPlacement();
-
-        // Initialize the grid data structures for floor and furniture objects.
         floorData = new GridData();
         furnitureData = new GridData();
+        if (saveManager.IsThereSaveFile())
+        {
+            floorData.placedObjects = saveManager.ReturnLoadGridFile("floor");
+            furnitureData.placedObjects = saveManager.ReturnLoadGridFile("fs");
+        }
+       
     }
 
     // Starts the placement process for an object with the specified ID.

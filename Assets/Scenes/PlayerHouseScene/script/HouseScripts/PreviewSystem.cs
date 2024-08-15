@@ -9,6 +9,9 @@ public class PreviewSystem : MonoBehaviour
     private Material previewMaterialInstance;
     private Renderer cellIndicatorRenderer;
 
+    private bool isbuildingSystemEnabled;
+    [SerializeField] private GameObject uiBuilding;
+
     private void Start()
     {
         // Create an instance of the preview material from the prefab.
@@ -79,6 +82,21 @@ public class PreviewSystem : MonoBehaviour
         {
             Destroy(previewObject);
         }
+    }
+
+    public void DisableBuildingSystem()
+    {
+        isbuildingSystemEnabled = false;
+        uiBuilding.SetActive(false);
+    }
+    public void EnableBuildingSystem()
+    {
+        if (!isbuildingSystemEnabled)
+            isbuildingSystemEnabled=true;
+        else isbuildingSystemEnabled=false;
+     
+        uiBuilding.SetActive(isbuildingSystemEnabled);
+
     }
 
     // Updates the position of the preview and cursor, and applies visual feedback based on placement validity.
