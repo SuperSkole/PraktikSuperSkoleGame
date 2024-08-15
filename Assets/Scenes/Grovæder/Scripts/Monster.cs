@@ -35,6 +35,8 @@ public class Monster : MonoBehaviour
 
     private Player player;
 
+    [SerializeField]private GameObject targetMarker;
+
     /// <summary>
     /// The point at which the monster releases the player then throwing them
     /// </summary>
@@ -213,6 +215,7 @@ public class Monster : MonoBehaviour
             throwingPlayer = false;
             canWalk = true;
             player.CurrentDestination = playerDestination;
+            Instantiate(targetMarker, playerDestination, Quaternion.identity);
         }
     }
 
