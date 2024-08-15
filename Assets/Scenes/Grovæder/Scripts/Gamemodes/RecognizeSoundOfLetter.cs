@@ -37,12 +37,21 @@ public class RecognizeSoundOfLetter : IGameMode
     /// </summary>
     BoardController boardController;
 
+    int correctLetters = 0;
+
+    int maxWrongLetters = 10;
+
+    int minWrongLetters = 1;
+
+    int maxCorrectLetters = 5;
+
+    int minCorrectLetters = 1;
 
 
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
 
@@ -59,7 +68,7 @@ public class RecognizeSoundOfLetter : IGameMode
         for (int i = 0; i < count; i++)
         {
             string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-            if (IsCorrectLetter(letter))
+            if (IsCorrectSymbol(letter))
             {
                 correctLetterCount++;
             }
@@ -101,7 +110,7 @@ public class RecognizeSoundOfLetter : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
         return letter.ToLower() == correctLetter.ToLower();
     }
@@ -134,9 +143,9 @@ public class RecognizeSoundOfLetter : IGameMode
     /// Replaces an active lettercube with another one
     /// </summary>
     /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        if (IsCorrectLetter(letter.GetLetter()))
+        if (IsCorrectSymbol(letter.GetLetter()))
         {
             correctLetterCount--;
             boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
@@ -166,10 +175,15 @@ public class RecognizeSoundOfLetter : IGameMode
         }
         else
         {
-            GetLetters();
+            GetSymbols();
         }
     }
 
+    /// <summary>
+    /// Gets the list of lettercubes and the boardController from the boardcontroller
+    /// </summary>
+    /// <param name="letterCubes">List of lettercubes</param>
+    /// <param name="board">the board connected to the lettercubes</param>
     /// <summary>
     /// Gets the list of lettercubes and the boardController from the boardcontroller
     /// </summary>
@@ -181,6 +195,27 @@ public class RecognizeSoundOfLetter : IGameMode
         boardController = board;
     }
 
+    /// <summary>
+    /// Sets the minimum and maximum correct letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
+    {
+        minCorrectLetters = min;
+        maxCorrectLetters = max;
+    }
+
+    /// <summary>
+    /// Sets the minimum and maximum wrong letters which appears on the board
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    public void SetMinAndMaxWrongSymbols(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
+    }
 
     // Update is called once per frame
     void Update()
