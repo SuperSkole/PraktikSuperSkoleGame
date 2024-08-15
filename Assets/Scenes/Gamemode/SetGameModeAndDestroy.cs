@@ -18,18 +18,20 @@ public class SetGameModeAndDestroy : MonoBehaviour
     {
         switch (gamemode)
         {
-            //
+            //sets the gamemode to SpellWord
             case 1:
-                BoardController target = FindObjectOfType<BoardController>();
-                target.GameModeSet(new SpellWord());
+                BoardController target1 = FindObjectOfType<BoardController>();
+                target1.GameModeSet(new SpellWord());
                 break;
-
+            //sets the gamemode to sound out letter
             case 2:
-
+                BoardController target2 = FindObjectOfType<BoardController>();
+                target2.GameModeSet(new FindLetterType());
                 break;
-
+            //sets the gamemode to findnumberseries
             case 3:
-
+                BoardController target3 = FindObjectOfType<BoardController>();
+                target3.GameModeSet(new FindNumberSeries());
                 break;
 
             case 4:
