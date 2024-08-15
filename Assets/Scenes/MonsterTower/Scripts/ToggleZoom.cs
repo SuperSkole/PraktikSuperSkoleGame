@@ -7,7 +7,7 @@ public class ToggleZoom : MonoBehaviour
     float currentZoom;
     float zoomSpeed = 500;
     float minZoom = 100;
-    float maxZoom = 60;
+    [SerializeField] float maxZoom = 60;
     float velocity = 0;
     float smoothTime = 0.25f;
 
