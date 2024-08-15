@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -25,10 +23,12 @@ public class LetterCube : MonoBehaviour
 
     [SerializeField]private MeshRenderer meshRenderer;
 
+
+    bool readyForDeactivation = false;
     /// <summary>
     /// Whether the lettercube currently displays a letter
     /// </summary>
-    private bool active;
+    public bool active;
 
     /// <summary>
     /// Which letter the letter cube displays
@@ -60,12 +60,14 @@ public class LetterCube : MonoBehaviour
             meshRenderer = gameObject.GetComponent<MeshRenderer>();
             defaultMaterial = meshRenderer.material;
         }
-        if(other.gameObject.tag == "Player" && active && !board.IsCorrectLetter(letter) && !board.GetPlayer().thrown){
-            StartCoroutine(IncorrectGuess());
-            board.GetPlayer().IncorrectGuess();
-        }
-        else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown){
-            StartCoroutine(CorrectGuess());
+        if(!readyForDeactivation){
+            if(other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
+                StartCoroutine(IncorrectGuess());
+                board.GetPlayer().IncorrectGuess();
+            }
+            else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
+                StartCoroutine(CorrectGuess());
+            }
         }
     }
 
@@ -87,7 +89,7 @@ public class LetterCube : MonoBehaviour
     /// <param name="letter">The letter Which should be displayed</param>
     /// <param name="specific">Whether capitilzation should be preserved</param>
     public void Activate(string letter, bool specific){
-        int lower = UnityEngine.Random.Range(0, 2);
+        int lower = Random.Range(0, 2);
         if(lower == 0 && !specific){
             letter = letter.ToLower();
         }
@@ -108,6 +110,7 @@ public class LetterCube : MonoBehaviour
         if(active){
             active = false;
             transform.Translate(0, -0.2f, 0);
+            readyForDeactivation = false;
         }
     }
 
@@ -125,8 +128,9 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     IEnumerator IncorrectGuess(){
+        readyForDeactivation = true;
         meshRenderer.material = incorrectMaterial;
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(board.GetPlayer().maxMoveDelay);
         meshRenderer.material = defaultMaterial;
         SelfDeactivate();
     }
@@ -136,6 +140,7 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     /// <returns></returns>
     IEnumerator CorrectGuess(){
+        readyForDeactivation = true;
         meshRenderer.material = correctMaterial;
         yield return new WaitForSeconds(1);
         meshRenderer.material = defaultMaterial;

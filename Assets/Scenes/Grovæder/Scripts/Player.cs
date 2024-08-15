@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Numerics;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -12,6 +8,11 @@ using Vector3 = UnityEngine.Vector3;
 /// </summary>
 public class Player : MonoBehaviour
 {
+
+    private int livesRemaining = 3;
+
+    private int maxLivesRemaining;
+
     /// <summary>
     /// How much time remains before the player is allowed to move
     /// </summary>
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour
     /// Gameobject containing the cooldown text
     /// </summary>
     [SerializeField]private GameObject textObject;
+
+    [SerializeField]private GameObject healthTextObject;
+
+    private TextMeshProUGUI healthText;
 
     private TextMeshPro cooldownText;
 
@@ -35,8 +40,22 @@ public class Player : MonoBehaviour
 
     public float speed = 2;
 
+    public bool hasMoveDelay = false;
+
+    public bool canMove = true;
+
+    public float maxMoveDelay = 6;
     
     public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
+    public int LivesRemaining { get => livesRemaining; set {
+            livesRemaining = value;
+            healthText.text = livesRemaining + "/" + maxLivesRemaining + "liv tilbage";
+        } 
+    }
+
+    public BoardController board;
+
+
 
     /// <summary>
     /// Start is called before the first frame update
@@ -46,6 +65,9 @@ public class Player : MonoBehaviour
         cooldownText = textObject.GetComponent<TextMeshPro>();
         cooldownText.text = "";
         currentDestination = transform.position;
+        maxLivesRemaining = livesRemaining;
+        healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
+        healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
     }
     
     /// <summary>
@@ -53,8 +75,12 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-
-        if(MoveDelayRemaining == 0 && currentDestination == transform.position && !thrown){
+        if((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown){
+            thrown = true;
+            canMove = false;
+            board.Lost();
+        }
+        if(MoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove){
             if(Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f){
                 currentDestination = transform.position + new Vector3(1, 0, 0);
             }
@@ -69,7 +95,7 @@ public class Player : MonoBehaviour
             }
             
         }
-        else if (currentDestination != transform.position && !thrown){
+        else if (currentDestination != transform.position && canMove){
             Move();
             if(!hasMoved){
                 hasMoved = true;
@@ -78,9 +104,10 @@ public class Player : MonoBehaviour
         //Code to count down time remaining on the cooldown and to update the display
         else if(MoveDelayRemaining > 0){
             MoveDelayRemaining -= Time.deltaTime;
-            if(MoveDelayRemaining < 0){
+            if(MoveDelayRemaining <= 0){
                 MoveDelayRemaining = 0;
                 cooldownText.text = "";
+                hasMoveDelay = false;
             }
             else {
                 cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
@@ -92,7 +119,8 @@ public class Player : MonoBehaviour
     /// code to start the delay in the players movement.
     /// </summary>
     public void IncorrectGuess(){
-        MoveDelayRemaining = 6;
+        MoveDelayRemaining = maxMoveDelay;
+        hasMoveDelay = true;
         cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
     }
 
@@ -102,5 +130,8 @@ public class Player : MonoBehaviour
     void Move(){
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
+        if(transform.position == currentDestination && thrown){
+            thrown = false;
+        }
     }
 }
