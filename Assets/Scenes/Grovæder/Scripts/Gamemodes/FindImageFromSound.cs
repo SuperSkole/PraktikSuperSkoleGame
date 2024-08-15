@@ -89,6 +89,7 @@ public class FindImageFromSound : IGameMode
         {
             string image = currentWord.ToLower();
             string imageFileName = currentWord.ToUpper() + "_image";
+            Debug.Log(imageFileName);
             Texture2D currentImage = Resources.Load<Texture2D>($"Pictures/{imageFileName}");
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
