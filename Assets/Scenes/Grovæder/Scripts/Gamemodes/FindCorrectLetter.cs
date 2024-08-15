@@ -148,6 +148,9 @@ public class FindCorrectLetter : IGameMode
     {
         this.letterCubes = letterCubes;
         boardController = board;
+        foreach(LetterCube letter in this.letterCubes){
+            letter.randomizeFont = true;
+        }
     }
 
     /// <summary>

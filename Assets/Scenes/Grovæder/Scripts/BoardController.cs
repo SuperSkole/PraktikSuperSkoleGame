@@ -36,7 +36,7 @@ public class BoardController : MonoBehaviour
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new FindNumberSeries();
+    private IGameMode gameMode = new FindCorrectLetter();
 
     [SerializeField]GameObject monsterPrefab;
 
