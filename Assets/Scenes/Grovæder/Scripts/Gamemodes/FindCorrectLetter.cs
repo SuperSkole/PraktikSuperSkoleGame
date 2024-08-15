@@ -46,7 +46,7 @@ public class FindCorrectLetter : IGameMode
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
         //deactives all current active lettercubes
@@ -58,7 +58,7 @@ public class FindCorrectLetter : IGameMode
         //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
         for (int i = 0; i < count; i++){
             string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-            while(IsCorrectLetter(letter)){
+            while(IsCorrectSymbol(letter)){
                 letter = LetterManager.GetRandomLetters(1)[0].ToString();
             }
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
@@ -92,7 +92,7 @@ public class FindCorrectLetter : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
         return letter.ToLower() == correctLetter.ToLower();
     }
@@ -101,9 +101,9 @@ public class FindCorrectLetter : IGameMode
     /// Replaces an active lettercube with another one
     /// </summary>
     /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        if(IsCorrectLetter(letter.GetLetter())){
+        if(IsCorrectSymbol(letter.GetLetter())){
             correctLetterCount--;
             boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + correctLetterCount + " tilbage.");
         }
@@ -128,7 +128,7 @@ public class FindCorrectLetter : IGameMode
         else{
             correctLetters++;
             if(correctLetters < 5){
-                GetLetters();
+                GetSymbols();
             }
             else {
                 foreach(LetterCube letterCube in activeLetterCubes){
@@ -155,7 +155,7 @@ public class FindCorrectLetter : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxCorrectLetters(int min, int max)
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
     {
         minCorrectLetters = min;
         maxCorrectLetters = max;
@@ -166,7 +166,7 @@ public class FindCorrectLetter : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxWrongLetters(int min, int max)
+    public void SetMinAndMaxWrongSymbols(int min, int max)
     {
         minWrongLetters = min;
         maxWrongLetters = max;

@@ -86,7 +86,7 @@ public class SkinShop : MonoBehaviour
 
     private void GetPlayerNameFromSaveFile()
     {
-        whichChar = gm.GetComponent<NewGame>().save.MonsterName;
+        whichChar = gm.GetComponent<GameManager>().save.MonsterName;
         whichChar += "(Clone)";
     }
     //For displaying all the different parts that the player can equip
@@ -427,12 +427,12 @@ public class SkinShop : MonoBehaviour
     public void DisableSkinShop()
     {
         skinShopGO.SetActive(false);
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
     }
     public void EnableSkinShop()
     {
         skinShopGO.SetActive(true);
-        PlayerWorldMovement.allowedToMove = false;
+        PlayerMovement.allowedToMove = false;
     }
     #region Change Colors
     private void ChangeColorHavePruchase()
@@ -489,11 +489,11 @@ public class SkinShop : MonoBehaviour
         {
             ChangeColorHaveNotPruchase();
             purchaseBut.GetComponent<Button>().onClick.RemoveAllListeners();
-            if (gm.GetComponent<GernalManagement>().CanAfford(HeadParts[index].price))
+            if (gm.GetComponent<GeneralManagement>().CanAfford(HeadParts[index].price))
             {
                 purchaseBut.GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    bool bought = gm.GetComponent<GernalManagement>().RemoveGold(HeadParts[index].price);
+                    bool bought = gm.GetComponent<GeneralManagement>().RemoveGold(HeadParts[index].price);
                     if (bought)
                     {
                         //BUY it 
@@ -545,11 +545,11 @@ public class SkinShop : MonoBehaviour
         {
             ChangeColorHaveNotPruchase();
             purchaseBut.GetComponent<Button>().onClick.RemoveAllListeners();
-            if (gm.GetComponent<GernalManagement>().CanAfford(BodyParts[index].price))
+            if (gm.GetComponent<GeneralManagement>().CanAfford(BodyParts[index].price))
             {
                 purchaseBut.GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    bool bought = gm.GetComponent<GernalManagement>().RemoveGold(BodyParts[index].price);
+                    bool bought = gm.GetComponent<GeneralManagement>().RemoveGold(BodyParts[index].price);
                     if (bought)
                     {
                         //BUY it 
@@ -601,11 +601,11 @@ public class SkinShop : MonoBehaviour
         {
             ChangeColorHaveNotPruchase();
             purchaseBut.GetComponent<Button>().onClick.RemoveAllListeners();
-            if (gm.GetComponent<GernalManagement>().CanAfford(LegParts[index].price))
+            if (gm.GetComponent<GeneralManagement>().CanAfford(LegParts[index].price))
             {
                 purchaseBut.GetComponent<Button>().onClick.AddListener(() =>
                 {
-                    bool bought = gm.GetComponent<GernalManagement>().RemoveGold(LegParts[index].price);
+                    bool bought = gm.GetComponent<GeneralManagement>().RemoveGold(LegParts[index].price);
                     if (bought)
                     {
                         //BUY it 
@@ -632,9 +632,9 @@ public class SkinShop : MonoBehaviour
     /// </summary>
     public void CloseSkinShop()
     {
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
 
-        switch (gm.GetComponent<NewGame>().save.MonsterName)
+        switch (gm.GetComponent<GameManager>().save.MonsterName)
         {
             case "Girl":
                 foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.head)

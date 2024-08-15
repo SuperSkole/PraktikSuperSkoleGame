@@ -5,23 +5,38 @@ using UnityEngine;
 
 public class SpellWordFromSound : IGameMode
 {
-    /// <summary>
-    /// The correct word
-    /// </summary>
-    string word;
+    
 
     /// <summary>
     /// Current Word Sound clip
     /// </summary>
     Grov∆derSoundController currentWordsoundClip;
 
+    /// <summary>
+    /// The correct word
+    /// </summary>
+    string word;
+
+
     int correctWords = 0;
 
     int currentIndex;
 
+    char currentLetter;
+
+
+    /// <summary>
+    /// letters which the player has already found
+    /// </summary>
+    Queue<char> foundLetters = new Queue<char>();
+
     List<string> words = new List<string>(){
         "Bil", "BÂd", "Fly"
     };
+
+    int minWrongLetters = 6;
+
+    int maxWrongLetters = 10;
 
     Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
@@ -40,18 +55,14 @@ public class SpellWordFromSound : IGameMode
     /// </summary>
     BoardController boardController;
 
-
-    int minWrongLetters = 6;
-
-    int maxWrongLetters = 10;
-
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         currentIndex = 0;
         word = words[Random.Range(0, words.Count)].ToLower();
+        currentLetter = word[currentIndex];
         if (sprites.ContainsKey(word))
         {
             boardController.SetImage(sprites[word]);
@@ -66,7 +77,7 @@ public class SpellWordFromSound : IGameMode
         {
             lC.Deactivate();
         }
-        int count = Random.Range(6, 11);
+        int count = Random.Range(minWrongLetters, maxWrongLetters);
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random incorrect letter.
         for (int i = 0; i < count; i++)
@@ -105,7 +116,6 @@ public class SpellWordFromSound : IGameMode
 
 
 
-
         CurrentWordSound();
     }
 
@@ -115,9 +125,26 @@ public class SpellWordFromSound : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
-        return word[currentIndex] == letter.ToLower()[0];
+        if (currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
+        {
+            currentIndex++;
+            foundLetters.Enqueue(currentLetter);
+            currentLetter = word[currentIndex];
+            return true;
+        }
+        else if (currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1)
+        {
+            foundLetters.Enqueue(currentLetter);
+            currentIndex++;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
     }
 
 
@@ -142,18 +169,23 @@ public class SpellWordFromSound : IGameMode
         }
     }
 
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        if (IsCorrectLetter(letter.GetLetter()))
+        //Updates the display of letters which the player has already found
+        if (foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString())
         {
-            currentIndex++;
-            string foundLetters = "";
-            for (int i = 0; i < currentIndex; i++)
+            string foundWordPart = "";
+            int j = word.IndexOf(foundLetters.Dequeue());
+            for (int i = 0; i < j + 1; i++)
             {
-                foundLetters += word[i];
+                if (word.Length > i)
+                {
+                    foundWordPart += word[i];
+                }
             }
-            boardController.SetAnswerText(foundLetters);
+            boardController.SetAnswerText(foundWordPart);
         }
+        string oldLetter = letter.GetLetter();
         letter.Deactivate();
         activeLetterCubes.Remove(letter);
 
@@ -170,10 +202,11 @@ public class SpellWordFromSound : IGameMode
         activeLetterCubes.Add(newLetter);
         if (currentIndex < word.Length)
         {
+            //currentLetter = word[currentIndex];
             char nL = LetterManager.GetRandomLetters(1)[0];
-            while (nL == word[currentIndex])
+            if (word.Contains(oldLetter))
             {
-                nL = LetterManager.GetRandomLetters(1)[0];
+                nL = oldLetter[0];
             }
 
             newLetter.Activate(nL.ToString());
@@ -188,7 +221,7 @@ public class SpellWordFromSound : IGameMode
             }
             else
             {
-                GetLetters();
+                GetSymbols();
             }
         }
     }
@@ -209,7 +242,7 @@ public class SpellWordFromSound : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxCorrectLetters(int min, int max)
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
     {
 
     }
@@ -219,7 +252,7 @@ public class SpellWordFromSound : IGameMode
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void SetMinAndMaxWrongLetters(int min, int max)
+    public void SetMinAndMaxWrongSymbols(int min, int max)
     {
         minWrongLetters = min;
         maxWrongLetters = max;

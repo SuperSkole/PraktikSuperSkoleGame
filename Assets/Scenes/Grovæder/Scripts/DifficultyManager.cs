@@ -122,7 +122,7 @@ public class DifficultyManager
     /// <param name="min"></param>
     /// <param name="max"></param>
     public void ChangeMinAndMaxWrongLetters(int min, int max){
-        boardController.ChangeMinAndMaxWrongLetters(min, max);
+        boardController.ChangeMinAndMaxWrongSymbols(min, max);
     }
 
     /// <summary>
@@ -131,6 +131,6 @@ public class DifficultyManager
     /// <param name="min"></param>
     /// <param name="max"></param>
     public void ChangeMinAndMaxCorrectLetters(int min, int max){
-        boardController.ChangeMinAndMaxCorrectLetters(min, max);
+        boardController.ChangeMinAndMaxCorrectSymbols(min, max);
     }
 }

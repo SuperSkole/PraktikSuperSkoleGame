@@ -13,6 +13,7 @@ public class PlacementState : IBuildingState
     GridData furnitureData;
     ObjectPlacer objectPlacer;
 
+    // Constructor for initializing the PlacementState with required dependencies.
     public PlacementState(int iD,
                           Grid grid,
                           PreviewSystem previewSystem,
@@ -21,6 +22,7 @@ public class PlacementState : IBuildingState
                           GridData furnitureData,
                           ObjectPlacer objectPlacer)
     {
+        // Initialize fields with provided parameters.
         ID = iD;
         this.grid = grid;
         this.previewSystem = previewSystem;
@@ -29,7 +31,10 @@ public class PlacementState : IBuildingState
         this.furnitureData = furnitureData;
         this.objectPlacer = objectPlacer;
 
+        // Find the index of the selected object in the database using its ID.
         selectedObjectIndex = database.objectData.FindIndex(data => data.ID == ID);
+
+        // If the object is found, start showing the placement preview.
         if (selectedObjectIndex > -1)
         {
             previewSystem.StartShowingPlacementPreview(
@@ -38,49 +43,62 @@ public class PlacementState : IBuildingState
         }
         else
         {
+            // If the object is not found, throw an exception.
             throw new System.Exception($"No object with ID {iD}");
         }
-
     }
 
+    // Ends the current placement state, stopping the preview.
     public void EndState()
     {
         previewSystem.StopShowingPreview();
     }
 
+    // Called when an action (like clicking) is performed at a specific grid position.
     public void OnAction(Vector3Int gridPos)
     {
-        bool placementValidty = CheckPlacementValidity(gridPos, selectedObjectIndex);
-        if (!placementValidty)
-            return;
+        // Check if the object can be placed at the specified grid position.
+        bool placementValidity = CheckPlacementValidity(gridPos, selectedObjectIndex);
+        if (!placementValidity)
+            return;  // If placement is not valid, exit the method.
 
+        // Place the object in the world using the object placer.
         int index = objectPlacer.PlaceObject(
             database.objectData[selectedObjectIndex].Prefab,
             grid.CellToWorld(gridPos));
 
+        // Determine whether the object is floor data or furniture data.
         GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
             floorData : furnitureData;
+
+        // Record the placed object's position, size, ID, and index in the grid data.
         selectedData.AddObjectAt(gridPos,
                                  database.objectData[selectedObjectIndex].Size,
                                  database.objectData[selectedObjectIndex].ID,
                                  index);
 
+        // Update the preview position and make it invalid (since the object is placed).
         previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
     }
 
+    // Updates the placement state as the player moves the cursor on the grid.
     public void UpdateState(Vector3Int gridPos)
     {
-        bool placementValidty = CheckPlacementValidity(gridPos, selectedObjectIndex);
+        // Check if the object can be placed at the new grid position.
+        bool placementValidity = CheckPlacementValidity(gridPos, selectedObjectIndex);
 
-        previewSystem.UpdatePosition(grid.CellToWorld(gridPos), placementValidty);
+        // Update the preview system's position and validity based on the new grid position.
+        previewSystem.UpdatePosition(grid.CellToWorld(gridPos), placementValidity);
     }
 
-    private bool CheckPlacementValidity(Vector3Int gridPos, int selectedObjectindex)
+    // Checks if the object can be placed at the specified grid position.
+    private bool CheckPlacementValidity(Vector3Int gridPos, int selectedObjectIndex)
     {
-        GridData selectedData = database.objectData[selectedObjectindex].ID == 0 ?
+        // Determine whether the object is floor data or furniture data.
+        GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
             floorData : furnitureData;
 
-        return selectedData.CanPlaceObjectAt(gridPos, database.objectData[selectedObjectindex].Size);
+        // Check if the object can be placed at the given grid position based on its size.
+        return selectedData.CanPlaceObjectAt(gridPos, database.objectData[selectedObjectIndex].Size);
     }
-
 }
