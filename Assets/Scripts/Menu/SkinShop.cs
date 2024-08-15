@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CORE;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -86,7 +87,7 @@ public class SkinShop : MonoBehaviour
 
     private void GetPlayerNameFromSaveFile()
     {
-        whichChar = gm.GetComponent<GameManager>().save.MonsterName;
+        whichChar = gm.GetComponent<OldGameManager>().save.MonsterName;
         whichChar += "(Clone)";
     }
     //For displaying all the different parts that the player can equip
@@ -634,7 +635,7 @@ public class SkinShop : MonoBehaviour
     {
         PlayerWorldMovement.allowedToMove = true;
 
-        switch (gm.GetComponent<GameManager>().save.MonsterName)
+        switch (gm.GetComponent<OldGameManager>().save.MonsterName)
         {
             case "Girl":
                 foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.head)

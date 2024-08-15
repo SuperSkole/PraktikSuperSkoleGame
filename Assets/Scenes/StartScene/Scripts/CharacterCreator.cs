@@ -1,3 +1,4 @@
+using Player;
 using TMPro;
 using UnityEngine;
 
@@ -24,16 +25,16 @@ namespace Scenes.StartScene.Scripts
         
         public void CreateNewChar(TextMeshProUGUI playerName, Color headColor, Color bodyColor, Color legColor, GameObject spriteHead, GameObject spriteBody, GameObject spriteLeg)
         {
-            player = new PlayerData(
-                monsterName, playerNameText.text, 0, 0, 1, 
-                characterSpawnPoint.position,
-                headColor = Color.green, bodyColor = Color.green, legColor = Color.green,
-                spriteHead.GetComponent<SpriteRenderer>().sprite,
-                spriteBody.GetComponent<SpriteRenderer>().sprite,
-                spriteLeg.GetComponent<SpriteRenderer>().sprite);
-        
-            playerName.text = player.playerName;
-            PlayerWorldMovement.allowedToMove = true;
+            // player = new PlayerData(
+            //     monsterName, playerNameText.text, 0, 0, 1, 
+            //     characterSpawnPoint.position,
+            //     headColor = Color.green, bodyColor = Color.green, legColor = Color.green,
+            //     spriteHead.GetComponent<SpriteRenderer>().sprite,
+            //     spriteBody.GetComponent<SpriteRenderer>().sprite,
+            //     spriteLeg.GetComponent<SpriteRenderer>().sprite);
+            //
+            // playerName.text = player.PlayerName;
+            // PlayerWorldMovement.allowedToMove = true;
         }
     }
 }

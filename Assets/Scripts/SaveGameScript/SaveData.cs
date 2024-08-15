@@ -4,7 +4,7 @@ using System.Collections.Generic;
 /// This Class will hold the data thats neasecary to be saved and then converted to JSON
 /// </summary>
 [System.Serializable]
-public class SaveData 
+public class SaveDataDTO 
 {
     //public CharacterController playerData;
     public string PlayerName;

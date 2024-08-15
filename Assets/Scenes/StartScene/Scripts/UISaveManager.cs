@@ -10,80 +10,50 @@ namespace Scenes.StartScene.Scripts
     public class UISaveManager : MonoBehaviour
     {
         [SerializeField] private LoadGameManager loadGameManager;
+        [SerializeField] private List<SavePanel> savePanels;
         
-        [SerializeField] private SavePanel savePanelOne;
-        [SerializeField] private SavePanel savePanelTwo;
-        [SerializeField] private SavePanel savePanelThree;
+        private string saveFileNameOne;
+        private string saveFileNameTwo;
+        private string saveFileNameThree;
         
-        private Image imageOne = null;
-        private Image nameOne = null;
-        private string textOne = null;
-        private bool savedOne = false;
-
-        private Image imageTwo = null;
-        private Image nameTwo = null;
-        private string textTwo = null;
-        private bool savedTwo = false;
-
-        private Image imageThree = null;
-        private Image nameThree = null;
-        private string textThree = null;
-        private bool savedThree = false;
         
-        private void Awake()
-        {
-            
-            
-            
-            //Udfyld variablerne her
-
-            FillSaves();
-        }
 
         private void Start()
         {
             if (loadGameManager == null)
             {
-                Debug.LogError("LoadGameManager is not assigned.");
+                Debug.Log("LoadGameManager is not assigned.");
                 return;
             }
         }
-
-        private void FillSaves()
-        {
-            //send alt dataen til de tre savepanaler i inspektoren
-            savePanelOne.SetSaveData(imageOne, nameOne, textOne, savedOne);
-            savePanelTwo.SetSaveData(imageTwo, nameTwo, textTwo, savedTwo);
-            savePanelThree.SetSaveData(imageThree, nameThree, textThree, savedThree);
-        }
         
-        public void CheckForSavesAndDisplay()
+        public void CheckForSavesAndPopulateSavePanels()
         {
-            List<string> saveFiles = loadGameManager.GetAllSaveFiles();
-
-            if (saveFiles.Count > 0)
+            var saveFiles = loadGameManager.GetAllSaveFiles();
+            for (int i = 0; i < savePanels.Count; i++)
             {
-                // Example: Load the first three saves. Adapt based on your UI needs.
-                if (saveFiles.Count > 0) LoadSaveToPanel(savePanelOne, saveFiles[0]);
-                if (saveFiles.Count > 1) LoadSaveToPanel(savePanelTwo, saveFiles[1]);
-                if (saveFiles.Count > 2) LoadSaveToPanel(savePanelThree, saveFiles[2]);
-            }
-            else
-            {
-                Debug.Log("No save files found.");
-                // Handle no save files found scenario, maybe notify the user
+                if (i < saveFiles.Count)
+                {
+                    SaveDataDTO data = loadGameManager.LoadGameDataSync(saveFiles[i]);
+                    savePanels[i].SetSaveFileName(saveFiles[i]);
+                    savePanels[i].UpdatePanelWithSaveData(data);
+                }
+                else
+                {
+                    savePanels[i].ClearPanel();
+                }
             }
         }
 
         private void LoadSaveToPanel(SavePanel panel, string fileName)
         {
             string filePath = Path.Combine(loadGameManager.SaveDirectory, fileName + ".json");
-            string json = File.ReadAllText(filePath);
-            SaveDataDTO saveData = JsonUtility.FromJson<SaveDataDTO>(json);
-            
-            panel.UpdatePanelWithSaveData(saveData);
+            if (File.Exists(filePath)) {
+                string json = File.ReadAllText(filePath);
+                SaveDataDTO saveData = JsonUtility.FromJson<SaveDataDTO>(json);
+                panel.SetSaveFileName(fileName);  
+                panel.UpdatePanelWithSaveData(saveData);
+            }
         }
-
-
     }
 }
