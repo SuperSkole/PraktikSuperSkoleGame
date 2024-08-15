@@ -35,12 +35,6 @@ public class Monster : MonoBehaviour
 
     private Player player;
 
-    [SerializeField]private GameObject targetMarker;
-
-    [SerializeField]private GameObject rangeMarker;
-
-    GameObject spawnedRangeMarker;
-
     /// <summary>
     /// The point at which the monster releases the player then throwing them
     /// </summary>
@@ -131,12 +125,7 @@ public class Monster : MonoBehaviour
     /// </summary>
     void ThrowPlayer(){
         if(!throwingPlayer && !releasingPlayer){
-            Vector3 scale = new Vector3(throwRange * 0.2f, 0, throwRange * 0.2f);
-            spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
-            spawnedRangeMarker.transform.localScale = scale;
-            if(player.LivesRemaining > 0){
-                player.LivesRemaining--;
-            }
+            player.LivesRemaining--;
             count = 0;
             int xDirection = 1;
             int zDirection = 1;
@@ -147,7 +136,6 @@ public class Monster : MonoBehaviour
                 zDirection = -1;
             }
             Vector3 newDeltaPos = new Vector3(xDirection * Random.Range(0, throwRange), 0, zDirection * Random.Range(0, throwRange));
-            
             if(newDeltaPos.x == 0 && newDeltaPos.z == 0){
                 if(Random.Range(0, 2) == 0){
                     newDeltaPos.x = 1;
@@ -155,18 +143,6 @@ public class Monster : MonoBehaviour
                 else{
                     newDeltaPos.z = 1;
                 }
-            }
-            if(newDeltaPos.x > throwRange){
-                newDeltaPos.x = throwRange;
-            }
-            else if(newDeltaPos.x < -throwRange){
-                newDeltaPos.x = -throwRange;
-            }
-            if(newDeltaPos.z > throwRange){
-                newDeltaPos.z = throwRange;
-            }
-            else if(newDeltaPos.z < -throwRange){
-                newDeltaPos.z = -throwRange;
             }
             Vector3 newPos = newDeltaPos + player.CurrentDestination;
             
@@ -237,8 +213,6 @@ public class Monster : MonoBehaviour
             throwingPlayer = false;
             canWalk = true;
             player.CurrentDestination = playerDestination;
-            Instantiate(targetMarker, playerDestination, Quaternion.identity);
-            Destroy(spawnedRangeMarker);
         }
     }
 
@@ -253,10 +227,6 @@ public class Monster : MonoBehaviour
             }
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
         }
-    }
-
-    public void StopMovement(){
-        canWalk = false;
     }
 }
 
