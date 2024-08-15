@@ -23,6 +23,9 @@ public class MonsterTowerManager : MonoBehaviour
 
     //temp
     string[] sentanses;
+    /// <summary>
+    /// used to setup sentanses TEMP make this better!!
+    /// </summary>
     void SetupSentanses()
     {
         sentanses = new string[3];

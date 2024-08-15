@@ -57,12 +57,10 @@ public class TowerManager : MonoBehaviour
     // Start is called before the first frame update
 
 
-   
-    void Start()
-    {
-
-    }
-
+    /// <summary>
+    /// if the images arent loaded, waits with building the tower until the images are loaded
+    /// </summary>
+    /// <returns></returns>
     IEnumerator WaitUntillDataIsLoaded()
     {
         while (!ImageManager.IsDataLoaded)
@@ -72,6 +70,10 @@ public class TowerManager : MonoBehaviour
         BuildTower();
     }
 
+    /// <summary>
+    /// sets up all the data for the tower
+    /// </summary>
+    /// <param name="input">an array of sentenses the is used in the game</param>
     public void SetTowerData(string[] input)
     {
         towerHeight = input.Length;
@@ -85,6 +87,10 @@ public class TowerManager : MonoBehaviour
         StartCoroutine(WaitUntillDataIsLoaded());
     }
 
+
+    /// <summary>
+    /// updates the display to show the next question
+    /// </summary>
     void SetNextQuestion()
     {
         if (sentanses.Length <= currentQuestionIndex) return;
@@ -206,6 +212,10 @@ public class TowerManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// sets the image up to match the sentens given
+    /// </summary>
+    /// <param name="sent">the sentens that the images is matching</param>
     void SetCorrectImage(string sent)
     {
         List<string> words = new();
@@ -246,6 +256,10 @@ public class TowerManager : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// sets random wrong images
+    /// </summary>
     void SetRandomImage()
     { 
         bottomImage.texture = ImageManager.GetRandomImage();

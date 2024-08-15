@@ -27,6 +27,11 @@ namespace CORE.Scripts
 
         #region loadTexturesAndSetupDic
 
+
+        /// <summary>
+        /// loads all the images in the pictures folder in the streamingAssest folder, and safes it in an dictionary.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator LoadAllTextures()
         {
             //IsDataLoaded = true;
@@ -64,6 +69,12 @@ namespace CORE.Scripts
             IsDataLoaded = true;
         }
 
+
+        /// <summary>
+        /// removes numbers and extentions of names so they can be combined in the dic.
+        /// </summary>
+        /// <param name="name">the name that needs to be "fixed"</param>
+        /// <returns>a fixed vertion of the name</returns>
         string GetName(string name)
         {
             StringBuilder output = new();
