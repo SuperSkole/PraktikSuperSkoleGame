@@ -7,7 +7,7 @@ public class SetCuzCurrentColor : MonoBehaviour
 {
     [SerializeField] private List<GameObject> playerParts = new List<GameObject>();
     [SerializeField] private List<GameObject> cuz = new List<GameObject>();
-    CharacterController p;
+    PlayerData p;
     [SerializeField] private GameObject player;
     [SerializeField] private TextMeshProUGUI nameField;
     [SerializeField] private GameObject gamemanger;
@@ -38,7 +38,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         //colorsHead = player.GetComponent<characterManagement>().characterHeadColor;
         //colorsBody = player.GetComponent<characterManagement>().characterBodyColor;
         //colorsLeg = player.GetComponent<characterManagement>().characterLegColor;
-        CharacterController tmp = gamemanger.GetComponent<NewGame>().ReturnPlayer();
+        PlayerData tmp = gamemanger.GetComponent<GameManager>().ReturnPlayer();
         nameField.text = tmp.playerName;
     }
     //public void BackButtonPressed()
@@ -70,8 +70,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             headI = colorsHead.Count - 1;
         }
         cuz[0].GetComponent<Image>().color = colorsHead[headI];
-        player.GetComponent<characterManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
-        gamemanger.GetComponent<NewGame>().headColor = colorsHead[headI];
+        player.GetComponent<CharacterVisuelManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
+        gamemanger.GetComponent<GameManager>().headColor = colorsHead[headI];
     }
     public void HeadColorRight()
     {
@@ -81,8 +81,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             headI = 0;
         }
         cuz[0].GetComponent<Image>().color = colorsHead[headI];
-        player.GetComponent<characterManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
-        gamemanger.GetComponent<NewGame>().headColor = colorsHead[headI];
+        player.GetComponent<CharacterVisuelManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
+        gamemanger.GetComponent<GameManager>().headColor = colorsHead[headI];
 
     }
     public void BodyColorLeft()
@@ -93,8 +93,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             BodyI = colorsBody.Count - 1;
         }
         cuz[1].GetComponent<Image>().color = colorsBody[BodyI];
-        player.GetComponent<characterManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
-        gamemanger.GetComponent<NewGame>().BodyColor = colorsBody[BodyI];
+        player.GetComponent<CharacterVisuelManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
+        gamemanger.GetComponent<GameManager>().BodyColor = colorsBody[BodyI];
     }
     public void BodyColorRight()
     {
@@ -104,8 +104,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             BodyI = 0;
         }
         cuz[1].GetComponent<Image>().color = colorsHead[BodyI];
-        player.GetComponent<characterManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
-        gamemanger.GetComponent<NewGame>().BodyColor = colorsBody[BodyI];
+        player.GetComponent<CharacterVisuelManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
+        gamemanger.GetComponent<GameManager>().BodyColor = colorsBody[BodyI];
 
     }
     public void LegColorLeft()
@@ -116,8 +116,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             LegI = colorsLeg.Count - 1;
         }
         cuz[2].GetComponent<Image>().color = colorsLeg[LegI];
-        player.GetComponent<characterManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
-        gamemanger.GetComponent<NewGame>().LegColor = colorsLeg[LegI];
+        player.GetComponent<CharacterVisuelManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
+        gamemanger.GetComponent<GameManager>().LegColor = colorsLeg[LegI];
     }
     public void LegColorRight()
     {
@@ -127,8 +127,8 @@ public class SetCuzCurrentColor : MonoBehaviour
             LegI = 0;
         }
         cuz[2].GetComponent<Image>().color = colorsLeg[LegI];
-        player.GetComponent<characterManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
-        gamemanger.GetComponent<NewGame>().LegColor = colorsLeg[LegI];
+        player.GetComponent<CharacterVisuelManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
+        gamemanger.GetComponent<GameManager>().LegColor = colorsLeg[LegI];
 
     }
 
