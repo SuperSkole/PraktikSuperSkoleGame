@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CORE;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -95,7 +96,7 @@ public class GeneralManagement : MonoBehaviour
         {
             goldAmount -= amount;
             goldText.text = goldAmount.ToString();
-            this.gameObject.GetComponent<GameManager>().player.currentGoldAmount = goldAmount;
+            this.gameObject.GetComponent<OldGameManager>().player.CurrentGoldAmount = goldAmount;
             return true;
         }
         else
@@ -133,7 +134,7 @@ public class GeneralManagement : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             expAmount++;
-            this.gameObject.GetComponent<GameManager>().player.currentXPAmount = expAmount;
+            this.gameObject.GetComponent<OldGameManager>().player.CurrentXPAmount = expAmount;
             int requiredXP;
             if (levelsDic.TryGetValue(Level, out requiredXP) && expAmount >= requiredXP)
             {
@@ -145,7 +146,7 @@ public class GeneralManagement : MonoBehaviour
                 // Update player information
                 var playertmp = GameObject.FindGameObjectWithTag("Player");
                 playertmp.GetComponent<PlayerWorldMovement>().PlayLevelUpEffect();
-                this.gameObject.GetComponent<GameManager>().player.currentLevel = Level;
+                this.gameObject.GetComponent<OldGameManager>().player.CurrentLevel = Level;
                 UpdateValues();
             }
             // Ensure the UI is updated with the current XP amount
@@ -166,7 +167,7 @@ public class GeneralManagement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             goldAmount++;
             goldText.text = goldAmount.ToString();
-            this.gameObject.GetComponent<GameManager>().player.currentGoldAmount = goldAmount;
+            this.gameObject.GetComponent<OldGameManager>().player.CurrentGoldAmount = goldAmount;
 
         }
     }

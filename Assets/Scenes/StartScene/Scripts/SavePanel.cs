@@ -1,44 +1,69 @@
+using System;
+using LoadSave;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Scenes.StartScene.Scripts
 {
-    public class SavePanel : MonoBehaviour
+    public class SavePanel : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField] private Image profilImage;
-        [SerializeField] private Image playername;
-        [SerializeField] private TextMeshProUGUI playerText;
-        [SerializeField] private Image blockingImage;
+        public event Action<string> OnLoadRequested;
         
-        private Image thisImage = null;
-        private Image thisName = null;
-        private string thisText = null;
-        private bool thisSaved = false;
-
-        public void SetSaveData(Image image, Image playerName, string text, bool isSaved)
+        [SerializeField] private LoadGameManager loadGameManager;
+        
+        [SerializeField] private Image chosenCharacter;
+        [SerializeField] private Image playerNameDrawing;
+        [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private TextMeshProUGUI playerInfo; // TODO maybe level or xp or gold
+        [SerializeField] private Image blockingImage;
+        [SerializeField] private Image startGameButton;
+        
+        private string saveFileName;
+        
+        void OnEnable() 
         {
-            //UISaveManager bruger denne funktion til at udfylde SavePanelets variabler
-            thisImage = image;
-            thisName = playerName;
-            thisText = text;
-            thisSaved = isSaved;
-
-            UpdatePanel();
-
+            LoadGameController.Instance.RegisterPanel(this);
+        }
+        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnLoadButtonPressed();
+        }
+        
+        public void OnLoadButtonPressed()
+        {
+            Debug.Log("Load game button pressed: " + saveFileName);
+            OnLoadRequested?.Invoke(saveFileName);
+        }
+        
+        public void ClearPanel()
+        {
+            blockingImage.enabled = true;
+        }
+        
+        public void UpdatePanelWithSaveData(SaveDataDTO saveData)
+        {
+            if (saveData != null)
+            {
+                playerName.text = saveData.PlayerName;
+                startGameButton.gameObject.SetActive(true);
+                blockingImage.enabled = false;
+            }
+        }
+        
+        public void SetSaveFileName(string fileName) 
+        {
+            Debug.Log("Setting save file name: " + fileName);
+            saveFileName = fileName;
+            UpdateButtonVisibility();
         }
 
-        public void UpdatePanel()
-        {
-            //Hvis saved er sand, �bnes panelet og opdatere UI save Panelet.
-            if (thisSaved)
-            {
-                blockingImage.enabled = false;
-
-                profilImage.sprite = thisImage.sprite;
-                playername.sprite = thisName.sprite;
-                playerText.text = thisText;
-            }
+        private void UpdateButtonVisibility() {
+            
+            startGameButton.gameObject.SetActive(!string.IsNullOrEmpty(saveFileName));
         }
     }
 }

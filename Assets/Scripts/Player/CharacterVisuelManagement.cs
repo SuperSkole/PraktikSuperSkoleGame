@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using CORE;
+using Player;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -30,7 +32,7 @@ public class CharacterVisuelManagement : MonoBehaviour
 
     public void JustCreatedChar(GameObject gm)
     {
-        player = gm.GetComponent<GameManager>().ReturnPlayer();
+        player = gm.GetComponent<OldGameManager>().ReturnPlayer();
 
         characterHead.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
         characterBody.GetComponent<SpriteRenderer>().color = player.currentBodyColor;

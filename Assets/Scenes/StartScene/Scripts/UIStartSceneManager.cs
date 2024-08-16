@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,12 +22,23 @@ namespace Scenes.StartScene.Scripts
 
         // Reference to the image displaying the character selection.
         [SerializeField] private Image displayImage;
-
+        
         // Initializes the start screen as active upon loading.
         private void Awake ()
         {
+            ValidateUIReferences();
             startScreen.SetActive(true);
             currentActiveScreen = startScreen;
+        }
+        
+        private void ValidateUIReferences()
+        {
+            if (startScreen == null ||
+                characterChoiceScreen == null ||
+                loadOldSaveScreen == null ||
+                displayImage == null)
+                
+                Debug.LogError("UI Reference not set in the inspector", this);
         }
 
         // Deactivates the currently active UI screen.

@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using LoadSave;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,39 +9,51 @@ namespace Scenes.StartScene.Scripts
 {
     public class UISaveManager : MonoBehaviour
     {
-        [SerializeField] private SavePanel savePanelOne;
-        [SerializeField] private SavePanel savePanelTwo;
-        [SerializeField] private SavePanel savePanelThree;
+        [SerializeField] private LoadGameManager loadGameManager;
+        [SerializeField] private List<SavePanel> savePanels;
         
-        private Image imageOne = null;
-        private Image nameOne = null;
-        private string textOne = null;
-        private bool savedOne = false;
+        private string saveFileNameOne;
+        private string saveFileNameTwo;
+        private string saveFileNameThree;
+        
+        
 
-        private Image imageTwo = null;
-        private Image nameTwo = null;
-        private string textTwo = null;
-        private bool savedTwo = false;
-
-        private Image imageThree = null;
-        private Image nameThree = null;
-        private string textThree = null;
-        private bool savedThree = false;
-
-        private void Awake()
+        private void Start()
         {
-            //Udfyld variablerne her
-
-            FillSaves();
+            if (loadGameManager == null)
+            {
+                Debug.Log("LoadGameManager is not assigned.");
+                return;
+            }
+        }
+        
+        public void CheckForSavesAndPopulateSavePanels()
+        {
+            var saveFiles = loadGameManager.GetAllSaveFiles();
+            for (int i = 0; i < savePanels.Count; i++)
+            {
+                if (i < saveFiles.Count)
+                {
+                    SaveDataDTO data = loadGameManager.LoadGameDataSync(saveFiles[i]);
+                    savePanels[i].SetSaveFileName(saveFiles[i]);
+                    savePanels[i].UpdatePanelWithSaveData(data);
+                }
+                else
+                {
+                    savePanels[i].ClearPanel();
+                }
+            }
         }
 
-        private void FillSaves()
+        private void LoadSaveToPanel(SavePanel panel, string fileName)
         {
-            //send alt dataen til de tre savepanaler i inspektoren
-            savePanelOne.SetSaveData(imageOne, nameOne, textOne, savedOne);
-            savePanelTwo.SetSaveData(imageTwo, nameTwo, textTwo, savedTwo);
-            savePanelThree.SetSaveData(imageThree, nameThree, textThree, savedThree);
+            string filePath = Path.Combine(loadGameManager.SaveDirectory, fileName + ".json");
+            if (File.Exists(filePath)) {
+                string json = File.ReadAllText(filePath);
+                SaveDataDTO saveData = JsonUtility.FromJson<SaveDataDTO>(json);
+                panel.SetSaveFileName(fileName);  
+                panel.UpdatePanelWithSaveData(saveData);
+            }
         }
-
     }
 }

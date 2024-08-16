@@ -1,3 +1,5 @@
+using CORE;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -72,7 +74,7 @@ public class ChangeColor : MonoBehaviour
         try
         {
             playerHead.GetComponent<SpriteRenderer>().color = color;
-            gm.GetComponent<GameManager>().headColor = color;
+            gm.GetComponent<OldGameManager>().headColor = color;
         }
         catch (System.Exception)
         {
@@ -80,9 +82,9 @@ public class ChangeColor : MonoBehaviour
             Debug.Log("ChangeColor/changeColorClicked/Cant Save head color because there is no head");
         }
         playerBody.GetComponent<SpriteRenderer>().color = color;
-        gm.GetComponent<GameManager>().BodyColor = color;
+        gm.GetComponent<OldGameManager>().BodyColor = color;
         playerLegs.GetComponent<SpriteRenderer>().color = color;
-        gm.GetComponent<GameManager>().LegColor = color;
+        gm.GetComponent<OldGameManager>().LegColor = color;
     }
     public void GetPlayerPartsInfo()
     {
@@ -93,7 +95,7 @@ public class ChangeColor : MonoBehaviour
         if (head != null)
         {
             playerHead = head;
-            gm.GetComponent<GameManager>().spriteHead = head;
+            gm.GetComponent<OldGameManager>().spriteHead = head;
         }
         else
         {
@@ -102,7 +104,7 @@ public class ChangeColor : MonoBehaviour
         if (torso != null)
         {
             playerBody = torso;
-            gm.GetComponent<GameManager>().spriteBody = torso;
+            gm.GetComponent<OldGameManager>().spriteBody = torso;
 
         }
         else
@@ -112,7 +114,7 @@ public class ChangeColor : MonoBehaviour
         if (legs != null)
         {
             playerLegs = legs;
-            gm.GetComponent<GameManager>().spriteLeg = legs;
+            gm.GetComponent<OldGameManager>().spriteLeg = legs;
         }
         else
         {
@@ -122,9 +124,9 @@ public class ChangeColor : MonoBehaviour
     }
     public void GiveInfoToNewGame()
     {
-        gm.GetComponent<GameManager>().spriteHead.GetComponent<SpriteRenderer>().color = playerHead.GetComponent<SpriteRenderer>().color;
-        gm.GetComponent<GameManager>().spriteBody.GetComponent<SpriteRenderer>().color = playerBody.GetComponent<SpriteRenderer>().color;
-        gm.GetComponent<GameManager>().spriteLeg.GetComponent<SpriteRenderer>().color = playerLegs.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<OldGameManager>().spriteHead.GetComponent<SpriteRenderer>().color = playerHead.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<OldGameManager>().spriteBody.GetComponent<SpriteRenderer>().color = playerBody.GetComponent<SpriteRenderer>().color;
+        gm.GetComponent<OldGameManager>().spriteLeg.GetComponent<SpriteRenderer>().color = playerLegs.GetComponent<SpriteRenderer>().color;
     }
 
 }
