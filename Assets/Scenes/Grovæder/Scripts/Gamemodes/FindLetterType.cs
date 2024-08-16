@@ -60,10 +60,16 @@ public class FindLetterType : IGameMode
 
     int completedRounds = 0;
 
+    int minWrongLetters = 6;
+    int maxWrongLetters = 10;
+
+    int minCorrectLetters = 1;
+    int maxCorrectLetters = 5;
+
     /// <summary>
     /// Gets the letters for the current game
     /// </summary>
-    public void GetLetters()
+    public void GetSymbols()
     {
         if(Random.Range(0, 2) == 0){
             correctLetterTypes = vowels;
@@ -79,7 +85,7 @@ public class FindLetterType : IGameMode
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
         }
-        int count = Random.Range(6, 11);
+        int count = Random.Range(minWrongLetters, maxWrongLetters);
         activeLetterCubes.Clear();
         //finds new letterboxes to be activated and assigns them a random incorrect letter.
         for (int i = 0; i < count; i++){
@@ -94,7 +100,7 @@ public class FindLetterType : IGameMode
             activeLetterCubes[i].Activate(letter.ToString());
         }
         //finds some new letterboxes and assigns them a correct letter
-        for(int i = 0; i < count - 5; i++){
+        for(int i = 0; i < Random.Range(minCorrectLetters, maxCorrectLetters); i++){
             char letter = GetLetter(true);
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
@@ -138,7 +144,7 @@ public class FindLetterType : IGameMode
     /// </summary>
     /// <param name="letter">The letter which should be checked</param>
     /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectLetter(string letter)
+    public bool IsCorrectSymbol(string letter)
     {
         return correctLetterTypes.Contains(letter.ToUpper()[0]);
     }
@@ -147,9 +153,9 @@ public class FindLetterType : IGameMode
     /// Replaces an active lettercube with another one
     /// </summary>
     /// <param name="letter">The letter which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter)
+    public void ReplaceSymbol(LetterCube letter)
     {
-        if(IsCorrectLetter(letter.GetLetter())){
+        if(IsCorrectSymbol(letter.GetLetter())){
             correctLetterCount--;
             boardController.SetAnswerText("Led efter " + letterType + ". Der er " + correctLetterCount + " tilbage.");
         }
@@ -175,7 +181,7 @@ public class FindLetterType : IGameMode
                 boardController.Won("Du vandt. Du fandt den korrekte bogstavstype 5 gange");
             }
             else{
-                GetLetters();
+                GetSymbols();
             }
         }
     }
@@ -192,4 +198,15 @@ public class FindLetterType : IGameMode
         correctLetterCount = 0;
     }
 
+    public void SetMinAndMaxWrongSymbols(int min, int max)
+    {
+        minWrongLetters = min;
+        maxWrongLetters = max;
+    }
+
+    public void SetMinAndMaxCorrectSymbols(int min, int max)
+    {
+        minCorrectLetters = min;
+        maxCorrectLetters = max;
+    }
 }

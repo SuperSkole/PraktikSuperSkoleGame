@@ -120,6 +120,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855ef369dcb4fd04f9d0b7bfc2407504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  playerObject: {fileID: 0}
   walkDelay: 5
   throwRange: 5
+  currentDestination: {x: 0, y: 0, z: 0}
+  speed: 0.5
+  targetMarker: {fileID: 5097691074125696330, guid: e86ccc4114c88a041aa7e82025ed8250, type: 3}
+  rangeMarker: {fileID: 7251615746188109195, guid: 4ca498da9b0c2974faf3e91d8015df5c, type: 3}

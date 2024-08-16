@@ -13,7 +13,7 @@ namespace CORE.Scripts
     {
         public static bool IsDataLoaded { get; private set; } = false;
         
-        private void Start()
+        public void Start()
         {
             StartCoroutine(LoadAllCsvFiles());
         }

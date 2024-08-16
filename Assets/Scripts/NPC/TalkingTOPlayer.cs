@@ -75,7 +75,7 @@ public class TalkingTOPlayer : MonoBehaviour
         this.whichNPC = whichNPC;
         TextField.text = string.Empty;
         PlayerWorldMovement.Talking = true;
-        PlayerWorldMovement.allowedToMove = false;
+        PlayerMovement.allowedToMove = false;
         yesButton.GetComponent<Button>().onClick.RemoveAllListeners();
         yesButton.GetComponent<Button>().onClick.AddListener(yesButtonEvent.Invoke);
         noButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -129,7 +129,7 @@ public class TalkingTOPlayer : MonoBehaviour
         talkingBox.SetActive(false);
         buttons.SetActive(false);
 
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
         PlayerWorldMovement.Talking = false;
     }
 }

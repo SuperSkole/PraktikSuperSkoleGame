@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     public bool hasMoveDelay = false;
 
     public bool canMove = true;
+
+    public float maxMoveDelay = 6;
     
     public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
     public int LivesRemaining { get => livesRemaining; set {
@@ -73,7 +75,7 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if((transform.position.x > 20.5f || transform.position.x < 9.5f || transform.position.z > 20.5f || transform.position.z < 9.5f) && !thrown){
+        if((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown){
             thrown = true;
             canMove = false;
             board.Lost();
@@ -117,7 +119,7 @@ public class Player : MonoBehaviour
     /// code to start the delay in the players movement.
     /// </summary>
     public void IncorrectGuess(){
-        MoveDelayRemaining = 6;
+        MoveDelayRemaining = maxMoveDelay;
         hasMoveDelay = true;
         cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
     }
