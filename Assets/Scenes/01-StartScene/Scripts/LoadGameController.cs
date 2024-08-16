@@ -26,7 +26,7 @@ namespace Scenes.StartScene.Scripts
         public void HandleLoadRequest(string fileName)
         {
            
-            Debug.Log("Handling load request for file: " + fileName);
+            Debug.Log("LoadGameController-HandleLoadRequest: Handling load request for file: " + fileName);
             loadGameManager.LoadGameDataAsync(fileName, OnDataLoaded); 
         }
 
