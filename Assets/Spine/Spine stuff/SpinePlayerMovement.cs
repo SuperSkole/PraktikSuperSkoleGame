@@ -23,7 +23,6 @@ public class SpinePlayerMovement : MonoBehaviour
     {
         currentState = "idle";
         SetCharacterState("Idle");
-        
 
         skeletonAnimation.Skeleton.SetAttachment("Monster TOP1", "Monster TOP1");
     }
