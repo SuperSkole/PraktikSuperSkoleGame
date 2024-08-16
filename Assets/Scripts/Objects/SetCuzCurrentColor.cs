@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using CORE;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,8 +40,8 @@ public class SetCuzCurrentColor : MonoBehaviour
         //colorsHead = player.GetComponent<characterManagement>().characterHeadColor;
         //colorsBody = player.GetComponent<characterManagement>().characterBodyColor;
         //colorsLeg = player.GetComponent<characterManagement>().characterLegColor;
-        PlayerData tmp = gamemanger.GetComponent<GameManager>().ReturnPlayer();
-        nameField.text = tmp.playerName;
+        PlayerData tmp = gamemanger.GetComponent<OldGameManager>().ReturnPlayer();
+        nameField.text = tmp.PlayerName;
     }
     //public void BackButtonPressed()
     //{
@@ -71,7 +73,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[0].GetComponent<Image>().color = colorsHead[headI];
         player.GetComponent<CharacterVisuelManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
-        gamemanger.GetComponent<GameManager>().headColor = colorsHead[headI];
+        gamemanger.GetComponent<OldGameManager>().headColor = colorsHead[headI];
     }
     public void HeadColorRight()
     {
@@ -82,7 +84,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[0].GetComponent<Image>().color = colorsHead[headI];
         player.GetComponent<CharacterVisuelManagement>().characterHead.GetComponent<SpriteRenderer>().color = colorsHead[headI];
-        gamemanger.GetComponent<GameManager>().headColor = colorsHead[headI];
+        gamemanger.GetComponent<OldGameManager>().headColor = colorsHead[headI];
 
     }
     public void BodyColorLeft()
@@ -94,7 +96,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[1].GetComponent<Image>().color = colorsBody[BodyI];
         player.GetComponent<CharacterVisuelManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
-        gamemanger.GetComponent<GameManager>().BodyColor = colorsBody[BodyI];
+        gamemanger.GetComponent<OldGameManager>().BodyColor = colorsBody[BodyI];
     }
     public void BodyColorRight()
     {
@@ -105,7 +107,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[1].GetComponent<Image>().color = colorsHead[BodyI];
         player.GetComponent<CharacterVisuelManagement>().characterBody.GetComponent<SpriteRenderer>().color = colorsBody[BodyI];
-        gamemanger.GetComponent<GameManager>().BodyColor = colorsBody[BodyI];
+        gamemanger.GetComponent<OldGameManager>().BodyColor = colorsBody[BodyI];
 
     }
     public void LegColorLeft()
@@ -117,7 +119,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[2].GetComponent<Image>().color = colorsLeg[LegI];
         player.GetComponent<CharacterVisuelManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
-        gamemanger.GetComponent<GameManager>().LegColor = colorsLeg[LegI];
+        gamemanger.GetComponent<OldGameManager>().LegColor = colorsLeg[LegI];
     }
     public void LegColorRight()
     {
@@ -128,12 +130,7 @@ public class SetCuzCurrentColor : MonoBehaviour
         }
         cuz[2].GetComponent<Image>().color = colorsLeg[LegI];
         player.GetComponent<CharacterVisuelManagement>().characterLeg.GetComponent<SpriteRenderer>().color = colorsLeg[LegI];
-        gamemanger.GetComponent<GameManager>().LegColor = colorsLeg[LegI];
+        gamemanger.GetComponent<OldGameManager>().LegColor = colorsLeg[LegI];
 
     }
-
-
-
-
-
 }

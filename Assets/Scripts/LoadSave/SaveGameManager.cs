@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using CORE;
 
 namespace LoadSave
 {
@@ -7,11 +8,11 @@ namespace LoadSave
     {
         private string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
 
-        private GameManager gm; // change to Gamemanager 
+        private OldGameManager gm; // change to Gamemanager 
 
-        public SaveToJsonManager(GameManager gameManagerManager)
+        public SaveToJsonManager(OldGameManager oldGameManagerManager)
         {
-            gm = gameManagerManager;
+            gm = oldGameManagerManager;
         }
 
         public void SaveGame(string hashedUsername)
@@ -28,15 +29,15 @@ namespace LoadSave
             SaveDataDTO data = new SaveDataDTO
             {
                 // TODO: HashedUsername = gm.player.hashedUsername, 
-                PlayerName = gm.player.playerName,
-                MonsterName = gm.player.monsterName,
-                GoldAmount = gm.player.currentGoldAmount,
-                XPAmount = gm.player.currentXPAmount,
-                PlayerLevel = gm.player.currentLevel,
-                SavedPlayerStartPostion = new SavePlayerPosition(gm.player.currentPosition),
-                HeadColor = new SerializableColor(gm.player.currentHeadColor),
-                BodyColor = new SerializableColor(gm.player.currentBodyColor),
-                LegColor = new SerializableColor(gm.player.currentLegColor)
+                PlayerName = gm.player.PlayerName,
+                MonsterType = gm.player.MonsterType,
+                GoldAmount = gm.player.CurrentGoldAmount,
+                XPAmount = gm.player.CurrentXPAmount,
+                PlayerLevel = gm.player.CurrentLevel,
+                SavedPlayerStartPostion = new SavePlayerPosition(gm.player.CurrentPosition),
+                // HeadColor = new SerializableColor(gm.player.currentHeadColor),
+                // BodyColor = new SerializableColor(gm.player.currentBodyColor),
+                // LegColor = new SerializableColor(gm.player.currentLegColor)
             };
             return data;
         }

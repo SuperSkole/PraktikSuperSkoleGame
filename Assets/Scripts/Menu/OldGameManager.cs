@@ -1,5 +1,6 @@
 using Cinemachine;
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
@@ -7,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class GameManager : MonoBehaviour
+public class OldGameManager : MonoBehaviour
 {
     #region attributes
     [SerializeField] private TMP_InputField usernameInput;
@@ -42,9 +43,9 @@ public class GameManager : MonoBehaviour
     public GameObject spriteHead;
     public GameObject spriteBody;
     public GameObject spriteLeg;
-    public GameManager() { }
+    public OldGameManager() { }
 
-    public SaveData save;
+    public SaveDataDTO save;
 
     #endregion
 
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour
     {
         if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
         {
-            PlayerMovement.allowedToMove = false;
+            PlayerWorldMovement.allowedToMove = false;
             chosePlayerScreen.SetActive(true);
             customizePlayerScreen.SetActive(true);
             SkinShop.SetActive(true);
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
         else
         {
             //Debug.Log("NewGame/Start/Save file found loading from JSON");
-            PlayerMovement.allowedToMove = true;
+            PlayerWorldMovement.allowedToMove = true;
 
             //Needs to be true for events to be added to player
             customizePlayerScreen.SetActive(true);
@@ -79,19 +80,19 @@ public class GameManager : MonoBehaviour
     /// Creates a new CharacterController and sets the name of the player
     /// Only call on a fresh start
     /// </summary>
-    public void CreateNewChar()
-    {
-        player = new PlayerData(
-            monsterName, nameInput.text, 0, 0, 1, 
-            SpawnCharPoint.position,
-            headColor, BodyColor, LegColor,
-            spriteHead.GetComponent<SpriteRenderer>().sprite,
-            spriteBody.GetComponent<SpriteRenderer>().sprite,
-            spriteLeg.GetComponent<SpriteRenderer>().sprite);
-
-        playerName.text = player.playerName;
-        PlayerMovement.allowedToMove = true;
-    }
+    // public void CreateNewChar()
+    // {
+    //     player = new PlayerData(
+    //         monsterName, nameInput.text, 0, 0, 1, 
+    //         SpawnCharPoint.position,
+    //         headColor, BodyColor, LegColor,
+    //         spriteHead.GetComponent<SpriteRenderer>().sprite,
+    //         spriteBody.GetComponent<SpriteRenderer>().sprite,
+    //         spriteLeg.GetComponent<SpriteRenderer>().sprite);
+    //
+    //     playerName.text = player.PlayerName;
+    //     PlayerWorldMovement.allowedToMove = true;
+    // }
     public void SetMonsterName(string monsterName)
     {
         this.monsterName = monsterName;
@@ -101,32 +102,32 @@ public class GameManager : MonoBehaviour
         return player;
     }
 
-    public void SetLoadGameInfo(SaveData saveData)
+    public void SetLoadGameInfo(SaveDataDTO saveDataDto)
     {
-        loadedPlayer = Instantiate(WhichPrefabGO(saveData.MonsterName), 
-            saveData.SavedPlayerStartPostion.GetVector3(), 
+        loadedPlayer = Instantiate(WhichPrefabGO(saveDataDto.MonsterName), 
+            saveDataDto.SavedPlayerStartPostion.GetVector3(), 
             Quaternion.Euler(0f,90f,0f),
             SpawnCharPoint);
         loadedPlayer.GetComponent<PlayerWorldMovement>().GenerateInteractions();
         skinsMa.StartMapping();
-        save = saveData;
+        save = saveDataDto;
         player = new PlayerData(
-            saveData.MonsterName,
-            saveData.PlayerName,
-            saveData.GoldAmount,
-            saveData.XPAmount,
-            saveData.PlayerLevel,
-            saveData.SavedPlayerStartPostion.GetVector3(),
-            saveData.HeadColor.ToColor(),
-            saveData.BodyColor.ToColor(),
-            saveData.LegColor.ToColor(),
-            WhichSprite(saveData, "Head"),
-            WhichSprite(saveData, "Body"),
-            WhichSprite(saveData, "Legs")
-            ); ;
-
+            saveDataDto.MonsterName,
+            saveDataDto.PlayerName,
+            saveDataDto.GoldAmount,
+            saveDataDto.XPAmount,
+            saveDataDto.PlayerLevel,
+            saveDataDto.SavedPlayerStartPostion.GetVector3(),
+            saveDataDto.HeadColor.ToColor(),
+            saveDataDto.BodyColor.ToColor(),
+            saveDataDto.LegColor.ToColor(),
+            WhichSprite(saveDataDto, "Head"),
+            WhichSprite(saveDataDto, "Body"),
+            WhichSprite(saveDataDto, "Legs")
+            ); 
+    
         SetWorldAndPlayerParts();
-
+    
         //Sets the camera to follow the player
         virtualCamera.Follow = GameObject.FindGameObjectWithTag("Player").transform;
         virtualCamera.LookAt = GameObject.FindGameObjectWithTag("Player").transform;
@@ -141,35 +142,35 @@ public class GameManager : MonoBehaviour
     {
 
         #region Sets UI Items accordingly
-        playerName.text = player.playerName;
+        playerName.text = player.PlayerName;
         var goldXP = this.gameObject.GetComponent<GeneralManagement>();
-        goldXP.goldAmount = player.currentGoldAmount;
-        goldXP.expAmount = player.currentXPAmount;
-        goldXP.Level = player.currentLevel;
+        goldXP.goldAmount = player.CurrentGoldAmount;
+        goldXP.expAmount = player.CurrentXPAmount;
+        goldXP.Level = player.CurrentLevel;
          goldXP.UpdateValues();
         #endregion
 
         #region Sets Player parts accordingly
         //The null conditional operator (?.) ensures that if the Transforsm is not found, it won't cause a NullReferenceException
         var head = loadedPlayer.transform.Find("Head")?.gameObject;
-        head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
-        head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
+        // head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
+        // head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
 
         var body = loadedPlayer.transform.Find("Mainbody")?.gameObject;
-        body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
-        body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
+        // body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
+        // body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
 
         var Legs = loadedPlayer.transform.Find("Legs")?.gameObject;
-        Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
-        Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
+        // Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
+        // Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
 
         spriteHead = loadedPlayer.transform.Find("Head")?.gameObject;
         spriteBody = loadedPlayer.transform.Find("Mainbody")?.gameObject;
         spriteLeg = loadedPlayer.transform.Find("Legs")?.gameObject;
 
-        headColor = player.currentHeadColor;
-        BodyColor = player.currentBodyColor;
-        LegColor = player.currentLegColor;
+        // headColor = player.currentHeadColor;
+        // BodyColor = player.currentBodyColor;
+        // LegColor = player.currentLegColor;
 
 
         loadedPlayer.GetComponent<CharacterVisuelManagement>().JustCreatedChar(this.gameObject);
@@ -210,20 +211,20 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < cusParts.head.Count; i++)
         {
             //Debug.Log($"Setting head[{i}]: Purchased={headList[i].Purchased}, Equipped={headList[i].Equipped}");
-            cusParts.head[i].purchased = headList[i].Purchased;
-            cusParts.head[i].equipped = headList[i].Equipped;
+            cusParts.head[i].purchased = headList[i].isPurchased;
+            cusParts.head[i].equipped = headList[i].isEquipped;
         }
         for (int i = 0; i < cusParts.torso.Count; i++)
         {
             //Debug.Log($"Setting torso[{i}]: Purchased={bodyList[i].Purchased}, Equipped={bodyList[i].Equipped}");
-            cusParts.torso[i].purchased = bodyList[i].Purchased;
-            cusParts.torso[i].equipped = bodyList[i].Equipped;
+            cusParts.torso[i].purchased = bodyList[i].isPurchased;
+            cusParts.torso[i].equipped = bodyList[i].isEquipped;
         }
         for (int i = 0; i < cusParts.legs.Count; i++)
         {
             //Debug.Log($"Setting legs[{i}]: Purchased={legList[i].Purchased}, Equipped={legList[i].Equipped}");
-            cusParts.legs[i].purchased = legList[i].Purchased;
-            cusParts.legs[i].equipped = legList[i].Equipped;
+            cusParts.legs[i].purchased = legList[i].isPurchased;
+            cusParts.legs[i].equipped = legList[i].isEquipped;
         }
         switch (save.MonsterName)
         {
@@ -248,19 +249,19 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Retrieves the sprite for a specific body part based on the player's equipped skins.
     /// </summary>
-    /// <param name="data">The save data containing the player's current state and skin information.</param>
+    /// <param name="dataDto">The save data containing the player's current state and skin information.</param>
     /// <param name="bodyPart">The body part for which to retrieve the sprite ("Head", "Body", or "Legs").</param>
     /// <returns>The sprite associated with the equipped skin for the specified body part, or null if no equipped skin is found.</returns>
-    private Sprite WhichSprite(SaveData data, string bodyPart)
+    private Sprite WhichSprite(SaveDataDTO dataDto, string bodyPart)
     {
         // Determine the correct skin data list and parts collection based on the monster type.
-        List<SkinData> skinDataList = data.MonsterName == "SimpleMonster" ? data.MonsterPurchasedSkins : data.GirlPurchasedSkins;
-        CusParts cusParts = data.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
+        List<SkinData> skinDataList = dataDto.MonsterName == "SimpleMonster" ? dataDto.MonsterPurchasedSkins : dataDto.GirlPurchasedSkins;
+        CusParts cusParts = dataDto.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
 
         // Iterate through the list of skin data to find an equipped skin.
         foreach (var item in skinDataList)
         {
-            if (item.Purchased && item.Equipped)
+            if (item.isPurchased && item.isEquipped)
             {
                 switch (bodyPart)
                 {
@@ -372,7 +373,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void UpdatePlayerCurrentPosition()
     {
-        player.currentPosition = loadedPlayer.transform.position;
+        player.CurrentPosition = loadedPlayer.transform.position;
     }
 }
 
