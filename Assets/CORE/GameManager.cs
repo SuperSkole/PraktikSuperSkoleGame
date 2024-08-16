@@ -8,10 +8,8 @@ namespace CORE
     public class GameManager : MonoBehaviour
     {
         // Player and game Data
-        public string Username;
-        public string Savefile;
-        
-        public string PlayerName; 
+        public PlayerData PlayerData { get; set; }
+
         
         public string CurrentUsername { get; private set; }
         public string CurrentPlayerName { get; private set; }

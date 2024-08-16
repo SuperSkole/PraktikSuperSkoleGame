@@ -77,7 +77,7 @@ namespace Scenes.LoginScene.Scripts
                 if (loginManager.ValidateLogin(username, password))
                 {
                     Debug.Log("Login successful: " + username);
-                    SceneManager.LoadScene("StartScene");
+                    SceneManager.LoadScene("01-StartScene");
                 }
                 else
                 {

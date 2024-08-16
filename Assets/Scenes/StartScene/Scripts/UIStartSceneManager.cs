@@ -35,8 +35,7 @@ namespace Scenes.StartScene.Scripts
         {
             if (startScreen == null ||
                 characterChoiceScreen == null ||
-                loadOldSaveScreen == null ||
-                displayImage == null)
+                loadOldSaveScreen == null)
                 
                 Debug.LogError("UI Reference not set in the inspector", this);
         }

@@ -19,7 +19,7 @@ namespace Scenes.StartScene.Scripts
             Instantiate(prefab, characterSpawnPoint.position, Quaternion.identity);
             //PlayerData newPlayer = new PlayerData(playerName, spawnCharPoint.position);
             playerNameText.text = playerName; // Update the UI element with the new player's name
-            PlayerWorldMovement.allowedToMove = true; // Allow movement, assuming player instantiation was successful
+            PlayerMovement.allowedToMove = true; // Allow movement, assuming player instantiation was successful
 
         }
         

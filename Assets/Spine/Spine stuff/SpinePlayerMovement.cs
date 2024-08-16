@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using System.Net.Mail;
+using Spine;
 
 public class SpinePlayerMovement : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class SpinePlayerMovement : MonoBehaviour
     public float walkThreshold = 0.1f;
     public float blendDuration = 0.2f;
 
-    public float moveSpeed = 0f;
+    public float moveSpeed = 5.0f;
 
     public bool facingRight = true;
 
@@ -24,31 +25,62 @@ public class SpinePlayerMovement : MonoBehaviour
         currentState = "idle";
         SetCharacterState("Idle");
 
-        skeletonAnimation.Skeleton.SetAttachment("Monster TOP1", "Monster TOP1");
+        //skeletonAnimation.Skeleton.SetAttachment("Monster TOP1", "Monster TOP1");
     }
     void Update()
     {
-        moveSpeed = Mathf.Abs(Input.GetAxis("Horizontal"));
+        //moveSpeed = Mathf.Abs(Input.GetAxis("Horizontal"));
+         //Remove Raw to add inertia
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
-        //Flip left or right
-        if (Input.GetAxis("Horizontal") < 0 && !facingRight)
+        //float tmpVal = horizontalInput + verticalInput;
+        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+
+        //print(horizontalInput);
+        // Move the player
+        transform.Translate(movement * moveSpeed * Time.deltaTime);
+
+        ////Flip left or right
+        //if (Input.GetAxis("Horizontal") < 0 && !facingRight)
+        //{
+        //    Flip();
+        //}
+        //else if (Input.GetAxis("Horizontal") > 0 && facingRight)
+        //{
+        //    Flip();
+        //}
+
+        // Flip the player based on the horizontal input
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            Flip();
+            // Moving right
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
-        else if (Input.GetAxis("Horizontal") > 0 && facingRight)
+        else if (Input.GetKeyDown(KeyCode.D))
         {
-            Flip();
+            // Moving left
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
 
-        // Blend between animations based on movement speed
-        if (moveSpeed > walkThreshold && currentState != "Walk")
+        if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
         {
             SetCharacterState("Walk");
         }
-        else if (moveSpeed <= walkThreshold && currentState != "Idle")
+        else
         {
             SetCharacterState("Idle");
         }
+
+        // Blend between animations based on movement speed
+        //if (horizontalInput > walkThreshold && currentState != "Walk")
+        //{
+        //    SetCharacterState("Walk");
+        //}
+        //else if (horizontalInput <= walkThreshold && currentState != "Idle")
+        //{
+        //    SetCharacterState("Idle");
+        //}
     }
     //Setting animation function
     public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
@@ -73,11 +105,11 @@ public class SpinePlayerMovement : MonoBehaviour
         }
     }
 
-    void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-    }
+    //void Flip()
+    //{
+    //    facingRight = !facingRight;
+    //    Vector3 theScale = transform.localScale;
+    //    theScale.x *= -1;
+    //    transform.localScale = theScale;
+    //}
 }

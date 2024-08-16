@@ -19,7 +19,7 @@ public class SaveGameToJson : MonoBehaviour
 
         // Populate the SaveData object with player's basic information.
         dataDto.PlayerName = gm.player.PlayerName; // The player's name.
-        dataDto.MonsterName = gm.player.MonsterType; // The player's chosen monster's name.
+        dataDto.MonsterName = gm.player.MonsterTypeID.ToString(); // The player's chosen monster's name.
         dataDto.GoldAmount = gm.player.CurrentGoldAmount; // The player's current gold amount.
         dataDto.XPAmount = gm.player.CurrentXPAmount; // The player's current experience points.
         dataDto.PlayerLevel = gm.player.CurrentLevel; // The player's current level.

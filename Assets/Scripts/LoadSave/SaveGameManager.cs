@@ -30,7 +30,7 @@ namespace LoadSave
             {
                 // TODO: HashedUsername = gm.player.hashedUsername, 
                 PlayerName = gm.player.PlayerName,
-                MonsterType = gm.player.MonsterType,
+                MonsterTypeID = gm.player.MonsterTypeID,
                 GoldAmount = gm.player.CurrentGoldAmount,
                 XPAmount = gm.player.CurrentXPAmount,
                 PlayerLevel = gm.player.CurrentLevel,

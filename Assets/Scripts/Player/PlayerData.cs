@@ -14,7 +14,7 @@ namespace Player
         public string Savefile;
     
         public string PlayerName;
-        public string MonsterType;
+        public int MonsterTypeID;
         public int CurrentGoldAmount;
         public int CurrentXPAmount;
         public int CurrentLevel;
@@ -63,7 +63,7 @@ namespace Player
     
         // --- decapricated as we use mono now
         public PlayerData(
-            string monsterType, 
+            int monsterType, 
             string playerName, 
             int currentGoldAmount, 
             int currentXPAmount, 
@@ -77,7 +77,7 @@ namespace Player
             Sprite spriteLeg)
         {
             this.PlayerName = playerName;
-            this.MonsterType = monsterType;
+            this.MonsterTypeID = monsterType;
             this.CurrentGoldAmount = currentGoldAmount;
             this.CurrentXPAmount = currentXPAmount;
             this.CurrentLevel = currentLevel;

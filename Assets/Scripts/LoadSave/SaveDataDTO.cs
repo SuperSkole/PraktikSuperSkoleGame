@@ -14,7 +14,7 @@ namespace LoadSave
         public string Savefile;
         
         public string PlayerName; 
-        public string MonsterType; 
+        public int MonsterTypeID; 
         public int GoldAmount; 
         public int XPAmount; 
         public int PlayerLevel; 

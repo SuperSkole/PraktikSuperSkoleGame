@@ -6,6 +6,7 @@ using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using System;
 
 
 public class OldGameManager : MonoBehaviour
@@ -53,7 +54,7 @@ public class OldGameManager : MonoBehaviour
     {
         if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
         {
-            PlayerWorldMovement.allowedToMove = false;
+            PlayerMovement.allowedToMove = false;
             chosePlayerScreen.SetActive(true);
             customizePlayerScreen.SetActive(true);
             SkinShop.SetActive(true);
@@ -61,7 +62,7 @@ public class OldGameManager : MonoBehaviour
         else
         {
             //Debug.Log("NewGame/Start/Save file found loading from JSON");
-            PlayerWorldMovement.allowedToMove = true;
+            PlayerMovement.allowedToMove = true;
 
             //Needs to be true for events to be added to player
             customizePlayerScreen.SetActive(true);
@@ -112,7 +113,7 @@ public class OldGameManager : MonoBehaviour
         skinsMa.StartMapping();
         save = saveDataDto;
         player = new PlayerData(
-            saveDataDto.MonsterName,
+            Convert.ToInt16(saveDataDto.MonsterName),
             saveDataDto.PlayerName,
             saveDataDto.GoldAmount,
             saveDataDto.XPAmount,
