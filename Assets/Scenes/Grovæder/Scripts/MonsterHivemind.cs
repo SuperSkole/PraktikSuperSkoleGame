@@ -19,4 +19,16 @@ public class MonsterHivemind
             monster.StopMovement();
         }
     }
+
+    public void PauseMovement(){
+        foreach(Monster monster in monsters){
+            monster.StopMovement();
+        }
+    }
+
+    public void StartMovement(){
+        foreach(Monster monster in monsters){
+            monster.StartMovement();
+        }
+    }
 }

@@ -26,7 +26,8 @@ public class SpellWord : IGameMode
     Queue<char> foundLetters = new Queue<char>();
 
     List<string> words = new List<string>(){
-        "Bil", "Båd", "Fly"
+        "bi", "by", "bæ", "du", "dø", "en", "fe", "fy", "gø", "hø", "is", "ko", "kø", "le", "ni", "os", "ro", "se", "si", "so", "sy",
+        "sø", "te", "ti", "to", "tø", "tå", "æg", "øf", "øl", "ål"
     };
 
     int minWrongLetters = 6;
@@ -57,14 +58,19 @@ public class SpellWord : IGameMode
     {
         currentIndex = 0;
         word = words[Random.Range(0, words.Count)].ToLower();
+        while(sprites.ContainsKey(word)){
+            word = words[Random.Range(0, words.Count)].ToLower();
+        
+        }
         currentLetter = word[currentIndex];
-        if(sprites.ContainsKey(word)){
+        if(ImageManager.IsDataLoaded){
+            Texture2D texture = ImageManager.GetImageFromWord(word);
+            sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
             boardController.SetImage(sprites[word]);
         }
-        else{
-            sprites.Add(word, Resources.Load<Sprite>("Pictures/" + word + "_image"));
-            boardController.SetImage(sprites[word]);
-        }
+        else {
+            boardController.StartImageWait(OnImageLoad);
+        }    
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes){
             lC.Deactivate();
@@ -208,5 +214,11 @@ public class SpellWord : IGameMode
     {
         minWrongLetters = min;
         maxWrongLetters = max;
+    }
+
+    public void OnImageLoad(){
+        Texture2D texture = ImageManager.GetImageFromWord(word);
+        sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+        boardController.SetImage(sprites[word]);
     }
 }

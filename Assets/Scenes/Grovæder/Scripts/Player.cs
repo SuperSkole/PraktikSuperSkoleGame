@@ -134,4 +134,12 @@ public class Player : MonoBehaviour
             thrown = false;
         }
     }
+
+    public void StopMovement(){
+        canMove = false;
+    }
+
+    public void StartMovement(){
+        canMove = true;
+    }
 }

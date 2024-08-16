@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using CORE.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,6 +48,10 @@ public class BoardController : MonoBehaviour
 
     public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
+
+    public delegate void ImageLoadFinished();
+
+
     // Start is called before the first frame update
     public void GameModeSet(IGameMode targetMode)
     {
@@ -73,7 +81,7 @@ public class BoardController : MonoBehaviour
 
     private void Start()
     {
-        //GameModeSet(new FindNumberSeries());
+        GameModeSet(new SpellWord());
     }
 
     public Player GetPlayer(){
@@ -170,5 +178,21 @@ public class BoardController : MonoBehaviour
     /// <param name="max"></param>
     public void ChangeMinAndMaxCorrectSymbols(int min, int max){
         gameMode.SetMinAndMaxCorrectSymbols(min, max);
+    }
+
+    public void StartImageWait(ImageLoadFinished OnFinish){
+        
+        StartCoroutine(waitOnImageLoad(OnFinish));
+    }
+
+    IEnumerator waitOnImageLoad(ImageLoadFinished OnFinish){
+        player.StopMovement();
+        monsterHivemind.PauseMovement();
+        gameOverText.text = "Indlæser billeder. Vent venligst";
+        yield return new WaitUntil(() => ImageManager.IsDataLoaded);
+        OnFinish();
+        player.StartMovement();
+        monsterHivemind.StartMovement();
+        gameOverText.text = "";
     }
 }
