@@ -101,6 +101,9 @@ public class RecognizeSoundOfLetter : IGameMode
         activeLetterCubes.Add(correctLetterBox);
         boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
 
+        /// <summary>
+        /// Uses the Lettersound.
+        /// </summary>
 
         CurrentLetterSound();
     }

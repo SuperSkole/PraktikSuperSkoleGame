@@ -15,8 +15,16 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     [SerializeField]private TextMeshPro text;
 
+
+    /// <summary>
+    /// A gameobject to have the images sprite onto.
+    /// </summary>
     [SerializeField]private GameObject imageObject;
 
+
+    /// <summary>
+    /// these 3 are used for the FindImageFromSound gamemode, with a SpriteRendere and a sprite, and a String for the current word.
+    /// </summary>
     private Sprite texture;
 
     private SpriteRenderer spriteRenderer;
@@ -103,6 +111,9 @@ public class LetterCube : MonoBehaviour
         Activate(letter, false);
     }
 
+    /// <summary>
+    /// Overload on the activate method in case it is not important whether the Word is lower case. Takes the desired Word as input
+    /// </summary>
     public void ActivateImage(Sprite sprite, string word )
     {
         
@@ -117,7 +128,7 @@ public class LetterCube : MonoBehaviour
     }
 
     /// <summary>
-    /// Same as Below but Meant for the find imageGamemode
+    /// Same as Above but Meant for the find imageGamemode
     /// </summary>
     /// <param name="texture2D"></param>
     /// <param name="currentWord"></param>
@@ -164,6 +175,10 @@ public class LetterCube : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Deactivates the letterbox by moving it back below the board and reseting the Image and value of the Word variable
+    /// </summary>
     public void DeactivateImage()
     {
         texture = null;

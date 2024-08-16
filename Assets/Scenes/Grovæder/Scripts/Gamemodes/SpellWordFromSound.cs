@@ -115,7 +115,9 @@ public class SpellWordFromSound : IGameMode
         boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige.");
 
 
-
+        /// <summary>
+        /// Uses the Word.
+        /// </summary>
         CurrentWordSound();
     }
 
@@ -150,7 +152,7 @@ public class SpellWordFromSound : IGameMode
 
     public void CurrentWordSound()
     {
-        //bruger correctLetter to find the right sound in tempgrovædersound in resource foulder
+        //Uses word to find the right sound in tempgrovædersound in resource foulder
         string audioFileName = word.ToLower() + "_audio";
 
         AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
