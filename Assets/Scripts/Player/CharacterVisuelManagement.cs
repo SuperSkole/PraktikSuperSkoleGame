@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using CORE;
-using Player;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -30,17 +29,17 @@ public class CharacterVisuelManagement : MonoBehaviour
     //    this.CurrentLegColor = CurrentLegColor;
     //}
 
-    public void JustCreatedChar(GameObject gm)
-    {
-        player = gm.GetComponent<OldGameManager>().ReturnPlayer();
+    //public void JustCreatedChar(GameObject gm)
+    //{
+    //    player = gm.GetComponent<OldGameManager>().ReturnPlayer();
 
-        characterHead.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
-        characterBody.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
-        characterLeg.GetComponent<SpriteRenderer>().color = player.currentLegColor; 
+    //    characterHead.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
+    //    characterBody.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
+    //    characterLeg.GetComponent<SpriteRenderer>().color = player.currentLegColor; 
         
-        characterHead.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
-        characterBody.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
-        characterLeg.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
-    }
+    //    characterHead.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
+    //    characterBody.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
+    //    characterLeg.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
+    //}
 
 }

@@ -1,6 +1,5 @@
 using Cinemachine;
 using System.Collections.Generic;
-using Player;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using Unity.Mathematics;
@@ -112,20 +111,20 @@ public class OldGameManager : MonoBehaviour
         loadedPlayer.GetComponent<PlayerWorldMovement>().GenerateInteractions();
         skinsMa.StartMapping();
         save = saveDataDto;
-        player = new PlayerData(
-            Convert.ToInt16(saveDataDto.MonsterName),
-            saveDataDto.PlayerName,
-            saveDataDto.GoldAmount,
-            saveDataDto.XPAmount,
-            saveDataDto.PlayerLevel,
-            saveDataDto.SavedPlayerStartPostion.GetVector3(),
-            saveDataDto.HeadColor.ToColor(),
-            saveDataDto.BodyColor.ToColor(),
-            saveDataDto.LegColor.ToColor(),
-            WhichSprite(saveDataDto, "Head"),
-            WhichSprite(saveDataDto, "Body"),
-            WhichSprite(saveDataDto, "Legs")
-            ); 
+        //player = new PlayerData(
+        //    Convert.ToInt16(saveDataDto.MonsterName),
+        //    saveDataDto.PlayerName,
+        //    saveDataDto.GoldAmount,
+        //    saveDataDto.XPAmount,
+        //    saveDataDto.PlayerLevel,
+        //    saveDataDto.SavedPlayerStartPostion.GetVector3(),
+        //    saveDataDto.HeadColor.ToColor(),
+        //    saveDataDto.BodyColor.ToColor(),
+        //    saveDataDto.LegColor.ToColor(),
+        //    WhichSprite(saveDataDto, "Head"),
+        //    WhichSprite(saveDataDto, "Body"),
+        //    WhichSprite(saveDataDto, "Legs")
+        //    ); 
     
         SetWorldAndPlayerParts();
     
@@ -142,106 +141,106 @@ public class OldGameManager : MonoBehaviour
     private void SetWorldAndPlayerParts()
     {
 
-        #region Sets UI Items accordingly
-        playerName.text = player.PlayerName;
-        var goldXP = this.gameObject.GetComponent<GeneralManagement>();
-        goldXP.goldAmount = player.CurrentGoldAmount;
-        goldXP.expAmount = player.CurrentXPAmount;
-        goldXP.Level = player.CurrentLevel;
-         goldXP.UpdateValues();
-        #endregion
+        //#region Sets UI Items accordingly
+        //playerName.text = player.PlayerName;
+        //var goldXP = this.gameObject.GetComponent<GeneralManagement>();
+        //goldXP.goldAmount = player.CurrentGoldAmount;
+        //goldXP.expAmount = player.CurrentXPAmount;
+        //goldXP.Level = player.CurrentLevel;
+        // goldXP.UpdateValues();
+        //#endregion
 
-        #region Sets Player parts accordingly
-        //The null conditional operator (?.) ensures that if the Transforsm is not found, it won't cause a NullReferenceException
-        var head = loadedPlayer.transform.Find("Head")?.gameObject;
-        // head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
-        // head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
+        //#region Sets Player parts accordingly
+        ////The null conditional operator (?.) ensures that if the Transforsm is not found, it won't cause a NullReferenceException
+        //var head = loadedPlayer.transform.Find("Head")?.gameObject;
+        //// head.GetComponent<SpriteRenderer>().sprite = player.spriteHead;
+        //// head.GetComponent<SpriteRenderer>().color = player.currentHeadColor;
 
-        var body = loadedPlayer.transform.Find("Mainbody")?.gameObject;
-        // body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
-        // body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
+        //var body = loadedPlayer.transform.Find("Mainbody")?.gameObject;
+        //// body.GetComponent<SpriteRenderer>().sprite = player.spriteBody;
+        //// body.GetComponent<SpriteRenderer>().color = player.currentBodyColor;
 
-        var Legs = loadedPlayer.transform.Find("Legs")?.gameObject;
-        // Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
-        // Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
+        //var Legs = loadedPlayer.transform.Find("Legs")?.gameObject;
+        //// Legs.GetComponent<SpriteRenderer>().sprite = player.spriteLeg;
+        //// Legs.GetComponent<SpriteRenderer>().color = player.currentLegColor;
 
-        spriteHead = loadedPlayer.transform.Find("Head")?.gameObject;
-        spriteBody = loadedPlayer.transform.Find("Mainbody")?.gameObject;
-        spriteLeg = loadedPlayer.transform.Find("Legs")?.gameObject;
+        //spriteHead = loadedPlayer.transform.Find("Head")?.gameObject;
+        //spriteBody = loadedPlayer.transform.Find("Mainbody")?.gameObject;
+        //spriteLeg = loadedPlayer.transform.Find("Legs")?.gameObject;
 
-        // headColor = player.currentHeadColor;
-        // BodyColor = player.currentBodyColor;
-        // LegColor = player.currentLegColor;
-
-
-        loadedPlayer.GetComponent<CharacterVisuelManagement>().JustCreatedChar(this.gameObject);
-        #endregion
-
-        #region Sets GameManger components accordingly
-        // Determine the correct skin data list and parts collection based on the monster type.
-        List<SkinData> skinDataList = save.MonsterName == "SimpleMonster" ? save.MonsterPurchasedSkins : save.GirlPurchasedSkins;
-        CusParts cusParts = save.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
-        List<SkinData> headList = new List<SkinData>();
-        List<SkinData> bodyList = new List<SkinData>();
-        List<SkinData> legList = new List<SkinData>();
-
-        foreach (var item in skinDataList)
-        {
-            switch (item.Skintype)
-            {
-                case "Head":
-                    headList.Add(item);
-                    break;
-                case "Body":
-                    bodyList.Add(item);
-                    break;
-                case "Legs":
-                    legList.Add(item);
-                    break;
-            }
-        }
-
-        // Ensure the counts match
-        if (headList.Count != cusParts.head.Count || bodyList.Count != cusParts.torso.Count || legList.Count != cusParts.legs.Count)
-        {
-            Debug.LogError("Mismatch between skin data lists and CusParts lists.");
-            return;
-        }
-
-        // Update the CusParts lists with the loaded data
-        for (int i = 0; i < cusParts.head.Count; i++)
-        {
-            //Debug.Log($"Setting head[{i}]: Purchased={headList[i].Purchased}, Equipped={headList[i].Equipped}");
-            cusParts.head[i].purchased = headList[i].isPurchased;
-            cusParts.head[i].equipped = headList[i].isEquipped;
-        }
-        for (int i = 0; i < cusParts.torso.Count; i++)
-        {
-            //Debug.Log($"Setting torso[{i}]: Purchased={bodyList[i].Purchased}, Equipped={bodyList[i].Equipped}");
-            cusParts.torso[i].purchased = bodyList[i].isPurchased;
-            cusParts.torso[i].equipped = bodyList[i].isEquipped;
-        }
-        for (int i = 0; i < cusParts.legs.Count; i++)
-        {
-            //Debug.Log($"Setting legs[{i}]: Purchased={legList[i].Purchased}, Equipped={legList[i].Equipped}");
-            cusParts.legs[i].purchased = legList[i].isPurchased;
-            cusParts.legs[i].equipped = legList[i].isEquipped;
-        }
-        switch (save.MonsterName)
-        {
-            case "Girl":
-                skinsMa.girlSkins.head[0].purchased = true;
-                break;
-            case "SimpleMonster":
+        //// headColor = player.currentHeadColor;
+        //// BodyColor = player.currentBodyColor;
+        //// LegColor = player.currentLegColor;
 
 
-                break;
-        }
+        //loadedPlayer.GetComponent<CharacterVisuelManagement>().JustCreatedChar(this.gameObject);
+        //#endregion
+
+        //#region Sets GameManger components accordingly
+        //// Determine the correct skin data list and parts collection based on the monster type.
+        //List<SkinData> skinDataList = save.MonsterName == "SimpleMonster" ? save.MonsterPurchasedSkins : save.GirlPurchasedSkins;
+        //CusParts cusParts = save.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
+        //List<SkinData> headList = new List<SkinData>();
+        //List<SkinData> bodyList = new List<SkinData>();
+        //List<SkinData> legList = new List<SkinData>();
+
+        //foreach (var item in skinDataList)
+        //{
+        //    switch (item.Skintype)
+        //    {
+        //        case "Head":
+        //            headList.Add(item);
+        //            break;
+        //        case "Body":
+        //            bodyList.Add(item);
+        //            break;
+        //        case "Legs":
+        //            legList.Add(item);
+        //            break;
+        //    }
+        //}
+
+        //// Ensure the counts match
+        //if (headList.Count != cusParts.head.Count || bodyList.Count != cusParts.torso.Count || legList.Count != cusParts.legs.Count)
+        //{
+        //    Debug.LogError("Mismatch between skin data lists and CusParts lists.");
+        //    return;
+        //}
+
+        //// Update the CusParts lists with the loaded data
+        //for (int i = 0; i < cusParts.head.Count; i++)
+        //{
+        //    //Debug.Log($"Setting head[{i}]: Purchased={headList[i].Purchased}, Equipped={headList[i].Equipped}");
+        //    cusParts.head[i].purchased = headList[i].isPurchased;
+        //    cusParts.head[i].equipped = headList[i].isEquipped;
+        //}
+        //for (int i = 0; i < cusParts.torso.Count; i++)
+        //{
+        //    //Debug.Log($"Setting torso[{i}]: Purchased={bodyList[i].Purchased}, Equipped={bodyList[i].Equipped}");
+        //    cusParts.torso[i].purchased = bodyList[i].isPurchased;
+        //    cusParts.torso[i].equipped = bodyList[i].isEquipped;
+        //}
+        //for (int i = 0; i < cusParts.legs.Count; i++)
+        //{
+        //    //Debug.Log($"Setting legs[{i}]: Purchased={legList[i].Purchased}, Equipped={legList[i].Equipped}");
+        //    cusParts.legs[i].purchased = legList[i].isPurchased;
+        //    cusParts.legs[i].equipped = legList[i].isEquipped;
+        //}
+        //switch (save.MonsterName)
+        //{
+        //    case "Girl":
+        //        skinsMa.girlSkins.head[0].purchased = true;
+        //        break;
+        //    case "SimpleMonster":
+
+
+        //        break;
+        //}
         
 
-        skinsMa.PrintList();
+        //skinsMa.PrintList();
 
-        #endregion
+        //#endregion
 
 
 

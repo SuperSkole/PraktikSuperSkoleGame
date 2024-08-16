@@ -1,5 +1,4 @@
 using CORE;
-using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,6 @@ public class ChangeColor : MonoBehaviour
     private GameObject playerBody;
     private GameObject playerLegs;
 
-    PlayerData player;
 
     private void OnEnable()
     {

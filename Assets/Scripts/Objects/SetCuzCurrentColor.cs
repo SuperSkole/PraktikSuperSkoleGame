@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using CORE;
-using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +8,6 @@ public class SetCuzCurrentColor : MonoBehaviour
 {
     [SerializeField] private List<GameObject> playerParts = new List<GameObject>();
     [SerializeField] private List<GameObject> cuz = new List<GameObject>();
-    PlayerData p;
     [SerializeField] private GameObject player;
     [SerializeField] private TextMeshProUGUI nameField;
     [SerializeField] private GameObject gamemanger;
@@ -40,8 +38,9 @@ public class SetCuzCurrentColor : MonoBehaviour
         //colorsHead = player.GetComponent<characterManagement>().characterHeadColor;
         //colorsBody = player.GetComponent<characterManagement>().characterBodyColor;
         //colorsLeg = player.GetComponent<characterManagement>().characterLegColor;
-        PlayerData tmp = gamemanger.GetComponent<OldGameManager>().ReturnPlayer();
-        nameField.text = tmp.PlayerName;
+        
+        //PlayerData tmp = gamemanger.GetComponent<OldGameManager>().ReturnPlayer();
+        //nameField.text = tmp.PlayerName;
     }
     //public void BackButtonPressed()
     //{

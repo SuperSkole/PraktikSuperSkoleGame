@@ -1,4 +1,3 @@
-using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;

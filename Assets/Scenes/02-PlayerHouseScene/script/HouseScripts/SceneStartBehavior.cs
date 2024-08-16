@@ -1,5 +1,4 @@
 using CORE;
-using Player;
 using UnityEngine;
 
 public class SceneStartBehavior : MonoBehaviour

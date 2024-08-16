@@ -1,5 +1,4 @@
 using CORE;
-using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
