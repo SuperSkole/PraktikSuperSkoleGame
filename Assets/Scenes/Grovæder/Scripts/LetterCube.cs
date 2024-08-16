@@ -66,6 +66,7 @@ public class LetterCube : MonoBehaviour
     /// Which letter the letter cube displays
     /// </summary>
     private string letter;
+    
 
     /// <summary>
     /// Start is called before the first frame update

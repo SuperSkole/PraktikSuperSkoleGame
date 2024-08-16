@@ -258,5 +258,9 @@ public class Monster : MonoBehaviour
     public void StopMovement(){
         canWalk = false;
     }
+
+    public void StartMovement(){
+        canWalk = true;
+    }
 }
 
