@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Shopoption : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] string itemName;
-    [SerializeField] string Price;
+    [SerializeField] int Price;
     [SerializeField] TextMeshProUGUI priceText;
 
     private ShopManager shopManager;
@@ -17,13 +17,13 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
     {
         shopManager = FindObjectOfType<ShopManager>();
 
-        priceText.text = Price;
+        priceText.text = Price.ToString();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         //skal lige overfører pris også
-        shopManager.Click(itemName);
+        shopManager.Click(itemName, Price, this);
     }
 
 }
