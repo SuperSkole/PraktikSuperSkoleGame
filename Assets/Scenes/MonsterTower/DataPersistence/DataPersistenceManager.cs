@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UIElements;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -17,15 +18,32 @@ public class DataPersistenceManager : MonoBehaviour
 
     private GameData gameData;
 
-    [SerializeField] List<GameObject> Level1;
+    List<BrickLane> Level1=new List<BrickLane>();
+
+    [SerializeField]
+    private List<Sprite> wrongSprites;
+
+    [SerializeField]
+    private Sprite correctSprite;
+
+    [SerializeField]
+    private int zPosition;
+
+    [SerializeField]
+    private List<Sprite> wrongSprites2;
+
+    [SerializeField]
+    private Sprite correctSprite2;
+
+    [SerializeField]
+    private int zPosition2;
 
 
-    List<BrickData> defaultBrickLanes=new List<BrickData>();
+    private List<BrickLane> defaultBrickLanes=new List<BrickLane>();
     private List<IDataPersistence> dataPersistenceObjects;
 
-    
 
-     
+    
 
     private void Awake()
     {
@@ -45,24 +63,33 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void SetDefaultLanes()
     {
-        foreach (var item in Level1)
-        {
-            defaultBrickLanes.Add(item.GetComponent<BrickData>());
-        }
        
-    }
 
-    public void NewGame(List<BrickData> brickLanes )
+        Level1.Add(new BrickLane(wrongSprites, correctSprite, zPosition, Random.Range(0, wrongSprites2.Count)));
+
+        Level1.Add(new BrickLane(wrongSprites2, correctSprite2, zPosition2, Random.Range(0, wrongSprites2.Count)));
+
+
+        // Lanes are added with BrickLane containing a dictionary filled with pictures and a coresponding position. 
+        defaultBrickLanes = Level1;
+
+    }
+       
+    
+
+    public void NewGame(List<BrickLane> BrickLanes)
     {
-        gameData = new GameData(brickLanes);
+        gameData = new GameData(BrickLanes);
     }
 
 
     public void LoadGame()
     {
-        this.gameData = dataHandler.Load();
+        gameData = dataHandler.Load();
 
-        if(this.gameData==null)
+    
+       
+        if(gameData==null)
         {
             Debug.Log("No data was found. initialising data to default values");
             NewGame(defaultBrickLanes);
@@ -75,7 +102,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.LoadData(gameData);
         }
 
-       // Debug.Log("Loaded Lanes=" + gameData.brickLanes[0].sentence);
+       // Debug.Log("Loaded Lanes=" + gameData.BrickLanes[0].sentence);
 
        
 
@@ -86,6 +113,8 @@ public class DataPersistenceManager : MonoBehaviour
     {
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
         this.dataPersistenceObjects = FindAlldataPersistenceObjects();
+
+       
         LoadGame();
 
     }
@@ -98,7 +127,7 @@ public class DataPersistenceManager : MonoBehaviour
             dataPersistenceObj.SaveData(ref gameData);
         }
 
-       // Debug.Log("Saved lanes=" + gameData.brickLanes);
+       
 
         dataHandler.Save(gameData);
     }
@@ -106,7 +135,10 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
+    
         SaveGame();
+
+       
     }
 
 

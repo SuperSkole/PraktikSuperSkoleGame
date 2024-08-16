@@ -18,6 +18,8 @@ public class TowerManager : MonoBehaviour,IDataPersistence
   
     private GameObject[,] tower;
 
+    private GameObject[,] loadedTower;
+
     private int rowToDelete=0;
 
 
@@ -39,7 +41,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
     private List<Sprite> allImagesInCurrentRow;
 
   
-    private List <BrickData> brickLanes;
+    private List <BrickLane> BrickLanes;
 
     private int currentLane = 0;
 
@@ -51,7 +53,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
 
 
-    private List<BrickData> loadedBrickLanes;
+    private List<BrickLane> loadedBrickLanes;
 
     public bool isLevelLoaded = false;
 
@@ -80,13 +82,20 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             yield return null;
         }
 
-        towerHeight = loadedBrickLanes.Count;
+      
 
-        allImagesInCurrentRow = loadedBrickLanes[currentLane].wrongImages;
-        allImagesInCurrentRow.Add(loadedBrickLanes[currentLane].correctImage);
-        brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+       
+            towerHeight = loadedBrickLanes.Count;
 
-        BuildTower();
+
+    
+          
+            brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+
+            BuildTower();
+     
+      
+
     }
 
     // Update is called once per frame
@@ -115,9 +124,12 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             for (int i = 0; i < numberOfBricksInLane; i++)
             {
 
-                Destroy(tower[i, rowToDelete]);
+                Destroy(loadedTower[i, rowToDelete]);
+                
 
             }
+
+           
 
             loadedBrickLanes.RemoveAt(0);
 
@@ -135,9 +147,9 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             {
                 if (i <= amountOfOptions - 1)
                 {
-                    tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+                    loadedTower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
 
-                    Brick brickComponent = tower[i, rowToDelete].GetComponent<Brick>();
+                    Brick brickComponent = loadedTower[i, rowToDelete].GetComponent<Brick>();
                      brickComponent.isShootable = true;
                    
                 }
@@ -167,14 +179,14 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
         float towerAngle = 2*Mathf.PI / numberOfBricksInLane;
         float startAngle = 180.3f;
-        tower = new GameObject[numberOfBricksInLane, towerHeight];
+        loadedTower = new GameObject[numberOfBricksInLane, towerHeight];
 
         // the tower is built based on tower height and numberOfBricksInLane with a for loop. 
         for (int z = 0; z < towerHeight; z++)
         {
 
-            // Random correct image index is used so the right answer is put randomly between the posible positions. 
-            int correctImageIndex = UnityEngine.Random.Range(0, amountOfOptions-1);
+            
+          
             for (int x = 0; x < numberOfBricksInLane; x++)
             {
 
@@ -190,9 +202,9 @@ public class TowerManager : MonoBehaviour,IDataPersistence
                 // the brick is rotated so the picture would be facing the right way.
                 // Then the towerobject is set as the parrent to the brick. 
 
-                tower[x, z] = Instantiate(brickPrefab, newPos, quaternion.Euler(0,-startAngle,0));
-                tower[x, z].transform.Rotate(new Vector3(0, -90, 0));
-                tower[x, z].transform.parent = gameObject.transform;
+                loadedTower[x, z] = Instantiate(brickPrefab, newPos, quaternion.Euler(0,-startAngle,0));
+                loadedTower[x, z].transform.Rotate(new Vector3(0, -90, 0));
+                loadedTower[x, z].transform.parent = gameObject.transform;
 
 
 
@@ -201,24 +213,24 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             
                 if (x <= amountOfOptions-1)
                 {
-                    Brick brickComponent = tower[x, z].GetComponent<Brick>();
+                    Brick brickComponent = loadedTower[x, z].GetComponent<Brick>();
                     if (z == 0)
                     {
                         brickComponent.isShootable = true;
                     }
                     // The images are set here and instantiatetd on the right bricks. 
                     // and based on the value of correctImageIndex the right answer is set. 
-                    if (x == correctImageIndex)
+                    if (x == loadedBrickLanes[z].correctImageIndex)
                     {
 
                         // The image for the brick and the correct image is given to the brick and can be used to check if the right brick is chosen.
-                        brickComponent.sprite = image;
-                        brickComponent.correctSprite = image;
+                        brickComponent.sprite = loadedBrickLanes[z].correctSprite;
+                        brickComponent.correctSprite = loadedBrickLanes[z].correctSprite;
                         
                        
 
-                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = image;
-                         var instCanvas=Instantiate(canvasPrefab, tower[x, z].transform);
+                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = loadedBrickLanes[z].correctSprite;
+                         var instCanvas=Instantiate(canvasPrefab, loadedTower[x, z].transform);
 
                         // makes all the other options besides those on the lowest lane not active. 
                         if(z!=0)
@@ -230,11 +242,21 @@ public class TowerManager : MonoBehaviour,IDataPersistence
                     }
                     else
                     {
+                       Debug.Log( loadedBrickLanes[z].wrongSprites.Count);
+                        if (x > loadedBrickLanes[z].wrongSprites.Count-1)
+                        {
+                            brickComponent.sprite = loadedBrickLanes[z].wrongSprites[loadedBrickLanes[z].wrongSprites.Count-1];
+                            canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = loadedBrickLanes[z].wrongSprites[loadedBrickLanes[z].wrongSprites.Count - 1];
+                        }
+                        else
+                        {
+                            brickComponent.sprite = loadedBrickLanes[z].wrongSprites[x];
+                            canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = loadedBrickLanes[z].wrongSprites[x];
+                        }
 
-                        brickComponent.sprite = loadedBrickLanes[currentLane].wrongImages[0];
-                        brickComponent.correctSprite = image;
-                        canvasPrefab.transform.GetChild(0).GetComponent<UnityEngine.UI.Image>().sprite = loadedBrickLanes[currentLane].wrongImages[0];
-                        var instCanvas =Instantiate(canvasPrefab, tower[x, z].transform);
+                        brickComponent.correctSprite = loadedBrickLanes[z].correctSprite; ;
+                       
+                        var instCanvas =Instantiate(canvasPrefab, loadedTower[x, z].transform);
 
                         if (z != 0)
                         {
@@ -257,12 +279,23 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
     public void LoadData(GameData data)
     {
-        this.loadedBrickLanes = data.brickLanes;
+        this.loadedBrickLanes = data.BrickLanes;
+    
+
+       
+
+        Debug.Log("Data Loaded");
+
         isLevelLoaded = true;
     }
 
     public void SaveData(ref GameData data)
     {
-        data.brickLanes = this.loadedBrickLanes;
+        data.BrickLanes = this.loadedBrickLanes;
+       
+
+        Debug.Log("Data Saved");
+
+
     }
 }

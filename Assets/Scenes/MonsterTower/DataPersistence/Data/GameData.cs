@@ -9,12 +9,16 @@ public class GameData
 
    
 
-   public List<BrickData> brickLanes;
+   public List<BrickLane> BrickLanes;
 
-    public GameData(List<BrickData> brickLanes)
+
+
+
+    public GameData(List<BrickLane> BrickLanes)
     {
-        this.brickLanes = brickLanes;
-
+        this.BrickLanes = BrickLanes;
+      
+        
     }
 
 

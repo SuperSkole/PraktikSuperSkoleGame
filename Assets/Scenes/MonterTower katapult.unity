@@ -1194,8 +1194,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prjectipePrefab: {fileID: 8399951662530303645, guid: 5b15b1a8b2463364594ea1f0cfd8adf6, type: 3}
   catapult: {fileID: 0}
-  shootPos: {fileID: 844273060}
-  hight: 5
+  shootPos: {fileID: 1115762482}
+  hight: 10
 --- !u!1001 &535362339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1548,9 +1548,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: TowerSaveFile
-  Level1:
-  - {fileID: 4249870286725544933, guid: 59181ef678e24684296accbb65dc1913, type: 3}
-  - {fileID: 4249870286725544933, guid: 88ec02618a58c9c4cbee9fb0e2fadc7e, type: 3}
+  wrongSprites:
+  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
+  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
+  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
+  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
+  correctSprite: {fileID: 21300000, guid: 0be4cad76529fde46976d92042128927, type: 3}
+  zPosition: 0
+  wrongSprites2:
+  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
+  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
+  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
+  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
+  correctSprite2: {fileID: 21300000, guid: 0be4cad76529fde46976d92042128927, type: 3}
+  zPosition2: 1
 --- !u!4 &638766868
 Transform:
   m_ObjectHideFlags: 0
