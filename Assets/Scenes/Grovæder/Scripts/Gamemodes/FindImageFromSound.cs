@@ -113,7 +113,7 @@ public class FindImageFromSound : IGameMode
            // makes a image string from the current word variable, so that we can find it in the files.
             string image = currentWord.ToLower();
             string imageFileName = currentWord + "_image";
-            Debug.Log(imageFileName);
+            
             Sprite currentImage = texture[currentWord];
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Check to ensure images dont spawn below the player and that it is not an already activated lettercube
