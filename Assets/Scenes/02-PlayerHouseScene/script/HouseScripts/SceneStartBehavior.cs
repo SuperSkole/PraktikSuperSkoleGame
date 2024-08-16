@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneStartBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
+    PlayerData playerData;
     [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private GameObject buildingSystem;
     [SerializeField] private GameObject uiBuilding;
@@ -22,14 +23,23 @@ public class SceneStartBehavior : MonoBehaviour
         {
             case 0:
                 spawnedPlayer = Instantiate(playerPrefab, playerSpawnPoint);
-                var tmp1 = spawnedPlayer.AddComponent<PlayerData>();
-                tmp1 = GameManager.Instance.PlayerData;
-
+                playerData = spawnedPlayer.GetComponent<PlayerData>();
+                PopulatePlayerInfo();
                 break;
         }
         buildingSystem.SetActive(false);
         uiBuilding.SetActive(buildingSystem.activeSelf);
         cameraMovement.enabled = buildingSystem.activeSelf;
+    }
+    private void PopulatePlayerInfo()
+    {
+        playerData.HashedUsername = GameManager.Instance.PlayerData.HashedUsername;
+        playerData.PlayerName= GameManager.Instance.PlayerData.PlayerName;
+        playerData.MonsterTypeID = GameManager.Instance.PlayerData.MonsterTypeID;
+        playerData.CurrentGoldAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
+        playerData.CurrentXPAmount = GameManager.Instance.PlayerData.CurrentXPAmount;
+        playerData.CurrentLevel = GameManager.Instance.PlayerData.CurrentLevel;
+
     }
 
     public void EnableBuildingSystem()

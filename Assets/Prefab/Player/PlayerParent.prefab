@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5874153678614725772}
   - component: {fileID: 2102550191519774190}
   - component: {fileID: 2303528203887376164}
+  - component: {fileID: -2984174739293466506}
   m_Layer: 0
   m_Name: PlayerParent
   m_TagString: Untagged
@@ -105,6 +106,38 @@ MonoBehaviour:
   blendDuration: 0.2
   moveSpeed: 5
   facingRight: 1
+--- !u!114 &-2984174739293466506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939422bbe3880c64c9291f46bbf23fd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HashedUsername: 
+  Savefile: 
+  PlayerName: 
+  MonsterTypeID: 0
+  CurrentGoldAmount: 0
+  CurrentXPAmount: 0
+  CurrentLevel: 0
+  CurrentPosition: {x: 0, y: 0, z: 0}
+  CollectedWords: []
+  CollectedLetters: 
+  CharacterHead: 
+  CharacterBody: 
+  CharacterColor: 
+  PurchasedCharactorSkins: []
+  currentHeadColor: {r: 0, g: 0, b: 0, a: 0}
+  currentBodyColor: {r: 0, g: 0, b: 0, a: 0}
+  currentLegColor: {r: 0, g: 0, b: 0, a: 0}
+  spriteHead: {fileID: 0}
+  spriteBody: {fileID: 0}
+  spriteLeg: {fileID: 0}
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
