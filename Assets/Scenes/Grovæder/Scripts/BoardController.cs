@@ -81,7 +81,7 @@ public class BoardController : MonoBehaviour
 
     private void Start()
     {
-        GameModeSet(new SpellWord());
+        //GameModeSet(new SpellWord());
     }
 
     public Player GetPlayer(){
@@ -187,7 +187,7 @@ public class BoardController : MonoBehaviour
     /// <param name="OnFinish">The method to run when the imageManager has finished. Should have the format void MethodName()</param>
     public void StartImageWait(ImageLoadFinished OnFinish){
         
-        StartCoroutine(waitOnImageLoad(OnFinish));
+        StartCoroutine(WaitOnImageLoad(OnFinish));
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="OnFinish">The same as above</param>
     /// <returns></returns>
-    IEnumerator waitOnImageLoad(ImageLoadFinished OnFinish){
+    IEnumerator WaitOnImageLoad(ImageLoadFinished OnFinish){
         player.StopMovement();
         monsterHivemind.PauseMovement();
         gameOverText.text = "Indlæser billeder. Vent venligst";
