@@ -180,11 +180,21 @@ public class BoardController : MonoBehaviour
         gameMode.SetMinAndMaxCorrectSymbols(min, max);
     }
 
+
+    /// <summary>
+    /// Run in case a game needs the image manager and it hasnt finished loading the images.
+    /// </summary>
+    /// <param name="OnFinish">The method to run when the imageManager has finished. Should have the format void MethodName()</param>
     public void StartImageWait(ImageLoadFinished OnFinish){
         
         StartCoroutine(waitOnImageLoad(OnFinish));
     }
 
+    /// <summary>
+    /// Couroutine for waiting on image load
+    /// </summary>
+    /// <param name="OnFinish">The same as above</param>
+    /// <returns></returns>
     IEnumerator waitOnImageLoad(ImageLoadFinished OnFinish){
         player.StopMovement();
         monsterHivemind.PauseMovement();

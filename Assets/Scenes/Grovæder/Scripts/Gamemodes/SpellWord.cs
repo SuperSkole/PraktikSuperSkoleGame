@@ -216,6 +216,9 @@ public class SpellWord : IGameMode
         maxWrongLetters = max;
     }
 
+    /// <summary>
+    /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
+    /// </summary>
     public void OnImageLoad(){
         Texture2D texture = ImageManager.GetImageFromWord(word);
         sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
