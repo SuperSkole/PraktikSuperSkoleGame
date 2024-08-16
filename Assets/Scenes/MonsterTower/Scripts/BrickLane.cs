@@ -2,6 +2,7 @@ using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 [System.Serializable]
@@ -9,23 +10,23 @@ public class BrickLane
 {
     // Start is called before the first frame update
 
-    public List<Sprite>  wrongSprites;
+    public List<BrickData>  bricks;
 
-    public Sprite correctSprite;
+    public BrickData correctBrick;
 
     public int zPosition;
 
     public int correctImageIndex;
 
+    
 
 
-
-    public BrickLane(List<Sprite> wrongSprites, Sprite correctSprite,int zPosition,int correctImageIndex )
+    public BrickLane(List<BrickData> bricks, BrickData correctBrick,int zPosition,int correctImageIndex )
     {
 
-        this.wrongSprites = wrongSprites;
+        this.bricks = bricks;
 
-        this.correctSprite = correctSprite;
+        this.correctBrick = correctBrick;
 
         this.zPosition = zPosition;
 
