@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+
 
 /// <summary>
 /// Manager for letter cubes in the Grovæder game.
@@ -12,6 +14,25 @@ public class LetterCube : MonoBehaviour
     /// Text field of the LetterCube
     /// </summary>
     [SerializeField]private TextMeshPro text;
+
+
+    /// <summary>
+    /// A gameobject to have the images sprite onto.
+    /// </summary>
+    [SerializeField]private GameObject imageObject;
+
+
+    /// <summary>
+    /// these 3 are used for the FindImageFromSound gamemode, with a SpriteRendere and a sprite, and a String for the current word.
+    /// </summary>
+    private Sprite texture;
+
+    private SpriteRenderer spriteRenderer;
+
+    private string isCurrentWord;
+
+    
+
     /// <summary>
     /// The gameboard the letter cube is connected to
     /// </summary>
@@ -51,7 +72,7 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     void Start()
     {
-        
+        spriteRenderer = imageObject.GetComponent<SpriteRenderer>();
     }
 
     /// <summary>
@@ -90,6 +111,32 @@ public class LetterCube : MonoBehaviour
         Activate(letter, false);
     }
 
+    /// <summary>
+    /// Overload on the activate method in case it is not important whether the Word is lower case. Takes the desired Word as input
+    /// </summary>
+    public void ActivateImage(Sprite sprite, string word )
+    {
+        
+        spriteRenderer.sprite = sprite;
+        letter = word;
+
+        if (!active)
+        {
+            active = true;
+            transform.Translate(0, 0.2f, 0);
+        }
+    }
+
+    /// <summary>
+    /// Same as Above but Meant for the find imageGamemode
+    /// </summary>
+    /// <param name="texture2D"></param>
+    /// <param name="currentWord"></param>
+    public void ActivateImage(Sprite sprite)
+    {
+        ActivateImage(sprite, isCurrentWord);
+    }
+
     public string GetLetter(){
         return letter;
     }
@@ -122,6 +169,23 @@ public class LetterCube : MonoBehaviour
         text.text = ".";
         letter = "";
         if(active){
+            active = false;
+            transform.Translate(0, -0.2f, 0);
+            readyForDeactivation = false;
+        }
+    }
+
+
+    /// <summary>
+    /// Deactivates the letterbox by moving it back below the board and reseting the Image and value of the Word variable
+    /// </summary>
+    public void DeactivateImage()
+    {
+        texture = null;
+        isCurrentWord = ".";
+
+        if (active)
+        {
             active = false;
             transform.Translate(0, -0.2f, 0);
             readyForDeactivation = false;
