@@ -428,12 +428,12 @@ public class SkinShop : MonoBehaviour
     public void DisableSkinShop()
     {
         skinShopGO.SetActive(false);
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
     }
     public void EnableSkinShop()
     {
         skinShopGO.SetActive(true);
-        PlayerWorldMovement.allowedToMove = false;
+        PlayerMovement.allowedToMove = false;
     }
     #region Change Colors
     private void ChangeColorHavePruchase()
@@ -633,7 +633,7 @@ public class SkinShop : MonoBehaviour
     /// </summary>
     public void CloseSkinShop()
     {
-        PlayerWorldMovement.allowedToMove = true;
+        PlayerMovement.allowedToMove = true;
 
         switch (gm.GetComponent<OldGameManager>().save.MonsterName)
         {

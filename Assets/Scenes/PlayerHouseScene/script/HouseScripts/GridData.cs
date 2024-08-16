@@ -2,10 +2,26 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents a data structure for managing the placement of objects on a grid.
+/// </summary>
+[Serializable]
 public class GridData
 {
-    Dictionary<Vector3Int, PlacementData> placedObjects = new();
+    /// <summary>
+    /// Dictionary storing the placed objects on the grid, with their grid positions as keys.
+    /// </summary>
+    [SerializeField]
+    public Dictionary<Vector3Int, PlacementData> placedObjects = new();
 
+    /// <summary>
+    /// Adds an object to the grid at the specified position and size.
+    /// </summary>
+    /// <param name="gridPostion">The grid position where the object will be placed.</param>
+    /// <param name="ObjectSize">The size of the object being placed on the grid.</param>
+    /// <param name="ID">The identifier for the object being placed.</param>
+    /// <param name="placedObjectIndex">The index representing the placed object.</param>
+    /// <exception cref="Exception">Thrown if the grid position is already occupied.</exception>
     public void AddObjectAt(Vector3Int gridPostion,
                             Vector2Int ObjectSize,
                             int ID,
@@ -23,6 +39,12 @@ public class GridData
         }
     }
 
+    /// <summary>
+    /// Calculates all grid positions that the object will occupy based on its size.
+    /// </summary>
+    /// <param name="gridPostion">The starting grid position.</param>
+    /// <param name="objectSize">The size of the object being placed.</param>
+    /// <returns>A list of grid positions occupied by the object.</returns>
     private List<Vector3Int> CalculatePositions(Vector3Int gridPostion, Vector2Int objectSize)
     {
         List<Vector3Int> returnVal = new();
@@ -35,6 +57,13 @@ public class GridData
         }
         return returnVal;
     }
+
+    /// <summary>
+    /// Checks if an object can be placed at the specified grid position with the given size.
+    /// </summary>
+    /// <param name="gridPostion">The grid position where the object would be placed.</param>
+    /// <param name="objectSize">The size of the object being placed.</param>
+    /// <returns>True if the object can be placed, otherwise false.</returns>
     public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize)
     {
         List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
@@ -48,6 +77,11 @@ public class GridData
         return true;
     }
 
+    /// <summary>
+    /// Retrieves the index representing the placed object at the specified grid position.
+    /// </summary>
+    /// <param name="gridPos">The grid position of the object.</param>
+    /// <returns>The index of the placed object, or -1 if no object is found.</returns>
     internal int GetRepresentationIndex(Vector3Int gridPos)
     {
         if (placedObjects.ContainsKey(gridPos) == false)
@@ -57,6 +91,10 @@ public class GridData
         return placedObjects[gridPos].PlacedObjectIndex;
     }
 
+    /// <summary>
+    /// Removes the object at the specified grid position from the grid.
+    /// </summary>
+    /// <param name="gridPos">The grid position of the object to be removed.</param>
     internal void RemoveObjectAt(Vector3Int gridPos)
     {
         foreach (var pos in placedObjects[gridPos].occupiedPositions)
@@ -65,11 +103,34 @@ public class GridData
         }
     }
 }
+
+/// <summary>
+/// Represents data related to the placement of an object on a grid.
+/// </summary>
+[Serializable]
 public class PlacementData
 {
+    /// <summary>
+    /// A list of grid positions occupied by the object.
+    /// </summary>
     public List<Vector3Int> occupiedPositions;
+
+    /// <summary>
+    /// Gets the identifier of the object.
+    /// </summary>
     public int ID { get; private set; }
+
+    /// <summary>
+    /// Gets the index representing the placed object.
+    /// </summary>
     public int PlacedObjectIndex { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PlacementData"/> class.
+    /// </summary>
+    /// <param name="occupiedPositions">The grid positions occupied by the object.</param>
+    /// <param name="iD">The identifier of the object.</param>
+    /// <param name="placedObjectIndex">The index representing the placed object.</param>
     public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
     {
         this.occupiedPositions = occupiedPositions;
@@ -77,3 +138,4 @@ public class PlacementData
         PlacedObjectIndex = placedObjectIndex;
     }
 }
+
