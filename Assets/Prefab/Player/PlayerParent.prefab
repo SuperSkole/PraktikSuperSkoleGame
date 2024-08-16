@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -2984174739293466506}
   m_Layer: 0
   m_Name: PlayerParent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,10 +82,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.65
+  m_Radius: 1.83
   m_Height: 12.4
   m_Direction: 1
-  m_Center: {x: 0.3, y: -4.35, z: -1.28}
+  m_Center: {x: 0.3, y: -4.35, z: -1.88}
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0
