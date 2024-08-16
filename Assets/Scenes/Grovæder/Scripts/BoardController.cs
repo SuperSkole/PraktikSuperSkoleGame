@@ -36,7 +36,7 @@ public class BoardController : MonoBehaviour
     [SerializeField]private GameObject playerObject;
     private Player player;
 
-    private IGameMode gameMode = new FindImageFromSound();
+    private IGameMode gameMode;
 
     [SerializeField]GameObject monsterPrefab;
 
@@ -45,8 +45,9 @@ public class BoardController : MonoBehaviour
     public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
     // Start is called before the first frame update
-    void Start()
+    public void GameModeSet(IGameMode targetMode)
     {
+        gameMode = targetMode;
         player = playerObject.GetComponent<Player>();
         player.board = this;
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
@@ -68,6 +69,11 @@ public class BoardController : MonoBehaviour
         }
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
         gameMode.GetSymbols();
+    }
+
+    private void Start()
+    {
+        //GameModeSet(new FindNumberSeries());
     }
 
     public Player GetPlayer(){
