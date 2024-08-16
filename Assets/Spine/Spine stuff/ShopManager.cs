@@ -40,6 +40,7 @@ public class ShopManager : MonoBehaviour
             skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
             currentTopItem = itemName;
         }
+
         if (itemName.Contains("MID"))
         {
             if (currentMidItem != null)
