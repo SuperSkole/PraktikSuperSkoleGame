@@ -134,6 +134,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             CurrentWordSound();
         }
 
+
+        /// <summary>
+        /// Checks if the Word is the same as the correct one
+        /// </summary>
+        /// <param name="letter">The Word which should be checked</param>
+        /// <returns>Whether the Word is the correct one</returns>
         public bool IsCorrectSymbol(string image)
         {
             return image.ToLower() == currentWord.ToLower();

@@ -176,7 +176,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         }
 
         /// <summary>
-        /// Replaces LetterCubes on the map when the x number of correct ones are found.
+        /// Replaces LetterCubes on the map when x number of correct ones are found.
         /// </summary>
         public void ReplaceSymbol(LetterCube letter)
         {
