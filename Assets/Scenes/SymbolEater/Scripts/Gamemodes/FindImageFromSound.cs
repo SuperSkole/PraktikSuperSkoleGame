@@ -9,7 +9,7 @@ public class FindImageFromSound : IGameMode
     /// <summary>
     /// Current Word Sound clip
     /// </summary>
-    GrovÆderSoundController currentWordsoundClip;
+    SymbolEaterSoundController currentWordsoundClip;
 
     /// <summary>
     /// The correct word
@@ -148,9 +148,9 @@ public class FindImageFromSound : IGameMode
         if (clip != null)
         {
             if (currentWordsoundClip == null)
-                currentWordsoundClip = GameObject.FindObjectOfType<GrovÆderSoundController>();
+                currentWordsoundClip = GameObject.FindObjectOfType<SymbolEaterSoundController>();
 
-            currentWordsoundClip.SetGrovæderSound(clip); // sends sound to AudioController
+            currentWordsoundClip.SetSymbolEaterSound(clip); // sends sound to AudioController
         }
         else
         {

@@ -10,7 +10,7 @@ public class RecognizeSoundOfLetter : IGameMode
     /// <summary>
     /// Change the soundclip to what we need.
     /// </summary>
-    GrovÆderSoundController currentsoundClip;
+    SymbolEaterSoundController currentsoundClip;
 
     /// <summary>
     /// The correct letter
@@ -132,9 +132,9 @@ public class RecognizeSoundOfLetter : IGameMode
         if (clip != null)
         {
             if (currentsoundClip == null)
-                currentsoundClip = GameObject.FindObjectOfType<GrovÆderSoundController>();
+                currentsoundClip = GameObject.FindObjectOfType<SymbolEaterSoundController>();
           
-            currentsoundClip.SetGrovæderSound(clip); // sends sound to AudioController
+            currentsoundClip.SetSymbolEaterSound(clip); // sends sound to AudioController
         }
         else
         {
