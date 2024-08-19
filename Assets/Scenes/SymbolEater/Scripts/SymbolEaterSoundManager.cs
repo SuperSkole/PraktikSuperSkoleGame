@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grov∆derSoundController : MonoBehaviour
+public class SymbolEaterSoundController : MonoBehaviour
 {
 
     [SerializeField]
@@ -15,7 +15,7 @@ public class Grov∆derSoundController : MonoBehaviour
 
 
     //so we can update letterSoundClip via other scipts
-    public void SetGrovÊderSound(AudioClip clip)
+    public void SetSymbolEaterSound(AudioClip clip)
     {
         letterSoundClip = clip;
         
