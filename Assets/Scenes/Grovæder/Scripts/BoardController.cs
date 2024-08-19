@@ -7,32 +7,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// Board controller for the Symbol Eater mini game
+/// </summary>
 public class BoardController : MonoBehaviour
 {
     /// <summary>
-    /// List of all lettercubes on the board. Other types of gameobjects should not be added.
+    /// Only objects containing lettercubes should be added.
     /// </summary>
     [SerializeField]private List<GameObject>letterCubeObjects = new List<GameObject>();
 
-    /// <summary>
-    /// Game object containing the text field telling which letter the player should find
-    /// </summary>
     [SerializeField]private GameObject answerTextObject;
     
-    /// <summary>
-    /// Object containing the answer image
-    /// </summary>
     [SerializeField]private GameObject answerImageObject;
 
     [SerializeField]private GameObject gameOverObject;
-    /// <summary>
-    /// The text field containing the text telling the player which letter to find
-    /// </summary>
+
     private TextMeshProUGUI answerText;
 
-    /// <summary>
-    /// The text field to display text then the game is over both if the player wins or loses
-    /// </summary>
     private TextMeshProUGUI gameOverText;
 
     private Image answerImage;
@@ -49,12 +42,16 @@ public class BoardController : MonoBehaviour
     public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
 
-    public delegate void ImageLoadFinished();
+    public delegate void LoadFinished();
 
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Sets up the gameboard and the gamemode
+    /// </summary>
+    /// <param name="targetMode">The game mode which should be used</param>
     public void GameModeSet(IGameMode targetMode)
     {
+        //Sets various fieldvariables and their field variables
         gameMode = targetMode;
         player = playerObject.GetComponent<Player>();
         player.board = this;
@@ -67,10 +64,12 @@ public class BoardController : MonoBehaviour
         difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
         difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
 
-        //Retrieves the lettercube managers from the list of lettercubes and sets their board variable to this board mananager
-        foreach (GameObject l in letterCubeObjects){
+        //Retrieves the lettercubes from the list of lettercube objects and sets their board variable to this board controller
+        foreach (GameObject l in letterCubeObjects)
+        {
             LetterCube lC = l.GetComponent<LetterCube>();
-            if (lC != null){
+            if (lC != null)
+            {
                 letterCubes.Add(lC);
                 lC.SetBoard(this);
             }
@@ -79,29 +78,24 @@ public class BoardController : MonoBehaviour
         gameMode.GetSymbols();
     }
 
+    /// <summary>
+    /// uncomment if the scene is run directly from unity
+    /// </summary>
     private void Start()
     {
-        //GameModeSet(new SpellWord());
+        GameModeSet(new SpellWord());
     }
 
     public Player GetPlayer(){
         return player;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.R)){
-            gameMode.GetSymbols();
-        }
-    }
-
-
     /// <summary>
     /// tells the gamemode to replace a specific letterbox
     /// </summary>
     /// <param name="letter">The letterbox which should be replaced</param>
-    public void ReplaceLetter(LetterCube letter){
+    public void ReplaceLetter(LetterCube letter)
+    {
         gameMode.ReplaceSymbol(letter);
     }
 
@@ -110,7 +104,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="letter"></param>
     /// <returns>whether the letter is the same as the correct one</returns>
-    public bool IsCorrectSymbol(string letter){
+    public bool IsCorrectSymbol(string letter)
+    {
         return gameMode.IsCorrectSymbol(letter);
     }
 
@@ -118,7 +113,8 @@ public class BoardController : MonoBehaviour
     /// Sets the text of the answertext ui element
     /// </summary>
     /// <param name="text">the text which should be displayed</param>
-    public void SetAnswerText(string text){
+    public void SetAnswerText(string text)
+    {
         answerText.text = text;
     }
 
@@ -127,8 +123,10 @@ public class BoardController : MonoBehaviour
     /// Sets the answerimage and activates it if it is not allready
     /// </summary>
     /// <param name="sprite">the image which should be displayed</param>
-    public void SetImage(Sprite sprite){
-        if(!answerImage.enabled){
+    public void SetImage(Sprite sprite)
+    {
+        if(!answerImage.enabled)
+        {
             answerImage.enabled = true;
         }
         answerImage.sprite = sprite;
@@ -137,7 +135,8 @@ public class BoardController : MonoBehaviour
     /// <summary>
     /// Called when the player is thrown of the board and loses
     /// </summary>
-    public void Lost(){
+    public void Lost()
+    {
         gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
         monsterHivemind.OnGameOver();
     }
@@ -146,7 +145,8 @@ public class BoardController : MonoBehaviour
     /// Called when the player wins a gamemode
     /// </summary>
     /// <param name="winText">The text to display</param>
-    public void Won(string winText){
+    public void Won(string winText)
+    {
         gameOverText.text = winText;
         monsterHivemind.OnGameOver();
     }
@@ -157,7 +157,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="monster">The monster which should be instantiated</param>
     /// <param name="pos">The position at which it should be instantiated</param>
-    public void InstantitateMonster(GameObject monster, Vector3 pos){
+    public void InstantitateMonster(GameObject monster, Vector3 pos)
+    {
         GameObject monsterObject = Instantiate(monster, pos, Quaternion.identity);
         monsterHivemind.monsters.Add(monsterObject.GetComponent<Monster>());
     }
@@ -167,7 +168,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void ChangeMinAndMaxWrongSymbols(int min, int max){
+    public void ChangeMinAndMaxWrongSymbols(int min, int max)
+    {
         gameMode.SetMinAndMaxWrongSymbols(min, max);
     }
 
@@ -176,7 +178,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void ChangeMinAndMaxCorrectSymbols(int min, int max){
+    public void ChangeMinAndMaxCorrectSymbols(int min, int max)
+    {
         gameMode.SetMinAndMaxCorrectSymbols(min, max);
     }
 
@@ -185,7 +188,8 @@ public class BoardController : MonoBehaviour
     /// Run in case a game needs the image manager and it hasnt finished loading the images.
     /// </summary>
     /// <param name="OnFinish">The method to run when the imageManager has finished. Should have the format void MethodName()</param>
-    public void StartImageWait(ImageLoadFinished OnFinish){
+    public void StartImageWait(LoadFinished OnFinish)
+    {
         
         StartCoroutine(WaitOnImageLoad(OnFinish));
     }
@@ -195,7 +199,8 @@ public class BoardController : MonoBehaviour
     /// </summary>
     /// <param name="OnFinish">The same as above</param>
     /// <returns></returns>
-    IEnumerator WaitOnImageLoad(ImageLoadFinished OnFinish){
+    IEnumerator WaitOnImageLoad(LoadFinished OnFinish)
+    {
         player.StopMovement();
         monsterHivemind.PauseMovement();
         gameOverText.text = "Indlæser billeder. Vent venligst";

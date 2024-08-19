@@ -4,80 +4,54 @@ using TMPro;
 using UnityEngine;
 
 /// <summary>
-/// Manager for letter cubes in the Grovæder game.
+/// Manager for letter cubes in the Symbol Eater mini game.
 /// </summary>
 public class LetterCube : MonoBehaviour
 {
-    /// <summary>
-    /// Text field of the LetterCube
-    /// </summary>
+
     [SerializeField]private TextMeshPro text;
-    /// <summary>
-    /// The gameboard the letter cube is connected to
-    /// </summary>
+
     [SerializeField]private BoardController board;
 
-    //Materials to change the color of the cube depending on the current status
     [SerializeField]private Material defaultMaterial;
     [SerializeField]private Material correctMaterial;
     [SerializeField]private Material incorrectMaterial;
 
     [SerializeField]private MeshRenderer meshRenderer;
 
-    /// <summary>
-    /// Whether the font used for the displayed symbol should be randomized
-    /// </summary>
     public bool randomizeFont = false;
 
-    /// <summary>
-    /// List of the fonts which the lettercube can select.
-    /// </summary>
     [SerializeField] List<TMP_FontAsset> fonts;
 
-
     bool readyForDeactivation = false;
-    /// <summary>
-    /// Whether the lettercube currently displays a letter
-    /// </summary>
+
     public bool active;
 
-    /// <summary>
-    /// Which letter the letter cube displays
-    /// </summary>
     private string letter;
     
-
-    /// <summary>
-    /// Start is called before the first frame update
-    /// </summary>
-    void Start()
-    {
-        
-    }
-
-    /// <summary>
-    /// Update is called once per frame
-    /// </summary>
-    void Update()
-    {
-        
-    }
 
     /// <summary>
     /// Reacts to the players stepping on it and reacts according to if the letter is the correct one
     /// </summary>
     /// <param name="other"></param>
-    void OnTriggerEnter(Collider other){
-        if(meshRenderer == null){
+    void OnTriggerEnter(Collider other)
+    {
+        // Sets the meshRenderer and the defaultmaterial if it has not been set yet
+        if(meshRenderer == null)
+        {
             meshRenderer = gameObject.GetComponent<MeshRenderer>();
             defaultMaterial = meshRenderer.material;
         }
-        if(!readyForDeactivation){
-            if(other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
+        // Checks if the overlap is with the player, if the player should trigger it and if the symbol on it is the one the player is looking for
+        if(!readyForDeactivation)
+        {
+            if(other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+            {
                 StartCoroutine(IncorrectGuess());
                 board.GetPlayer().IncorrectGuess();
             }
-            else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved){
+            else if(active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+            {
                 StartCoroutine(CorrectGuess());
             }
         }
@@ -87,11 +61,13 @@ public class LetterCube : MonoBehaviour
     /// Overload on the activate method in case it is not important whether the letter is lower case. Takes the desired letter as input
     /// </summary>
     /// <param name="letter">The letter which should be displayed</param>
-    public void Activate(string letter){
+    public void Activate(string letter)
+    {
         Activate(letter, false);
     }
 
-    public string GetLetter(){
+    public string GetLetter()
+    {
         return letter;
     }
 
@@ -100,17 +76,25 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     /// <param name="letter">The letter Which should be displayed</param>
     /// <param name="specific">Whether capitilzation should be preserved</param>
-    public void Activate(string letter, bool specific){
+    public void Activate(string letter, bool specific)
+    {
+        //Randomly sets some letters to lower case
         int lower = Random.Range(0, 2);
-        if(lower == 0 && !specific){
+        if(lower == 0 && !specific)
+        {
             letter = letter.ToLower();
         }
-        if(randomizeFont){
+        //Randomizes the font if the setting is turned on
+        if(randomizeFont)
+        {
             text.font = fonts[Random.Range(0, fonts.Count)];
         }
+
+        //Sets up the the letter variable and the visual display of the symbol
         text.text = letter;
         this.letter = letter;
-        if(!active){
+        if(!active)
+        {
            active = true;
            transform.Translate(0, 0.2f, 0);
         }
@@ -119,10 +103,13 @@ public class LetterCube : MonoBehaviour
     /// <summary>
     /// Deactivates the letterbox by moving it back below the board and reseting the text and value of the letter variable
     /// </summary>
-    public void Deactivate(){
+    public void Deactivate()
+    {
         text.text = ".";
         letter = "";
-        if(active){
+
+        if(active)
+        {
             active = false;
             transform.Translate(0, -0.2f, 0);
             readyForDeactivation = false;
@@ -130,11 +117,13 @@ public class LetterCube : MonoBehaviour
     }
 
     
-    public void SetBoard(BoardController board){
+    public void SetBoard(BoardController board)
+    {
         this.board = board;
     }
 
-    private void SelfDeactivate(){
+    private void SelfDeactivate()
+    {
         board.ReplaceLetter(this);
     }
 
@@ -142,10 +131,11 @@ public class LetterCube : MonoBehaviour
     /// Changes the color of the lettercube for some time if it does not contain the correct letter
     /// </summary>
     /// <returns></returns>
-    IEnumerator IncorrectGuess(){
+    IEnumerator IncorrectGuess()
+    {
         readyForDeactivation = true;
         meshRenderer.material = incorrectMaterial;
-        yield return new WaitForSeconds(board.GetPlayer().maxMoveDelay);
+        yield return new WaitForSeconds(board.GetPlayer().maxIncorrectSymbolStepMoveDelayRemaining);
         meshRenderer.material = defaultMaterial;
         SelfDeactivate();
     }
@@ -154,7 +144,8 @@ public class LetterCube : MonoBehaviour
     /// Changes the color of the lettercube if it contains the correct letter
     /// </summary>
     /// <returns></returns>
-    IEnumerator CorrectGuess(){
+    IEnumerator CorrectGuess()
+    {
         readyForDeactivation = true;
         meshRenderer.material = correctMaterial;
         yield return new WaitForSeconds(1);
