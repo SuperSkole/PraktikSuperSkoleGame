@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -23,15 +24,13 @@ public class LetterCube : MonoBehaviour
 
 
     /// <summary>
-    /// these 3 are used for the FindImageFromSound gamemode, with a SpriteRendere and a sprite, and a String for the current word.
+    /// these 2 are used for the FindImageFromSound gamemode, with a SpriteRendere and a sprite, and a String for the current word.
     /// </summary>
-    private Sprite texture;
-
-    private SpriteRenderer spriteRenderer;
+    private RawImage rawImage;
 
     private string isCurrentWord;
 
-    
+
 
     /// <summary>
     /// The gameboard the letter cube is connected to
@@ -66,15 +65,16 @@ public class LetterCube : MonoBehaviour
     /// Which letter the letter cube displays
     /// </summary>
     private string letter;
-    
+
 
     /// <summary>
     /// Start is called before the first frame update
     /// </summary>
     void Start()
     {
-        spriteRenderer = imageObject.GetComponent<SpriteRenderer>();
+        rawImage = imageObject.GetComponent<RawImage>();
     }
+
 
     /// <summary>
     /// Update is called once per frame
@@ -115,10 +115,13 @@ public class LetterCube : MonoBehaviour
     /// <summary>
     /// Overload on the activate method in case it is not important whether the Word is lower case. Takes the desired Word as input
     /// </summary>
-    public void ActivateImage(Sprite sprite, string word )
+    /// <summary>
+    /// Overload on the activate method in case it is not important whether the Word is lower case. Takes the desired Word as input
+    /// </summary>
+    public void ActivateImage(Texture2D texture2D, string word)
     {
-        
-        spriteRenderer.sprite = sprite;
+
+        rawImage.texture = texture2D;
         letter = word;
 
         if (!active)
@@ -133,13 +136,9 @@ public class LetterCube : MonoBehaviour
     /// </summary>
     /// <param name="texture2D"></param>
     /// <param name="currentWord"></param>
-    public void ActivateImage(Sprite sprite)
+    public void ActivateImage(Texture2D texture2D)
     {
-        ActivateImage(sprite, isCurrentWord);
-    }
-
-    public string GetLetter(){
-        return letter;
+        ActivateImage(texture2D, isCurrentWord);
     }
 
     /// <summary>
@@ -177,12 +176,13 @@ public class LetterCube : MonoBehaviour
     }
 
 
+
     /// <summary>
     /// Deactivates the letterbox by moving it back below the board and reseting the Image and value of the Word variable
     /// </summary>
     public void DeactivateImage()
     {
-        texture = null;
+        rawImage.texture = null;
         isCurrentWord = ".";
 
         if (active)
@@ -193,7 +193,7 @@ public class LetterCube : MonoBehaviour
         }
     }
 
-    
+
     public void SetBoard(BoardController board){
         this.board = board;
     }
