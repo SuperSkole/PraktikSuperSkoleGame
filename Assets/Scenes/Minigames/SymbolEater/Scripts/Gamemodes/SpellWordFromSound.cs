@@ -1,14 +1,10 @@
 using CORE.Scripts;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
 {
-
-
-
     public class SpellWordFromSound : IGameMode
     {
 
@@ -158,7 +154,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
 
         public void CurrentWordSound()
         {
-            //Uses word to find the right sound in tempgrovædersound in resource foulder
+            //Uses word to find the right sound in tempSymbolEatersound in resource foulder
             string audioFileName = word.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");

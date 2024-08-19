@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
 {
-
-
-
     public class RecognizeSoundOfLetter : IGameMode
     {
         /// <summary>
@@ -125,7 +122,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
         /// </summary>
         public void CurrentLetterSound()
         {
-            //bruger correctLetter to find the right sound in tempgrovædersound in resource foulder
+            //bruger correctLetter to find the right sound in tempSymbolEatersound in resource foulder
             string audioFileName = correctLetter.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"TempGrovæderSound/{audioFileName}");
