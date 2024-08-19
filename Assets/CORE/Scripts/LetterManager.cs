@@ -42,14 +42,60 @@ namespace CORE.Scripts
             return AllDanishLetters.OrderBy(_ => Random.value).Take(count).ToList();
         }
 
+
+        /// <summary>
+        /// Returns a random letter
+        /// </summary>
+        /// <returns>A random letter</returns>
+        public static char GetRandomLetter()
+        {
+            return AllDanishLetters.ToList()[Random.Range(0, AllDanishLetters.Count)];
+        }
+
         public static List<char> GetRandomVowels(int count)
         {
             return DanishVowels.OrderBy(_ => Random.value).Take(count).ToList();
         }
 
+        /// <summary>
+        /// Gets a random vowel
+        /// </summary>
+        /// <returns>A random Vowel</returns>
+        public static char GetRandomVowel()
+        {
+            return DanishVowels.ToList()[Random.Range(0, DanishVowels.Count)];
+        }
+
         public static List<char> GetRandomConsonants(int count)
         {
             return Consonants.OrderBy(_ => Random.value).Take(count).ToList();
+        }
+
+        /// <summary>
+        /// Gets a random consonant
+        /// </summary>
+        /// <returns>A random consonant</returns>
+        public static char GetRandomConsonant()
+        {
+            return Consonants.ToList()[Random.Range(0, Consonants.Count)];
+        }
+
+        /// <summary>
+        /// Gets a list of all danish vowels
+        /// </summary>
+        /// <returns>List of all danish vowels</returns>
+        public static List<char>GetDanishVowels()
+        {
+            return DanishVowels.ToList();
+        }
+
+        /// <summary>
+        /// Gets a list of all consonants
+        /// </summary>
+        /// <returns>List of all consonants</returns>
+        public static List<char>GetConsonants()
+        {
+            return Consonants.ToList();
         }
     }
 }
