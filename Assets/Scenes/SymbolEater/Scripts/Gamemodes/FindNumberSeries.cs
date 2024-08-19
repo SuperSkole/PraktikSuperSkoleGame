@@ -8,59 +8,20 @@ using UnityEngine;
 /// </summary>
 public class FindNumberSeries : IGameMode
 {
-    /// <summary>
-    /// The number of completed number series
-    /// </summary>
+
     int correctSeries = 0;
-
-    /// <summary>
-    /// The starting point of the series
-    /// </summary>
-    int startNum;
-
-    /// <summary>
-    /// The end point of the series
-    /// </summary>
-    int endNum;
-
-    /// <summary>
-    /// The current number the player is looking for
-    /// </summary>
+    int numberSeriesStartNum;
+    int numberSeriesEndNum;
     int currentNum;
-
-    /// <summary>
-    /// The minimum value of wrong numbers
-    /// </summary>
     int minWrongNumber;
-
-    /// <summary>
-    /// The maximum value of wrong numbers
-    /// </summary>
     int maxWrongNumber;
-
-    /// <summary>
-    /// The minmum wrong numbers to appear
-    /// </summary>
     int minWrongNumbers = 6;
-
-    /// <summary>
-    /// The maximum wrong numbers to appear
-    /// </summary>
     int maxWrongNumbers = 10;
-
-    /// <summary>
-    /// Minimum length of the number series
-    /// </summary>
     int minLength;
-
-    /// <summary>
-    /// Maximum length of the number series
-    /// </summary>
     int maxLength;
 
-    
     /// <summary>
-    /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+    /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
     /// </summary>
     List<LetterCube> letterCubes;
 
@@ -79,51 +40,61 @@ public class FindNumberSeries : IGameMode
     /// </summary>
     public void GetSymbols()
     {
-        startNum = Random.Range(1, 95);
-        currentNum = startNum;
-        endNum = Random.Range(startNum + minLength, startNum + maxLength);
+        //Sets up the number series
+        numberSeriesStartNum = Random.Range(1, 95);
+        currentNum = numberSeriesStartNum;
+        numberSeriesEndNum = Random.Range(numberSeriesStartNum + minLength, numberSeriesStartNum + maxLength);
         //deactives all current active lettercubes
-        foreach (LetterCube lC in activeLetterCubes){
+        foreach (LetterCube lC in activeLetterCubes)
+        {
             lC.Deactivate();
         }
+        //sets up variables relating to the number of wrong numbers on the board
         int count = Random.Range(minWrongNumbers, maxWrongNumbers);
         activeLetterCubes.Clear();
-        maxWrongNumber = endNum + 5;
-        minWrongNumber = startNum - 5;
+        maxWrongNumber = numberSeriesEndNum + 5;
+        minWrongNumber = numberSeriesStartNum - 5;
 
-        if(maxWrongNumber > 99){
+        if(maxWrongNumber > 99)
+        {
             maxWrongNumber = 99;
         }
-        if(minWrongNumber < 1){
+        if(minWrongNumber < 1)
+        {
             minWrongNumber = 1;
         }
-        if(count + endNum - startNum > 100){
-            count = (100 - endNum - startNum)/2;
+        if(count + numberSeriesEndNum - numberSeriesStartNum > 100)
+        {
+            count = (100 - numberSeriesEndNum - numberSeriesStartNum)/2;
         }
-        //finds new letterboxes to be activated and assigns them a random incorrect letter.
-        for (int i = 0; i < count; i++){
+        //finds new letterboxes to be activated and assigns them a random incorrect number.
+        for (int i = 0; i < count; i++)
+        {
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-            //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-            while(activeLetterCubes.Contains(potentialCube)){
+            //Check to ensure numbers dont spawn below the player and that it is not an allready activated lettercube
+            while(activeLetterCubes.Contains(potentialCube))
+            {
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
             activeLetterCubes[i].Activate(Random.Range(minWrongNumber, maxWrongNumbers + 1).ToString());
         }
         //finds some new letterboxes and assigns them a correct letter
-        for(int i = startNum; i < endNum + 1; i++){
+        for(int i = numberSeriesStartNum; i < numberSeriesEndNum + 1; i++)
+        {
             int number = i;
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
             //Check to ensure letters arent spawned on an allready activated letter cube.
-            while(activeLetterCubes.Contains(potentialCube)){
+            while(activeLetterCubes.Contains(potentialCube))
+            {
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }
             activeLetterCubes.Add(potentialCube);
             potentialCube.Activate(number.ToString());
         }
-        boardController.SetAnswerText("Find tallene fra " + startNum + " til " + endNum + " i rækkefølge. Du har foreløbigt ikke fundet nogen");
+        boardController.SetAnswerText("Find tallene fra " + numberSeriesStartNum + " til " + numberSeriesEndNum + " i rækkefølge. Du har foreløbigt ikke fundet nogen");
     }
 
 
@@ -134,13 +105,14 @@ public class FindNumberSeries : IGameMode
     /// <returns>Whether the letter is the correct one</returns>
     public bool IsCorrectSymbol(string letter)
     {
-        if(letter == currentNum.ToString()){
-            boardController.SetAnswerText("Find tallene fra " + startNum + " til " + endNum + " i rækkefølge. Du har foreløbigt fundet tallene op til " + letter);
+        if(letter == currentNum.ToString())
+        {
+            boardController.SetAnswerText("Find tallene fra " + numberSeriesStartNum + " til " + numberSeriesEndNum + " i rækkefølge. Du har foreløbigt fundet tallene op til " + letter);
             currentNum++;
             return true;
-
         }
-        else{
+        else
+        {
             return false;
         }
         
@@ -152,7 +124,10 @@ public class FindNumberSeries : IGameMode
     /// <param name="letter">The letter which should be replaced</param>
     public void ReplaceSymbol(LetterCube letter)
     {
-        if(letter.active){
+
+        if(letter.active)
+        {
+
             int oldNumber = System.Convert.ToInt32(letter.GetLetter());
 
             letter.Deactivate();
@@ -160,28 +135,37 @@ public class FindNumberSeries : IGameMode
             
             LetterCube newLetter;
             //finds a new random letterbox which is not active and is not the one which should be replaced
-            while(true){
+            while(true)
+            {
                 newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-                if(newLetter != letter && !activeLetterCubes.Contains(newLetter)){
+                if(newLetter != letter && !activeLetterCubes.Contains(newLetter))
+                {
                     break;
                 }
             }
             activeLetterCubes.Add(newLetter);
-            if(currentNum <= endNum){
+            //Checks if the end of the series is reached. If not it activates a new lettercube
+            if(currentNum <= numberSeriesEndNum)
+            {
                 int nL = Random.Range(minWrongNumber, maxWrongNumber + 1);
                 //currentLetter = word[currentIndex];
-                if(oldNumber > currentNum && oldNumber < endNum){
+                if(oldNumber > currentNum && oldNumber < numberSeriesEndNum)
+                {
                     nL = oldNumber;
                 }
                 newLetter.Activate(nL.ToString());
 
             }
-            else{
+            //Determines if the player has won. If they have not it starts a new game
+            else
+            {
                 correctSeries++;
-                if(correctSeries == 3){
+                if(correctSeries == 3)
+                {
                     boardController.Won("Du vandt. Du fandt 3 talrækker");
                 }
-                else {
+                else 
+                {
                     GetSymbols();
                 }
             }

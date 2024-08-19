@@ -1,33 +1,40 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Controls the monsters on the board in grovæder as a group
+/// Controls the monsters on the board in Symbol Eater as a group
 /// </summary>
 public class MonsterHivemind
 {
-    /// <summary>
-    /// List of all monsters on the board
-    /// </summary>
+
     public List<Monster> monsters = new List<Monster>();
 
     
     /// <summary>
     /// Stops movement for all monsters on the board
     /// </summary>
-    public void OnGameOver(){
-        foreach(Monster monster in monsters){
+    public void OnGameOver()
+    {
+        foreach(Monster monster in monsters)
+        {
             monster.StopMovement();
         }
     }
 
-    public void PauseMovement(){
-        foreach(Monster monster in monsters){
+    /// <summary>
+    /// Pauses monster movement
+    /// </summary>
+    public void PauseMovement()
+    {
+        foreach(Monster monster in monsters)
+        {
             monster.StopMovement();
         }
     }
 
-    public void StartMovement(){
-        foreach(Monster monster in monsters){
+    public void StartMovement()
+    {
+        foreach(Monster monster in monsters)
+        {
             monster.StartMovement();
         }
     }
