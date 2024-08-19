@@ -2,22 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeathSentence : MonoBehaviour
+namespace Scenes.Minigames.MonsterTower.Scrips
 {
-    [SerializeField] float ageLimit;
-    float age;
 
-    /// <summary>
-    /// counts up untill the agelimit and then destroyes this gameobject
-    /// </summary>
-    void Update()
+    public class DeathSentence : MonoBehaviour
     {
-        if (age > ageLimit)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        [SerializeField] float ageLimit;
+        float age;
 
-        age += Time.deltaTime;
+        /// <summary>
+        /// counts up untill the agelimit and then destroyes this gameobject
+        /// </summary>
+        void Update()
+        {
+            if (age > ageLimit)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            age += Time.deltaTime;
+        }
     }
+
 }

@@ -4,7 +4,7 @@ using Cinemachine.Utility;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Scenes.MonsterTower.Scrips
+namespace Scenes.Minigames.MonsterTower.Scrips
 {
 
     public class CatapultAming : MonoBehaviour

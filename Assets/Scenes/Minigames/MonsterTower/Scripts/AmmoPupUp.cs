@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-namespace Scenes.MonsterTower.Scrips
+namespace Scenes.Minigames.MonsterTower.Scrips
 {
 
     public class AmmoPupUp : MonoBehaviour
