@@ -8,6 +8,7 @@ public class ObjectPlacer : MonoBehaviour
     // List to store references to all the objects that have been placed.
     [SerializeField] private List<GameObject> placedGameObjects = new List<GameObject>();
 
+    public List<GameObject> PlacedGameObjects {  get { return placedGameObjects; } set { placedGameObjects = value; } }
     // Method to place an object at the specified position.
     // Takes a prefab and a position in the world as arguments.
     // Returns the index of the placed object in the list.

@@ -24,6 +24,7 @@ public class SceneStartBehavior : MonoBehaviour
         }
         catch (System.Exception)
         {
+            Debug.Log("SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: 0 ");
             tmp = 0;
         }
         switch (tmp)
@@ -35,7 +36,7 @@ public class SceneStartBehavior : MonoBehaviour
                 {
                     PopulatePlayerInfo();
                 }
-                catch (System.Exception) { }
+                catch (System.Exception) { Debug.Log("SceneStartBehavior/Start/Error when trying to populate player info "); }
                 break;
         }
         buildingSystem.SetActive(false);
