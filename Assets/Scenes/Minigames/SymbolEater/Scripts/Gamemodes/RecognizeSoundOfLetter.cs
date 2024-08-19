@@ -131,7 +131,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             if (clip != null)
             {
                 if (currentsoundClip == null)
+                {
                     currentsoundClip = GameObject.FindObjectOfType<SymbolEaterSoundController>();
+                }
 
                 currentsoundClip.SetSymbolEaterSound(clip); // sends sound to AudioController
             }
@@ -222,5 +224,4 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
 
     }
 }
-// Update is called once per frame
 

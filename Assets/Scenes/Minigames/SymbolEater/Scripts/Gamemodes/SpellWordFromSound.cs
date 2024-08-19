@@ -34,7 +34,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
 
         List<string> words = new List<string>(){
         "Bil", "Båd", "Fly"
-    };
+        };
 
         int minWrongLetters = 6;
 
@@ -150,7 +150,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             }
 
         }
-
 
         public void CurrentWordSound()
         {
