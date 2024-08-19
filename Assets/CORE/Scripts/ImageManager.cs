@@ -22,7 +22,8 @@ namespace CORE.Scripts
 
         private void Start()
         {
-            StartCoroutine(LoadAllTextures());
+            if(!IsDataLoaded)
+                StartCoroutine(LoadAllTextures());
         }
 
         #region loadTexturesAndSetupDic
@@ -34,10 +35,9 @@ namespace CORE.Scripts
         /// <returns></returns>
         private IEnumerator LoadAllTextures()
         {
-            //IsDataLoaded = true;
             string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
 
-            // Get all CSV files in the directory
+            // Get all PNG files in the directory
             string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
             foreach (string filePath in fileEntries)
             {
