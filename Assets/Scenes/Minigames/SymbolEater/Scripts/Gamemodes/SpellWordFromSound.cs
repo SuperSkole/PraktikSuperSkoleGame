@@ -151,6 +151,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
 
         }
 
+        /// <summary>
+        /// dictates what the currentLetterSound is from the word.
+        /// </summary>
         public void CurrentWordSound()
         {
             //Uses word to find the right sound in tempSymbolEatersound in resource foulder
@@ -172,6 +175,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             }
         }
 
+        /// <summary>
+        /// Replaces LetterCubes on the map when the x number of correct ones are found.
+        /// </summary>
         public void ReplaceSymbol(LetterCube letter)
         {
             //Updates the display of letters which the player has already found

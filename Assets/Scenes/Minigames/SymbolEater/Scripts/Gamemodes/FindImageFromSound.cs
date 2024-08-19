@@ -139,6 +139,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             return image.ToLower() == currentWord.ToLower();
         }
 
+
+        /// <summary>
+        /// dictates what the currentLetterSound is from the currentWord.
+        /// </summary>
         public void CurrentWordSound()
         {
             //Uses currentWord to find the right sound in tempSymbolEatersound in resource foulder

@@ -183,11 +183,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             }
         }
 
-        /// <summary>
-        /// Gets the list of lettercubes and the boardController from the boardcontroller
-        /// </summary>
-        /// <param name="letterCubes">List of lettercubes</param>
-        /// <param name="board">the board connected to the lettercubes</param>
+       
         /// <summary>
         /// Gets the list of lettercubes and the boardController from the boardcontroller
         /// </summary>
