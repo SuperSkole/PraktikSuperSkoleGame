@@ -41,32 +41,38 @@ namespace CORE.Scripts
             string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
             foreach (string filePath in fileEntries)
             {
-                UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
-                string setName = Path.GetFileNameWithoutExtension(filePath);
-                setName = GetName(setName);
-                yield return request.SendWebRequest();
-                // Early out if the request failed.
-                if (request.result != UnityWebRequest.Result.Success)
+                StartCoroutine(LoadAndSetDic(filePath));
+            }
+            yield return null;
+            IsDataLoaded = true;
+        }
+
+        IEnumerator LoadAndSetDic(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            setName = GetName(setName);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                if (imageDictionary.ContainsKey(setName))
                 {
-                    Debug.LogError($"Error loading {filePath}:" + request.error);
-                    yield break;
+                    imageDictionary[setName].Add(texture);
                 }
                 else
                 {
-                    // Get downloaded asset bundle
-                    Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                    if (imageDictionary.ContainsKey(setName))
-                    {
-                        imageDictionary[setName].Add(texture);
-                    }
-                    else
-                    {
-                        imageDictionary.Add(setName, new List<Texture2D>());
-                        imageDictionary[setName].Add(texture);
-                    }
+                    imageDictionary.Add(setName, new List<Texture2D>());
+                    imageDictionary[setName].Add(texture);
                 }
             }
-            IsDataLoaded = true;
         }
 
 
