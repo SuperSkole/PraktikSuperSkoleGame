@@ -141,7 +141,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
 
         public void CurrentWordSound()
         {
-            //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
+            //Uses currentWord to find the right sound in tempSymbolEatersound in resource foulder
             string audioFileName = currentWord.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
