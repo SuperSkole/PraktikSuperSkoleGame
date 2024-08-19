@@ -10,7 +10,7 @@ namespace LoadSave
     public class SaveDataDTO 
     {
         // Player and character Data
-        public string HashedUsername;
+        public string Username;
         public string Savefile;
         
         public string PlayerName; 
