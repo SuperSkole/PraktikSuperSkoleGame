@@ -8,6 +8,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
@@ -20,82 +21,24 @@ namespace CORE.Scripts
         static Dictionary<string, List<Texture2D>> imageDictionary = new();
         public static bool IsDataLoaded { get; private set; } = false;
 
-        private void Start()
-        {
-            if(!IsDataLoaded)
-                StartCoroutine(LoadAllTextures());
-        }
-
-        #region loadTexturesAndSetupDic
-
 
         /// <summary>
-        /// loads all the images in the pictures folder in the streamingAssest folder, and safes it in an dictionary.
+        /// adds an image to the dictionary.
         /// </summary>
-        /// <returns></returns>
-        private IEnumerator LoadAllTextures()
+        /// <param name="name">the name/key for the image</param>
+        /// <param name="image">the image to add</param>
+        public static void AddImageToSet(string name,Texture2D image)
         {
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
-
-            // Get all PNG files in the directory
-            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
-            foreach (string filePath in fileEntries)
+            if (imageDictionary.ContainsKey(name))
             {
-                StartCoroutine(LoadAndSetDic(filePath));
-            }
-            yield return null;
-            IsDataLoaded = true;
-        }
-
-        IEnumerator LoadAndSetDic(string filePath)
-        {
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
-            string setName = Path.GetFileNameWithoutExtension(filePath);
-            setName = GetName(setName);
-            yield return request.SendWebRequest();
-            // Early out if the request failed.
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Error loading {filePath}:" + request.error);
-                yield break;
+                imageDictionary[name].Add(image);
             }
             else
             {
-                // Get downloaded asset bundle
-                Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                if (imageDictionary.ContainsKey(setName))
-                {
-                    imageDictionary[setName].Add(texture);
-                }
-                else
-                {
-                    imageDictionary.Add(setName, new List<Texture2D>());
-                    imageDictionary[setName].Add(texture);
-                }
+                imageDictionary.Add(name, new List<Texture2D>());
+                imageDictionary[name].Add(image);
             }
         }
-
-
-        /// <summary>
-        /// removes numbers and extentions of names so they can be combined in the dic.
-        /// </summary>
-        /// <param name="name">the name that needs to be "fixed"</param>
-        /// <returns>a fixed vertion of the name</returns>
-        string GetName(string name)
-        {
-            StringBuilder output = new();
-            output.Append(name);
-            int index = output.ToString().LastIndexOf('.');
-            int space = output.ToString().LastIndexOf(" ");
-            if(space != -1)
-                output.Remove(space, output.Length - space);
-            else if(index != -1)
-                output.Remove(index, output.Length - index);
-            return output.ToString();
-        }
-
-        #endregion
-
 
 
         /// <summary>

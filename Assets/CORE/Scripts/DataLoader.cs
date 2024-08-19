@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -67,5 +69,72 @@ namespace CORE.Scripts
 
             Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
         }
+
+        #region loadTextures
+
+
+        /// <summary>
+        /// loads all the images in the pictures folder in the streamingAssest folder.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadAllTextures()
+        {
+            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
+
+            // Get all PNG files in the directory
+            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
+            foreach (string filePath in fileEntries)
+            {
+                StartCoroutine(LoadAndSetDic(filePath));
+            }
+            yield return null;
+        }
+
+
+        /// <summary>
+        /// loades the textures and calles the ImageManager to add it.
+        /// </summary>
+        /// <param name="filePath">the path of the file you are loading</param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetDic(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            setName = GetName(setName);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                ImageManager.AddImageToSet(setName, texture);
+            }
+        }
+
+
+        /// <summary>
+        /// removes numbers and extentions of names so they can be combined in the dic.
+        /// </summary>
+        /// <param name="name">the name that needs to be "fixed"</param>
+        /// <returns>a fixed vertion of the name</returns>
+        string GetName(string name)
+        {
+            StringBuilder output = new();
+            output.Append(name);
+            int index = output.ToString().LastIndexOf('.');
+            int space = output.ToString().LastIndexOf(" ");
+            if (space != -1)
+                output.Remove(space, output.Length - space);
+            else if (index != -1)
+                output.Remove(index, output.Length - index);
+            return output.ToString();
+        }
+
+        #endregion
     }
 }
