@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // For UI components
+using UnityEngine.UI;
 
 public class DrawingHandler : MonoBehaviour
 {
@@ -10,16 +10,16 @@ public class DrawingHandler : MonoBehaviour
 
     LineRenderer currentLineRenderer;
     Vector3 lastPos;
-    public bool isPainting = true; // Initialize as true to enable drawing initially
-    public float offsetDistance = 0.5f; // Distance offset from the canvas
+    public bool isPainting = true; 
+    public float offsetDistance = 0.5f; 
 
-    public DrawingEvaluator drawingEvaluator; // Reference to the evaluator script
+    public DrawingEvaluator drawingEvaluator; 
 
-    private List<GameObject> drawnBrushInstances = new List<GameObject>(); // List to hold drawn brush instances
+    private List<GameObject> drawnBrushInstances = new List<GameObject>();
 
-    // Ink Meter Variables
-    public Slider inkMeterSlider; // Reference to the UI Slider for the ink meter
-    public float maxInkAmount = 100f; // Maximum amount of ink
+
+    public Slider inkMeterSlider;
+    public float maxInkAmount = 100f;
     private float currentInkAmount;
 
     private void Start()
@@ -36,10 +36,13 @@ public class DrawingHandler : MonoBehaviour
             Drawing();
         }
 
-        // Update the ink meter UI
         inkMeterSlider.value = currentInkAmount;
     }
 
+
+    /// <summary>
+    /// used for drawing
+    /// </summary>
     void Drawing()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -56,50 +59,52 @@ public class DrawingHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// gets the mouse pos in the world and sends it to CreateBrush.
+    /// </summary>
     void TryCreateBrush()
     {
         RaycastHit hit;
 
-        // Use raycast to find the point in the world where the mouse is pointing
         if (Physics.Raycast(m_camera.ScreenPointToRay(Input.mousePosition), out hit, 100))
         {
             Vector3 mousePos = hit.point;
-            mousePos += hit.normal * offsetDistance; // Offset the position
+            mousePos += hit.normal * offsetDistance;
 
             CreateBrush(mousePos, hit.normal);
         }
     }
 
+    /// <summary>
+    /// creates a new brush(linesecment) to draw with.
+    /// </summary>
+    /// <param name="position">the start position of were the line starts</param>
+    /// <param name="normal">the normal of the raycast</param>
     void CreateBrush(Vector3 position, Vector3 normal)
     {
         GameObject brushInstance = Instantiate(brush);
         currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-
-        // Set the position of the brush instance to the mouse position with offset
         brushInstance.transform.position = position;
-
-        // Set the rotation of the brush instance to face the camera
         brushInstance.transform.rotation = Quaternion.LookRotation(normal);
-
-        // Initialize the line renderer with the first point
-        currentLineRenderer.positionCount = 2; // Ensure we have at least two points to start with
+        currentLineRenderer.positionCount = 2;
         currentLineRenderer.SetPosition(0, position);
         currentLineRenderer.SetPosition(1, position);
-
-        lastPos = position; // Initialize lastPos with the current mouse position
-
-        // Add the brush instance to the list
+        lastPos = position;
         drawnBrushInstances.Add(brushInstance);
     }
 
+
+    /// <summary>
+    /// adds a point to the current line rendere for a secment.
+    /// </summary>
+    /// <param name="pointPos">the pos of the new point for the line</param>
     void AddAPoint(Vector3 pointPos)
     {
         float distance = Vector3.Distance(lastPos, pointPos);
-        currentInkAmount -= distance; // Decrease ink based on the distance drawn
+        currentInkAmount -= distance;
 
         if (currentInkAmount <= 0)
-        {
-            // Out of ink, stop drawing
+        { 
             EndDrawing();
             return;
         }
@@ -109,39 +114,46 @@ public class DrawingHandler : MonoBehaviour
         currentLineRenderer.SetPosition(positionIndex, pointPos);
     }
 
+
+    /// <summary>
+    /// adds a line to the mouse from the last mouse position.
+    /// </summary>
     void PointToMousePos()
     {
-        if (currentLineRenderer == null) return; // Check if currentLineRenderer is null
+        if (currentLineRenderer == null) return;
 
         RaycastHit hit;
         if (Physics.Raycast(m_camera.ScreenPointToRay(Input.mousePosition), out hit, 100))
         {
             Vector3 mousePos = hit.point;
-            mousePos += hit.normal * offsetDistance; // Offset the position
+            mousePos += hit.normal * offsetDistance;
 
             if (lastPos != mousePos)
             {
                 AddAPoint(mousePos);
-                lastPos = mousePos; // Update lastPos with the current mouse position
+                lastPos = mousePos;
             }
         }
     }
 
+    /// <summary>
+    /// stops drawing, and check how good the player did.
+    /// </summary>
     void EndDrawing()
     {
         if (currentLineRenderer != null)
         {
-            drawingEvaluator.EvaluateDrawing(currentLineRenderer); // Call the evaluator
+            drawingEvaluator.EvaluateDrawing(currentLineRenderer);
             currentLineRenderer = null;
         }
-
-        // Reset ink amount for the next segment
         currentInkAmount = maxInkAmount;
     }
 
+    /// <summary>
+    /// clears all drawing segments to clear the bord.
+    /// </summary>
     public void ClearDrawnSegments()
     {
-        // Destroy all drawn brush instances
         foreach (var brushInstance in drawnBrushInstances)
         {
             Destroy(brushInstance);
