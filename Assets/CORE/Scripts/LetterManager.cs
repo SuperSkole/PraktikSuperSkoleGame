@@ -42,14 +42,39 @@ namespace CORE.Scripts
             return AllDanishLetters.OrderBy(_ => Random.value).Take(count).ToList();
         }
 
+        public static char GetRandomLetter()
+        {
+            return AllDanishLetters.ToList()[Random.Range(0, AllDanishLetters.Count)];
+        }
+
         public static List<char> GetRandomVowels(int count)
         {
             return DanishVowels.OrderBy(_ => Random.value).Take(count).ToList();
         }
 
+        public static char GetRandomVowel()
+        {
+            return DanishVowels.ToList()[Random.Range(0, DanishVowels.Count)];
+        }
+
         public static List<char> GetRandomConsonants(int count)
         {
             return Consonants.OrderBy(_ => Random.value).Take(count).ToList();
+        }
+
+        public static char GetRandomConsonant()
+        {
+            return Consonants.ToList()[Random.Range(0, Consonants.Count)];
+        }
+
+        public static List<char>GetDanishVowels()
+        {
+            return DanishVowels.ToList();
+        }
+
+        public static List<char>GetConsonants()
+        {
+            return Consonants.ToList();
         }
     }
 }
