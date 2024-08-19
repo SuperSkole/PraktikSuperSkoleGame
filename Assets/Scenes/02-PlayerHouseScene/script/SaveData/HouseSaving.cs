@@ -47,6 +47,8 @@ public class HouseSaving : MonoBehaviour
         floorDictionary = container.floorData.ConvertListToDic(container.floorData.placedObjectsList);
         furnitureDictionary = container.furnitureData.ConvertListToDic(container.furnitureData.placedObjectsList);
 
+
+
     }
 
     public bool IsThereSaveFile()
@@ -57,7 +59,6 @@ public class HouseSaving : MonoBehaviour
 
     }
     /// <summary>
-    /// 
     /// </summary>
     /// <param name="type">floor,furniture</param>
     /// <returns></returns>

@@ -25,9 +25,6 @@ public class SerializableGridData
                                                               item.ID,
                                                               item.PlacedObjectIndex));
         }
-
         return  placedObj;
     }
-
-
 }
