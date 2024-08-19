@@ -18,6 +18,7 @@ namespace CORE.Scripts
         public void Start()
         {
             StartCoroutine(LoadAllCsvFiles());
+            StartCoroutine(LoadAllTextures());
         }
         
         private IEnumerator LoadAllCsvFiles()
@@ -113,6 +114,7 @@ namespace CORE.Scripts
                 // Get downloaded asset bundle
                 Texture2D texture = DownloadHandlerTexture.GetContent(request);
                 ImageManager.AddImageToSet(setName, texture);
+                WordsForImagesManager.AddNameToSet(setName);
             }
         }
 

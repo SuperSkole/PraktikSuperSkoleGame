@@ -18,7 +18,7 @@ namespace CORE.Scripts
     public class ImageManager : MonoBehaviour
     {
 
-        static Dictionary<string, List<Texture2D>> imageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> imageDictionary = new();
         public static bool IsDataLoaded { get; private set; } = false;
 
 
