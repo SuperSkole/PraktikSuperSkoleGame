@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[System.Serializable]
 public class BrickData 
 {
-    public Sprite sprite;
-    public bool correctSprite;
-    public Vector2 position;
 
-    public BrickData(Vector2 pos,Sprite sprite, bool correctSprite)
+    public string input;
+    public BrickData(string input)
     {
-        this.sprite = sprite;
-        this.correctSprite = correctSprite;
-        this.position = pos;
+        this.input = input;
+
     }
 
 

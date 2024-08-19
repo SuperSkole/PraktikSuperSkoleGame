@@ -65,10 +65,6 @@ public class DataPersistenceManager : MonoBehaviour
     {
        
 
-        Level1.Add(new BrickLane(wrongSprites, correctSprite, zPosition, Random.Range(0, wrongSprites2.Count)));
-
-        Level1.Add(new BrickLane(wrongSprites2, correctSprite2, zPosition2, Random.Range(0, wrongSprites2.Count)));
-
 
         // Lanes are added with BrickLane containing a dictionary filled with pictures and a coresponding position. 
         defaultBrickLanes = Level1;
@@ -77,9 +73,9 @@ public class DataPersistenceManager : MonoBehaviour
        
     
 
-    public void NewGame(List<BrickLane> BrickLanes)
+    public void NewGame()
     {
-        gameData = new GameData(BrickLanes);
+        gameData = new GameData();
     }
 
 
@@ -92,7 +88,7 @@ public class DataPersistenceManager : MonoBehaviour
         if(gameData==null)
         {
             Debug.Log("No data was found. initialising data to default values");
-            NewGame(defaultBrickLanes);
+            NewGame();
 
         }
 

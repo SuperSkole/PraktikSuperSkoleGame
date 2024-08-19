@@ -10,31 +10,16 @@ public class BrickLane
 {
     // Start is called before the first frame update
 
-    public List<BrickData>  bricks;
-
-    public BrickData correctBrick;
-
-    public int zPosition;
+    public List<BrickData> bricks = new List<BrickData>();
 
     public int correctImageIndex;
 
-    
-
-
-    public BrickLane(List<BrickData> bricks, BrickData correctBrick,int zPosition,int correctImageIndex )
+    public BrickLane(int correctImageIndex )
     {
-
-        this.bricks = bricks;
-
-        this.correctBrick = correctBrick;
-
-        this.zPosition = zPosition;
-
-
 
         this.correctImageIndex = correctImageIndex;
 
-        Debug.Log(correctImageIndex);
+      
 
 
 

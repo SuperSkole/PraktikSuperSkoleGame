@@ -81,9 +81,9 @@ namespace CORE.Scripts
             output.Append(name);
             int index = output.ToString().LastIndexOf('.');
             int space = output.ToString().LastIndexOf(" ");
-            if(space != -1)
+            if (space != -1)
                 output.Remove(space, output.Length - space);
-            else if(index != -1)
+            else if (index != -1)
                 output.Remove(index, output.Length - index);
             return output.ToString();
         }
@@ -148,7 +148,12 @@ namespace CORE.Scripts
         public static Texture2D GetRandomImage()
         {
             List<Texture2D> data;
-            data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+
+            int rnd = UnityEngine.Random.Range(0, imageDictionary.Keys.Count);
+            data = imageDictionary.ElementAt(rnd).Value;
+        
+           
+
             Texture2D image;
             if (data == null)
             {
@@ -157,9 +162,43 @@ namespace CORE.Scripts
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
             else
+            {
                 image = data[0];
+            }
+
+
+
 
             return image;
+        }
+
+        public static Tuple<Texture2D,string> GetRandomImageWithKey()
+        {
+            List<Texture2D> data;
+
+            int rnd = UnityEngine.Random.Range(0, imageDictionary.Keys.Count);
+            data = imageDictionary.ElementAt(rnd).Value;
+            
+            string name = imageDictionary.ElementAt(rnd).Key;
+
+
+            Texture2D image;
+         
+            if (data == null)
+            {
+                Debug.LogError($"Error getting a random image");
+            }
+            if (data.Count > 1)
+                image = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+            {
+                image = data[0];
+            }
+
+
+
+
+            return new Tuple<Texture2D, string>(image, name);
         }
 
         /// <summary>

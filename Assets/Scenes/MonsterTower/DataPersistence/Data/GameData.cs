@@ -7,19 +7,12 @@ using UnityEngine;
 public class GameData 
 {
 
-   
+    public List<BrickLane> BrickLanes;
 
-   public List<BrickLane> BrickLanes;
-
-
+    public int currentQuestionIndex;
 
 
-    public GameData(List<BrickLane> BrickLanes)
-    {
-        this.BrickLanes = BrickLanes;
-      
-        
-    }
+
 
 
 
