@@ -1,4 +1,5 @@
 using LoadSave;
+using Scenes.StartScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ namespace CORE
         public string CurrentSaveFileName { get; private set; }
         
         private SaveToJsonManager saveManager;
+        private LoadGameManager loadGameManager;
         private static GameManager _instance;
         
         /// <summary>
@@ -81,11 +83,12 @@ namespace CORE
         
         
 
-        public void LoadGame(string saveFileName)
+        public void LoadGame()
         {
             // Logic to load game data
-            Debug.Log("Loading game from: " + saveFileName);
-            
+            loadGameManager.LoadGame(CurrentUsername);
+                
+            Debug.Log("Loading game");
         }
 
         public void SaveGame()
@@ -119,6 +122,7 @@ namespace CORE
             {
                 // save player data before entering new scene
                 SaveGame();
+                //LoadGame();
             }
         }
 

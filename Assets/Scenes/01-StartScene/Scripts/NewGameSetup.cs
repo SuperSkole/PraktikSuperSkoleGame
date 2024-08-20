@@ -42,10 +42,11 @@ namespace Scenes._01_StartScene.Scripts
             );
 
             // Log for debugging
-            Debug.Log("Player setup complete with name: " + player.PlayerName +
-                      "Player Name: " + player.PlayerName +
-                      "XP: " + player.CurrentXPAmount.ToString() +
-                      "Gold: " + player.CurrentGoldAmount.ToString());
+            Debug.Log("Player setup complete with username: " + player.Username +
+                      " Player Name: " + player.PlayerName +
+                      " Monster Color: " + player.MonsterColor +
+                      " XP: " + player.CurrentXPAmount.ToString() +
+                      " Gold: " + player.CurrentGoldAmount.ToString());
             
             GameManager.Instance.PlayerData = player;
         }
