@@ -24,7 +24,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
-        private float minDist = 0.5f;
+        private float minDist = 0.2f;
 
         private void Start()
         {
