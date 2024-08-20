@@ -15,7 +15,8 @@ namespace CORE
         public string CurrentUsername { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
-        
+
+        private PlayerManager playerManager;
         private SaveToJsonManager saveManager;
         private LoadGameManager loadGameManager;
         private static GameManager _instance;
@@ -113,6 +114,7 @@ namespace CORE
         
         private void InitializeManagers()
         {
+            gameObject.AddComponent<PlayerManager>();
             saveManager = new SaveToJsonManager();
         }
 

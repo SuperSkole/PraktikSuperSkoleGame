@@ -62,6 +62,8 @@ public class SceneStartBehavior : MonoBehaviour
         playerData.CurrentGoldAmount = gm.CurrentGoldAmount;
         playerData.CurrentXPAmount = gm.CurrentXPAmount;
         playerData.CurrentLevel = gm.CurrentLevel;
+        
+        spawnedPlayer.GetComponent<PlayerColorManager>().ColorChange(playerData.MonsterColor);
     }
 
     public void EnableBuildingSystem()
