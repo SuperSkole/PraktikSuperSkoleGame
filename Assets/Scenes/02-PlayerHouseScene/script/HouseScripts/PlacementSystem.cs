@@ -33,28 +33,27 @@ public class PlacementSystem : MonoBehaviour
             saveManager.LoadGridData();
             foreach (var item in saveManager.container.floorData.placedObjectsList)
             {
-                TestingSaving(item.Key, item.ID);
+                PlaceItemsStartLoading(item.Key, item.ID);
             }
             foreach (var item in saveManager.container.furnitureData.placedObjectsList)
             {
-                TestingSaving(item.Key, item.ID);
+                PlaceItemsStartLoading(item.Key, item.ID);
             }
-            //floorData.placedObjects = saveManager.ReturnLoadGridFile("floor");
-            //furnitureData.placedObjects = saveManager.ReturnLoadGridFile("furniture");
-            //PlaceSavedItems(floorData);
-            //PlaceSavedItems(furnitureData);
         }
 
     }
-    private int amountOfPlacedObj = 0;
     Vector3Int previousKey = new();
-
-    private void TestingSaving(Vector3Int key, int ID)
+    private void PlaceItemsStartLoading(Vector3Int key, int ID)
     {
         //if Obj is placed on 0,0,0 this doesnt work like it should
 
         if (ID == 0 && previousKey == Vector3Int.zero)
         {
+            //Dont think this methode will work if size is 2x2 or rotation gets build in
+            if (key.y == 0 && key.x == 1)
+            {
+                return;
+            }
             previousKey = key;
         }
         if (ID == 0 && !key.Equals(previousKey))
@@ -71,37 +70,6 @@ public class PlacementSystem : MonoBehaviour
                                            furnitureData,
                                            objectPlacer);
         buildingState.OnLoadStartUp(key, ID);
-
-
-
-    }
-    private void PlaceSavedItems(GridData data)
-    {
-        amountOfPlacedObj = 0;
-        Vector3Int previousKey = new();
-        //if Obj is placed on 0,0,0 this doesnt work like it should
-        foreach (var item in data.placedObjects)
-        {
-            if (item.Value.ID == 0 && previousKey == Vector3Int.zero)
-            {
-                previousKey = item.Key;
-            }
-            if (item.Value.ID == 0 && !item.Key.Equals(previousKey))
-            {
-                previousKey = new();
-                continue;
-            }
-            buildingState = new PlacementState(item.Value.ID,
-                                   grid,
-                                   preview,
-                                   database,
-                                   data,
-                                   data,
-                                   objectPlacer);
-            //buildingState.OnLoadStartUp(item.Key);
-            amountOfPlacedObj++;
-        }
-        print(amountOfPlacedObj);
     }
     // Starts the placement process for an object with the specified ID.
     public void StartPlacement(int ID)
