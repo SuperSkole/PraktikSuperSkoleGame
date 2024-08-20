@@ -16,11 +16,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <summary>
         /// The correct word
         /// </summary>
-        List<string> words = new List<string>();
+        
 
         string currentWord;
-
-        string testWord = "alf";
 
         private bool wordsLoaded = false;
 
@@ -125,9 +123,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
                     // creates random words from the word list, then creates images to fit those random words.
 
-                    //string randoImage = words[Random.Range(0, words.Count)];
+                    string randoImage = WordsForImagesManager.GetRandomWordForImage();
 
-                    string randoImage = testWord;
+
                     if (!texture.ContainsKey(randoImage))
                     {
                         texture.Add(randoImage, ImageManager.GetImageFromWord(randoImage));
@@ -212,8 +210,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="image"></param>
         public void ReplaceSymbol(LetterCube image)
         {
-            word = WordsForImagesManager.GetRandomWordForImage();
-            //decreases the correctlettercount incase theres more then 1 answer on the board.
+            
+            //decreases the correctlettercount incase the player moves over a correct tile, and theres more then 1 answer on the board.
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
@@ -239,10 +237,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
 
                 // yet again creates random words from the Word list.
-                string randoWords = words[Random.Range(0, words.Count)].ToLower();
+                string randoWords = WordsForImagesManager.GetRandomWordForImage();
                 while (randoWords == currentWord)
                 {
-                    randoWords = words[Random.Range(0, words.Count)].ToLower();
+                    randoWords = WordsForImagesManager.GetRandomWordForImage();
                 }
 
                 //then adds the images to the texture dictionary if dosnt already exists.
