@@ -677,7 +677,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c34d299b51496645a917bd3f44197ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whichObj: {fileID: 2218819683898677295}
+  interactionZoneObj: {fileID: 0}
+  interactionZoneRadius: 0
+  xOffset: 0
+  yOffset: 0
+  zOffset: 0
 --- !u!1 &8221462171402074425
 GameObject:
   m_ObjectHideFlags: 0

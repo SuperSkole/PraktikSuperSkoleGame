@@ -10,7 +10,7 @@ public class SkinData
     {
         Skintype = skintype;
         SkinName = skinName;
-        isPurchased = isPurchased;
-        isEquipped = isEquipped;
+        this.isPurchased = isPurchased;
+        this.isEquipped = isEquipped;
     }
 }

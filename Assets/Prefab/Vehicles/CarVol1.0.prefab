@@ -515,10 +515,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7faed9fcab79eea45a56957a323c9c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CarActive: 0
+  carActive: 0
   motorForce: 2000
   maxSteeringAngle: 15
   maxSpeed: 16
+  reverseMaxSpeed: 0
+  brakingForce: 100000
+  carSpeed: 0
   wheelColliderFrontL: {fileID: 649080347170338751}
   wheelColliderFrontR: {fileID: 1158787365594671769}
   wheelColliderRearR: {fileID: 7687757819462382910}
@@ -544,6 +547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   car: {fileID: 1769013549564779774}
+  camera: {fileID: 0}
   enterCar:
     m_PersistentCalls:
       m_Calls:
@@ -574,6 +578,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  mainCamera: {fileID: 0}
 --- !u!1 &1771364662160842902
 GameObject:
   m_ObjectHideFlags: 0

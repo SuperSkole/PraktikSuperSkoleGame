@@ -29,9 +29,9 @@ public class SkinShop : MonoBehaviour
 
     private string whichChar;
 
-    bool HeadClicked = true;
-    bool BodyClicked = false;
-    bool LegClicked = false;
+    // bool HeadClicked = true;
+    // bool BodyClicked = false;
+    // bool LegClicked = false;
     #endregion
     public void OnEnable()
     {
@@ -116,9 +116,9 @@ public class SkinShop : MonoBehaviour
         {
             Debug.Log("Cant find the skins");
         }
-        HeadClicked = true;
-        BodyClicked = false;
-        LegClicked = false;
+        // HeadClicked = true;
+        // BodyClicked = false;
+        // LegClicked = false;
     
     
         for (int i = 0; i <= 5; i++)
@@ -208,9 +208,9 @@ public class SkinShop : MonoBehaviour
         {
             Debug.Log("Cant find the skins");
         }
-        HeadClicked = false;
-        BodyClicked = true;
-        LegClicked = false;
+        // HeadClicked = false;
+        // BodyClicked = true;
+        // LegClicked = false;
         for (int i = 0; i <= 5; i++)
         {
             // Construct the name of the child GameObject
@@ -291,9 +291,9 @@ public class SkinShop : MonoBehaviour
         {
             Debug.Log("Cant find the skins");
         }
-        HeadClicked = false;
-        BodyClicked = false;
-        LegClicked = true;
+        // HeadClicked = false;
+        // BodyClicked = false;
+        // LegClicked = true;
         for (int i = 0; i <= 5; i++)
         {
             // Construct the name of the child GameObject
