@@ -8,6 +8,7 @@ using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
@@ -17,79 +18,28 @@ namespace CORE.Scripts
     public class ImageManager : MonoBehaviour
     {
 
-        static Dictionary<string, List<Texture2D>> imageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> imageDictionary = new();
         public static bool IsDataLoaded { get; private set; } = false;
-
-        private void Start()
-        {
-            StartCoroutine(LoadAllTextures());
-        }
-
-        #region loadTexturesAndSetupDic
 
 
         /// <summary>
-        /// loads all the images in the pictures folder in the streamingAssest folder, and safes it in an dictionary.
+        /// adds an image to the dictionary.
         /// </summary>
-        /// <returns></returns>
-        private IEnumerator LoadAllTextures()
+        /// <param name="name">the name/key for the image</param>
+        /// <param name="image">the image to add</param>
+        public static void AddImageToSet(string name,Texture2D image)
         {
-            //IsDataLoaded = true;
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
-
-            // Get all CSV files in the directory
-            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
-            foreach (string filePath in fileEntries)
+            if (imageDictionary.ContainsKey(name.ToLower()))
             {
-                UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
-                string setName = Path.GetFileNameWithoutExtension(filePath);
-                setName = GetName(setName);
-                yield return request.SendWebRequest();
-                // Early out if the request failed.
-                if (request.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError($"Error loading {filePath}:" + request.error);
-                    yield break;
-                }
-                else
-                {
-                    // Get downloaded asset bundle
-                    Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                    if (imageDictionary.ContainsKey(setName))
-                    {
-                        imageDictionary[setName].Add(texture);
-                    }
-                    else
-                    {
-                        imageDictionary.Add(setName, new List<Texture2D>());
-                        imageDictionary[setName].Add(texture);
-                    }
-                }
+                imageDictionary[name.ToLower()].Add(image);
+            }
+            else
+            {
+                imageDictionary.Add(name.ToLower(), new List<Texture2D>());
+                imageDictionary[name.ToLower()].Add(image);
             }
             IsDataLoaded = true;
         }
-
-
-        /// <summary>
-        /// removes numbers and extentions of names so they can be combined in the dic.
-        /// </summary>
-        /// <param name="name">the name that needs to be "fixed"</param>
-        /// <returns>a fixed vertion of the name</returns>
-        string GetName(string name)
-        {
-            StringBuilder output = new();
-            output.Append(name);
-            int index = output.ToString().LastIndexOf('.');
-            int space = output.ToString().LastIndexOf(" ");
-            if (space != -1)
-                output.Remove(space, output.Length - space);
-            else if (index != -1)
-                output.Remove(index, output.Length - index);
-            return output.ToString();
-        }
-
-        #endregion
-
 
 
         /// <summary>
@@ -99,12 +49,12 @@ namespace CORE.Scripts
         /// <returns>a image or if it couldent find an image it returnes NULL</returns>
         public static Texture2D GetImageFromWord(string inputWord)
         {
-            if (!imageDictionary.TryGetValue(inputWord, out List<Texture2D> data))
+            if (!imageDictionary.TryGetValue(inputWord.ToLower(), out List<Texture2D> data))
                 data = null;
             Texture2D image;
             if (data == null)
             {
-                Debug.LogError($"Error getting image for the word: {inputWord.ToLower()}");
+                Debug.LogError($"Error getting image for the word: {inputWord}");
             }
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
@@ -126,11 +76,11 @@ namespace CORE.Scripts
             for (int i = 0; i < inputWords.Length; i++)
             {
                 List<Texture2D> data;
-                if (!imageDictionary.TryGetValue(inputWords[i], out data))
+                if (!imageDictionary.TryGetValue(inputWords[i].ToLower(), out data))
                     data = null;
                 if (data == null)
                 {
-                    Debug.LogError($"Error getting image for the word: {inputWords[i].ToLower()}");
+                    Debug.LogError($"Error getting image for the word: {inputWords[i]}");
                 }
                 if (data.Count > 1)
                     images[i] = data[UnityEngine.Random.Range(0, data.Count)];

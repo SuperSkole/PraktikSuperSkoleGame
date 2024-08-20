@@ -71,17 +71,11 @@ MonoBehaviour:
   talkingBox: {fileID: 0}
   imageBox: {fileID: 0}
   buttons: {fileID: 0}
-  startSomething: 1
+  yesButton: {fileID: 0}
+  noButton: {fileID: 0}
   NameofSpeaker: {fileID: 0}
   TextField: {fileID: 0}
-  dialogue:
-    lines:
-    - Welcome to the Skin store
-    - Please browse my wears
-    - GIVE THE PLAYER THE OPTIONS TO SHOP
   textSpeed: 0.1
-  nameOfNPC: Clothing Store owner
-  imageOfNPC: {fileID: 21300000, guid: f933203eafd3686458b4c9b5fa232042, type: 3}
   whichNPCEvent:
     m_PersistentCalls:
       m_Calls:
@@ -248,4 +242,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c34d299b51496645a917bd3f44197ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whichObj: {fileID: 283243315382647398}
+  interactionZoneObj: {fileID: 0}
+  interactionZoneRadius: 0
+  xOffset: 0
+  yOffset: 0
+  zOffset: 0
