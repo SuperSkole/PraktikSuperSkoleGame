@@ -73,8 +73,10 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
         if (loadedBrickLanes.Count>0)
         {
-          
-          LoadTower();
+            
+            currentQuestion = sentences[currentQuestionIndex];
+            displayBox.text = currentQuestion;
+            LoadTower();
         }
         else
         {
@@ -95,7 +97,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
         brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
-        SetNextQuestion();
+   
         StartCoroutine(WaitUntillDataIsLoaded());
     }
 
@@ -239,7 +241,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
                     // the sentence for the random brick is also inputtet into the data on the particular lane. 
                     // the top and bottom image key is defined in the SetRandomImage
-                    loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey+" på "+bottomImage));
+                    loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey+" på "+bottomImageKey));
 
                  
                     GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
@@ -406,6 +408,8 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
         bottomImage.texture = rndImageWithKey1.Item1;
         topImage.texture = rndImageWithKey2.Item1;
+       
+
 
         bottomImageKey = rndImageWithKey1.Item2;
         topImageKey = rndImageWithKey2.Item2;
@@ -424,10 +428,11 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         if (data.BrickLanes!=null)
         {
             this.loadedBrickLanes = data.BrickLanes;
-            this.currentQuestionIndex = data.currentQuestionIndex; 
+            this.currentQuestionIndex = data.currentQuestionIndex;
+
+            Debug.Log(sentences);
     
-            currentQuestion = sentences[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+         
           
             Debug.Log("Data Loaded");
         }
