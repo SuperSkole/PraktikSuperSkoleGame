@@ -15,8 +15,8 @@ public class SpinePlayerMovement : MonoBehaviour
     public float moveSpeed = 5.0f;
     public bool facingRight = true;
 
-    [SerializeField] private Camera sceneCamera;
-    [SerializeField] private LayerMask placementLayermask;
+    public Camera sceneCamera;
+    public LayerMask placementLayermask;
     private Vector3 targetPosition;
     private bool isMoving;
     private Coroutine moveCoroutine;
