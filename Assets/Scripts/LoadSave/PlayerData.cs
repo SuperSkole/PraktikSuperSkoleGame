@@ -30,7 +30,7 @@ namespace LoadSave
         // collection of letter
         // maybe dict so we also can store datetime
         public List<string> CollectedWords { get; set; }
-        public List<char> CollectedLetters { get; set; }
+        public List<char> CollectedLetters { get; set; }//isent this just a string? or better string builder?
 
         public void Initialize(string username, string playerName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {

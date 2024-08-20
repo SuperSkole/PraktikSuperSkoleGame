@@ -149,7 +149,6 @@ public class BazierHandler : MonoBehaviour
         segmentCount = (points.Length - 1) / 3;
         t = 0f; // Reset t when switching segments
         currentSegmentIndex = index;
-        //Debug.Log("Selected Segment: " + index + ", Segment Count: " + segmentCount);
 
         // Calculate the length of each segment and the total length
         segmentLengths = new float[segmentCount];

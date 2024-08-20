@@ -131,7 +131,7 @@ namespace CORE.Scripts
             StringBuilder output = new();
             output.Append(name);
             int index = output.ToString().LastIndexOf('.');
-            int space = output.ToString().LastIndexOf(" ");
+            int space = output.ToString().IndexOf(" ");
             if (space != -1)
                 output.Remove(space, output.Length - space);
             else if (index != -1)

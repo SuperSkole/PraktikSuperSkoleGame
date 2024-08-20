@@ -13,7 +13,7 @@ namespace LoadSave
             SaveDataDTO data = CreateSaveData();
             string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
 
-            string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty
+            string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty //do we want the player to be able to easely read there safe file?
             File.WriteAllText(filePath, json);
         }
 
