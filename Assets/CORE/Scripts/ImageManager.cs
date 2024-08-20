@@ -38,6 +38,7 @@ namespace CORE.Scripts
                 imageDictionary.Add(name.ToLower(), new List<Texture2D>());
                 imageDictionary[name.ToLower()].Add(image);
             }
+            IsDataLoaded = true;
         }
 
 

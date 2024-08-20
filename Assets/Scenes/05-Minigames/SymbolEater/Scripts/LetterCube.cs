@@ -123,7 +123,6 @@ public class LetterCube : MonoBehaviour
         ActivateImage(sprite, isCurrentWord);
     }
 
-    public string GetLetter(){
     public string GetLetter()
     {
         return letter;
