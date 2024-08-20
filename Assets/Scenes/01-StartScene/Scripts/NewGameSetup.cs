@@ -13,8 +13,11 @@ public class NewGameSetup : MonoBehaviour
 
     [SerializeField] private GameObject playerPrefab;
 
+    public string PlayerColor;
+
     public void SetupPlayer()
     {
+       
         // instantiate temp object in scene
         GameObject loadedPlayer = Instantiate(playerPrefab, spawnCharPoint.position, Quaternion.identity, spawnCharPoint);
 

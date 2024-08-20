@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonGraphic: {fileID: 135434940}
+  gameSetup: {fileID: 0}
 --- !u!1 &360316514
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7863d6ce6e3c1a45bdcd1e9c0d67e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  image: {fileID: 983648496}
 --- !u!114 &983648495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1219,6 +1220,7 @@ MonoBehaviour:
   nameInput: {fileID: 0}
   playerName: {fileID: 0}
   playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
+  PlayerColor: 
 --- !u!114 &1083393530
 MonoBehaviour:
   m_ObjectHideFlags: 0

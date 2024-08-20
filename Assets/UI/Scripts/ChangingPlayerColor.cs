@@ -6,6 +6,7 @@ using UnityEngine;
 public class ChangingPlayerColor : MonoBehaviour
 {
     [SerializeField] SkeletonGraphic skeletonGraphic;
+    [SerializeField] NewGameSetup gameSetup;
 
 
     private void Awake()
@@ -36,6 +37,7 @@ public class ChangingPlayerColor : MonoBehaviour
                 break;
         }
 
+        //ændre de specefikke knogler
         switch (skeletonGraphic.skeletonDataAsset.name)
         {
             case "PraktikMonster_SkeletonData":
@@ -43,7 +45,7 @@ public class ChangingPlayerColor : MonoBehaviour
                      "Monster L lowerleg color",
                      "Monster R lowerleg color",
                      "Monster L upperleg color",
-                    "Monster R upperleg color",
+                    "Mopnster R upperleg color",
                     "Monster head",
                     "Monster body",
                     "Monster R upperarm color",
@@ -61,6 +63,8 @@ public class ChangingPlayerColor : MonoBehaviour
             default:
                 break;
         }
+        //send den til manageren
+        gameSetup.PlayerColor = colorName;
 
     }
 
