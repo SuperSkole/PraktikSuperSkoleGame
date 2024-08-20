@@ -6,7 +6,7 @@ public class SimpleSceneChange : MonoBehaviour
     //changes scene to monstertower
     public void SwitchToMonsterTower(string gamemode)
     {
-        SceneManager.LoadScene("MonterTower katapult");
+        SceneManager.LoadScene("MonterTower");
     }
     // changes scene to grovæder
     public void SwitchToSymbolEater(string gamemode)

@@ -1,18 +1,12 @@
 using UnityEngine;
 using System.IO;
+using CORE;
 
 namespace LoadSave
 {
     public class SaveToJsonManager
     {
         private string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
-
-        private GameManager gm; // change to Gamemanager 
-
-        public SaveToJsonManager(GameManager gameManagerManager)
-        {
-            gm = gameManagerManager;
-        }
 
         public void SaveGame(string hashedUsername)
         {
@@ -25,18 +19,16 @@ namespace LoadSave
 
         private SaveDataDTO CreateSaveData()
         {
+            var gm = GameManager.Instance.PlayerData;
             SaveDataDTO data = new SaveDataDTO
             {
-                // TODO: HashedUsername = gm.player.hashedUsername, 
-                PlayerName = gm.player.playerName,
-                MonsterName = gm.player.monsterName,
-                GoldAmount = gm.player.currentGoldAmount,
-                XPAmount = gm.player.currentXPAmount,
-                PlayerLevel = gm.player.currentLevel,
-                SavedPlayerStartPostion = new SavePlayerPosition(gm.player.currentPosition),
-                HeadColor = new SerializableColor(gm.player.currentHeadColor),
-                BodyColor = new SerializableColor(gm.player.currentBodyColor),
-                LegColor = new SerializableColor(gm.player.currentLegColor)
+                Username = gm.Username, 
+                PlayerName = gm.PlayerName,
+                MonsterTypeID = gm.MonsterTypeID,
+                GoldAmount = gm.CurrentGoldAmount,
+                XPAmount = gm.CurrentXPAmount,
+                PlayerLevel = gm.CurrentLevel,
+                SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
             };
             return data;
         }

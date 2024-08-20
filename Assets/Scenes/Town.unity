@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5303,15 +5302,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 558842697774686966, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 645803049}
     - targetCorrespondingSourceObject: {fileID: 7285412771571037647, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
       insertIndex: -1
       addedObject: {fileID: 224605779}
     - targetCorrespondingSourceObject: {fileID: 7285412771571037647, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1984327580}
-    - targetCorrespondingSourceObject: {fileID: 920709505981140192, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
-      insertIndex: 2
-      addedObject: {fileID: 645803049}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
 --- !u!1 &338706817 stripped
@@ -7637,11 +7636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3720c092f32d63a41827f1ddf0847162, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPreview: {fileID: 1500794913}
-  CharCreate: {fileID: 535950358}
-  SpawnCharPoint: {fileID: 589409336}
-  gmNewGame: {fileID: 1370203861}
-  gmSkins: {fileID: 1370203862}
 --- !u!4 &621852624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5489145384324707458, guid: ac3559b0f212e984b82d5dbc7035e00e, type: 3}
@@ -8189,7 +8183,7 @@ Transform:
   m_LocalScale: {x: 1, y: 0.22149406, z: 3.737319}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1472293553}
+  m_Father: {fileID: 287494623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &645803050
 BoxCollider:
@@ -15383,7 +15377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4000373b0c0f1547b48ebfd561e5083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SaveGameToJson: {fileID: 1370203872}
 --- !u!114 &1370203872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15396,8 +15389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c34a1a47dc0d4f041b302087fe3537ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gm: {fileID: 1370203861}
-  shopSkinManagement: {fileID: 1370203862}
 --- !u!114 &1370203877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16167,11 +16158,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2537484531506880048, guid: 1f175c516de83e345ad51e1763fc74f4, type: 3}
   m_PrefabInstance: {fileID: 1464056770}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1472293553 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 920709505981140192, guid: 1b4e79803ec83d64d82a8a2f150e1b76, type: 3}
-  m_PrefabInstance: {fileID: 337456371}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1494353032 stripped
 Transform:
