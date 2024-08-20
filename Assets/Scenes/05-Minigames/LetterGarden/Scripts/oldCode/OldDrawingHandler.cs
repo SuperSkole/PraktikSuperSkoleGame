@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DrawingHandler : MonoBehaviour
+public class OldDrawingHandler : MonoBehaviour
 {
     public Camera m_camera;
     public GameObject brush;
