@@ -292,13 +292,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a1c5414eccb4046bd4afbbf7c48551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveDelayRemaining: 0
-  textObject: {fileID: 3222111376729888875}
+  IncorrectSymbolStepMoveDelayRemaining: 0
+  cooldownTextObject: {fileID: 3222111376729888875}
   healthTextObject: {fileID: 0}
   thrown: 0
   hasMoved: 0
   speed: 2
   hasMoveDelay: 0
   canMove: 1
-  maxMoveDelay: 6
+  maxIncorrectSymbolStepMoveDelayRemaining: 6
   board: {fileID: 0}

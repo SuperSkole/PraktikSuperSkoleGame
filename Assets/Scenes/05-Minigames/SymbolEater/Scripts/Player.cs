@@ -4,7 +4,7 @@ using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
 /// <summary>
-/// Player class for the grovæder game
+/// Player class for the Symbol Eater mini game
 /// </summary>
 public class Player : MonoBehaviour
 {
@@ -13,15 +13,9 @@ public class Player : MonoBehaviour
 
     private int maxLivesRemaining;
 
-    /// <summary>
-    /// How much time remains before the player is allowed to move
-    /// </summary>
-    [SerializeField]private float MoveDelayRemaining = 0;
+    [SerializeField]private float IncorrectSymbolStepMoveDelayRemaining = 0;
 
-    /// <summary>
-    /// Gameobject containing the cooldown text
-    /// </summary>
-    [SerializeField]private GameObject textObject;
+    [SerializeField]private GameObject cooldownTextObject;
 
     [SerializeField]private GameObject healthTextObject;
 
@@ -29,9 +23,6 @@ public class Player : MonoBehaviour
 
     private TextMeshPro cooldownText;
 
-    /// <summary>
-    /// The point the player currently is moving towards
-    /// </summary>
     private Vector3 currentDestination;
 
     public bool thrown = false;
@@ -44,11 +35,23 @@ public class Player : MonoBehaviour
 
     public bool canMove = true;
 
-    public float maxMoveDelay = 6;
+    public float maxIncorrectSymbolStepMoveDelayRemaining = 6;
     
     public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
-    public int LivesRemaining { get => livesRemaining; set {
-            livesRemaining = value;
+
+
+    /// <summary>
+    /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
+    /// </summary>
+    public int LivesRemaining 
+    { 
+        get => livesRemaining; 
+        set 
+        {
+            if(value > 0)
+            {
+                livesRemaining = value;
+            }
             healthText.text = livesRemaining + "/" + maxLivesRemaining + "liv tilbage";
         } 
     }
@@ -58,11 +61,11 @@ public class Player : MonoBehaviour
 
 
     /// <summary>
-    /// Start is called before the first frame update
+    /// gets references and sets up various variables
     /// </summary>
     void Start()
     {
-        cooldownText = textObject.GetComponent<TextMeshPro>();
+        cooldownText = cooldownTextObject.GetComponent<TextMeshPro>();
         cooldownText.text = "";
         currentDestination = transform.position;
         maxLivesRemaining = livesRemaining;
@@ -71,46 +74,60 @@ public class Player : MonoBehaviour
     }
     
     /// <summary>
-    /// Update is called once per frame
+    /// Handles movement and the time the player cant move when hitting an incorrect Letter
     /// </summary>
     void Update()
     {
-        if((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown){
+        //Checks if the player is outside the board and ends the game if it is true
+        if((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown)
+        {
             thrown = true;
             canMove = false;
             board.Lost();
         }
-        if(MoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove){
-            if(Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f){
+        //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
+        if(IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
+        {
+            if(Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f)
+            {
                 currentDestination = transform.position + new Vector3(1, 0, 0);
             }
-            else if(Input.GetKeyDown(KeyCode.S) && transform.position.x > 10.5f){
+            else if(Input.GetKeyDown(KeyCode.S) && transform.position.x > 10.5f)
+            {
                 currentDestination = transform.position + new Vector3(-1, 0, 0);
             }
-            else if(Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f){
+            else if(Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f)
+            {
                 currentDestination = transform.position + new Vector3(0, 0, 1);
             }
-            else if(Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f){
+            else if(Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f)
+            {
                 currentDestination = transform.position + new Vector3(0, 0, -1);
             }
             
         }
-        else if (currentDestination != transform.position && canMove){
+        // calls the move method if the player is moving and sets hasMoved to true.
+        else if (currentDestination != transform.position && canMove)
+        {
             Move();
-            if(!hasMoved){
+            if(!hasMoved)
+            {
                 hasMoved = true;
             }
         }
         //Code to count down time remaining on the cooldown and to update the display
-        else if(MoveDelayRemaining > 0){
-            MoveDelayRemaining -= Time.deltaTime;
-            if(MoveDelayRemaining <= 0){
-                MoveDelayRemaining = 0;
+        else if(IncorrectSymbolStepMoveDelayRemaining > 0)
+        {
+            IncorrectSymbolStepMoveDelayRemaining -= Time.deltaTime;
+            if(IncorrectSymbolStepMoveDelayRemaining <= 0)
+            {
+                IncorrectSymbolStepMoveDelayRemaining = 0;
                 cooldownText.text = "";
                 hasMoveDelay = false;
             }
-            else {
-                cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
+            else 
+            {
+                cooldownText.text = Math.Round(IncorrectSymbolStepMoveDelayRemaining, 2) + " sek. tilbage";
             }
         }
     }
@@ -118,28 +135,33 @@ public class Player : MonoBehaviour
     /// <summary>
     /// code to start the delay in the players movement.
     /// </summary>
-    public void IncorrectGuess(){
-        MoveDelayRemaining = maxMoveDelay;
+    public void IncorrectGuess()
+    {
+        IncorrectSymbolStepMoveDelayRemaining = maxIncorrectSymbolStepMoveDelayRemaining;
         hasMoveDelay = true;
-        cooldownText.text = Math.Round(MoveDelayRemaining, 2) + " sek. tilbage";
+        cooldownText.text = Math.Round(IncorrectSymbolStepMoveDelayRemaining, 2) + " sek. tilbage";
     }
 
     /// <summary>
     /// Moves the player towards their destination.
     /// </summary>
-    void Move(){
+    void Move()
+    {
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
-        if(transform.position == currentDestination && thrown){
+        if(transform.position == currentDestination && thrown)
+        {
             thrown = false;
         }
     }
 
-    public void StopMovement(){
+    public void StopMovement()
+    {
         canMove = false;
     }
 
-    public void StartMovement(){
+    public void StartMovement()
+    {
         canMove = true;
     }
 }

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using CORE.Scripts;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 /// <summary>
@@ -25,19 +27,18 @@ public class SpellWord : IGameMode
     /// </summary>
     Queue<char> foundLetters = new Queue<char>();
 
-    List<string> words = new List<string>(){
-        "bi", "by", "bæ", "du", "dø", "en", "fe", "fy", "gø", "hø", "is", "ko", "kø", "le", "ni", "os", "ro", "se", "si", "so", "sy",
-        "sø", "te", "ti", "to", "tø", "tå", "æg", "øf", "øl", "ål"
-    };
+    List<string> words = new List<string>();
 
     int minWrongLetters = 6;
 
     int maxWrongLetters = 10;
 
     Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+
+    private bool wordsLoaded = false;
     
     /// <summary>
-    /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+    /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
     /// </summary>
     List<LetterCube> letterCubes;
 
@@ -56,55 +57,77 @@ public class SpellWord : IGameMode
     /// </summary>
     public void GetSymbols()
     {
+        //Sets up variablese and checks if data is loaded
         currentIndex = 0;
-        word = words[Random.Range(0, words.Count)].ToLower();
-        while(sprites.ContainsKey(word)){
-            word = words[Random.Range(0, words.Count)].ToLower();
-        
+        word = "";
+        WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount(2, 50);
+        //Checks if words are loaded and sets
+        if(words.Count == 0 && WordsManager.ReturnValidWords().Count > 0)
+        {
+            words = WordsManager.GetRandomWordsByLengthAndCount(2, 33);
+            wordsLoaded = true;
         }
-        currentLetter = word[currentIndex];
-        if(ImageManager.IsDataLoaded){
+        else if(words.Count > 0){
+            currentLetter = word[currentIndex];
+        }
+        
+        //Checks if the imagemanager has loaded and sets up the image if it has
+        if(ImageManager.IsDataLoaded)
+        {
+            
+            word = words[Random.Range(0, words.Count)].ToLower();
             Texture2D texture = ImageManager.GetImageFromWord(word);
             sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
             boardController.SetImage(sprites[word]);
         }
-        else {
+        else 
+        {
             boardController.StartImageWait(OnImageLoad);
-        }    
-        //deactives all current active lettercubes
-        foreach (LetterCube lC in activeLetterCubes){
-            lC.Deactivate();
         }
-        int count = Random.Range(minWrongLetters, maxWrongLetters);
-        activeLetterCubes.Clear();
-        //finds new letterboxes to be activated and assigns them a random incorrect letter.
-        for (int i = 0; i < count; i++){
-            char letter = LetterManager.GetRandomLetters(1)[0];
-            while(word.Contains(char.ToLower(letter))){
-                letter = LetterManager.GetRandomLetters(1)[0];
+        //If the words are loaded then it starts generating the board
+        if(wordsLoaded){
+            //deactives all current active lettercubes
+            foreach (LetterCube lC in activeLetterCubes)
+            {
+                lC.Deactivate();
             }
-            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+            int count = Random.Range(minWrongLetters, maxWrongLetters);
+            activeLetterCubes.Clear();
+            //finds new letterboxes to be activated and assigns them a random incorrect letter.
+            for (int i = 0; i < count; i++)
+            {
+                char letter = LetterManager.GetRandomLetters(1)[0];
+                while(word.Contains(char.ToLower(letter)))
+                {
+                    letter = LetterManager.GetRandomLetters(1)[0];
+                }
+                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-            //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-            while(activeLetterCubes.Contains(potentialCube)){
-                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
+                while(activeLetterCubes.Contains(potentialCube))
+                {
+                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                }
+                activeLetterCubes.Add(potentialCube);
+                activeLetterCubes[i].Activate(letter.ToString());
             }
-            activeLetterCubes.Add(potentialCube);
-            activeLetterCubes[i].Activate(letter.ToString());
-        }
-        //finds some new letterboxes and assigns them a correct letter
-        for(int i = 0; i < word.Length; i++){
-            char letter = word[i];
-            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+            //finds some new letterboxes and assigns them a correct letter
+            for(int i = 0; i < word.Length; i++)
+            {
+                char letter = word[i];
+                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-            //Check to ensure letters arent spawned on an allready activated letter cube.
-            while(activeLetterCubes.Contains(potentialCube)){
-                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                //Check to ensure letters arent spawned on an allready activated letter cube.
+                while(activeLetterCubes.Contains(potentialCube))
+                {
+                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                }
+                activeLetterCubes.Add(potentialCube);
+                activeLetterCubes[i].Activate(letter.ToString());
             }
-            activeLetterCubes.Add(potentialCube);
-            activeLetterCubes[i].Activate(letter.ToString());
+            boardController.SetAnswerText("");
         }
-        boardController.SetAnswerText("");
+        
     }
 
 
@@ -115,13 +138,16 @@ public class SpellWord : IGameMode
     /// <returns>Whether the letter is the correct one</returns>
     public bool IsCorrectSymbol(string letter)
     {
-        if(currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1){
+        
+        if(currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
+        {
             currentIndex++;
             foundLetters.Enqueue(currentLetter);
             currentLetter = word[currentIndex];
             return true;
         }
-        else if(currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1){
+        else if(currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1)
+        {
             foundLetters.Enqueue(currentLetter);
             currentIndex++;
             return true;
@@ -139,11 +165,14 @@ public class SpellWord : IGameMode
     public void ReplaceSymbol(LetterCube letter)
     {
         //Updates the display of letters which the player has already found
-        if(foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString()){
+        if(foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString())
+        {
             string foundWordPart = "";
             int j = word.IndexOf(foundLetters.Dequeue());
-            for(int i = 0; i < j + 1; i++){
-                if(word.Length > i){
+            for(int i = 0; i < j + 1; i++)
+            {
+                if(word.Length > i)
+                {
                     foundWordPart += word[i];
                 }
             }
@@ -155,17 +184,21 @@ public class SpellWord : IGameMode
         
         LetterCube newLetter;
         //finds a new random letterbox which is not active and is not the one which should be replaced
-        while(true){
+        while(true)
+        {
             newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-            if(newLetter != letter && !activeLetterCubes.Contains(newLetter)){
+            if(newLetter != letter && !activeLetterCubes.Contains(newLetter))
+            {
                 break;
             }
         }
         activeLetterCubes.Add(newLetter);
-        if(currentIndex < word.Length ){
+        if(currentIndex < word.Length )
+        {
             //currentLetter = word[currentIndex];
             char nL = LetterManager.GetRandomLetters(1)[0];
-            if(word.Contains(oldLetter)){
+            if(word.Contains(oldLetter))
+            {
                 nL = oldLetter[0];
             }
 
@@ -174,10 +207,12 @@ public class SpellWord : IGameMode
         }
         else{
             correctWords++;
-            if(correctWords == 3){
+            if(correctWords == 3)
+            {
                 boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
             }
-            else {
+            else 
+            {
                 GetSymbols();
             }
         }
@@ -219,9 +254,17 @@ public class SpellWord : IGameMode
     /// <summary>
     /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
     /// </summary>
-    public void OnImageLoad(){
-        Texture2D texture = ImageManager.GetImageFromWord(word);
-        sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-        boardController.SetImage(sprites[word]);
+    public void OnImageLoad()
+    {
+        if(words.Count > 0)
+        {
+            Texture2D texture = ImageManager.GetImageFromWord(word);
+            sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+            boardController.SetImage(sprites[word]);
+        }
+        else 
+        {
+            GetSymbols();
+        }
     }
 }
