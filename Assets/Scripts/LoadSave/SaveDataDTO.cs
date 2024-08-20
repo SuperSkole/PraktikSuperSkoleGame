@@ -10,18 +10,19 @@ namespace LoadSave
     public class SaveDataDTO 
     {
         // Player and character Data
-        public string Username;
-        public string Savefile;
+        public string Username { get; set; }
+        public string Savefile { get; set; }
+
+        public string PlayerName { get; set; }
         
-        public string PlayerName; 
-        public int MonsterTypeID;
-        public string MonsterColor;
-        public int GoldAmount; 
-        public int XPAmount; 
-        public int PlayerLevel; 
+        public int MonsterTypeID { get; set; }
+        public string MonsterColor { get; set; }
+        public int GoldAmount { get; set; } 
+        public int XPAmount { get; set; } 
+        public int PlayerLevel { get; set; } 
 
         // Positional data
-        public SavePlayerPosition SavedPlayerStartPostion;  // evt default to house
+        public SavePlayerPosition SavedPlayerStartPostion { get; set; }  // evt default to house
         
         // achived words
         // Progression
@@ -29,7 +30,7 @@ namespace LoadSave
         // collection of letter 
         // how many times a word/letter has been done
         // maybe dict so we also can store datetime
-        public List<string> CollectedWords;
-        public List<char> CollectedLetters;
+        public List<string> CollectedWords { get; set; }
+        public List<char> CollectedLetters { get; set; }
     }
 }

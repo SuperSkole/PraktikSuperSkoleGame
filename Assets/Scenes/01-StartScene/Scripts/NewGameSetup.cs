@@ -1,4 +1,5 @@
 using CORE;
+using LoadSave;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,7 @@ namespace Scenes._01_StartScene.Scripts
 
             // Init player data
             player.Initialize(
+                GameManager.Instance.CurrentUsername,
                 nameInput.text, 
                 ChosenMonsterColor,
                 0,

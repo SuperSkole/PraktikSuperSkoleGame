@@ -21,6 +21,7 @@ namespace Scenes.StartScene.Scripts
 
             // Init player data
             player.Initialize(
+                saveData.Username,
                 saveData.PlayerName, 
                 saveData.MonsterColor,
                 saveData.GoldAmount,
