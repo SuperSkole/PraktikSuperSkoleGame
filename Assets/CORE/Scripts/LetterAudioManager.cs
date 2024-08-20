@@ -2,17 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LetterAudioManager : MonoBehaviour
+namespace CORE.Scripts
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+    public class LetterAudioManager
     {
-        
+        private static Dictionary<string, List<AudioClip>> letterDictionary = new();
+        public static bool IsDataLoaded { get; private set; } = false;
+
+        public static void AddAudioClipToSet(string name, AudioClip input)
+        {
+            if (letterDictionary.ContainsKey(name.ToLower()))
+            {
+                letterDictionary[name.ToLower()].Add(input);
+            }
+            else
+            {
+                letterDictionary.Add(name.ToLower(), new List<AudioClip>());
+                letterDictionary[name.ToLower()].Add(input);
+            }
+            IsDataLoaded = true;
+        }
+
+        public static AudioClip GetAudioClipFromLetter(string inputLetter)
+        {
+            if (!letterDictionary.TryGetValue(inputLetter.ToLower(), out List<AudioClip> data))
+                data = null;
+            AudioClip audioClip;
+            if (data == null)
+            {
+                Debug.LogError($"Error getting image for the word: {inputLetter}");
+            }
+            if (data.Count > 1)
+                audioClip = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+                audioClip = data[0];
+
+            return audioClip;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
