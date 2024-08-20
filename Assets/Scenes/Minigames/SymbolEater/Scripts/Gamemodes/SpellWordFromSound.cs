@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class SpellWordFromSound : IGameMode
     {

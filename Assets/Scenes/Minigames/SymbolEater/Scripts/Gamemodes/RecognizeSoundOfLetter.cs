@@ -2,7 +2,7 @@ using CORE.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class RecognizeSoundOfLetter : IGameMode
     {
