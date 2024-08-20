@@ -1,13 +1,12 @@
-using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
-using Scenes._01_StartScene.Scripts;
+using Spine.Unity;
 using UnityEngine;
 
-public class ChangingPlayerColor : MonoBehaviour
+public class PlayerColorManager : MonoBehaviour
 {
-    [SerializeField] SkeletonGraphic skeletonGraphic;
-    [SerializeField] NewGameSetup gameSetup;
+    [SerializeField] private SkeletonAnimation skeletonAnimation;
+
 
     public void ColorChange(string colorName)
     {
@@ -34,7 +33,7 @@ public class ChangingPlayerColor : MonoBehaviour
         }
 
         //ændre de specefikke knogler
-        switch (skeletonGraphic.skeletonDataAsset.name)
+        switch (skeletonAnimation.skeletonDataAsset.name)
         {
             case "PraktikMonster_SkeletonData":
                 string[] slotsToColor = 
@@ -63,12 +62,12 @@ public class ChangingPlayerColor : MonoBehaviour
         }
         
         //send den til manageren
-        gameSetup.ChosenMonsterColor = colorName;
+        //gameSetup.ChosenMonsterColor = colorName;
     }
 
     private void ChangeSlotColor(string slotName, Color color)
     {
-        var slot = skeletonGraphic.Skeleton.FindSlot(slotName);
+        var slot = skeletonAnimation.Skeleton.FindSlot(slotName);
         if (slot != null)
         {
             slot.SetColor(color);
