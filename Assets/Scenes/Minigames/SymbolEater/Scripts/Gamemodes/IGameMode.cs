@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// Interface for interaction between the board controller and the active gamemode
+/// Interface for interaction between the board controller and the active gamemode in the Symbol Eater mini game
 /// </summary>
 public interface IGameMode
 {
@@ -16,7 +16,7 @@ public interface IGameMode
     public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board);
 
     /// <summary>
-    /// Gets the letters for the current game
+    /// Gets the symbols for the current game
     /// </summary>
     public void GetSymbols();
 

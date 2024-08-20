@@ -7,23 +7,14 @@ using UnityEngine;
 public enum DiffcultyPreset {CUSTOM, EASY, MEDIUM, HARD}
 
 /// <summary>
-/// Manager for the diffculty of the Grovæder game
+/// Manager for the diffculty of the Symbol Eater mini game
 /// </summary>
 public class DifficultyManager
 {
-    /// <summary>
-    /// The boardcontroller of the game
-    /// </summary>
-    BoardController boardController;
+    private BoardController boardController;
 
-    /// <summary>
-    /// The gameobject of the monster which should be placed on the board
-    /// </summary>
     public GameObject monsterPrefab;
 
-    /// <summary>
-    /// The monster script connected to the prefab
-    /// </summary>
     private Monster monster;
 
 
@@ -32,7 +23,8 @@ public class DifficultyManager
     /// </summary>
     /// <param name="boardController">the active boardcontroller</param>
     /// <param name="monsterPrefab">the prefab which should be used for the monster</param>
-    public void SetBoardControllerAndMonsterPrefab(BoardController boardController, GameObject monsterPrefab){
+    public void SetBoardControllerAndMonsterPrefab(BoardController boardController, GameObject monsterPrefab)
+    {
         this.boardController = boardController;
         this.monsterPrefab = monsterPrefab;
         monster = this.monsterPrefab.GetComponent<Monster>();
@@ -43,8 +35,10 @@ public class DifficultyManager
     /// Sets the various difficulty settings based on the given preset
     /// </summary>
     /// <param name="preset"></param>
-    public void SetDifficulty(DiffcultyPreset preset){
-        switch(preset){
+    public void SetDifficulty(DiffcultyPreset preset)
+    {
+        switch(preset)
+        {
             case DiffcultyPreset.CUSTOM:
                 break;
             case DiffcultyPreset.EASY:
@@ -78,13 +72,16 @@ public class DifficultyManager
     /// Spawns a given number of monsters
     /// </summary>
     /// <param name="monsterNum">The number of monsters which should be spawned</param>
-    public void SpawnMonsters(int monsterNum){
+    public void SpawnMonsters(int monsterNum)
+    {
         Player player = boardController.GetPlayer();
         List<Vector3> usedPositions = new List<Vector3>(){player.transform.position};
-        //Adds the given number
-        for(int i = 0; i < monsterNum; i++){
+        //Adds the given number of monster
+        for(int i = 0; i < monsterNum; i++)
+        {
             Vector3 monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
-            while(usedPositions.Contains(monsterPos)){
+            while(usedPositions.Contains(monsterPos))
+            {
                 monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
             }
             usedPositions.Add(monsterPos);
@@ -96,7 +93,8 @@ public class DifficultyManager
     /// Changes the players move speed
     /// </summary>
     /// <param name="speed">the new player move speed</param>
-    public void ChangePlayerSpeed(float speed){
+    public void ChangePlayerSpeed(float speed)
+    {
         boardController.GetPlayer().speed = speed;
     }
 
@@ -104,7 +102,8 @@ public class DifficultyManager
     /// Changes the move speed of the monster(s)
     /// </summary>
     /// <param name="speed">the new monster move speed</param>
-    public void ChangeMonsterSpeed(float speed){
+    public void ChangeMonsterSpeed(float speed)
+    {
         monster.speed = speed;
     }
 
@@ -112,8 +111,9 @@ public class DifficultyManager
     /// Changes the time the player is stuck before being able to move after hitting a lettercube with a wrong letter
     /// </summary>
     /// <param name="time">the time befere the player can move again</param>
-    public void ChangeWrongLetterMoveBlockTime(float time){
-        boardController.GetPlayer().maxMoveDelay = time;
+    public void ChangeWrongLetterMoveBlockTime(float time)
+    {
+        boardController.GetPlayer().maxIncorrectSymbolStepMoveDelayRemaining = time;
     }
 
     /// <summary>
@@ -121,7 +121,8 @@ public class DifficultyManager
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void ChangeMinAndMaxWrongLetters(int min, int max){
+    public void ChangeMinAndMaxWrongLetters(int min, int max)
+    {
         boardController.ChangeMinAndMaxWrongSymbols(min, max);
     }
 
@@ -130,7 +131,8 @@ public class DifficultyManager
     /// </summary>
     /// <param name="min"></param>
     /// <param name="max"></param>
-    public void ChangeMinAndMaxCorrectLetters(int min, int max){
+    public void ChangeMinAndMaxCorrectLetters(int min, int max)
+    {
         boardController.ChangeMinAndMaxCorrectSymbols(min, max);
     }
 }
