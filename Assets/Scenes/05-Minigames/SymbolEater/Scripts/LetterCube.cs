@@ -106,8 +106,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         public void ActivateImage(Texture2D texture2D, string word)
         {
+            if (rawImage == null)
+            {
+                rawImage = imageObject.GetComponent<RawImage>();
+            }
             imageObject.SetActive(true);
-
+            
             rawImage.texture = texture2D;
             letter = word;
 
