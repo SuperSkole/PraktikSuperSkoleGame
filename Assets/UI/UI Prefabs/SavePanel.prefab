@@ -306,9 +306,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d078bd01829ac48acbd55c29fdfd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loadGameManager: {fileID: 0}
   chosenCharacter: {fileID: 1796195445977588801}
   playerNameDrawing: {fileID: 4686091479972588481}
   playerName: {fileID: 500611976007204861}
+  playerInfo: {fileID: 0}
   blockingImage: {fileID: 2688738793002485045}
   startGameButton: {fileID: 1408796225828634408}
 --- !u!1 &3017453838456915399
