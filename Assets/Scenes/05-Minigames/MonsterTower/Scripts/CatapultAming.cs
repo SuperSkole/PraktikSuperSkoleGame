@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
-
     public class CatapultAming : MonoBehaviour
     {
         [SerializeField] GameObject prjectipePrefab;
@@ -14,7 +13,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] GameObject catapultArm;
         [SerializeField] Transform shootPos;
         [SerializeField] float hight = 1;
-
+        bool IsShooting = false;
         /// <summary>
         /// calcolates the terejectory to hit at point and returnes a velosity to hit it
         /// </summary>
@@ -44,30 +43,36 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// it spawns and fires a projectile
         /// </summary>
         /// <param name="target">the target you want to hit</param>
-        public IEnumerator Shoot(Vector3 target, Brick brick)
+        public IEnumerator Shoot(Vector3 target, Brick brick, MonsterTowerManager manager)
         {
             float rotateThisMuch = 0;
-            float rotateAmount = 1.5f;
-            float rotateSpeed = 1f;
-            float rotateActualSpeed = rotateSpeed / 100000;
-            while (rotateThisMuch < 85)
+            float rotateAmount = 5f;
+            float rotateSpeed = 100f;
+            float rotateActualSpeed = 1f / rotateSpeed;
+            if (!IsShooting)
             {
-                catapultArm.gameObject.transform.Rotate(0, -rotateAmount, 0);
-                rotateThisMuch += rotateAmount;
-                yield return new WaitForSeconds(rotateActualSpeed);
-            }
+                IsShooting = true;
+                while (rotateThisMuch < 85)
+                {
+                    catapultArm.gameObject.transform.Rotate(0, -rotateAmount, 0);
+                    rotateThisMuch += rotateAmount;
+                    yield return new WaitForSecondsRealtime(rotateActualSpeed);
+                }
 
-            GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);
-            Rigidbody rb = temp.GetComponent<Rigidbody>();
-            rb.isKinematic = false;
-            rb.velocity = CalcolateTerejectory(target);
-            temp.GetComponent<AmmoDeletor>().Hitbox(brick);
+                manager.RemoveAmmo();
+                GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);
+                Rigidbody rb = temp.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.velocity = CalcolateTerejectory(target);
+                temp.GetComponent<AmmoDeletor>().Hitbox(brick);
 
-            while (rotateThisMuch != 0)
-            {
-                catapultArm.gameObject.transform.Rotate(0, rotateAmount, 0);
-                rotateThisMuch -= rotateAmount;
-                yield return new WaitForSeconds(rotateActualSpeed * 1000);
+                while (rotateThisMuch > 0)
+                {
+                    catapultArm.gameObject.transform.Rotate(0, rotateAmount / 5f, 0);
+                    rotateThisMuch -= rotateAmount / 5f;
+                    yield return new WaitForSeconds(rotateActualSpeed);
+                }
+                IsShooting = false;
             }
             yield return null;
         }
