@@ -155,7 +155,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     // makes a image string from the current word variable, so that we can find it in the files.
                     string image = currentWord.ToLower();
-                    string imageFileName = currentWord + "_image";
+                    
 
                     Texture2D currentImage = texture[currentWord];
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
@@ -177,9 +177,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
         }
 
-        public bool IsCorrectSymbol(string image)
+        public bool IsCorrectSymbol(string theWord)
         {
-            return image.ToLower() == currentWord.ToLower();
+            return theWord.ToLower() == currentWord.ToLower();
         }
 
         public void CurrentWordSound()
