@@ -1,6 +1,7 @@
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using Scenes._01_StartScene.Scripts;
 using UnityEngine;
 
 public class ChangingPlayerColor : MonoBehaviour
@@ -36,10 +37,11 @@ public class ChangingPlayerColor : MonoBehaviour
         switch (skeletonGraphic.skeletonDataAsset.name)
         {
             case "PraktikMonster_SkeletonData":
-                string[] slotsToColor = {
-                     "Monster L lowerleg color",
-                     "Monster R lowerleg color",
-                     "Monster L upperleg color",
+                string[] slotsToColor = 
+                {
+                    "Monster L lowerleg color",
+                    "Monster R lowerleg color",
+                    "Monster L upperleg color",
                     "Mopnster R upperleg color",
                     "Monster head",
                     "Monster body",
@@ -47,20 +49,21 @@ public class ChangingPlayerColor : MonoBehaviour
                     "Monster L upperarm color",
                     "Monster R lowerarm color",
                     "Monster L lowerarm color"
-                                          };
+                };
 
                 foreach (string slotName in slotsToColor)
                 {
                     ChangeSlotColor(slotName, selectedColor);
                 }
+                
                 break;
 
             default:
                 break;
         }
+        
         //send den til manageren
-        gameSetup.PlayerColor = colorName;
-
+        gameSetup.ChosenMonsterColor = colorName;
     }
 
     private void ChangeSlotColor(string slotName, Color color)
@@ -70,7 +73,6 @@ public class ChangingPlayerColor : MonoBehaviour
         {
             slot.SetColor(color);
         }
-   
     }
 
 
@@ -79,8 +81,8 @@ public class ChangingPlayerColor : MonoBehaviour
         //Unity's colorUtility klasse, der forsøger at konverter en string i HTML style hex format
         if(ColorUtility.TryParseHtmlString("#" + hex, out Color color))
         {
-           //hvis farvekoden matcher
-           return color;
+            //hvis farvekoden matcher
+            return color;
         }
         else
         {

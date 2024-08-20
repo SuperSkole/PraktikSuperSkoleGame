@@ -14,7 +14,8 @@ namespace LoadSave
         public string Savefile;
         
         public string PlayerName; 
-        public int MonsterTypeID; 
+        public int MonsterTypeID;
+        public string MonsterColor;
         public int GoldAmount; 
         public int XPAmount; 
         public int PlayerLevel; 
@@ -30,23 +31,5 @@ namespace LoadSave
         // maybe dict so we also can store datetime
         public List<string> CollectedWords;
         public List<char> CollectedLetters;
-        
-
-        // spines
-        public string CharacterHead;
-        public string CharacterBody;
-        public string CharacterColor;
-        
-        public List<string> PurchasedCharactorSkins; // list of purchased 
-        
-        // Customization colors
-        public SerializableColor HeadColor; 
-        public SerializableColor BodyColor;
-        public SerializableColor LegColor; 
-
-        //Skins data
-        public List<SkinData> GirlPurchasedSkins; 
-        public List<SkinData> MonsterPurchasedSkins;
-        
     }
 }

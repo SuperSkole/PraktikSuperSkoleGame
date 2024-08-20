@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class ShopSkinManagement : MonoBehaviour
 {
-    public CusParts girlSkins = new CusParts();// Assign these in the inspector
-    public CusParts monsterSkins = new CusParts();// Assign these in the inspector
+    public CusParts girlSkins;// Assign these in the inspector
+    public CusParts monsterSkins;// Assign these in the inspector
 
     public IconSpriteMapper iconSpriteMapper;
     [Header("De skal følge same rækkefølge")]
