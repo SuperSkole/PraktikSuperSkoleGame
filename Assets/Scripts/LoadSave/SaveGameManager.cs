@@ -8,13 +8,6 @@ namespace LoadSave
     {
         private string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
 
-        private OldGameManager gm; // change to Gamemanager 
-
-        public SaveToJsonManager(OldGameManager oldGameManagerManager)
-        {
-            gm = oldGameManagerManager;
-        }
-
         public void SaveGame(string hashedUsername)
         {
             SaveDataDTO data = CreateSaveData();
@@ -26,15 +19,16 @@ namespace LoadSave
 
         private SaveDataDTO CreateSaveData()
         {
+            var gm = GameManager.Instance.PlayerData;
             SaveDataDTO data = new SaveDataDTO
             {
-                // TODO: HashedUsername = gm.player.hashedUsername, 
-                PlayerName = gm.player.PlayerName,
-                MonsterTypeID = gm.player.MonsterTypeID,
-                GoldAmount = gm.player.CurrentGoldAmount,
-                XPAmount = gm.player.CurrentXPAmount,
-                PlayerLevel = gm.player.CurrentLevel,
-                SavedPlayerStartPostion = new SavePlayerPosition(gm.player.CurrentPosition),
+                Username = gm.HashedUsername, 
+                PlayerName = gm.PlayerName,
+                MonsterTypeID = gm.MonsterTypeID,
+                GoldAmount = gm.CurrentGoldAmount,
+                XPAmount = gm.CurrentXPAmount,
+                PlayerLevel = gm.CurrentLevel,
+                SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
                 // HeadColor = new SerializableColor(gm.player.currentHeadColor),
                 // BodyColor = new SerializableColor(gm.player.currentBodyColor),
                 // LegColor = new SerializableColor(gm.player.currentLegColor)

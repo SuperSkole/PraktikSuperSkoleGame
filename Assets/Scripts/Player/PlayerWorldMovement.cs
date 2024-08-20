@@ -70,7 +70,7 @@ public class PlayerWorldMovement : MonoBehaviour
     public void GenerateInteractions()
     {
         FindWardrope();
-        FindPlayer();
+        //FindPlayer();
         FindNPC();
         //FindPlayerCar();
     }
@@ -130,50 +130,50 @@ public class PlayerWorldMovement : MonoBehaviour
             Debug.LogWarning("Wardrope GameObject not found in the scene.");
         }
     }
-    private void FindPlayer()
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player != null)
-        {
-            GameObject SeeSkinsGO = GameObject.Find("SeePlayerSkins");
-            GameObject SeeSkinsShopGO = GameObject.FindGameObjectWithTag("SeeSkinShopTag");
-            GameObject characterCustomize = GameObject.Find("CharCuz");
-            GameObject SkinShopParent = GameObject.Find("SkinShop");
-            //SkinShopGO = SeeSkinsShopGO;
-            characterCustomize.SetActive(false);
-            SkinShopParent.SetActive(false);
-            if (SeeSkinsShopGO == null)
-            {
-                Debug.Log("Cant find the Shop GO DO SOMETHIGN");
-            }
-            if (SeeSkinsGO == null)
-            {
-                Debug.Log("DO SOMETHIGN");
-            }
-            if (SeeSkinsGO != null && SeeSkinsShopGO != null)
-            {
-                ShowCusBodyParts SeeSkins = SeeSkinsGO.GetComponent<ShowCusBodyParts>();
-                SkinShop skinShop = SeeSkinsShopGO.GetComponent<SkinShop>();
-                if (SeeSkins != null && skinShop != null)
-                {
-                    // Create a new UnityEvent
-                    UnityEvent newEvent = new UnityEvent();
-                    // Add a listener to the new event that calls GiveNameToChar method
-                    newEvent.AddListener(() => SeeSkins.GiveNameToChar(player.name));
-                    newEvent.AddListener(() => skinShop.GiveNameToChar(player.name));
-                    // Add the new event to the whichInteraction list
-                    //whichInteraction.Add(newEvent);
-                    whichInteraction[0].AddListener(() => SeeSkins.GiveNameToChar(player.name));
-                    whichInteraction[0].AddListener(() => skinShop.GiveNameToChar(player.name));
-                }
-            }
-            else { Debug.Log("Cant find SeePlayerSkins or SeeShopSkins"); }
-
-        }
-        else { Debug.Log("Cant find Tag Player"); }
-
-    }
+    // private void FindPlayer()
+    // {
+    //     GameObject player = GameObject.FindGameObjectWithTag("Player");
+    //
+    //     if (player != null)
+    //     {
+    //         GameObject SeeSkinsGO = GameObject.Find("SeePlayerSkins");
+    //         GameObject SeeSkinsShopGO = GameObject.FindGameObjectWithTag("SeeSkinShopTag");
+    //         GameObject characterCustomize = GameObject.Find("CharCuz");
+    //         GameObject SkinShopParent = GameObject.Find("SkinShop");
+    //         //SkinShopGO = SeeSkinsShopGO;
+    //         characterCustomize.SetActive(false);
+    //         SkinShopParent.SetActive(false);
+    //         if (SeeSkinsShopGO == null)
+    //         {
+    //             Debug.Log("Cant find the Shop GO DO SOMETHIGN");
+    //         }
+    //         if (SeeSkinsGO == null)
+    //         {
+    //             Debug.Log("DO SOMETHIGN");
+    //         }
+    //         if (SeeSkinsGO != null && SeeSkinsShopGO != null)
+    //         {
+    //             ShowCusBodyParts SeeSkins = SeeSkinsGO.GetComponent<ShowCusBodyParts>();
+    //             SkinShop skinShop = SeeSkinsShopGO.GetComponent<SkinShop>();
+    //             if (SeeSkins != null && skinShop != null)
+    //             {
+    //                 // Create a new UnityEvent
+    //                 UnityEvent newEvent = new UnityEvent();
+    //                 // Add a listener to the new event that calls GiveNameToChar method
+    //                 newEvent.AddListener(() => SeeSkins.GiveNameToChar(player.name));
+    //                 newEvent.AddListener(() => skinShop.GiveNameToChar(player.name));
+    //                 // Add the new event to the whichInteraction list
+    //                 //whichInteraction.Add(newEvent);
+    //                 whichInteraction[0].AddListener(() => SeeSkins.GiveNameToChar(player.name));
+    //                 whichInteraction[0].AddListener(() => skinShop.GiveNameToChar(player.name));
+    //             }
+    //         }
+    //         else { Debug.Log("Cant find SeePlayerSkins or SeeShopSkins"); }
+    //
+    //     }
+    //     else { Debug.Log("Cant find Tag Player"); }
+    //
+    // }
 
     /// <summary>
     /// Finds all the NPCs in the world,

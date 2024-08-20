@@ -45,37 +45,37 @@ public class OldGameManager : MonoBehaviour
     public GameObject spriteLeg;
     public OldGameManager() { }
 
-    public SaveDataDTO save;
+    //public SaveDataDTO save;
 
     #endregion
 
-    private void Start()
-    {
-        if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
-        {
-            PlayerMovement.allowedToMove = false;
-            chosePlayerScreen.SetActive(true);
-            customizePlayerScreen.SetActive(true);
-            SkinShop.SetActive(true);
-        }
-        else
-        {
-            //Debug.Log("NewGame/Start/Save file found loading from JSON");
-            PlayerMovement.allowedToMove = true;
-
-            //Needs to be true for events to be added to player
-            customizePlayerScreen.SetActive(true);
-
-            //Needs to be true for events to be added to player
-            SkinShop.SetActive(true);
-
-            chosePlayerScreen.SetActive(false);
-            //customizePlayerScreen.SetActive(false);
-            //SkinShop.SetActive(false);
-            this.gameObject.GetComponent<SaveGameToJson>().LoadFromJson();
-        }
-
-    }
+    // private void Start()
+    // {
+    //     if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
+    //     {
+    //         PlayerMovement.allowedToMove = false;
+    //         chosePlayerScreen.SetActive(true);
+    //         customizePlayerScreen.SetActive(true);
+    //         SkinShop.SetActive(true);
+    //     }
+    //     else
+    //     {
+    //         //Debug.Log("NewGame/Start/Save file found loading from JSON");
+    //         PlayerMovement.allowedToMove = true;
+    //     
+    //         //Needs to be true for events to be added to player
+    //         customizePlayerScreen.SetActive(true);
+    //     
+    //         //Needs to be true for events to be added to player
+    //         SkinShop.SetActive(true);
+    //     
+    //         chosePlayerScreen.SetActive(false);
+    //         //customizePlayerScreen.SetActive(false);
+    //         //SkinShop.SetActive(false);
+    //         this.gameObject.GetComponent<SaveGameToJson>().LoadFromJson();
+    //     }
+    //
+    // }
     /// <summary>
     /// Creates a new CharacterController and sets the name of the player
     /// Only call on a fresh start
@@ -102,36 +102,36 @@ public class OldGameManager : MonoBehaviour
         return player;
     }
 
-    public void SetLoadGameInfo(SaveDataDTO saveDataDto)
-    {
-        loadedPlayer = Instantiate(WhichPrefabGO(saveDataDto.MonsterName), 
-            saveDataDto.SavedPlayerStartPostion.GetVector3(), 
-            Quaternion.Euler(0f,90f,0f),
-            SpawnCharPoint);
-        loadedPlayer.GetComponent<PlayerWorldMovement>().GenerateInteractions();
-        skinsMa.StartMapping();
-        save = saveDataDto;
-        //player = new PlayerData(
-        //    Convert.ToInt16(saveDataDto.MonsterName),
-        //    saveDataDto.PlayerName,
-        //    saveDataDto.GoldAmount,
-        //    saveDataDto.XPAmount,
-        //    saveDataDto.PlayerLevel,
-        //    saveDataDto.SavedPlayerStartPostion.GetVector3(),
-        //    saveDataDto.HeadColor.ToColor(),
-        //    saveDataDto.BodyColor.ToColor(),
-        //    saveDataDto.LegColor.ToColor(),
-        //    WhichSprite(saveDataDto, "Head"),
-        //    WhichSprite(saveDataDto, "Body"),
-        //    WhichSprite(saveDataDto, "Legs")
-        //    ); 
-    
-        SetWorldAndPlayerParts();
-    
-        //Sets the camera to follow the player
-        virtualCamera.Follow = GameObject.FindGameObjectWithTag("Player").transform;
-        virtualCamera.LookAt = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+    // public void SetLoadGameInfo(SaveDataDTO saveDataDto)
+    // {
+    //     loadedPlayer = Instantiate(WhichPrefabGO(saveDataDto.MonsterName), 
+    //         saveDataDto.SavedPlayerStartPostion.GetVector3(), 
+    //         Quaternion.Euler(0f,90f,0f),
+    //         SpawnCharPoint);
+    //     loadedPlayer.GetComponent<PlayerWorldMovement>().GenerateInteractions();
+    //     skinsMa.StartMapping();
+    //     save = saveDataDto;
+    //     //player = new PlayerData(
+    //     //    Convert.ToInt16(saveDataDto.MonsterName),
+    //     //    saveDataDto.PlayerName,
+    //     //    saveDataDto.GoldAmount,
+    //     //    saveDataDto.XPAmount,
+    //     //    saveDataDto.PlayerLevel,
+    //     //    saveDataDto.SavedPlayerStartPostion.GetVector3(),
+    //     //    saveDataDto.HeadColor.ToColor(),
+    //     //    saveDataDto.BodyColor.ToColor(),
+    //     //    saveDataDto.LegColor.ToColor(),
+    //     //    WhichSprite(saveDataDto, "Head"),
+    //     //    WhichSprite(saveDataDto, "Body"),
+    //     //    WhichSprite(saveDataDto, "Legs")
+    //     //    ); 
+    //
+    //     SetWorldAndPlayerParts();
+    //
+    //     //Sets the camera to follow the player
+    //     virtualCamera.Follow = GameObject.FindGameObjectWithTag("Player").transform;
+    //     virtualCamera.LookAt = GameObject.FindGameObjectWithTag("Player").transform;
+    // }
 
     /// <summary>
     /// Call when first loading, finds the player then sets correct INFO 
@@ -252,62 +252,62 @@ public class OldGameManager : MonoBehaviour
     /// <param name="dataDto">The save data containing the player's current state and skin information.</param>
     /// <param name="bodyPart">The body part for which to retrieve the sprite ("Head", "Body", or "Legs").</param>
     /// <returns>The sprite associated with the equipped skin for the specified body part, or null if no equipped skin is found.</returns>
-    private Sprite WhichSprite(SaveDataDTO dataDto, string bodyPart)
-    {
-        // Determine the correct skin data list and parts collection based on the monster type.
-        List<SkinData> skinDataList = dataDto.MonsterName == "SimpleMonster" ? dataDto.MonsterPurchasedSkins : dataDto.GirlPurchasedSkins;
-        CusParts cusParts = dataDto.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
-
-        // Iterate through the list of skin data to find an equipped skin.
-        foreach (var item in skinDataList)
-        {
-            if (item.isPurchased && item.isEquipped)
-            {
-                switch (bodyPart)
-                {
-                    case "Head":
-                        // Attempt to find and return the equipped head sprite.
-                        var headSprite = FindEquippedSprite(cusParts.head, item.SkinName);
-                        if (headSprite != null)
-                        {
-                            Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(headSprite);
-                            if (properSprite != null)
-                            {
-                                return properSprite;
-                            }
-                        }
-                        break;
-                    case "Body":
-                        // Attempt to find and return the equipped body sprite.
-                        var bodySprite = FindEquippedSprite(cusParts.torso, item.SkinName);
-                        if (bodySprite != null)
-                        {
-                            Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(bodySprite);
-                            if (properSprite != null)
-                            {
-                                return properSprite;
-                            }
-                        }
-                        break;
-                    case "Legs":
-                        // Attempt to find and return the equipped leg sprite.
-                        var legSprite = FindEquippedSprite(cusParts.legs, item.SkinName);
-                        if (legSprite != null)
-                        {
-                            Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(legSprite);
-                            if (properSprite != null)
-                            {
-                                return properSprite;
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-
-        // Return null if no equipped sprite is found.
-        return null;
-    }
+    // private Sprite WhichSprite(SaveDataDTO dataDto, string bodyPart)
+    // {
+    //     // Determine the correct skin data list and parts collection based on the monster type.
+    //     List<SkinData> skinDataList = dataDto.MonsterName == "SimpleMonster" ? dataDto.MonsterPurchasedSkins : dataDto.GirlPurchasedSkins;
+    //     CusParts cusParts = dataDto.MonsterName == "SimpleMonster" ? skinsMa.monsterSkins : skinsMa.girlSkins;
+    //
+    //     // Iterate through the list of skin data to find an equipped skin.
+    //     foreach (var item in skinDataList)
+    //     {
+    //         if (item.isPurchased && item.isEquipped)
+    //         {
+    //             switch (bodyPart)
+    //             {
+    //                 case "Head":
+    //                     // Attempt to find and return the equipped head sprite.
+    //                     var headSprite = FindEquippedSprite(cusParts.head, item.SkinName);
+    //                     if (headSprite != null)
+    //                     {
+    //                         Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(headSprite);
+    //                         if (properSprite != null)
+    //                         {
+    //                             return properSprite;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Body":
+    //                     // Attempt to find and return the equipped body sprite.
+    //                     var bodySprite = FindEquippedSprite(cusParts.torso, item.SkinName);
+    //                     if (bodySprite != null)
+    //                     {
+    //                         Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(bodySprite);
+    //                         if (properSprite != null)
+    //                         {
+    //                             return properSprite;
+    //                         }
+    //                     }
+    //                     break;
+    //                 case "Legs":
+    //                     // Attempt to find and return the equipped leg sprite.
+    //                     var legSprite = FindEquippedSprite(cusParts.legs, item.SkinName);
+    //                     if (legSprite != null)
+    //                     {
+    //                         Sprite properSprite = iconSpriteMapper.GetSpriteFromIcon(legSprite);
+    //                         if (properSprite != null)
+    //                         {
+    //                             return properSprite;
+    //                         }
+    //                     }
+    //                     break;
+    //             }
+    //         }
+    //     }
+    //
+    //     // Return null if no equipped sprite is found.
+    //     return null;
+    // }
 
     /// <summary>
     /// Searches for a sprite in a list of skins based on the skin name.

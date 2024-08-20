@@ -30,18 +30,18 @@ public class GeneralManagement : MonoBehaviour
     /// <summary>
     /// when we get loading game up and runing change this so it takes in the loaded value, except if its a new game
     /// </summary>
-    private void Start()
-    {
-        lvlHolder.SetActive(false);
-        if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
-        {
-            UpdateValues();
-        }
-        if (levelsDic.Count <= 0)
-        {
-            PopulateXPRequirements(numberOfLevels);
-        }
-    }
+    // private void Start()
+    // {
+    //     lvlHolder.SetActive(false);
+    //     if (this.gameObject.GetComponent<SaveGameToJson>().IsThereSaveFile() == false)
+    //     {
+    //         UpdateValues();
+    //     }
+    //     if (levelsDic.Count <= 0)
+    //     {
+    //         PopulateXPRequirements(numberOfLevels);
+    //     }
+    // }
     /// <summary>
     /// Fills the Dictionary levelsDic with levels with a certain % 
     /// </summary>
