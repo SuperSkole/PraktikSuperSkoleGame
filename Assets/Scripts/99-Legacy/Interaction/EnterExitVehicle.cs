@@ -12,7 +12,7 @@ public class EnterExitVehicle : MonoBehaviour
     private bool isPlayerNearby = false;
     private CarController carController;
     //private RacingGameCore racingGameCore;
-    [SerializeField] private GameObject camera;
+    //[SerializeField] private GameObject camera;
     public UnityEvent enterCar;
     public UnityEvent exitCar;
     int sceneID = 0;
@@ -31,7 +31,7 @@ public class EnterExitVehicle : MonoBehaviour
         carController = car.GetComponent<CarController>();
         if (sceneID == 0) //Town scene
         {
-            PlayerActive();
+            //PlayerActive();
             //CarActive();
         }
 
@@ -46,7 +46,7 @@ public class EnterExitVehicle : MonoBehaviour
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E)) //Town scene
         {
-            ToggleCarAndPlayer();
+            //ToggleCarAndPlayer();
         }
 
         //if (sceneID == 0 && isPlayerNearby && Input.GetKeyDown(KeyCode.E)) //Town scene
@@ -55,40 +55,40 @@ public class EnterExitVehicle : MonoBehaviour
         //}
     }
 
-    private void ToggleCarAndPlayer()
-    {
-
-        carController.CarActive = !carController.CarActive;
-        player.SetActive(!carController.CarActive); // Disable player if car is active, and vice versa
-
-        // Position the player next to the car when exiting
-        if (!carController.CarActive)
-        {
-            CamChange obj = camera.GetComponent<CamChange>();
-            UnityEvent newEvent = new UnityEvent();
-            player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 for at kompensere for spillerens højde
-            exitCar.AddListener(() => obj.ChangeCamToPlayer(player.transform));
-            exitCar.Invoke();
-        }
-
-        if (carController.CarActive)
-        {
-            enterCar.Invoke();
-        }
-    }
-
-    private void PlayerActive()
-    {
-        carController.CarActive = false;
-        player.SetActive(true); // Enable player and disable car
-
-        // Position the player next to the car when exiting
-        CamChange obj = camera.GetComponent<CamChange>();
-        UnityEvent newEvent = new UnityEvent();
-        player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 to compensate for the player's height
-        exitCar.AddListener(() => obj.ChangeCamToPlayer(player.transform));
-        exitCar.Invoke();
-    }
+    // private void ToggleCarAndPlayer()
+    // {
+    //
+    //     carController.CarActive = !carController.CarActive;
+    //     player.SetActive(!carController.CarActive); // Disable player if car is active, and vice versa
+    //
+    //     // Position the player next to the car when exiting
+    //     if (!carController.CarActive)
+    //     {
+    //         CamChange obj = camera.GetComponent<CamChange>();
+    //         UnityEvent newEvent = new UnityEvent();
+    //         player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 for at kompensere for spillerens højde
+    //         exitCar.AddListener(() => obj.ChangeCamToPlayer(player.transform));
+    //         exitCar.Invoke();
+    //     }
+    //
+    //     if (carController.CarActive)
+    //     {
+    //         enterCar.Invoke();
+    //     }
+    // }
+    //
+    // private void PlayerActive()
+    // {
+    //     carController.CarActive = false;
+    //     player.SetActive(true); // Enable player and disable car
+    //
+    //     // Position the player next to the car when exiting
+    //     CamChange obj = camera.GetComponent<CamChange>();
+    //     UnityEvent newEvent = new UnityEvent();
+    //     player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 to compensate for the player's height
+    //     exitCar.AddListener(() => obj.ChangeCamToPlayer(player.transform));
+    //     exitCar.Invoke();
+    // }
 
     private void CarActive()
     {

@@ -294,6 +294,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveDelayRemaining: 0
   textObject: {fileID: 3222111376729888875}
+  healthTextObject: {fileID: 0}
   thrown: 0
   hasMoved: 0
   speed: 2
+  hasMoveDelay: 0
+  canMove: 1
+  maxMoveDelay: 6
+  board: {fileID: 0}

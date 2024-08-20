@@ -178,12 +178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d7c675d28ee4944903514effabc7a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  usernameInput: {fileID: 0}
   nameInput: {fileID: 0}
   playerName: {fileID: 0}
-  CreateCharScreen: {fileID: 0}
+  player: {fileID: 0}
+  SpawnCharPoint: {fileID: 0}
+  girlPrefab: {fileID: 0}
+  monsterPrefab: {fileID: 0}
+  skinsMa: {fileID: 0}
+  virtualCamera: {fileID: 0}
+  moveFloatingNumbers: {fileID: 0}
+  iconSpriteMapper: {fileID: 0}
+  chosePlayerScreen: {fileID: 0}
+  customizePlayerScreen: {fileID: 0}
+  SkinShop: {fileID: 0}
   headColor: {r: 0, g: 0, b: 0, a: 1}
   BodyColor: {r: 0, g: 0, b: 0, a: 1}
   LegColor: {r: 0, g: 0, b: 0, a: 1}
+  spriteHead: {fileID: 0}
+  spriteBody: {fileID: 0}
+  spriteLeg: {fileID: 0}
 --- !u!114 &2915870714955292370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,5 +212,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldText: {fileID: 0}
   expText: {fileID: 0}
+  lvlText: {fileID: 0}
+  lvlHolder: {fileID: 0}
   expSlider: {fileID: 0}
   Level: 0
+  goldAmount: 0
+  expAmount: 0

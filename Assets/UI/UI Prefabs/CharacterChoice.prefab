@@ -90,9 +90,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ef2d8e935ea42479d8448f22f3fe21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiLoginManager: {fileID: 0}
-  thisChoice: {fileID: 4183186586566849359}
-  thisId: 
+  uiStartSceneManager: {fileID: 0}
+  monsterId: 0
+  previewImg: {fileID: 0}
+  switchedskel: {fileID: 0}
 --- !u!114 &6096073492385618460
 MonoBehaviour:
   m_ObjectHideFlags: 0
