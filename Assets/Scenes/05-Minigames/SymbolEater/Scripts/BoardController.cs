@@ -49,7 +49,7 @@ public class BoardController : MonoBehaviour
     /// Sets up the gameboard and the gamemode
     /// </summary>
     /// <param name="targetMode">The game mode which should be used</param>
-    public void GameModeSet(IGameMode targetMode)
+    public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
     {
         //Sets various fieldvariables and their field variables
         gameMode = targetMode;
@@ -75,6 +75,7 @@ public class BoardController : MonoBehaviour
             }
         }
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
+        gameMode.SetGameRules(targetRules);
         gameMode.GetSymbols();
     }
 

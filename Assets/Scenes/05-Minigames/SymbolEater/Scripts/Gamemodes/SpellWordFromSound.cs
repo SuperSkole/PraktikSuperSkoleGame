@@ -33,7 +33,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         Queue<char> foundLetters = new Queue<char>();
 
         List<string> words = new List<string>(){
-        "Bil", "Båd", "Fly"
+        "Bil", "Bï¿½d", "Fly"
         };
 
         int minWrongLetters = 6;
@@ -114,7 +114,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
                 activeLetterCubes[i].Activate(letter.ToString());
             }
             boardController.SetAnswerText("");
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vï¿½lg det rigtige.");
 
 
             /// <summary>
@@ -267,6 +267,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             maxWrongLetters = max;
         }
 
-
+        public void SetGameRules(IGameRules gameRules)
+        {
+            
+        }
     }
 }

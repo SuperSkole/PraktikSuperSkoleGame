@@ -264,4 +264,9 @@ public class SpellWord : IGameMode
             GetSymbols();
         }
     }
+
+    public void SetGameRules(IGameRules gameRules)
+    {
+        
+    }
 }

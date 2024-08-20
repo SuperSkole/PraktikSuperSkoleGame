@@ -152,6 +152,11 @@ public class FindNumber : IGameMode
         }
     }
 
+    public void SetGameRules(IGameRules gameRules)
+    {
+        this.gameRules = gameRules;
+    }
+
     /// <summary>
     /// Gets the list of lettercubes and the boardController from the boardcontroller
     /// </summary>

@@ -277,6 +277,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             maxWrongLetters = max;
         }
 
+        public void SetGameRules(IGameRules gameRules)
+        {
+            
+        }
+
         // Start is called before the first frame update
 
 
