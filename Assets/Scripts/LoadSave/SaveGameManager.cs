@@ -22,16 +22,13 @@ namespace LoadSave
             var gm = GameManager.Instance.PlayerData;
             SaveDataDTO data = new SaveDataDTO
             {
-                Username = gm.HashedUsername, 
+                Username = gm.Username, 
                 PlayerName = gm.PlayerName,
                 MonsterTypeID = gm.MonsterTypeID,
                 GoldAmount = gm.CurrentGoldAmount,
                 XPAmount = gm.CurrentXPAmount,
                 PlayerLevel = gm.CurrentLevel,
                 SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
-                // HeadColor = new SerializableColor(gm.player.currentHeadColor),
-                // BodyColor = new SerializableColor(gm.player.currentBodyColor),
-                // LegColor = new SerializableColor(gm.player.currentLegColor)
             };
             return data;
         }
