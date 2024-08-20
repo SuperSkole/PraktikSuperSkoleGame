@@ -8,10 +8,6 @@ public class ChangingPlayerColor : MonoBehaviour
     [SerializeField] SkeletonGraphic skeletonGraphic;
     [SerializeField] NewGameSetup gameSetup;
 
-    private void Awake()
-    {
-        Debug.Log(skeletonGraphic.skeletonDataAsset.name);
-    }
     public void ColorChange(string colorName)
     {
         Color selectedColor;
