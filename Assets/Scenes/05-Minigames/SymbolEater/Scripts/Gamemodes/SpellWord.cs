@@ -60,29 +60,26 @@ public class SpellWord : IGameMode
         //Sets up variablese and checks if data is loaded
         currentIndex = 0;
         word = "";
-        WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount(2, 50);
-        //Checks if words are loaded and sets
-        if(words.Count == 0 && WordsManager.ReturnValidWords().Count > 0)
-        {
-            words = WordsManager.GetRandomWordsByLengthAndCount(2, 33);
-            wordsLoaded = true;
-        }
-        else if(words.Count > 0){
-            currentLetter = word[currentIndex];
-        }
         
-        //Checks if the imagemanager has loaded and sets up the image if it has
-        if(ImageManager.IsDataLoaded)
+        //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
+        if(DataLoader.IsDataLoaded)
         {
             
-            word = words[Random.Range(0, words.Count)].ToLower();
-            Texture2D texture = ImageManager.GetImageFromWord(word);
-            sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-            boardController.SetImage(sprites[word]);
+            word = WordsForImagesManager.GetRandomWordForImage();
+            if(sprites.ContainsKey(word)){
+                boardController.SetImage(sprites[word]);
+            }
+            else{
+                Texture2D texture = ImageManager.GetImageFromWord(word);
+                sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+                boardController.SetImage(sprites[word]);
+            }
+            currentLetter = word[currentIndex];
+            wordsLoaded = true;
         }
         else 
         {
-            boardController.StartImageWait(OnImageLoad);
+            boardController.StartImageWait(GetSymbols);
         }
         //If the words are loaded then it starts generating the board
         if(wordsLoaded){
@@ -193,10 +190,10 @@ public class SpellWord : IGameMode
             }
         }
         activeLetterCubes.Add(newLetter);
-        if(currentIndex < word.Length )
+        if(currentIndex < word.Length)
         {
             //currentLetter = word[currentIndex];
-            char nL = LetterManager.GetRandomLetters(1)[0];
+            char nL = LetterManager.GetRandomLetter();
             if(word.Contains(oldLetter))
             {
                 nL = oldLetter[0];
