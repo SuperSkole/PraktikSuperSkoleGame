@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CORE.Scripts;
 using UnityEngine;
 
 
@@ -17,7 +18,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         /// </summary>
         List<string> words = new List<string>()
         {
-        "Bil", "Båd", "Fly"
+        "Bil", "Bï¿½d", "Fly"
         };
 
         string currentWord;
@@ -69,7 +70,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
 
             // gets a current word to find images and sound with.
 
-            currentWord = words[Random.Range(0, words.Count)].ToLower();
+            currentWord = WordsForImagesManager.GetRandomWordForImage();
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
             {
@@ -84,10 +85,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
 
                 // creates random words from the word list, then creates images to fit those random words.
 
-                string randoImage = words[Random.Range(0, words.Count)];
+                string randoImage = WordsForImagesManager.GetRandomWordForImage();
                 if (!texture.ContainsKey(randoImage))
                 {
-                    texture.Add(randoImage, Resources.Load<Sprite>("Pictures/" + randoImage + "_image"));
+                    Texture2D tempTexture = ImageManager.GetImageFromWord(randoImage);
+                    texture.Add(randoImage, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
                 }
 
                 Sprite image = texture[randoImage];
@@ -109,7 +111,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             {
                 if (!texture.ContainsKey(currentWord))
                 {
-                    texture.Add(currentWord, Resources.Load<Sprite>("Pictures/" + currentWord + "_image"));
+                    Texture2D tempTexture = ImageManager.GetImageFromWord(currentWord);
+                    texture.Add(currentWord, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
 
                 }
                 // makes a image string from the current word variable, so that we can find it in the files.
@@ -127,7 +130,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
                 activeLetterCubes[i + wrongCubeCount].ActivateImage(currentImage, image);
                 correctLetterCount++;
             }
-            boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
 
 
             //uses the CurrentWordSound 
@@ -182,7 +185,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
             image.Deactivate();
             activeLetterCubes.Remove(image);
@@ -204,16 +207,17 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             {
 
                 // yet again creates random words from the Word list.
-                string randoWords = words[Random.Range(0, words.Count)].ToLower();
+                string randoWords = WordsForImagesManager.GetRandomWordForImage();
                 while (randoWords == currentWord)
                 {
-                    randoWords = words[Random.Range(0, words.Count)].ToLower();
+                    randoWords = WordsForImagesManager.GetRandomWordForImage();
                 }
 
                 //then adds the images to the texture dictionary if dosnt already exists.
                 if (!texture.ContainsKey(randoWords))
                 {
-                    texture.Add(randoWords, Resources.Load<Sprite>("Pictures/" + randoWords + "_image"));
+                    Texture2D tempTexture = ImageManager.GetImageFromWord(randoWords);
+                    texture.Add(randoWords, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
 
                 }
 
@@ -245,6 +249,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
         {
             this.letterCubes = letterCubes;
+            foreach(LetterCube letter in this.letterCubes){
+                letter.toggleImage();
+            }
             boardController = board;
         }
 

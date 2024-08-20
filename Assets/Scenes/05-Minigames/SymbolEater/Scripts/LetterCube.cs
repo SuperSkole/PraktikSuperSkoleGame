@@ -227,4 +227,8 @@ public class LetterCube : MonoBehaviour
         meshRenderer.material = defaultMaterial;
         SelfDeactivate();
     }
+
+    public void toggleImage(){
+        spriteRenderer.enabled = !spriteRenderer.enabled;
+    }
 }

@@ -26,12 +26,12 @@ public class SetGameModeAndDestroy : MonoBehaviour
             //sets the gamemode to sound out letter
             case 2:
                 BoardController target2 = FindObjectOfType<BoardController>();
-                target2.GameModeSet(new FindLetterType());
+                target2.GameModeSet(new FindSymbol());
                 break;
             //sets the gamemode to findnumberseries
             case 3:
                 BoardController target3 = FindObjectOfType<BoardController>();
-                target3.GameModeSet(new FindNumberSeries());
+                target3.GameModeSet(new FindNumber());
                 break;
 
             case 4:
