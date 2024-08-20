@@ -28,7 +28,7 @@ public class SceneStartBehavior : MonoBehaviour
         }
         catch (System.Exception)
         {
-            Debug.Log("SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: 0 ");
+            Debug.Log($"SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: {tmp} ");
             tmp = 0;
         }
         switch (tmp)

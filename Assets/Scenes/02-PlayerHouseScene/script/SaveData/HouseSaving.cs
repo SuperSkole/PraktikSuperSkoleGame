@@ -9,7 +9,7 @@ public class HouseSaving : MonoBehaviour
     Dictionary<Vector3Int, PlacementData> floorDictionary, furnitureDictionary;
     public SaveContainer container {  get; private set; }
 
-    string SaveName = "/SaveGameDataFile.json";
+    //string SaveName = "/SaveGameDataFile.json";
 
     private void Update()
     {

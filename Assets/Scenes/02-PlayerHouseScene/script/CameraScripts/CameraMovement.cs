@@ -9,10 +9,6 @@ public class CameraMovement : MonoBehaviour
 {
 
     [SerializeField] private PlacementSystem placementSystem;
-
-
-
-    private float sensitivity = 2.5f;   // Sensitivity of the mouse movement
     private float smoothTime = 0.1f;  // Smoothing time for the rotation
    
 
@@ -22,12 +18,6 @@ public class CameraMovement : MonoBehaviour
     private Vector2 currentRotationVelocity;  // Used by SmoothDamp for smoothin
     [SerializeField] private float moveSpeed = 5.0f; // Adjust the speed as needed
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-
-
-
-    private void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
