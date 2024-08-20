@@ -12,7 +12,7 @@ namespace Scenes.StartScene.Scripts
         public Text playerXPText;   
         public Text playerGoldText; 
 
-        public void SetupPlayer(SaveDataDTO saveDataDto)
+        public void SetupPlayer(SaveDataDTO saveData)
         {
             // instantiate temp object in scene
             GameObject loadedPlayer = Instantiate(playerPrefab, spawnCharPoint.position, Quaternion.identity, spawnCharPoint);
@@ -21,11 +21,13 @@ namespace Scenes.StartScene.Scripts
 
             // Init player data
             player.Initialize(
-                saveDataDto.PlayerName,
-                saveDataDto.GoldAmount,
-                saveDataDto.XPAmount,
-                saveDataDto.PlayerLevel,
-                saveDataDto.SavedPlayerStartPostion.GetVector3()
+                saveData.Username,
+                saveData.PlayerName, 
+                saveData.MonsterColor,
+                saveData.GoldAmount,
+                saveData.XPAmount,
+                saveData.PlayerLevel,
+                saveData.SavedPlayerStartPostion.GetVector3()
             );
 
             // // add UI info
