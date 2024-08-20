@@ -11,6 +11,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     {
         [SerializeField] GameObject prjectipePrefab;
         [SerializeField] GameObject catapult;
+        [SerializeField] GameObject catapultArm;
         [SerializeField] Transform shootPos;
         [SerializeField] float hight = 1;
 
@@ -43,13 +44,32 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// it spawns and fires a projectile
         /// </summary>
         /// <param name="target">the target you want to hit</param>
-        public void Shoot(Vector3 target, Brick brick)
+        public IEnumerator Shoot(Vector3 target, Brick brick)
         {
-            GameObject temp = Instantiate(prjectipePrefab,shootPos.position,quaternion.identity);
+            float rotateThisMuch = 0;
+            float rotateAmount = 1.5f;
+            float rotateSpeed = 1f;
+            float rotateActualSpeed = rotateSpeed / 100000;
+            while (rotateThisMuch < 85)
+            {
+                catapultArm.gameObject.transform.Rotate(0, -rotateAmount, 0);
+                rotateThisMuch += rotateAmount;
+                yield return new WaitForSeconds(rotateActualSpeed);
+            }
+
+            GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);
             Rigidbody rb = temp.GetComponent<Rigidbody>();
             rb.isKinematic = false;
             rb.velocity = CalcolateTerejectory(target);
             temp.GetComponent<AmmoDeletor>().Hitbox(brick);
+
+            while (rotateThisMuch != 0)
+            {
+                catapultArm.gameObject.transform.Rotate(0, rotateAmount, 0);
+                rotateThisMuch -= rotateAmount;
+                yield return new WaitForSeconds(rotateActualSpeed * 1000);
+            }
+            yield return null;
         }
     }
 
