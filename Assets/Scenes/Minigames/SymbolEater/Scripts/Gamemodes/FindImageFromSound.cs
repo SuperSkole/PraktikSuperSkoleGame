@@ -16,9 +16,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <summary>
         /// The correct word
         /// </summary>
-        List<string> words = new List<string>(){
-        "Bil", "Fly"
-    };
+        List<string> words = new List<string>()
+        {
+
+        };
 
         string currentWord;
 
@@ -76,6 +77,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
 
             // gets a current word to find images and sound with.
+
+            words = WordsManager.GetRandomWordsByLengthAndCount(2, 33);
 
             currentWord = words[Random.Range(0, words.Count)].ToLower();
             //deactives all current active lettercubes
@@ -175,7 +178,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="image"></param>
         public void ReplaceSymbol(LetterCube image)
         {
-
+            words = WordsManager.GetRandomWordsByLengthAndCount(2, 33);
             //decreases the correctlettercount incase theres more then 1 answer on the board.
             if (IsCorrectSymbol(image.GetLetter()))
             {
@@ -268,7 +271,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
-        // Start is called before the first frame update
+    
 
     }
 
