@@ -15,7 +15,7 @@ public class FindImageFromSound : IGameMode
     /// The correct word
     /// </summary>
     List<string> words = new List<string>(){
-        "Bil", "Båd", "Fly"
+        "Bil", "Bï¿½d", "Fly"
     };
 
     string currentWord;
@@ -125,7 +125,7 @@ public class FindImageFromSound : IGameMode
             activeLetterCubes[i + wrongCubeCount].ActivateImage(currentImage, image);
             correctLetterCount++;
         }
-        boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+        boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
 
 
         //uses the CurrentWordSound 
@@ -139,7 +139,7 @@ public class FindImageFromSound : IGameMode
 
     public void CurrentWordSound()
     {
-        //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
+        //Uses currentWord to find the right sound in tempgrovï¿½dersound in resource foulder
         string audioFileName = currentWord.ToLower() + "_audio";
 
         AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
@@ -170,7 +170,7 @@ public class FindImageFromSound : IGameMode
         if (IsCorrectSymbol(image.GetLetter()))
         {
             correctLetterCount--;
-            boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
         }
         image.Deactivate();
         activeLetterCubes.Remove(image);

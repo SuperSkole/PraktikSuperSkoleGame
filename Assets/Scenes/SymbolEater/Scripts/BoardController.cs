@@ -83,7 +83,7 @@ public class BoardController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        GameModeSet(new SpellWord());
+        //GameModeSet(new SpellWord());
     }
 
     public Player GetPlayer(){
@@ -204,7 +204,7 @@ public class BoardController : MonoBehaviour
         player.StopMovement();
         monsterHivemind.PauseMovement();
         gameOverText.text = "Indlæser billeder. Vent venligst";
-        yield return new WaitUntil(() => ImageManager.IsDataLoaded);
+        yield return new WaitUntil(() => DataLoader.IsDataLoaded);
         OnFinish();
         player.StartMovement();
         monsterHivemind.StartMovement();
