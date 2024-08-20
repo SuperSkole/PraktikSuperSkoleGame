@@ -440,7 +440,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                 Debug.Log(currentQuestionIndex);
 
-                currentQuestion = sentences[currentQuestionIndex];
+                Debug.Log(sentences.Length);
+
+                currentQuestion = sentences[currentQuestionIndex-1];
                 displayBox.text = currentQuestion;
 
                 Debug.Log("Data Loaded");

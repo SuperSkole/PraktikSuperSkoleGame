@@ -49,7 +49,7 @@ namespace CORE.Scripts
         /// <returns>a image or if it couldent find an image it returnes NULL</returns>
         public static Texture2D GetImageFromWord(string inputWord)
         {
-            if (!imageDictionary.TryGetValue(inputWord.ToLower(), out List<Texture2D> data))
+            if (!imageDictionary.TryGetValue(inputWord, out List<Texture2D> data))
                 data = null;
             Texture2D image;
             if (data == null)

@@ -60,8 +60,7 @@ namespace Scenes.Minigames.MonsterTower
         // The gamedata file can then be saved to when the save method is used.
         public void LoadGame()
         {
-            this.dataHandler = new FileDataHandler1(Application.persistentDataPath, fileName);
-            this.dataPersistenceObjects = FindAlldataPersistenceObjects();
+      
 
             gameData = dataHandler.Load();
 
@@ -91,10 +90,11 @@ namespace Scenes.Minigames.MonsterTower
 
         private void Start()
         {
-           
+
+            this.dataHandler = new FileDataHandler1(Application.persistentDataPath, fileName);
+            this.dataPersistenceObjects = FindAlldataPersistenceObjects();
 
 
-           
 
         }
 

@@ -85,8 +85,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             SetupSentanses();
             towerManager.SetTowerData(sentanses);
-            towerManager.WaitUntillDataIsLoaded();
             DataPersistanceManager2.instance.LoadGame();
+            towerManager.WaitUntillDataIsLoaded();
+           
 
 
 
