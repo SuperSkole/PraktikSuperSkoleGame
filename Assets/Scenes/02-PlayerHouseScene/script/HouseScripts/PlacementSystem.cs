@@ -33,23 +33,24 @@ public class PlacementSystem : MonoBehaviour
             saveManager.LoadGridData();
             foreach (var item in saveManager.container.floorData.placedObjectsList)
             {
-                TestingSaving(item.Key, item.ID);
+                PlaceItemsStartLoading(item.Key, item.ID);
             }
             foreach (var item in saveManager.container.furnitureData.placedObjectsList)
             {
-                TestingSaving(item.Key, item.ID);
+                PlaceItemsStartLoading(item.Key, item.ID);
             }
         }
 
     }
     Vector3Int previousKey = new();
-    private void TestingSaving(Vector3Int key, int ID)
+    private void PlaceItemsStartLoading(Vector3Int key, int ID)
     {
         //if Obj is placed on 0,0,0 this doesnt work like it should
 
         if (ID == 0 && previousKey == Vector3Int.zero)
         {
-            if (key.x == 0 && key.y > 0 || key.x == 0 && key.y < 0)
+            //Dont think this methode will work if size is 2x2 or rotation gets build in
+            if (key.y == 0 && key.x == 1)
             {
                 return;
             }
