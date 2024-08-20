@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Holds a sentence symbolising the images that need to be displayed on the brick. 
 [System.Serializable]
 public class BrickData 
 {

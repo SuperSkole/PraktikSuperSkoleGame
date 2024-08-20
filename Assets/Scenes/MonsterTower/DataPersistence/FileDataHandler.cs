@@ -4,6 +4,10 @@ using UnityEngine;
 using System;
 using System.IO;
 
+
+/// <summary>
+/// Handles the writing and reading to a datafile. 
+/// </summary>
 public class FileDataHandler
 {
     private string dataDirPath="";
@@ -16,6 +20,9 @@ public class FileDataHandler
         this.dataFileName = dataFileName;
     }
 
+    // The fullpath is defined and there is a check if the file exits on the path. 
+    //If not an error is logged. 
+    // The filestream and reader is used and the data to load is defined and returned.
      public GameData Load()
     {
         string fullPath = Path.Combine(dataDirPath, dataFileName);
@@ -50,6 +57,9 @@ public class FileDataHandler
     }
 
 
+
+    //Saves the data to fullpath by using a filestream and streamwriter to write data to the path defined. 
+    // An error is logged if nothing could be saved to the defined path. 
     public void Save(GameData data)
     {
 

@@ -67,7 +67,10 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             yield return null;
         }
 
-     
+
+        // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
+        // if not a tower is built and will be saved when exiting the game. 
+
         if (loadedBrickLanes.Count>0)
         {
           
@@ -140,7 +143,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
             }
 
            
-
+            // list holding data on the lanes is also updated so the lowest lane is removed from the save data. 
             loadedBrickLanes.RemoveAt(0);
 
 
@@ -233,9 +236,11 @@ public class TowerManager : MonoBehaviour,IDataPersistence
                     }
                     else
                         SetRandomImage();
+
+                    // the sentence for the random brick is also inputtet into the data on the particular lane. 
+                    // the top and bottom image key is defined in the SetRandomImage
                     loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey+" på "+bottomImage));
 
-                   
                  
                     GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
                     imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
@@ -259,6 +264,13 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
 
 
+    /// <summary>
+    /// The tower is loaded based on the loadedBrickLanes list which contains data on the bricklanes in the tower 
+    /// and the pictures that needs to be loaded on to the bricks.
+    /// 
+    /// 
+    /// </summary>
+
 
     void LoadTower()
     {
@@ -267,6 +279,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         //The start angle is an angle i chose based on where i want the tower to start build. 
         // The reason for this is so the first bricks in the 2d tower array is the ones used for displaying the pictures.
 
+        // Tower height is set to the amount of lanes in the loadedBrickLanes list. 
         towerHeight = loadedBrickLanes.Count;
 
         float towerAngle = 2 * Mathf.PI / numberOfBricksInLane;
@@ -304,6 +317,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
                     // and based on the value of correctImageIndex the right answer is set. 
                     if (x == loadedBrickLanes[z].correctImageIndex)
                     {
+                        // the SetCorrectImage method is used in conjunction with the sentence that is made in the tower builder for the specific brick. 
 
                         SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
 
@@ -311,8 +325,8 @@ public class TowerManager : MonoBehaviour,IDataPersistence
                     }
                     else
                     {
-                        
 
+                        //The SetCorrectImage is also used when the answer is wrong because the wrong answers also neeed to be drawn based on a sentence corresponding to the brick. 
                         SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
                     }
 
@@ -402,16 +416,16 @@ public class TowerManager : MonoBehaviour,IDataPersistence
     }
 
 
-
+    // The LoadData method is used when starting up the game
+    // the bricklanes that are saved is loaded in and set. 
+    // The currentQuestionIndex which has been saved is set so the right question can be displayed. 
     public void LoadData(GameData data)
     {
         if (data.BrickLanes!=null)
         {
             this.loadedBrickLanes = data.BrickLanes;
-            this.currentQuestionIndex = data.currentQuestionIndex;
-
-            //is set to -1 because after every setNextquistion it sets it up for the next one. 
-            // That can be problematic if you want the current one instead of the next. 
+            this.currentQuestionIndex = data.currentQuestionIndex; 
+    
             currentQuestion = sentences[currentQuestionIndex];
             displayBox.text = currentQuestion;
           
@@ -424,7 +438,8 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
 
 
-
+    // The SaveData method is used when exiting the game.
+    // The bricklanes are saved and the currentQuestionIndex is saved. 
     public void SaveData(ref GameData data)
     {
         data.BrickLanes = this.loadedBrickLanes;

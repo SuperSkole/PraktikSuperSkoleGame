@@ -4,6 +4,12 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UIElements;
 
+
+
+/// <summary>
+/// A manager handling all the data that needs to be saved and loaded.
+/// It also defines the name of the savefile. 
+/// </summary>
 public class DataPersistenceManager : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -18,28 +24,7 @@ public class DataPersistenceManager : MonoBehaviour
 
     private GameData gameData;
 
-    List<BrickLane> Level1=new List<BrickLane>();
 
-    [SerializeField]
-    private List<Sprite> wrongSprites;
-
-    [SerializeField]
-    private Sprite correctSprite;
-
-    [SerializeField]
-    private int zPosition;
-
-    [SerializeField]
-    private List<Sprite> wrongSprites2;
-
-    [SerializeField]
-    private Sprite correctSprite2;
-
-    [SerializeField]
-    private int zPosition2;
-
-
-    private List<BrickLane> defaultBrickLanes=new List<BrickLane>();
     private List<IDataPersistence> dataPersistenceObjects;
 
 
@@ -55,30 +40,23 @@ public class DataPersistenceManager : MonoBehaviour
 
         instance = this;
 
-        SetDefaultLanes();
-
-
-    }
-
-
-    public void SetDefaultLanes()
-    {
-       
-
-
-        // Lanes are added with BrickLane containing a dictionary filled with pictures and a coresponding position. 
-        defaultBrickLanes = Level1;
-
-    }
-       
     
 
+
+    }
+
+
+       
+    
+    // sets up a newgame which is a new savefile.
     public void NewGame()
     {
         gameData = new GameData();
     }
 
 
+    // if there is nothing in gameData the newGame Method is used to create an empty instantiated gamedata file.
+    // The gamedata file can then be saved to when the save method is used.
     public void LoadGame()
     {
         gameData = dataHandler.Load();
@@ -92,18 +70,20 @@ public class DataPersistenceManager : MonoBehaviour
 
         }
 
+        //Every object inheriting the IDataPersistence interface will be able to read the gamedata. 
 
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.LoadData(gameData);
         }
 
-       // Debug.Log("Loaded Lanes=" + gameData.BrickLanes[0].sentence);
-
-       
 
     
     }
+
+
+    // The datahandler class is instantiated and with that the file has a datapath and a filename.
+    // Finds all objects that implements the IDataPersistence interface and puts it into a list. 
 
     private void Start()
     {
@@ -114,6 +94,9 @@ public class DataPersistenceManager : MonoBehaviour
         LoadGame();
 
     }
+
+    // Gives a reference to the gamedata so the gamedata can be overwritten by the objects that inmplements the IDataPersistence interface.
+    // The datahandler is then used to save the data onto the file. 
 
     public void SaveGame()
     {

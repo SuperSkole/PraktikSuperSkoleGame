@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+/// <summary>
+/// Holds a list of brickdata and the correctImageIndex. 
+/// Both are needed to load a tower. 
+/// </summary>
 [System.Serializable]
 public class BrickLane
 {

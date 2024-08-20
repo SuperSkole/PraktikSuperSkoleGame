@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// Holds gamedata on MonsterTower
+/// </summary>
+
 [System.Serializable]
 public class GameData 
 {
