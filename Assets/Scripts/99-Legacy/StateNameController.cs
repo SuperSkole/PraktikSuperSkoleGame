@@ -12,7 +12,7 @@ public class StateNameController : MonoBehaviour
     private static int xpToGive;
     private static int goldToGive;
     private static bool checkXPandGold = false;
-    [SerializeField] private SaveGameToJson SaveGameToJson;
+    //[SerializeField] private SaveGameToJson SaveGameToJson;
 
     /// <summary>
     /// Call this func from a missionscreen when its complete to set the values so the mainGameLoop can use them later
@@ -42,7 +42,7 @@ public class StateNameController : MonoBehaviour
     //Needs to be able to change the mission
     public void ChangeToGameScene()
     {
-        SaveGameToJson.SaveToJson();
+        //SaveGameToJson.SaveToJson();
         SceneManager.LoadScene("MiniRacingGame");
     }
     public void ChangeToTownScene()

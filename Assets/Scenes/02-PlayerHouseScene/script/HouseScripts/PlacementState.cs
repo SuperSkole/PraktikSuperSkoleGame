@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlacementState : IBuildingState
@@ -67,9 +65,9 @@ public class PlacementState : IBuildingState
             database.objectData[selectedObjectIndex].Prefab,
             grid.CellToWorld(gridPos));
 
-        // Determine whether the object is floor data or furniture data.
+        // Determine whether the object is floor data or furniture data. has to fit with the Database
         GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-            floorData : furnitureData;
+            furnitureData : floorData;
 
         // Record the placed object's position, size, ID, and index in the grid data.
         selectedData.AddObjectAt(gridPos,
@@ -79,6 +77,32 @@ public class PlacementState : IBuildingState
 
         // Update the preview position and make it invalid (since the object is placed).
         previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
+    }
+
+    public void OnLoadStartUp(Vector3Int gridPos, int ID)
+    {
+        // Place the object in the world using the object placer.
+        int index = objectPlacer.PlaceObject(
+            database.objectData[ID].Prefab,
+            grid.CellToWorld(gridPos));
+
+        // Determine whether the object is floor data or furniture data. has to fit with the Database
+        GridData selectedData = database.objectData[ID].ID == 0 ?
+            furnitureData : floorData;
+
+        // Record the placed object's position, size, ID, and index in the grid data.
+        selectedData.AddObjectAt(gridPos,
+                                 database.objectData[ID].Size,
+                                 database.objectData[ID].ID,
+                                 index);
+
+        // Update the preview position and make it invalid (since the object is placed).
+        previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
+        previewSystem.StopShowingPreview();
+    }
+    public void OnStartUpSorftObjList()
+    {
+        objectPlacer.PlacedGameObjects.Sort();
     }
 
     // Updates the placement state as the player moves the cursor on the grid.
@@ -96,7 +120,7 @@ public class PlacementState : IBuildingState
     {
         // Determine whether the object is floor data or furniture data.
         GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-            floorData : furnitureData;
+            furnitureData : floorData;
 
         // Check if the object can be placed at the given grid position based on its size.
         return selectedData.CanPlaceObjectAt(gridPos, database.objectData[selectedObjectIndex].Size);

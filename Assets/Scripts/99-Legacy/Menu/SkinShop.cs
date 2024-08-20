@@ -87,7 +87,7 @@ public class SkinShop : MonoBehaviour
 
     private void GetPlayerNameFromSaveFile()
     {
-        whichChar = gm.GetComponent<OldGameManager>().save.MonsterName;
+        //whichChar = gm.GetComponent<OldGameManager>().save.MonsterName;
         whichChar += "(Clone)";
     }
     //For displaying all the different parts that the player can equip
@@ -98,7 +98,7 @@ public class SkinShop : MonoBehaviour
         {
             GetPlayerNameFromSaveFile();
         }
-
+    
         List<Skins> HeadParts = new List<Skins>();
         try
         {
@@ -119,24 +119,24 @@ public class SkinShop : MonoBehaviour
         HeadClicked = true;
         BodyClicked = false;
         LegClicked = false;
-
-
+    
+    
         for (int i = 0; i <= 5; i++)
         {
             //Name of the child GameObject
             string childName = "Box (" + (i + 1) + ")";
-
+    
             // Find the child GameObject by name
             Transform child = this.transform.Find(childName);
             // Find the Img child GameObject of the Box GameObject
             Transform imgChild = child.Find("Img");
             Transform priceChild = priceForSkin.transform.Find("Price");
-
+    
             TextMeshProUGUI price = priceChild.GetComponent<TextMeshProUGUI>();
             Image tmp = imgChild.GetComponent<Image>();
-
+    
             // Debug.Log("HeadParts count: " + HeadParts.Count + " Which index " + i);
-
+    
             tmp.sprite = HeadParts[i].skin;
             //Color Doenst change like it should
             //Changes the background of the icon that is equppied
@@ -163,8 +163,8 @@ public class SkinShop : MonoBehaviour
                 tmpColor.a = 0.5f;
                 tmp.color = tmpColor;
             }
-
-
+    
+    
             Button butTmp = child.GetComponent<Button>();
             if (butTmp != null)
             {
@@ -631,51 +631,51 @@ public class SkinShop : MonoBehaviour
     /// <summary>
     /// Checks to see if the player has unbought skins on when leaving the store, and reverts to the skin the player had on when coming in
     /// </summary>
-    public void CloseSkinShop()
-    {
-        PlayerMovement.allowedToMove = true;
-
-        switch (gm.GetComponent<OldGameManager>().save.MonsterName)
-        {
-            case "Girl":
-                foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.head)
-                {
-                    var tmp = mapper.GetIconFromSprite(playerHead.GetComponent<SpriteRenderer>().sprite);
-                    if (tmp.name == item.skin.name)
-                    {
-                        if (!item.equipped)
-                        {
-                            playerHead.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalHeadSprite);
-                        }
-                    }
-                }
-                foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.torso)
-                {
-                    var tmp = mapper.GetIconFromSprite(playerBody.GetComponent<SpriteRenderer>().sprite);
-                    if (tmp.name == item.skin.name)
-                    {
-                        if (!item.equipped)
-                        {
-                            playerBody.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalBodySprite);
-                        }
-                    }
-                }
-                foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.legs)
-                {
-                    var tmp = mapper.GetIconFromSprite(playerLegs.GetComponent<SpriteRenderer>().sprite);
-                    if (tmp.name == item.skin.name)
-                    {
-                        if (!item.equipped)
-                        {
-                            playerLegs.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalLegSprite);
-                        }
-                    }
-                }
-                break;
-            case "SimpleMonster":
-
-                break;
-        }
-    }
+    // public void CloseSkinShop()
+    // {
+    //     PlayerMovement.allowedToMove = true;
+    //
+    //     switch (gm.GetComponent<OldGameManager>().save.MonsterName)
+    //     {
+    //         case "Girl":
+    //             foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.head)
+    //             {
+    //                 var tmp = mapper.GetIconFromSprite(playerHead.GetComponent<SpriteRenderer>().sprite);
+    //                 if (tmp.name == item.skin.name)
+    //                 {
+    //                     if (!item.equipped)
+    //                     {
+    //                         playerHead.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalHeadSprite);
+    //                     }
+    //                 }
+    //             }
+    //             foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.torso)
+    //             {
+    //                 var tmp = mapper.GetIconFromSprite(playerBody.GetComponent<SpriteRenderer>().sprite);
+    //                 if (tmp.name == item.skin.name)
+    //                 {
+    //                     if (!item.equipped)
+    //                     {
+    //                         playerBody.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalBodySprite);
+    //                     }
+    //                 }
+    //             }
+    //             foreach (var item in gm.GetComponent<ShopSkinManagement>().girlSkins.legs)
+    //             {
+    //                 var tmp = mapper.GetIconFromSprite(playerLegs.GetComponent<SpriteRenderer>().sprite);
+    //                 if (tmp.name == item.skin.name)
+    //                 {
+    //                     if (!item.equipped)
+    //                     {
+    //                         playerLegs.GetComponent<SpriteRenderer>().sprite = mapper.GetSpriteFromIcon(originalLegSprite);
+    //                     }
+    //                 }
+    //             }
+    //             break;
+    //         case "SimpleMonster":
+    //
+    //             break;
+    //     }
+    // }
 
 }

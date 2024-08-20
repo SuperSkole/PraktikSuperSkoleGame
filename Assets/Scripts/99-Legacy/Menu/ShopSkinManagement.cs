@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime;
 using UnityEngine;
 
+[Obsolete("This script is obsolete and will be removed in future versions.")]
 public class ShopSkinManagement : MonoBehaviour
 {
     public CusParts girlSkins = new CusParts();// Assign these in the inspector

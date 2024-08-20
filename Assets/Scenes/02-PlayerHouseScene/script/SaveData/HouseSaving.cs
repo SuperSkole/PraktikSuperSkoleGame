@@ -7,6 +7,7 @@ public class HouseSaving : MonoBehaviour
 {
     [SerializeField] private PlacementSystem floorData, furnitureData;
     Dictionary<Vector3Int, PlacementData> floorDictionary, furnitureDictionary;
+    public SaveContainer container {  get; private set; }
 
     string SaveName = "/SaveGameDataFile.json";
 
@@ -42,10 +43,13 @@ public class HouseSaving : MonoBehaviour
     {
         // Read the JSON from the file
         string json = File.ReadAllText(Application.dataPath + "HouseSave.json");
-        var container = JsonUtility.FromJson<SaveContainer>(json);
+        
+        container = JsonUtility.FromJson<SaveContainer>(json);
 
-        floorDictionary = container.floorData.ConvertListToDic(container.floorData.placedObjectsList);
-        furnitureDictionary = container.furnitureData.ConvertListToDic(container.furnitureData.placedObjectsList);
+        //floorDictionary = container.floorData.ConvertListToDic(container.floorData.placedObjectsList);
+       // furnitureDictionary = container.furnitureData.ConvertListToDic(container.furnitureData.placedObjectsList);
+
+
 
     }
 
@@ -57,9 +61,10 @@ public class HouseSaving : MonoBehaviour
 
     }
     /// <summary>
-    /// 
+    /// here is a list of the string you can feed it
+    /// floor,furniture
     /// </summary>
-    /// <param name="type">floor,furniture</param>
+    /// <param name="type"></param>
     /// <returns></returns>
     public Dictionary<Vector3Int, PlacementData> ReturnLoadGridFile(string type)
     {

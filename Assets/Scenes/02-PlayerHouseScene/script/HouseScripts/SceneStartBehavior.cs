@@ -17,13 +17,26 @@ public class SceneStartBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var tmp = GameManager.Instance.PlayerData.MonsterTypeID;
+        var tmp = 0;
+        try
+        {
+            tmp = GameManager.Instance.PlayerData.MonsterTypeID;
+        }
+        catch (System.Exception)
+        {
+            Debug.Log("SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: 0 ");
+            tmp = 0;
+        }
         switch (tmp)
         {
             case 0:
                 spawnedPlayer = Instantiate(playerPrefab, playerSpawnPoint);
                 playerData = spawnedPlayer.GetComponent<PlayerData>();
-                PopulatePlayerInfo();
+                try
+                {
+                    PopulatePlayerInfo();
+                }
+                catch (System.Exception) { Debug.Log("SceneStartBehavior/Start/Error when trying to populate player info "); }
                 break;
         }
         buildingSystem.SetActive(false);
@@ -33,7 +46,7 @@ public class SceneStartBehavior : MonoBehaviour
     private void PopulatePlayerInfo()
     {
         playerData.HashedUsername = GameManager.Instance.PlayerData.HashedUsername;
-        playerData.PlayerName= GameManager.Instance.PlayerData.PlayerName;
+        playerData.PlayerName = GameManager.Instance.PlayerData.PlayerName;
         playerData.MonsterTypeID = GameManager.Instance.PlayerData.MonsterTypeID;
         playerData.CurrentGoldAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
         playerData.CurrentXPAmount = GameManager.Instance.PlayerData.CurrentXPAmount;
