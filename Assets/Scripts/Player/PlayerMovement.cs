@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5.0f; // Adjust the speed as needed
     public static bool allowedToMove = true;
-    
-    //private Rigidbody rb;
-    private Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
+
+   //private Rigidbody rb;
+   private Animator animator;
+
+   // Start is called before the first frame update
+   void Start()
     {
        // rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -28,8 +30,8 @@ public class PlayerMovement : MonoBehaviour
     void HandleMovement()
     {
         //Remove Raw to add inertia
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
 
         //float tmpVal = horizontalInput + verticalInput;
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
