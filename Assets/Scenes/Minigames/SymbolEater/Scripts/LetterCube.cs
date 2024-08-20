@@ -124,7 +124,6 @@ public class LetterCube : MonoBehaviour
     public void ActivateImage(Texture2D texture2D)
     {
         ActivateImage(texture2D, isCurrentWord);
-        ActivateImage(sprite, isCurrentWord);
     }
 
     public string GetLetter()
