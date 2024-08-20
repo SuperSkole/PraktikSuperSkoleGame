@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 public class SimpleSceneChange : MonoBehaviour
 {
     //changes scene to monstertower
-    public void SwitchToMonsterTårn(string gamemode)
+    public void SwitchToMonsterTower(string gamemode)
     {
-        SceneManager.LoadScene("MonterTower katapult");
+        SceneManager.LoadScene("MonterTower");
     }
     // changes scene to grovæder
-    public void SwitchToGrovæder(string gamemode)
+    public void SwitchToSymbolEater(string gamemode)
     {
-        SceneManager.LoadScene("Grovæder");
+        SceneManager.LoadScene("SymbolEater");
     }
 
 }
