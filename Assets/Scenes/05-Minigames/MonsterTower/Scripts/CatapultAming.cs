@@ -13,7 +13,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] GameObject catapultArm;
         [SerializeField] Transform shootPos;
         [SerializeField] float hight = 1;
-        bool IsShooting = false;
+        bool isShooting = false;
+        float rotateThisMuch = 0;
+        static float rotateAmount = 5f;
+        static float rotateSpeed = 100f;
+        static float rotateActualSpeed = 1f / rotateSpeed;
         /// <summary>
         /// calcolates the terejectory to hit at point and returnes a velosity to hit it
         /// </summary>
@@ -45,13 +49,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <param name="target">the target you want to hit</param>
         public IEnumerator Shoot(Vector3 target, Brick brick, MonsterTowerManager manager)
         {
-            float rotateThisMuch = 0;
-            float rotateAmount = 5f;
-            float rotateSpeed = 100f;
-            float rotateActualSpeed = 1f / rotateSpeed;
-            if (!IsShooting)
+            if (!isShooting)
             {
-                IsShooting = true;
+                isShooting = true;
                 while (rotateThisMuch < 85)
                 {
                     catapultArm.gameObject.transform.Rotate(0, -rotateAmount, 0);
@@ -72,7 +72,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     rotateThisMuch -= rotateAmount / 5f;
                     yield return new WaitForSeconds(rotateActualSpeed);
                 }
-                IsShooting = false;
+                isShooting = false;
             }
             yield return null;
         }
