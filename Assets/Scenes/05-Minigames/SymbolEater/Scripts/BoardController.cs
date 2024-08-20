@@ -82,13 +82,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             gameMode.GetSymbols();
         }
 
-    /// <summary>
-    /// uncomment if the scene is run directly from unity
-    /// </summary>
-    private void Start()
-    {
-        //GameModeSet(new SpellWord());
-    }
+        /// <summary>
+        /// uncomment if the scene is run directly from unity
+        /// </summary>
+        private void Start()
+        {
+            //GameModeSet(new SpellWord());
+        }
 
         public Player GetPlayer()
         {
@@ -199,20 +199,21 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             StartCoroutine(WaitOnImageLoad(OnFinish));
         }
 
-    /// <summary>
-    /// Couroutine for waiting on image load
-    /// </summary>
-    /// <param name="OnFinish">The same as above</param>
-    /// <returns></returns>
-    IEnumerator WaitOnImageLoad(LoadFinished OnFinish)
-    {
-        player.StopMovement();
-        monsterHivemind.PauseMovement();
-        gameOverText.text = "Indlæser billeder. Vent venligst";
-        yield return new WaitUntil(() => DataLoader.IsDataLoaded);
-        OnFinish();
-        player.StartMovement();
-        monsterHivemind.StartMovement();
-        gameOverText.text = "";
+        /// <summary>
+        /// Couroutine for waiting on image load
+        /// </summary>
+        /// <param name="OnFinish">The same as above</param>
+        /// <returns></returns>
+        IEnumerator WaitOnImageLoad(LoadFinished OnFinish)
+        {
+            player.StopMovement();
+            monsterHivemind.PauseMovement();
+            gameOverText.text = "Indlæser billeder. Vent venligst";
+            yield return new WaitUntil(() => DataLoader.IsDataLoaded);
+            OnFinish();
+            player.StartMovement();
+            monsterHivemind.StartMovement();
+            gameOverText.text = "";
+        }
     }
 }
