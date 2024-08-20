@@ -54,13 +54,14 @@ public class SceneStartBehavior : MonoBehaviour
     }
     private void PopulatePlayerInfo()
     {
-        playerData.Username = GameManager.Instance.PlayerData.Username;
-        playerData.PlayerName = GameManager.Instance.PlayerData.PlayerName;
-        playerData.MonsterTypeID = GameManager.Instance.PlayerData.MonsterTypeID;
-        playerData.CurrentGoldAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
-        playerData.CurrentXPAmount = GameManager.Instance.PlayerData.CurrentXPAmount;
-        playerData.CurrentLevel = GameManager.Instance.PlayerData.CurrentLevel;
-
+        var gm = GameManager.Instance.PlayerData;
+        playerData.Username = gm.Username;
+        playerData.PlayerName = gm.PlayerName;
+        playerData.MonsterTypeID = gm.MonsterTypeID;
+        playerData.MonsterColor = gm.MonsterColor;
+        playerData.CurrentGoldAmount = gm.CurrentGoldAmount;
+        playerData.CurrentXPAmount = gm.CurrentXPAmount;
+        playerData.CurrentLevel = gm.CurrentLevel;
     }
 
     public void EnableBuildingSystem()

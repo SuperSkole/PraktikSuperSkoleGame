@@ -124,6 +124,8 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
             blockCreator.HandleValidWord(word);
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
+            
+            // Todo: add event call for getting the word on a list
         }
     }
 }
