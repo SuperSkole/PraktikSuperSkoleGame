@@ -169,7 +169,7 @@ namespace CORE.Scripts
         /// <returns></returns>
         IEnumerator LoadAndSetDicLetterSound(string filePath)
         {
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath,AudioType.UNKNOWN);
             string setName = Path.GetFileNameWithoutExtension(filePath);
             setName = GetNameLetterSound(setName);
             yield return request.SendWebRequest();
