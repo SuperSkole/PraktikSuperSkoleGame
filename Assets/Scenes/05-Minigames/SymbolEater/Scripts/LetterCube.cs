@@ -59,6 +59,7 @@ public class LetterCube : MonoBehaviour
     void Start()
     {
         spriteRenderer = imageObject.GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
     }
 
     /// <summary>
