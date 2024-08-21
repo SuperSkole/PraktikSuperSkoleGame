@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using CORE.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
+using CORE.Scripts.GameRules;
 
 /// <summary>
 /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
 /// </summary>
-public class FindCorrectLetter : IGameMode
+public class FindSymbol : IGameMode
 {
 
-    string correctLetter;
+    IGameRules gameRules = new CORE.Scripts.GameRules.FindLetterType();
 
     /// <summary>
     /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
@@ -37,7 +38,7 @@ public class FindCorrectLetter : IGameMode
     /// </summary>
     public void GetSymbols()
     {
-        correctLetter = LetterManager.GetRandomLetter().ToString();
+        gameRules.SetCorrectAnswer();
         //deactives all current active lettercubes
         foreach (LetterCube lC in activeLetterCubes)
         {
@@ -48,11 +49,7 @@ public class FindCorrectLetter : IGameMode
         //finds new letterboxes to be activated and assigns them a random wrong letter.
         for (int i = 0; i < count; i++)
         {
-            string letter = LetterManager.GetRandomLetter().ToString();
-            while(IsCorrectSymbol(letter))
-            {
-                letter = LetterManager.GetRandomLetter().ToString();
-            }
+            string letter = gameRules.GetWrongAnswer();
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
             //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
@@ -68,7 +65,7 @@ public class FindCorrectLetter : IGameMode
         count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
         for(int i = 0; i < count; i++)
         {
-            string letter = correctLetter.ToLower();
+            string letter = gameRules.GetCorrectAnswer();
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
             while(activeLetterCubes.Contains(potentialCube))
@@ -79,7 +76,7 @@ public class FindCorrectLetter : IGameMode
             activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
             numberOfCorrectLettersOnBoard++;
         }
-        boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+        boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
     }
 
     /// <summary>
@@ -89,7 +86,7 @@ public class FindCorrectLetter : IGameMode
     /// <returns>Whether the letter is the correct one</returns>
     public bool IsCorrectSymbol(string letter)
     {
-        return letter.ToLower() == correctLetter.ToLower();
+        return gameRules.IsCorrectSymbol(letter);
     }
 
     /// <summary>
@@ -102,7 +99,7 @@ public class FindCorrectLetter : IGameMode
         if(IsCorrectSymbol(letter.GetLetter()))
         {
             numberOfCorrectLettersOnBoard--;
-            boardController.SetAnswerText("Led efter " + correctLetter + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
         letter.Deactivate();
         activeLetterCubes.Remove(letter);
@@ -121,11 +118,7 @@ public class FindCorrectLetter : IGameMode
         //Checks if the game should continue. if it should a new random incorrect letter is shown on the new letterblock
         if(numberOfCorrectLettersOnBoard > 0)
         {
-            newLetter.Activate(LetterManager.GetRandomLetter().ToString());
-            while(newLetter.GetLetter() == correctLetter)
-            {
-                newLetter.Activate(LetterManager.GetRandomLetter().ToString());
-            }
+            newLetter.Activate(gameRules.GetWrongAnswer());
         }
 
         //Checks if a new game should be started or if the player has won
@@ -148,6 +141,15 @@ public class FindCorrectLetter : IGameMode
     }
 
     /// <summary>
+    /// Sets the game rules used by the game mode
+    /// </summary>
+    /// <param name="gameRules">The game rules to be used</param>
+    public void SetGameRules(IGameRules gameRules)
+    {
+        this.gameRules = gameRules;
+    }
+
+    /// <summary>
     /// Gets the list of lettercubes and the boardController from the boardcontroller
     /// </summary>
     /// <param name="letterCubes">List of lettercubes</param>
@@ -156,10 +158,10 @@ public class FindCorrectLetter : IGameMode
     {
         this.letterCubes = letterCubes;
         boardController = board;
-        foreach(LetterCube letter in this.letterCubes)
+        /*foreach(LetterCube letter in this.letterCubes)
         {
             letter.randomizeFont = true;
-        }
+        }*/
     }
 
     /// <summary>
@@ -183,4 +185,5 @@ public class FindCorrectLetter : IGameMode
         minWrongLetters = min;
         maxWrongLetters = max;
     }
+
 }

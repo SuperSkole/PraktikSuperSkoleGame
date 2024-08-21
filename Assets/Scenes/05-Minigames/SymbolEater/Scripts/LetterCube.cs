@@ -227,4 +227,11 @@ public class LetterCube : MonoBehaviour
         meshRenderer.material = defaultMaterial;
         SelfDeactivate();
     }
+
+    /// <summary>
+    /// Toggles whether the image on the letter cube is displayed
+    /// </summary>
+    public void toggleImage(){
+        spriteRenderer.enabled = !spriteRenderer.enabled;
+    }
 }

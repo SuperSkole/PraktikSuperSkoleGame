@@ -6,7 +6,7 @@ using Vector3 = UnityEngine.Vector3;
 /// <summary>
 /// Player class for the Symbol Eater mini game
 /// </summary>
-public class Player : MonoBehaviour
+public class SymbolEaterPlayer : MonoBehaviour
 {
 
     private int livesRemaining = 3;
