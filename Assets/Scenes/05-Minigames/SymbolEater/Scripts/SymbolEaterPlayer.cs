@@ -1,7 +1,14 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using Vector3 = UnityEngine.Vector3;
+
+
+namespace Scenes.Minigames.SymbolEater.Scripts
+{
+
+
 
 /// <summary>
 /// Player class for the Symbol Eater mini game
