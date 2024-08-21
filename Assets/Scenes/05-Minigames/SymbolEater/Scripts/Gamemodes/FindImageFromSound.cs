@@ -16,7 +16,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <summary>
         /// The correct word
         /// </summary>
-        
+
 
         string currentWord;
 
@@ -76,13 +76,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
             //Sets up variablese and checks if data is loaded
 
-
+            currentWord = WordsForImagesManager.GetRandomWordForImage();
 
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if (DataLoader.IsDataLoaded)
             {
 
-                currentWord = WordsForImagesManager.GetRandomWordForImage();
+
                 if (texture.ContainsKey(currentWord))
                 {
                     texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
@@ -92,7 +92,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     Texture2D texture2D = ImageManager.GetImageFromWord(currentWord);
 
                     letterCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                    
+
                     letterCube.ActivateImage(texture2D);
                 }
 
@@ -146,6 +146,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //creates a random number of correct Images on the board
                 int wrongCubeCount = activeLetterCubes.Count;
                 count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+                
                 for (int i = 0; i < count; i++)
                 {
                     if (!texture.ContainsKey(currentWord))
@@ -155,7 +156,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     // makes a image string from the current word variable, so that we can find it in the files.
                     string image = currentWord.ToLower();
-                    
+
 
                     Texture2D currentImage = texture[currentWord];
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
@@ -210,7 +211,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="image"></param>
         public void ReplaceSymbol(LetterCube image)
         {
-            
+
             //decreases the correctlettercount incase the player moves over a correct tile, and theres more then 1 answer on the board.
             if (IsCorrectSymbol(image.GetLetter()))
             {
