@@ -49,7 +49,7 @@ public class SceneStartBehavior : MonoBehaviour
     {
         var gm = GameManager.Instance.PlayerData;
         playerData.Username = gm.Username;
-        playerData.PlayerName = gm.PlayerName;
+        playerData.MonsterName = gm.MonsterName;
         playerData.MonsterTypeID = gm.MonsterTypeID;
         playerData.MonsterColor = gm.MonsterColor;
         playerData.CurrentGoldAmount = gm.CurrentGoldAmount;

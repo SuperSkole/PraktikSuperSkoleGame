@@ -11,7 +11,7 @@ namespace LoadSave
         // Serialize properties to make them visible in the Inspector.
         [SerializeField] private string username;
         [SerializeField] private string savefile;
-        [SerializeField] private string playerName;
+        [SerializeField] private string monsterName;
         [SerializeField] private int monsterTypeID;
         [SerializeField] private string monsterColor;
         [SerializeField] private int currentGoldAmount;
@@ -26,7 +26,7 @@ namespace LoadSave
         // Public properties to access private serialized fields.
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
-        public string PlayerName { get => playerName; set => playerName = value; }
+        public string MonsterName { get => monsterName; set => monsterName = value; }
         public int MonsterTypeID { get => monsterTypeID; set => monsterTypeID = value; }
         public string MonsterColor { get => monsterColor; set => monsterColor = value; }
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
@@ -34,10 +34,10 @@ namespace LoadSave
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
-        public void Initialize(string username, string playerName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
+        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {
             this.username = username;
-            this.playerName = playerName;
+            this.monsterName = monsterName;
             this.monsterColor = monsterColor;
             this.currentGoldAmount = goldAmount;
             this.currentXPAmount = xpAmount;

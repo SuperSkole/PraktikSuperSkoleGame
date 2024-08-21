@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CORE;
 using UnityEngine;
 
 public class HouseSaving : MonoBehaviour
@@ -35,22 +36,20 @@ public class HouseSaving : MonoBehaviour
         string combinedJson = "{\"floorData\":" + floorJson + ",\"furnitureData\":" + furnitureJson + "}";
 
         // Save the JSON to a file
-        File.WriteAllText(Application.dataPath + "HouseSave.json", combinedJson);
-
-        //Debug.Log("Saved should have happend");
+        string filename = GameManager.Instance.SaveManager.GenerateSaveFileName(
+            GameManager.Instance.PlayerData.Username, "save", "house");
+        
+        GameManager.Instance.SaveManager.SaveJson(combinedJson, filename);
     }
     public void LoadGridData()
     {
+        string filename = GameManager.Instance.SaveManager.GenerateLoadFileName(
+            GameManager.Instance.PlayerData.Username, "save", "house");
+        
         // Read the JSON from the file
         string json = File.ReadAllText(Application.dataPath + "HouseSave.json");
         
         container = JsonUtility.FromJson<SaveContainer>(json);
-
-        //floorDictionary = container.floorData.ConvertListToDic(container.floorData.placedObjectsList);
-       // furnitureDictionary = container.furnitureData.ConvertListToDic(container.furnitureData.placedObjectsList);
-
-
-
     }
 
     public bool IsThereSaveFile()
@@ -78,8 +77,6 @@ public class HouseSaving : MonoBehaviour
                 return null;
         }
     }
-
-
 }
 
 [Serializable]
