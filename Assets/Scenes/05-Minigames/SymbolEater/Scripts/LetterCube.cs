@@ -245,27 +245,21 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }
-/// <summary>
-    /// Changes the color of the lettercube if it contains the correct letter
-    /// </summary>
-    /// <returns></returns>
-   
+        /// <summary>
+        /// Changes the color of the lettercube if it contains the correct letter
+        /// </summary>
+        /// <returns></returns>
+    
 
-    /// <summary>
-    /// Toggles whether the image on the letter cube is displayed
-    /// </summary>
-    public void toggleImage(){
-        spriteRenderer.enabled = !spriteRenderer.enabled;
+        /// <summary>
+        /// Toggles whether the image on the letter cube is displayed
+        /// </summary>
+        public void toggleImage(){
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+        }
+
     }
 
-    }
-
-    /// <summary>
-    /// Toggles whether the image on the letter cube is displayed
-    /// </summary>
-    public void toggleImage(){
-        spriteRenderer.enabled = !spriteRenderer.enabled;
-    }
 }
     
 

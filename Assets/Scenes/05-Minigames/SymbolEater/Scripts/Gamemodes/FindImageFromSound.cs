@@ -242,10 +242,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
                 // yet again creates random words from the Word list.
                 string randoWords = WordsForImagesManager.GetRandomWordForImage();
-                string randoWords = WordsForImagesManager.GetRandomWordForImage();
                 while (randoWords == currentWord)
                 {
-                    randoWords = WordsForImagesManager.GetRandomWordForImage();
                     randoWords = WordsForImagesManager.GetRandomWordForImage();
                 }
 
@@ -253,8 +251,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 if (!texture.ContainsKey(randoWords))
                 {
                     texture.Add(randoWords, ImageManager.GetImageFromWord(randoWords));
-                    Texture2D tempTexture = ImageManager.GetImageFromWord(randoWords);
-                    texture.Add(randoWords, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
 
                 }
 
@@ -286,9 +282,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
         {
             this.letterCubes = letterCubes;
-            foreach(LetterCube letter in this.letterCubes){
-                letter.toggleImage();
-            }
             foreach(LetterCube letter in this.letterCubes){
                 letter.toggleImage();
             }

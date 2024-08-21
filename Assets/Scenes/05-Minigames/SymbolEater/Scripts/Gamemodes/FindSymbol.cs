@@ -3,7 +3,7 @@ using CORE.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using CORE.Scripts.GameRules;
-
+using Scenes.Minigames.SymbolEater.Scripts;
 /// <summary>
 /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
 /// </summary>

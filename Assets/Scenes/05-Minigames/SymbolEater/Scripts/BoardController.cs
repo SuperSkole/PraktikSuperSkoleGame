@@ -34,9 +34,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private Image answerImage;
 
-    [SerializeField]private GameObject playerObject;
-    private SymbolEaterPlayer player;
-    private SymbolEaterPlayer player;
+        [SerializeField]private GameObject playerObject;
+
+        private SymbolEaterPlayer player;
 
         private IGameMode gameMode;
 
@@ -55,11 +55,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     /// </summary>
     /// <param name="targetMode">The game mode which should be used</param>
     public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
-    public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
     {
         //Sets various fieldvariables and their field variables
         gameMode = targetMode;
-        player = playerObject.GetComponent<SymbolEaterPlayer>();
         player = playerObject.GetComponent<SymbolEaterPlayer>();
         player.board = this;
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
@@ -95,7 +93,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         //GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
     }
 
-    public SymbolEaterPlayer GetPlayer(){
     public SymbolEaterPlayer GetPlayer(){
         return player;
     }

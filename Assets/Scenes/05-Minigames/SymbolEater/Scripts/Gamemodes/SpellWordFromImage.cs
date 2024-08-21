@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
 using Unity.Collections.LowLevel.Unsafe;
-using UnityEngine
+using UnityEngine;
 using Scenes.Minigames.SymbolEater.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
@@ -19,12 +19,18 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         int minWrongLetters = 6;
 
+        int maxWrongLetters = 10;
+
             int currentIndex;
 
             char currentLetter;
 
 
         List<LetterCube> activeLetterCubes = new List<LetterCube>();
+
+        List<LetterCube> letterCubes = new List<LetterCube>();
+
+        Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
         BoardController boardController;
 
@@ -33,6 +39,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         string foundWordPart = "";
 
         string oldWord = "";
+
+        bool wordsLoaded = false;
 
         /// <summary>
         /// Gets the letters for the current game
@@ -79,20 +87,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     while(activeLetterCubes.Contains(potentialCube))
                     {
                         potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                    }
-                    //finds some new letterboxes and assigns them a correct letter
-                    for (int i = 0; i < word.Length; i++)
-                    {
-                        char letter = word[i];
-                        LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                        //Check to ensure letters arent spawned on an allready activated letter cube.
-                        while (activeLetterCubes.Contains(potentialCube))
-                        {
-                            potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                        }
-                        activeLetterCubes.Add(potentialCube);
-                        activeLetterCubes[i].Activate(letter.ToString());
                     }
                     boardController.SetAnswerText("");
                 }
