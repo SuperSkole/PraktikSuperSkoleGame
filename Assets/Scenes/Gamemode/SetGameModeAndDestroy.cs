@@ -23,7 +23,7 @@ public class SetGameModeAndDestroy : MonoBehaviour
             //sets the gamemode to SpellWord
             case 1:
                 BoardController target1 = FindObjectOfType<BoardController>();
-                target1.GameModeSet(new SpellWord(), new FindCorrectLetter());
+                target1.GameModeSet(new SpellWordFromImage(), new FindCorrectLetter());
                 break;
             //sets the gamemode to sound out letter
             case 2:
