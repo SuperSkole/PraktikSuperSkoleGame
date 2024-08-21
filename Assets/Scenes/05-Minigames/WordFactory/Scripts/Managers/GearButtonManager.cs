@@ -10,12 +10,12 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
 
         private void Start()
         {
-            GameManager.Instance.OnGearAdded += HandleGearAdded;
+            WordFactoryGameManager.Instance.OnGearAdded += HandleGearAdded;
         }
 
         private void OnDestroy()
         {
-            GameManager.Instance.OnGearAdded -= HandleGearAdded;
+            WordFactoryGameManager.Instance.OnGearAdded -= HandleGearAdded;
         }
 
         private void HandleGearAdded(GameObject gear)

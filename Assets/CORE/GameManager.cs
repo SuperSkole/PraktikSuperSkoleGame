@@ -13,6 +13,7 @@ namespace CORE
         public PlayerManager PlayerManager;
         
         public PlayerData PlayerData { get; set; }
+        public HighScore HighScore;
         public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
