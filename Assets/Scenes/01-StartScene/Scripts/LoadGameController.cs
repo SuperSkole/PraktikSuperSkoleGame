@@ -1,5 +1,6 @@
 using LoadSave;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes.StartScene.Scripts
 {
@@ -37,6 +38,7 @@ namespace Scenes.StartScene.Scripts
             {
                 Debug.Log("Data loaded successfully.");
                 loadGameSetup.SetupPlayer(data);
+                SceneManager.LoadScene("02-PlayerHouse");
             }
             else
             {

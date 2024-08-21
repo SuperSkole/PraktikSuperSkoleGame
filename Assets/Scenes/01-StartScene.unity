@@ -1543,7 +1543,7 @@ GameObject:
   - component: {fileID: 1067587474}
   - component: {fileID: 1067587475}
   m_Layer: 0
-  m_Name: New Game Controller
+  m_Name: NewGameSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1628,10 +1628,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1027093587}
-  - {fileID: 2029457462}
   - {fileID: 1686950970}
-  - {fileID: 1816662030}
+  - {fileID: 2029457462}
   - {fileID: 1285741695}
+  - {fileID: 1816662030}
   - {fileID: 1067587474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2231,7 +2231,7 @@ GameObject:
   - component: {fileID: 1285741695}
   - component: {fileID: 1285741696}
   m_Layer: 0
-  m_Name: LoadGameController
+  m_Name: Load Game Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3471,7 +3471,7 @@ GameObject:
   - component: {fileID: 1816662030}
   - component: {fileID: 1816662029}
   m_Layer: 0
-  m_Name: Setup Loaded Game
+  m_Name: LoadGameSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3490,10 +3490,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCharPoint: {fileID: 1083393528}
-  playerPrefab: {fileID: 7524384861229740334, guid: a08bbee6683221142ac99a05ec5bc165, type: 3}
   playerNameText: {fileID: 0}
+  playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
   playerXPText: {fileID: 0}
   playerGoldText: {fileID: 0}
+  ChosenMonsterColor: 
 --- !u!4 &1816662030
 Transform:
   m_ObjectHideFlags: 0

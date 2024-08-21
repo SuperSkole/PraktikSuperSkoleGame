@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using CORE;
 using LoadSave;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,11 +16,14 @@ namespace Scenes.StartScene.Scripts
         private string saveFileNameOne;
         private string saveFileNameTwo;
         private string saveFileNameThree;
-        
+
+        private string username;
         
 
         private void Start()
         {
+            username = GameManager.Instance.CurrentUser;
+            
             if (loadGameManager == null)
             {
                 Debug.Log("LoadGameManager is not assigned.");
@@ -32,7 +36,7 @@ namespace Scenes.StartScene.Scripts
             var saveFiles = loadGameManager.GetAllSaveFiles();
             for (int i = 0; i < savePanels.Count; i++)
             {
-                if (i < saveFiles.Count)
+                if (i < saveFiles.Count && saveFiles[i].StartsWith(username))
                 {
                     SaveDataDTO data = loadGameManager.LoadGameDataSync(saveFiles[i]);
                     savePanels[i].SetSaveFileName(saveFiles[i]);
@@ -42,17 +46,6 @@ namespace Scenes.StartScene.Scripts
                 {
                     savePanels[i].ClearPanel();
                 }
-            }
-        }
-
-        private void LoadSaveToPanel(SavePanel panel, string fileName)
-        {
-            string filePath = Path.Combine(loadGameManager.SaveDirectory, fileName + ".json");
-            if (File.Exists(filePath)) {
-                string json = File.ReadAllText(filePath);
-                SaveDataDTO saveData = JsonUtility.FromJson<SaveDataDTO>(json);
-                panel.SetSaveFileName(fileName);  
-                panel.UpdatePanelWithSaveData(saveData);
             }
         }
     }

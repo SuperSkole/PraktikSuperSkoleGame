@@ -58,18 +58,17 @@ namespace Scenes.StartScene.Scripts
             }
         }
         
-        
-        // ---------- decapricated below
-        
-        
-        
         public bool DoesSaveFileExist(string hashedUsername)
         {
             string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
             return File.Exists(filePath);
         }
-
-
+        
+        public string GetSaveFilePath(string hashedUsername)
+        {
+            return Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
+        }
+        
         public void LoadGame(string hashedUsername)
         {
             string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
@@ -77,24 +76,12 @@ namespace Scenes.StartScene.Scripts
             if (File.Exists(filePath))
             {
                 string json = File.ReadAllText(filePath);
-                LoadSave.SaveDataDTO data = JsonUtility.FromJson<LoadSave.SaveDataDTO>(json);
-
-                // // Use SkinManager to process the loaded skin data
-                // skinManager.ProcessLoadedSkins(data, gm.shopSkinManagement);
-
-                // // Restore game state using GameManager
-                // gm.SetLoadGameInfo(data);
-                
+                SaveDataDTO data = JsonUtility.FromJson<LoadSave.SaveDataDTO>(json);
             }
             else
             {
                 Debug.LogError($"Save file not found for user: {hashedUsername}");
             }
-        }
-        
-        public string GetSaveFilePath(string hashedUsername)
-        {
-            return Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
         }
     }
 }

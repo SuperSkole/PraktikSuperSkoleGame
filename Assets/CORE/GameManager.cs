@@ -12,14 +12,16 @@ namespace CORE
         public PlayerData PlayerData { get; set; }
 
         
-        public string CurrentUsername { get; private set; }
+        public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
 
         private PlayerManager playerManager;
         private SaveToJsonManager saveManager;
         private LoadGameManager loadGameManager;
+        
         private static GameManager _instance;
+        private static readonly object Lock = new object();
         
         /// <summary>
         /// Auto self Creating Lazy Singleton instance
@@ -28,39 +30,38 @@ namespace CORE
         {
             get
             {
-                if (_instance == null)
+                lock (Lock)
                 {
-                    // Find existing GameManager instance in the scene or create new one if none exists
-                    _instance = FindObjectOfType<GameManager>();
                     if (_instance == null)
                     {
-                        GameObject gameManager = new GameObject("GameManager");
-                        _instance = gameManager.AddComponent<GameManager>();
+                        _instance = FindObjectOfType<GameManager>();
+                        if (_instance == null)
+                        {
+                            GameObject singletonObject = new GameObject("GameManager");
+                            _instance = singletonObject.AddComponent<GameManager>();
+                            DontDestroyOnLoad(singletonObject);
+                        }
                     }
+                    
+                    return _instance;
                 }
-                
-                return _instance;
             }
         }
 
         private void Awake()
         {
-            if (_instance == null)
+            // Highlander other GM's There can only be 1
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }else
             {
                 _instance = this;
-                // Make GM persistent when changing scnes
-                DontDestroyOnLoad(gameObject); 
-                
+                DontDestroyOnLoad(gameObject);
                 InitializeManagers();
                 SceneManager.sceneLoaded += OnSceneLoaded;
+                InitializeGameManager();
             }
-            else if (_instance != this)
-            {
-                // Highlander other GM's There can only be 1
-                Destroy(gameObject); 
-            }
-            
-            InitializeGameManager();
         }
 
         #region Login Region
@@ -72,8 +73,8 @@ namespace CORE
 
             if (inputField != null)
             {
-                CurrentUsername = inputField.text;  
-                Debug.Log("Username set to: " + CurrentUsername);
+                CurrentUser = inputField.text;  
+                Debug.Log("Username set to: " + CurrentUser);
             }
             else
             {
@@ -87,7 +88,7 @@ namespace CORE
         public void LoadGame()
         {
             // Logic to load game data
-            loadGameManager.LoadGame(CurrentUsername);
+            loadGameManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -96,7 +97,7 @@ namespace CORE
         {
             // save logic, using savemanager
             Debug.Log("Game Saved!");
-            saveManager.SaveGame(PlayerData.Username);
+            saveManager.SaveGame(PlayerData.Username, PlayerData.MonsterName);
         }
 
         public void ExitGame()

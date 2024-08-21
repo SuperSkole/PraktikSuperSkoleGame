@@ -7,12 +7,14 @@ namespace Scenes.StartScene.Scripts
 {
     public class LoadGameSetup : MonoBehaviour
     {
-        public Transform spawnCharPoint;
-        public GameObject playerPrefab; 
-        public Text playerNameText; 
-        public Text playerXPText;   
-        public Text playerGoldText; 
+        [SerializeField] private Transform spawnCharPoint;
+        [SerializeField] private Text playerNameText; 
+        [SerializeField] private GameObject playerPrefab; 
+        [SerializeField] private Text playerXPText;   
+        [SerializeField] private Text playerGoldText; 
 
+        public string ChosenMonsterColor;
+        
         public void SetupPlayer(SaveDataDTO saveData)
         {
             // instantiate temp object in scene
@@ -35,7 +37,7 @@ namespace Scenes.StartScene.Scripts
 
             // Log for debugging
             Debug.Log("Player setup complete with username: " + player.Username +
-                      " Player Name: " + player.PlayerName +
+                      " Player Name: " + player.MonsterName +
                       " Monster Color: " + player.MonsterColor +
                       " XP: " + player.CurrentXPAmount.ToString() +
                       " Gold: " + player.CurrentGoldAmount.ToString());
