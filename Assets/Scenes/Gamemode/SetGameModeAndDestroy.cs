@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using CORE.Scripts.GameRules;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
+using Scenes.Minigames.SymbolEater.Scripts;
 
 
 public class SetGameModeAndDestroy : MonoBehaviour

@@ -4,34 +4,39 @@ using Unity.VisualScripting;
 using UnityEngine;
 using CORE.Scripts.GameRules;
 
-/// <summary>
-/// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
-/// </summary>
-public class FindSymbol : IGameMode
+
+
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
+
+    /// <summary>
+    /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
+    /// </summary>
+    public class FindCorrectLetter : IGameMode
+    {
 
     IGameRules gameRules = new CORE.Scripts.GameRules.FindLetterType();
 
-    /// <summary>
-    /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
-    /// </summary>
-    List<LetterCube> letterCubes;
+        /// <summary>
+        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+        /// </summary>
+        List<LetterCube> letterCubes;
 
-    List<LetterCube> activeLetterCubes = new List<LetterCube>();
+        List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
-    int numberOfCorrectLettersOnBoard;
+        int numberOfCorrectLettersOnBoard;
 
-    BoardController boardController;
+        BoardController boardController;
 
-    int correctLetters = 0;
+        int correctLetters = 0;
 
-    int maxWrongLetters = 10;
+        int maxWrongLetters = 10;
 
-    int minWrongLetters = 1;
+        int minWrongLetters = 1;
 
-    int maxCorrectLetters = 5;
+        int maxCorrectLetters = 5;
 
-    int minCorrectLetters = 1;
+        int minCorrectLetters = 1;
 
     /// <summary>
     /// Gets the shown letters for the current game and the correct one
@@ -164,16 +169,16 @@ public class FindSymbol : IGameMode
         }*/
     }
 
-    /// <summary>
-    /// Sets the minimum and maximum correct letters which appears on the board
-    /// </summary>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    public void SetMinAndMaxCorrectSymbols(int min, int max)
-    {
-        minCorrectLetters = min;
-        maxCorrectLetters = max;
-    }
+        /// <summary>
+        /// Sets the minimum and maximum correct letters which appears on the board
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public void SetMinAndMaxCorrectSymbols(int min, int max)
+        {
+            minCorrectLetters = min;
+            maxCorrectLetters = max;
+        }
 
     /// <summary>
     /// Sets the minimum and maximum wrong letters which appears on the board

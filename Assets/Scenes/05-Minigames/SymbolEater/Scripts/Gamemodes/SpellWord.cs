@@ -4,53 +4,58 @@ using CORE.Scripts;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
-/// <summary>
-/// Implementation of IGameMode with the goal of spelling a word based on an image.
-/// </summary>
-public class SpellWord : IGameMode
+
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    /// <summary>
-    /// The correct word
-    /// </summary>
-    string word;
-
-
-    int correctWords = 0;
-
-    int currentIndex;
-
-    char currentLetter;
 
 
     /// <summary>
-    /// letters which the player has already found
+    /// Implementation of IGameMode with the goal of spelling a word based on an image.
     /// </summary>
-    Queue<char> foundLetters = new Queue<char>();
+    public class SpellWord : IGameMode
+    {
+        /// <summary>
+        /// The correct word
+        /// </summary>
+        string word;
 
-    List<string> words = new List<string>();
 
-    int minWrongLetters = 6;
+        int correctWords = 0;
 
-    int maxWrongLetters = 10;
+        int currentIndex;
 
-    Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+        char currentLetter;
 
-    private bool wordsLoaded = false;
-    
-    /// <summary>
-    /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
-    /// </summary>
-    List<LetterCube> letterCubes;
 
-    /// <summary>
-    /// The lettercubes displaying a letter
-    /// </summary>
-    List<LetterCube> activeLetterCubes = new List<LetterCube>();
+        /// <summary>
+        /// letters which the player has already found
+        /// </summary>
+        Queue<char> foundLetters = new Queue<char>();
 
-    /// <summary>
-    /// The boardController of the current game
-    /// </summary>
-    BoardController boardController;
+        List<string> words = new List<string>();
+
+        int minWrongLetters = 6;
+
+        int maxWrongLetters = 10;
+
+        Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+
+        private bool wordsLoaded = false;
+
+        /// <summary>
+        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+        /// </summary>
+        List<LetterCube> letterCubes;
+
+        /// <summary>
+        /// The lettercubes displaying a letter
+        /// </summary>
+        List<LetterCube> activeLetterCubes = new List<LetterCube>();
+
+        /// <summary>
+        /// The boardController of the current game
+        /// </summary>
+        BoardController boardController;
 
     /// <summary>
     /// Gets the letters for the current game
@@ -100,60 +105,61 @@ public class SpellWord : IGameMode
                 }
                 LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-                //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-                while(activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
+                    while (activeLetterCubes.Contains(potentialCube))
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    activeLetterCubes[i].Activate(letter.ToString());
                 }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].Activate(letter.ToString());
+                //finds some new letterboxes and assigns them a correct letter
+                for (int i = 0; i < word.Length; i++)
+                {
+                    char letter = word[i];
+                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+                    //Check to ensure letters arent spawned on an allready activated letter cube.
+                    while (activeLetterCubes.Contains(potentialCube))
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    activeLetterCubes[i].Activate(letter.ToString());
+                }
+                boardController.SetAnswerText("");
             }
-            //finds some new letterboxes and assigns them a correct letter
-            for(int i = 0; i < word.Length; i++)
+
+        }
+
+
+        /// <summary>
+        /// Checks if the letter is of the correct type and updates the letter the player should find. 
+        /// </summary>
+        /// <param name="letter">The letter which should be checked</param>
+        /// <returns>Whether the letter is the correct one</returns>
+        public bool IsCorrectSymbol(string letter)
+        {
+
+            if (currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
             {
-                char letter = word[i];
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                //Check to ensure letters arent spawned on an allready activated letter cube.
-                while(activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].Activate(letter.ToString());
+                currentIndex++;
+                foundLetters.Enqueue(currentLetter);
+                currentLetter = word[currentIndex];
+                return true;
             }
-            boardController.SetAnswerText("");
-        }
-        
-    }
+            else if (currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1)
+            {
+                foundLetters.Enqueue(currentLetter);
+                currentIndex++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
-
-    /// <summary>
-    /// Checks if the letter is of the correct type and updates the letter the player should find. 
-    /// </summary>
-    /// <param name="letter">The letter which should be checked</param>
-    /// <returns>Whether the letter is the correct one</returns>
-    public bool IsCorrectSymbol(string letter)
-    {
-        
-        if(currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
-        {
-            currentIndex++;
-            foundLetters.Enqueue(currentLetter);
-            currentLetter = word[currentIndex];
-            return true;
         }
-        else if(currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1)
-        {
-            foundLetters.Enqueue(currentLetter);
-            currentIndex++;
-            return true;
-        }
-        else{
-            return false;
-        }
-        
-    }
 
     /// <summary>
     /// Replaces an active lettercube with another one
@@ -201,52 +207,53 @@ public class SpellWord : IGameMode
 
             newLetter.Activate(newLettercubeValue.ToString());
 
-        }
-        else{
-            correctWords++;
-            if(correctWords == 3)
-            {
-                boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
             }
-            else 
+            else
             {
-                GetSymbols();
+                correctWords++;
+                if (correctWords == 3)
+                {
+                    boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
+                }
+                else
+                {
+                    GetSymbols();
+                }
             }
         }
-    }
 
-    /// <summary>
-    /// Gets the list of lettercubes and the boardController from the boardcontroller
-    /// </summary>
-    /// <param name="letterCubes">List of lettercubes</param>
-    /// <param name="board">the board connected to the lettercubes</param>
-    public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
-    {
-        this.letterCubes = letterCubes;
-        boardController = board;
-    }
+        /// <summary>
+        /// Gets the list of lettercubes and the boardController from the boardcontroller
+        /// </summary>
+        /// <param name="letterCubes">List of lettercubes</param>
+        /// <param name="board">the board connected to the lettercubes</param>
+        public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
+        {
+            this.letterCubes = letterCubes;
+            boardController = board;
+        }
 
 
-    /// <summary>
-    /// Currently does nothing
-    /// </summary>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    public void SetMinAndMaxCorrectSymbols(int min, int max)
-    {
-        
-    }
+        /// <summary>
+        /// Currently does nothing
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public void SetMinAndMaxCorrectSymbols(int min, int max)
+        {
 
-    /// <summary>
-    /// Sets the minimum and maximum wrong letters which appears on the board
-    /// </summary>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    public void SetMinAndMaxWrongSymbols(int min, int max)
-    {
-        minWrongLetters = min;
-        maxWrongLetters = max;
-    }
+        }
+
+        /// <summary>
+        /// Sets the minimum and maximum wrong letters which appears on the board
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        public void SetMinAndMaxWrongSymbols(int min, int max)
+        {
+            minWrongLetters = min;
+            maxWrongLetters = max;
+        }
 
     /// <summary>
     /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
