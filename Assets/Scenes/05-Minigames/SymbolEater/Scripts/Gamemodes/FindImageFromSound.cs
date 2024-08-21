@@ -106,7 +106,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
-                    lC.Deactivate();
+                    lC.DeactivateImage();
                 }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
                 activeLetterCubes.Clear();
@@ -282,9 +282,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
         {
             this.letterCubes = letterCubes;
-            foreach(LetterCube letter in this.letterCubes){
-                letter.toggleImage();
-            }
+            //foreach(LetterCube letter in this.letterCubes){
+            //    letter.toggleImage();
+            //}
             boardController = board;
         }
 
