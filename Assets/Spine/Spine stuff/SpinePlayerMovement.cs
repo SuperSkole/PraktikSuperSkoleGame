@@ -21,6 +21,7 @@ public class SpinePlayerMovement : MonoBehaviour
     private bool isMoving;
     private Coroutine moveCoroutine;
 
+    [SerializeField] ParticleSystem pointAndClickEffect;
     /// <summary>
     /// Initializes the player's animation state to idle.
     /// </summary>
@@ -119,6 +120,8 @@ public class SpinePlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         SetCharacterState("Walk");
+        var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
+        Destroy(effect.gameObject,0.5f);
         moveCoroutine = StartCoroutine(MoveToTarget());
     }
 

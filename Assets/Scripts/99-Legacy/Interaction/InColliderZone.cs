@@ -1,3 +1,4 @@
+using CORE;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -66,5 +67,11 @@ public class InColliderZone : MonoBehaviour
             //collision.gameObject.GetComponent<PlayerWorldMovement>().inBubble.SetActive(false);
             //PlayerWorldMovement.witchObjCloseTo = null;
         }
+    }
+
+    public void SetSaveSpawnPos(Transform transform)
+    {
+        print($"Here is the saved position: {transform.position}");
+        //GameManager.Instance.pla
     }
 }

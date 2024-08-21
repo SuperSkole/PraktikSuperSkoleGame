@@ -12,8 +12,6 @@ public class SceneStartBehavior : MonoBehaviour
     [SerializeField] private GameObject uiBuilding;
     [SerializeField] private GameObject cameraMovement;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private Camera cameraBrain;
-    [SerializeField] LayerMask layerMask;
 
     private GameObject spawnedPlayer;
     //[SerializeField] private PreviewSystem previewSystem;
@@ -36,11 +34,6 @@ public class SceneStartBehavior : MonoBehaviour
             case 0:
                 spawnedPlayer = Instantiate(playerPrefab, playerSpawnPoint);
                 playerData = spawnedPlayer.GetComponent<PlayerData>();
-                virtualCamera.Follow = spawnedPlayer.transform;
-                virtualCamera.LookAt = spawnedPlayer.transform;
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain;
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().placementLayermask = layerMask;
-
                 try
                 {
                     PopulatePlayerInfo();
