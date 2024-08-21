@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Interface an object can use to save and load data. 
-public interface IDataPersistence
+namespace Scenes.Minigames.MonsterTower
 {
+    public interface IDataPersistence
+    {
 
-    void LoadData(GameData data);
-    void SaveData(ref GameData data);
+        void LoadData(GameData data);
+        void SaveData(ref GameData data);
 
+    }
 }

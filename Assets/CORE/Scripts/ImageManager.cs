@@ -122,6 +122,8 @@ namespace CORE.Scripts
             return image;
         }
 
+
+        // Gets a random image and its key in the imagedictionary
         public static Tuple<Texture2D,string> GetRandomImageWithKey()
         {
             List<Texture2D> data;
