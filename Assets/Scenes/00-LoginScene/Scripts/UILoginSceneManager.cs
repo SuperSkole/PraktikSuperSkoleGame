@@ -35,7 +35,8 @@ namespace Scenes.LoginScene.Scripts
             ToggleButtonVisibility(loginButton, false);
             ToggleButtonVisibility(registerButton, false);
         }
-        void Start()
+
+        private void Start()
         {
             // Add listeners to the input fields to check for changes
             loginManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
@@ -45,7 +46,7 @@ namespace Scenes.LoginScene.Scripts
 
         }
 
-        void ValidateInput()
+        private void ValidateInput()
         {
             // Update the interactable state based on whether the fields are non-empty
             isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text) && !string.IsNullOrEmpty(loginManager.PasswordInput.text);

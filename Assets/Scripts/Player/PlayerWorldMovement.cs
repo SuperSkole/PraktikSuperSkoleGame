@@ -25,7 +25,7 @@ public class PlayerWorldMovement : MonoBehaviour
     //[SerializeField] private List<UnityEvent> whichInteraction = new List<UnityEvent>();
     private UnityEvent[] whichInteraction = new UnityEvent[3];
 
-    void Start()
+    private void Start()
     {
         //rb = GetComponent<Rigidbody>();
         //animator = GetComponent<Animator>();
@@ -33,13 +33,14 @@ public class PlayerWorldMovement : MonoBehaviour
     }
 
 
-    void Update()
+    private void Update()
     {
         testingWitch = witchObjCloseTo;
         HandleInteraction();
 
     }
-    void HandleInteraction()
+
+    private void HandleInteraction()
     {
         if (witchObjCloseTo != null && Input.GetKeyDown(KeyCode.F) && Talking == false)
         {
@@ -227,7 +228,8 @@ public class PlayerWorldMovement : MonoBehaviour
     {
         StartCoroutine(lvlEffectDelay());
     }
-    IEnumerator lvlEffectDelay()
+
+    private IEnumerator lvlEffectDelay()
     {
         yield return new WaitForSeconds(0.3f);
         gmSaveToJson.GetComponent<GeneralManagement>().EnableLvlTxt(true);

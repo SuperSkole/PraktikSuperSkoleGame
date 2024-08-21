@@ -20,7 +20,7 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         CameraZoom();
         Moveing();
