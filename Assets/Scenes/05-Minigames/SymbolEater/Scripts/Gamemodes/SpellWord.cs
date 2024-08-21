@@ -193,13 +193,13 @@ public class SpellWord : IGameMode
         if(currentIndex < word.Length)
         {
             //currentLetter = word[currentIndex];
-            char nL = LetterManager.GetRandomLetter();
+            char newLettercubeValue = LetterManager.GetRandomLetter();
             if(word.Contains(oldLetter))
             {
-                nL = oldLetter[0];
+                newLettercubeValue = oldLetter[0];
             }
 
-            newLetter.Activate(nL.ToString());
+            newLetter.Activate(newLettercubeValue.ToString());
 
         }
         else{
@@ -265,6 +265,10 @@ public class SpellWord : IGameMode
         }
     }
 
+    /// <summary>
+    /// Temporarily unused until relevant game rules have been implemented
+    /// </summary>
+    /// <param name="gameRules">game rules to be used by the game mode</param>
     public void SetGameRules(IGameRules gameRules)
     {
         

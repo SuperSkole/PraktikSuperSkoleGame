@@ -212,13 +212,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             if (currentIndex < word.Length)
             {
                 //currentLetter = word[currentIndex];
-                char nL = LetterManager.GetRandomLetters(1)[0];
+                char newLetterCubeValue = LetterManager.GetRandomLetters(1)[0];
                 if (word.Contains(oldLetter))
                 {
-                    nL = oldLetter[0];
+                    newLetterCubeValue = oldLetter[0];
                 }
 
-                newLetter.Activate(nL.ToString());
+                newLetter.Activate(newLetterCubeValue.ToString());
 
             }
             else
@@ -267,6 +267,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             maxWrongLetters = max;
         }
 
+        /// <summary>
+        /// Temporarily unused until relevant game rules have been implemented
+        /// </summary>
+        /// <param name="gameRules">game rules to be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
             

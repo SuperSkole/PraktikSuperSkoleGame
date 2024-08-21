@@ -276,7 +276,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             minWrongLetters = min;
             maxWrongLetters = max;
         }
-
+        /// <summary>
+        /// unused until relevant game rules are implemented
+        /// </summary>
+        /// <param name="gameRules">The game rules used by the board</param>
         public void SetGameRules(IGameRules gameRules)
         {
             

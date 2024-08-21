@@ -84,7 +84,7 @@ public class BoardController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        GameModeSet(new FindNumber());
+        //GameModeSet(new FindNumber());
     }
 
     public SymbolEaterPlayer GetPlayer(){

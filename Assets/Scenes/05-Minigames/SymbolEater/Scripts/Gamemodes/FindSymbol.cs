@@ -140,6 +140,10 @@ public class FindSymbol : IGameMode
         }
     }
 
+    /// <summary>
+    /// Sets the game rules used by the game mode
+    /// </summary>
+    /// <param name="gameRules">The game rules to be used</param>
     public void SetGameRules(IGameRules gameRules)
     {
         this.gameRules = gameRules;

@@ -217,6 +217,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             maxWrongLetters = max;
         }
 
+        /// <summary>
+        /// Temporarily unused until relevant game rules have been implemented
+        /// </summary>
+        /// <param name="gameRules">Game rules to be be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
             

@@ -119,7 +119,7 @@ public class FindNumber : IGameMode
             //Checks if the end of the series is reached. If not it activates a new lettercube
             if(!gameRules.SequenceComplete())
             {
-                int nL = System.Convert.ToInt32(gameRules.GetWrongAnswer());
+                int newLettercubeValue = System.Convert.ToInt32(gameRules.GetWrongAnswer());
                 bool containsCorrectNumber = false;
                 foreach(LetterCube letterCube in activeLetterCubes)
                 {
@@ -131,9 +131,9 @@ public class FindNumber : IGameMode
                 }
                 if(!containsCorrectNumber)
                 {
-                    nL = System.Convert.ToInt32(gameRules.GetCorrectAnswer());
+                    newLettercubeValue = System.Convert.ToInt32(gameRules.GetCorrectAnswer());
                 }
-                newLetter.Activate(nL.ToString());
+                newLetter.Activate(newLettercubeValue.ToString());
                 activeLetterCubes.Add(newLetter);
             }
             //Determines if the player has won. If they have it starts a new game
@@ -152,6 +152,10 @@ public class FindNumber : IGameMode
         }
     }
 
+    /// <summary>
+    /// Sets the game rules used by the board
+    /// </summary>
+    /// <param name="gameRules">The game rules used by the game mode</param>
     public void SetGameRules(IGameRules gameRules)
     {
         this.gameRules = gameRules;
