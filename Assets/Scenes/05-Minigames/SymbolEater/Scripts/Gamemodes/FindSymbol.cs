@@ -12,7 +12,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
     /// </summary>
-    public class FindCorrectLetter : IGameMode
+    public class FindSymbol : IGameMode
     {
 
         IGameRules gameRules = new CORE.Scripts.GameRules.FindLetterType();
