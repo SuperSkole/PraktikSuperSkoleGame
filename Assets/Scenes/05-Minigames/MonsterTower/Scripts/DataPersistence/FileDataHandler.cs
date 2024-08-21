@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.IO;
+using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 
 namespace Scenes.Minigames.MonsterTower
 {
@@ -14,7 +15,6 @@ namespace Scenes.Minigames.MonsterTower
     public class FileDataHandler
     {
         private string dataDirPath = "";
-
         private string dataFileName = "";
 
         public FileDataHandler(string dataDirPath, string dataFileName)
@@ -24,7 +24,7 @@ namespace Scenes.Minigames.MonsterTower
         }
 
         // The fullpath is defined and there is a check if the file exits on the path. 
-        //If not an error is logged. 
+        // If not an error is logged. 
         // The filestream and reader is used and the data to load is defined and returned.
         public GameData Load()
         {
@@ -34,18 +34,13 @@ namespace Scenes.Minigames.MonsterTower
 
             if (File.Exists(fullPath))
             {
-                try
+                try //why are we trying here? what can give an error?
                 {
                     string dataToLoad = "";
 
-                    using (FileStream stream = new FileStream(fullPath, FileMode.Open))
-                    {
-                        using (StreamReader reader = new StreamReader(stream))
-                        {
-                            dataToLoad = reader.ReadToEnd();
-                        }
-
-                    }
+                    FileStream stream = new FileStream(fullPath, FileMode.Open);
+                    StreamReader reader = new StreamReader(stream);
+                    dataToLoad = reader.ReadToEnd();
 
                     loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
 
@@ -68,19 +63,15 @@ namespace Scenes.Minigames.MonsterTower
 
             string fullPath = Path.Combine(dataDirPath, dataFileName);
 
-            try
+            try //why are we trying here? what can give an error?
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
                 string dataToStore = JsonUtility.ToJson(data, true);
 
-                using (FileStream stream = new FileStream(fullPath, FileMode.Create))
-                {
-                    using (StreamWriter writer = new StreamWriter(stream))
-                    {
-                        writer.Write(dataToStore);
-                    }
-                }
+                FileStream stream = new FileStream(fullPath, FileMode.Create);
+                StreamWriter writer = new StreamWriter(stream);
+                writer.Write(dataToStore);
 
             }
             catch (Exception e)

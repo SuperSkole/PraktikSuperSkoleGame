@@ -1,3 +1,4 @@
+using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
