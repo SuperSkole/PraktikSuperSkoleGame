@@ -21,7 +21,7 @@ public class Monster : MonoBehaviour
 
     private Vector3 playerDestination;
 
-    private Player player;
+    private SymbolEaterPlayer player;
 
     [SerializeField]private GameObject targetMarker;
 
@@ -46,7 +46,7 @@ public class Monster : MonoBehaviour
         currentDestination = transform.position;
         if(player == null)
         {
-            player = playerObject.GetComponent<Player>();
+            player = playerObject.GetComponent<SymbolEaterPlayer>();
         }
     }
 

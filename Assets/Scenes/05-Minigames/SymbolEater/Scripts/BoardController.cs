@@ -31,7 +31,7 @@ public class BoardController : MonoBehaviour
     private Image answerImage;
 
     [SerializeField]private GameObject playerObject;
-    private Player player;
+    private SymbolEaterPlayer player;
 
     private IGameMode gameMode;
 
@@ -49,11 +49,11 @@ public class BoardController : MonoBehaviour
     /// Sets up the gameboard and the gamemode
     /// </summary>
     /// <param name="targetMode">The game mode which should be used</param>
-    public void GameModeSet(IGameMode targetMode)
+    public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
     {
         //Sets various fieldvariables and their field variables
         gameMode = targetMode;
-        player = playerObject.GetComponent<Player>();
+        player = playerObject.GetComponent<SymbolEaterPlayer>();
         player.board = this;
         answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
         answerImage = answerImageObject.GetComponent<Image>();
@@ -75,6 +75,7 @@ public class BoardController : MonoBehaviour
             }
         }
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
+        gameMode.SetGameRules(targetRules);
         gameMode.GetSymbols();
     }
 
@@ -83,10 +84,10 @@ public class BoardController : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        //GameModeSet(new SpellWord());
+        //GameModeSet(new FindNumber());
     }
 
-    public Player GetPlayer(){
+    public SymbolEaterPlayer GetPlayer(){
         return player;
     }
 

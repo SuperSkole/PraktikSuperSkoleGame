@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using CORE.Scripts.GameRules;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 
 public class SetGameModeAndDestroy : MonoBehaviour
 {
@@ -21,17 +23,17 @@ public class SetGameModeAndDestroy : MonoBehaviour
             //sets the gamemode to SpellWord
             case 1:
                 BoardController target1 = FindObjectOfType<BoardController>();
-                target1.GameModeSet(new SpellWord());
+                target1.GameModeSet(new SpellWord(), new FindCorrectLetter());
                 break;
             //sets the gamemode to sound out letter
             case 2:
                 BoardController target2 = FindObjectOfType<BoardController>();
-                target2.GameModeSet(new FindLetterType());
+                target2.GameModeSet(new FindSymbol(), new FindCorrectLetter());
                 break;
             //sets the gamemode to findnumberseries
             case 3:
                 BoardController target3 = FindObjectOfType<BoardController>();
-                target3.GameModeSet(new FindNumberSeries());
+                target3.GameModeSet(new FindNumber(), new FindNumberSeries());
                 break;
 
             case 4:
