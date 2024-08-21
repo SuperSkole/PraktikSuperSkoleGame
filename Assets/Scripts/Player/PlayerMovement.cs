@@ -13,21 +13,22 @@ public class PlayerMovement : MonoBehaviour
    private Animator animator;
 
    // Start is called before the first frame update
-   void Start()
+   private void Start()
     {
        // rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (allowedToMove)
         {
             HandleMovement();
         }
     }
-    void HandleMovement()
+
+    private void HandleMovement()
     {
         //Remove Raw to add inertia
         float horizontalInput = Input.GetAxis("Horizontal");

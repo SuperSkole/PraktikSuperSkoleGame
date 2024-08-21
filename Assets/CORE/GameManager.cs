@@ -1,5 +1,4 @@
 using LoadSave;
-using Scenes.StartScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +9,7 @@ namespace CORE
     {
         // Player and game Data
         public SaveToJsonManager SaveManager;
-        public LoadGameManager LoadGameManager;
+        public LoadGameManager LoadManager;
         public PlayerManager PlayerManager;
         
         public PlayerData PlayerData { get; set; }
@@ -87,7 +86,7 @@ namespace CORE
         public void LoadGame()
         {
             // Logic to load game data
-            LoadGameManager.LoadGame(CurrentUser);
+            LoadManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -116,6 +115,7 @@ namespace CORE
         {
             gameObject.AddComponent<PlayerManager>();
             SaveManager = new SaveToJsonManager();
+            LoadManager = new LoadGameManager();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

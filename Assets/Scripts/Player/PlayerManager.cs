@@ -14,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Camera cameraBrain;
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask;
     
     private PlayerData playerData;
     private GameObject spawnedPlayer;

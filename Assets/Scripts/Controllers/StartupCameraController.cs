@@ -7,12 +7,12 @@ public class StartupCameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Camera cameraBrain;
-    [SerializeField] LayerMask layerMask;
+    [SerializeField] private LayerMask layerMask;
     private GameObject spawnedPlayer;
 
 
     // Start is called before the first frame update
-    void Start()
+    public void Setup()
     {
         spawnedPlayer = GameObject.FindGameObjectWithTag("Player");
         virtualCamera.Follow = spawnedPlayer.transform;

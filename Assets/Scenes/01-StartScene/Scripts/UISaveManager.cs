@@ -10,7 +10,6 @@ namespace Scenes.StartScene.Scripts
 {
     public class UISaveManager : MonoBehaviour
     {
-        [SerializeField] private LoadGameManager loadGameManager;
         [SerializeField] private List<SavePanel> savePanels;
         
         private string saveFileNameOne;
@@ -23,22 +22,16 @@ namespace Scenes.StartScene.Scripts
         private void Start()
         {
             username = GameManager.Instance.CurrentUser;
-            
-            if (loadGameManager == null)
-            {
-                Debug.Log("LoadGameManager is not assigned.");
-                return;
-            }
         }
         
         public void CheckForSavesAndPopulateSavePanels()
         {
-            var saveFiles = loadGameManager.GetAllSaveFiles();
+            var saveFiles = GameManager.Instance.LoadManager.GetAllSaveFiles();
             for (int i = 0; i < savePanels.Count; i++)
             {
-                if (i < saveFiles.Count && saveFiles[i].StartsWith(username))
+                if (i < saveFiles.Count && saveFiles[i].StartsWith(username) && !saveFiles[i].Contains("house"))
                 {
-                    SaveDataDTO data = loadGameManager.LoadGameDataSync(saveFiles[i]);
+                    SaveDataDTO data = GameManager.Instance.LoadManager.LoadGameDataSync(saveFiles[i]);
                     savePanels[i].SetSaveFileName(saveFiles[i]);
                     savePanels[i].UpdatePanelWithSaveData(data);
                 }

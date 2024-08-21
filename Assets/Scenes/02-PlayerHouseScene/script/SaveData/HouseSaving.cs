@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using CORE;
+using CORE.Scripts;
 using UnityEngine;
 
 public class HouseSaving : MonoBehaviour
 {
     [SerializeField] private PlacementSystem floorData, furnitureData;
-    Dictionary<Vector3Int, PlacementData> floorDictionary, furnitureDictionary;
+    private Dictionary<Vector3Int, PlacementData> floorDictionary, furnitureDictionary;
     public SaveContainer container {  get; private set; }
 
+    private string SaveDirectory => Path.Combine(Application.dataPath, "Saves");
     //string SaveName = "/SaveGameDataFile.json";
 
     private void Update()
@@ -17,11 +20,9 @@ public class HouseSaving : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
             SaveGridData();
         if (Input.GetKeyDown(KeyCode.L))
-        {
             LoadGridData();
-        }
-
     }
+    
     public void SaveGridData()
     {
         // Convert the dictionaries to serializable lists
@@ -37,28 +38,46 @@ public class HouseSaving : MonoBehaviour
 
         // Save the JSON to a file
         string filename = GameManager.Instance.SaveManager.GenerateSaveFileName(
-            GameManager.Instance.PlayerData.Username, "save", "house");
+            GameManager.Instance.PlayerData.Username, GameManager.Instance.PlayerData.MonsterName, "house");
         
         GameManager.Instance.SaveManager.SaveJson(combinedJson, filename);
     }
+    
     public void LoadGridData()
     {
-        string filename = GameManager.Instance.SaveManager.GenerateLoadFileName(
-            GameManager.Instance.PlayerData.Username, "save", "house");
-        
-        // Read the JSON from the file
-        string json = File.ReadAllText(Application.dataPath + "HouseSave.json");
-        
-        container = JsonUtility.FromJson<SaveContainer>(json);
-    }
+        string mostRecentFile = FindMostRecentSaveFile(GameManager.Instance.PlayerData.Username, GameManager.Instance.PlayerData.MonsterName, "house");
 
-    public bool IsThereSaveFile()
+        if (!string.IsNullOrEmpty(mostRecentFile))
+        {
+            // Using LoadGameManager to read the JSON from the file
+            string json = GameManager.Instance.LoadManager.LoadJsonData(mostRecentFile);
+            if (!string.IsNullOrEmpty(json))
+            {
+                // store json in container
+                container = JsonUtility.FromJson<SaveContainer>(json);
+            }
+            else
+            {
+                Debug.LogError("Failed to load house data.");
+            }
+        }
+        else
+        {
+            Debug.LogError("No save file found.");
+        }
+    }
+    
+    private string FindMostRecentSaveFile(string username, string monsterName, string suffix)
     {
-        bool isThereFile = File.Exists(Application.dataPath + "HouseSave.json") ? true : false;
+        var directoryInfo = new DirectoryInfo(GameManager.Instance.SaveManager.SaveDirectory);
+        var files = directoryInfo
+            .GetFiles($"{username}_{monsterName}_*_{suffix}.json")
+            .OrderByDescending(f => f.LastWriteTime)
+            .FirstOrDefault();
 
-        return isThereFile;
-
+        return files?.FullName;
     }
+    
     /// <summary>
     /// here is a list of the string you can feed it
     /// floor,furniture
