@@ -1,4 +1,5 @@
 using CORE;
+using LoadSave;
 using UnityEngine;
 
 public class SceneStartBehavior : MonoBehaviour
@@ -45,7 +46,7 @@ public class SceneStartBehavior : MonoBehaviour
     }
     private void PopulatePlayerInfo()
     {
-        playerData.HashedUsername = GameManager.Instance.PlayerData.HashedUsername;
+        playerData.Username = GameManager.Instance.PlayerData.Username;
         playerData.PlayerName = GameManager.Instance.PlayerData.PlayerName;
         playerData.MonsterTypeID = GameManager.Instance.PlayerData.MonsterTypeID;
         playerData.CurrentGoldAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;

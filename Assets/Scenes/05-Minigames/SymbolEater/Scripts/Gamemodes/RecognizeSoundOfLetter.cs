@@ -2,7 +2,7 @@ using CORE.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class RecognizeSoundOfLetter : IGameMode
     {
@@ -98,7 +98,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             correctLetterBox.Activate(correctLetter.ToLower(), true);
             correctLetterCount++;
             activeLetterCubes.Add(correctLetterBox);
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vï¿½lg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
 
             /// <summary>
             /// Uses the Lettersound.
@@ -125,7 +125,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             //bruger correctLetter to find the right sound in tempSymbolEatersound in resource foulder
             string audioFileName = correctLetter.ToLower() + "_audio";
 
-            AudioClip clip = Resources.Load<AudioClip>($"TempGrovæderSound/{audioFileName}");
+            AudioClip clip = Resources.Load<AudioClip>($"TempGrovï¿½derSound/{audioFileName}");
 
             //checks whether or not its null.
             if (clip != null)
@@ -152,7 +152,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vï¿½lg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
             }
             letter.Deactivate();
             activeLetterCubes.Remove(letter);
@@ -217,7 +217,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.RecognizeSoundOfLetter
             maxWrongLetters = max;
         }
 
-
+        /// <summary>
+        /// Temporarily unused until relevant game rules have been implemented
+        /// </summary>
+        /// <param name="gameRules">Game rules to be be used by the game mode</param>
+        public void SetGameRules(IGameRules gameRules)
+        {
+            
+        }
     }
 }
 

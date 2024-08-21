@@ -13,7 +13,7 @@ namespace LoadSave
             SaveDataDTO data = CreateSaveData();
             string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
 
-            string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty
+            string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty //do we want the player to be able to easely read there safe file?
             File.WriteAllText(filePath, json);
         }
 
@@ -22,16 +22,13 @@ namespace LoadSave
             var gm = GameManager.Instance.PlayerData;
             SaveDataDTO data = new SaveDataDTO
             {
-                Username = gm.HashedUsername, 
+                Username = gm.Username, 
                 PlayerName = gm.PlayerName,
                 MonsterTypeID = gm.MonsterTypeID,
                 GoldAmount = gm.CurrentGoldAmount,
                 XPAmount = gm.CurrentXPAmount,
                 PlayerLevel = gm.CurrentLevel,
                 SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
-                // HeadColor = new SerializableColor(gm.player.currentHeadColor),
-                // BodyColor = new SerializableColor(gm.player.currentBodyColor),
-                // LegColor = new SerializableColor(gm.player.currentLegColor)
             };
             return data;
         }

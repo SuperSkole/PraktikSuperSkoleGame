@@ -1,41 +1,47 @@
 using System.Collections.Generic;
 
-/// <summary>
-/// Controls the monsters on the board in Symbol Eater as a group
-/// </summary>
-public class MonsterHivemind
+
+namespace Scenes.Minigames.SymbolEater.Scripts
 {
 
-    public List<Monster> monsters = new List<Monster>();
-
-    
-    /// <summary>
-    /// Stops movement for all monsters on the board
-    /// </summary>
-    public void OnGameOver()
-    {
-        foreach(Monster monster in monsters)
-        {
-            monster.StopMovement();
-        }
-    }
 
     /// <summary>
-    /// Pauses monster movement
+    /// Controls the monsters on the board in Symbol Eater as a group
     /// </summary>
-    public void PauseMovement()
+    public class MonsterHivemind
     {
-        foreach(Monster monster in monsters)
-        {
-            monster.StopMovement();
-        }
-    }
 
-    public void StartMovement()
-    {
-        foreach(Monster monster in monsters)
+        public List<Monster> monsters = new List<Monster>();
+
+
+        /// <summary>
+        /// Stops movement for all monsters on the board
+        /// </summary>
+        public void OnGameOver()
         {
-            monster.StartMovement();
+            foreach (Monster monster in monsters)
+            {
+                monster.StopMovement();
+            }
+        }
+
+        /// <summary>
+        /// Pauses monster movement
+        /// </summary>
+        public void PauseMovement()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.StopMovement();
+            }
+        }
+
+        public void StartMovement()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.StartMovement();
+            }
         }
     }
 }

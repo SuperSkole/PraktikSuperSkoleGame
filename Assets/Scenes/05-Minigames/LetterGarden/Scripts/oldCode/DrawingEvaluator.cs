@@ -1,29 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+
+using Scenes.Minigames.LetterGarden.Scrips;
+
 using UnityEngine;
 
 public class DrawingEvaluator : MonoBehaviour
 {
     public BazierHandler bazierHandler;
-    public Letters lettersData; // Reference to the Letters script
-    private int currentLetterIndex = 0; // Track the current letter index
-    private int currentSegmentIndex = 0; // Track the current segment index
+    public Letters lettersData; 
+    private int currentLetterIndex = 0; 
+    private int currentSegmentIndex = 0; 
 
-    public GameObject markerPrefab; // Prefab for the visual markers
+    public GameObject markerPrefab; 
 
-    private List<GameObject> markers = new List<GameObject>(); // List to hold marker instances
-    private float totalDistance = 0; // Total distance accumulated
-    private bool letterComplete = false; // Track if the letter is complete
+    private List<GameObject> markers = new List<GameObject>(); 
+    private float totalDistance = 0; 
+    private bool letterComplete = false; 
 
-    private DrawingHandler drawingHandler; // Reference to the DrawingHandler script
-    private CursorPositionDisplay cursorDisplay; // Reference to the CursorPositionDisplay script
+    private DrawingHandler drawingHandler; 
+    private CursorPositionDisplay cursorDisplay; 
 
-    private bool markersVisible = true; // Track marker visibility
-    private int currentPointIndex = 0; // Track the current point in the segment
+    private bool markersVisible = true; 
+    private int currentPointIndex = 0; 
 
-    public float tolerance = 0.5f; // Tolerance for point validation
+    public float tolerance = 0.5f; 
 
-    private Dictionary<(string, int), int> segmentMappings; // Dictionary to store segment mappings
+    private Dictionary<(string, int), int> segmentMappings; 
 
     private void Start()
     {
@@ -60,7 +63,6 @@ public class DrawingEvaluator : MonoBehaviour
         // Create markers for the first segment of the first letter if available
         if (lettersData != null && lettersData.letters.Count > 0)
         {
-            //Debug.Log("Creating markers for the first segment of the first letter.");
             CreateMarkersForCurrentSegment();
 
             // Check the initial letter and segment
@@ -99,8 +101,7 @@ public class DrawingEvaluator : MonoBehaviour
         bool orderIsValid = ValidateOrder(drawnPoints, lettersData.letters[currentLetterIndex].segments[currentSegmentIndex]);
         float segmentDistance = CalculateTotalDistance(drawnPoints, lettersData.letters[currentLetterIndex].segments[currentSegmentIndex]);
 
-        segmentDistance -= 0.5f; // Subtract 0.5 from each segment result
-        Debug.Log("Total Distance for Segment " + (currentSegmentIndex + 1) + ": " + segmentDistance);
+        segmentDistance -= 0.5f;
 
         if (!orderIsValid)
         {
@@ -127,7 +128,6 @@ public class DrawingEvaluator : MonoBehaviour
 
             bool isCorrect = averageDistance <= 0.2f;
 
-            Debug.Log($"Letter {lettersData.letters[currentLetterIndex].letterName} completed with accuracy {averageDistance:F2}. Correct: {isCorrect}");
             cursorDisplay.DisplayLetterCompletion(averageDistance, isCorrect);
 
             if (!isCorrect)
@@ -137,8 +137,7 @@ public class DrawingEvaluator : MonoBehaviour
                 totalDistance = 0;
                 drawingHandler.ClearDrawnSegments();
                 CreateMarkersForCurrentSegment();
-                Debug.Log($"Retrying letter {lettersData.letters[currentLetterIndex].letterName} due to low accuracy.");
-
+                
                 // Ensure the segment is correctly updated
                 CheckAndActivateSpecialSegment();
             }
@@ -178,9 +177,6 @@ public class DrawingEvaluator : MonoBehaviour
             // Ensure the segment is correctly updated
             CheckAndActivateSpecialSegment();
         }
-
-        //Debug.Log($"LetterIndex:{lettersData.letters[currentLetterIndex].letterName}");
-        //Debug.Log($"segmentIndex:{currentSegmentIndex}");
     }
 
     void CheckAndActivateSpecialSegment()
