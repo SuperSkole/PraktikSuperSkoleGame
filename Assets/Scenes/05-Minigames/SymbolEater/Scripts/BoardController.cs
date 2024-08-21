@@ -90,7 +90,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     /// </summary>
     private void Start()
     {
-        //GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
+        GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
     }
 
     public SymbolEaterPlayer GetPlayer(){

@@ -21,11 +21,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         int maxWrongLetters = 10;
 
-            int currentIndex;
-
-            char currentLetter;
-
-
         List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
         List<LetterCube> letterCubes = new List<LetterCube>();
@@ -75,7 +70,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 {
                     lC.Deactivate();
                 }
-                int count = Random.Range(minWrongLetters, maxWrongLetters);
+                int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
+                Debug.Log(count);
                 activeLetterCubes.Clear();
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 for (int i = 0; i < count; i++)
@@ -88,7 +84,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     {
                         potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                     }
-                    boardController.SetAnswerText("");
+                    activeLetterCubes.Add(potentialCube);
+                    potentialCube.Activate(letter);
+
                 }
                 //finds some new letterboxes and assigns them a correct letter
                 for(int i = 0; i < gameRules.GetDisplayAnswer().Length; i++){
@@ -103,6 +101,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     activeLetterCubes.Add(potentialCube);
                     activeLetterCubes[i].Activate(letter.ToString());
                 }
+                boardController.SetAnswerText("");
             }
         }
         /// <summary>
@@ -177,15 +176,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 }
                 else
                 {
-                    correctWords++;
-                    if (correctWords == 3)
-                    {
-                        boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
-                    }
-                    else
-                    {
-                        GetSymbols();
-                    }
+                    GetSymbols();
                 }
             }
         }
