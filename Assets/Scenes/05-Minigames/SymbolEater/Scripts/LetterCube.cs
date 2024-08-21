@@ -110,9 +110,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             {
                 rawImage = imageObject.GetComponent<RawImage>();
             }
-            imageObject.SetActive(true);
+            rawImage.gameObject.SetActive(true);
             
             rawImage.texture = texture2D;
+
+            
+
             letter = word;
 
             if (!active)
@@ -191,6 +194,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             rawImage.texture = null;
             isCurrentWord = ".";
+            
+            rawImage.gameObject.SetActive(false);
 
             if (active)
             {
@@ -218,8 +223,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         IEnumerator IncorrectGuess()
         {
             readyForDeactivation = true;
+            rawImage.color = Color.red;
             meshRenderer.material = incorrectMaterial;
             yield return new WaitForSeconds(board.GetPlayer().maxIncorrectSymbolStepMoveDelayRemaining);
+            rawImage.color = Color.white;
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }
@@ -231,8 +238,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         IEnumerator CorrectGuess()
         {
             readyForDeactivation = true;
+            rawImage.color = Color.green;
             meshRenderer.material = correctMaterial;
             yield return new WaitForSeconds(1);
+            rawImage.color = Color.white;
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }

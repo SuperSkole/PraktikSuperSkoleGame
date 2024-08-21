@@ -16,7 +16,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <summary>
         /// The correct word
         /// </summary>
-
+        
 
         string currentWord;
 
@@ -76,13 +76,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
             //Sets up variablese and checks if data is loaded
 
-            currentWord = WordsForImagesManager.GetRandomWordForImage();
+
 
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if (DataLoader.IsDataLoaded)
             {
 
-
+                currentWord = WordsForImagesManager.GetRandomWordForImage();
                 if (texture.ContainsKey(currentWord))
                 {
                     texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
@@ -92,7 +92,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     Texture2D texture2D = ImageManager.GetImageFromWord(currentWord);
 
                     letterCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
+                    
                     letterCube.ActivateImage(texture2D);
                 }
 
@@ -107,8 +107,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
             if (wordsLoaded)
             {
-
-
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
@@ -119,12 +117,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //finds new letterboxes to be activated and assigns them a random image. If it selects the correct Image the count for it is increased
                 for (int i = 0; i < count; i++)
                 {
-
-
                     // creates random words from the word list, then creates images to fit those random words.
 
                     string randoImage = WordsForImagesManager.GetRandomWordForImage();
-
 
                     if (!texture.ContainsKey(randoImage))
                     {
@@ -134,6 +129,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     Texture2D image = texture[randoImage];
 
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+                    
 
                     //Check to ensure Images dont spawn below the player and that it is not an allready activated lettercube
                     while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
@@ -146,7 +143,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //creates a random number of correct Images on the board
                 int wrongCubeCount = activeLetterCubes.Count;
                 count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-                
+                currentWord = WordsForImagesManager.GetRandomWordForImage();
                 for (int i = 0; i < count; i++)
                 {
                     if (!texture.ContainsKey(currentWord))
@@ -156,7 +153,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     // makes a image string from the current word variable, so that we can find it in the files.
                     string image = currentWord.ToLower();
-
+                    
 
                     Texture2D currentImage = texture[currentWord];
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
@@ -167,6 +164,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     activeLetterCubes.Add(potentialCube);
                     activeLetterCubes[i + wrongCubeCount].ActivateImage(currentImage, image);
+                    
                     correctLetterCount++;
                 }
                 boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
@@ -211,14 +209,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="image"></param>
         public void ReplaceSymbol(LetterCube image)
         {
-
+            
             //decreases the correctlettercount incase the player moves over a correct tile, and theres more then 1 answer on the board.
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
                 boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
-            image.Deactivate();
+            image.DeactivateImage();
             activeLetterCubes.Remove(image);
 
             LetterCube newImage;
@@ -264,7 +262,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 {
                     foreach (LetterCube letterCube in activeLetterCubes)
                     {
-                        letterCube.Deactivate();
+                        letterCube.DeactivateImage();
                     }
                     boardController.Won("Du vandt. Du fandt det korrekte Billede fem gange");
                 }
