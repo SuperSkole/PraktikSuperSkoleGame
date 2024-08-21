@@ -27,11 +27,14 @@ public class BarMeter : MonoBehaviour
             image = GetComponent<Image>();
         }
         originalScale = image.rectTransform.localScale;
+
+        textMeshPro.text = 0 + "/" + maxAmount;
     }
 
-    public void CurrentAmount()
+    public void SettingValueAfterScene(int amount)
     {
-
+        textMeshPro.text = amount + "/" + maxAmount;
+        barFill.fillAmount = Mathf.Clamp01(barFill.fillAmount + (float)amount / maxAmount);
     }
 
     public void ChangeValue(int amount)
@@ -57,7 +60,8 @@ public class BarMeter : MonoBehaviour
             currentFillAmount = Mathf.MoveTowards(currentFillAmount, targetFillAmount, fillSpeed * Time.deltaTime);
             barFill.fillAmount = currentFillAmount;
 
-            textMeshPro.text = Mathf.RoundToInt(currentFillAmount * 100).ToString();
+            //Text showing progress
+            textMeshPro.text = Mathf.RoundToInt(currentFillAmount * 100).ToString()+"/"+maxAmount;
 
             // Større
             LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
