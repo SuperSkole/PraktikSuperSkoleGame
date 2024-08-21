@@ -74,12 +74,12 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
         if (loadedBrickLanes.Count>0)
         {
-
+           
             LoadTower();
         }
         else
         {
-            SetNextQuestion();
+            
             BuildTower();
         }
     }
@@ -114,7 +114,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         if (sentences.Length <= currentQuestionIndex) return;
         currentQuestion = sentences[currentQuestionIndex];
         displayBox.text = currentQuestion;
-        currentQuestionIndex++;
+       
     }
 
 
@@ -127,7 +127,7 @@ public class TowerManager : MonoBehaviour,IDataPersistence
 
         if (correctAnswer)
         {
-         
+            currentQuestionIndex++;
             SetNextQuestion();
             DestroyLowestTowerLane();
             correctAnswer = false;
@@ -138,39 +138,48 @@ public class TowerManager : MonoBehaviour,IDataPersistence
     // Lastly the whole tower is lowered the same amount as the height of a brick. 
     void DestroyLowestTowerLane()
     {
-        if (rowToDelete >= towerHeight) return;
-       
-
+      
+        if (rowToDelete >= towerHeight)
+            return;
+        
             for (int i = 0; i < numberOfBricksInLane; i++)
             {
 
                 Destroy(tower[i, rowToDelete]);
-                
+
 
             }
 
-           
+
             // list holding data on the lanes is also updated so the lowest lane is removed from the save data. 
             loadedBrickLanes.RemoveAt(0);
 
 
 
-            rowToDelete++;
-        
-      
+        rowToDelete++;
 
-        // sets the next rows pictures active and shows them. 
-        for (int i = 0; i < numberOfBricksInLane; i++)
-        {
-            if (i <= amountOfOptions - 1)
+
+
+
+
+            // sets the next rows pictures active and shows them. 
+            for (int i = 0; i < numberOfBricksInLane; i++)
             {
-                tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
-                Brick brickComponent = tower[i, rowToDelete].GetComponent<Brick>();
-                brickComponent.isShootable = true;
+                if (i <= amountOfOptions - 1)
+                {
+                    tower[i, rowToDelete].transform.GetChild(0).gameObject.SetActive(true);
+                    Brick brickComponent = tower[i, rowToDelete].GetComponent<Brick>();
+                    brickComponent.isShootable = true;
 
+                }
             }
-        }
-        gameObject.transform.Translate(0, -brickDimensions.y, 0);
+            gameObject.transform.Translate(0, -brickDimensions.y, 0);
+        
+       
+
+
+       
+
     }
 
 
@@ -433,12 +442,20 @@ public class TowerManager : MonoBehaviour,IDataPersistence
         if (data.BrickLanes!=null)
         {
             this.loadedBrickLanes = data.BrickLanes;
+
+            // i set it to minus 1 because the next question method is always setting the currentQuistionIndex to the next question
+            // and not the actual current at the time of exiting the game
             this.currentQuestionIndex = data.currentQuestionIndex;
 
             Debug.Log(sentences);
 
-            currentQuestion = sentences[currentQuestionIndex-1];
+            
+
+            // If loading in a save the sentence displayed is updated. 
+            
+            currentQuestion = sentences[currentQuestionIndex];
             displayBox.text = currentQuestion;
+
 
 
 
