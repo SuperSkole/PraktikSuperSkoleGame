@@ -199,13 +199,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         if(currentIndex < word.Length)
         {
             //currentLetter = word[currentIndex];
-            char nL = LetterManager.GetRandomLetter();
+            char newLettercubeValue = LetterManager.GetRandomLetter();
             if(word.Contains(oldLetter))
             {
-                nL = oldLetter[0];
+                newLettercubeValue = oldLetter[0];
             }
 
-                newLetter.Activate(nL.ToString());
+            newLetter.Activate(newLettercubeValue.ToString());
 
             }
             else
@@ -255,22 +255,29 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
-        /// <summary>
-        /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
-        /// </summary>
-        public void OnImageLoad()
+    /// <summary>
+    /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
+    /// </summary>
+    public void OnImageLoad()
+    {
+        if(words.Count > 0)
         {
-            if (words.Count > 0)
-            {
-                Texture2D texture = ImageManager.GetImageFromWord(word);
-                sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-                boardController.SetImage(sprites[word]);
-            }
-            else
-            {
-                GetSymbols();
-            }
+            Texture2D texture = ImageManager.GetImageFromWord(word);
+            sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+            boardController.SetImage(sprites[word]);
+        }
+        else 
+        {
+            GetSymbols();
         }
     }
 
+    /// <summary>
+    /// Temporarily unused until relevant game rules have been implemented
+    /// </summary>
+    /// <param name="gameRules">game rules to be used by the game mode</param>
+    public void SetGameRules(IGameRules gameRules)
+    {
+        
+    }
 }

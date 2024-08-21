@@ -1846,9 +1846,9 @@ GameObject:
   m_Component:
   - component: {fileID: 525595725}
   - component: {fileID: 525595726}
-  - component: {fileID: 525595729}
   - component: {fileID: 525595728}
   - component: {fileID: 525595727}
+  - component: {fileID: 525595729}
   m_Layer: 0
   m_Name: minigame manager
   m_TagString: Untagged
@@ -1898,7 +1898,7 @@ MonoBehaviour:
   - {fileID: 226027108}
   catapultAming: {fileID: 525595729}
   pupUp: {fileID: 1269879643}
-  towerManager: {fileID: 1314030756}
+  towerManager: {fileID: 1490818982}
 --- !u!54 &525595727
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1956,7 +1956,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 525595723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 692ef8b3c35213f47928fbe7b0be6f4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 270ba8da6e31aa24db002829176d9439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prjectipePrefab: {fileID: 8399951662530303645, guid: 5b15b1a8b2463364594ea1f0cfd8adf6, type: 3}
@@ -2375,8 +2375,56 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7682296799501767108, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1490818982}
   m_SourcePrefab: {fileID: 100100000, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+--- !u!1 &638766866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638766868}
+  - component: {fileID: 638766867}
+  m_Layer: 0
+  m_Name: DataPersistenceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &638766867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638766866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa8987d3b8d40f46bf5eaa5718bab38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: TowerSaveFile
+--- !u!4 &638766868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638766866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.71, y: 0.76042557, z: -20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &657885970
 GameObject:
   m_ObjectHideFlags: 0
@@ -3322,17 +3370,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8399951662530303645, guid: 5b15b1a8b2463364594ea1f0cfd8adf6, type: 3}
   m_PrefabInstance: {fileID: 569028272}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1314030756 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4339259411180487843, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
-  m_PrefabInstance: {fileID: 632543004}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ad339a57f7799c48a8b79cd74cb07ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1345271774 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8399951662530303645, guid: 5b15b1a8b2463364594ea1f0cfd8adf6, type: 3}
@@ -3587,6 +3624,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459385121}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1490818980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7682296799501767108, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+  m_PrefabInstance: {fileID: 632543004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1490818982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490818980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726272125018d4c4db0f1bfaeb69fa5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brickPrefab: {fileID: 4237366790475014984, guid: d565d34c00e118a4ab141fc370a4aff9, type: 3}
+  correctAnswer: 0
+  displayBox: {fileID: 1980325502}
+  imageHolerPrefab: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
 --- !u!1 &1495100103
 GameObject:
   m_ObjectHideFlags: 0
@@ -4843,3 +4901,4 @@ SceneRoots:
   - {fileID: 622865875}
   - {fileID: 632543004}
   - {fileID: 1710654980}
+  - {fileID: 638766868}

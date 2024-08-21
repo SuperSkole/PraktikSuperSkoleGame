@@ -34,8 +34,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private Image answerImage;
 
-        [SerializeField] private GameObject playerObject;
-        private Player player;
+    [SerializeField]private GameObject playerObject;
+    private SymbolEaterPlayer player;
 
         private IGameMode gameMode;
 
@@ -49,51 +49,51 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         public delegate void LoadFinished();
 
 
-        /// <summary>
-        /// Sets up the gameboard and the gamemode
-        /// </summary>
-        /// <param name="targetMode">The game mode which should be used</param>
-        public void GameModeSet(IGameMode targetMode)
-        {
-            //Sets various fieldvariables and their field variables
-            gameMode = targetMode;
-            player = playerObject.GetComponent<Player>();
-            player.board = this;
-            answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
-            answerImage = answerImageObject.GetComponent<Image>();
-            answerImage.enabled = false;
-            List<LetterCube> letterCubes = new List<LetterCube>();
-            gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
-            gameOverText.text = "";
-            difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
-            difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
+    /// <summary>
+    /// Sets up the gameboard and the gamemode
+    /// </summary>
+    /// <param name="targetMode">The game mode which should be used</param>
+    public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
+    {
+        //Sets various fieldvariables and their field variables
+        gameMode = targetMode;
+        player = playerObject.GetComponent<SymbolEaterPlayer>();
+        player.board = this;
+        answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
+        answerImage = answerImageObject.GetComponent<Image>();
+        answerImage.enabled = false;
+        List<LetterCube>letterCubes = new List<LetterCube>();
+        gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
+        gameOverText.text = "";
+        difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
+        difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
 
-            //Retrieves the lettercubes from the list of lettercube objects and sets their board variable to this board controller
-            foreach (GameObject l in letterCubeObjects)
+        //Retrieves the lettercubes from the list of lettercube objects and sets their board variable to this board controller
+        foreach (GameObject l in letterCubeObjects)
+        {
+            LetterCube lC = l.GetComponent<LetterCube>();
+            if (lC != null)
             {
-                LetterCube lC = l.GetComponent<LetterCube>();
-                if (lC != null)
-                {
-                    letterCubes.Add(lC);
-                    lC.SetBoard(this);
-                }
+                letterCubes.Add(lC);
+                lC.SetBoard(this);
             }
-            gameMode.SetLetterCubesAndBoard(letterCubes, this);
-            gameMode.GetSymbols();
         }
+        gameMode.SetLetterCubesAndBoard(letterCubes, this);
+        gameMode.SetGameRules(targetRules);
+        gameMode.GetSymbols();
+    }
 
-        /// <summary>
-        /// uncomment if the scene is run directly from unity
-        /// </summary>
-        private void Start()
-        {
-            //GameModeSet(new SpellWord());
-        }
+    /// <summary>
+    /// uncomment if the scene is run directly from unity
+    /// </summary>
+    private void Start()
+    {
+        //GameModeSet(new FindNumber());
+    }
 
-        public Player GetPlayer()
-        {
-            return player;
-        }
+    public SymbolEaterPlayer GetPlayer(){
+        return player;
+    }
 
         /// <summary>
         /// tells the gamemode to replace a specific letterbox

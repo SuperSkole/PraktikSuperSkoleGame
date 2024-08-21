@@ -247,3 +247,23 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         }
     }
 }
+    /// <summary>
+    /// Changes the color of the lettercube if it contains the correct letter
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CorrectGuess()
+    {
+        readyForDeactivation = true;
+        meshRenderer.material = correctMaterial;
+        yield return new WaitForSeconds(1);
+        meshRenderer.material = defaultMaterial;
+        SelfDeactivate();
+    }
+
+    /// <summary>
+    /// Toggles whether the image on the letter cube is displayed
+    /// </summary>
+    public void toggleImage(){
+        spriteRenderer.enabled = !spriteRenderer.enabled;
+    }
+}

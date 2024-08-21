@@ -27,7 +27,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private Vector3 playerDestination;
 
-        private Player player;
+    private SymbolEaterPlayer player;
 
         [SerializeField] private GameObject targetMarker;
 
@@ -44,17 +44,17 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private float throwArcProgress;
 
 
-        /// <summary>
-        /// Gets the monster ready for movement and gets reference to the player script
-        /// </summary>
-        void Start()
+    /// <summary>
+    /// Gets the monster ready for movement and gets reference to the player script
+    /// </summary>
+    void Start()
+    {
+        currentDestination = transform.position;
+        if(player == null)
         {
-            currentDestination = transform.position;
-            if (player == null)
-            {
-                player = playerObject.GetComponent<Player>();
-            }
+            player = playerObject.GetComponent<SymbolEaterPlayer>();
         }
+    }
 
         /// <summary>
         /// Handles throwing the player and movement

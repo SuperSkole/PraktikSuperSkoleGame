@@ -75,26 +75,26 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             }
         }
 
-        /// <summary>
-        /// Spawns a given number of monsters
-        /// </summary>
-        /// <param name="monsterNum">The number of monsters which should be spawned</param>
-        public void SpawnMonsters(int monsterNum)
+    /// <summary>
+    /// Spawns a given number of monsters
+    /// </summary>
+    /// <param name="monsterNum">The number of monsters which should be spawned</param>
+    public void SpawnMonsters(int monsterNum)
+    {
+        SymbolEaterPlayer player = boardController.GetPlayer();
+        List<Vector3> usedPositions = new List<Vector3>(){player.transform.position};
+        //Adds the given number of monster
+        for(int i = 0; i < monsterNum; i++)
         {
-            Player player = boardController.GetPlayer();
-            List<Vector3> usedPositions = new List<Vector3>() { player.transform.position };
-            //Adds the given number of monster
-            for (int i = 0; i < monsterNum; i++)
+            Vector3 monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
+            while(usedPositions.Contains(monsterPos))
             {
-                Vector3 monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
-                while (usedPositions.Contains(monsterPos))
-                {
-                    monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
-                }
-                usedPositions.Add(monsterPos);
-                boardController.InstantitateMonster(monsterPrefab, monsterPos);
+                monsterPos = new Vector3(Random.Range(10, 20) + 0.5f, 0.8f, Random.Range(10, 20) + 0.5f);
             }
+            usedPositions.Add(monsterPos);
+            boardController.InstantitateMonster(monsterPrefab, monsterPos);
         }
+    }
 
         /// <summary>
         /// Changes the players move speed

@@ -1,5 +1,6 @@
 using CORE.Scripts;
 using System.Collections.Generic;
+using CORE.Scripts;
 using UnityEngine;
 
 
@@ -60,11 +61,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         int maxCorrectLetters = 5;
 
         int minCorrectLetters = 1;
-
-        public void LoadImage()
-        {
-
-        }
 
         /// <summary>
         /// Gets the Word and images for the current game
@@ -167,7 +163,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     
                     correctLetterCount++;
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hÃ¸re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
 
 
                 //uses the CurrentWordSound 
@@ -183,7 +179,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         public void CurrentWordSound()
         {
-            //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
+            //Uses currentWord to find the right sound in tempgrovÃ¦dersound in resource foulder
             string audioFileName = currentWord.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
@@ -214,7 +210,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
             image.DeactivateImage();
             activeLetterCubes.Remove(image);
@@ -277,6 +273,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
         {
             this.letterCubes = letterCubes;
+            foreach(LetterCube letter in this.letterCubes){
+                letter.toggleImage();
+            }
             boardController = board;
         }
 
@@ -300,6 +299,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         {
             minWrongLetters = min;
             maxWrongLetters = max;
+        }
+        /// <summary>
+        /// unused until relevant game rules are implemented
+        /// </summary>
+        /// <param name="gameRules">The game rules used by the board</param>
+        public void SetGameRules(IGameRules gameRules)
+        {
+            
         }
 
 
