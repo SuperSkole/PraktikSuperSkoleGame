@@ -29,7 +29,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private string isCurrentWord;
 
-
+        SpriteRenderer spriteRenderer;
 
         /// <summary>
         /// The gameboard the letter cube is connected to
@@ -245,20 +245,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }
-    }
-}
-    /// <summary>
+/// <summary>
     /// Changes the color of the lettercube if it contains the correct letter
     /// </summary>
     /// <returns></returns>
-    IEnumerator CorrectGuess()
-    {
-        readyForDeactivation = true;
-        meshRenderer.material = correctMaterial;
-        yield return new WaitForSeconds(1);
-        meshRenderer.material = defaultMaterial;
-        SelfDeactivate();
-    }
+   
 
     /// <summary>
     /// Toggles whether the image on the letter cube is displayed
@@ -266,4 +257,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     public void toggleImage(){
         spriteRenderer.enabled = !spriteRenderer.enabled;
     }
+
+    }
 }
+    
+
