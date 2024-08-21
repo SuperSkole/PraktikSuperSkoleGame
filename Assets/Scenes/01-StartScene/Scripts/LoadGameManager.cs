@@ -28,6 +28,7 @@ namespace Scenes.StartScene.Scripts
             {
                 saves.Add(Path.GetFileNameWithoutExtension(file));
             }
+            
             return saves;
         }
 

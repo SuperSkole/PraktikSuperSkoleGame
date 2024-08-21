@@ -28,6 +28,7 @@ public class PlacementSystem : MonoBehaviour
         StopPlacement();
         floorData = new GridData();
         furnitureData = new GridData();
+        
         if (saveManager.IsThereSaveFile())
         {
             saveManager.LoadGridData();

@@ -9,12 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Transform playerSpawnPoint;
+    
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Camera cameraBrain;
     [SerializeField] LayerMask layerMask;
-
     
     private PlayerData playerData;
     private GameObject spawnedPlayer;

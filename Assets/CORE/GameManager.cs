@@ -9,16 +9,15 @@ namespace CORE
     public class GameManager : MonoBehaviour
     {
         // Player and game Data
-        public PlayerData PlayerData { get; set; }
-
+        public SaveToJsonManager SaveManager;
+        public LoadGameManager LoadGameManager;
+        public PlayerManager PlayerManager;
         
+        public PlayerData PlayerData { get; set; }
         public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
 
-        private PlayerManager playerManager;
-        private SaveToJsonManager saveManager;
-        private LoadGameManager loadGameManager;
         
         private static GameManager _instance;
         private static readonly object Lock = new object();
@@ -88,7 +87,7 @@ namespace CORE
         public void LoadGame()
         {
             // Logic to load game data
-            loadGameManager.LoadGame(CurrentUser);
+            LoadGameManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -97,7 +96,7 @@ namespace CORE
         {
             // save logic, using savemanager
             Debug.Log("Game Saved!");
-            saveManager.SaveGame(PlayerData.Username, PlayerData.MonsterName);
+            SaveManager.SaveGame(PlayerData.Username, PlayerData.MonsterName);
         }
 
         public void ExitGame()
@@ -116,7 +115,7 @@ namespace CORE
         private void InitializeManagers()
         {
             gameObject.AddComponent<PlayerManager>();
-            saveManager = new SaveToJsonManager();
+            SaveManager = new SaveToJsonManager();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

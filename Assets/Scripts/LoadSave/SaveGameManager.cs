@@ -45,19 +45,43 @@ namespace LoadSave
             }
         }
         
+        public void SaveJson(string json, string fileName)
+        {
+            string filePath = Path.Combine(SaveDirectory, fileName);
+            try
+            {
+                if (!Directory.Exists(SaveDirectory))
+                {
+                    Directory.CreateDirectory(SaveDirectory);
+                }
+                File.WriteAllText(filePath, json);
+                Debug.Log($"Successfully saved JSON to {filePath}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error writing to file: {ex.Message}");
+            }
+        }
+        
         /// <summary>
         /// /// Method to generate a unique file name for each save.
         /// </summary>
         /// <param name="username">used for save file name</param>
         /// <param name="monsterName">used for save file name, use save if not a save game</param>
-        /// <param name="suffix">if not a save game, add a desripting suffix</param>
+        /// <param name="suffix">if not a save game, add a descriptive suffix</param>
         /// <returns>The combined filename</returns>
-        public string GenerateSaveFileName(string username, string detail, string suffix = null)
+        public string GenerateSaveFileName(string username, string monsterName, string suffix = null)
         {
-            string timestamp = DateTime.Now.ToString("ddMMyyyyHHmm");
-            return $"{username}_{detail}_{timestamp}{suffix}.json";
+            string timestamp = DateTime.Now.ToString("ddMMHHmm");
+            return $"{username}_{monsterName}_{timestamp}_{suffix}.json";
         }
-
+        
+        public string GenerateLoadFileName(string username, string monsterName, string suffix = null)
+        {
+            string placeholder = "placeholder";
+            string fileNameSuffix = string.IsNullOrEmpty(suffix) ? "" : $"_{suffix}";
+            return $"{username}_{monsterName}_{placeholder}_{fileNameSuffix}.json";
+        }
 
         private SaveDataDTO CreateSaveData()
         {
