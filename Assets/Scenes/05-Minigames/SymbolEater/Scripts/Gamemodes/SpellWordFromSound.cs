@@ -61,6 +61,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             currentIndex = 0;
             word = WordsForImagesManager.GetRandomWordForImage();
             currentLetter = word[currentIndex];
+            
             if (sprites.ContainsKey(word))
             {
                 boardController.SetImage(sprites[word]);
@@ -80,6 +81,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //finds new letterboxes to be activated and assigns them a random incorrect letter.
             for (int i = 0; i < count; i++)
             {
+                
                 char letter = LetterManager.GetRandomLetters(1)[0];
                 while (word.Contains(char.ToLower(letter)))
                 {
