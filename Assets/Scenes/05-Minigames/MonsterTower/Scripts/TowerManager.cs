@@ -9,6 +9,7 @@ using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -48,6 +49,7 @@ namespace Scenes.Minigames.MonsterTower
         int currentQuestionIndex = 0;
         [SerializeField] TextMeshProUGUI displayBox;
         [SerializeField] GameObject imageHolerPrefab;
+        [SerializeField] GameObject OrcPrefab;
         string[] sentences;
 
         RawImage topImage;
@@ -179,9 +181,23 @@ namespace Scenes.Minigames.MonsterTower
                 gameObject.transform.Translate(0, -brickDimensions.y, 0);
 
             }
+            else
+            {
+                //Goes to the win screen if there are no more bricks of the tower left. 
+                GoToWinScreen();
+            }
 
 
 
+
+        }
+
+        /// <summary>
+        /// Loads the win screen sceene
+        /// </summary>
+        public void GoToWinScreen()
+        {
+            SceneManager.LoadScene("WinScene");
 
         }
 
@@ -265,9 +281,21 @@ namespace Scenes.Minigames.MonsterTower
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
+                      
                             brickComponent.isShootable = true;
                             imageholder.SetActive(true);
                         }
+
+                        //Spawns the Monster on top of the tower.
+                        if(z==towerHeight-1 && x==2)
+                        {
+                            Vector3 orcPos = gameObject.transform.position + new Vector3(posX, z * brickDimensions.y+1.5f, posY);
+                            var orc =Instantiate(OrcPrefab, orcPos, quaternion.Euler(0, startAngle-90, 0));
+
+
+                            orc.transform.parent = gameObject.transform;
+                        }
+                        
 
                     }
                     // startAngle is updated so the next brick gets placed further along the circle.
@@ -355,6 +383,16 @@ namespace Scenes.Minigames.MonsterTower
                         {
                             brickComponent.isShootable = true;
                             imageholder.SetActive(true);
+                        }
+
+                        //Spawns the Monster on top of the tower.
+                        if (z == towerHeight - 1 && x == 2)
+                        {
+                            Vector3 orcPos = gameObject.transform.position + new Vector3(posX, z * brickDimensions.y + 1.5f, posY);
+                            var orc = Instantiate(OrcPrefab, orcPos, quaternion.Euler(0, startAngle - 90, 0));
+
+
+                            orc.transform.parent = gameObject.transform;
                         }
 
                     }

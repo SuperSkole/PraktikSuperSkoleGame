@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
+    
 
     public class ToggleZoom : MonoBehaviour
     {
@@ -19,10 +21,31 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         [SerializeField] Camera cam;
 
+        
+      
+       
+        public Difficulty difficulty;
+
         void Start()
         {
             minZoom = cam.fieldOfView;
             currentZoom = minZoom;
+
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    maxZoom = 35;
+                    break;
+                case Difficulty.Medium:
+                    maxZoom = 35;
+                    break;
+                case Difficulty.Hard:
+                    maxZoom = 21;
+                    break;
+                default:
+                    break;
+            }
+
         }
 
 
