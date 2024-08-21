@@ -172,11 +172,20 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
         }
 
+        /// <summary>
+        /// Simple checks if the given word is the same as the currentword to see if the given word is correct.
+        /// </summary>
+        /// <param name="theWord"></param>
+        /// <returns></returns>
         public bool IsCorrectSymbol(string theWord)
         {
             return theWord.ToLower() == currentWord.ToLower();
         }
 
+
+        /// <summary>
+        /// dictitates the current sound, may be changed later
+        /// </summary>
         public void CurrentWordSound()
         {
             //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
