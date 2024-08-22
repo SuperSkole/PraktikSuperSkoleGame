@@ -206,11 +206,18 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         }
 
 
+        /// <summary>
+        /// Sets the board used by the lettercube
+        /// </summary>
+        /// <param name="board">the board to be used</param>
         public void SetBoard(BoardController board)
         {
             this.board = board;
         }
 
+        /// <summary>
+        /// tells the board to replace this lettercube and deactivate it
+        /// </summary>
         private void SelfDeactivate()
         {
             board.ReplaceLetter(this);
