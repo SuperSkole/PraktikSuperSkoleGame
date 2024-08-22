@@ -12,7 +12,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
+
 
 
 
@@ -60,6 +60,8 @@ namespace Scenes.Minigames.MonsterTower
 
         private string topImageKey;
         private string bottomImageKey;
+        private bool IsSaveDataLoaded=false;
+
         // Start is called before the first frame update
 
 
@@ -69,7 +71,7 @@ namespace Scenes.Minigames.MonsterTower
         /// <returns></returns>
         IEnumerator WaitUntillDataIsLoaded()
         {
-            while (!ImageManager.IsDataLoaded)
+            while (!ImageManager.IsDataLoaded || !IsSaveDataLoaded)
             {
                 yield return null;
             }
@@ -77,6 +79,8 @@ namespace Scenes.Minigames.MonsterTower
 
             // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
             // if not a tower is built and will be saved when exiting the game. 
+
+            Debug.Log(loadedBrickLanes.Count);
 
             if (loadedBrickLanes.Count > 0)
             {
@@ -496,7 +500,7 @@ namespace Scenes.Minigames.MonsterTower
                 // and not the actual current at the time of exiting the game
                 this.currentQuestionIndex = data.currentQuestionIndex;
 
-                Debug.Log(sentences);
+                Debug.Log(data.BrickLanes.Count);
 
 
 
@@ -513,7 +517,7 @@ namespace Scenes.Minigames.MonsterTower
                     currentQuestionIndex = 0;
                 }
 
-
+                IsSaveDataLoaded = true;
 
                 Debug.Log("Data Loaded");
             }
