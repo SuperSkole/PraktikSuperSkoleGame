@@ -62,7 +62,7 @@ namespace Scenes.Minigames.MonsterTower
         private string bottomImageKey;
         private bool IsSaveDataLoaded=false;
 
-        // Start is called before the first frame update
+        
 
 
         /// <summary>
