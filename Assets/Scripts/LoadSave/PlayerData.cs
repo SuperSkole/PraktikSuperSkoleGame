@@ -22,7 +22,7 @@ namespace LoadSave
         // Lists for storing active words
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
-
+        public List<char> CollectedNumbers = new List<char>();
         
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }

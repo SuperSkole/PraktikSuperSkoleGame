@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CORE;
 using CORE.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -138,7 +139,9 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         private void AddWordToPlayerData(string word)
         {
             Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
-            GameManager.Instance.PlayerData.CollectedWords.Add(word);
+            
+            // Raise the event to send the word to other parts of the game that manage player data
+            PlayerEvents.RaiseWordValidated(word);
         }
         
         private void AddWordToHighScore(string word)
