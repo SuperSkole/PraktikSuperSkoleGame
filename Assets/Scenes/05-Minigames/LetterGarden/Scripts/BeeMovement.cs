@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -20,17 +20,51 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         private float spineLeangth;
         private int splineIndex = 0;
 
+        private int difficultyEasy = 3;
+        private int difficultyMedium = 5;
+        private int difficultyHard = 7;
+        private int difficultyAll;
+        private int difficultyCurrent = 3;
+        private int completedLetters = 0;
+        private List<SplineContainer> lettersToDraw;
+
         /// <summary>
         /// Runs at start and dynamically fetches all splines used to draw letters/symbols, then selects one at random.
         /// </summary>
         void Start()
+        {
+            SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
+            SetLettersToDraw();
+            NextLetter();
+        }
+
+        void SetDifficulty(int difficulty)
+        {
+            difficultyCurrent = difficulty;
+        }
+
+        void SetLettersToDraw()
         {
             letterList = new();
             foreach (Transform spline in SplineParent.GetComponentInChildren<Transform>())
             {
                 letterList.Add(spline.gameObject.GetComponent<SplineContainer>());
             }
-            letterSpline = letterList[Random.Range(0, letterList.Count)];
+            for (completedLetters = 0; completedLetters < difficultyCurrent; completedLetters++)
+            {
+                SplineContainer currentLetter = letterList[Random.Range(0, letterList.Count)];
+                letterList.Remove(currentLetter);
+                lettersToDraw.Add(currentLetter);
+            }
+        }
+
+        /// <summary>
+        /// Called to switch to the next letter, once the previous one has been completed.
+        /// </summary>
+        void NextLetter()
+        {
+            letterSpline = lettersToDraw[0];
+            lettersToDraw.Remove(letterSpline);
             spineLeangth = letterSpline.CalculateLength(splineIndex);
         }
 
@@ -66,6 +100,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         /// <summary>
         /// Checks how close to completion of the current path the bee is.
+        /// TODO: Remove this once merged with the code to check if the previous line is done.
         /// </summary>
         private void CheckDistance()
         {
