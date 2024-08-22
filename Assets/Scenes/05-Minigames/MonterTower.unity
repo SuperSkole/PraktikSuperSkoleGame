@@ -3193,6 +3193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxZoom: 40
   cam: {fileID: 1111141038}
+  towerLaneDestroyed: 0
   difficulty: 2
 --- !u!1 &1115762481
 GameObject:
@@ -3648,6 +3649,7 @@ MonoBehaviour:
   displayBox: {fileID: 1980325502}
   imageHolerPrefab: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
   OrcPrefab: {fileID: 5370121721513852231, guid: 1d8c7a7f535289049992816aa60825bc, type: 3}
+  mainCamera: {fileID: 1111141038}
 --- !u!1 &1495100103
 GameObject:
   m_ObjectHideFlags: 0

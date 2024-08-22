@@ -17,9 +17,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         float smoothTime = 0.25f;
 
         bool doneZoom = true;
-        bool zoomingIn = true;
+       public bool zoomingIn = true;
 
         [SerializeField] Camera cam;
+
+        public bool towerLaneDestroyed = false;
 
         
       
@@ -37,7 +39,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     maxZoom = 35;
                     break;
                 case Difficulty.Medium:
-                    maxZoom = 35;
+                    maxZoom = 21;
                     break;
                 case Difficulty.Hard:
                     maxZoom = 21;
@@ -51,7 +53,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         void Update()
         {
-            if(Input.GetKeyDown(KeyCode.Z) && doneZoom)
+            if(Input.GetKeyDown(KeyCode.Z) && doneZoom ||towerLaneDestroyed)
             {
                 doneZoom = false;
             }
@@ -70,8 +72,32 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             if (cam.fieldOfView <= maxZoom + 0.1f && zoomingIn || cam.fieldOfView >= minZoom -0.1f && !zoomingIn)
             {
                 doneZoom = true;
-                zoomingIn = !zoomingIn;
+
+                // Makes it so when the Difficulty is set to hard you can't zoom out. 
+                // And when it's set to hard the camera can only zoom in. 
+                if (difficulty== Difficulty.Hard)
+                {
+                    zoomingIn = true;
+                    towerLaneDestroyed = false;
+                 
+                }
+                else
+                {
+                    zoomingIn = !zoomingIn;
+                    towerLaneDestroyed = false;
+                }
             }
+        }
+
+        /// <summary>
+        /// Sets the right bools so the camera zooms out. Is only meant to be used when a towerlane is destroyed.
+        /// </summary>
+        public void ZoomOutWhenTowerLaneIsDestroyed()
+        {
+            zoomingIn = false;
+            towerLaneDestroyed = true;
+          
+
         }
     }
 

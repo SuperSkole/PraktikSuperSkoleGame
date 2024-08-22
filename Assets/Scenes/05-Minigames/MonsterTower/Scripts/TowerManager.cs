@@ -50,6 +50,8 @@ namespace Scenes.Minigames.MonsterTower
         [SerializeField] TextMeshProUGUI displayBox;
         [SerializeField] GameObject imageHolerPrefab;
         [SerializeField] GameObject OrcPrefab;
+        [SerializeField] Camera mainCamera;
+
         string[] sentences;
 
         RawImage topImage;
@@ -188,7 +190,8 @@ namespace Scenes.Minigames.MonsterTower
             }
 
 
-
+            // zoom out when when a tower lane is destroyed
+            mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
         }
 
@@ -197,6 +200,10 @@ namespace Scenes.Minigames.MonsterTower
         /// </summary>
         public void GoToWinScreen()
         {
+            // saving the game so the fact that there are no lanes left is saved .
+            //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
+            DataPersistenceManager.instance.SaveGame();
+
             SceneManager.LoadScene("WinScene");
 
         }
