@@ -11,7 +11,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
     public class LineSecmentEvaluator : MonoBehaviour
     {
         float maxDist = 1;
-        public void EvaluateSpline(Spline spline, LineRenderer dwaing)
+        public bool EvaluateSpline(Spline spline, LineRenderer dwaing)
         {
             float totalDist = 0;
             for (int i = 0; i < dwaing.positionCount; i++)
@@ -21,6 +21,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 distToSpline -= 0.25f;
                 totalDist += distToSpline;
             }
+            return totalDist <= maxDist;
         }
     }
 }
