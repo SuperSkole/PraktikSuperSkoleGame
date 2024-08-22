@@ -81,7 +81,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         }
         gameMode.SetLetterCubesAndBoard(letterCubes, this);
         gameMode.SetGameRules(targetRules);
-        gameMode.SetGameRules(targetRules);
         gameMode.GetSymbols();
     }
 
@@ -90,7 +89,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     /// </summary>
     private void Start()
     {
-        GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
+        //GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
     }
 
     public SymbolEaterPlayer GetPlayer(){

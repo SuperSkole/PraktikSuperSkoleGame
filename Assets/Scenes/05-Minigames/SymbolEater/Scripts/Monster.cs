@@ -53,7 +53,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         if(player == null)
         {
             player = playerObject.GetComponent<SymbolEaterPlayer>();
-            player = playerObject.GetComponent<SymbolEaterPlayer>();
         }
     }
 
