@@ -3,19 +3,17 @@ using CORE.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using CORE.Scripts.GameRules;
-
-
+using Scenes.Minigames.SymbolEater.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-
     /// <summary>
     /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
     /// </summary>
     public class FindSymbol : IGameMode
     {
 
-        IGameRules gameRules = new CORE.Scripts.GameRules.FindLetterType();
+        IGameRules gameRules;
 
         /// <summary>
         /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
@@ -58,7 +56,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
                 //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
-                while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
+                while(activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position )
                 {
                     potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
@@ -68,12 +66,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //creates a random number of correct letters on the board
             int wrongCubeCount = activeLetterCubes.Count;
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-            for (int i = 0; i < count; i++)
+            for(int i = 0; i < count; i++)
             {
                 string letter = gameRules.GetCorrectAnswer();
                 LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
-                while (activeLetterCubes.Contains(potentialCube))
+                while(activeLetterCubes.Contains(potentialCube))
                 {
                     potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
@@ -101,42 +99,40 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void ReplaceSymbol(LetterCube letter)
         {
             //Checks if the symbol on the lettercube is the correct one
-            if (IsCorrectSymbol(letter.GetLetter()))
+            if(IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
                 boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             letter.Deactivate();
             activeLetterCubes.Remove(letter);
-
+            
             LetterCube newLetter;
             //finds a new random letterbox which is not active and is not the one which should be replaced
-            while (true)
+            while(true)
             {
                 newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-                if (newLetter != letter && !activeLetterCubes.Contains(newLetter))
+                if(newLetter != letter && !activeLetterCubes.Contains(newLetter))
                 {
                     break;
                 }
             }
             activeLetterCubes.Add(newLetter);
             //Checks if the game should continue. if it should a new random incorrect letter is shown on the new letterblock
-            if (numberOfCorrectLettersOnBoard > 0)
+            if(numberOfCorrectLettersOnBoard > 0)
             {
                 newLetter.Activate(gameRules.GetWrongAnswer());
             }
-
-            //Checks if a new game should be started or if the player has won
-            else
+            else //Checks if a new game should be started or if the player has won
             {
                 correctLetters++;
-                if (correctLetters < 5)
+                if(correctLetters < 5)
                 {
                     GetSymbols();
                 }
-                else
+                else 
                 {
-                    foreach (LetterCube letterCube in activeLetterCubes)
+                    foreach(LetterCube letterCube in activeLetterCubes)
                     {
                         letterCube.Deactivate();
                     }

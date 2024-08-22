@@ -30,7 +30,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
 
-        List<string> words = new List<string>();
+        };
 
         int minWrongLetters = 6;
 
@@ -60,8 +60,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void GetSymbols()
         {
-            //Sets up variablese and checks if data is loaded
-            currentIndex = 0;
             word = "";
 
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
@@ -105,6 +103,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                         letter = LetterManager.GetRandomLetters(1)[0];
                     }
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                }
+                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
                     //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
                     while (activeLetterCubes.Contains(potentialCube))
