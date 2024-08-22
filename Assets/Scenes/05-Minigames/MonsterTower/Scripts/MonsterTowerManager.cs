@@ -2,13 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+public enum Difficulty
+{
+    Easy,
+    Medium,
+    Hard,
 
+
+}
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
+      
 
+   
     public class MonsterTowerManager : MonoBehaviour
     {
 
@@ -23,6 +33,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] AmmoPupUp pupUp;
 
         [SerializeField] TowerManager towerManager;
+
+        public Difficulty difficulty;
 
         //temp
         string[] sentanses;
@@ -53,6 +65,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         void Start()
         {
+
+            // setting up the main camera so it reflects the chosen difficulty. 
+            mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
+
             SetupSentanses();
             towerManager.SetTowerData(sentanses);
             if (ammo <= 0)
