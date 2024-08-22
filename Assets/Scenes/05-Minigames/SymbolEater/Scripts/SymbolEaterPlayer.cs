@@ -7,14 +7,11 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
-
-
-
-/// <summary>
-/// Player class for the Symbol Eater mini game
-/// </summary>
-public class SymbolEaterPlayer : MonoBehaviour
-{
+    /// <summary>
+    /// Player class for the Symbol Eater mini game
+    /// </summary>
+    public class SymbolEaterPlayer : MonoBehaviour
+    {
 
         private int livesRemaining = 3;
 
