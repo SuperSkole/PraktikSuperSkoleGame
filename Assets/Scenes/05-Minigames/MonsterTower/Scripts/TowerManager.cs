@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using CORE.Scripts;
 using Scenes.Minigames.MonsterTower.Scrips;
+using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -16,7 +17,7 @@ using UnityEngine.UIElements;
 
 
 
-namespace Scenes.Minigames.MonsterTower
+namespace Scenes.Minigames.MonsterTower.Scrips
 {
     public class TowerManager : MonoBehaviour, IDataPersistence
     {
@@ -492,6 +493,7 @@ namespace Scenes.Minigames.MonsterTower
         // The LoadData method is used when starting up the game
         // the bricklanes that are saved is loaded in and set. 
         // The currentQuestionIndex which has been saved is set so the right question can be displayed. 
+
         public void LoadData(GameData data)
         {
             if (data.BrickLanes != null)
@@ -524,14 +526,13 @@ namespace Scenes.Minigames.MonsterTower
                 Debug.Log("Data Loaded");
             }
 
-
-
         }
 
 
 
         // The SaveData method is used when exiting the game.
         // The bricklanes are saved and the currentQuestionIndex is saved. 
+
         public void SaveData(ref GameData data)
         {
             data.BrickLanes = this.loadedBrickLanes;
@@ -542,7 +543,6 @@ namespace Scenes.Minigames.MonsterTower
 
 
             Debug.Log("Data Saved");
-
 
         }
     }
