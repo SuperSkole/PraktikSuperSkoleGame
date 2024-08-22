@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts.GameRules;
+using Scenes.Minigames.MonsterTower;
+using Scenes.Minigames.MonsterTower.Scrips;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
@@ -40,17 +42,32 @@ public class SetGameModeAndDestroy : MonoBehaviour
                 break;
 
             case 4:
+                MonsterTowerManager target4 = FindObjectOfType<MonsterTowerManager>();
+
+                target4.difficulty = Difficulty.Easy;
+
+
 
                 break;
                 
             case 5:
+                MonsterTowerManager target5 = FindObjectOfType<MonsterTowerManager>();
 
+                target5.difficulty = Difficulty.Medium;
+
+                break;
+
+            case 6:
+                MonsterTowerManager target6 = FindObjectOfType<MonsterTowerManager>();
+
+                target6.difficulty = Difficulty.Hard;
                 break;
 
             default:
                 break;
         }
 
+        SceneManager.sceneLoaded -= OnSceneLoaded;
 
         Destroy(gameObject);
     }
