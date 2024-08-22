@@ -10,7 +10,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <summary>
         /// The correct word
         /// </summary>
-        string word;
+
 
 
         /// <summary>
@@ -29,8 +29,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// letters which the player has already found
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
-        
-        
+
+        IGameRules gameRules;
+
+        string foundWordPart = "";
+
+        string oldWord = "";
 
         int minWrongLetters = 6;
 
@@ -60,24 +64,26 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void GetSymbols()
         {
-            word = "";
+            foundWordPart = "";
+
+            oldWord = "";
 
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if (DataLoader.IsDataLoaded)
             {
 
-                word = WordsForImagesManager.GetRandomWordForImage();
-                if (sprites.ContainsKey(word))
+                gameRules.SetCorrectAnswer();
+                oldWord = gameRules.GetDisplayAnswer();
+                if (sprites.ContainsKey(gameRules.GetDisplayAnswer()))
                 {
-                    boardController.SetImage(sprites[word]);
+                    boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
                 }
                 else
                 {
-                    Texture2D texture = ImageManager.GetImageFromWord(word);
-                    sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-                    
+                    Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
+                    sprites.Add(gameRules.GetDisplayAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+
                 }
-                currentLetter = word[currentIndex];
                 wordsLoaded = true;
             }
             else
@@ -97,18 +103,22 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 for (int i = 0; i < count; i++)
                 {
-                    char letter = LetterManager.GetRandomLetters(1)[0];
-                    while (word.Contains(char.ToLower(letter)))
-                    {
-                        letter = LetterManager.GetRandomLetters(1)[0];
-                    }
+                    string letter = gameRules.GetWrongAnswer();
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+                    //Check to ensure the potiential cube has not already been activated
+                    while (activeLetterCubes.Contains(potentialCube))
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    potentialCube.Activate(letter);
                 }
-                
+
                 //finds some new letterboxes and assigns them a correct letter
-                for (int i = 0; i < word.Length; i++)
+                for (int i = 0; i < gameRules.GetDisplayAnswer().Length; i++)
                 {
-                    char letter = word[i];
+                    string letter = gameRules.GetDisplayAnswer()[i].ToString();
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
                     //Check to ensure letters arent spawned on an allready activated letter cube.
@@ -136,17 +146,15 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public bool IsCorrectSymbol(string letter)
         {
 
-            if (currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
+            if (gameRules.IsCorrectSymbol(letter) && gameRules.GetCorrectAnswer()[0] != gameRules.GetDisplayAnswer()[gameRules.GetDisplayAnswer().Length - 1])
             {
-                currentIndex++;
-                foundLetters.Enqueue(currentLetter);
-                currentLetter = word[currentIndex];
+                foundLetters.Enqueue(letter[0]);
+                gameRules.SetCorrectAnswer();
                 return true;
             }
-            else if (currentLetter.ToString() == letter.ToLower() && currentIndex == word.Length - 1)
+            else if (gameRules.IsCorrectSymbol(letter))
             {
-                foundLetters.Enqueue(currentLetter);
-                currentIndex++;
+                foundLetters.Enqueue(letter.ToLower()[0]);
                 return true;
             }
             else
@@ -164,7 +172,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void CurrentWordSound()
         {
             //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
-            string audioFileName = word.ToLower() + "_audio";
+            string audioFileName = gameRules.GetDisplayAnswer() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
 
@@ -191,21 +199,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //Updates the display of letters which the player has already found
             if (foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString())
             {
-                string foundWordPart = "";
-                int j = word.IndexOf(foundLetters.Dequeue());
-                for (int i = 0; i < j + 1; i++)
-                {
-                    if (word.Length > i)
-                    {
-                        foundWordPart += word[i];
-                    }
-                }
+                foundWordPart += foundLetters.Dequeue();
                 boardController.SetAnswerText(foundWordPart);
             }
             string oldLetter = letter.GetLetter();
             letter.Deactivate();
             activeLetterCubes.Remove(letter);
-
             LetterCube newLetter;
             //finds a new random letterbox which is not active and is not the one which should be replaced
             while (true)
@@ -217,24 +216,25 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 }
             }
             activeLetterCubes.Add(newLetter);
-            if (currentIndex < word.Length)
+            //Checks if the word has been completed. If it hasnt a new random letter is placed on the board unless the old letter is in the currrent word, in which case the same letter is used
+            if (!gameRules.SequenceComplete() || oldLetter[0] != oldWord[oldWord.Length - 1])
             {
-                //currentLetter = word[currentIndex];
-                char newLettercubeValue = LetterManager.GetRandomLetter();
-                if (word.Contains(oldLetter))
+                string newLettercubeValue = gameRules.GetWrongAnswer();
+                if (gameRules.GetDisplayAnswer().Contains(oldLetter))
                 {
-                    newLettercubeValue = oldLetter[0];
+                    newLettercubeValue = oldLetter;
                 }
 
-                newLetter.Activate(newLettercubeValue.ToString());
+                newLetter.Activate(newLettercubeValue);
 
             }
+            //Checks if the game is over. If it is it informs the boardcontroller that the game is over. Otherwise it just restarts with a new word.
             else
             {
                 correctWords++;
-                if (correctWords == 3)
+                if (correctWords == 5)
                 {
-                    boardController.Won("Du vandt. Du stavede rigtigt 3 gange");
+                    boardController.Won("Du vandt. Du stavede rigtigt 5 gange");
                 }
                 else
                 {
@@ -276,7 +276,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
-        
+
 
         /// <summary>
         /// Temporarily unused until relevant game rules have been implemented
