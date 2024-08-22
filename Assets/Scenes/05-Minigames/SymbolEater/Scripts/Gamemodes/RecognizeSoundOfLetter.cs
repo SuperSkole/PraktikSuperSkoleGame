@@ -11,29 +11,17 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         SymbolEaterSoundController currentsoundClip;
 
-        /// <summary>
-        /// The correct letter
-        /// </summary>
-        string correctLetter;
+        IGameRules gameRules = new CORE.Scripts.GameRules.FindLetterType();
 
         /// <summary>
-        /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
         /// </summary>
         List<LetterCube> letterCubes;
 
-        /// <summary>
-        /// The lettercubes displaying a letter
-        /// </summary>
         List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
-        /// <summary>
-        /// number of correct letters currntly displayed
-        /// </summary>
-        int correctLetterCount;
+        int numberOfCorrectLettersOnBoard;
 
-        /// <summary>
-        /// The boardController of the current game
-        /// </summary>
         BoardController boardController;
 
         int correctLetters = 0;
@@ -52,53 +40,45 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void GetSymbols()
         {
-            correctLetter = LetterManager.GetRandomLetters(1)[0].ToString();
-
-
-
+            gameRules.SetCorrectAnswer();
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
             {
                 lC.Deactivate();
             }
-            int count = Random.Range(1, 11);
+            int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
-            //finds new letterboxes to be activated and assigns them a random letter. If it selects the correct letter the count for it is increased
+            //finds new letterboxes to be activated and assigns them a random wrong letter.
             for (int i = 0; i < count; i++)
             {
-                string letter = LetterManager.GetRandomLetters(1)[0].ToString();
-                if (IsCorrectSymbol(letter))
-                {
-                    correctLetterCount++;
-                }
+                string letter = gameRules.GetWrongAnswer();
                 LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-                //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-                while (activeLetterCubes.Contains(potentialCube))
+                //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
+                while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
                 {
                     potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
                 activeLetterCubes.Add(potentialCube);
                 activeLetterCubes[i].Activate(letter);
             }
-            //finds a random letterbox for the correct letter which has not already been activated
-            LetterCube correctLetterBox;
-            while (true)
+            //creates a random number of correct letters on the board
+            int wrongCubeCount = activeLetterCubes.Count;
+            count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+            for (int i = 0; i < count; i++)
             {
-                correctLetterBox = letterCubes[Random.Range(0, letterCubes.Count)];
-                if (!activeLetterCubes.Contains(correctLetterBox))
+                string letter = gameRules.GetCorrectAnswer();
+                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
+                while (activeLetterCubes.Contains(potentialCube))
                 {
-                    break;
+                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
+                activeLetterCubes.Add(potentialCube);
+                activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
+                numberOfCorrectLettersOnBoard++;
             }
-
-
-
-
-            correctLetterBox.Activate(correctLetter.ToLower(), true);
-            correctLetterCount++;
-            activeLetterCubes.Add(correctLetterBox);
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 
             /// <summary>
             /// Uses the Lettersound.
@@ -114,7 +94,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <returns>Whether the letter is the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
-            return letter.ToLower() == correctLetter.ToLower();
+            return gameRules.IsCorrectSymbol(letter);
         }
 
         /// <summary>
@@ -123,7 +103,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void CurrentLetterSound()
         {
             //bruger correctLetter to find the right sound in tempSymbolEatersound in resource foulder
-            string audioFileName = correctLetter.ToLower() + "_audio";
+            string audioFileName = gameRules.GetDisplayAnswer().ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"TempGrov�derSound/{audioFileName}");
 
@@ -149,10 +129,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
+            //Checks if the symbol on the lettercube is the correct one
             if (IsCorrectSymbol(letter.GetLetter()))
             {
-                correctLetterCount--;
-                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige. " + " Der er " + correctLetterCount + " tilbage.");
+                numberOfCorrectLettersOnBoard--;
+                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             letter.Deactivate();
             activeLetterCubes.Remove(letter);
@@ -162,24 +143,34 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             while (true)
             {
                 newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-
                 if (newLetter != letter && !activeLetterCubes.Contains(newLetter))
                 {
                     break;
                 }
             }
             activeLetterCubes.Add(newLetter);
-            if (correctLetterCount > 0)
+            //Checks if the game should continue. if it should a new random incorrect letter is shown on the new letterblock
+            if (numberOfCorrectLettersOnBoard > 0)
             {
-                newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
-                while (newLetter.GetLetter() == correctLetter)
-                {
-                    newLetter.Activate(LetterManager.GetRandomLetters(1)[0].ToString());
-                }
+                newLetter.Activate(gameRules.GetWrongAnswer());
             }
+
+            //Checks if a new game should be started or if the player has won
             else
             {
-                GetSymbols();
+                correctLetters++;
+                if (correctLetters < 5)
+                {
+                    GetSymbols();
+                }
+                else
+                {
+                    foreach (LetterCube letterCube in activeLetterCubes)
+                    {
+                        letterCube.Deactivate();
+                    }
+                    boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+                }
             }
         }
 

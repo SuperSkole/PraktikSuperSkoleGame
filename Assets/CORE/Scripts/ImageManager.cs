@@ -116,10 +116,18 @@ namespace CORE.Scripts
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
             else
+            {
                 image = data[0];
+            }
+
+
+
 
             return new Tuple<Texture2D, string>(image, name);
         }
+
+
+       
 
         /// <summary>
         /// gets multibull random images.
