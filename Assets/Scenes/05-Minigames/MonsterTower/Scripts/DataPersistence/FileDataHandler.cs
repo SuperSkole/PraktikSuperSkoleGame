@@ -14,7 +14,6 @@ namespace Scenes.Minigames.MonsterTower
     public class FileDataHandler
     {
         private string dataDirPath = "";
-
         private string dataFileName = "";
 
         public FileDataHandler(string dataDirPath, string dataFileName)

@@ -30,9 +30,7 @@ namespace CORE.Scripts
         public static void AddImageToSet(string name,Texture2D image)
         {
             if (imageDictionary.ContainsKey(name.ToLower()))
-            {
                 imageDictionary[name.ToLower()].Add(image);
-            }
             else
             {
                 imageDictionary.Add(name.ToLower(), new List<Texture2D>());
@@ -53,9 +51,7 @@ namespace CORE.Scripts
                 data = null;
             Texture2D image;
             if (data == null)
-            {
                 Debug.LogError($"Error getting image for the word: {inputWord}");
-            }
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
             else
@@ -72,22 +68,17 @@ namespace CORE.Scripts
         public static Texture2D[] GetImageFromWord(string[] inputWords)
         {
             Texture2D[] images = new Texture2D[inputWords.Length];
-
             for (int i = 0; i < inputWords.Length; i++)
             {
-                List<Texture2D> data;
-                if (!imageDictionary.TryGetValue(inputWords[i].ToLower(), out data))
+                if (!imageDictionary.TryGetValue(inputWords[i].ToLower(), out List<Texture2D> data))
                     data = null;
                 if (data == null)
-                {
                     Debug.LogError($"Error getting image for the word: {inputWords[i]}");
-                }
                 if (data.Count > 1)
                     images[i] = data[UnityEngine.Random.Range(0, data.Count)];
                 else
                     images[i] = data[0];
             }
-
             return images;
         }
 
@@ -97,18 +88,31 @@ namespace CORE.Scripts
         /// <returns>a random image</returns>
         public static Texture2D GetRandomImage()
         {
-            List<Texture2D> data;
-
-            int rnd = UnityEngine.Random.Range(0, imageDictionary.Keys.Count);
-            data = imageDictionary.ElementAt(rnd).Value;
-        
-           
-
+            List<Texture2D> data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
             Texture2D image;
             if (data == null)
-            {
                 Debug.LogError($"Error getting a random image");
-            }
+            if (data.Count > 1)
+                image = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+                image = data[0];
+            return image;
+        }
+
+        /// <summary>
+        /// Gets a random image and its key in the imagedictionary
+        /// </summary>
+        /// <returns></returns>
+        public static Tuple<Texture2D,string> GetRandomImageWithKey()
+        {
+            List<Texture2D> data;
+            string name = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Key;
+            data = imageDictionary[name];
+           
+            Texture2D image;
+         
+            if (data == null)
+                Debug.LogError($"Error getting a random image");
             if (data.Count > 1)
                 image = data[UnityEngine.Random.Range(0, data.Count)];
             else
@@ -119,7 +123,7 @@ namespace CORE.Scripts
 
 
 
-            return image;
+            return new Tuple<Texture2D, string>(image, name);
         }
 
 

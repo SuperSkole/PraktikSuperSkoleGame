@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class SpellWordFromSound : IGameMode
     {
@@ -32,10 +32,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
 
-        List<string> words = new List<string>(){
-        "Bil", "B�d", "Fly"
-        };
-
         int minWrongLetters = 6;
 
         int maxWrongLetters = 10;
@@ -63,8 +59,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         public void GetSymbols()
         {
             currentIndex = 0;
-            word = words[Random.Range(0, words.Count)].ToLower();
+            word = WordsForImagesManager.GetRandomWordForImage();
             currentLetter = word[currentIndex];
+            
             if (sprites.ContainsKey(word))
             {
                 boardController.SetImage(sprites[word]);
@@ -84,6 +81,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             //finds new letterboxes to be activated and assigns them a random incorrect letter.
             for (int i = 0; i < count; i++)
             {
+                
                 char letter = LetterManager.GetRandomLetters(1)[0];
                 while (word.Contains(char.ToLower(letter)))
                 {

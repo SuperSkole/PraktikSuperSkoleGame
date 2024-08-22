@@ -1,9 +1,10 @@
-using System.Collections.Generic;
 using CORE.Scripts;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class FindImageFromSound : IGameMode
     {
@@ -16,13 +17,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         /// <summary>
         /// The correct word
         /// </summary>
-        List<string> words = new List<string>()
-        {
-        "Bil", "B�d", "Fly"
-        };
+        
 
         string currentWord;
 
+        private bool wordsLoaded = false;
 
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         /// <summary>
         /// a dictionary of textures that been on the map.
         /// </summary>
-        Dictionary<string, Sprite> texture = new Dictionary<string, Sprite>();
+        Dictionary<string, Texture2D> texture = new Dictionary<string, Texture2D>();
 
         /// <summary>
         /// number of correct letters currntly displayed
@@ -47,9 +46,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         int correctLetterCount;
 
         /// <summary>
-        /// The boardController of the current game
+        /// The boardController of the current game and the lettercubes
         /// </summary>
         BoardController boardController;
+
+        LetterCube letterCube;
 
         int correctLetters = 0;
 
@@ -67,94 +68,127 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         public void GetSymbols()
         {
 
+            // gets a current word to find images and sound with.
+
+            //Sets up variablese and checks if data is loaded
+
+
+
+            //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
+            if (DataLoader.IsDataLoaded)
+            {
+
+                currentWord = WordsForImagesManager.GetRandomWordForImage();
+                if (texture.ContainsKey(currentWord))
+                {
+                    texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
+                }
+                else
+                {
+                    Texture2D texture2D = ImageManager.GetImageFromWord(currentWord);
+
+                    letterCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    
+                    letterCube.ActivateImage(texture2D);
+                }
+
+                wordsLoaded = true;
+            }
+            else
+            {
+                boardController.StartImageWait(GetSymbols);
+            }
 
             // gets a current word to find images and sound with.
 
-            currentWord = WordsForImagesManager.GetRandomWordForImage();
-            //deactives all current active lettercubes
-            foreach (LetterCube lC in activeLetterCubes)
+            if (wordsLoaded)
             {
-                lC.Deactivate();
+                //deactives all current active lettercubes
+                foreach (LetterCube lC in activeLetterCubes)
+                {
+                    lC.DeactivateImage();
+                }
+                int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
+                activeLetterCubes.Clear();
+                //finds new letterboxes to be activated and assigns them a random image. If it selects the correct Image the count for it is increased
+                for (int i = 0; i < count; i++)
+                {
+                    // creates random words from the word list, then creates images to fit those random words.
+
+                    string randoImage = WordsForImagesManager.GetRandomWordForImage();
+
+                    if (!texture.ContainsKey(randoImage))
+                    {
+                        texture.Add(randoImage, ImageManager.GetImageFromWord(randoImage));
+                    }
+
+                    Texture2D image = texture[randoImage];
+
+                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+                    
+
+                    //Check to ensure Images dont spawn below the player and that it is not an allready activated lettercube
+                    while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    activeLetterCubes[i].ActivateImage(image, randoImage);
+                }
+                //creates a random number of correct Images on the board
+                int wrongCubeCount = activeLetterCubes.Count;
+                count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+                currentWord = WordsForImagesManager.GetRandomWordForImage();
+                for (int i = 0; i < count; i++)
+                {
+                    if (!texture.ContainsKey(currentWord))
+                    {
+                        texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
+
+                    }
+                    // makes a image string from the current word variable, so that we can find it in the files.
+                    string image = currentWord.ToLower();
+                    
+
+                    Texture2D currentImage = texture[currentWord];
+                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    //Check to ensure images dont spawn below the player and that it is not an already activated lettercube
+                    while (activeLetterCubes.Contains(potentialCube))
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    activeLetterCubes[i + wrongCubeCount].ActivateImage(currentImage, image);
+                    
+                    correctLetterCount++;
+                }
+                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+
+
+                //uses the CurrentWordSound 
+                CurrentWordSound();
+
             }
-            int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
-            activeLetterCubes.Clear();
-            //finds new letterboxes to be activated and assigns them a random image. If it selects the correct Image the count for it is increased
-            for (int i = 0; i < count; i++)
-            {
-
-
-                // creates random words from the word list, then creates images to fit those random words.
-
-                string randoImage = WordsForImagesManager.GetRandomWordForImage();
-                if (!texture.ContainsKey(randoImage))
-                {
-                    Texture2D tempTexture = ImageManager.GetImageFromWord(randoImage);
-                    texture.Add(randoImage, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
-                }
-
-                Sprite image = texture[randoImage];
-
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                //Check to ensure Images dont spawn below the player and that it is not an allready activated lettercube
-                while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].ActivateImage(image, randoImage);
-            }
-            //creates a random number of correct Images on the board
-            int wrongCubeCount = activeLetterCubes.Count;
-            count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-            for (int i = 0; i < count; i++)
-            {
-                if (!texture.ContainsKey(currentWord))
-                {
-                    Texture2D tempTexture = ImageManager.GetImageFromWord(currentWord);
-                    texture.Add(currentWord, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
-
-                }
-                // makes a image string from the current word variable, so that we can find it in the files.
-                string image = currentWord.ToLower();
-                string imageFileName = currentWord + "_image";
-
-                Sprite currentImage = texture[currentWord];
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                //Check to ensure images dont spawn below the player and that it is not an already activated lettercube
-                while (activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i + wrongCubeCount].ActivateImage(currentImage, image);
-                correctLetterCount++;
-            }
-            boardController.SetAnswerText("Tryk [Mellemrum] for at h�re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
-
-
-            //uses the CurrentWordSound 
-            CurrentWordSound();
         }
 
-
         /// <summary>
-        /// Checks if the Word is the same as the correct one
+        /// Simple checks if the given word is the same as the currentword to see if the given word is correct.
         /// </summary>
-        /// <param name="letter">The Word which should be checked</param>
-        /// <returns>Whether the Word is the correct one</returns>
-        public bool IsCorrectSymbol(string image)
+        /// <param name="theWord"></param>
+        /// <returns></returns>
+        public bool IsCorrectSymbol(string theWord)
         {
-            return image.ToLower() == currentWord.ToLower();
+            return theWord.ToLower() == currentWord.ToLower();
         }
 
 
         /// <summary>
-        /// dictates what the currentLetterSound is from the currentWord.
+        /// dictitates the current sound, may be changed later
         /// </summary>
         public void CurrentWordSound()
         {
-            //Uses currentWord to find the right sound in tempSymbolEatersound in resource foulder
+            //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
             string audioFileName = currentWord.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
@@ -180,14 +214,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         /// <param name="image"></param>
         public void ReplaceSymbol(LetterCube image)
         {
-
-            //decreases the correctlettercount incase theres more then 1 answer on the board.
+            
+            //decreases the correctlettercount incase the player moves over a correct tile, and theres more then 1 answer on the board.
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
                 boardController.SetAnswerText("Tryk [Mellemrum] for at h�re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
-            image.Deactivate();
+            image.DeactivateImage();
             activeLetterCubes.Remove(image);
 
             LetterCube newImage;
@@ -216,8 +250,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
                 //then adds the images to the texture dictionary if dosnt already exists.
                 if (!texture.ContainsKey(randoWords))
                 {
-                    Texture2D tempTexture = ImageManager.GetImageFromWord(randoWords);
-                    texture.Add(randoWords, Sprite.Create(tempTexture, new Rect(0.0f, 0.0f, tempTexture.width, tempTexture.height), new Vector2(0.5f, 0.5f), 100.0f));
+                    texture.Add(randoWords, ImageManager.GetImageFromWord(randoWords));
 
                 }
 
@@ -234,9 +267,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
                 {
                     foreach (LetterCube letterCube in activeLetterCubes)
                     {
-                        letterCube.Deactivate();
+                        letterCube.DeactivateImage();
                     }
-                    boardController.Won("Du vandt. Du fandt det korrekte billede fem gange");
+                    boardController.Won("Du vandt. Du fandt det korrekte Billede fem gange");
                 }
             }
         }
@@ -249,9 +282,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
         public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
         {
             this.letterCubes = letterCubes;
-            foreach(LetterCube letter in this.letterCubes){
-                letter.toggleImage();
-            }
+            //foreach(LetterCube letter in this.letterCubes){
+            //    letter.toggleImage();
+            //}
             boardController = board;
         }
 
@@ -285,8 +318,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.FindImageFromSound
             
         }
 
-        // Start is called before the first frame update
 
 
     }
+
 }
