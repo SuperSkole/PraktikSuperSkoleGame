@@ -29,8 +29,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// letters which the player has already found
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
-
-        };
+        
+        
 
         int minWrongLetters = 6;
 
@@ -104,16 +104,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                    //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-                    while (activeLetterCubes.Contains(potentialCube))
-                    {
-                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                    }
-                    activeLetterCubes.Add(potentialCube);
-                    activeLetterCubes[i].Activate(letter.ToString());
-                }
+                
                 //finds some new letterboxes and assigns them a correct letter
                 for (int i = 0; i < word.Length; i++)
                 {
@@ -285,22 +276,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
-        /// <summary>
-        /// If the imageManager hasnt finished loading the images at startup, this method will setup the answer image after it has finished.
-        /// </summary>
-        public void OnImageLoad()
-        {
-            if (words.Count > 0)
-            {
-                Texture2D texture = ImageManager.GetImageFromWord(word);
-                sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-                boardController.SetImage(sprites[word]);
-            }
-            else
-            {
-                GetSymbols();
-            }
-        }
+        
 
         /// <summary>
         /// Temporarily unused until relevant game rules have been implemented
