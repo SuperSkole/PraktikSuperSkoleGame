@@ -137,12 +137,13 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         
         private void AddWordToPlayerData(string word)
         {
+            Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
             GameManager.Instance.PlayerData.CollectedWords.Add(word);
         }
         
         private void AddWordToHighScore(string word)
         {
-            GameManager.Instance.HighScore.AddWord(word);
+//            GameManager.Instance.HighScore.AddWord(word);
         }
     }
 }
