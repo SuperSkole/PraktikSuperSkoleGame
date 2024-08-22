@@ -1,0 +1,89 @@
+using CORE.Scripts;
+using Scenes.Minigames.MonsterTower;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class SentenceToPictures : IMTGameMode
+{
+
+    public void SetCorrectAnswer(string str, TowerManager manager)
+    {
+        List<string> words = new();
+        StringBuilder currentWord = new();
+        for (int i = 0; i < str.Length; i++)
+        {
+            char ch = str[i];
+            if (ch == ' ')
+            {
+                words.Add(currentWord.ToString());
+                currentWord = new StringBuilder();
+                continue;
+            }
+
+            currentWord.Append(ch);
+        }
+        words.Add(currentWord.ToString());
+        if (words.Count < 3)
+        {
+            Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
+            SetWrongAnswer(manager);
+            return;
+        }
+
+        switch (words[1])
+        {
+            case "på":
+                manager.bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
+                manager.topImage.texture = ImageManager.GetImageFromWord(words[0]);
+                break;
+            case "under":
+                manager.topImage.texture = ImageManager.GetImageFromWord(words[2]);
+                manager.bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
+                break;
+            default:
+                Debug.Log("word is not in switch case please add it.");
+                break;
+        }
+    }
+
+    public void SetWrongAnswer(TowerManager manager)
+    {
+        var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
+        var rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
+
+        manager.bottomImage.texture = rndImageWithKey1.Item1;
+        manager.topImage.texture = rndImageWithKey2.Item1;
+
+
+
+        manager.bottomImageKey = rndImageWithKey1.Item2;
+        manager.topImageKey = rndImageWithKey2.Item2;
+    }
+
+    public void SetAnswerKey(string str, TowerManager manager)
+    {
+        manager.displayBox.text = str;
+    }
+
+
+    /// <summary>
+    /// makes a set of sentences, currently has no logic to generate them itself
+    /// </summary>
+    /// <param name="count">amount of sentences to generate</param>
+    /// <returns></returns>
+    public string[] GenerateAnswers(int count)
+    {
+        string[] answers = new string[count];
+        for (int i = 0; i < count; i++)
+        {
+            answers[0] = "is på ko";
+            answers[1] = "ko på is";
+            answers[2] = "gås under ko";
+        }
+        return answers;
+    }
+}

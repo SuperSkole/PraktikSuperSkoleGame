@@ -40,22 +40,22 @@ namespace Scenes.Minigames.MonsterTower
 
         private int amountOfOptions = 4;
 
-
+        private IMTGameMode gameMode = new SentenceToPictures();
 
         private List<BrickLane> loadedBrickLanes = new List<BrickLane>();
 
 
         string currentQuestion;
         int currentQuestionIndex = 0;
-        [SerializeField] TextMeshProUGUI displayBox;
+        [SerializeField] public TextMeshProUGUI displayBox;
         [SerializeField] GameObject imageHolerPrefab;
-        string[] sentences;
+        string[] questions;
 
-        RawImage topImage;
-        RawImage bottomImage;
+        public RawImage topImage;
+        public RawImage bottomImage;
 
-        private string topImageKey;
-        private string bottomImageKey;
+        public string topImageKey;
+        public string bottomImageKey;
         // Start is called before the first frame update
 
 
@@ -92,15 +92,15 @@ namespace Scenes.Minigames.MonsterTower
         /// <param name="input">an array of sentenses the is used in the game</param>
         public void SetTowerData(string[] input)
         {
-            towerHeight = input.Length;
-            sentences = input;
+            questions = gameMode.GenerateAnswers(3);
+            towerHeight = questions.Length;
 
             topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
             bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
-            currentQuestion = sentences[currentQuestionIndex];
+            currentQuestion = questions[currentQuestionIndex];
             displayBox.text = currentQuestion;
 
 
@@ -113,9 +113,8 @@ namespace Scenes.Minigames.MonsterTower
         /// </summary>
         void SetNextQuestion()
         {
-            if (sentences.Length <= currentQuestionIndex) return;
-            currentQuestion = sentences[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+            if (questions.Length <= currentQuestionIndex) return;
+            gameMode.SetAnswerKey(questions[currentQuestionIndex], this);
 
         }
 
@@ -245,17 +244,17 @@ namespace Scenes.Minigames.MonsterTower
                         // and based on the value of correctImageIndex the right answer is set. 
                         if (x == correctImageIndex)
                         {
-                            SetCorrectImage(sentences[z]);
+                            gameMode.SetCorrectAnswer(questions[z], this);
 
                             //setting up bricks for the particular lane.
                             // in this case im adding a new BrickData with the particule sentences that is coresponding to the brick. 
-                            loadedBrickLanes[z].bricks.Add(new BrickData(sentences[z]));
+                            loadedBrickLanes[z].bricks.Add(new BrickData(questions[z]));
                             loadedBrickLanes[z].correctImageIndex = correctImageIndex;
                             brickComponent.isCorrect = true;
 
                         }
                         else
-                            SetRandomImage();
+                            gameMode.SetWrongAnswer(this);
 
                         // the sentence for the random brick is also inputtet into the data on the particular lane. 
                         // the top and bottom image key is defined in the SetRandomImage
@@ -451,7 +450,7 @@ namespace Scenes.Minigames.MonsterTower
                 // and not the actual current at the time of exiting the game
                 this.currentQuestionIndex = data.currentQuestionIndex;
 
-                Debug.Log(sentences);
+                Debug.Log(questions);
 
 
 
@@ -460,7 +459,7 @@ namespace Scenes.Minigames.MonsterTower
                 // the application starts the quistions starts over from the beginning. 
                 if (loadedBrickLanes.Count > 0)
                 {
-                    currentQuestion = sentences[currentQuestionIndex];
+                    currentQuestion = questions[currentQuestionIndex];
                     displayBox.text = currentQuestion;
                 }
                 else
