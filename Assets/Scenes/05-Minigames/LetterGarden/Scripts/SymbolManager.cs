@@ -52,25 +52,28 @@ namespace Minigames.LetterGarden.Scripts
             numbers = new Dictionary<int, SplineContainer>();
             //Takes each gameobject and sorts it based on its name
             foreach(GameObject gameObject in symbolPrefabs){
-                
-                int numName;
+
                 //Adds the game object and splinecontainer of a capital letter to their dictionaries using the letter at the end as key
-                if(gameObject.name.Contains("Capital")){
+                if (gameObject.name.Contains("Capital"))
+                {
                     capitalLettersObjects.Add(gameObject.name[7], gameObject);
                     capitalLetters.Add(gameObject.name[7], gameObject.GetComponent<SplineContainer>());
                 }
                 //Adds the game object and splinecontainer of a lowercase letter to their dictionaries using the letter at the end as key
-                else if(gameObject.name.Contains("Lowercase")){
+                else if (gameObject.name.Contains("Lowercase"))
+                {
                     lowercaseLettersObjects.Add(gameObject.name[9], gameObject);
                     lowercaseLetters.Add(gameObject.name[9], gameObject.GetComponent<SplineContainer>());
                 }
                 //Adds the game object and splinecontainer of a number to their dictionaries using the number as the key
-                else if(Int32.TryParse(gameObject.name, out numName)){
+                else if (Int32.TryParse(gameObject.name, out int numName))
+                {
                     numbersObjects.Add(numName, gameObject);
                     numbers.Add(numName, gameObject.GetComponent<SplineContainer>());
                 }
                 //Error in case a gameobject gets added to the list on accident or the name is wrongly formated
-                else {
+                else
+                {
                     Debug.LogError("Could not find the type of symbol in " + gameObject.name);
                 }
             }
