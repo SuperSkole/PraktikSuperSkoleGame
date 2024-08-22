@@ -1,9 +1,7 @@
 
 using System.Collections.Generic;
-using CORE.Scripts;
 using UnityEngine;
 using CORE.Scripts.GameRules;
-
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
@@ -18,20 +16,20 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         int minWrongNumbers = 6;
         int maxWrongNumbers = 10;
 
-        /// <summary>
-        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
-        /// </summary>
-        List<LetterCube> letterCubes;
+            /// <summary>
+            /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+            /// </summary>
+            List<LetterCube> letterCubes;
 
-        /// <summary>
-        /// The lettercubes displaying a letter
-        /// </summary>
-        List<LetterCube> activeLetterCubes = new List<LetterCube>();
+            /// <summary>
+            /// The lettercubes displaying a letter
+            /// </summary>
+            List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
-        /// <summary>
-        /// The boardController of the current game
-        /// </summary>
-        BoardController boardController;
+            /// <summary>
+            /// The boardController of the current game
+            /// </summary>
+            BoardController boardController;
 
         IGameRules gameRules = new FindNumberSeries();
 
@@ -165,16 +163,16 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             this.gameRules = gameRules;
         }
 
-        /// <summary>
-        /// Gets the list of lettercubes and the boardController from the boardcontroller
-        /// </summary>
-        /// <param name="letterCubes">List of lettercubes</param>
-        /// <param name="board">the board connected to the lettercubes</param>
-        public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
-        {
-            this.letterCubes = letterCubes;
-            boardController = board;
-        }
+            /// <summary>
+            /// Gets the list of lettercubes and the boardController from the boardcontroller
+            /// </summary>
+            /// <param name="letterCubes">List of lettercubes</param>
+            /// <param name="board">the board connected to the lettercubes</param>
+            public void SetLetterCubesAndBoard(List<LetterCube> letterCubes, BoardController board)
+            {
+                this.letterCubes = letterCubes;
+                boardController = board;
+            }
 
         /// <summary>
         /// Currently Does nothing
