@@ -502,7 +502,7 @@ namespace Scenes.Minigames.MonsterTower
                 // and not the actual current at the time of exiting the game
                 this.currentQuestionIndex = data.currentQuestionIndex;
 
-                Debug.Log(data.BrickLanes.Count);
+                //Debug.Log(data.BrickLanes.Count);
 
 
 
