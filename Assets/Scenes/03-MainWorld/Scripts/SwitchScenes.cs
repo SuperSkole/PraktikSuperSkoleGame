@@ -9,5 +9,6 @@ public class SwitchScenes : MonoBehaviour
     public void WhichSceneswitch(string sceneName)
     {
         SceneManager.LoadScene($"{sceneName}");
+        //SceneManager.LoadSceneAsync("PlayerScene", LoadSceneMode.Additive);
     }
 }

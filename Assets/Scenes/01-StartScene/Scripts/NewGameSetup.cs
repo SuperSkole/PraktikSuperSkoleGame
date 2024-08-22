@@ -20,6 +20,7 @@ namespace Scenes._01_StartScene.Scripts
         {
             SetupPlayer();
             SceneManager.LoadScene("02-PlayerHouse");
+            //SceneManager.LoadSceneAsync("PlayerScene", LoadSceneMode.Additive);
         }
 
         public void SetupPlayer()
