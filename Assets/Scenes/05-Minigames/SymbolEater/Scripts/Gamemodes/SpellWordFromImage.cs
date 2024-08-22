@@ -52,7 +52,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 if(sprites.ContainsKey(gameRules.GetDisplayAnswer())){
                     boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
                 }
-                else{
+                else
+                {
                     Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
                     sprites.Add(gameRules.GetDisplayAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
                     boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
@@ -64,7 +65,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 boardController.StartImageWait(GetSymbols);
             }
             //If the words are loaded then it starts generating the board
-            if(wordsLoaded){
+            if(wordsLoaded)
+            {
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
@@ -89,7 +91,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
                 }
                 //finds some new letterboxes and assigns them a correct letter
-                for(int i = 0; i < gameRules.GetDisplayAnswer().Length; i++){
+                for(int i = 0; i < gameRules.GetDisplayAnswer().Length; i++)
+                {
                     string letter = gameRules.GetDisplayAnswer()[i].ToString();
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
@@ -123,7 +126,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 foundLetters.Enqueue(letter.ToLower()[0]);
                 return true;
             }
-            else{
+            else
+            {
                 return false;
             }
             
@@ -168,7 +172,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
             }
             //Checks if the game is over. If it is it informs the boardcontroller that the game is over. Otherwise it just restarts with a new word.
-            else{
+            else
+            {
                 correctWords++;
                 if(correctWords == 5)
                 {

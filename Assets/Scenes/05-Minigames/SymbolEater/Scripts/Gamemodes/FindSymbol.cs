@@ -123,9 +123,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
                 newLetter.Activate(gameRules.GetWrongAnswer());
             }
-
-            //Checks if a new game should be started or if the player has won
-            else
+            else //Checks if a new game should be started or if the player has won
             {
                 correctLetters++;
                 if(correctLetters < 5)

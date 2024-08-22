@@ -53,9 +53,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private string letter;
 
 
-        /// <summary>
-        /// Start is called before the first frame update
-        /// </summary>
         void Start()
         {
             rawImage = imageObject.GetComponent<RawImage>();
@@ -252,16 +249,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }
-        /// <summary>
-        /// Changes the color of the lettercube if it contains the correct letter
-        /// </summary>
-        /// <returns></returns>
     
 
         /// <summary>
         /// Toggles whether the image on the letter cube is displayed
         /// </summary>
-        public void toggleImage(){
+        public void ToggleImage(){
             spriteRenderer.enabled = !spriteRenderer.enabled;
         }
 
