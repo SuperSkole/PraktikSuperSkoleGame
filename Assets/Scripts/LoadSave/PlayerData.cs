@@ -8,7 +8,7 @@ namespace LoadSave
     /// </summary>
     public class PlayerData : MonoBehaviour
     {
-        // Serialize properties to make them visible in the Inspector.
+        // We serialize so we can see values in inspector
         [SerializeField] private string username;
         [SerializeField] private string savefile;
         [SerializeField] private string monsterName;
@@ -19,11 +19,11 @@ namespace LoadSave
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
 
-        // Lists can be shown directly if they are public or marked with [SerializeField].
+        // Lists for storing active words
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
-
-        // Public properties to access private serialized fields.
+        public List<char> CollectedNumbers = new List<char>();
+        
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
@@ -44,5 +44,11 @@ namespace LoadSave
             this.currentLevel = level;
             this.currentPosition = position;
         }
+        
+        //// saved for later
+        // public void AddWord(string word) => collectedWords.Add(word);
+        // public void RemoveWord(string word) => collectedWords.Remove(word);
+        // public void AddLetter(char letter) => collectedLetters.Add(letter);
+        // public void RemoveLetter(char letter) => collectedLetters.Remove(letter);
     }
 }

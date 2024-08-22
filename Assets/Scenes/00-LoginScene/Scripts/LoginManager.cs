@@ -80,10 +80,10 @@ namespace Scenes.LoginScene.Scripts
                         //     // matches the stored hashed password, and return true/false
                         //     return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
                         // }
-
                     }
                 }
             }
+            
             return false;
         }
     }

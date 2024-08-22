@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Scenes.Minigames.WordFactory.Scripts.Managers
 {
-    public class GameManager : MonoBehaviour
+    public class WordFactoryGameManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        public static WordFactoryGameManager Instance { get; private set; }
 
         [SerializeField] private DataLoader dataLoader;
         private List<GameObject> gears = new List<GameObject>();

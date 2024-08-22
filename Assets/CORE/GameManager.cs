@@ -1,5 +1,6 @@
 using LoadSave;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +12,9 @@ namespace CORE
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
         public PlayerManager PlayerManager;
-        
+
         public PlayerData PlayerData { get; set; }
+        public HighScore HighScore;
         public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
@@ -63,6 +65,7 @@ namespace CORE
         }
 
         #region Login Region
+        
         public void SetUserDuringLogin()
         {
             // Find the username input field in login scene
@@ -79,9 +82,8 @@ namespace CORE
                 Debug.Log("No TMP Input Field found in the scene!");
             }
         }
+        
         #endregion Login Region
-        
-        
 
         public void LoadGame()
         {
@@ -109,6 +111,11 @@ namespace CORE
         {
             Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
+
+            if (_instance.GetComponent<PlayerData>() == null)
+            {
+                PlayerData = _instance.gameObject.AddComponent<PlayerData>();
+            }
         }
         
         private void InitializeManagers()
@@ -124,7 +131,6 @@ namespace CORE
             {
                 // save player data before entering new scene
                 SaveGame();
-                //LoadGame();
             }
         }
 
