@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence
 {
 
 
