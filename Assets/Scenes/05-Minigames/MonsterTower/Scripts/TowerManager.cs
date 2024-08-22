@@ -71,6 +71,8 @@ namespace Scenes.Minigames.MonsterTower
         /// <returns></returns>
         IEnumerator WaitUntillDataIsLoaded()
         {
+
+            //Both the images and the savedata needs to be loaded before the tower is built. 
             while (!ImageManager.IsDataLoaded || !IsSaveDataLoaded)
             {
                 yield return null;
