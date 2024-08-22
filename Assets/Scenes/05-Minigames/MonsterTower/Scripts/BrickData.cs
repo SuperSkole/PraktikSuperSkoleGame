@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BrickData
+
+namespace Scenes.Minigames.MonsterTower
 {
-    // Start is called before the first frame update
-
-    public string sentence;
-    public Sprite correctImage;
-    public List<Sprite> wrongImages;
-
-    public BrickData(string sentence,Sprite correctImage,List<Sprite>wrongImages)
+    //Holds a sentence symbolising the images that need to be displayed on the brick. 
+    [System.Serializable]
+    public class BrickData
     {
-        this.sentence = sentence;
-        this.correctImage = correctImage;
-        this.wrongImages = wrongImages;
+
+        public string input;
+        public BrickData(string input)
+        {
+            this.input = input;
+
+        }
+
 
 
     }

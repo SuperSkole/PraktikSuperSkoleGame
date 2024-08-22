@@ -97,16 +97,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
             if (comp == null || comp.isShootable == false) return;
-            catapultAming.Shoot(hit.point, comp);
-            RemoveAmmo();
-            
-
+            StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
 
         /// <summary>
         /// removes ammo and updates the pile of ammo
         /// </summary>
-        void RemoveAmmo()
+        public void RemoveAmmo()
         {
             ammo--;
             if(ammo < ammoDisplay.Length)

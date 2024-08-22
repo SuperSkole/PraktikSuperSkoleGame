@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scenes.Minigames.SymbolEater.Scripts;
+
+
 
 
 /// <summary>
@@ -47,5 +50,11 @@ public interface IGameMode
     /// <param name="min"></param>
     /// <param name="max"></param>
     public void SetMinAndMaxCorrectSymbols(int min, int max);
+
+    /// <summary>
+    /// Sets the game rules for the game
+    /// </summary>
+    /// <param name="gameRules">the set of game rules which should be used</param>
+    public void SetGameRules(IGameRules gameRules);
 
 }

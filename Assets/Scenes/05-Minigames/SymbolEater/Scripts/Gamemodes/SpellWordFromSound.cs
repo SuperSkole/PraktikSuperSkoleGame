@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
+namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class SpellWordFromSound : IGameMode
     {
@@ -32,10 +32,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
 
-        List<string> words = new List<string>(){
-        "Bil", "Båd", "Fly"
-        };
-
         int minWrongLetters = 6;
 
         int maxWrongLetters = 10;
@@ -63,8 +59,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
         public void GetSymbols()
         {
             currentIndex = 0;
-            word = words[Random.Range(0, words.Count)].ToLower();
+            word = WordsForImagesManager.GetRandomWordForImage();
             currentLetter = word[currentIndex];
+            
             if (sprites.ContainsKey(word))
             {
                 boardController.SetImage(sprites[word]);
@@ -84,6 +81,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             //finds new letterboxes to be activated and assigns them a random incorrect letter.
             for (int i = 0; i < count; i++)
             {
+                
                 char letter = LetterManager.GetRandomLetters(1)[0];
                 while (word.Contains(char.ToLower(letter)))
                 {
@@ -114,7 +112,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
                 activeLetterCubes[i].Activate(letter.ToString());
             }
             boardController.SetAnswerText("");
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vï¿½lg det rigtige.");
 
 
             /// <summary>
@@ -212,13 +210,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             if (currentIndex < word.Length)
             {
                 //currentLetter = word[currentIndex];
-                char nL = LetterManager.GetRandomLetters(1)[0];
+                char newLetterCubeValue = LetterManager.GetRandomLetters(1)[0];
                 if (word.Contains(oldLetter))
                 {
-                    nL = oldLetter[0];
+                    newLetterCubeValue = oldLetter[0];
                 }
 
-                newLetter.Activate(nL.ToString());
+                newLetter.Activate(newLetterCubeValue.ToString());
 
             }
             else
@@ -267,6 +265,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes.SpellWordFromSound
             maxWrongLetters = max;
         }
 
-
+        /// <summary>
+        /// Temporarily unused until relevant game rules have been implemented
+        /// </summary>
+        /// <param name="gameRules">game rules to be used by the game mode</param>
+        public void SetGameRules(IGameRules gameRules)
+        {
+            
+        }
     }
 }
