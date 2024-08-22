@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class ChangingPlayerColor : MonoBehaviour
 {
-    [SerializeField] SkeletonGraphic skeletonGraphic;
-    [SerializeField] NewGameSetup gameSetup;
+    [SerializeField] private SkeletonGraphic skeletonGraphic;
+    [SerializeField] private NewGameSetup gameSetup;
 
     public void ColorChange(string colorName)
     {

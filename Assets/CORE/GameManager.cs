@@ -1,6 +1,6 @@
 using LoadSave;
-using Scenes.StartScene.Scripts;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,10 +10,11 @@ namespace CORE
     {
         // Player and game Data
         public SaveToJsonManager SaveManager;
-        public LoadGameManager LoadGameManager;
+        public LoadGameManager LoadManager;
         public PlayerManager PlayerManager;
-        
+
         public PlayerData PlayerData { get; set; }
+        public HighScore HighScore;
         public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
@@ -64,6 +65,7 @@ namespace CORE
         }
 
         #region Login Region
+        
         public void SetUserDuringLogin()
         {
             // Find the username input field in login scene
@@ -80,14 +82,13 @@ namespace CORE
                 Debug.Log("No TMP Input Field found in the scene!");
             }
         }
+        
         #endregion Login Region
-        
-        
 
         public void LoadGame()
         {
             // Logic to load game data
-            LoadGameManager.LoadGame(CurrentUser);
+            LoadManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -110,12 +111,18 @@ namespace CORE
         {
             Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
+
+            if (_instance.GetComponent<PlayerData>() == null)
+            {
+                PlayerData = _instance.gameObject.AddComponent<PlayerData>();
+            }
         }
         
         private void InitializeManagers()
         {
             gameObject.AddComponent<PlayerManager>();
             SaveManager = new SaveToJsonManager();
+            LoadManager = new LoadGameManager();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -124,7 +131,6 @@ namespace CORE
             {
                 // save player data before entering new scene
                 SaveGame();
-                //LoadGame();
             }
         }
 

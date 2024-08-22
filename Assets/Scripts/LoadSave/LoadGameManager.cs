@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using LoadSave;
+using CORE;
+using CORE.Scripts;
 using UnityEngine;
 
-namespace Scenes.StartScene.Scripts
+namespace LoadSave
 {
-    public class LoadGameManager : MonoBehaviour
+    public class LoadGameManager
     {
-        //private GameManager gm; // TODO Change to gamemmanager
-
         public string SaveDirectory = Path.Combine(Application.dataPath, "Saves");
 
-        void Awake()
+        private void Awake()
         {
             if (!Directory.Exists(SaveDirectory))
             {
@@ -31,6 +30,26 @@ namespace Scenes.StartScene.Scripts
             
             return saves;
         }
+        
+        public string LoadJsonData(string fileName)
+        {
+            string filePath = Path.Combine(SaveDirectory, fileName);
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    return File.ReadAllText(filePath);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError("Error reading file: " + ex.Message);
+                    return null;
+                }
+            }
+
+            Debug.LogError("File not found: " + filePath);
+            return null;
+        }
 
         public SaveDataDTO LoadGameDataSync(string fileName)
         {
@@ -40,6 +59,7 @@ namespace Scenes.StartScene.Scripts
                 string json = File.ReadAllText(filePath);
                 return JsonUtility.FromJson<SaveDataDTO>(json);
             }
+            
             return null;
         }
         
@@ -59,10 +79,18 @@ namespace Scenes.StartScene.Scripts
             }
         }
         
-        public bool DoesSaveFileExist(string hashedUsername)
+        public string GetClosestSaveFile(string username, string monsterName, DateTime referenceTime)
         {
-            string filePath = Path.Combine(SaveDirectory, $"{hashedUsername}_save.json");
-            return File.Exists(filePath);
+            string filenamePattern = $"{username}_{monsterName}_*.json";
+            string dateFormat = "ddMMHHmm";  
+            return DataTimeHelpers.FindClosestFileByTimestamp(Application.dataPath, filenamePattern, referenceTime, dateFormat);
+        }
+        
+        public bool DoesSaveFileExist(string username, string monsterName, string suffix)
+        {
+            var directoryInfo = new DirectoryInfo(GameManager.Instance.SaveManager.SaveDirectory);
+            var files = directoryInfo.GetFiles($"{username}_{monsterName}_*_{suffix}.json");
+            return files.Length > 0;
         }
         
         public string GetSaveFilePath(string hashedUsername)

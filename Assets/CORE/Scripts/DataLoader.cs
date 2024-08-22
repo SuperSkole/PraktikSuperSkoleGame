@@ -99,7 +99,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="filePath">the path of the file you are loading</param>
         /// <returns></returns>
-        IEnumerator LoadAndSetDic(string filePath)
+        private IEnumerator LoadAndSetDic(string filePath)
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
             string setName = Path.GetFileNameWithoutExtension(filePath);
@@ -126,7 +126,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="name">the name that needs to be "fixed"</param>
         /// <returns>a fixed vertion of the name</returns>
-        string GetName(string name)
+        private string GetName(string name)
         {
             StringBuilder output = new();
             output.Append(name);
@@ -167,7 +167,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="filePath">the path of the file you are loading</param>
         /// <returns></returns>
-        IEnumerator LoadAndSetDicLetterSound(string filePath)
+        private IEnumerator LoadAndSetDicLetterSound(string filePath)
         {
             UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath,AudioType.UNKNOWN);
             string setName = Path.GetFileNameWithoutExtension(filePath);
@@ -193,7 +193,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="name">the name that needs to be "fixed"</param>
         /// <returns>a fixed vertion of the name</returns>
-        string GetNameLetterSound(string name)
+        private string GetNameLetterSound(string name)
         {
             StringBuilder output = new();
             output.Append(name);

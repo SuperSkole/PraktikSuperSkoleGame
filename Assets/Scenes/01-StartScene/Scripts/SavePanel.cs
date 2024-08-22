@@ -12,8 +12,6 @@ namespace Scenes.StartScene.Scripts
     {
         public event Action<string> OnLoadRequested;
         
-        [SerializeField] private LoadGameManager loadGameManager;
-        
         [SerializeField] private Image chosenCharacter;
         [SerializeField] private Image playerNameDrawing;
         [SerializeField] private TextMeshProUGUI playerName;
@@ -22,8 +20,8 @@ namespace Scenes.StartScene.Scripts
         [SerializeField] private Image startGameButton;
         
         private string saveFileName;
-        
-        void OnEnable() 
+
+        private void OnEnable() 
         {
             LoadGameController.Instance.RegisterPanel(this);
         }
@@ -61,8 +59,8 @@ namespace Scenes.StartScene.Scripts
             UpdateButtonVisibility();
         }
 
-        private void UpdateButtonVisibility() {
-            
+        private void UpdateButtonVisibility() 
+        {
             startGameButton.gameObject.SetActive(!string.IsNullOrEmpty(saveFileName));
         }
     }

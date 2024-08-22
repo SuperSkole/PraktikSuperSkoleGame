@@ -1,3 +1,4 @@
+using CORE;
 using UnityEngine;
 
 public class PlacementSystem : MonoBehaviour
@@ -12,14 +13,14 @@ public class PlacementSystem : MonoBehaviour
     public GameObject GridVisualization { get { return gridVisualization; } private set { } }
     private GridData floorData, furnitureData;
 
-    public GridData FloorData { get { return floorData; } set { floorData = value; } }
-    public GridData FurnitureData { get { return furnitureData; } set { furnitureData = value; } }
+    public GridData FloorData { get => floorData; set => floorData = value; }
+    public GridData FurnitureData { get => furnitureData; set => furnitureData = value; }
 
     [SerializeField] private PreviewSystem preview;
     private Vector3Int lastDetectedPosition = Vector3Int.zero;
 
     [SerializeField] private ObjectPlacer objectPlacer;
-    IBuildingState buildingState;
+    private IBuildingState buildingState;
 
     // Initializes the placement system.
     private void Start()
@@ -29,21 +30,25 @@ public class PlacementSystem : MonoBehaviour
         floorData = new GridData();
         furnitureData = new GridData();
         
-        if (saveManager.IsThereSaveFile())
+        if (GameManager.Instance.LoadManager.DoesSaveFileExist(
+                GameManager.Instance.CurrentUser,
+                GameManager.Instance.PlayerData.MonsterName,
+                "house"))
         {
             saveManager.LoadGridData();
             foreach (var item in saveManager.container.floorData.placedObjectsList)
             {
                 PlaceItemsStartLoading(item.Key, item.ID);
             }
+            
             foreach (var item in saveManager.container.furnitureData.placedObjectsList)
             {
                 PlaceItemsStartLoading(item.Key, item.ID);
             }
         }
-
     }
-    Vector3Int previousKey = new();
+
+    private Vector3Int previousKey = new();
     private void PlaceItemsStartLoading(Vector3Int key, int ID)
     {
         //if Obj is placed on 0,0,0 this doesnt work like it should
