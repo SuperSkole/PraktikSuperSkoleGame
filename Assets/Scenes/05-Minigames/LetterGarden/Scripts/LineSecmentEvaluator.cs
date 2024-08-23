@@ -32,7 +32,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 distToSpline = Mathf.Clamp(distToSpline, 0,5);
                 totalDist += distToSpline;
             }
-            SplineUtility.GetNearestPoint(spline, dwaing.GetPosition(0), out _, out float lastT);
+            SplineUtility.GetNearestPoint(spline, dwaing.GetPosition(dwaing.positionCount-1), out _, out float lastT);
             if (lastT < 0.95f) return false;//checks that the end of the dwaing is within the last 5% of the spline
             bool testResult = totalDist <= maxDist;
             if (testResult)
