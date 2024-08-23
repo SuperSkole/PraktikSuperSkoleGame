@@ -6426,8 +6426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfa2fc8fb88a01c4db9c59d668540c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
-  playerSpawnPoint: {fileID: 963738686}
   buildingSystem: {fileID: 1577317845}
   uiBuilding: {fileID: 63499713}
   cameraMovement: {fileID: 839038639}
@@ -6924,7 +6922,7 @@ GameObject:
   - component: {fileID: 1864370800}
   m_Layer: 0
   m_Name: Virtual Camera
-  m_TagString: Untagged
+  m_TagString: Camera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -16,8 +16,8 @@ public class HouseSceneStartBehavior : MonoBehaviour
         Debug.Log("Trying to set player obj in house start");
         spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
-        virtualCamera.Follow = spawnedPlayer.transform;
-        virtualCamera.LookAt = spawnedPlayer.transform;
+        //virtualCamera.Follow = spawnedPlayer.transform;
+        //virtualCamera.LookAt = spawnedPlayer.transform;
 
 
         buildingSystem.SetActive(false);
