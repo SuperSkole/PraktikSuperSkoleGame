@@ -214,7 +214,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="gameRules">Game rules to be be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
-            
+            this.gameRules = gameRules;
         }
     }
 }
