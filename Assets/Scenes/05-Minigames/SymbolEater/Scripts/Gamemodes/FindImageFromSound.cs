@@ -308,12 +308,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
         /// <summary>
-        /// unused until relevant game rules are implemented
+        /// sets the game rules of the game. Currently only support SpellWord
         /// </summary>
-        /// <param name="gameRules">The game rules used by the board</param>
+        /// <param name="gameRules">game rules to be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
-            
+            this.gameRules = gameRules;
         }
 
 

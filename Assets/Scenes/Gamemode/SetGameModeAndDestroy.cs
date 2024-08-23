@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using Scenes.Minigames.SymbolEater.Scripts;
+using Assets.CORE.Scripts.Game_Rules;
 
 
 
@@ -33,7 +34,7 @@ public class SetGameModeAndDestroy : MonoBehaviour
             //sets the gamemode to sound out letter
             case 2:
                 BoardController target2 = FindObjectOfType<BoardController>();
-                target2.GameModeSet(new SpellWordFromSound(), new SpellWord());
+                target2.GameModeSet(new FindImageFromSound(), new FindCorrectImage());
                 break;
             //sets the gamemode to findnumberseries
             case 3:
