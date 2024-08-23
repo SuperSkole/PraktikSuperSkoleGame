@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using Scenes.Minigames.SymbolEater.Scripts;
-using Assets.CORE.Scripts.Game_Rules;
+
 
 
 
