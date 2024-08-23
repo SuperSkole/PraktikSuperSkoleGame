@@ -9,16 +9,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         [SerializeField] private float speed = 1;
         [SerializeField] private GameObject SplineParent;
 
-        private SplineContainer letterSpline;
-        private readonly List<SplineContainer> letterList = new();
-        private readonly List<SplineContainer> lettersToDraw = new();
+        public SplineContainer letterSpline;
+        private List<SplineContainer> letterList = new();
+        private List<SplineContainer> lettersToDraw = new();
 
         private Vector3 currentPos;
         private Vector3 direction;
         private float distancePercentage = 0;
         private float spineLeangth;
-        private int splineIndex = 0;
+        public int splineIndex = 0;
 
+        private readonly int difficultTest = 1;
         private readonly int difficultyEasy = 3;
         private readonly int difficultyMedium = 5;
         private readonly int difficultyHard = 7;
@@ -31,7 +32,8 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         private void Start()
         {
-            SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
+            //SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
+            SetDifficulty(difficultTest);
             SetLettersToDraw();
             NextLetter();
         }
@@ -73,7 +75,20 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             if (letterSpline != null)
             {
                 MoveOnSpline();
+
                 CheckDistance();
+            }
+        }
+
+        /// <summary>
+        /// Checks how close to completion of the current path the bee is.
+        /// TODO: Remove this once merged with the code to check if the previous line is done.
+        /// </summary>
+        private void CheckDistance()
+        {
+            if (distancePercentage >= 1)
+            {
+                distancePercentage = 0;
             }
         }
 
@@ -94,18 +109,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             distancePercentage = 0;
             spineLeangth = letterSpline.CalculateLength(splineIndex);
             return splineIndex != 0;
-        }
-
-        /// <summary>
-        /// Checks how close to completion of the current path the bee is.
-        /// TODO: Remove this once merged with the code to check if the previous line is done.
-        /// </summary>
-        private void CheckDistance()
-        {
-            if (distancePercentage >= 1)
-            {
-                NextSplineInLetter();
-            }
         }
 
         /// <summary>

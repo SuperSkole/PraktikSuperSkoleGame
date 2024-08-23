@@ -3,7 +3,7 @@ using UnityEngine.Splines;
 
 namespace Scenes.Minigames.LetterGarden.Scrips
 {
-    public class LineSecmentEvaluator
+    public static class LineSecmentEvaluator
     {
         static float maxDist = 1;
         static float totalMaxDist = 2;
