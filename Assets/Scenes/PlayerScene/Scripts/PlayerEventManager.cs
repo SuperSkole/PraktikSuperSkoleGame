@@ -14,9 +14,9 @@ namespace Scenes.PlayerScene.Scripts
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
 
-        private void Awake()
+        private void Start()
         {
-            InitializePlayerEventManager(playerData);
+            InitializePlayerEventManager();
         }
 
         private void OnEnable()
@@ -38,11 +38,14 @@ namespace Scenes.PlayerScene.Scripts
         /// Initializes the PlayerEventManager with references to player data.
         /// </summary>
         /// <param name="data">Reference to the player data object.</param>
-        public void InitializePlayerEventManager(PlayerData data)
+        public void InitializePlayerEventManager()
         {
+            print("InitializePlayerEventManager");
+            playerData = PlayerManager.Instance.PlayerData;
             // Assign the playerData if not null.
             // otherwise throw an ArgumentNullException to indicate it must not be null
-            playerData = data ?? throw new ArgumentNullException(nameof(data));
+
+           // playerData = data ?? throw new ArgumentNullException(nameof(data));
         }
         
         /// <summary>

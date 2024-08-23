@@ -18,37 +18,15 @@ namespace Scenes._01_StartScene.Scripts
         
         public void OnClick()
         {
-            SetupPlayer();
+            SetUpPlayer();
             SceneManager.LoadScene("02-PlayerHouse");
             SceneManager.LoadSceneAsync("PlayerScene", LoadSceneMode.Additive);
-        }
-
-        public void SetupPlayer()
+        }   
+        
+        private void SetUpPlayer()
         {
-            // instantiate temp object in scene
-            GameObject loadedPlayer = Instantiate(playerPrefab, spawnCharPoint.position, Quaternion.identity, spawnCharPoint);
-
-            PlayerData player = loadedPlayer.AddComponent<PlayerData>();
-
-            // Init player data
-            player.Initialize(
-                GameManager.Instance.CurrentUser,
-                nameInput.text, 
-                ChosenMonsterColor,
-                0,
-                0,
-                0,
-                spawnCharPoint.position
-            );
-
-            // Log for debugging
-            Debug.Log("Player setup complete with username: " + player.Username +
-                      " Player Name: " + player.MonsterName +
-                      " Monster Color: " + player.MonsterColor +
-                      " XP: " + player.CurrentXPAmount.ToString() +
-                      " Gold: " + player.CurrentGoldAmount.ToString());
-            
-            GameManager.Instance.PlayerData = player;
+            GameManager.Instance.CurrentMonsterName = nameInput.text;
+            GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
         }
     }
 }

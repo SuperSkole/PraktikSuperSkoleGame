@@ -9,6 +9,11 @@ public class ChangingPlayerColor : MonoBehaviour
     [SerializeField] private SkeletonGraphic skeletonGraphic;
     [SerializeField] private NewGameSetup gameSetup;
 
+    /// <summary>
+    /// List of colors
+    /// orange, blue, red, green
+    /// </summary>
+    /// <param name="colorName"></param>
     public void ColorChange(string colorName)
     {
         Color selectedColor;

@@ -11,13 +11,16 @@ namespace CORE
         // Player and game Data
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
-        public PlayerManager PlayerManager;
+       // public PlayerManager PlayerManager;
 
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; private set; }
-        public string CurrentPlayerName { get; private set; }
+        public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
+        public string CurrentMonsterColor { get; set; }
+
+
 
         
         private static GameManager _instance;
@@ -120,7 +123,7 @@ namespace CORE
         
         private void InitializeManagers()
         {
-            gameObject.AddComponent<PlayerManager>();
+            //gameObject.AddComponent<PlayerManager>();
             SaveManager = new SaveToJsonManager();
             LoadManager = new LoadGameManager();
         }
