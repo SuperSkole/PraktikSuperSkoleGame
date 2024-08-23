@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CORE.Scripts.GameRules{
+namespace CORE.Scripts.GameRules
+{
     /// <summary>
     /// Implementation of IGameRules for games where the player should look for a specific letter
     /// </summary>

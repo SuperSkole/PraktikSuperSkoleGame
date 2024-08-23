@@ -1,11 +1,12 @@
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    public class SpellWordFromSound : IGameMode
+    public class SpellWordFromSound : ISEGameMode
     {
         /// <summary>
         /// Current Word Sound clip
@@ -258,6 +259,26 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void SetGameRules(IGameRules gameRules)
         {
             this.gameRules = gameRules;
+        }
+
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <param name="letterCube"></param>
+        /// <param name="correct"></param>
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
+            
+        }
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
         }
     }
 
