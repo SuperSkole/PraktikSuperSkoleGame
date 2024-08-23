@@ -49,7 +49,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
                 numberOfCorrectLettersOnBoard++;
             }
-            else{
+            else
+            {
                 letterCube.Activate(gameRules.GetWrongAnswer());
             }
         }
