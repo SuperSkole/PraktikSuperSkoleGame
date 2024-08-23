@@ -127,11 +127,16 @@ namespace CORE
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
+            // Early out
+            if (scene.name.StartsWith("00") ||
+                scene.name.StartsWith("01") ||
+                scene.name.Equals("Bootstrapper"))
             {
-                // save player data before entering new scene
-                SaveGame();
+                return;
             }
+
+            // save player data before entering new scene
+            SaveGame();
         }
 
         private void OnDestroy()
