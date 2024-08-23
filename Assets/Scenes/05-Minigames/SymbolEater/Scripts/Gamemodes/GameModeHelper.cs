@@ -23,7 +23,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="activeLetterCubes">all currently active lettercubes</param>
         /// <param name="getLetterCubeValue">method which activates the lettercube</param>
         /// <param name="correct">whether the value on the cube should be the correct one</param>
-        public static void ActivateLetterCubes(int amount, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, GetLetterCubeValue getLetterCubeValue, bool correct){
+        public static void ActivateLetterCubes(int amount, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, GetLetterCubeValue getLetterCubeValue, bool correct)
+        {
             //Activates the given amount of lettercubes
             for(int i = 0; i < amount; i++)
             {
