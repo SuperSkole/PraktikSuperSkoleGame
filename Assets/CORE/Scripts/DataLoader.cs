@@ -83,9 +83,10 @@ namespace CORE.Scripts
         private IEnumerator LoadAllTextures()
         {
             string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
-
+           
             // Get all PNG files in the directory
             string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
+
             foreach (string filePath in fileEntries)
             {
                 StartCoroutine(LoadAndSetDic(filePath));

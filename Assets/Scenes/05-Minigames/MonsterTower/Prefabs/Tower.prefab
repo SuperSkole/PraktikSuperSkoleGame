@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &789853634817399415
+--- !u!1 &7682296799501767108
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1037570517928358301}
-  - component: {fileID: 4339259411180487843}
+  - component: {fileID: 4810737106061394192}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -17,45 +16,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1037570517928358301
+--- !u!4 &4810737106061394192
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789853634817399415}
+  m_GameObject: {fileID: 7682296799501767108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.71, y: 0.76042557, z: -20}
+  m_LocalPosition: {x: 5.49, y: 2.35, z: -11.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4339259411180487843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 789853634817399415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ad339a57f7799c48a8b79cd74cb07ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  brickPrefab: {fileID: 4237366790475014984, guid: d565d34c00e118a4ab141fc370a4aff9, type: 3}
-  canvasPrefab: {fileID: 4730933164672561803, guid: ef7ffbcd150b50b43967e669a0e12d4c, type: 3}
-  wrongImages:
-  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
-  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
-  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
-  - {fileID: 21300000, guid: 680968210e7203d43b814f864160414e, type: 3}
-  wrongImages2:
-  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
-  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
-  - {fileID: 21300000, guid: 4ff2bccf89b10864088ef2a7f49f0a20, type: 3}
-  image: {fileID: 21300000, guid: 0be4cad76529fde46976d92042128927, type: 3}
-  correctAnswer: 0
-  displayBox: {fileID: 0}
-  imageHolerPrefab: {fileID: 0}

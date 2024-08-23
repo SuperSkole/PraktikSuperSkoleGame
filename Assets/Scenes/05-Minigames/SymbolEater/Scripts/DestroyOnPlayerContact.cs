@@ -1,34 +1,39 @@
 using System.Collections;
 using UnityEngine;
 
-
-/// <summary>
-/// Used to destroy a gameobject on contact with the player
-/// </summary>
-public class DestroyOnPlayerContact : MonoBehaviour
+namespace Scenes.Minigames.SymbolEater.Scripts
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     /// <summary>
-    /// Destroys the object when it overlaps with the player
+    /// Used to destroy a gameobject on contact with the player
     /// </summary>
-    /// <param name="other"></param>
-    public void OnTriggerEnter(Collider other)
+    public class DestroyOnPlayerContact : MonoBehaviour
     {
-        if(other.gameObject.tag == "Player")
+        // Start is called before the first frame update
+        void Start()
         {
-            Destroy(gameObject);
+
         }
-        
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        /// <summary>
+        /// Destroys the object when it overlaps with the player
+        /// </summary>
+        /// <param name="other"></param>
+        public void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                Destroy(gameObject);
+            }
+
+        }
     }
+
 }
