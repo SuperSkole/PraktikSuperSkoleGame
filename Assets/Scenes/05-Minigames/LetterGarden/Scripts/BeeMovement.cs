@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -10,9 +8,10 @@ namespace Scenes.Minigames.LetterGarden.Scrips
     {
         [SerializeField] private float speed = 1;
         [SerializeField] private GameObject SplineParent;
-        
+
         private SplineContainer letterSpline;
-        private List<SplineContainer> letterList;
+        private readonly List<SplineContainer> letterList = new();
+        private readonly List<SplineContainer> lettersToDraw = new();
 
         private Vector3 currentPos;
         private Vector3 direction;
@@ -20,32 +19,33 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         private float spineLeangth;
         private int splineIndex = 0;
 
-        private int difficultyEasy = 3;
-        private int difficultyMedium = 5;
-        private int difficultyHard = 7;
-        private int difficultyAll;
+        private readonly int difficultyEasy = 3;
+        private readonly int difficultyMedium = 5;
+        private readonly int difficultyHard = 7;
+        private readonly int difficultyAll;
         private int difficultyCurrent = 3;
         private int completedLetters = 0;
-        private List<SplineContainer> lettersToDraw;
 
         /// <summary>
         /// Runs at start and dynamically fetches all splines used to draw letters/symbols, then selects one at random.
         /// </summary>
-        void Start()
+        private void Start()
         {
             SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
             SetLettersToDraw();
             NextLetter();
         }
 
-        void SetDifficulty(int difficulty)
+        private void SetDifficulty(int difficulty)
         {
             difficultyCurrent = difficulty;
         }
 
-        void SetLettersToDraw()
+        /// <summary>
+        /// Finds all possible letters and assigns a number to be drawn depending on difficulty level.
+        /// </summary>
+        private void SetLettersToDraw()
         {
-            letterList = new();
             foreach (Transform spline in SplineParent.GetComponentInChildren<Transform>())
             {
                 letterList.Add(spline.gameObject.GetComponent<SplineContainer>());
@@ -53,23 +53,22 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             for (completedLetters = 0; completedLetters < difficultyCurrent; completedLetters++)
             {
                 SplineContainer currentLetter = letterList[Random.Range(0, letterList.Count)];
-                letterList.Remove(currentLetter);
                 lettersToDraw.Add(currentLetter);
+                letterList.Remove(currentLetter);
             }
         }
 
         /// <summary>
         /// Called to switch to the next letter, once the previous one has been completed.
         /// </summary>
-        void NextLetter()
+        private void NextLetter()
         {
             letterSpline = lettersToDraw[0];
             lettersToDraw.Remove(letterSpline);
             spineLeangth = letterSpline.CalculateLength(splineIndex);
         }
 
-
-        void Update()
+        private void Update()
         {
             if (letterSpline != null)
             {
@@ -84,18 +83,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// <returns>returns false if you cant go to the next line(we are out of lines) and returns true if it sucsesfully moves on to the next line</returns>
         public bool NextSplineInLetter()
         {
-            if(splineIndex >= letterSpline.Splines.Count - 1)
+            if (splineIndex >= letterSpline.Splines.Count - 1)
             {
                 splineIndex = 0;
             }
             else
+            {
                 splineIndex++;
+            }
             distancePercentage = 0;
             spineLeangth = letterSpline.CalculateLength(splineIndex);
-            if(splineIndex == 0)
-                return false;
-            else
-                return true;
+            return splineIndex != 0;
         }
 
         /// <summary>
@@ -117,11 +115,14 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             distancePercentage += speed * Time.deltaTime / spineLeangth;
 
-            currentPos = letterSpline.EvaluatePosition(splineIndex,distancePercentage);
+            currentPos = letterSpline.EvaluatePosition(splineIndex, distancePercentage);
             transform.position = currentPos;
 
             direction = (Vector3)letterSpline.EvaluatePosition(splineIndex, distancePercentage + 0.05f) - currentPos;
-            transform.rotation = Quaternion.LookRotation(direction,Vector3.back);
+            if (direction != Vector3.zero)
+            {
+                transform.rotation = Quaternion.LookRotation(direction, Vector3.back);
+            }
         }
     }
 }
