@@ -7,8 +7,9 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Scenes.Minigames.MonsterTower.Scrips;
 
-namespace MTGameModes
+namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 {
     public class SentenceToPictures : IMTGameMode
     {

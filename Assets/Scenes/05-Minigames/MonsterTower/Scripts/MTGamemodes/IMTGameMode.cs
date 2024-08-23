@@ -2,8 +2,9 @@ using Scenes.Minigames.MonsterTower;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scenes.Minigames.MonsterTower.Scrips;
 
-namespace MTGameModes
+namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 {
     public interface IMTGameMode
     {

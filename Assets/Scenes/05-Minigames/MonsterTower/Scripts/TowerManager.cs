@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
-using MTGameModes;
+using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 
 
 
