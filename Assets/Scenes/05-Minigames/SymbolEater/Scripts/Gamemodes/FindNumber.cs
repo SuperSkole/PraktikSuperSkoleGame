@@ -33,6 +33,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         IGameRules gameRules = new FindNumberSeries();
 
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
+            throw new System.NotImplementedException();
+        }
+
         /// <summary>
         /// Gets the letters for the current game
         /// </summary>
@@ -96,6 +101,16 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 return false;
             }
             
+        }
+        
+
+        /// <summary>
+        /// Not implemented yet
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
         }
 
         /// <summary>

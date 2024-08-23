@@ -4,6 +4,7 @@ using CORE.Scripts;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Scenes.Minigames.SymbolEater.Scripts;
+using CORE.Scripts.GameRules;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
@@ -226,6 +227,25 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void SetGameRules(IGameRules gameRules)
         {
             this.gameRules = gameRules;
+        }
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <param name="letterCube"></param>
+        /// <param name="correct"></param>
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
+            
+        }
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
         }
     }
 }
