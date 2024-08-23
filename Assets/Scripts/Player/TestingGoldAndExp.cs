@@ -6,7 +6,7 @@ public class TestingGoldAndExp : MonoBehaviour
 {
     public GameObject GameManger;
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.T))
         {

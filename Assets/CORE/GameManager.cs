@@ -1,6 +1,6 @@
 using LoadSave;
-using Scenes.StartScene.Scripts;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,17 +9,19 @@ namespace CORE
     public class GameManager : MonoBehaviour
     {
         // Player and game Data
-        public PlayerData PlayerData { get; set; }
+        public SaveToJsonManager SaveManager;
+        public LoadGameManager LoadManager;
+        public PlayerManager PlayerManager;
 
-        
-        public string CurrentUsername { get; private set; }
+        public PlayerData PlayerData { get; set; }
+        public HighScore HighScore;
+        public string CurrentUser { get; private set; }
         public string CurrentPlayerName { get; private set; }
         public string CurrentSaveFileName { get; private set; }
 
-        private PlayerManager playerManager;
-        private SaveToJsonManager saveManager;
-        private LoadGameManager loadGameManager;
+        
         private static GameManager _instance;
+        private static readonly object Lock = new object();
         
         /// <summary>
         /// Auto self Creating Lazy Singleton instance
@@ -28,42 +30,42 @@ namespace CORE
         {
             get
             {
-                if (_instance == null)
+                lock (Lock)
                 {
-                    // Find existing GameManager instance in the scene or create new one if none exists
-                    _instance = FindObjectOfType<GameManager>();
                     if (_instance == null)
                     {
-                        GameObject gameManager = new GameObject("GameManager");
-                        _instance = gameManager.AddComponent<GameManager>();
+                        _instance = FindObjectOfType<GameManager>();
+                        if (_instance == null)
+                        {
+                            GameObject singletonObject = new GameObject("GameManager");
+                            _instance = singletonObject.AddComponent<GameManager>();
+                            DontDestroyOnLoad(singletonObject);
+                        }
                     }
+                    
+                    return _instance;
                 }
-                
-                return _instance;
             }
         }
 
         private void Awake()
         {
-            if (_instance == null)
+            // Highlander other GM's There can only be 1
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }else
             {
                 _instance = this;
-                // Make GM persistent when changing scnes
-                DontDestroyOnLoad(gameObject); 
-                
+                DontDestroyOnLoad(gameObject);
                 InitializeManagers();
                 SceneManager.sceneLoaded += OnSceneLoaded;
+                InitializeGameManager();
             }
-            else if (_instance != this)
-            {
-                // Highlander other GM's There can only be 1
-                Destroy(gameObject); 
-            }
-            
-            InitializeGameManager();
         }
 
         #region Login Region
+        
         public void SetUserDuringLogin()
         {
             // Find the username input field in login scene
@@ -72,22 +74,21 @@ namespace CORE
 
             if (inputField != null)
             {
-                CurrentUsername = inputField.text;  
-                Debug.Log("Username set to: " + CurrentUsername);
+                CurrentUser = inputField.text;  
+                Debug.Log("Username set to: " + CurrentUser);
             }
             else
             {
                 Debug.Log("No TMP Input Field found in the scene!");
             }
         }
+        
         #endregion Login Region
-        
-        
 
         public void LoadGame()
         {
             // Logic to load game data
-            loadGameManager.LoadGame(CurrentUsername);
+            LoadManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -96,7 +97,7 @@ namespace CORE
         {
             // save logic, using savemanager
             Debug.Log("Game Saved!");
-            saveManager.SaveGame(PlayerData.Username);
+            SaveManager.SaveGame(PlayerData.Username, PlayerData.MonsterName);
         }
 
         public void ExitGame()
@@ -110,22 +111,32 @@ namespace CORE
         {
             Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
+
+            if (_instance.GetComponent<PlayerData>() == null)
+            {
+                PlayerData = _instance.gameObject.AddComponent<PlayerData>();
+            }
         }
         
         private void InitializeManagers()
         {
             gameObject.AddComponent<PlayerManager>();
-            saveManager = new SaveToJsonManager();
+            SaveManager = new SaveToJsonManager();
+            LoadManager = new LoadGameManager();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
+            // Early out
+            if (scene.name.StartsWith("00") ||
+                scene.name.StartsWith("01") ||
+                scene.name.Equals("Bootstrapper"))
             {
-                // save player data before entering new scene
-                SaveGame();
-                //LoadGame();
+                return;
             }
+
+            // save player data before entering new scene
+            SaveGame();
         }
 
         private void OnDestroy()

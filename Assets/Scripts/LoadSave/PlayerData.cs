@@ -8,10 +8,10 @@ namespace LoadSave
     /// </summary>
     public class PlayerData : MonoBehaviour
     {
-        // Serialize properties to make them visible in the Inspector.
+        // We serialize so we can see values in inspector
         [SerializeField] private string username;
         [SerializeField] private string savefile;
-        [SerializeField] private string playerName;
+        [SerializeField] private string monsterName;
         [SerializeField] private int monsterTypeID;
         [SerializeField] private string monsterColor;
         [SerializeField] private int currentGoldAmount;
@@ -19,14 +19,14 @@ namespace LoadSave
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
 
-        // Lists can be shown directly if they are public or marked with [SerializeField].
+        // Lists for storing active words
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
-
-        // Public properties to access private serialized fields.
+        public List<char> CollectedNumbers = new List<char>();
+        
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
-        public string PlayerName { get => playerName; set => playerName = value; }
+        public string MonsterName { get => monsterName; set => monsterName = value; }
         public int MonsterTypeID { get => monsterTypeID; set => monsterTypeID = value; }
         public string MonsterColor { get => monsterColor; set => monsterColor = value; }
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
@@ -34,15 +34,21 @@ namespace LoadSave
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
-        public void Initialize(string username, string playerName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
+        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {
             this.username = username;
-            this.playerName = playerName;
+            this.monsterName = monsterName;
             this.monsterColor = monsterColor;
             this.currentGoldAmount = goldAmount;
             this.currentXPAmount = xpAmount;
             this.currentLevel = level;
             this.currentPosition = position;
         }
+        
+        //// saved for later
+        // public void AddWord(string word) => collectedWords.Add(word);
+        // public void RemoveWord(string word) => collectedWords.Remove(word);
+        // public void AddLetter(char letter) => collectedLetters.Add(letter);
+        // public void RemoveLetter(char letter) => collectedLetters.Remove(letter);
     }
 }

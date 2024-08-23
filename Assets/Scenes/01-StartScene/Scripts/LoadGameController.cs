@@ -1,5 +1,7 @@
+using CORE;
 using LoadSave;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes.StartScene.Scripts
 {
@@ -10,25 +12,24 @@ namespace Scenes.StartScene.Scripts
     /// </summary>
     public class LoadGameController : MonoBehaviour
     {
-        [SerializeField] private LoadGameManager loadGameManager;
         [SerializeField] private LoadGameSetup loadGameSetup;
 
         public static LoadGameController Instance;
 
-        void Awake() {
-            Instance = this;
-        }
-
-        public void RegisterPanel(SavePanel panel) {
+        public void RegisterPanel(SavePanel panel) 
+        {
             panel.OnLoadRequested += HandleLoadRequest;
         }
-
         
-        public void HandleLoadRequest(string fileName)
+        private void Awake() 
         {
-           
+            Instance = this;
+        }
+        
+        private void HandleLoadRequest(string fileName)
+        {
             Debug.Log("LoadGameController-HandleLoadRequest: Handling load request for file: " + fileName);
-            loadGameManager.LoadGameDataAsync(fileName, OnDataLoaded); 
+            GameManager.Instance.LoadManager.LoadGameDataAsync(fileName, OnDataLoaded); 
         }
 
         private void OnDataLoaded(SaveDataDTO data)
@@ -37,6 +38,7 @@ namespace Scenes.StartScene.Scripts
             {
                 Debug.Log("Data loaded successfully.");
                 loadGameSetup.SetupPlayer(data);
+                SceneManager.LoadScene("02-PlayerHouse");
             }
             else
             {
@@ -44,7 +46,7 @@ namespace Scenes.StartScene.Scripts
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             SavePanel[] panels = FindObjectsOfType<SavePanel>();
             foreach (var panel in panels)

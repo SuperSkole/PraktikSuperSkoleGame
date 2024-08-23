@@ -12,7 +12,6 @@ namespace Scenes._01_StartScene.Scripts
         [SerializeField] private Transform spawnCharPoint;
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private TextMeshProUGUI playerName;
-
         [SerializeField] private GameObject playerPrefab;
 
         public string ChosenMonsterColor;
@@ -21,6 +20,7 @@ namespace Scenes._01_StartScene.Scripts
         {
             SetupPlayer();
             SceneManager.LoadScene("02-PlayerHouse");
+            SceneManager.LoadSceneAsync("PlayerScene", LoadSceneMode.Additive);
         }
 
         public void SetupPlayer()
@@ -32,7 +32,7 @@ namespace Scenes._01_StartScene.Scripts
 
             // Init player data
             player.Initialize(
-                GameManager.Instance.CurrentUsername,
+                GameManager.Instance.CurrentUser,
                 nameInput.text, 
                 ChosenMonsterColor,
                 0,
@@ -43,7 +43,7 @@ namespace Scenes._01_StartScene.Scripts
 
             // Log for debugging
             Debug.Log("Player setup complete with username: " + player.Username +
-                      " Player Name: " + player.PlayerName +
+                      " Player Name: " + player.MonsterName +
                       " Monster Color: " + player.MonsterColor +
                       " XP: " + player.CurrentXPAmount.ToString() +
                       " Gold: " + player.CurrentGoldAmount.ToString());

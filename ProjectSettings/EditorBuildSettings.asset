@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Bootstrapper.unity
+    guid: 7e025d1fc2069464cb47a7db02e7be3d
+  - enabled: 1
     path: Assets/Scenes/00-LoginScene.unity
     guid: 76032ff66751a5f429b894584e91cdd1
   - enabled: 1
@@ -24,11 +27,14 @@ EditorBuildSettings:
     path: Assets/Scenes/05-Minigames/WordFactory.unity
     guid: 28104d6eece377d428d7d4caed747256
   - enabled: 1
-    path: Assets/3D World/Jonathans 3D world.unity
+    path: Assets/Scenes/03-MainWorld.unity
     guid: ae8dd1c52efe96049bb30df477db4c7c
   - enabled: 1
     path: Assets/Scenes/WordFactoryLoadingscene.unity
     guid: 53474ce6c094a6a46bcb0be110afe647
+  - enabled: 1
+    path: Assets/Scenes/PlayerScene.unity
+    guid: f6d37c2aec2f04f47bc43714d626259c
   - enabled: 1
     path: Assets/Scenes/Gamemode/GameModeSelector.unity
     guid: e4f60cdc8baf5254eac36324caa7784d

@@ -9,12 +9,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
+    public Transform playerSpawnPoint;
+    
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     [SerializeField] private Camera cameraBrain;
-    [SerializeField] LayerMask layerMask;
-
+    [SerializeField] private LayerMask layerMask;
     
     private PlayerData playerData;
     private GameObject spawnedPlayer;
@@ -66,7 +66,7 @@ public class PlayerManager : MonoBehaviour
     {
         var gm = GameManager.Instance.PlayerData;
         playerData.Username = gm.Username;
-        playerData.PlayerName = gm.PlayerName;
+        playerData.MonsterName = gm.MonsterName;
         playerData.MonsterTypeID = gm.MonsterTypeID;
         playerData.MonsterColor = gm.MonsterColor;
         playerData.CurrentGoldAmount = gm.CurrentGoldAmount;
@@ -81,7 +81,7 @@ public class PlayerManager : MonoBehaviour
         if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
         {
             spawnedPlayer = GameObject.Find("PlayerPrefab(Clone)");
-            spawnedPlayer.GetComponent<PlayerColorManager>().ColorChange(playerData.MonsterColor);
+            //spawnedPlayer.GetComponent<PlayerColorManager>().ColorChange(playerData.MonsterColor);
         }
     }
 }

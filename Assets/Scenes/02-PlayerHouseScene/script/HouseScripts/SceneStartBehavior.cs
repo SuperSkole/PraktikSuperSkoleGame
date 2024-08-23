@@ -6,20 +6,17 @@ using UnityEngine;
 public class SceneStartBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject playerPrefab;
-    PlayerData playerData;
     [SerializeField] private Transform playerSpawnPoint;
     [SerializeField] private GameObject buildingSystem;
     [SerializeField] private GameObject uiBuilding;
     [SerializeField] private GameObject cameraMovement;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private Camera cameraBrain;
-    [SerializeField] LayerMask layerMask;
 
+    private PlayerData playerData;
     private GameObject spawnedPlayer;
-    //[SerializeField] private PreviewSystem previewSystem;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         var tmp = 0;
         try
@@ -28,35 +25,40 @@ public class SceneStartBehavior : MonoBehaviour
         }
         catch (System.Exception)
         {
-            Debug.Log("SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: 0 ");
+            Debug.Log($"SceneStartBehavior/Start/No Game Instance so no monster ID can be found, using ID: {tmp} ");
             tmp = 0;
         }
+        
         switch (tmp)
         {
             case 0:
                 spawnedPlayer = Instantiate(playerPrefab, playerSpawnPoint);
                 playerData = spawnedPlayer.GetComponent<PlayerData>();
-                virtualCamera.Follow = spawnedPlayer.transform;
-                virtualCamera.LookAt = spawnedPlayer.transform;
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain;
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().placementLayermask = layerMask;
-
                 try
                 {
                     PopulatePlayerInfo();
+                    
+                    GetComponentInChildren<StartupCameraController>()
+                        .Setup();
                 }
-                catch (System.Exception) { Debug.Log("SceneStartBehavior/Start/Error when trying to populate player info "); }
+                catch (System.Exception)
+                {
+                    Debug.Log("SceneStartBehavior/Start/Error when trying to populate player info "); 
+                }
+
                 break;
         }
+        
         buildingSystem.SetActive(false);
         uiBuilding.SetActive(buildingSystem.activeSelf);
         cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystem.activeSelf;
     }
+    
     private void PopulatePlayerInfo()
     {
         var gm = GameManager.Instance.PlayerData;
         playerData.Username = gm.Username;
-        playerData.PlayerName = gm.PlayerName;
+        playerData.MonsterName = gm.MonsterName;
         playerData.MonsterTypeID = gm.MonsterTypeID;
         playerData.MonsterColor = gm.MonsterColor;
         playerData.CurrentGoldAmount = gm.CurrentGoldAmount;
@@ -86,6 +88,5 @@ public class SceneStartBehavior : MonoBehaviour
         }
 
         uiBuilding.SetActive(buildingSystem.activeSelf);
-
     }
 }
