@@ -48,7 +48,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// <returns>true if the letter is good enugth. false if not.</returns>
         public static bool EvaluateLetter()
         {
-            bool testResult = totalDist <= maxDist;
+            bool testResult = totalDist <= totalMaxDist;
             totalDist = 0;
             return testResult;
         }
