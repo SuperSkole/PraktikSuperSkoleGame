@@ -5,8 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.CORE.Scripts.Game_Rules
+namespace CORE.Scripts.GameRules
 {
+
+    /// <summary>
+    /// Implementation of IGameRules for games where the player should look for a specific letter
+    /// </summary>
     public class FindCorrectImage : IGameRules
     {
 
