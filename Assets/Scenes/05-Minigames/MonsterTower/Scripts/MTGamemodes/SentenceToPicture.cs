@@ -77,12 +77,28 @@ public class SentenceToPictures : IMTGameMode
     /// <returns></returns>
     public string[] GenerateAnswers(int count)
     {
+        string sentence;
         string[] answers = new string[count];
         for (int i = 0; i < count; i++)
         {
-            answers[0] = "is på ko";
-            answers[1] = "ko på is";
-            answers[2] = "gås under ko";
+            int rnd = Random.Range(0, 2);
+            string[] words = WordsForImagesManager.GetRandomWordForImage(2);
+            switch (rnd)
+            {
+                case 0:
+                    sentence = words[0] + " på " + words[1];
+                    break;
+
+                case 1:
+                    sentence = words[0] + " under " + words[1];
+                    break;
+
+                default:
+                    sentence = "ko på is";
+                    Debug.Log("the number given was out of the range of expected results, defaulting to ko på is");
+                    break;
+            }
+            answers[i] = sentence;
         }
         return answers;
     }

@@ -60,7 +60,7 @@ namespace Scenes.Minigames.MonsterTower
 
 
         /// <summary>
-        /// if the images arent loaded, waits with building the tower until the images are loaded
+        /// if the images arent loaded, waits with setting tower data and building the tower until the images are loaded
         /// </summary>
         /// <returns></returns>
         IEnumerator WaitUntillDataIsLoaded()
@@ -69,7 +69,16 @@ namespace Scenes.Minigames.MonsterTower
             {
                 yield return null;
             }
+            questions = gameMode.GenerateAnswers(3);
+            towerHeight = questions.Length;
 
+            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+
+            brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+
+            currentQuestion = questions[currentQuestionIndex];
+            displayBox.text = currentQuestion;
 
             // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
             // if not a tower is built and will be saved when exiting the game. 
@@ -87,12 +96,11 @@ namespace Scenes.Minigames.MonsterTower
         }
 
         /// <summary>
-        /// sets up all the data for the tower
+        /// starts the coroutine which sets up data for the tower once files have been loaded (used to set the data manually, but that is currently not possible as it now requires the ImageManager to have loaded data)
         /// </summary>
-        /// <param name="input">an array of sentenses the is used in the game</param>
         public void SetTowerData(string[] input)
         {
-            questions = gameMode.GenerateAnswers(3);
+            questions = input;
             towerHeight = questions.Length;
 
             topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
