@@ -11,7 +11,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of spelling a word based on an image.
     /// </summary>
-    public class SpellWordFromImage : IGameMode
+    public class SpellWordFromImage : ISEGameMode
     {
 
         int correctWords = 0;
