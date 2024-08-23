@@ -78,7 +78,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
                 numberOfCorrectLettersOnBoard++;
             }
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 
             /// <summary>
             /// Uses the Lettersound.

@@ -7,9 +7,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     public class SpellWordFromSound : IGameMode
     {
-        /// <summary>
-        /// The correct word
-        /// </summary>
 
 
 
