@@ -3,15 +3,10 @@ using UnityEngine.SceneManagement;
 
 public class SimpleSceneChange : MonoBehaviour
 {
-    //changes scene to monstertower
-    public void SwitchToMonsterTower(string gamemode)
+     // changes scene as long as there is one of the name
+    public void SwitchToScene(string minigame)
     {
-        SceneManager.LoadScene("MonterTower");
-    }
-    // changes scene to grovæder
-    public void SwitchToSymbolEater(string gamemode)
-    {
-        SceneManager.LoadScene("SymbolEater");
+        SceneManager.LoadScene(minigame);
     }
 
 }
