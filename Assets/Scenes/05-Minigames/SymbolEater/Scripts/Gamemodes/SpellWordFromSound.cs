@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    public class SpellWordFromSound : IGameMode
+    public class SpellWordFromSound : ISEGameMode
     {
         /// <summary>
         /// The correct word

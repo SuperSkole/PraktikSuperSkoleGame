@@ -10,7 +10,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Interface for interaction between the board controller and the active gamemode in the Symbol Eater mini game
     /// </summary>
-    public interface IGameMode
+    public interface ISEGameMode
     {
         /// <summary>
         /// Gets the list of lettercubes and the boardController from the boardcontroller

@@ -10,7 +10,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
     /// </summary>
-    public class FindSymbol : IGameMode
+    public class FindSymbol : ISEGameMode
     {
 
         IGameRules gameRules;
