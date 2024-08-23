@@ -1,4 +1,5 @@
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -318,8 +319,25 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             
         }
 
+        /// <summary>
+        /// Not implemented
+        /// </summary>
+        /// <param name="letterCube"></param>
+        /// <param name="correct"></param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
 
+        }
 
+        /// <summary>
+        /// Not implemented
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
+        }
     }
 
 }
