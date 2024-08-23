@@ -12,6 +12,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
+using MTGameModes;
 
 
 
@@ -122,7 +123,7 @@ namespace Scenes.Minigames.MonsterTower
         void SetNextQuestion()
         {
             if (questions.Length <= currentQuestionIndex) return;
-            gameMode.SetAnswerKey(questions[currentQuestionIndex], this);
+            gameMode.GetDisplayAnswer(questions[currentQuestionIndex], this);
 
         }
 
