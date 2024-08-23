@@ -23,6 +23,7 @@ namespace CORE.Scripts
                 letterDictionary[name.ToLower()].Add(input);
             }
             IsDataLoaded = true;
+            
         }
 
         public static AudioClip GetAudioClipFromLetter(string inputLetter)

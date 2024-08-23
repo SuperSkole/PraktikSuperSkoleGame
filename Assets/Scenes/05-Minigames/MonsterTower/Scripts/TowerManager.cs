@@ -1,3 +1,4 @@
+using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         [SerializeField] GameObject brickPrefab;
 
+        private AudioSource towerAudioSource;
+
 
         private int towerRadius = 20;
         private int numberOfBricksInLane = 40;
@@ -63,7 +66,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         private string bottomImageKey;
         private bool IsSaveDataLoaded=false;
 
-        
+
+
+      
+        void Start()
+        {
+            towerAudioSource = gameObject.GetComponent<AudioSource>();
+        }
 
 
         /// <summary>
@@ -197,10 +206,27 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 GoToWinScreen();
             }
 
+            // Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
+            PlayAudioPraise();
 
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
+        }
+
+
+        /// <summary>
+        ///  Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
+        ///  Is set To Danish as default but can be changed if needed. 
+        /// </summary>
+        void PlayAudioPraise()
+        {
+            int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
+
+            AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
+
+            towerAudioSource.clip = CongratsAudio;
+            towerAudioSource.Play();
         }
 
         /// <summary>
