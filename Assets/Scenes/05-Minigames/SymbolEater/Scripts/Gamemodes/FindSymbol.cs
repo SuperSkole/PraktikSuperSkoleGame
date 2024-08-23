@@ -44,7 +44,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="correct">Whether the symbol should be correct</param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-            if(correct){
+            if(correct)
+            {
                 letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
                 numberOfCorrectLettersOnBoard++;
             }
