@@ -25,7 +25,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         private float minDist = 0.2f;
 
         [SerializeField] public GameObject Bee;
-        [SerializeField] public LineSecmentEvaluator lineevalu;
         BeeMovement beeMovement;
 
         private void Start()
@@ -143,7 +142,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             if (currentLineRenderer != null)
             {
-                if(lineevalu.EvaluateSpline(beeMovement.letterSpline[beeMovement.splineIndex], currentLineRenderer))
+                if(LineSecmentEvaluator.EvaluateSpline(beeMovement.letterSpline[beeMovement.splineIndex], currentLineRenderer))
                 {
                     beeMovement.NextSplineInLetter();
                 }
