@@ -13,7 +13,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 {
     public class SentenceToPictures : IMTGameMode
     {
-
+        /// <summary>
+        /// sets the Tower Manager's images based on the sentence given
+        /// </summary>
+        /// <param name="str">sentence required to find the correct images</param>
+        /// <param name="manager">a reference back to the tower manager calling the function, so we can find what to change</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
             List<string> words = new();
@@ -54,6 +58,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             }
         }
 
+        /// <summary>
+        /// sets random images from the image manager
+        /// </summary>
+        /// <param name="manager">a reference back to the manager calling this function so we know where to set the images</param>
         public void SetWrongAnswer(TowerManager manager)
         {
             var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
@@ -68,6 +76,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             manager.topImageKey = rndImageWithKey2.Item2;
         }
 
+        /// <summary>
+        /// sets the displaybox text
+        /// </summary>
+        /// <param name="str">the sentence we are setting as the question displayed</param>
+        /// <param name="manager">a reference back to the manager calling the function so that we can modify displaybox</param>
         public void GetDisplayAnswer(string str, TowerManager manager)
         {
             manager.displayBox.text = str;
@@ -75,10 +88,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 
 
         /// <summary>
-        /// makes a set of sentences, currently has no logic to generate them itself
+        /// makes a set of sentences
         /// </summary>
         /// <param name="count">amount of sentences to generate</param>
-        /// <returns></returns>
+        /// <returns>an array of sentences</returns>
         public string[] GenerateAnswers(int count)
         {
             string sentence;
