@@ -24,7 +24,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
-        private float minDist = 0.5f;
+        private float minDist = 0.2f;
 
         private void Start()
         {
@@ -68,7 +68,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         void TryCreateBrush()
         {
-
             if (Physics.Raycast(m_camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit, 100))
             {
                 Vector3 mousePos = hit.point;
@@ -87,8 +86,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             GameObject brushInstance = Instantiate(brushPrefab);
             currentLineRenderer = brushInstance.GetComponent<LineRenderer>();
-            brushInstance.transform.position = position;
-            brushInstance.transform.rotation = Quaternion.LookRotation(normal);
+            brushInstance.transform.SetPositionAndRotation(position, Quaternion.LookRotation(normal));
             currentLineRenderer.positionCount = 2;
             currentLineRenderer.SetPosition(0, position);
             currentLineRenderer.SetPosition(1, position);

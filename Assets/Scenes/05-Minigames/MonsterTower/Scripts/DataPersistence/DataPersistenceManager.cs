@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UIElements;
-using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 
 
 
-namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence
+namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
 {
 
 
