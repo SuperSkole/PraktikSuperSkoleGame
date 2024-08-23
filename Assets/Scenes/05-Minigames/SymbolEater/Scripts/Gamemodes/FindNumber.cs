@@ -9,7 +9,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of finding the numbers in a number series
     /// </summary>
-    public class FindNumber : IGameMode
+    public class FindNumber : ISEGameMode
     {
 
         int correctSeries = 0;

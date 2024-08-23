@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    public class RecognizeSoundOfLetter : IGameMode
+    public class RecognizeSoundOfLetter : ISEGameMode
     {
         /// <summary>
         /// Change the soundclip to what we need.

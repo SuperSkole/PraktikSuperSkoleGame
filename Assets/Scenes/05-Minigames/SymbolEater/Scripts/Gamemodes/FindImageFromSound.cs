@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    public class FindImageFromSound : IGameMode
+    public class FindImageFromSound : ISEGameMode
     {
 
         /// <summary>
