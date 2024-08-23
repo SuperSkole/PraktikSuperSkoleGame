@@ -49,7 +49,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="getLetterCubeValue">method which activates the lettercube</param>
         /// <param name="isGameCompleted">method which tells whether the current game is over</param>
         /// <returns>whether the cube got replaced(true) or the current game should end(false)</returns>
-        public static bool ReplaceOrVictory(LetterCube letterCube, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, bool repeatLetter, GetLetterCubeValue getLetterCubeValue, IsGameCompleted isGameCompleted){
+        public static bool ReplaceOrVictory(LetterCube letterCube, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, bool repeatLetter, GetLetterCubeValue getLetterCubeValue, IsGameCompleted isGameCompleted)
+        {
             string letterCubeValue = letterCube.GetLetter();
             letterCube.Deactivate();
             
