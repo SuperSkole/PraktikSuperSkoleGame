@@ -53,7 +53,8 @@ namespace Minigames.LetterGarden.Scripts
             //Takes each gameobject and sorts it based on its name
             foreach(GameObject gameObject in symbolPrefabs){
                 //Adds the game object and splinecontainer of a capital letter to their dictionaries using the letter at the end as key
-                if(gameObject.name.Contains("Capital")){
+                if(gameObject.name.Contains("Capital"))
+                {
                     capitalLettersObjects.Add(gameObject.name[7], gameObject);
                     capitalLetters.Add(gameObject.name[7], gameObject.GetComponent<SplineContainer>());
                 }
