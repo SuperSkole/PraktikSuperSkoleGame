@@ -3325,7 +3325,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1608459707892848409}
         m_TargetAssemblyTypeName: InColliderZone, Assembly-CSharp
-        m_MethodName: SetSaveSpawnPos
+        m_MethodName: SetLastInteractionPoint
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4831988726138296953}
@@ -4360,7 +4360,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4902429220990054458}
         m_TargetAssemblyTypeName: InColliderZone, Assembly-CSharp
-        m_MethodName: SetSaveSpawnPos
+        m_MethodName: SetLastInteractionPoint
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6580241309399129076}
@@ -6756,7 +6756,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7649420906466241681}
         m_TargetAssemblyTypeName: InColliderZone, Assembly-CSharp
-        m_MethodName: SetSaveSpawnPos
+        m_MethodName: SetLastInteractionPoint
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 4831988726138296953}
@@ -28016,7 +28016,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4902429220990054458}
         m_TargetAssemblyTypeName: InColliderZone, Assembly-CSharp
-        m_MethodName: SetSaveSpawnPos
+        m_MethodName: SetLastInteractionPoint
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6580241309399129076}

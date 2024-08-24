@@ -1,4 +1,5 @@
 using Cinemachine;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 
 public class HouseSceneStartBehavior : MonoBehaviour

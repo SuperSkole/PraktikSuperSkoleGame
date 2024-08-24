@@ -25,14 +25,10 @@ namespace LoadSave
         
         public void SaveJson(string json, string fileName)
         {
+            EnsureDirectoryExists();
             string filePath = Path.Combine(SaveDirectory, fileName);
             try
             {
-                if (!Directory.Exists(SaveDirectory))
-                {
-                    Directory.CreateDirectory(SaveDirectory);
-                }
-                
                 File.WriteAllText(filePath, json);
                 Debug.Log($"Successfully saved JSON to {filePath}");
             }
@@ -49,21 +45,24 @@ namespace LoadSave
         /// <param name="monsterName">used for save file name</param>
         public void SaveGame(string username, string monsterName)
         {
+            // Early out; no username no save.
+            if (string.IsNullOrEmpty(username))
+            {
+                Debug.LogError("Save operation aborted: Username is required.");
+                return; 
+            }
+            
             SaveDataDTO data = CreateSaveData();
             string fileName = GenerateSaveFileName(username, monsterName);
             string filePath = Path.Combine(SaveDirectory, fileName);
 
             if (!File.Exists(filePath))
             {
+                EnsureDirectoryExists();
                 string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty
                 Debug.Log($"Serialized JSON: {json}");
                 try
                 {
-                    if (!Directory.Exists(SaveDirectory))
-                    {
-                        Directory.CreateDirectory(SaveDirectory);
-                    }
-                    
                     File.WriteAllText(filePath, json);
                     Debug.Log($"Successfully saved game to {filePath}");
                 }
@@ -76,13 +75,6 @@ namespace LoadSave
             {
                 Debug.Log($"Save file already exists and will not be overwritten: {filePath}");
             }
-        }
-        
-        public string GenerateLoadFileName(string username, string monsterName, string suffix = null)
-        {
-            string placeholder = "placeholder";
-            string fileNameSuffix = string.IsNullOrEmpty(suffix) ? "" : $"_{suffix}";
-            return $"{username}_{monsterName}_{placeholder}_{fileNameSuffix}.json";
         }
 
         private SaveDataDTO CreateSaveData()
@@ -100,6 +92,14 @@ namespace LoadSave
                 SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
             };
             return data;
+        }
+        
+        private void EnsureDirectoryExists()
+        {
+            if (!Directory.Exists(SaveDirectory))
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
         }
     }
 }

@@ -1,77 +1,105 @@
-using CORE;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InColliderZone : MonoBehaviour
+namespace Scenes._03_MainWorld.Scripts
 {
-    [SerializeField] Interactions parent;
-    [SerializeField] private UnityEvent action;
-    [SerializeField] private GameObject door;
-    [SerializeField] private bool isDoor;
-    [SerializeField] private bool isNPC;
-    [SerializeField] private NPCInteractions interactions;
-
-    /// <summary>
-    /// Enter zone for interaction enables the interaction bubble
-    /// </summary>
-    /// <param name="collision"></param>
-    public void OnTriggerEnter(Collider collision)
+    public class InColliderZone : MonoBehaviour
     {
-        if (collision.gameObject.tag == "Player")
+        [SerializeField] Interactions parent;
+        [SerializeField] private UnityEvent action;
+        [SerializeField] private GameObject door;
+        [SerializeField] private bool isDoor;
+        [SerializeField] private bool isNPC;
+        [SerializeField] private NPCInteractions interactions;
+        
+        private OpenCloseDoor doorMechanism; 
+
+        private void Start()
         {
-            //Some Obj dont need a parent to work, a quick failsafe
-            try { 
-                parent.action = action;
-                parent.inZone = true;
-            }
-            catch { }          
-            
-            if (isDoor)
+            // Cache the door component
+            if (isDoor && door != null)
             {
-                try { door.GetComponent<OpenCloseDoor>().OpenDoor(); }
-                catch { }
+                doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
-            else if (isNPC)
-            {
-                interactions.StartScaling();
-            }
-            if (gameObject.name == "WalkInto")
-            {
-                action.Invoke();
-                //  Debug.Log($"Interactions/OnTriggerEnter/WalkInto/ ChangedScene");
-            }
-            //Debug.Log($"Interactions/OnTriggerEnter/Obj: {gameObject.name}");
-
-            //collision.gameObject.GetComponent<PlayerWorldMovement>().inBubble.SetActive(true);
-            //PlayerWorldMovement.witchObjCloseTo = interactionZoneObj;
-
         }
-    }
-    /// <summary>
-    /// Left the zone for interactions disables the interaction bubble.
-    /// </summary>
-    /// <param name="collision"></param>
-    public void OnTriggerExit(Collider collision)
-    {
-        if (collision.gameObject.tag == "Player")
+
+        /// <summary>
+        /// Enter zone for interaction enables the interaction bubble
+        /// </summary>
+        /// <param name="collision"></param>
+        public void OnTriggerEnter(Collider collision)
         {
-            try {
-                parent.action = null;
-                parent.inZone = false;
-            }
-            catch { }
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                //Some Obj dont need a parent to work, a quick failsafe
+                try
+                {
+                    parent.action = action;
+                    parent.inZone = true;
+                }
+                catch
+                {
+                
+                }          
             
-            if (isDoor) { door.GetComponent<OpenCloseDoor>().CloseDoor(); }
-            //Debug.Log($"Interactions/OnTriggerExit/Obj: {gameObject.name}");
-
-            //collision.gameObject.GetComponent<PlayerWorldMovement>().inBubble.SetActive(false);
-            //PlayerWorldMovement.witchObjCloseTo = null;
+                if (isDoor && doorMechanism != null)
+                {
+                    try
+                    {
+                        doorMechanism.OpenDoor();
+                        SetLastInteractionPoint(transform);
+                    }
+                    catch
+                    {
+                    
+                    }
+                }
+                else if (isNPC)
+                {
+                    interactions.StartScaling();
+                }
+            
+                if (gameObject.name == "WalkInto")
+                {
+                    action.Invoke();
+                }
+            }
         }
-    }
+    
+        /// <summary>
+        /// Left the zone for interactions disables the interaction bubble.
+        /// </summary>
+        /// <param name="collision"></param>
+        public void OnTriggerExit(Collider collision)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                try
+                {
+                    parent.action = null;
+                    parent.inZone = false;
+                }
+                catch
+                {
+                
+                }
 
-    public void SetSaveSpawnPos(Transform transform)
-    {
-        print($"Here is the saved position: {transform.position}");
-        //GameManager.Instance.pla
+                if (isDoor && doorMechanism != null)
+                {
+                    doorMechanism.CloseDoor();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Saves the last interaction point.
+        /// </summary>
+        /// <param name="interactionPoint">The transform of the interaction point.</param>
+        public void SetLastInteractionPoint(Transform interactionPoint)
+        {
+            print($"Here is the saved position: {interactionPoint.position}");
+            PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position);
+        }
     }
 }

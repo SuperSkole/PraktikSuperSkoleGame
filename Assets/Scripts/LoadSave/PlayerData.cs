@@ -34,6 +34,8 @@ namespace LoadSave
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
+        public Vector3 lastInteractionPoint;
+        
         public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {
             this.username = username;
@@ -44,6 +46,12 @@ namespace LoadSave
             this.currentLevel = level;
             this.currentPosition = position;
         }
+
+        public void SetLastInteractionPoint(Vector3 position)
+        {
+            lastInteractionPoint = position;
+        }
+
         
         //// saved for later
         // public void AddWord(string word) => collectedWords.Add(word);

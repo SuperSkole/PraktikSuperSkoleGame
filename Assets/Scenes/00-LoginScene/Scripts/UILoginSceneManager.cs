@@ -1,3 +1,4 @@
+using CORE;
 using UI.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -79,6 +80,7 @@ namespace Scenes.LoginScene.Scripts
                 {
                     Debug.Log("Login successful: " + username);
                     SceneManager.LoadScene("01-StartScene");
+                    GameManager.Instance.CurrentUser = username;
                 }
                 else
                 {

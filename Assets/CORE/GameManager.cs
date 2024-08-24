@@ -11,18 +11,15 @@ namespace CORE
         // Player and game Data
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
-       // public PlayerManager PlayerManager;
 
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
-        public string CurrentUser { get; private set; }
+        public string CurrentUser { get; set; }
         public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
-
-
-
         
+        // GameManager Singleton
         private static GameManager _instance;
         private static readonly object Lock = new object();
         
@@ -99,8 +96,7 @@ namespace CORE
         public void SaveGame()
         {
             // save logic, using savemanager
-            Debug.Log("Game Saved!");
-            SaveManager.SaveGame(PlayerData.Username, PlayerData.MonsterName);
+            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
 
         public void ExitGame()
