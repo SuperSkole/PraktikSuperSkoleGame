@@ -76,11 +76,10 @@ namespace Scenes.PlayerScene.Scripts
             SetupPlayer();
         }
         
-        private void Start()
-        {
-            
-        }
-        
+        /// <summary>
+        /// Positions the player at a specified spawn point in a scene.
+        /// </summary>
+        /// <param name="spawnPoint">The spawn point GameObject.</param>
         public void PositionPlayerAt(GameObject spawnPoint)
         {
             if (spawnPoint != null)
@@ -107,14 +106,16 @@ namespace Scenes.PlayerScene.Scripts
             playerColorChanger = spawnedPlayer.GetComponentInChildren<PlayerColorChanger>();
             if (playerColorChanger == null) 
             {
-                Debug.LogError("PlayerColorChanger component not found on spawned player.");
+                Debug.LogError("PlayerManager.SetupPlayer(): " +
+                               "PlayerColorChanger component not found on spawned player.");
                 return;
             }
             
             playerData = spawnedPlayer.GetComponent<PlayerData>();
             if (playerData == null) 
             {
-                Debug.LogError("PlayerData component not found on spawned player.");
+                Debug.LogError("PlayerManager.SetupPlayer(): " +
+                               "PlayerData component not found on spawned player.");
                 return;
             }
 
@@ -136,14 +137,66 @@ namespace Scenes.PlayerScene.Scripts
             playerData.SetLastInteractionPoint(new Vector3(-191, 40, -168));
 
             // Log for debugging
-            Debug.Log("Player setup complete with username: " + playerData.Username +
-                      " Player Name: " + playerData.MonsterName +
-                      " Monster Color: " + playerData.MonsterColor +
-                      " XP: " + playerData.CurrentXPAmount.ToString() +
-                      " Gold: " + playerData.CurrentGoldAmount.ToString());
+            Debug.Log(
+                $"PlayerManager.SetupPlayer(): " +
+                $"username: {playerData.Username} " +
+                $"Player Name: {playerData.MonsterName} " +
+                $"Monster Color: {playerData.MonsterColor} " +
+                $"XP: {playerData.CurrentXPAmount} " +
+                $"Gold: {playerData.CurrentGoldAmount}");
 
             // TODO: delete at later date when PlayerManger works
             GameManager.Instance.PlayerData = playerData;
+            DontDestroyOnLoad(spawnedPlayer);
+        }
+        
+        public void SetupPlayerFromSave(SaveDataDTO saveData)
+        {
+            // instantiate player object in scene
+            spawnedPlayer = Instantiate(playerPrefab, saveData.SavedPlayerStartPostion.GetVector3(), Quaternion.identity);
+            spawnedPlayer.name = "PlayerMonster";
+
+            playerColorChanger = spawnedPlayer.GetComponentInChildren<PlayerColorChanger>();
+            if (playerColorChanger == null) 
+            {
+                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
+                               "PlayerColorChanger component not found on spawned player.");
+                return;
+            }
+
+            playerData = spawnedPlayer.GetComponent<PlayerData>();
+            if (playerData == null) 
+            {
+                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
+                               "PlayerData component not found on spawned player.");
+                return;
+            }
+
+            // Init player data with saved data
+            playerData.Initialize(
+                saveData.Username,
+                saveData.MonsterName,
+                saveData.MonsterColor,
+                saveData.GoldAmount,
+                saveData.XPAmount,
+                saveData.PlayerLevel,
+                saveData.SavedPlayerStartPostion.GetVector3()
+            );
+
+            // Apply the saved color
+            playerColorChanger.ColorChange(saveData.MonsterColor);
+
+            // Log for debugging
+            Debug.Log($"Player loaded from save: " +
+                      $"username: {playerData.Username} " +
+                      $"Player Name: {playerData.MonsterName} " +
+                      $"Monster Color: {playerData.MonsterColor} " +
+                      $"XP: {playerData.CurrentXPAmount} " +
+                      $"Gold: {playerData.CurrentGoldAmount}");
+
+            // Assign to GameManager for global access
+            GameManager.Instance.PlayerData = playerData;
+
             DontDestroyOnLoad(spawnedPlayer);
         }
 
@@ -205,9 +258,27 @@ namespace Scenes.PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void SetPlayerPositionOnSceneChange(Scene scene)
         {
-            Debug.Log($"Loaded Scene: {scene.name}, " +
+            Debug.Log($"PlayerManager.SetPlayerPositionOnSceneChange():" +
+                      $"Loaded Scene: {scene.name}, " +
                       $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
 
+            // Player House sat spawn to 0,2,0
+            if (scene.name.StartsWith("02"))
+            {
+                // Ensure PlayerData have been properly initialized
+                if (playerData != null)
+                {
+                    // Set the player's position to player house magic number
+                    spawnedPlayer.transform.position = new Vector3(0, 2, 0);
+                    Debug.Log("Player spawned in house at 0,2,0");
+                }
+                else
+                {
+                    Debug.LogError("PlayerData is null");
+                }
+            }
+            
+            // if going to main world spawn at last known interaction point
             if (scene.name.StartsWith("03"))
             {
                 // Ensure PlayerData and the lastInteractionPoint have been properly initialized

@@ -1,89 +1,72 @@
+using System;
 using System.IO;
+using CORE;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-namespace Scenes.LoginScene.Scripts
+namespace Scenes._00_LoginScene.Scripts
 {
+    /// <summary>
+    /// Manages the login process, including validating user credentials against stored data.
+    /// </summary>
     public class LoginManager : MonoBehaviour
     {
         [SerializeField] private TMP_InputField usernameInput; 
         [SerializeField] private TMP_InputField passwordInput; 
-        
     
         public TMP_InputField UsernameInput => usernameInput;
         public TMP_InputField PasswordInput => passwordInput;
 
-        
-    
-        public void OnLoginButtonClicked()
-        {
-            string username = usernameInput.text; 
-            string password = passwordInput.text; 
-        
-            // Early out if empty
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                Debug.LogError("Username and password cannot be empty.");
-                return;
-            }
-
-    
-            Debug.Log("Login attempt: " + username);
-            if (ValidateLogin(username, password))
-            {
-                Debug.Log("Login successful: " + username);
-                // TODO: Send username to game 
-                SceneManager.LoadScene("MainMenu");
-            }
-            else
-            {
-                Debug.LogError("Login failed: " + username);
-            }
-        
-            usernameInput.text = "";
-            passwordInput.text = "";
-        }
-    
+        /// <summary>
+        /// Validates the login credentials by comparing the provided username and password against the stored data.
+        /// </summary>
+        /// <param name="username">The username provided by the user.</param>
+        /// <param name="inputPassword">The password provided by the user.</param>
+        /// <returns>Returns true if the login is successful, false otherwise.</returns>
         public bool ValidateLogin(string username, string inputPassword)
         {
-            // Define path to file
-            string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
-            string path = Path.Combine(userDataPath, "users.txt");
-            if (File.Exists(path))
+            try
             {
-                // Read all lines in file
-                string[] lines = File.ReadAllLines(path);
-                foreach (string line in lines)
+                // Define the path to the file containing user data.
+                string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
+                string path = Path.Combine(userDataPath, "users.txt");
+                
+                if (File.Exists(path))
                 {
-                    // split each line by ;
-                    string[] data = line.Split(';');
-                    // check split gives us 3 datatypes
-                    if (data.Length == 3)
+                    // Read all lines in the file.
+                    string[] lines = File.ReadAllLines(path);
+                    foreach (string line in lines)
                     {
-                        // assign each split to separate data
-                        string storedUsername = data[0];
-                        string storedHash = data[1];
-                        string storedSalt = data[2];
-
-                        if (username == storedUsername)
-                        {
-                            return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
-                        }
+                        // Split each line by ';'.
+                        string[] data = line.Split(';');
                         
-                        // TODO fix hashed username check
-                        // // Checks if the hashed version of the input username, with the stored salt, matches the stored hashed username
-                        // if (GenerateHashManager.GenerateHash(username, storedSalt) == storedUsername)
-                        // {
-                        //     // If the username is correct, it then checks if the hashed version of the input password, with the same stored salt,
-                        //     // matches the stored hashed password, and return true/false
-                        //     return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
-                        // }
+                        // Ensure the line has exactly 3 elements (username, hash, salt).
+                        if (data.Length == 3)
+                        {
+                            string storedUsername = data[0];
+                            string storedHash = data[1];
+                            string storedSalt = data[2];
+
+                            // Validate the username and password.
+                            if (username == storedUsername)
+                            {
+                                // Compare the hash of the input password with the stored hash.
+                                return GenerateHashManager.GenerateHash(inputPassword, storedSalt) == storedHash;
+                            }
+                        }
                     }
                 }
+                else
+                {
+                    Debug.LogError("User data file not found.");
+                }
             }
-            
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while validating login: {ex.Message}");
+            }
+
             return false;
         }
     }

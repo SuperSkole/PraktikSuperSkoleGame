@@ -36,6 +36,16 @@ namespace LoadSave
 
         public Vector3 LastInteractionPoint;
         
+        /// <summary>
+        /// Initializes the game character with provided attributes.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <param name="monsterName">The name of the monster associated with the user.</param>
+        /// <param name="monsterColor">The color of the monster.</param>
+        /// <param name="goldAmount">Initial amount of gold.</param>
+        /// <param name="xpAmount">Initial experience points.</param>
+        /// <param name="level">Starting level of the character.</param>
+        /// <param name="position">Initial position of the character in the game world.</param>
         public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {
             this.username = username;

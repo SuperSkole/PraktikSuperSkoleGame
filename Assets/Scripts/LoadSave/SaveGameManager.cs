@@ -83,7 +83,7 @@ namespace LoadSave
             SaveDataDTO data = new SaveDataDTO
             {
                 Username = gm.Username, 
-                PlayerName = gm.MonsterName,
+                MonsterName = gm.MonsterName,
                 MonsterTypeID = gm.MonsterTypeID,
                 MonsterColor = gm.MonsterColor,
                 GoldAmount = gm.CurrentGoldAmount,

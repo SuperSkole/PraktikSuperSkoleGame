@@ -10,9 +10,9 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         public event Action<GameObject> OnGearAdded;
 
         // public so other can access the "game settings"
-        public int numberOfGears = 2; // Default to 2 gears
-        public int numberOfTeeth = 8; // Default to 8 teeth per gear
-        public int difficultyLevel = 1; // Default difficulty level
+        public int NumberOfGears = 2; // Default to 2 gears
+        public int NumberOfTeeth = 8; // Default to 8 teeth per gear
+        public int DifficultyLevel = 1; // Default difficulty level
         
         [SerializeField] private GameObject playerSpawnPoint;
         
@@ -53,22 +53,22 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 
         public int GetNumberOfGears()
         {
-            return numberOfGears;
+            return NumberOfGears;
         }
 
         public int GetNumberOfTeeth()
         {
-            return numberOfTeeth;
+            return NumberOfTeeth;
         }
 
         public int GetDifficultyLevel()
         {
-            return difficultyLevel;
+            return DifficultyLevel;
         }
 
         public void SetDifficultyLevel(int level)
         {
-            difficultyLevel = level;
+            DifficultyLevel = level;
         }
     }
 }

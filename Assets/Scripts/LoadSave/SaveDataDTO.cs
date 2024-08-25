@@ -12,7 +12,7 @@ namespace LoadSave
         // Change properties to fields by removing { get; set; }
         public string Username;
         public string Savefile;
-        public string PlayerName;
+        public string MonsterName;
         public int MonsterTypeID;
         public string MonsterColor;
         public int GoldAmount; 

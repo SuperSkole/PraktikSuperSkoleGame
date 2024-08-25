@@ -1,9 +1,10 @@
 using CORE;
 using LoadSave;
+using Scenes.StartScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes.StartScene.Scripts
+namespace Scenes._01_StartScene.Scripts
 {
     /// <summary>
     /// controlling the game loading process.
@@ -37,8 +38,19 @@ namespace Scenes.StartScene.Scripts
             if (data != null)
             {
                 Debug.Log("Data loaded successfully.");
-                loadGameSetup.SetupPlayer(data);
-                SceneManager.LoadScene("02-PlayerHouse");
+                SceneManager.LoadScene(SceneNames.House);
+                SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+                
+                // Setup player in the loaded player scene
+                SceneManager.sceneLoaded += (scene, mode) =>
+                {
+                    if (scene.name == SceneNames.Player)
+                    {
+                        loadGameSetup.SetupPlayer(data);
+                        // Unsubscribe after the scene is loaded
+                        SceneManager.sceneLoaded -= null; 
+                    }
+                };
             }
             else
             {

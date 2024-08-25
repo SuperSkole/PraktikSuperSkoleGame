@@ -1,5 +1,6 @@
 using System;
 using LoadSave;
+using Scenes._01_StartScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,7 +15,7 @@ namespace Scenes.StartScene.Scripts
         
         [SerializeField] private Image chosenCharacter;
         [SerializeField] private Image playerNameDrawing;
-        [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private TextMeshProUGUI monsterNameText;
         [SerializeField] private TextMeshProUGUI playerInfo; // TODO maybe level or xp or gold
         [SerializeField] private Image blockingImage;
         [SerializeField] private Image startGameButton;
@@ -46,7 +47,7 @@ namespace Scenes.StartScene.Scripts
         {
             if (saveData != null)
             {
-                playerName.text = saveData.PlayerName;
+                monsterNameText.text = saveData.MonsterName;
                 startGameButton.gameObject.SetActive(true);
                 blockingImage.enabled = false;
             }

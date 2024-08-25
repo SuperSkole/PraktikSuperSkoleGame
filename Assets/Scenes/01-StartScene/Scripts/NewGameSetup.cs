@@ -1,5 +1,4 @@
 using CORE;
-using LoadSave;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,12 +17,12 @@ namespace Scenes._01_StartScene.Scripts
         
         public void OnClick()
         {
-            SetUpPlayer();
+            SetupPlayer();
             SceneManager.LoadScene(SceneNames.House);
             SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
         }   
         
-        private void SetUpPlayer()
+        private void SetupPlayer()
         {
             GameManager.Instance.CurrentMonsterName = nameInput.text;
             GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;

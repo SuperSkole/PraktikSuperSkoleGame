@@ -1,16 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BarMeter : MonoBehaviour
 {
-    [SerializeField] Image barFill;
-    [SerializeField] Image image;
-    [SerializeField] TextMeshProUGUI textMeshPro;
+    [SerializeField] private Image barFill;
+    [SerializeField] private Image image;
+    [SerializeField] private TextMeshProUGUI textMeshPro;
 
-    [SerializeField] int maxAmount;
+    [SerializeField] private int maxAmount;
 
     private float fillSpeed = 0.5f;
     private float tweenDuration = 0.5f;

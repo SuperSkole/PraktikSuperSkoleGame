@@ -1,6 +1,6 @@
 using LoadSave;
+using Scenes.PlayerScene.Scripts;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +20,7 @@ namespace CORE
         public string CurrentMonsterColor { get; set; }
         
         // GameManager Singleton
-        private static GameManager _instance;
+        private static GameManager instance;
         private static readonly object Lock = new object();
         
         /// <summary>
@@ -32,18 +32,18 @@ namespace CORE
             {
                 lock (Lock)
                 {
-                    if (_instance == null)
+                    if (instance is null)
                     {
-                        _instance = FindObjectOfType<GameManager>();
-                        if (_instance == null)
+                        instance = FindObjectOfType<GameManager>();
+                        if (instance is null)
                         {
                             GameObject singletonObject = new GameObject("GameManager");
-                            _instance = singletonObject.AddComponent<GameManager>();
+                            instance = singletonObject.AddComponent<GameManager>();
                             DontDestroyOnLoad(singletonObject);
                         }
                     }
                     
-                    return _instance;
+                    return instance;
                 }
             }
         }
@@ -51,12 +51,13 @@ namespace CORE
         private void Awake()
         {
             // Highlander other GM's There can only be 1
-            if (_instance != null && _instance != this)
+            if (instance != null && instance != this)
             {
                 Destroy(gameObject);
-            }else
+            }
+            else
             {
-                _instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
                 InitializeManagers();
                 SceneManager.sceneLoaded += OnSceneLoaded;
@@ -95,6 +96,7 @@ namespace CORE
 
         public void SaveGame()
         {
+            
             // save logic, using savemanager
             SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
@@ -111,9 +113,9 @@ namespace CORE
             Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
 
-            if (_instance.GetComponent<PlayerData>() == null)
+            if (instance.GetComponent<PlayerData>() == null)
             {
-                PlayerData = _instance.gameObject.AddComponent<PlayerData>();
+                PlayerData = instance.gameObject.AddComponent<PlayerData>();
             }
         }
         
