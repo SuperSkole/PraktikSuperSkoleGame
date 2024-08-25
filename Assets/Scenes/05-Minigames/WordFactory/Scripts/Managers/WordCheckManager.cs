@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using CORE;
 using CORE.Scripts;
+using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts;
 using Scenes.PlayerScene.Scripts;
 using UnityEngine;

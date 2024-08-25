@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 namespace Scenes.PlayerScene.Scripts
 {
+    /// <summary>
+    /// Manages the player's data, interactions, and scene changes within the game.
+    /// Ensures there is only one instance of this manager through the Singleton pattern.
+    /// </summary>
     public class PlayerManager : MonoBehaviour
     {
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
-
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private TextMeshProUGUI playerName;
 
@@ -31,6 +34,7 @@ namespace Scenes.PlayerScene.Scripts
                 {
                     Debug.LogError("SpawnedPlayer accessed before being initialized.");
                 }
+                
                 return spawnedPlayer;
             }
         }
@@ -43,18 +47,21 @@ namespace Scenes.PlayerScene.Scripts
                 {
                     Debug.LogError("PlayerData accessed before being initialized.");
                 }
+                
                 return playerData;
             }
         }
-
-
 
         // Player Manager Singleton
         private static PlayerManager instance;
         public static PlayerManager Instance => instance;
 
+        /// <summary>
+        /// Initializes the singleton instance and sets up the player.
+        /// </summary>
         private void Awake()
         {
+            Debug.Log("PlayerManager.Awake: Setting up Player instance");
             if (instance != null && instance != this)
             {
                 Destroy(gameObject);
@@ -66,7 +73,6 @@ namespace Scenes.PlayerScene.Scripts
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
             
-            Debug.Log("PlayerManager/Setting up Player instance");
             SetupPlayer();
         }
         
@@ -75,7 +81,23 @@ namespace Scenes.PlayerScene.Scripts
             
         }
         
-        public void SetupPlayer()
+        public void PositionPlayerAt(GameObject spawnPoint)
+        {
+            if (spawnPoint != null)
+            {
+                spawnedPlayer.transform.position = spawnPoint.transform.position;
+                spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
+            }
+            else
+            {
+                Debug.LogError($"Spawn point {spawnPoint} not found for positioning player.");
+            }
+        }
+        
+        /// <summary>
+        /// Sets up the player object in the game scene with necessary components.
+        /// </summary>
+        private void SetupPlayer()
         {
             // instantiate temp object in scene
 
@@ -126,6 +148,11 @@ namespace Scenes.PlayerScene.Scripts
         }
 
         // TODO maybe refactor onSceneLoaded into new script 
+        /// <summary>
+        /// Called every time a scene is loaded. Adjusts camera targets and updates player data.
+        /// </summary>
+        /// <param name="scene">The loaded scene.</param>
+        /// <param name="mode">The loading mode of the scene.</param>
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // if login or start screen we have no player yet, but we set camera
@@ -138,6 +165,10 @@ namespace Scenes.PlayerScene.Scripts
             SetPlayerPositionOnSceneChange(scene);
         }
 
+        /// <summary>
+        /// Configures the Cinemachine camera to follow the player when necessary based on the scene.
+        /// </summary>
+        /// <param name="scene">The loaded scene.</param>
         private void SetCinemachineCameraTarget(Scene scene)
         {
             if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
@@ -150,6 +181,10 @@ namespace Scenes.PlayerScene.Scripts
             }
         }
 
+        /// <summary>
+        /// Updates the player's color when entering specific scenes.
+        /// </summary>
+        /// <param name="scene">The loaded scene.</param>
         private void UpdatePlayerColorOnSceneChange(Scene scene)
         {
             if (scene.name.StartsWith("02") ||
@@ -164,20 +199,24 @@ namespace Scenes.PlayerScene.Scripts
             }
         }
         
+        /// <summary>
+        /// Sets the player's position based on the last interaction point when the scene changes.
+        /// </summary>
+        /// <param name="scene">The loaded scene.</param>
         private void SetPlayerPositionOnSceneChange(Scene scene)
         {
             Debug.Log($"Loaded Scene: {scene.name}, " +
-                      $"Last Interaction Point: {PlayerData.lastInteractionPoint}");
+                      $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
 
             if (scene.name.StartsWith("03"))
             {
                 // Ensure PlayerData and the lastInteractionPoint have been properly initialized
-                if (playerData != null && playerData.lastInteractionPoint != Vector3.zero)
+                if (playerData != null && playerData.LastInteractionPoint != Vector3.zero)
                 {
                     // Set the player's position to the last interaction point stored in PlayerData
-                    spawnedPlayer.transform.position = playerData.lastInteractionPoint;
+                    spawnedPlayer.transform.position = playerData.LastInteractionPoint;
 
-                    Debug.Log("Player spawned at last interaction point: " + playerData.lastInteractionPoint.ToString());
+                    Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
                 }
                 else
                 {
@@ -185,6 +224,5 @@ namespace Scenes.PlayerScene.Scripts
                 }
             }
         }
-
     }
 }

@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
-using CORE.Scripts;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 {
     public class WordFactoryGameManager : MonoBehaviour
     {
-        public static WordFactoryGameManager Instance { get; private set; }
+        public event Action<GameObject> OnGearAdded;
 
-        [SerializeField] private DataLoader dataLoader;
-        private List<GameObject> gears = new List<GameObject>();
-        
-
+        // public so other can access the "game settings"
         public int numberOfGears = 2; // Default to 2 gears
         public int numberOfTeeth = 8; // Default to 8 teeth per gear
         public int difficultyLevel = 1; // Default difficulty level
+        
+        [SerializeField] private GameObject playerSpawnPoint;
+        
+        private List<GameObject> gears = new List<GameObject>();
 
-        public event Action<GameObject> OnGearAdded;
-
+        // Word Factory GameManger singleton
+        public static WordFactoryGameManager Instance { get; private set; }
+        
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -30,6 +32,11 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
+        }
+
+        private void Start()
+        {
+            PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
         }
 
         public void AddGear(GameObject gear)

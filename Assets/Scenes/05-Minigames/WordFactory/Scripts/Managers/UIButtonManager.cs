@@ -35,8 +35,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
 
         private void OnExitButton()
         {
-            // Implement the functionality for the exit button
-            SceneManager.LoadScene("02-PlayerHouse"); // tilbage til menu??
+            SceneManager.LoadScene(SceneNames.Main); 
         }
     }
 }

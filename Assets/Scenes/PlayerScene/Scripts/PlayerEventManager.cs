@@ -10,14 +10,18 @@ namespace Scenes.PlayerScene.Scripts
     public class PlayerEventManager : MonoBehaviour
     {
         [SerializeField] private PlayerData playerData;
-        
+
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
 
-        private void Start()
+        void Start() 
         {
-            InitializePlayerEventManager();
+            if (playerData == null) 
+            {
+                Debug.LogError("PlayerData reference not set on PlayerEventManager.");
+            }
         }
+
 
         private void OnEnable()
         {
@@ -34,19 +38,15 @@ namespace Scenes.PlayerScene.Scripts
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
         }
 
-        /// <summary>
-        /// Initializes the PlayerEventManager with references to player data.
-        /// </summary>
-        /// <param name="data">Reference to the player data object.</param>
-        public void InitializePlayerEventManager()
-        {
-            print("InitializePlayerEventManager");
-            playerData = PlayerManager.Instance.PlayerData;
-            // Assign the playerData if not null.
-            // otherwise throw an ArgumentNullException to indicate it must not be null
-
-           // playerData = data ?? throw new ArgumentNullException(nameof(data));
-        }
+        // /// <summary>
+        // /// Initializes the PlayerEventManager with references to player data.
+        // /// </summary>
+        // /// <param name="data">Reference to the player data object.</param>
+        // public void InitializePlayerEventManager()
+        // {
+        //     print("InitializePlayerEventManager");
+        //     playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
+        // }
         
         /// <summary>
         /// Adds a word to the player's collected words list,

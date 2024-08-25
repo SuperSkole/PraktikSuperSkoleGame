@@ -9,11 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3403437169497779405}
+  - component: {fileID: -2984174739293466506}
   - component: {fileID: 5874153678614725772}
   - component: {fileID: 2102550191519774190}
   - component: {fileID: 2891085859472374086}
   - component: {fileID: 2303528203887376164}
-  - component: {fileID: -2984174739293466506}
+  - component: {fileID: 5743102167441662518}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -37,6 +38,31 @@ Transform:
   - {fileID: 7954909943777536845}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2984174739293466506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 939422bbe3880c64c9291f46bbf23fd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  username: 
+  savefile: 
+  monsterName: 
+  monsterTypeID: 0
+  monsterColor: 
+  currentGoldAmount: 0
+  currentXPAmount: 0
+  currentLevel: 0
+  currentPosition: {x: 0, y: 0, z: 0}
+  CollectedWords: []
+  CollectedLetters: 
+  CollectedNumbers: 
+  LastInteractionPoint: {x: 0, y: 0, z: 0}
 --- !u!54 &5874153678614725772
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -125,7 +151,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
---- !u!114 &-2984174739293466506
+--- !u!114 &5743102167441662518
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,20 +160,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 370280089111779063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 939422bbe3880c64c9291f46bbf23fd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 3860a16dae13b024eb7bc642e779d3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: 
-  savefile: 
-  playerName: 
-  monsterTypeID: 0
-  monsterColor: 
-  currentGoldAmount: 0
-  currentXPAmount: 0
-  currentLevel: 0
-  currentPosition: {x: 0, y: 0, z: 0}
-  CollectedWords: []
-  CollectedLetters: 
+  playerData: {fileID: -2984174739293466506}
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0

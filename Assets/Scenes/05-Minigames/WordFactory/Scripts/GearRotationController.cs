@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             controller.isRotating = true;  
             OnGearRotate?.Invoke(gearIndex, clockwise);
 
-            float anglePerTooth = 360f / Managers.WordFactoryGameManager.Instance.GetNumberOfTeeth();
+            float anglePerTooth = 360f / WordFactoryGameManager.Instance.GetNumberOfTeeth();
             float angle = clockwise ? anglePerTooth : -anglePerTooth;
             Quaternion startRotation = gear.transform.localRotation;
             Quaternion endRotation = Quaternion.Euler(0, 0, angle) * startRotation;

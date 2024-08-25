@@ -19,8 +19,8 @@ namespace Scenes._01_StartScene.Scripts
         public void OnClick()
         {
             SetUpPlayer();
-            SceneManager.LoadScene("02-PlayerHouse");
-            SceneManager.LoadSceneAsync("PlayerScene", LoadSceneMode.Additive);
+            SceneManager.LoadScene(SceneNames.House);
+            SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
         }   
         
         private void SetUpPlayer()

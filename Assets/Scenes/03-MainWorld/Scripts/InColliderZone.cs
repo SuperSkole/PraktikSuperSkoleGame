@@ -99,7 +99,8 @@ namespace Scenes._03_MainWorld.Scripts
         public void SetLastInteractionPoint(Transform interactionPoint)
         {
             print($"Here is the saved position: {interactionPoint.position}");
-            PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position);
+            // set next spawn point, add 1 in height so we dont spawn in ground
+            PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
         }
     }
 }

@@ -34,7 +34,7 @@ namespace LoadSave
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
-        public Vector3 lastInteractionPoint;
+        public Vector3 LastInteractionPoint;
         
         public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
         {
@@ -49,7 +49,7 @@ namespace LoadSave
 
         public void SetLastInteractionPoint(Vector3 position)
         {
-            lastInteractionPoint = position;
+            LastInteractionPoint = position;
         }
 
         
