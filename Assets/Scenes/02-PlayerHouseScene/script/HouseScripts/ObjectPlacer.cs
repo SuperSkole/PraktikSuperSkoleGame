@@ -7,6 +7,7 @@ public class ObjectPlacer : MonoBehaviour
 {
     // List to store references to all the objects that have been placed.
     [SerializeField] private List<GameObject> placedGameObjects = new List<GameObject>();
+    [SerializeField] private GameObject parent;
 
     public List<GameObject> PlacedGameObjects {  get { return placedGameObjects; } set { placedGameObjects = value; } }
     // Method to place an object at the specified position.
@@ -15,7 +16,7 @@ public class ObjectPlacer : MonoBehaviour
     public int PlaceObject(GameObject prefab, Vector3 pos)
     {
         // Instantiate a new object from the provided prefab.
-        GameObject newObject = Instantiate(prefab);
+        GameObject newObject = Instantiate(prefab,parent.transform);
 
         // Set the position of the new object to the specified position.
         newObject.transform.position = pos;

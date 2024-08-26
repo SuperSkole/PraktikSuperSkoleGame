@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Scenes.StartScene.Scripts
+namespace Scenes._01_StartScene.Scripts
 {
     public class UIStartSceneManager : MonoBehaviour
     {
@@ -24,7 +23,7 @@ namespace Scenes.StartScene.Scripts
         [SerializeField] private Image displayImage;
         
         // Initializes the start screen as active upon loading.
-        private void Awake ()
+        private void Awake()
         {
             ValidateUIReferences();
             startScreen.SetActive(true);
@@ -36,8 +35,9 @@ namespace Scenes.StartScene.Scripts
             if (startScreen == null ||
                 characterChoiceScreen == null ||
                 loadOldSaveScreen == null)
-                
+            {
                 Debug.LogError("UI Reference not set in the inspector", this);
+            }
         }
 
         // Deactivates the currently active UI screen.

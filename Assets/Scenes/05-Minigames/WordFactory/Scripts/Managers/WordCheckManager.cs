@@ -2,24 +2,25 @@ using System;
 using System.Collections.Generic;
 using CORE.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
+using Scenes.Minigames.WordFactory.Scripts.Managers;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Scenes.Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 {
     public class WordCheckManager : MonoBehaviour
     {
         // Event to notify subscribers of a valid word
         public static event Action<string> OnValidWord;
 
-        [SerializeField] private GameManager gameManager;
+        [SerializeField] private WordFactoryGameManager wordFactoryGameManager;
         [SerializeField] private ClosestTeethFinder closestTeethFinder;
         [SerializeField] private WordBuilder wordBuilder;
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
-
         [SerializeField] private GameObject notificationTextObject;
+        
         private INotificationDisplay notificationDisplay;
 
         // Public boolean to allow unlimited blocks for testing
@@ -69,7 +70,7 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
-            List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(GameManager.Instance.GetGears());
+            List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
             int wordlength = formedWord.Length;
 
@@ -119,11 +120,32 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         /// <summary>
         /// Handles the valid word event to reset the flag.
         /// </summary>
+        /// <param name="word">The valid word</param>
         private void HandleValidWord(string word)
         {
             blockCreator.HandleValidWord(word);
+            
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
+            
+            // Send word to playerdata
+            AddWordToPlayerData(word);
+            
+            // send word to highscore
+            AddWordToHighScore(word);
+        }
+        
+        private void AddWordToPlayerData(string word)
+        {
+            Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
+            
+            // Raise the event to send the word to other parts of the game that manage player data
+            PlayerEvents.RaiseWordValidated(word);
+        }
+        
+        private void AddWordToHighScore(string word)
+        {
+//            GameManager.Instance.HighScore.AddWord(word);
         }
     }
 }
