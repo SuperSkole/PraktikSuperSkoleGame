@@ -89,7 +89,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            GameModeSet(new FindImageFromSound(), new FindCorrectImage());
+            GameModeSet(new RecognizeSoundOfLetter(), new FindCorrectLetter());
 
         }
 

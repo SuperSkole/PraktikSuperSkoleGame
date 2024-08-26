@@ -1,6 +1,7 @@
 using CORE.Scripts;
 using CORE.Scripts.GameRules;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
@@ -85,7 +86,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             /// Uses the Lettersound.
             /// </summary>
 
-            CurrentLetterSound();
+            //CurrentLetterSound();
         }
 
         /// <summary>
@@ -103,10 +104,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void CurrentLetterSound()
         {
-            //bruger correctLetter to find the right sound in tempSymbolEatersound in resource foulder
-            string audioFileName = gameRules.GetDisplayAnswer().ToLower() + "_audio";
+            //Finds sound clip from the Sound Manager.
+            
 
-            AudioClip clip = Resources.Load<AudioClip>($"TempGrov�derSound/{audioFileName}");
+            AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower());
+
+            Debug.Log(gameRules.GetDisplayAnswer());
 
             //checks whether or not its null.
             if (clip != null)

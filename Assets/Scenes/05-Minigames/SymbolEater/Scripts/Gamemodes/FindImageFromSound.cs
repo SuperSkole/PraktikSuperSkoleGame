@@ -155,11 +155,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     
                     correctLetterCount++;
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
 
 
                 //uses the CurrentWordSound 
-                CurrentWordSound();
+                //CurrentWordSound();
 
             }
         }
@@ -211,7 +211,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk [Mellemrum] for at h�re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
             image.DeactivateImage();
             activeLetterCubes.Remove(image);

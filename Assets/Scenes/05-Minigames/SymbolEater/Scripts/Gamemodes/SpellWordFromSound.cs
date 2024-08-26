@@ -49,7 +49,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
                 gameRules.SetCorrectAnswer();
                 oldWord = gameRules.GetDisplayAnswer();
-                if (sprites.ContainsKey(gameRules.GetDisplayAnswer()))
+                if (!sprites.ContainsKey(gameRules.GetDisplayAnswer()))
                 {
                     boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
                 }
@@ -109,7 +109,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
 
             //uses the CurrentWordSound 
-            CurrentWordSound();
+            //CurrentWordSound();
 
         }
 
