@@ -1,3 +1,4 @@
+using System;
 using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,13 +16,14 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+using CORE.Scripts.GameRules;
 
 
 
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
-    public class TowerManager : MonoBehaviour, IDataPersistence
+    public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
         private int towerHeight;
@@ -32,6 +34,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
 
         [SerializeField] GameObject brickPrefab;
+
+        private AudioSource towerAudioSource;
 
 
         private int towerRadius = 20;
@@ -58,6 +62,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] Camera mainCamera;
 
 
+      
+        void Start()
+        {
+            towerAudioSource = mainCamera.GetComponent<AudioSource>();
+        }
         public RawImage topImage;
         public RawImage bottomImage;
 
@@ -80,8 +89,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             {
                 yield return null;
             }
-            questions = gameMode.GenerateAnswers(3);
-            towerHeight = questions.Length;
+
+            if (loadedBrickLanes.Count > 0)
+            {
+               
+                towerHeight = questions.Length;
+            }
+            else
+            {
+                questions = gameMode.GenerateAnswers(3);
+                towerHeight = questions.Length;
+            }
+
 
             topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
             bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
@@ -103,6 +122,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             }
             else
             {
+             
                 rowToDelete = 0;
                 BuildTower();
             }
@@ -111,18 +131,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <summary>
         /// starts the coroutine which sets up data for the tower once files have been loaded (used to set the data manually, but that is currently not possible as it now requires the ImageManager to have loaded data)
         /// </summary>
-        public void SetTowerData(string[] input)
+        public void SetupGame(IGenericGameMode genericGameMode, IGameRules gameRules)
         {
-            questions = input;
-            towerHeight = questions.Length;
+            gameMode = (IMTGameMode)genericGameMode;
+            //questions = input;
+            //towerHeight = questions.Length;
 
-            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+            //topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            //bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
-            brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+            //brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
-            currentQuestion = questions[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+            //currentQuestion = questions[currentQuestionIndex];
+            //displayBox.text = currentQuestion;
 
 
             StartCoroutine(WaitUntillDataIsLoaded());
@@ -206,10 +227,27 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 GoToWinScreen();
             }
 
+            // Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
+            PlayAudioPraise();
 
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
+        }
+
+
+        /// <summary>
+        ///  Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
+        ///  Is set To Danish as default but can be changed if needed. 
+        /// </summary>
+        void PlayAudioPraise()
+        {
+            int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
+
+            AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
+            towerAudioSource.clip = CongratsAudio;
+
+            towerAudioSource.Play();
         }
 
         /// <summary>
@@ -513,8 +551,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 // and not the actual current at the time of exiting the game
                 this.currentQuestionIndex = data.currentQuestionIndex;
 
+                this.questions = data.questions;
                 //Debug.Log(data.BrickLanes.Count);
-
 
 
                 // If loading in a save the sentence displayed is updated. 
@@ -522,8 +560,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 // the application starts the quistions starts over from the beginning. 
                 if (loadedBrickLanes.Count > 0)
                 {
-                    currentQuestion = questions[currentQuestionIndex];
-                    displayBox.text = currentQuestion;
+                    if (questions!=null)
+                    {
+                        //Debug.Log("Loaded bricklanes");
+                        currentQuestion = questions[currentQuestionIndex];
+                        displayBox.text = currentQuestion;
+                    }
+                    
                 }
                 else
                 {
@@ -549,7 +592,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             data.currentQuestionIndex = currentQuestionIndex;
 
-
+            data.questions = questions;
 
             Debug.Log("Data Saved");
 

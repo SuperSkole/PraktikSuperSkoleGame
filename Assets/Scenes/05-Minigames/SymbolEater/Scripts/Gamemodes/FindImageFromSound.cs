@@ -15,13 +15,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         SymbolEaterSoundController currentWordsoundClip;
 
-        /// <summary>
-        /// The correct word
-        /// </summary>
-        
-
-        string currentWord;
-
         private bool wordsLoaded = false;
 
 
@@ -51,6 +44,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         BoardController boardController;
 
+        IGameRules gameRules;
+
         LetterCube letterCube;
 
         int correctLetters = 0;
@@ -69,24 +64,20 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void GetSymbols()
         {
 
-            // gets a current word to find images and sound with.
-
-            //Sets up variablese and checks if data is loaded
-
-
+            
 
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if (DataLoader.IsDataLoaded)
             {
 
-                currentWord = WordsForImagesManager.GetRandomWordForImage();
-                if (texture.ContainsKey(currentWord))
+                gameRules.SetCorrectAnswer();
+                if (!texture.ContainsKey(gameRules.GetCorrectAnswer()))
                 {
-                    texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
+                    texture.Add(gameRules.GetCorrectAnswer(), ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer()));
                 }
                 else
                 {
-                    Texture2D texture2D = ImageManager.GetImageFromWord(currentWord);
+                    Texture2D texture2D = ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer());
 
                     letterCube = letterCubes[Random.Range(0, letterCubes.Count)];
                     
@@ -116,7 +107,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 {
                     // creates random words from the word list, then creates images to fit those random words.
 
-                    string randoImage = WordsForImagesManager.GetRandomWordForImage();
+                    string randoImage = gameRules.GetWrongAnswer();
 
                     if (!texture.ContainsKey(randoImage))
                     {
@@ -140,19 +131,19 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 //creates a random number of correct Images on the board
                 int wrongCubeCount = activeLetterCubes.Count;
                 count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-                currentWord = WordsForImagesManager.GetRandomWordForImage();
+                gameRules.SetCorrectAnswer();
                 for (int i = 0; i < count; i++)
                 {
-                    if (!texture.ContainsKey(currentWord))
+                    if (!texture.ContainsKey(gameRules.GetCorrectAnswer()))
                     {
-                        texture.Add(currentWord, ImageManager.GetImageFromWord(currentWord));
+                        texture.Add(gameRules.GetCorrectAnswer(), ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer()));
 
                     }
                     // makes a image string from the current word variable, so that we can find it in the files.
-                    string image = currentWord.ToLower();
+                    string image = gameRules.GetCorrectAnswer().ToLower();
                     
 
-                    Texture2D currentImage = texture[currentWord];
+                    Texture2D currentImage = texture[gameRules.GetCorrectAnswer()];
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                     //Check to ensure images dont spawn below the player and that it is not an already activated lettercube
                     while (activeLetterCubes.Contains(potentialCube))
@@ -164,11 +155,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     
                     correctLetterCount++;
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
 
 
                 //uses the CurrentWordSound 
-                CurrentWordSound();
+                //CurrentWordSound();
 
             }
         }
@@ -180,7 +171,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <returns></returns>
         public bool IsCorrectSymbol(string theWord)
         {
-            return theWord.ToLower() == currentWord.ToLower();
+            return gameRules.IsCorrectSymbol(theWord);
         }
 
 
@@ -190,7 +181,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void CurrentWordSound()
         {
             //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
-            string audioFileName = currentWord.ToLower() + "_audio";
+            string audioFileName = gameRules.GetCorrectAnswer().ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
 
@@ -220,7 +211,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk [Mellemrum] for at h�re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
             image.DeactivateImage();
             activeLetterCubes.Remove(image);
@@ -242,10 +233,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
 
                 // yet again creates random words from the Word list.
-                string randoWords = WordsForImagesManager.GetRandomWordForImage();
-                while (randoWords == currentWord)
+                string randoWords = gameRules.GetWrongAnswer();
+                while (randoWords == gameRules.GetCorrectAnswer())
                 {
-                    randoWords = WordsForImagesManager.GetRandomWordForImage();
+                    randoWords = gameRules.GetWrongAnswer();
                 }
 
                 //then adds the images to the texture dictionary if dosnt already exists.
@@ -311,12 +302,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
         /// <summary>
-        /// unused until relevant game rules are implemented
+        /// sets the game rules of the game. Currently only support SpellWord
         /// </summary>
-        /// <param name="gameRules">The game rules used by the board</param>
+        /// <param name="gameRules">game rules to be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
-            
+            this.gameRules = gameRules;
         }
 
         /// <summary>

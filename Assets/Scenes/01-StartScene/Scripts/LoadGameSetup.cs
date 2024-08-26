@@ -1,45 +1,37 @@
+using CORE;
 using LoadSave;
+using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.StartScene.Scripts
+namespace Scenes._01_StartScene.Scripts
 {
     public class LoadGameSetup : MonoBehaviour
     {
-        public Transform spawnCharPoint;
-        public GameObject playerPrefab; 
-        public Text playerNameText; 
-        public Text playerXPText;   
-        public Text playerGoldText; 
+        [SerializeField] private Transform spawnCharPoint;
+        [SerializeField] private Text playerNameText; 
+        [SerializeField] private GameObject playerPrefab; 
+        [SerializeField] private Text playerXPText;   
+        [SerializeField] private Text playerGoldText; 
 
+        public string ChosenMonsterColor;
+        
         public void SetupPlayer(SaveDataDTO saveData)
         {
-            // instantiate temp object in scene
-            GameObject loadedPlayer = Instantiate(playerPrefab, spawnCharPoint.position, Quaternion.identity, spawnCharPoint);
+            // Use PlayerManager to load the player from save data
+            PlayerManager.Instance.SetupPlayerFromSave(saveData);
 
-            PlayerData player = loadedPlayer.AddComponent<PlayerData>();
-
-            // Init player data
-            player.Initialize(
-                saveData.Username,
-                saveData.PlayerName, 
-                saveData.MonsterColor,
-                saveData.GoldAmount,
-                saveData.XPAmount,
-                saveData.PlayerLevel,
-                saveData.SavedPlayerStartPostion.GetVector3()
-            );
-
-            // // add UI info
-            // playerNameText.text = "Player Name: " + player.PlayerName;
-            // playerXPText.text = "XP: " + player.CurrentXPAmount.ToString();
-            // playerGoldText.text = "Gold: " + player.CurrentGoldAmount.ToString();
+            // Update UI with player details
+            playerNameText.text = saveData.MonsterName;
+            playerXPText.text = saveData.XPAmount.ToString();
+            playerGoldText.text = saveData.GoldAmount.ToString();
 
             // Log for debugging
-            Debug.Log("Player setup complete with name: " + player.PlayerName +
-                      "Player Name: " + player.PlayerName +
-                      "XP: " + player.CurrentXPAmount.ToString() +
-                      "Gold: " + player.CurrentGoldAmount.ToString());
+            Debug.Log("Player loaded and UI updated with username: " + saveData.Username +
+                      " Player Name: " + saveData.MonsterName +
+                      " Monster Color: " + saveData.MonsterColor +
+                      " XP: " + saveData.XPAmount.ToString() +
+                      " Gold: " + saveData.GoldAmount.ToString());
         }
     }
 }
