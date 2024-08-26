@@ -3,6 +3,7 @@ using CORE;
 using LoadSave;
 using TMPro;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 
 namespace Scenes.PlayerScene.Scripts
@@ -72,8 +73,11 @@ namespace Scenes.PlayerScene.Scripts
                 DontDestroyOnLoad(gameObject);
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
-            
-            SetupNewPlayer();
+
+            if (GameManager.Instance.IsNewGame)
+            {
+                SetupNewPlayer();
+            }
         }
         
         /// <summary>
@@ -180,9 +184,14 @@ namespace Scenes.PlayerScene.Scripts
                 saveData.PlayerLevel,
                 saveData.SavedPlayerStartPostion.GetVector3()
             );
+            
+            // Call the ColorChange method to recolor the player
+            playerColorChanger.ColorChange(playerData.MonsterColor);
 
-            // Apply the saved color
-            playerColorChanger.ColorChange(saveData.MonsterColor);
+            playerData.SetLastInteractionPoint(
+                playerData.LastInteractionPoint == Vector3.zero
+                    ? new Vector3(-191, 40, -168)
+                    : playerData.LastInteractionPoint);
 
             // Log for debugging
             Debug.Log($"Player loaded from save: " +
@@ -245,7 +254,7 @@ namespace Scenes.PlayerScene.Scripts
                 if (playerColorChanger != null)
                 {
                     // Call the ColorChange method to recolor the player
-                    playerColorChanger.ColorChange(GameManager.Instance.CurrentMonsterColor);
+                    playerColorChanger.ColorChange(playerData.MonsterColor);
                 }    
             }
         }

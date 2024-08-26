@@ -24,6 +24,8 @@ namespace Scenes._01_StartScene.Scripts
         
         private void SetupPlayer()
         {
+            GameManager.Instance.IsNewGame = true;
+            
             GameManager.Instance.CurrentMonsterName = nameInput.text;
             GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
             

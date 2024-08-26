@@ -19,6 +19,8 @@ namespace CORE
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
         
+        public bool IsNewGame { get; set; }
+        
         // GameManager Singleton
         private static GameManager instance;
         private static readonly object Lock = new object();

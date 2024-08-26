@@ -47,6 +47,7 @@ namespace Scenes.StartScene.Scripts
         {
             if (saveData != null)
             {
+                // Update UI with player details
                 monsterNameText.text = saveData.MonsterName;
                 startGameButton.gameObject.SetActive(true);
                 blockingImage.enabled = false;

@@ -18,20 +18,15 @@ namespace Scenes._01_StartScene.Scripts
         
         public void SetupPlayer(SaveDataDTO saveData)
         {
-            // Use PlayerManager to load the player from save data
-            PlayerManager.Instance.SetupPlayerFromSave(saveData);
-
-            // Update UI with player details
-            playerNameText.text = saveData.MonsterName;
-            playerXPText.text = saveData.XPAmount.ToString();
-            playerGoldText.text = saveData.GoldAmount.ToString();
-
             // Log for debugging
             Debug.Log("Player loaded and UI updated with username: " + saveData.Username +
                       " Player Name: " + saveData.MonsterName +
                       " Monster Color: " + saveData.MonsterColor +
                       " XP: " + saveData.XPAmount.ToString() +
                       " Gold: " + saveData.GoldAmount.ToString());
+            
+            // Use PlayerManager to load the player from save data
+            PlayerManager.Instance.SetupPlayerFromSave(saveData);
         }
     }
 }
