@@ -64,7 +64,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
       
         void Start()
         {
-            towerAudioSource = gameObject.GetComponent<AudioSource>();
+            towerAudioSource = mainCamera.GetComponent<AudioSource>();
         }
         public RawImage topImage;
         public RawImage bottomImage;
@@ -88,8 +88,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             {
                 yield return null;
             }
-            questions = gameMode.GenerateAnswers(3);
-            towerHeight = questions.Length;
+
+            if (loadedBrickLanes.Count > 0)
+            {
+               
+                towerHeight = questions.Length;
+            }
+            else
+            {
+                questions = gameMode.GenerateAnswers(3);
+                towerHeight = questions.Length;
+            }
+
 
             topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
             bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
@@ -111,6 +121,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             }
             else
             {
+             
                 rowToDelete = 0;
                 BuildTower();
             }
@@ -232,8 +243,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
 
             AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
-
             towerAudioSource.clip = CongratsAudio;
+
             towerAudioSource.Play();
         }
 
@@ -538,6 +549,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 // and not the actual current at the time of exiting the game
                 this.currentQuestionIndex = data.currentQuestionIndex;
 
+                this.questions = data.questions;
                 //Debug.Log(data.BrickLanes.Count);
 
 
@@ -547,6 +559,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 // the application starts the quistions starts over from the beginning. 
                 if (loadedBrickLanes.Count > 0)
                 {
+                    Debug.Log("Loaded bricklanes");
                     currentQuestion = questions[currentQuestionIndex];
                     displayBox.text = currentQuestion;
                 }
@@ -574,7 +587,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             data.currentQuestionIndex = currentQuestionIndex;
 
-
+            data.questions = questions;
 
             Debug.Log("Data Saved");
 

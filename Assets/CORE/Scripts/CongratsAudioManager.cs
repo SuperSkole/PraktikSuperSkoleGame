@@ -17,6 +17,12 @@ namespace CORE.Scripts
         private static List<AudioClip> englishPraiseList = new List<AudioClip>();
         public static bool IsDataLoaded { get; private set; } = false;
 
+
+
+        /// <summary>
+        /// Adds a audio clip to a danishPraiseList list containing all the danish congrats sounds
+        /// </summary>
+        /// <param name="input"></param>
         public static void AddAudioClipToDanishSet(AudioClip input)
         {
             danishPraiseList.Add(input);
@@ -24,6 +30,10 @@ namespace CORE.Scripts
 
         }
 
+        /// <summary>
+        /// Adds an audio clip to a englishPraiseList containing all the english congrats sounds
+        /// </summary>
+        /// <param name="input"></param>
         public static void AddAudioClipToEnglishSet(AudioClip input)
         {
             englishPraiseList.Add(input);
@@ -31,11 +41,20 @@ namespace CORE.Scripts
 
         }
 
-
+        /// <summary>
+        /// Get lenght of the danishPraiseList containing all the danish congrats audio clips. 
+        /// </summary>
+        /// <param name="input"></param>
         public static int GetLenghtOfAudioClipDanishList()
         {
             return danishPraiseList.Count;
         }
+
+
+        /// <summary>
+        /// Get lenght of the englishPraiseList containing all the english congrats audio clips. 
+        /// </summary>
+        /// <param name="input"></param>
 
         public static int GetLenghtOfAudioClipEnglishList()
         {
@@ -43,11 +62,22 @@ namespace CORE.Scripts
         }
 
 
-
+        /// <summary>
+        /// Get an audio clip from the danishPraiseList containing all the danish congrats audio clips. 
+        /// </summary>
+        /// <param name="input"></param>
         public static AudioClip GetAudioClipFromDanishSet(int index)
         {
             return danishPraiseList[index];
         }
+
+
+
+
+        /// <summary>
+        /// Get an audio clip from the englisPraiseList containing all the english congrats audio clips. 
+        /// </summary>
+        /// <param name="input"></param>
 
         public static AudioClip GetAudioClipFromEnglishSet(int index)
         {
