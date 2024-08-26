@@ -2754,11 +2754,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960.2044
+      value: 960.0634
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -893.1418
+      value: -893.2739
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2776,6 +2776,10 @@ PrefabInstance:
       propertyPath: loadGameManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: monsterNameText
+      value: 
+      objectReference: {fileID: 1544592156}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -2811,6 +2815,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d078bd01829ac48acbd55c29fdfd08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1544592156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
+  m_PrefabInstance: {fileID: 1544592153}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1547460873
@@ -3583,11 +3598,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960.2044
+      value: 960.0634
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -539.8851
+      value: -539.96436
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3605,6 +3620,10 @@ PrefabInstance:
       propertyPath: loadGameManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: monsterNameText
+      value: 
+      objectReference: {fileID: 1846401140}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3622,6 +3641,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42061419fb7773745957c50d029fc045, type: 3}
+--- !u!114 &1846401140 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
+  m_PrefabInstance: {fileID: 1846401139}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1846401141 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
@@ -4005,11 +4035,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 960.2044
+      value: 960.0634
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -186.62836
+      value: -186.65479
       objectReference: {fileID: 0}
     - target: {fileID: 2390023565183560246, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4051,6 +4081,10 @@ PrefabInstance:
       propertyPath: loadGameManager
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: monsterNameText
+      value: 
+      objectReference: {fileID: 2096074235}
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: playerNameDrawing
       value: 
