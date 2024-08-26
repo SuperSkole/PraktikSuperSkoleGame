@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
     public class CatapultAming : MonoBehaviour
     {
         [SerializeField] GameObject prjectipePrefab;
+        [SerializeField] GameObject textHolderPrefab;
         [SerializeField] GameObject catapult;
         [SerializeField] GameObject catapultArm;
         [SerializeField] Transform shootPos;
@@ -59,8 +62,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     yield return new WaitForSecondsRealtime(rotateActualSpeed);
                 }
 
+                for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
+                {
+                    prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Word Test";
+                }
+
                 manager.RemoveAmmo();
                 GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);
+
+               
+
+
+
                 Rigidbody rb = temp.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.velocity = CalcolateTerejectory(target);
