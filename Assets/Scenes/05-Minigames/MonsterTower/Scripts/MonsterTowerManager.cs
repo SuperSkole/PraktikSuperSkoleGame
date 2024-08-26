@@ -58,7 +58,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             sentanses = input;
 
         
-            towerManager.SetTowerData(sentanses);
+            towerManager.SetTowerData();
         }
 
 
@@ -69,8 +69,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
-            SetupSentanses();
-            towerManager.SetTowerData(sentanses);
+       
+            towerManager.SetTowerData();
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);

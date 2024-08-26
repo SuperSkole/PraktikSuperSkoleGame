@@ -15,9 +15,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
     public class GameData
     {
 
-        public List<BrickLane> BrickLanes;
+        public List<BrickLane> BrickLanes=new List<BrickLane>();
 
         public int currentQuestionIndex;
+
+        public string[] questions;
 
 
 
