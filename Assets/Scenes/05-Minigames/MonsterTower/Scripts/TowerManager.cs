@@ -559,7 +559,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 // the application starts the quistions starts over from the beginning. 
                 if (loadedBrickLanes.Count > 0)
                 {
-                    Debug.Log("Loaded bricklanes");
+                    //Debug.Log("Loaded bricklanes");
                     currentQuestion = questions[currentQuestionIndex];
                     displayBox.text = currentQuestion;
                 }
