@@ -130,19 +130,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <summary>
         /// starts the coroutine which sets up data for the tower once files have been loaded (used to set the data manually, but that is currently not possible as it now requires the ImageManager to have loaded data)
         /// </summary>
-        public void SetTowerData(string[] input)
+        public void SetTowerData()
         {
-            questions = input;
-            towerHeight = questions.Length;
-
-            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
-
-            brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
-
-            currentQuestion = questions[currentQuestionIndex];
-            displayBox.text = currentQuestion;
-
 
             StartCoroutine(WaitUntillDataIsLoaded());
         }
