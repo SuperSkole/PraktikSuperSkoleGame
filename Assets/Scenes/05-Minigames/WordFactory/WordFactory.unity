@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ddc7b4f955b3714ebfe039cb58c3db3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wordFactoryGameManager: {fileID: 0}
+  wordFactoryGameManager: {fileID: 1086093601}
   closestTeethFinder: {fileID: 2029512484}
   wordBuilder: {fileID: 945164226}
   wordValidator: {fileID: 827242759}
@@ -1201,8 +1201,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbbfb264b41159844b2d189f3acd7fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gears: []
-  letterGearGenerator: {fileID: 2081422420}
+  Gears: []
+  LetterGearGenerator: {fileID: 2081422420}
   closestTeethFinder: {fileID: 2029512484}
 --- !u!4 &810016992
 Transform:
@@ -1646,9 +1646,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd8a31a785479e4eb355d6a0516c5df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfGears: 2
-  numberOfTeeth: 8
-  difficultyLevel: 2
+  NumberOfGears: 2
+  NumberOfTeeth: 8
+  DifficultyLevel: 1
   playerSpawnPoint: {fileID: 910300768}
 --- !u!1 &1150243490
 GameObject:
@@ -2849,6 +2849,7 @@ MonoBehaviour:
   semiCircleRadius: 5
   letterGearCylinderPrefab: {fileID: 2697131668386895411, guid: dc28b7c72b9d23f41b8bdd53b04bb665, type: 3}
   letterGearToothPrefab: {fileID: 5990183653471680339, guid: 869d9ae61d9c73344be8374bd0231864, type: 3}
+  wordBlockPrefabForSingleGearMode: {fileID: 7364613108850484899, guid: c91edfefe82b3ab4dab6b971020dc395, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

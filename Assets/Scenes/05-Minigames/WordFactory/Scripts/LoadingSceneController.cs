@@ -15,8 +15,8 @@ namespace Scenes._05_Minigames.WordFactory.Scripts
         /// <param name="numberOfGears">The number of gears to use in the mini game.</param>
         public void LoadMiniGameWithGears(int numberOfGears)
         {
-            // Store the number of gears into PlayerPrefs to retrieve in the game scene
-            PlayerPrefs.SetInt("NumberOfGears", numberOfGears);
+            // Set the number of gears
+            GameConfig.NumberOfGears = numberOfGears; 
             SceneManager.LoadScene("WordFactory"); 
         }
     }

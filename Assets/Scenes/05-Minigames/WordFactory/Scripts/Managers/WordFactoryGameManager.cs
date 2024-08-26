@@ -17,6 +17,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         [SerializeField] private GameObject playerSpawnPoint;
         
         private List<GameObject> gears = new List<GameObject>();
+        private IGearStrategy gearStrategy;
 
         // Word Factory GameManger singleton
         public static WordFactoryGameManager Instance { get; private set; }
@@ -31,7 +32,20 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+
+                IntializeFactoryManager();
             }
+        }
+
+        private void IntializeFactoryManager()
+        {
+            Debug.Log("IntializeFactoryManager");
+            
+            // Retrieve the number of gears from GameConfig
+            NumberOfGears = GameConfig.NumberOfGears;
+            
+            // Set the gear strategy based on the number of gears
+            SetGearStrategy();
         }
 
         private void Start()
@@ -45,6 +59,8 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
                 Debug.Log("WordFactory GM.Start(): Player Manager is null");
             }
         }
+        
+        public IGearStrategy GetGearStrategy() => gearStrategy;
 
         public void AddGear(GameObject gear)
         {
@@ -61,5 +77,22 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         public int GetDifficultyLevel() => DifficultyLevel;
 
         public void SetDifficultyLevel(int level) => DifficultyLevel = level;
+        
+        private void SetGearStrategy()
+        {
+            if (NumberOfGears >= 2)
+            {
+                gearStrategy = new MultiGearStrategy();
+            }
+            else
+            {
+                gearStrategy = new SingleGearStrategy();
+            }
+
+            if (gearStrategy == null)
+            {
+                Debug.LogError("Failed to initialize gear strategy.");
+            }
+        }
     }
 }
