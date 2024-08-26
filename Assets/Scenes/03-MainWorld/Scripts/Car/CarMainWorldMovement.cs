@@ -2,16 +2,13 @@ using UnityEngine;
 
 public class CarMainWorldMovement : MonoBehaviour
 {
-
-    //public GameObject racingGameManager;
-    int sceneID = 0;
-
     public bool carActive; //the car state
     public bool CarActive
     {
         get { return carActive; }
         set { carActive = value; }
     }
+    private bool turnOnCar= true;
 
 
     // Constants for input axes names, used for reading player input.
@@ -47,42 +44,39 @@ public class CarMainWorldMovement : MonoBehaviour
     public Transform wheelTransformRearL;
 
     //Headlight ref for toggle viseblity
-    public GameObject leftHeadlight;
-    public GameObject rightHeadlight;
+   // public GameObject leftHeadlight;
+   // public GameObject rightHeadlight;
 
     //Steering correction when parking
-    public float steeringCorrectionRate = 2.0f;
+    [SerializeField] private float steeringCorrectionRate;
 
 
     // Start is called before the first frame update.
     private void Start()
     {
-        sceneID = SceneManagerScript.Instance.SceneID;
-        if (sceneID == 1)
+        if (turnOnCar)
         {
             carActive = true; // Start with the car being off.
-            leftHeadlight.SetActive(carActive == true);
-            rightHeadlight.SetActive(carActive == true);
+            //leftHeadlight.SetActive(carActive == true);
+            //rightHeadlight.SetActive(carActive == true);
         }
-        if (sceneID == 0)
+        if (!turnOnCar)
         {
             carActive = false; // Start with the car being off.
-            leftHeadlight.SetActive(carActive == false);
-            rightHeadlight.SetActive(carActive == false);
+            //leftHeadlight.SetActive(carActive == false);
+            //rightHeadlight.SetActive(carActive == false);
         }
         
     }
 
     private void Update()
-    {
-        
+    {        
         // Toggle CarActive state when 'E' key is pressed.
         if (Input.GetKeyDown(KeyCode.E))
         {
-
             // Toggle the headlights based on the CarActive state.
-            leftHeadlight.SetActive(carActive);
-            rightHeadlight.SetActive(carActive);
+           // leftHeadlight.SetActive(carActive);
+          //  rightHeadlight.SetActive(carActive);
         }
     }
 
@@ -275,12 +269,6 @@ public class CarMainWorldMovement : MonoBehaviour
         // Apply the steer angle to the wheel colliders.
         wheelColliderFrontL.steerAngle = currentSteerAngle;
         wheelColliderFrontR.steerAngle = currentSteerAngle;
-
-
-        //// Calculate the steering angle based on player's input.
-        //currentSteerAngle = maxSteeringAngle * horizontalInput;
-        //wheelColliderFrontL.steerAngle = currentSteerAngle;
-        //wheelColliderFrontR.steerAngle = currentSteerAngle;
     }
 
 
