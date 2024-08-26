@@ -40,24 +40,42 @@ namespace Scenes.Minigames.WordFactory.Scripts
 
         private void PlaceGearsSemiCircular(int numberOfGears, int numberOfTeeth)
         {
-            float angleStep = 180f / Mathf.Max(1, numberOfGears - 1);  // Calculate angle between gears
-
-            for (int i = 0; i < numberOfGears; i++)
+            if (numberOfGears == 1)
             {
-                float angle = angleStep * i - 90;  // Start from -90 degrees to spread gears in a semi-circle
-                float angleInRadians = angle * Mathf.Deg2Rad;
-
-                // Calculate x and y positions for gear placement along the semi-circle
+                // Position single gear at 3 o'clock by
+                // moving right from the central point, Maintain the same vertical position and Constant z pos
                 Vector3 gearPosition = new Vector3(
-                    centralPoint.position.x + semiCircleRadius * Mathf.Sin(angleInRadians),  
-                    centralPoint.position.y + semiCircleRadius * Mathf.Cos(angleInRadians), // y adjusts for semi-circle curvature vertically
-                    5);  // z is constant, moved back
+                    centralPoint.position.x + semiCircleRadius, 
+                    centralPoint.position.y,                    
+                    5);                                        
 
-                GameObject gear = InstantiateGear($"Gear{i + 1}", gearPosition, i, numberOfTeeth);
+                // Instantiate and configure the single gear
+                GameObject gear = InstantiateGear("Gear1", gearPosition, 0, numberOfTeeth);
                 WordFactoryGameManager.Instance.AddGear(gear);
                 gearButtonManager.CreateButtonsForGear(gear);
             }
+            else
+            {
+                float angleStep = 180f / Mathf.Max(1, numberOfGears - 1);  // Calculate angle between gears
+
+                for (int i = 0; i < numberOfGears; i++)
+                {
+                    float angle = angleStep * i - 90;  // Start from -90 degrees to spread gears in a semi-circle
+                    float angleInRadians = angle * Mathf.Deg2Rad;
+
+                    // Calculate x and y positions for gear placement along the semi-circle
+                    Vector3 gearPosition = new Vector3(
+                        centralPoint.position.x + semiCircleRadius * Mathf.Cos(angleInRadians),  
+                        centralPoint.position.y + semiCircleRadius * Mathf.Sin(angleInRadians), // Adjusted for clarity
+                        5);  // z is constant, moved back
+
+                    GameObject gear = InstantiateGear($"Gear{i + 1}", gearPosition, i, numberOfTeeth);
+                    WordFactoryGameManager.Instance.AddGear(gear);
+                    gearButtonManager.CreateButtonsForGear(gear);
+                }
+            }
         }
+
 
         private GameObject InstantiateGear(string name, Vector3 position, int gearIndex, int numberOfTeeth)
         {

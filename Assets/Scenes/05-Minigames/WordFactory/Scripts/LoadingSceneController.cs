@@ -5,12 +5,18 @@ namespace Scenes._05_Minigames.WordFactory.Scripts
 {
     public class LoadingSceneController : MonoBehaviour
     {
-        public void Load1WheelMiniGame()
+        public void StartOneWheelGame() => LoadMiniGameWithGears(1);
+        public void StartTwoWheelGame() => LoadMiniGameWithGears(2);
+        public void StartThreeWheelGame() => LoadMiniGameWithGears(3);
+
+        /// <summary>
+        /// Loads the WordFactory mini game scene with a specified number of gears.
+        /// </summary>
+        /// <param name="numberOfGears">The number of gears to use in the mini game.</param>
+        public void LoadMiniGameWithGears(int numberOfGears)
         {
-            SceneManager.LoadScene("WordFactory"); 
-        }
-        public void Load2WheelMiniGame()
-        {
+            // Store the number of gears into PlayerPrefs to retrieve in the game scene
+            PlayerPrefs.SetInt("NumberOfGears", numberOfGears);
             SceneManager.LoadScene("WordFactory"); 
         }
     }

@@ -300,7 +300,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1217600766}
         m_TargetAssemblyTypeName: Scenes._05_Minigames.WordFactory.Scripts.LoadingSceneController,
           Assembly-CSharp
-        m_MethodName: Load2WheelMiniGame
+        m_MethodName: StartTwoWheelGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -605,7 +605,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1217600766}
         m_TargetAssemblyTypeName: Scenes._05_Minigames.WordFactory.Scripts.LoadingSceneController,
           Assembly-CSharp
-        m_MethodName: Load1WheelMiniGame
+        m_MethodName: StartOneWheelGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

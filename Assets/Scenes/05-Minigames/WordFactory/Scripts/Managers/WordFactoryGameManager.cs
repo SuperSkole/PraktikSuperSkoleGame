@@ -36,39 +36,30 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 
         private void Start()
         {
-            PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+            if (PlayerManager.Instance != null)
+            {
+                PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+            }
+            else
+            {
+                Debug.Log("WordFactory GM.Start(): Player Manager is null");
+            }
         }
 
         public void AddGear(GameObject gear)
         {
             gears.Add(gear);
             OnGearAdded?.Invoke(gear);
-            //Debug.Log($"Added gear: {gear.name}");
         }
 
-        public List<GameObject> GetGears()
-        {
-            return gears;
-        }
+        public List<GameObject> GetGears() => gears;
 
-        public int GetNumberOfGears()
-        {
-            return NumberOfGears;
-        }
+        public int GetNumberOfGears() => NumberOfGears;
 
-        public int GetNumberOfTeeth()
-        {
-            return NumberOfTeeth;
-        }
+        public int GetNumberOfTeeth() => NumberOfTeeth;
 
-        public int GetDifficultyLevel()
-        {
-            return DifficultyLevel;
-        }
+        public int GetDifficultyLevel() => DifficultyLevel;
 
-        public void SetDifficultyLevel(int level)
-        {
-            DifficultyLevel = level;
-        }
+        public void SetDifficultyLevel(int level) => DifficultyLevel = level;
     }
 }
