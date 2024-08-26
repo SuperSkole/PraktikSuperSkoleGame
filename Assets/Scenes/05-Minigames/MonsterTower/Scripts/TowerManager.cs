@@ -15,13 +15,14 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+using CORE.Scripts.GameRules;
 
 
 
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
-    public class TowerManager : MonoBehaviour, IDataPersistence
+    public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
         private int towerHeight;
@@ -111,18 +112,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <summary>
         /// starts the coroutine which sets up data for the tower once files have been loaded (used to set the data manually, but that is currently not possible as it now requires the ImageManager to have loaded data)
         /// </summary>
-        public void SetTowerData(string[] input)
+        public void SetupGame(IGenericGameMode genericGameMode, IGameRules gameRules)
         {
-            questions = input;
-            towerHeight = questions.Length;
+            gameMode = (IMTGameMode)genericGameMode;
+            //questions = input;
+            //towerHeight = questions.Length;
 
-            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+            //topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            //bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
-            brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
+            //brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
-            currentQuestion = questions[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+            //currentQuestion = questions[currentQuestionIndex];
+            //displayBox.text = currentQuestion;
 
 
             StartCoroutine(WaitUntillDataIsLoaded());
