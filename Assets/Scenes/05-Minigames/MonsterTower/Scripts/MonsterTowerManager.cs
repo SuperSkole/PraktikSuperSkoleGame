@@ -46,9 +46,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         void SetupSentanses()
         {
             sentanses = new string[3];
-            sentanses[0] = "is p� ko";
-            sentanses[1] = "ko p� is";
-            sentanses[2] = "g�s under ko";
+            sentanses[0] = "is på ko";
+            sentanses[1] = "ko på is";
+            sentanses[2] = "gås under ko";
         }
 
         /// <summary>
