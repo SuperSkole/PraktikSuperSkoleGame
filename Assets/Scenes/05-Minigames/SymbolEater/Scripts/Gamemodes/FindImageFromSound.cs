@@ -78,7 +78,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
 
                 gameRules.SetCorrectAnswer();
-                if (texture.ContainsKey(gameRules.GetCorrectAnswer()))
+                if (!texture.ContainsKey(gameRules.GetCorrectAnswer()))
                 {
                     texture.Add(gameRules.GetCorrectAnswer(), ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer()));
                 }
