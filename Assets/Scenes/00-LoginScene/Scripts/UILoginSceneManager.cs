@@ -1,18 +1,19 @@
+using CORE;
 using UI.Scripts;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Scenes.LoginScene.Scripts
+namespace Scenes._00_LoginScene.Scripts
 {
+    /// <summary>
+    /// Manages the UI interactions for the login and registration screens.
+    /// </summary>
     public class UILoginSceneManager : MonoBehaviour
     {
         [SerializeField] private LoginManager loginManager;
         [SerializeField] private UserRegistrationManager userRegistrationManager;
-        
         [SerializeField] private GameObject loginScreen;
-        
         [SerializeField] private Image panel;
         [SerializeField] private Image loginButton;
         [SerializeField] private Image registerButton;
@@ -24,8 +25,10 @@ namespace Scenes.LoginScene.Scripts
         private HoverEffectUI loginButtonHoverEffect;
         private BlinkEffectUI panelBlinkEffect;
 
-        //starter ud med login aktiveret f�rst
-        private void Awake ()
+        /// <summary>
+        /// This method initializes the login screen and sets up the initial state of the UI elements.
+        /// </summary>
+        private void Awake()
         {
             loginScreen.SetActive(true);
             
@@ -35,17 +38,23 @@ namespace Scenes.LoginScene.Scripts
             ToggleButtonVisibility(loginButton, false);
             ToggleButtonVisibility(registerButton, false);
         }
-        void Start()
+
+        /// <summary>
+        /// This method attaches listeners to input fields to validate user input in real-time.
+        /// </summary>
+        private void Start()
         {
             // Add listeners to the input fields to check for changes
             loginManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             loginManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             userRegistrationManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             userRegistrationManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-
         }
 
-        void ValidateInput()
+        /// <summary>
+        /// Validates the input fields and updates the button interactivity accordingly.
+        /// </summary>
+        private void ValidateInput()
         {
             // Update the interactable state based on whether the fields are non-empty
             isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text) && !string.IsNullOrEmpty(loginManager.PasswordInput.text);
@@ -56,6 +65,11 @@ namespace Scenes.LoginScene.Scripts
             ToggleButtonVisibility(registerButton, isRegisterButtonInteractable);
         }
         
+        /// <summary>
+        /// Sets the visibility of a button and triggers hover effects if applicable.
+        /// </summary>
+        /// <param name="buttonImage">The button image to toggle.</param>
+        /// <param name="isVisible">Whether the button should be visible.</param>
         private void ToggleButtonVisibility(Image buttonImage, bool isVisible)
         {
             buttonImage.enabled = isVisible; // Enable or disable the image component
@@ -67,6 +81,9 @@ namespace Scenes.LoginScene.Scripts
             }
         }
         
+        /// <summary>
+        /// Attempts to log the user in using the provided credentials.
+        /// </summary>
         public void TryLogin()
         {
             if (isLoginButtonInteractable)
@@ -78,6 +95,7 @@ namespace Scenes.LoginScene.Scripts
                 {
                     Debug.Log("Login successful: " + username);
                     SceneManager.LoadScene("01-StartScene");
+                    GameManager.Instance.CurrentUser = username;
                 }
                 else
                 {
@@ -87,6 +105,9 @@ namespace Scenes.LoginScene.Scripts
             }
         }
 
+        /// <summary>
+        /// Attempts to register a new user with the provided credentials.
+        /// </summary>
         public void TryRegister()
         {
             if (isRegisterButtonInteractable)

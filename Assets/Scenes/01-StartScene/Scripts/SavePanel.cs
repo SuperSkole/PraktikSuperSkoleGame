@@ -1,5 +1,6 @@
 using System;
 using LoadSave;
+using Scenes._01_StartScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,18 +13,16 @@ namespace Scenes.StartScene.Scripts
     {
         public event Action<string> OnLoadRequested;
         
-        [SerializeField] private LoadGameManager loadGameManager;
-        
         [SerializeField] private Image chosenCharacter;
         [SerializeField] private Image playerNameDrawing;
-        [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private TextMeshProUGUI monsterNameText;
         [SerializeField] private TextMeshProUGUI playerInfo; // TODO maybe level or xp or gold
         [SerializeField] private Image blockingImage;
         [SerializeField] private Image startGameButton;
         
         private string saveFileName;
-        
-        void OnEnable() 
+
+        private void OnEnable() 
         {
             LoadGameController.Instance.RegisterPanel(this);
         }
@@ -48,7 +47,7 @@ namespace Scenes.StartScene.Scripts
         {
             if (saveData != null)
             {
-                playerName.text = saveData.PlayerName;
+                monsterNameText.text = saveData.MonsterName;
                 startGameButton.gameObject.SetActive(true);
                 blockingImage.enabled = false;
             }
@@ -61,8 +60,8 @@ namespace Scenes.StartScene.Scripts
             UpdateButtonVisibility();
         }
 
-        private void UpdateButtonVisibility() {
-            
+        private void UpdateButtonVisibility() 
+        {
             startGameButton.gameObject.SetActive(!string.IsNullOrEmpty(saveFileName));
         }
     }

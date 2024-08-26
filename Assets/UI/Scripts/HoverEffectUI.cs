@@ -5,7 +5,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class HoverEffectUI : MonoBehaviour
 {
-    [SerializeField] Image image; 
+    [SerializeField] private Image image; 
     private Vector3 originalScale;
 
     private void Awake()
