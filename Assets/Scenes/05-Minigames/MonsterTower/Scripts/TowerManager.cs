@@ -542,15 +542,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 //Debug.Log(data.BrickLanes.Count);
 
 
-
                 // If loading in a save the sentence displayed is updated. 
                 // and if there is no lanes in the save then the currentQuestionIndex is set to 0 so next time 
                 // the application starts the quistions starts over from the beginning. 
                 if (loadedBrickLanes.Count > 0)
                 {
-                    //Debug.Log("Loaded bricklanes");
-                    currentQuestion = questions[currentQuestionIndex];
-                    displayBox.text = currentQuestion;
+                    if (questions!=null)
+                    {
+                        //Debug.Log("Loaded bricklanes");
+                        currentQuestion = questions[currentQuestionIndex];
+                        displayBox.text = currentQuestion;
+                    }
+                    
                 }
                 else
                 {
