@@ -90,6 +90,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private void Start()
         {
             GameModeSet(new FindImageFromSound(), new FindCorrectImage());
+
         }
 
         public SymbolEaterPlayer GetPlayer()
