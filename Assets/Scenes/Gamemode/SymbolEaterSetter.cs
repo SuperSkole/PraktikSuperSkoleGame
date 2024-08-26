@@ -13,11 +13,16 @@ public class SymbolEaterSetter: IGameModeSetter
         ISEGameMode modeReturned;
         switch (mode)
         {
+            case "spellword":
+                modeReturned = new SpellWordFromImage();
+                break;
             case "imagetosound":
                 modeReturned = new FindImageFromSound();
                 break;
 
-
+            case "findnumber":
+                modeReturned = new FindNumber();
+                break;
 
             default:
                 Debug.Log("given mode was not among expected options, setting to default mode");
@@ -33,6 +38,14 @@ public class SymbolEaterSetter: IGameModeSetter
 
         switch (rules)
         {
+            case "spellword":
+                rulesReturned = new SpellWord();
+                break;
+
+            case "findnumberseries":
+                rulesReturned = new FindNumberSeries();
+                break;
+
             default:
                 Debug.Log("given ruleset was not among expected options, setting to default ruleset");
                 rulesReturned = new SpellWord();

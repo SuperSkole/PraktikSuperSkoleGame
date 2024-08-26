@@ -90,7 +90,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            SetupGame(new FindSymbol(), new FindCorrectLetter());
+            //SetupGame(new FindSymbol(), new FindCorrectLetter());
         }
 
         public SymbolEaterPlayer GetPlayer()

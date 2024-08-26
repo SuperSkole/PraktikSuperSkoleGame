@@ -1469,6 +1469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67842a9315e9dce4fb90a904c3b08a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneID: 0
 --- !u!1 &1830852400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,16 +1702,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1749027813}
-        m_TargetAssemblyTypeName: SetGameModeAndDestroy, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
+      - m_Target: {fileID: 1749027816}
+        m_TargetAssemblyTypeName: Scenes.GameMode.SetGameModeAndDestroy, Assembly-CSharp
+        m_MethodName: Setgamemode
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: sentence
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 50883761}
