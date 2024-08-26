@@ -238,7 +238,11 @@ namespace Scenes.PlayerScene.Scripts
 
                 virtualCamera.Follow = spawnedPlayer.transform;
                 virtualCamera.LookAt = spawnedPlayer.transform;
+
+                var cameraBrain = GameObject.Find("CameraBrain");
+                spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain.GetComponent<Camera>();
             }
+            
         }
 
         /// <summary>
