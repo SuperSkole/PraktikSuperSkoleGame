@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -11,8 +10,8 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         [SerializeField] private GameObject SplineParent;
 
         public SplineContainer letterSpline;
-        private List<SplineContainer> letterList = new();
-        private List<SplineContainer> lettersToDraw = new();
+        private readonly List<SplineContainer> letterList = new();
+        private readonly List<SplineContainer> lettersToDraw = new();
 
         private Vector3 currentPos;
         private Vector3 direction;
@@ -33,8 +32,8 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         private void Start()
         {
-            //SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
-            SetDifficulty(difficultTest);
+            SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
+            //SetDifficulty(difficultTest);
             SetLettersToDraw();
             NextLetter();
         }
@@ -53,7 +52,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             {
                 letterList.Add(spline.gameObject.GetComponent<SplineContainer>());
             }
-            if(difficultyCurrent > letterList.Count)
+            if (difficultyCurrent > letterList.Count)
             {
                 Debug.LogError("The difficulty level for LetterGarden is attempting to load more letters than is available.");
             }
@@ -70,9 +69,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         private void NextLetter()
         {
-            letterSpline = lettersToDraw[0];
-            lettersToDraw.Remove(letterSpline);
-            spineLeangth = letterSpline.CalculateLength(splineIndex);
+            EarnReward();
+            if (lettersToDraw.Count > 0)
+            {
+                letterSpline = lettersToDraw[0];
+                lettersToDraw.Remove(letterSpline);
+                spineLeangth = letterSpline.CalculateLength(splineIndex);
+            }
+            else
+            {
+                VictoryCondition();
+            }
         }
 
         private void Update()
@@ -106,6 +113,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             if (splineIndex >= letterSpline.Splines.Count - 1)
             {
                 splineIndex = 0;
+                NextLetter();
             }
             else
             {
@@ -131,6 +139,22 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             {
                 transform.rotation = Quaternion.LookRotation(direction, Vector3.back);
             }
+        }
+
+        /// <summary>
+        /// Completes LetterGarden when called.
+        /// </summary>
+        private void VictoryCondition() // TODO: Implement what happens when winning LetterGarden
+        {
+
+        }
+
+        /// <summary>
+        /// Used to give the player gold & XP
+        /// </summary>
+        private void EarnReward()
+        {
+
         }
     }
 }
