@@ -73,7 +73,7 @@ namespace Scenes.PlayerScene.Scripts
                 SceneManager.sceneLoaded += OnSceneLoaded;
             }
             
-            SetupPlayer();
+            SetupNewPlayer();
         }
         
         /// <summary>
@@ -96,10 +96,8 @@ namespace Scenes.PlayerScene.Scripts
         /// <summary>
         /// Sets up the player object in the game scene with necessary components.
         /// </summary>
-        private void SetupPlayer()
+        private void SetupNewPlayer()
         {
-            // instantiate temp object in scene
-
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
             spawnedPlayer.name = "PlayerMonster";
             
@@ -153,7 +151,7 @@ namespace Scenes.PlayerScene.Scripts
         public void SetupPlayerFromSave(SaveDataDTO saveData)
         {
             // instantiate player object in scene
-            spawnedPlayer = Instantiate(playerPrefab, saveData.SavedPlayerStartPostion.GetVector3(), Quaternion.identity);
+            spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
             spawnedPlayer.name = "PlayerMonster";
 
             playerColorChanger = spawnedPlayer.GetComponentInChildren<PlayerColorChanger>();

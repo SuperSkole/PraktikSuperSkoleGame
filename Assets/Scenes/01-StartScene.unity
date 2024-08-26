@@ -505,7 +505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093ed803c65497d4b92bcfd9fecd83a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  savePanels: []
+  savePanels:
+  - {fileID: 1868012170}
+  - {fileID: 1846401141}
+  - {fileID: 1544592155}
 --- !u!1 &525626474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1023,7 +1026,7 @@ GameObject:
   - component: {fileID: 815678544}
   - component: {fileID: 815678545}
   m_Layer: 5
-  m_Name: The Login Panels
+  m_Name: The Start Screen Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

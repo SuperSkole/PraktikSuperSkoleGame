@@ -94,18 +94,18 @@ namespace CORE
             Debug.Log("Loading game");
         }
 
-        public void SaveGame()
-        {
-            
-            // save logic, using savemanager
-            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
-        }
-
         public void ExitGame()
         {
             // Cleanup or save state before exiting
             SaveGame();
             Application.Quit();
+        }
+        
+        public void SaveGame()
+        {
+            
+            // save logic, using savemanager
+            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
         
         private void InitializeGameManager()

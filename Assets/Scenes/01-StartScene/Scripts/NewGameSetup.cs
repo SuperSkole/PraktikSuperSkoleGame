@@ -26,6 +26,9 @@ namespace Scenes._01_StartScene.Scripts
         {
             GameManager.Instance.CurrentMonsterName = nameInput.text;
             GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
+            
+            GameManager.Instance.PlayerData.MonsterName = nameInput.text;
+            GameManager.Instance.PlayerData.MonsterColor = ChosenMonsterColor;
         }
     }
 }
