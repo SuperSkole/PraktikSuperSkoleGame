@@ -19,7 +19,6 @@ namespace Scenes.Bootstrapper
         /// </summary>
         private async Task Start()
         {
-            return;
             Application.runInBackground = true;
             await UnityServices.InitializeAsync();
 
@@ -34,7 +33,6 @@ namespace Scenes.Bootstrapper
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Init()
         {
-            return;
             // Load Bootstrapper scene if it's not already loaded.
             if (!SceneManager.GetSceneByName(nameof(Bootstrapper)).isLoaded)
                 SceneManager.LoadScene(nameof(Bootstrapper));
