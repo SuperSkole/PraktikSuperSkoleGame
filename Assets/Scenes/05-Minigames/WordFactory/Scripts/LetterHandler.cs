@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
 using UnityEngine.Serialization;
 
@@ -26,9 +27,9 @@ namespace Scenes.Minigames.WordFactory.Scripts
 
         private List<List<char>> GetLettersForGears()
         {
-            int numberOfGears = Managers.GameManager.Instance.GetNumberOfGears();
-            int numberOfTeeth = Managers.GameManager.Instance.GetNumberOfTeeth();
-            int difficulty = Managers.GameManager.Instance.GetDifficultyLevel();
+            int numberOfGears = WordFactoryGameManager.Instance.GetNumberOfGears();
+            int numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfTeeth();
+            int difficulty = WordFactoryGameManager.Instance.GetDifficultyLevel();
 
             // Calculate the number of words based on the difficulty
             int numberOfWords = numberOfTeeth - difficulty;
@@ -95,7 +96,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
         {
             if (gearLetters == null) return;
 
-            List<GameObject> gears = Managers.GameManager.Instance.GetGears();
+            List<GameObject> gears = WordFactoryGameManager.Instance.GetGears();
             for (int gearIndex = 0; gearIndex < gears.Count; gearIndex++)
             {
                 GameObject gear = gears[gearIndex];

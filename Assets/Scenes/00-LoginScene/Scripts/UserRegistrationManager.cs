@@ -1,10 +1,13 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 using System.IO;
 using TMPro;
+using UnityEngine;
 
-namespace Scenes.LoginScene.Scripts
+namespace Scenes._00_LoginScene.Scripts
 {
+    /// <summary>
+    /// Manages user registration by saving usernames and securely hashed passwords to a file.
+    /// </summary>
     public class UserRegistrationManager : MonoBehaviour
     {
         [SerializeField] private TMP_InputField usernameInput; 
@@ -12,31 +15,12 @@ namespace Scenes.LoginScene.Scripts
         
         public TMP_InputField UsernameInput => usernameInput;
         public TMP_InputField PasswordInput => passwordInput;
-    
-        
-        
-        
-        
-        public void OnRegisterButtonClicked()
-        {
-            // remove eventual spaces before/after username
-            string username = usernameInput.text.Trim(); 
-            string password = passwordInput.text;
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                Debug.LogError("Username and password cannot be empty.");
-                return;
-            }
-            
-            Debug.Log("User register: " + username);
-            RegisterUser(username, password);
-            
-            usernameInput.text = "";
-            passwordInput.text = "";
-        }
-
-
+        /// <summary>
+        /// Registers a new user by saving their username and hashed password.
+        /// </summary>
+        /// <param name="username">The username provided by the user.</param>
+        /// <param name="password">The password provided by the user.</param>
         public void RegisterUser(string username, string password)
         {
             string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
@@ -53,41 +37,72 @@ namespace Scenes.LoginScene.Scripts
             string salt = GenerateHashManager.GenerateSalt(16); 
             string hashedUsername = GenerateHashManager.GenerateHash(username, salt);
             string hashedPassword = GenerateHashManager.GenerateHash(password, salt);
-            
-            // TODO: consider saving hash username
+           
+            // Save the user with the plaintext username and hashed password.
             SaveUserToTxtFile(username, hashedPassword, salt);
         }
         
+        /// <summary>
+        /// Clears the input fields for username and password.
+        /// </summary>
         public void ClearInputFields()
         {
             usernameInput.text = "";
             passwordInput.text = "";
         }
 
-        private void SaveUserToTxtFile(string hashedUsername, string hashedPassword, string salt)
+        /// <summary>
+        /// Saves the user data to a text file.
+        /// </summary>
+        /// <param name="username">The plaintext username.</param>
+        /// <param name="hashedPassword">The hashed password.</param>
+        /// <param name="salt">The salt used in hashing the password.</param>
+        private void SaveUserToTxtFile(string username, string hashedPassword, string salt)
         {            
             string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
             string path = Path.Combine(userDataPath, "users.txt");
-            string userData = hashedUsername + ";" + hashedPassword + ";" + salt + "\n";
-            File.AppendAllText(path, userData);
-            Debug.Log("User saved successfully.");
+
+            try
+            {
+                string userData = $"{username};{hashedPassword};{salt}\n";
+                File.AppendAllText(path, userData);
+                Debug.Log("User saved successfully.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Failed to save user data: {ex.Message}");
+            }
         }
         
-        private bool UserExists(string hashedUsername, string path)
+        /// <summary>
+        /// Checks if a user with the given username already exists.
+        /// </summary>
+        /// <param name="username">The plaintext username.</param>
+        /// <param name="path">The file path where user data is stored.</param>
+        /// <returns>True if the user exists, false otherwise.</returns>
+        private bool UserExists(string username, string path)
         {
             if (File.Exists(path))
             {
-                string[] lines = File.ReadAllLines(path);
-                foreach (string line in lines)
+                try
                 {
-                    string[] data = line.Split(';');
-                    if (data.Length == 3 && data[0] == hashedUsername)
+                    string[] lines = File.ReadAllLines(path);
+                    foreach (string line in lines)
                     {
-                        // User exists
-                        return true; 
+                        string[] data = line.Split(';');
+                        if (data.Length == 3 && data[0] == username)
+                        {
+                            // User exists
+                            return true; 
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Failed to check if user exists: {ex.Message}");
+                }
             }
+            
             // No user found with that name
             return false; 
         }
