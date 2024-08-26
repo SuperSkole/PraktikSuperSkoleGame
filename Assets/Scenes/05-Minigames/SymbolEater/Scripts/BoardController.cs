@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
-
+using CORE.Scripts.GameRules;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
@@ -38,7 +38,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private SymbolEaterPlayer player;
 
-        private IGameMode gameMode;
+        private ISEGameMode gameMode;
 
         [SerializeField] GameObject monsterPrefab;
 
@@ -54,7 +54,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// Sets up the gameboard and the gamemode
         /// </summary>
         /// <param name="targetMode">The game mode which should be used</param>
-        public void GameModeSet(IGameMode targetMode, IGameRules targetRules)
+        public void GameModeSet(ISEGameMode targetMode, IGameRules targetRules)
         {
             //Sets various fieldvariables and their field variables
             gameMode = targetMode;
@@ -89,7 +89,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            //GameModeSet(new SpellWordFromImage(), new CORE.Scripts.GameRules.SpellWord());
+            GameModeSet(new FindSymbol(), new FindCorrectLetter());
         }
 
         public SymbolEaterPlayer GetPlayer()

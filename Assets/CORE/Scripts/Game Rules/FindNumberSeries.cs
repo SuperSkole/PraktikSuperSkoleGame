@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace CORE.Scripts.GameRules{
+namespace CORE.Scripts.GameRules
+{
 
     /// <summary>
     /// Implementation of IGameRules for games where the player should complete a 

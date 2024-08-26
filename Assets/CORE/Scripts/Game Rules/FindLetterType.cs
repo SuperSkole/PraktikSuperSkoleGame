@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CORE.Scripts.GameRules{
+namespace CORE.Scripts.GameRules
+{
 
     /// <summary>
     /// An implementation of IGameRules for games where the player is looking for either vowels or consonants

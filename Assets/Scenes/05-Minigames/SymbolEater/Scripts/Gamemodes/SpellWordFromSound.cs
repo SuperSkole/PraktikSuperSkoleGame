@@ -1,24 +1,23 @@
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
-    public class SpellWordFromSound : IGameMode
+    public class SpellWordFromSound : ISEGameMode
     {
+        /// <summary>
+        /// The correct word
+        /// </summary>
+        string word;
 
 
         /// <summary>
         /// Current Word Sound clip
         /// </summary>
         SymbolEaterSoundController currentWordsoundClip;
-
-        /// <summary>
-        /// The correct word
-        /// </summary>
-        string word;
-
 
         int correctWords = 0;
 
@@ -31,6 +30,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// letters which the player has already found
         /// </summary>
         Queue<char> foundLetters = new Queue<char>();
+        
+        
 
         int minWrongLetters = 6;
 
@@ -38,8 +39,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
+        private bool wordsLoaded = false;
+
         /// <summary>
-        /// List of all lettercubes. Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
         /// </summary>
         List<LetterCube> letterCubes;
 
@@ -58,77 +61,82 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void GetSymbols()
         {
-            currentIndex = 0;
-            word = WordsForImagesManager.GetRandomWordForImage();
-            currentLetter = word[currentIndex];
-            
-            if (sprites.ContainsKey(word))
+            word = "";
+
+            //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
+            if (DataLoader.IsDataLoaded)
             {
-                boardController.SetImage(sprites[word]);
+
+                word = WordsForImagesManager.GetRandomWordForImage();
+                if (sprites.ContainsKey(word))
+                {
+                    boardController.SetImage(sprites[word]);
+                }
+                else
+                {
+                    Texture2D texture = ImageManager.GetImageFromWord(word);
+                    sprites.Add(word, Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+                    
+                }
+                currentLetter = word[currentIndex];
+                wordsLoaded = true;
             }
             else
             {
-                sprites.Add(word, Resources.Load<Sprite>("Pictures/" + word + "_image"));
-                boardController.SetImage(sprites[word]);
+                boardController.StartImageWait(GetSymbols);
             }
-            //deactives all current active lettercubes
-            foreach (LetterCube lC in activeLetterCubes)
+            //If the words are loaded then it starts generating the board
+            if (wordsLoaded)
             {
-                lC.Deactivate();
-            }
-            int count = Random.Range(minWrongLetters, maxWrongLetters);
-            activeLetterCubes.Clear();
-            //finds new letterboxes to be activated and assigns them a random incorrect letter.
-            for (int i = 0; i < count; i++)
-            {
+                //deactives all current active lettercubes
+                foreach (LetterCube lC in activeLetterCubes)
+                {
+                    lC.Deactivate();
+                }
+                int count = Random.Range(minWrongLetters, maxWrongLetters);
+                activeLetterCubes.Clear();
+                //finds new letterboxes to be activated and assigns them a random incorrect letter.
+                for (int i = 0; i < count; i++)
+                {
+                    char letter = LetterManager.GetRandomLetters(1)[0];
+                    while (word.Contains(char.ToLower(letter)))
+                    {
+                        letter = LetterManager.GetRandomLetters(1)[0];
+                    }
+                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                }
                 
-                char letter = LetterManager.GetRandomLetters(1)[0];
-                while (word.Contains(char.ToLower(letter)))
+                //finds some new letterboxes and assigns them a correct letter
+                for (int i = 0; i < word.Length; i++)
                 {
-                    letter = LetterManager.GetRandomLetters(1)[0];
-                }
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    char letter = word[i];
+                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-                //Check to ensure letters dont spawn below the player and that it is not an allready activated lettercube
-                while (activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    //Check to ensure letters arent spawned on an allready activated letter cube.
+                    while (activeLetterCubes.Contains(potentialCube))
+                    {
+                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                    }
+                    activeLetterCubes.Add(potentialCube);
+                    activeLetterCubes[i].Activate(letter.ToString());
                 }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].Activate(letter.ToString());
+                boardController.SetAnswerText("");
             }
-            //finds some new letterboxes and assigns them a correct letter
-            for (int i = 0; i < word.Length; i++)
-            {
-                char letter = word[i];
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
-                //Check to ensure letters arent spawned on an allready activated letter cube.
-                while (activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].Activate(letter.ToString());
-            }
-            boardController.SetAnswerText("");
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige.");
-
-
-            /// <summary>
-            /// Uses the Word.
-            /// </summary>
+            //uses the CurrentWordSound 
             CurrentWordSound();
+
         }
 
 
         /// <summary>
-        /// Checks if the letter is of the correct type
+        /// Checks if the letter is of the correct type and updates the letter the player should find. 
         /// </summary>
         /// <param name="letter">The letter which should be checked</param>
         /// <returns>Whether the letter is the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
+
             if (currentLetter.ToString() == letter.ToLower() && currentIndex < word.Length - 1)
             {
                 currentIndex++;
@@ -149,12 +157,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         }
 
+
+
         /// <summary>
-        /// dictates what the currentLetterSound is from the word.
+        /// dictitates the current sound, may be changed later
         /// </summary>
         public void CurrentWordSound()
         {
-            //Uses word to find the right sound in tempSymbolEatersound in resource foulder
+            //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
             string audioFileName = word.ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
@@ -174,8 +184,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         }
 
         /// <summary>
-        /// Replaces LetterCubes on the map when x number of correct ones are found.
+        /// Replaces an active lettercube with another one
         /// </summary>
+        /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
             //Updates the display of letters which the player has already found
@@ -210,13 +221,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             if (currentIndex < word.Length)
             {
                 //currentLetter = word[currentIndex];
-                char newLetterCubeValue = LetterManager.GetRandomLetters(1)[0];
+                char newLettercubeValue = LetterManager.GetRandomLetter();
                 if (word.Contains(oldLetter))
                 {
-                    newLetterCubeValue = oldLetter[0];
+                    newLettercubeValue = oldLetter[0];
                 }
 
-                newLetter.Activate(newLetterCubeValue.ToString());
+                newLetter.Activate(newLettercubeValue.ToString());
 
             }
             else
@@ -244,6 +255,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             boardController = board;
         }
 
+
         /// <summary>
         /// Currently does nothing
         /// </summary>
@@ -265,13 +277,35 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
+        
+
         /// <summary>
         /// Temporarily unused until relevant game rules have been implemented
         /// </summary>
         /// <param name="gameRules">game rules to be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
         {
+
+        }
+
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <param name="letterCube"></param>
+        /// <param name="correct"></param>
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
             
+        }
+
+        /// <summary>
+        /// Currently not implemented
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
         }
     }
 }
