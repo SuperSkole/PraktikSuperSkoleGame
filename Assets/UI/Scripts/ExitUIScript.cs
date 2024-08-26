@@ -6,12 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class ExitUIScript : MonoBehaviour
 {
-    [SerializeField] GameObject panel;
-    [SerializeField] Image yesButton;
-    [SerializeField] Image noButton;
-    [SerializeField] string sceneToLoad;
-    
-    void Awake()
+    [SerializeField] private GameObject panel;
+    [SerializeField] private Image yesButton;
+    [SerializeField] private Image noButton;
+    [SerializeField] private string sceneToLoad;
+
+    private void Awake()
     {
         panel.SetActive(false);
     }

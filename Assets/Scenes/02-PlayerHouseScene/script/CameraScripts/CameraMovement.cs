@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,39 +8,19 @@ using UnityEngine.InputSystem;
 public class CameraMovement : MonoBehaviour
 {
 
-    [SerializeField] private Camera camera;
-    [SerializeField] private GameObject cameraChild;
     [SerializeField] private PlacementSystem placementSystem;
-
-    private float maxFov = 70f;
-    private float minFov = 40f;
-    private float currentFov;
-
-    private float minRotation = 20;
-    private float maxRoation = 70;
-    private Vector2 turn;
-
-    private float sensitivity = 2.5f;   // Sensitivity of the mouse movement
     private float smoothTime = 0.1f;  // Smoothing time for the rotation
-    private float minYAngle = 20f;   // Minimum angle the camera can rotate down
-    private float maxYAngle = 80f;    // Maximum angle the camera can rotate up
+   
 
     private Vector2 rotation = Vector2.zero;  // Current rotation
     private Vector2 currentRotation;          // Smoothed rotation
 
     private Vector2 currentRotationVelocity;  // Used by SmoothDamp for smoothin
     [SerializeField] private float moveSpeed = 5.0f; // Adjust the speed as needed
-
-    
-
-    private void Start()
-    {
-        camera.fieldOfView = 60f;
-        currentFov = 60f;
-    }
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         CameraZoom();
         Moveing();
@@ -54,22 +35,22 @@ public class CameraMovement : MonoBehaviour
             && !EventSystem.current.IsPointerOverGameObject())
         {
             // Capture mouse input
-            //float mouseX = Input.GetAxis("Mouse X");
-            float mouseY = Input.GetAxis("Mouse Y");
+            float mouseX = Input.GetAxis("Mouse X");
+           // float mouseY = Input.GetAxis("Mouse Y");
 
             // Adjust the rotation based on the mouse movement
-            //rotation.x += mouseX * sensitivity;
-            rotation.y -= mouseY * sensitivity;
+            rotation.x += mouseX;
+         //   rotation.y -= mouseY;
 
-            // Clamp the vertical rotation
-            rotation.y = Mathf.Clamp(rotation.y, minYAngle, maxYAngle);
+            //// Clamp the vertical rotation
+            //rotation.y = Mathf.Clamp(rotation.y, 0, 180);
 
             // Smooth the rotation
-           // currentRotation.x = Mathf.SmoothDamp(currentRotation.x, rotation.x, ref currentRotationVelocity.x, smoothTime);
-            currentRotation.y = Mathf.SmoothDamp(currentRotation.y, rotation.y, ref currentRotationVelocity.y, smoothTime);
+            currentRotation.x = Mathf.SmoothDamp(currentRotation.x, rotation.x, ref currentRotationVelocity.x, smoothTime);
+          //  currentRotation.y = Mathf.SmoothDamp(currentRotation.y, rotation.y, ref currentRotationVelocity.y, smoothTime);
 
             // Apply the rotation to the camera
-            cameraChild.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0f);
+            gameObject.transform.rotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0f);
         }
     }
     
@@ -89,9 +70,6 @@ public class CameraMovement : MonoBehaviour
 
     private void CameraZoom()
     {
-        camera.fieldOfView = currentFov;
-        currentFov -= Input.mouseScrollDelta.y;
-        if (currentFov > maxFov) { currentFov = maxFov; }
-        else if (currentFov < minFov) { currentFov = minFov; }
+
     }
 }

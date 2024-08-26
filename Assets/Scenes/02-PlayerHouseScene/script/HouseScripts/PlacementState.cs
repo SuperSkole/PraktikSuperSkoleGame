@@ -3,13 +3,13 @@ using UnityEngine;
 public class PlacementState : IBuildingState
 {
     private int selectedObjectIndex = -1;
-    int ID;
-    Grid grid;
-    PreviewSystem previewSystem;
-    ObjectsDataBaseSO database;
-    GridData floorData;
-    GridData furnitureData;
-    ObjectPlacer objectPlacer;
+    private int ID;
+    private Grid grid;
+    private PreviewSystem previewSystem;
+    private ObjectsDataBaseSO database;
+    private GridData floorData;
+    private GridData furnitureData;
+    private ObjectPlacer objectPlacer;
 
     // Constructor for initializing the PlacementState with required dependencies.
     public PlacementState(int iD,

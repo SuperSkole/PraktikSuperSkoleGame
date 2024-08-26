@@ -6,9 +6,14 @@ using UnityEngine;
 
 public class ChangingPlayerColor : MonoBehaviour
 {
-    [SerializeField] SkeletonGraphic skeletonGraphic;
-    [SerializeField] NewGameSetup gameSetup;
+    [SerializeField] private SkeletonGraphic skeletonGraphic;
+    [SerializeField] private NewGameSetup gameSetup;
 
+    /// <summary>
+    /// List of colors
+    /// orange, blue, red, green
+    /// </summary>
+    /// <param name="colorName"></param>
     public void ColorChange(string colorName)
     {
         Color selectedColor;
@@ -42,7 +47,7 @@ public class ChangingPlayerColor : MonoBehaviour
                     "Monster L lowerleg color",
                     "Monster R lowerleg color",
                     "Monster L upperleg color",
-                    "Mopnster R upperleg color",
+                    "Monster R upperleg color",
                     "Monster head",
                     "Monster body",
                     "Monster R upperarm color",

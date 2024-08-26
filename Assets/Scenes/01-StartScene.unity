@@ -505,8 +505,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093ed803c65497d4b92bcfd9fecd83a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadGameManager: {fileID: 0}
-  savePanels: []
+  savePanels:
+  - {fileID: 1868012170}
+  - {fileID: 1846401141}
+  - {fileID: 1544592155}
 --- !u!1 &525626474
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,11 +907,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 760.8982
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -141.52957
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1024,7 +1026,7 @@ GameObject:
   - component: {fileID: 815678544}
   - component: {fileID: 815678545}
   m_Layer: 5
-  m_Name: The Login Panels
+  m_Name: The Start Screen Panels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1543,7 +1545,7 @@ GameObject:
   - component: {fileID: 1067587474}
   - component: {fileID: 1067587475}
   m_Layer: 0
-  m_Name: New Game Controller
+  m_Name: NewGameSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1628,10 +1630,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1027093587}
-  - {fileID: 2029457462}
   - {fileID: 1686950970}
-  - {fileID: 1816662030}
   - {fileID: 1285741695}
+  - {fileID: 1816662030}
   - {fileID: 1067587474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2231,7 +2232,7 @@ GameObject:
   - component: {fileID: 1285741695}
   - component: {fileID: 1285741696}
   m_Layer: 0
-  m_Name: LoadGameController
+  m_Name: Load Game Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2264,7 +2265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d608f36f72f3af84ba78240281d348b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadGameManager: {fileID: 2029457461}
   loadGameSetup: {fileID: 1816662029}
 --- !u!1001 &1318941353
 PrefabInstance:
@@ -2356,11 +2356,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 543.4988
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -141.52957
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2775,7 +2775,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: loadGameManager
       value: 
-      objectReference: {fileID: 2029457461}
+      objectReference: {fileID: 0}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -2903,11 +2903,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 326.09927
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -141.52957
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3207,7 +3207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093ed803c65497d4b92bcfd9fecd83a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadGameManager: {fileID: 2029457461}
   savePanels:
   - {fileID: 1868012170}
   - {fileID: 1846401141}
@@ -3334,7 +3333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1743278617
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3471,7 +3470,7 @@ GameObject:
   - component: {fileID: 1816662030}
   - component: {fileID: 1816662029}
   m_Layer: 0
-  m_Name: Setup Loaded Game
+  m_Name: LoadGameSetup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3490,10 +3489,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnCharPoint: {fileID: 1083393528}
-  playerPrefab: {fileID: 7524384861229740334, guid: a08bbee6683221142ac99a05ec5bc165, type: 3}
   playerNameText: {fileID: 0}
+  playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
   playerXPText: {fileID: 0}
   playerGoldText: {fileID: 0}
+  ChosenMonsterColor: 
 --- !u!4 &1816662030
 Transform:
   m_ObjectHideFlags: 0
@@ -3604,7 +3604,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: loadGameManager
       value: 
-      objectReference: {fileID: 2029457461}
+      objectReference: {fileID: 0}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3795,51 +3795,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1983644868}
---- !u!1 &2029457460
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2029457462}
-  - component: {fileID: 2029457461}
-  m_Layer: 0
-  m_Name: Load Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2029457461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029457460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f72300dc72cc074e98a8ffcc16806e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SaveDirectory: C:/Users/thorb/source/repos/PraktikSuperSkoleGame/Assets\Saves
---- !u!4 &2029457462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2029457460}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1083393528}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2096074235 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
@@ -4095,7 +4050,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: loadGameManager
       value: 
-      objectReference: {fileID: 2029457461}
+      objectReference: {fileID: 0}
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: playerNameDrawing
       value: 
@@ -4199,11 +4154,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 108.69975
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -141.52957
       objectReference: {fileID: 0}
     - target: {fileID: 9114349440372611662, guid: 1ac934aa9d57e1b4cbc8156856a91c45, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
