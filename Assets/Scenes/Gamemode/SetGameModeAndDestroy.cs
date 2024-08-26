@@ -7,74 +7,55 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using Scenes.Minigames.SymbolEater.Scripts;
+using CORE.Scripts;
+using CORE.Scripts.GameRules;
 
-
-
-
-public class SetGameModeAndDestroy : MonoBehaviour
+namespace Scenes.GameMode
 {
-
-    private int gamemode;
-    //tells the scene manager to call the OnSceneLoaded function whenever a scene is loaded
-    private void Start()
+    public class SetGameModeAndDestroy : MonoBehaviour
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
 
-    //Sets some values in the new scene to change the gamemode, then kills itself to avoid memory leak
-    void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        switch (gamemode)
+        private IGenericGameMode gamemode;
+        private IGameRules gameRule;
+        //tells the scene manager to call the OnSceneLoaded function whenever a scene is loaded
+        private void Start()
         {
-            //sets the gamemode to SpellWord
-            case 1:
-                BoardController target1 = FindObjectOfType<BoardController>();
-                target1.GameModeSet(new SpellWordFromImage(), new SpellWord());
-                break;
-            //sets the gamemode to sound out letter
-            case 2:
-                BoardController target2 = FindObjectOfType<BoardController>();
-                target2.GameModeSet(new FindImageFromSound(), new FindCorrectImage());
-                break;
-            //sets the gamemode to findnumberseries
-            case 3:
-                BoardController target3 = FindObjectOfType<BoardController>();
-                target3.GameModeSet(new FindNumber(), new FindNumberSeries());
-                break;
-
-            case 4:
-                MonsterTowerManager target4 = FindObjectOfType<MonsterTowerManager>();
-
-                target4.difficulty = Difficulty.Easy;
-
-
-
-                break;
-                
-            case 5:
-                MonsterTowerManager target5 = FindObjectOfType<MonsterTowerManager>();
-
-                target5.difficulty = Difficulty.Medium;
-
-                break;
-
-            case 6:
-                MonsterTowerManager target6 = FindObjectOfType<MonsterTowerManager>();
-
-                target6.difficulty = Difficulty.Hard;
-                break;
-
-            default:
-                break;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        Destroy(gameObject);
-    }
-    //sets a value so the OnSceneChange script can correctly determine which objects to look for and what modes to set
-    public void Setgamemode(int gamemodeID)
-    {
-        gamemode = gamemodeID;
+        /// <summary>
+        /// Finds an object with the tag "setup" in the scene, then runs the expected MiniGameSetup interface's method, then kills itself to avoid memory leak
+        /// neither paramater is important to the method, but is required to set when using this method
+        /// </summary>
+        /// <param name="scene"></param>
+        /// <param name="loadSceneMode"></param>
+        void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+        {
+            GameObject parentToTarget = GameObject.FindGameObjectWithTag("Setup");
+            IMinigameSetup target = parentToTarget.GetComponent<IMinigameSetup>();
+            target.SetupGame(gamemode, gameRule);
+
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
+            Destroy(gameObject);
+        }
+        /// <summary>
+        /// sets a gamemode in this object, so that OnSceneLoaded can set the correct gamemode when entering the scene
+        /// </summary>
+        /// <param name="gamemodeID">The gamemode we are setting</param>
+        public void Setgamemode(IGenericGameMode gamemodeID)
+        {
+            gamemode = gamemodeID;
+        }
+        /// <summary>
+        /// sets a gamerule in this object, so that OnSceneLoaded can set the correct GameRule when entering the scene
+        /// </summary>
+        /// <param name="gameRuleID"></param>
+        public void SetGameRules(IGameRules gameRuleID)
+        {
+            gameRule = gameRuleID;
+        }
     }
 }
