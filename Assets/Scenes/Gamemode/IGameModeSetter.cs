@@ -1,9 +1,12 @@
+using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scenes.GameMode
 {
+    
     public interface IGameModeSetter
     {
         /// <summary>
@@ -11,6 +14,8 @@ namespace Scenes.GameMode
         /// </summary>
         /// <param name="mode">string to represent what gamemode needs to be created and set</param>
         /// <param name="rules">string to represent what gamerules need to be created and set</param>
-        public void SetModeAndRules(string mode, string rules);
+        public IGenericGameMode SetMode(string mode);
+
+        public IGameRules SetRules(string rules);
     }
 }

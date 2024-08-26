@@ -14,13 +14,24 @@ namespace Scenes.GameMode
 {
     public class SetGameModeAndDestroy : MonoBehaviour
     {
-
+        [SerializeField] public int sceneID;
+        IGameModeSetter modeSetter;
         private IGenericGameMode gamemode;
         private IGameRules gameRule;
         //tells the scene manager to call the OnSceneLoaded function whenever a scene is loaded
         private void Start()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
+            switch(sceneID)
+            {
+                case 0:
+                    modeSetter = new MonsterTowerSetter();
+                    break;
+
+                case 1:
+                    modeSetter = new SymbolEaterSetter();
+                    break;
+            }
         }
 
 
@@ -45,17 +56,17 @@ namespace Scenes.GameMode
         /// sets a gamemode in this object, so that OnSceneLoaded can set the correct gamemode when entering the scene
         /// </summary>
         /// <param name="gamemodeID">The gamemode we are setting</param>
-        public void Setgamemode(IGenericGameMode gamemodeID)
+        public void Setgamemode(string gameModeID)
         {
-            gamemode = gamemodeID;
+            gamemode = modeSetter.SetMode(gameModeID);
         }
         /// <summary>
         /// sets a gamerule in this object, so that OnSceneLoaded can set the correct GameRule when entering the scene
         /// </summary>
         /// <param name="gameRuleID"></param>
-        public void SetGameRules(IGameRules gameRuleID)
+        public void SetGameRules(string gameRuleID)
         {
-            gameRule = gameRuleID;
+            gameRule = modeSetter.SetRules(gameRuleID);
         }
     }
 }
