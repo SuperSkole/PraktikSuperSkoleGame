@@ -9,7 +9,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of finding the numbers in a number series
     /// </summary>
-    public class FindNumber : IGameMode
+    public class FindNumber : ISEGameMode
     {
 
         int correctSeries = 0;
@@ -32,6 +32,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             BoardController boardController;
 
         IGameRules gameRules = new FindNumberSeries();
+
+        public void ActivateCube(LetterCube letterCube, bool correct)
+        {
+            throw new System.NotImplementedException();
+        }
 
         /// <summary>
         /// Gets the letters for the current game
@@ -96,6 +101,16 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 return false;
             }
             
+        }
+        
+
+        /// <summary>
+        /// Not implemented yet
+        /// </summary>
+        /// <returns></returns>
+        public bool IsGameComplete()
+        {
+            return false;
         }
 
         /// <summary>

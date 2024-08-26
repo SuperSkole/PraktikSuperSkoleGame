@@ -16,7 +16,6 @@ namespace CORE.Scripts.GameRules
 
         int currentIndex;
 
-        int remainingLetterIndex;
 
 
         /// <summary>
@@ -46,7 +45,8 @@ namespace CORE.Scripts.GameRules
         {
             char letter = LetterManager.GetRandomLetter();
             //Ensures the letter is not in the current word
-            while(currentWord.Contains(letter)){
+            while(currentWord.Contains(letter))
+            {
                 letter = LetterManager.GetRandomLetter();
             }
             return letter.ToString();
@@ -76,13 +76,14 @@ namespace CORE.Scripts.GameRules
         /// </summary>
         public void SetCorrectAnswer()
         {
-            if(currentWord.Length == 0 || currentIndex == currentWord.Length - 1){
+            if(currentWord.Length == 0 || currentIndex == currentWord.Length - 1)
+            {
                 currentWord = WordsForImagesManager.GetRandomWordForImage();
                 currentIndex = 0;
-                remainingLetterIndex = 1;
                 currentLetter = currentWord[0].ToString();
             }
-            else{
+            else
+            {
                 currentIndex++;
                 currentLetter = currentWord[currentIndex].ToString();
             }
