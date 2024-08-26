@@ -9,7 +9,11 @@ namespace Scenes.GameMode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {
-
+        /// <summary>
+        /// returns a gamemode of the Monster Tower type
+        /// </summary>
+        /// <param name="mode">The mode we are looking for</param>
+        /// <returns></returns>
         public IGenericGameMode SetMode(string mode)
         {
             IMTGameMode modeReturned;
@@ -29,6 +33,11 @@ namespace Scenes.GameMode
             return modeReturned;
         }
 
+        /// <summary>
+        /// returns a gamerule set
+        /// </summary>
+        /// <param name="rules">The rules we are looking for</param>
+        /// <returns></returns>
         public IGameRules SetRules(string rules)
         {
             IGameRules rulesReturned;

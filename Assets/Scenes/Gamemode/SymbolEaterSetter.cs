@@ -8,6 +8,11 @@ using Scenes.GameMode;
 
 public class SymbolEaterSetter: IGameModeSetter
 {
+    /// <summary>
+    /// returns a gamemode of the Symbol Eater type
+    /// </summary>
+    /// <param name="mode">The mode we are looking for</param>
+    /// <returns></returns>
     public IGenericGameMode SetMode(string mode)
     {
         ISEGameMode modeReturned;
@@ -31,7 +36,11 @@ public class SymbolEaterSetter: IGameModeSetter
         }
         return modeReturned;
     }
-
+    /// <summary>
+    /// returns a gamerule set
+    /// </summary>
+    /// <param name="rules">The rules we are looking for</param>
+    /// <returns></returns>
     public IGameRules SetRules(string rules)
     {
         IGameRules rulesReturned;
