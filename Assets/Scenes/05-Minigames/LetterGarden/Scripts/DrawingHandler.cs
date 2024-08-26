@@ -16,8 +16,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         public bool isPainting = true;
         public float offsetDistance = 0.5f;
 
-        public DrawingEvaluator drawingEvaluator;
-
         private List<GameObject> drawnBrushInstances = new List<GameObject>();
 
 
@@ -26,11 +24,15 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         private float currentInkAmount;
         private float minDist = 0.2f;
 
+        [SerializeField] public GameObject Bee;
+        BeeMovement beeMovement;
+
         private void Start()
         {
             currentInkAmount = maxInkAmount;
             inkMeterSlider.maxValue = maxInkAmount;
             inkMeterSlider.value = currentInkAmount;
+            beeMovement = Bee.gameObject.GetComponentInChildren<BeeMovement>();
         }
 
         private void Update()
@@ -140,7 +142,11 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             if (currentLineRenderer != null)
             {
-                drawingEvaluator.EvaluateDrawing(currentLineRenderer);
+                if(LineSecmentEvaluator.EvaluateSpline(beeMovement.letterSpline[beeMovement.splineIndex], currentLineRenderer))
+                {
+                    beeMovement.NextSplineInLetter();
+                }
+
                 currentLineRenderer = null;
             }
             currentInkAmount = maxInkAmount;
