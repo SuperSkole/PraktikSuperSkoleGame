@@ -15,13 +15,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         SymbolEaterSoundController currentWordsoundClip;
 
-        /// <summary>
-        /// The correct word
-        /// </summary>
-        
-
-        
-
         private bool wordsLoaded = false;
 
 
