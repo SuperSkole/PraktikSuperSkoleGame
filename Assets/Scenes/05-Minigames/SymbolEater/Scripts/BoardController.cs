@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
+using CORE.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
@@ -15,7 +16,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     /// <summary>
     /// Board controller for the Symbol Eater mini game
     /// </summary>
-    public class BoardController : MonoBehaviour
+    public class BoardController : MonoBehaviour, IMinigameSetup
     {
         /// <summary>
         /// Only objects containing lettercubes should be added.
@@ -54,10 +55,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// Sets up the gameboard and the gamemode
         /// </summary>
         /// <param name="targetMode">The game mode which should be used</param>
-        public void GameModeSet(ISEGameMode targetMode, IGameRules targetRules)
+        public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
             //Sets various fieldvariables and their field variables
-            gameMode = targetMode;
+            gameMode = (ISEGameMode)targetMode;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
             player.board = this;
             answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
@@ -89,7 +90,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            GameModeSet(new FindSymbol(), new FindCorrectLetter());
+            SetupGame(new FindSymbol(), new FindCorrectLetter());
         }
 
         public SymbolEaterPlayer GetPlayer()
