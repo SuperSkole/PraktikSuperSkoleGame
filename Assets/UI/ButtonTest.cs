@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ButtonTest : MonoBehaviour
 {
-    public void optionClick()
+    public void OptionClick()
     {
         Debug.Log("Click!");
     }
 
-    public void optionHoverEnter()
+    public void OptionHoverEnter()
     {
         Debug.Log("Hover Enter!");
     }
 
-    public void optionHoverExit()
+    public void OptionHoverExit()
     {
         Debug.Log("Hover Exit!");
     }
