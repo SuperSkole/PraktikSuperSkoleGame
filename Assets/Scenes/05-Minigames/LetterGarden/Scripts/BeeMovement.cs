@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -51,6 +52,10 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             foreach (Transform spline in SplineParent.GetComponentInChildren<Transform>())
             {
                 letterList.Add(spline.gameObject.GetComponent<SplineContainer>());
+            }
+            if(difficultyCurrent > letterList.Count)
+            {
+                Debug.LogError("The difficulty level for LetterGarden is attempting to load more letters than is available.");
             }
             for (completedLetters = 0; completedLetters < difficultyCurrent; completedLetters++)
             {
