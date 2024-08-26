@@ -5,9 +5,6 @@ using UnityEngine;
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
 
-
-
-
     public class SymbolEaterSoundController : MonoBehaviour
     {
 
@@ -20,14 +17,17 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private bool keydown = false;
 
 
-        //so we can update letterSoundClip via other scipts
+        /// <summary>
+        /// so we can update letterSoundClip via other scipts
+        /// </summary>
+        /// <param name="clip"></param>
         public void SetSymbolEaterSound(AudioClip clip)
         {
             letterSoundClip = clip;
 
         }
 
-        // Update is called once per frame
+
         void Update()
         {
 
