@@ -34,16 +34,6 @@ namespace LoadSave
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
-        // Positional data
-        public Vector3 CurrentPosition { get; set; }
-
-        // activa words
-        // Progression
-        // collection of words the player has made
-        // collection of letter
-        // maybe dict so we also can store datetime
-        public List<string> CollectedWords { get; set; }
-        public List<char> CollectedLetters { get; set; }//isent this just a string? or better string builder?
         public Vector3 LastInteractionPoint;
         
         /// <summary>
