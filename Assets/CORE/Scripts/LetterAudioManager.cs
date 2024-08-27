@@ -23,6 +23,7 @@ namespace CORE.Scripts
                 letterDictionary[name.ToLower()].Add(input);
             }
             IsDataLoaded = true;
+            
         }
 
         public static AudioClip GetAudioClipFromLetter(string inputLetter)
@@ -32,7 +33,7 @@ namespace CORE.Scripts
             AudioClip audioClip;
             if (data == null)
             {
-                Debug.LogError($"Error getting image for the word: {inputLetter}");
+                Debug.LogError($"Error getting audio for the word: {inputLetter}");
             }
             if (data.Count > 1)
                 audioClip = data[UnityEngine.Random.Range(0, data.Count)];

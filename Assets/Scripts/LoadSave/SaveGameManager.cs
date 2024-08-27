@@ -59,7 +59,7 @@ namespace LoadSave
             if (!File.Exists(filePath))
             {
                 EnsureDirectoryExists();
-                string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty
+                string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty //do we want the player to be able to easely read there safe file?
                 Debug.Log($"Serialized JSON: {json}");
                 try
                 {

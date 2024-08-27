@@ -2,13 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
+using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
+using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+public enum Difficulty
+{
+    Easy,
+    Medium,
+    Hard,
 
+
+}
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
+      
 
+   
     public class MonsterTowerManager : MonoBehaviour
     {
 
@@ -24,6 +36,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         [SerializeField] TowerManager towerManager;
 
+        public Difficulty difficulty;
+
         //temp
         string[] sentanses;
         /// <summary>
@@ -32,9 +46,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         void SetupSentanses()
         {
             sentanses = new string[3];
-            sentanses[0] = "is på ko";
-            sentanses[1] = "ko på is";
-            sentanses[2] = "gås under ko";
+            sentanses[0] = "is pÃ¥ ko";
+            sentanses[1] = "ko pÃ¥ is";
+            sentanses[2] = "gÃ¥s under ko";
         }
 
         /// <summary>
@@ -46,15 +60,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             sentanses = input;
 
         
-            towerManager.SetTowerData(sentanses);
+            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
         }
 
 
 
         void Start()
         {
+
+            // setting up the main camera so it reflects the chosen difficulty. 
+            mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
+
             SetupSentanses();
-            towerManager.SetTowerData(sentanses);
+            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
@@ -97,16 +115,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
             if (comp == null || comp.isShootable == false) return;
-            catapultAming.Shoot(hit.point, comp);
-            RemoveAmmo();
-            
-
+            StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
 
         /// <summary>
         /// removes ammo and updates the pile of ammo
         /// </summary>
-        void RemoveAmmo()
+        public void RemoveAmmo()
         {
             ammo--;
             if(ammo < ammoDisplay.Length)
