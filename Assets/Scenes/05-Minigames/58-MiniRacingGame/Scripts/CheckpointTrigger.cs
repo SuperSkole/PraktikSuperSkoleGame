@@ -8,12 +8,19 @@ namespace RacingGame
         public RacingGameCore.Checkpoint checkpointType;
         private SpriteRenderer spriteRenderer; // Reference to the SpriteRenderer component
 
+        /// <summary>
+        /// When waking up, get renderer.
+        /// </summary>
         private void Awake()
         {
             // Get the SpriteRenderer component attached to this checkpoint
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
+        /// <summary>
+        /// When hit by the player car, do a checkpoint check.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("ActiveCar"))
@@ -23,7 +30,10 @@ namespace RacingGame
             }
         }
 
-        // Method to set visibility of the sprite renderer
+        /// <summary>
+        /// Sets visibility of sprite renderer.
+        /// </summary>
+        /// <param name="isVisible">Should it be visible</param>
         public void SetVisible(bool isVisible)
         {
             if (spriteRenderer != null)

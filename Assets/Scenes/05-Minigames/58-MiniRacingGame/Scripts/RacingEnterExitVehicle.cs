@@ -18,14 +18,12 @@ namespace RacingGame
         public UnityEvent enterCar;
         public UnityEvent exitCar;
         int sceneID = 0;
-   
-
 
         [SerializeField] private CinemachineVirtualCamera mainCamera;
 
-    
-
-
+        /// <summary>
+        /// Checks the scene id to know if the car should be activated.
+        /// </summary>
         private void Start()
         {
             sceneID = SceneManagerScript.Instance.SceneID;
@@ -37,13 +35,16 @@ namespace RacingGame
                 //CarActive();
             }
 
-            if (sceneID == -1) //Racing scene
+            if (sceneID == 13) //Racing scene
             {
                 CarActive();
                 //PlayerActive();
             }
         }
 
+        /// <summary>
+        /// Check if the player is trying to enter or exit the car.
+        /// </summary>
         private void Update()
         {
             if (isPlayerNearby && Input.GetKeyDown(KeyCode.E)) //Town scene
@@ -92,6 +93,9 @@ namespace RacingGame
         //     exitCar.Invoke();
         // }
 
+        /// <summary>
+        /// Activate the car.
+        /// </summary>
         private void CarActive()
         {
             carController.CarActive = true;
@@ -100,11 +104,18 @@ namespace RacingGame
             enterCar.Invoke();  
         }
 
+        /// <summary>
+        /// Fetch the player.
+        /// </summary>
         public void FindPlayer()
         {
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
+        /// <summary>
+        /// Check if the player is colliding with it.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject == player)
@@ -113,6 +124,10 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Checks if the player is leaving the car.
+        /// </summary>
+        /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject == player)

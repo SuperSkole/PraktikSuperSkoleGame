@@ -10,12 +10,17 @@ namespace RacingGame
         public GameObject car; //player component dragged on the script here in the editor
         private Vector3 offset;
 
-        // Start is called before the first frame update
+        /// <summary>
+        /// Set the camera offset.
+        /// </summary>
         void Start()
         {
             offset = transform.position - car.transform.position; //Camera transform pos - player transform pos = offset
         }
 
+        /// <summary>
+        /// Keeps up the camera distance from player.
+        /// </summary>
         // Update is called once per frame
         void LateUpdate() //late update used because we want the physics of the player to run first
         {

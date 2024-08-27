@@ -19,18 +19,26 @@ namespace RacingGame
 
         private RacingGameCore racingGameCore;
 
+        /// <summary>
+        /// Gets the racing game core.
+        /// </summary>
         private void Start()
         {
             racingGameCore = GetComponent<RacingGameCore>();
             //stateNameController = GetComponent<StateNameController>();
         }
 
+        /// <summary>
+        /// Updates the completion timer.
+        /// </summary>
         private void Update()
         {
-
             completionTime = racingGameCore.Timer;
         }
 
+        /// <summary>
+        /// Game is over, hand out rewards.
+        /// </summary>
         public void EndGame()
         {
             RewardCalculation rewardCalculator = this.AddComponent<RewardCalculation>();
@@ -40,7 +48,6 @@ namespace RacingGame
             EndGameUI.Instance.DisplayRewards(XP, Gold, completionTime);
 
             StateNameController.SetXPandGoldandCheck(XP, Gold);
-
         }
     }
 }

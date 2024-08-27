@@ -15,16 +15,13 @@ namespace RacingGame
             set { carActive = value; }
         }
 
-
         // Constants for input axes names, used for reading player input.
         private const string HORIZONTAL = "Horizontal";
         private const string VERTICAL = "Vertical";
 
-
         private float horizontalInput;
         private float verticalInput;
 
-    
         private float currentSteerAngle;
         private float currentBreakForce;
 
@@ -56,7 +53,10 @@ namespace RacingGame
         public float steeringCorrectionRate = 2.0f;
 
 
-        // Start is called before the first frame update.
+        /// <summary>
+        /// Check if this is in the racing scene before triggering. 
+        /// TODO: Figure out a better way than scene ID.
+        /// </summary>
         private void Start()
         {
             sceneID = SceneManagerScript.Instance.SceneID;
@@ -72,23 +72,26 @@ namespace RacingGame
                 leftHeadlight.SetActive(carActive == false);
                 rightHeadlight.SetActive(carActive == false);
             }
-        
         }
 
+        /// <summary>
+        /// Checks if the player clicks E to activate headlights.
+        /// </summary>
         private void Update()
         {
         
             // Toggle CarActive state when 'E' key is pressed.
             if (Input.GetKeyDown(KeyCode.E))
             {
-
                 // Toggle the headlights based on the CarActive state.
                 leftHeadlight.SetActive(carActive);
                 rightHeadlight.SetActive(carActive);
             }
         }
 
-        // FixedUpdate is called regularly at fixed intervals for physics updates.
+        /// <summary>
+        /// Handles the car input.
+        /// </summary>
         private void FixedUpdate()
         {
             HandleSteering();  // Manages the car's steering based on input.
@@ -105,7 +108,6 @@ namespace RacingGame
         /// <summary>
         /// Reads player's input from keyboard
         /// </summary>
-
         private void GetInput()
         {
             horizontalInput = Input.GetAxis(HORIZONTAL);
@@ -134,6 +136,10 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Checks what way the car is moving.
+        /// </summary>
+        /// <returns>Returns true if movement is forward</returns>
         private bool IsCarMovingForward()
         {
             // Calculate the dot product between the car's forward direction and its velocity vector
@@ -143,6 +149,11 @@ namespace RacingGame
             return forwardVelocityDotProduct > 0; //True or false 
         }
 
+        /// <summary>
+        /// Checks if the car is moving backwards
+        /// TODO: This really should be in the forward check or something.
+        /// </summary>
+        /// <returns>Returns true if the car is moving backwards</returns>
         private bool IsCarMovingBackwards()
         {
             // Calculate the dot product between the car's forward direction and its velocity vector
@@ -156,7 +167,6 @@ namespace RacingGame
         /// <summary>
         /// Controls the car's motor, applying force to move the car.
         /// </summary>
-
         private void HandleMotor()
         {
             float speedFL = wheelColliderFrontL.attachedRigidbody.velocity.magnitude;
@@ -235,7 +245,10 @@ namespace RacingGame
 
 
         }
-
+        
+        /// <summary>
+        /// Attempts to brake.
+        /// </summary>
         private void ApplyBrakingToStop()
         {
 
@@ -246,6 +259,9 @@ namespace RacingGame
 
         }
 
+        /// <summary>
+        /// Stops the braking.
+        /// </summary>
         private void ResetBraking()
         {
             wheelColliderFrontL.brakeTorque = 0;
@@ -253,9 +269,6 @@ namespace RacingGame
             wheelColliderRearL.brakeTorque = 0;
             wheelColliderRearR.brakeTorque = 0;
         }
-
-
-
 
         /// <summary>
         /// Manages the car's steering mechanism.
@@ -285,7 +298,6 @@ namespace RacingGame
             //wheelColliderFrontR.steerAngle = currentSteerAngle;
         }
 
-
         /// <summary>
         /// Updates the position and rotation of the wheel models to match the physics
         /// </summary>
@@ -300,8 +312,6 @@ namespace RacingGame
         /// <summary>
         /// Updates a single wheel's visual representation to match its collider.
         /// </summary>
-
-
         private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
         {
             Vector3 pos;

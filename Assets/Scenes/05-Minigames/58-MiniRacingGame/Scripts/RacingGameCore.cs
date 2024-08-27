@@ -89,7 +89,10 @@ namespace RacingGame
         public Transform correctCheckpointTrans;
         public Transform passedCheckpointTrans;
 
-
+        /// <summary>
+        /// Checks it is the racing scene,
+        /// then sets up everything to race.
+        /// </summary>
         private void Start()
         {
             sceneID = SceneManagerScript.Instance.SceneID;
@@ -129,6 +132,9 @@ namespace RacingGame
 
         }
 
+        /// <summary>
+        /// Keeps the timer up-to-date and handles the player input.
+        /// </summary>
         private void Update()
         {
             if (timerRunning)
@@ -143,12 +149,6 @@ namespace RacingGame
                 UpdateWordImageDisplay("Bil");
             }
 
-            if (Input.GetKeyDown(KeyCode.R)) //Respawn
-            {
-                //FlipCar();
-                Respawn(correctCheckpointTrans);
-            }
-
             if (Input.GetKeyDown(KeyCode.F)) //Respawn
             {
                 FlipCar();
@@ -158,34 +158,11 @@ namespace RacingGame
             {
                 this.GetComponent<StateNameController>().ChangeToTownScene();
             }
-
-
-
-
         }
 
-        private void Respawn(Transform checkpointTransform) //Virker ikke xD
-
-        {
-            carController.CarActive = false;
-            //int respawnTimer = 3;
-
-
-            // Get the current z position of the car to maintain it
-            float currentZ = playerCar.transform.position.z;
-
-            // Set the new position to the checkpoint's x and y, but keep the car's current z
-            Vector3 newPosition = new(checkpointTransform.position.x,
-                                              checkpointTransform.position.y + 1.0f, // Adding 1 meter to y for elevation
-                                              currentZ);
-            playerCar.transform.position = newPosition;
-
-            // Adjust the rotation to make the car upright, preserving the y-axis rotation from the checkpoint
-            float yRotation = checkpointTransform.eulerAngles.y;
-            playerCar.transform.rotation = Quaternion.Euler(0, yRotation, 0);
-            carController.CarActive = true;
-        }
-
+        /// <summary>
+        /// Flips the car, in case the player is stuck.
+        /// </summary>
         private void FlipCar()
         {
 
@@ -196,6 +173,9 @@ namespace RacingGame
             playerCar.transform.rotation = Quaternion.Euler(0, yRotation, 0);
         }
 
+        /// <summary>
+        /// Picks a random word from the list.
+        /// </summary>
         private void SelectRandomWord()
         {
             List<string> availableWords = new(wordsList); // Copy the original list
@@ -221,24 +201,22 @@ namespace RacingGame
                 showEndUi = true;
                 carController.CarActive = false;
 
-
-
                 StopTimer();
                 racingGameManager = GetComponent<RacingGameManager>();
                 racingGameManager.EndGame();
                 endGameUI = GetComponent<EndGameUI>();
                 endGameUI.ToggleEndGameUI(true);
-
             }
-
         }
 
+        /// <summary>
+        /// Updates the billboards with the letters and images
+        /// that the player have to spell.
+        /// </summary>
         public void UpdateBranchAndLetters()
         {
             if (raceActive == true)
             {
-
-
                 // Randomly decide which branch is correct for this lap
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
 
@@ -267,6 +245,9 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Updates the timer on the billboards.
+        /// </summary>
         private void UpdateTimerDisplay()
         {
             if (timerDisplayActive == true)
@@ -278,6 +259,11 @@ namespace RacingGame
 
         }
 
+        /// <summary>
+        /// Shows a random wrong letter for the wrong choice.
+        /// </summary>
+        /// <param name="correctLetter"></param>
+        /// <returns></returns>
         private char RandomWrongLetter(char correctLetter)
         {
             char wrongLetter;
@@ -289,6 +275,10 @@ namespace RacingGame
             return wrongLetter;
         }
 
+        /// <summary>
+        /// CHecks when a checkpoint is hit.
+        /// </summary>
+        /// <param name="triggeredCheckpoint">The hit checkpoint</param>
         public void CheckpointTriggered(Checkpoint triggeredCheckpoint)
         {
             // Start the timer when the start checkpoint is triggered
@@ -325,6 +315,9 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Starts the timer.
+        /// </summary>
         private void StartTimer()
         {
 
@@ -332,11 +325,17 @@ namespace RacingGame
             timer = 0f; // Reset the timer
         }
 
+        /// <summary>
+        /// Stops the timer.
+        /// </summary>
         private void StopTimer()
         {
             timerRunning = false;
         }
 
+        /// <summary>
+        /// Sets up the image to be used.
+        /// </summary>
         public void InitializeWordImageMap()
         {
             foreach (string word in wordsList)
@@ -356,6 +355,10 @@ namespace RacingGame
             imageInitialized = true;
         }
 
+        /// <summary>
+        /// Updates the word display.
+        /// </summary>
+        /// <param name="word"></param>
         private void UpdateWordImageDisplay(string word)
         {
             if (imageDisplayActive == true)
@@ -364,6 +367,13 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Updates the word display.
+        /// Done as a coroutine to ensure it waits until images are initialized
+        /// due to trouble with many things doing startup setups.
+        /// </summary>
+        /// <param name="word">The word to use to fetch images</param>
+        /// <returns></returns>
         private IEnumerator UpdateWordImageDisplay2(string word)
         {
             yield return new WaitUntil(() => imageInitialized == true);
@@ -379,6 +389,9 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Sets up audio files
+        /// </summary>
         public void InitializeWordAudioMap()
         {
             foreach (string word in wordsList)
@@ -396,6 +409,10 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Plays audio files
+        /// </summary>
+        /// <param name="word"></param>
         public void PlayWordAudio(string word)
         {
             if (audioActive == true)
@@ -407,6 +424,11 @@ namespace RacingGame
             }
         }
 
+        /// <summary>
+        /// Triggered when a player picks a branch.
+        /// Checks if the choice is correct and sets up what happens after.
+        /// </summary>
+        /// <param name="branchName">The triggered branch to compare with</param>
         public void BranchTriggered(string branchName)
         {
             if (raceActive == true)
