@@ -37,7 +37,7 @@ namespace RacingGame
                 //CarActive();
             }
 
-            if (sceneID == 1) //Racing scene
+            if (sceneID == -1) //Racing scene
             {
                 CarActive();
                 //PlayerActive();

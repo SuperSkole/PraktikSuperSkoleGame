@@ -60,7 +60,7 @@ namespace RacingGame
         private void Start()
         {
             sceneID = SceneManagerScript.Instance.SceneID;
-            if (sceneID == 1)
+            if (sceneID == 13)
             {
                 carActive = true; // Start with the car being off.
                 leftHeadlight.SetActive(carActive == true);

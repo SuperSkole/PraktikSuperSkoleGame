@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace RacingGame
 {
     public class RacingGameCore : MonoBehaviour
     {
-        private int sceneID = 0;
+        private int sceneID = 13;
 
         private readonly AudioSource gameManagerAudioSource;
         public EndGameUI endGameUI;
@@ -70,7 +69,7 @@ namespace RacingGame
 
         private bool displayToggle = false;
         //private List<string> wordsList = new List<string>() { "F" };
-        private readonly List<string> wordsList = new() { "FLY" };
+        private readonly List<string> wordsList = new() { "FLY", "BÅD", "BIL" };
         //private List<string> wordsList = new List<string>() { "FLY", "BIL", "BÅD" };
 
 
@@ -95,7 +94,7 @@ namespace RacingGame
         {
             sceneID = SceneManagerScript.Instance.SceneID;
 
-            if (sceneID == 1)
+            if (sceneID == 13)
             {
                 RaceActive = true;
                 raceActive = true;
@@ -213,8 +212,6 @@ namespace RacingGame
             else
             {
                 targetWord = "End";
-                Debug.Log($"Word pile empty! your time is: {timer}! The game is over");
-
 
                 leftTextS.text = "";
                 rightTextS.text = "";
@@ -367,7 +364,7 @@ namespace RacingGame
             }
         }
 
-        IEnumerator UpdateWordImageDisplay2(string word)
+        private IEnumerator UpdateWordImageDisplay2(string word)
         {
             yield return new WaitUntil(() => imageInitialized == true);
             if (wordsImageMap.TryGetValue(word, out Sprite image))
@@ -445,8 +442,6 @@ namespace RacingGame
                     }
                     else
                     {
-                        Debug.Log("Wrong path chosen. Try the letter again!");
-
                         displayToggle = !displayToggle;
                         UpdateBranchAndLetters(); // Repeat the current letter
                     }
