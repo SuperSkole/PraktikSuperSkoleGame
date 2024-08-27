@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine;
 
 
 
@@ -24,6 +26,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private Monster monster;
 
+        public DiffcultyPreset diffculty;
+
 
         /// <summary>
         /// Sets up the various field variables to be ready for use
@@ -44,6 +48,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// <param name="preset"></param>
         public void SetDifficulty(DiffcultyPreset preset)
         {
+            diffculty = preset;
             switch (preset)
             {
                 case DiffcultyPreset.CUSTOM:
