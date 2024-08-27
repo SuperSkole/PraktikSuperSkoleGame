@@ -243,6 +243,7 @@ namespace CORE.Scripts
                 // Get downloaded asset bundle
                 AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
                 CongratsAudioManager.AddAudioClipToDanishSet(audioClip);
+                
             }
 
         }
