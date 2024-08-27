@@ -1,6 +1,6 @@
 {
 "skeleton": {
-	"hash": "tE/u+E2ofn4",
+	"hash": "e8RGn5WA4/k",
 	"spine": "4.1.24",
 	"y": -1315,
 	"width": 520.32,
@@ -41,18 +41,19 @@
 	{ "name": "Monster R lowerleg ink", "bone": "R lowerleg", "attachment": "Monster R lowerleg ink" },
 	{ "name": "Monster R upperleg ink", "bone": "R upperleg", "attachment": "Monster R upperleg ink" },
 	{ "name": "Monster body", "bone": "Body", "attachment": "Monster body" },
-	{ "name": "Monster MID2", "bone": "Body Stuff" },
-	{ "name": "Monster MID1", "bone": "Body Stuff" },
-	{ "name": "Mopnster R upperleg color", "bone": "R upperleg", "attachment": "Mopnster R upperleg color" },
+	{ "name": "Monster body2", "bone": "Body", "attachment": "Monster Spot" },
+	{ "name": "Monster MID Halstørklæde", "bone": "Body Stuff" },
+	{ "name": "Monster MID Slips", "bone": "Body Stuff" },
+	{ "name": "Monster R upperleg color", "bone": "R upperleg", "attachment": "Monster R upperleg color" },
 	{ "name": "Monster R lowerleg color", "bone": "R lowerleg", "attachment": "Monster R lowerleg color" },
 	{ "name": "Monster L toes tmp", "bone": "R foot", "attachment": "Monster L toes" },
-	{ "name": "Monster MID3", "bone": "Body Stuff" },
+	{ "name": "Monster MID Ballerinaskørt", "bone": "Body Stuff" },
 	{ "name": "Monster Back horn", "bone": "Head", "attachment": "Monster Back horn" },
 	{ "name": "Monster head", "bone": "Head", "attachment": "Monster head" },
 	{ "name": "Monster Face", "bone": "Head", "attachment": "Monster Face" },
-	{ "name": "Monster TOP3", "bone": "Head" },
-	{ "name": "Monster TOP2", "bone": "Head" },
-	{ "name": "Monster TOP1", "bone": "Head" },
+	{ "name": "Monster HEAD Tryllehat", "bone": "Head" },
+	{ "name": "Monster HEAD Briller", "bone": "Head" },
+	{ "name": "Monster HEAD Tophat", "bone": "Head" },
 	{ "name": "Monster R lowerarm ink", "bone": "R lowerarm", "attachment": "Monster R lowerarm ink" },
 	{ "name": "Monster R upperarm ink", "bone": "R upperarm", "attachment": "Monster R upperarm ink" },
 	{ "name": "Monster R upperarm color", "bone": "R upperarm", "attachment": "Monster R upperarm color" },
@@ -100,11 +101,23 @@
 			"Monster body": {
 				"Monster body": { "x": 9.72, "y": -5.68, "width": 331, "height": 458 }
 			},
+			"Monster body2": {
+				"Monster Spot": { "x": -23.39, "y": -42.3, "width": 220, "height": 372 }
+			},
 			"Monster Face": {
 				"Monster Face": { "x": 23.44, "y": 90.08, "width": 412, "height": 444 }
 			},
 			"Monster head": {
 				"Monster head": { "x": -13.06, "y": 33.08, "width": 443, "height": 452 }
+			},
+			"Monster HEAD Briller": {
+				"Monster HEAD Briller": { "x": -21.56, "y": 57.58, "width": 406, "height": 147 }
+			},
+			"Monster HEAD Tophat": {
+				"Monster HEAD Tophat": { "x": -20.06, "y": 252.08, "width": 289, "height": 278 }
+			},
+			"Monster HEAD Tryllehat": {
+				"Monster HEAD Tryllehat": { "x": -18.56, "y": 311.58, "width": 234, "height": 433 }
 			},
 			"Monster L claws": {
 				"Monster L claws": { "x": -10.41, "y": -22.57, "width": 94, "height": 83 }
@@ -139,14 +152,14 @@
 			"Monster L upperleg ink": {
 				"Monster L upperleg ink": { "x": 83.19, "y": -3.08, "rotation": 103.45, "width": 157, "height": 231 }
 			},
-			"Monster MID1": {
-				"Monster MID1": { "x": -14.23, "y": 30.47, "width": 116, "height": 349 }
+			"Monster MID Ballerinaskørt": {
+				"Monster MID Ballerinaskørt": { "x": 53.77, "y": -126.53, "width": 568, "height": 251 }
 			},
-			"Monster MID2": {
-				"Monster MID2": { "x": -3.23, "y": 62.97, "width": 268, "height": 410 }
+			"Monster MID Halstørklæde": {
+				"Monster MID Halstørklæde": { "x": -3.23, "y": 62.97, "width": 268, "height": 410 }
 			},
-			"Monster MID3": {
-				"Monster MID3": { "x": 53.77, "y": -126.53, "width": 568, "height": 251 }
+			"Monster MID Slips": {
+				"Monster MID Slips": { "x": -14.23, "y": 30.47, "width": 116, "height": 349 }
 			},
 			"Monster R claws tmp": {
 				"Monster L claws": { "x": 7.14, "y": -12.77, "rotation": 40.95, "width": 94, "height": 83 }
@@ -167,22 +180,13 @@
 				"Monster R upperarm color": { "x": 76.62, "y": 8.61, "rotation": 71.14, "width": 134, "height": 180 }
 			},
 			"Monster R upperarm ink": {
-				"Monster R upperarm ink": { "x": 76.31, "y": 9.24, "rotation": 71.14, "width": 153, "height": 199 }
+				"Monster R upperarm ink": { "x": 76.9, "y": 10.99, "rotation": 71.14, "width": 147, "height": 199 }
+			},
+			"Monster R upperleg color": {
+				"Monster R upperleg color": { "x": 88.58, "y": 6.26, "rotation": 88.85, "width": 135, "height": 233 }
 			},
 			"Monster R upperleg ink": {
 				"Monster R upperleg ink": { "x": 89.08, "y": 6.25, "rotation": 88.85, "width": 153, "height": 250 }
-			},
-			"Monster TOP1": {
-				"Monster TOP1": { "x": -20.06, "y": 252.08, "width": 289, "height": 278 }
-			},
-			"Monster TOP2": {
-				"Monster TOP2": { "x": -21.56, "y": 57.58, "width": 406, "height": 147 }
-			},
-			"Monster TOP3": {
-				"Monster TOP3": { "x": -18.56, "y": 311.58, "width": 234, "height": 433 }
-			},
-			"Mopnster R upperleg color": {
-				"Mopnster R upperleg color": { "x": 88.58, "y": 6.26, "rotation": 88.85, "width": 135, "height": 233 }
 			}
 		}
 	}
@@ -280,6 +284,203 @@
 						"curve": [ 0.911, 0, 1.122, 0, 0.911, -25.1, 1.122, -11 ]
 					},
 					{ "time": 1.3333 }
+				]
+			}
+		}
+	},
+	"Throw": {
+		"bones": {
+			"Body": {
+				"rotate": [
+					{
+						"curve": [ 0.111, 0, 0.222, 23.62 ]
+					},
+					{
+						"time": 0.3333,
+						"value": 23.62,
+						"curve": [ 0.4, 23.62, 0.467, -22.73 ]
+					},
+					{
+						"time": 0.5333,
+						"value": -22.73,
+						"curve": [ 0.689, -22.73, 0.844, 0 ]
+					},
+					{ "time": 1 }
+				],
+				"translate": [
+					{
+						"curve": [ 0.111, 0, 0.222, -13.25, 0.111, 0, 0.222, -104.11 ]
+					},
+					{
+						"time": 0.3333,
+						"x": -13.25,
+						"y": -104.11,
+						"curve": [ 0.4, -13.25, 0.467, 73.38, 0.4, -104.11, 0.467, 24.26 ]
+					},
+					{
+						"time": 0.5333,
+						"x": 73.38,
+						"y": 24.26,
+						"curve": [ 0.689, 73.38, 0.844, 0, 0.689, 24.26, 0.844, 0 ]
+					},
+					{ "time": 1 }
+				]
+			},
+			"R Arm": {
+				"rotate": [
+					{
+						"curve": [ 0.111, 0, 0.222, -17.66 ]
+					},
+					{
+						"time": 0.3333,
+						"value": -56.47,
+						"curve": [ 0.444, -95.29, 0.556, -232.88 ]
+					},
+					{
+						"time": 0.6667,
+						"value": -232.88,
+						"curve": [ 0.7, -232.88, 0.734, -294.55 ]
+					},
+					{
+						"time": 0.7667,
+						"value": -264.7,
+						"curve": [ 0.845, -196.13, 0.923, 0 ]
+					},
+					{ "time": 1 }
+				],
+				"translate": [
+					{
+						"curve": [ 0.111, 0, 0.222, -268.28, 0.111, 0, 0.222, -150.52 ]
+					},
+					{
+						"time": 0.3333,
+						"x": -335.58,
+						"y": -150.52,
+						"curve": [ 0.378, -362.5, 0.422, -362.5, 0.378, -150.52, 0.422, 71.26 ]
+					},
+					{
+						"time": 0.4667,
+						"x": -362.5,
+						"y": 166.32,
+						"curve": [ 0.5, -362.5, 0.533, -192.7, 0.5, 237.62, 0.533, 315.38 ]
+					},
+					{
+						"time": 0.5667,
+						"x": -103.35,
+						"y": 348.54,
+						"curve": [ 0.6, -13.99, 0.633, 173.64, 0.6, 381.71, 0.633, 381.71 ]
+					},
+					{
+						"time": 0.6667,
+						"x": 173.64,
+						"y": 381.71,
+						"curve": [ 0.733, 173.64, 0.8, -234.35, 0.733, 381.71, 0.8, 186.24 ]
+					},
+					{
+						"time": 0.8667,
+						"x": -234.35,
+						"y": 109.9,
+						"curve": [ 0.911, -234.35, 0.956, 0, 0.911, 59, 0.956, 0 ]
+					},
+					{ "time": 1 }
+				]
+			},
+			"R upperarm": {
+				"translate": [
+					{},
+					{ "time": 0.3333, "x": -8.55, "y": -56.11 },
+					{ "time": 1 }
+				]
+			},
+			"L Arm": {
+				"rotate": [
+					{
+						"time": 0.3333,
+						"curve": [ 0.444, 0, 0.556, -186.75 ]
+					},
+					{
+						"time": 0.6667,
+						"value": -186.75,
+						"curve": [ 0.733, -186.75, 0.8, -88.87 ]
+					},
+					{
+						"time": 0.8667,
+						"value": -51.53,
+						"curve": [ 0.911, -26.62, 0.956, 0 ]
+					},
+					{ "time": 1 }
+				],
+				"translate": [
+					{
+						"curve": [ 0.111, 0, 0.222, -30.99, 0.111, 0, 0.222, -190.07 ]
+					},
+					{
+						"time": 0.3333,
+						"x": -54.32,
+						"y": -190.07,
+						"curve": [ 0.378, -63.65, 0.422, -97.98, 0.378, -190.07, 0.422, 79.21 ]
+					},
+					{
+						"time": 0.4667,
+						"x": -97.98,
+						"y": 184.45,
+						"curve": [ 0.5, -97.98, 0.533, 21.24, 0.5, 263.38, 0.533, 317.53 ]
+					},
+					{
+						"time": 0.5667,
+						"x": 90.68,
+						"y": 362.45,
+						"curve": [ 0.6, 160.12, 0.633, 318.64, 0.6, 407.37, 0.633, 453.99 ]
+					},
+					{
+						"time": 0.6667,
+						"x": 318.64,
+						"y": 453.99,
+						"curve": [ 0.733, 318.64, 0.8, -47.76, 0.733, 453.99, 0.8, 186.15 ]
+					},
+					{
+						"time": 0.8667,
+						"x": -47.76,
+						"y": 95.35,
+						"curve": [ 0.911, -47.76, 0.956, 0, 0.911, 34.82, 0.956, 0 ]
+					},
+					{ "time": 1 }
+				]
+			},
+			"Head": {
+				"rotate": [
+					{
+						"curve": [ 0.111, 0, 0.222, 24.08 ]
+					},
+					{
+						"time": 0.3333,
+						"value": 24.08,
+						"curve": [ 0.444, 24.08, 0.556, -26.1 ]
+					},
+					{
+						"time": 0.6667,
+						"value": -26.1,
+						"curve": [ 0.778, -26.1, 0.889, 0 ]
+					},
+					{ "time": 1 }
+				],
+				"translate": [
+					{
+						"curve": [ 0.111, 0, 0.222, -48.53, 0.111, 0, 0.222, -36.08 ]
+					},
+					{
+						"time": 0.3333,
+						"x": -48.53,
+						"y": -36.08,
+						"curve": [ 0.444, -48.53, 0.556, 52.35, 0.444, -36.08, 0.556, -24.75 ]
+					},
+					{
+						"time": 0.6667,
+						"x": 52.35,
+						"y": -18.74,
+						"curve": [ 0.778, 52.35, 0.889, 0, 0.778, -12.73, 0.889, 0 ]
+					},
+					{ "time": 1 }
 				]
 			}
 		}

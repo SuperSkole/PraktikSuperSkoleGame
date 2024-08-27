@@ -11,12 +11,16 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
     [SerializeField] int Price;
     [SerializeField] TextMeshProUGUI priceText;
 
+    Image imageComponent;
+    Outline outlineComponent;
+
     private ShopManager shopManager;
 
     private void Awake()
     {
         shopManager = FindObjectOfType<ShopManager>();
-
+        imageComponent = GetComponent<Image>();
+        outlineComponent = GetComponent<Outline>();
         priceText.text = Price.ToString();
     }
 
@@ -24,6 +28,14 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
     {
         //skal lige overfører pris også
         shopManager.Click(itemName, Price, this);
+        imageComponent.enabled = true;
+        outlineComponent.enabled = true;
+    }
+
+    public void UnSelect()
+    {
+        imageComponent.enabled = false;
+        outlineComponent.enabled = false;
     }
 
 }
