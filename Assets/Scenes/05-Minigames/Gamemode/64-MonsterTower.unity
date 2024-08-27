@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 50883764}
   - component: {fileID: 50883763}
   - component: {fileID: 50883762}
-  - component: {fileID: 50883761}
+  - component: {fileID: 50883766}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -260,18 +260,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &50883761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 50883760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224c5289679f163439b1a1841d3854b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &50883762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,6 +343,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &50883766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50883760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d93b551f48d10843b87435e8323cad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &317616809
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,28 +724,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1749027813}
-        m_TargetAssemblyTypeName: SetGameModeAndDestroy, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 50883761}
-        m_TargetAssemblyTypeName: SimpleSceneChange, Assembly-CSharp
-        m_MethodName: SwitchToScene
-        m_Mode: 5
+      - m_Target: {fileID: 50883766}
+        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
+        m_MethodName: SwitchToMainWorld
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 03-MainWorld
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1042741254
@@ -1591,10 +1579,10 @@ MonoBehaviour:
           m_StringArgument: don't
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 50883761}
-        m_TargetAssemblyTypeName: SimpleSceneChange, Assembly-CSharp
-        m_MethodName: SwitchToScene
-        m_Mode: 5
+      - m_Target: {fileID: 50883766}
+        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
+        m_MethodName: SwitchToTowerScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
