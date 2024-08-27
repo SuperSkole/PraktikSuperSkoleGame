@@ -6,12 +6,12 @@ using UnityEngine;
 public class ColorChanging : MonoBehaviour
 {
     private Dictionary<string, string> colorMap = new Dictionary<string, string>
-        {
+    {
             { "orange", "ead25f" },
             { "blue", "19daf9" },
             { "red", "cf5b5d" },
             { "green", "6aa85c" }
-        };
+    };
 
 
     public void ColorChange(ISkeletonComponent skeletonComponent, string colorName)
