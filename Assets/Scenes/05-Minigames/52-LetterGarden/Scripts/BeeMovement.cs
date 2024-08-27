@@ -23,12 +23,8 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         public void NextLetter(SplineContainer currentLetter)
         {
-            if (lettersToDraw.Count > 0)
-            {
-                letterSpline = currentLetter;
-                lettersToDraw.Remove(letterSpline);
-                spineLeangth = letterSpline.CalculateLength(splineIndex);
-            }
+            letterSpline = currentLetter;
+            spineLeangth = letterSpline.CalculateLength(splineIndex);
         }
 
         private void Update()
@@ -46,9 +42,9 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         private void CheckDistance()
         {
-            if (distancePercentage >= 1)
+            if (distancePercentage >= 1.05)
             {
-                distancePercentage = 0;
+                distancePercentage = -0.05f;
             }
         }
 
@@ -58,18 +54,14 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// <returns>returns false if you cant go to the next line(we are out of lines) and returns true if it sucsesfully moves on to the next line</returns>
         public bool NextSplineInLetter()
         {
-            if (splineIndex >= letterSpline.Splines.Count - 1)
-            {
-                splineIndex = 0;
-                NextLetter();
-            }
-            else
+            bool result = splineIndex >= letterSpline.Splines.Count - 1;
+            if (!result)
             {
                 splineIndex++;
+                spineLeangth = letterSpline.CalculateLength(splineIndex);
             }
-            distancePercentage = 0;
-            spineLeangth = letterSpline.CalculateLength(splineIndex);
-            return splineIndex != 0;
+            distancePercentage = -0.05f;
+            return !result;
         }
 
         /// <summary>
@@ -87,22 +79,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             {
                 transform.rotation = Quaternion.LookRotation(direction, Vector3.back);
             }
-        }
-
-        /// <summary>
-        /// Completes LetterGarden when called.
-        /// </summary>
-        private void VictoryCondition() // TODO: Implement what happens when winning LetterGarden
-        {
-
-        }
-
-        /// <summary>
-        /// Used to give the player gold & XP
-        /// </summary>
-        private void EarnReward()
-        {
-
         }
     }
 }

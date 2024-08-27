@@ -23,8 +23,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             float totalDist = 0;
             float oldT = -0.1f;
             Vector3 temp = dwaing.GetPosition(0);
-            temp.x = 0;
-            temp.y -= 2.308069f;
             SplineUtility.GetNearestPoint(spline, temp, out _, out float firstT);
             if (firstT > 0.05f) return false;//checks that the start of the dwaing is within the first 5% of the spline
             for (int i = 0; i < dwaing.positionCount; i++)
@@ -34,7 +32,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 float distToSpline = SplineUtility.GetNearestPoint(spline,dwaingPoint,out _,out float t);
                 if (oldT > (t + 0.05f))return false;//makes sure you are dwaing in the currect direction
                 oldT = t;
-                distToSpline -= 1f;
+                distToSpline -= 02f;
                 distToSpline = Mathf.Clamp(distToSpline, 0,5);
                 totalDist += distToSpline;
             }
