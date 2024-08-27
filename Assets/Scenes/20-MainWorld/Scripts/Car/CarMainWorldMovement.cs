@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class CarMainWorldMovement : MonoBehaviour
 {
-    public bool carActive; //the car state
+    private bool carActive; //the car state
     public bool CarActive
     {
         get { return carActive; }
         set { carActive = value; }
     }
-    private bool turnOnCar= true;
-
 
     // Constants for input axes names, used for reading player input.
     private const string HORIZONTAL = "Horizontal";
@@ -19,7 +17,7 @@ public class CarMainWorldMovement : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
 
-    
+
     private float currentSteerAngle;
     private float currentBreakForce;
 
@@ -44,8 +42,8 @@ public class CarMainWorldMovement : MonoBehaviour
     public Transform wheelTransformRearL;
 
     //Headlight ref for toggle viseblity
-   // public GameObject leftHeadlight;
-   // public GameObject rightHeadlight;
+    // public GameObject leftHeadlight;
+    // public GameObject rightHeadlight;
 
     //Steering correction when parking
     [SerializeField] private float steeringCorrectionRate;
@@ -54,29 +52,27 @@ public class CarMainWorldMovement : MonoBehaviour
     // Start is called before the first frame update.
     private void Start()
     {
-        if (turnOnCar)
+        if (carActive)
         {
-            carActive = true; // Start with the car being off.
             //leftHeadlight.SetActive(carActive == true);
             //rightHeadlight.SetActive(carActive == true);
         }
-        if (!turnOnCar)
+        else
         {
-            carActive = false; // Start with the car being off.
             //leftHeadlight.SetActive(carActive == false);
             //rightHeadlight.SetActive(carActive == false);
         }
-        
+
     }
 
     private void Update()
-    {        
+    {
         // Toggle CarActive state when 'E' key is pressed.
         if (Input.GetKeyDown(KeyCode.E))
         {
             // Toggle the headlights based on the CarActive state.
-           // leftHeadlight.SetActive(carActive);
-          //  rightHeadlight.SetActive(carActive);
+            // leftHeadlight.SetActive(carActive);
+            //  rightHeadlight.SetActive(carActive);
         }
     }
 
@@ -92,6 +88,7 @@ public class CarMainWorldMovement : MonoBehaviour
             GetInput(); // Reads the player's input.
 
         }
+
     }
 
     /// <summary>
@@ -105,7 +102,7 @@ public class CarMainWorldMovement : MonoBehaviour
 
         // Check if the car is currently moving forward or is stopped
         bool movingForward = IsCarMovingForward();
-        
+
 
         if (verticalInput < 0 && movingForward == true)
         {
@@ -114,7 +111,7 @@ public class CarMainWorldMovement : MonoBehaviour
         }
         else if (verticalInput > 0)
         {
-            
+
             // Player is moving forward
             ResetBraking();
         }
@@ -161,6 +158,7 @@ public class CarMainWorldMovement : MonoBehaviour
         speedRL *= 3.6f;
         speedRR *= 3.6f;
 
+        float combinedSpeed = (speedFL + speedFR + speedRL + speedRR) / 4; // Average speed of all wheels.
 
         Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilføj flere??
         carSpeed = carRigidbody.velocity.magnitude * 3.6f; // Convert to km/h
@@ -173,7 +171,6 @@ public class CarMainWorldMovement : MonoBehaviour
         if (!carActive)
         {
 
-            float combinedSpeed = (speedFL + speedFR + speedRL + speedRR) / 4; // Average speed of all wheels.
 
             if (combinedSpeed > 0)
             {
@@ -189,13 +186,20 @@ public class CarMainWorldMovement : MonoBehaviour
         if (IsCarMovingBackwards() == false)
         {
             //Going forward
-            if (speedFL < maxSpeed|| speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed )
+            if (combinedSpeed < maxSpeed)
             {
                 wheelColliderFrontL.motorTorque = verticalInput * motorForce;
                 wheelColliderFrontR.motorTorque = verticalInput * motorForce;
                 wheelColliderRearL.motorTorque = verticalInput * motorForce;
                 wheelColliderRearR.motorTorque = verticalInput * motorForce;
             }
+            //if (speedFL < maxSpeed|| speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed )
+            //{
+            //    wheelColliderFrontL.motorTorque = verticalInput * motorForce;
+            //    wheelColliderFrontR.motorTorque = verticalInput * motorForce;
+            //    wheelColliderRearL.motorTorque = verticalInput * motorForce;
+            //    wheelColliderRearR.motorTorque = verticalInput * motorForce;
+            //}
             else
             {
 
@@ -208,13 +212,20 @@ public class CarMainWorldMovement : MonoBehaviour
         if (IsCarMovingForward() == false)
         {
             //Going Backwards
-            if (speedFL < reverseMaxSpeed || speedFR < reverseMaxSpeed || speedRR < reverseMaxSpeed || speedRL < reverseMaxSpeed)
+            if (combinedSpeed < reverseMaxSpeed)
             {
-                wheelColliderFrontL.motorTorque = verticalInput * motorForce/2;
-                wheelColliderFrontR.motorTorque = verticalInput * motorForce/2;
-                wheelColliderRearL.motorTorque = verticalInput * motorForce/2;
-                wheelColliderRearR.motorTorque = verticalInput * motorForce/2;
+                wheelColliderFrontL.motorTorque = verticalInput * motorForce / 2;
+                wheelColliderFrontR.motorTorque = verticalInput * motorForce / 2;
+                wheelColliderRearL.motorTorque = verticalInput * motorForce / 2;
+                wheelColliderRearR.motorTorque = verticalInput * motorForce / 2;
             }
+            //if (speedFL < reverseMaxSpeed || speedFR < reverseMaxSpeed || speedRR < reverseMaxSpeed || speedRL < reverseMaxSpeed)
+            //{
+            //    wheelColliderFrontL.motorTorque = verticalInput * motorForce/2;
+            //    wheelColliderFrontR.motorTorque = verticalInput * motorForce/2;
+            //    wheelColliderRearL.motorTorque = verticalInput * motorForce/2;
+            //    wheelColliderRearR.motorTorque = verticalInput * motorForce/2;
+            //}
             else
             {
 
