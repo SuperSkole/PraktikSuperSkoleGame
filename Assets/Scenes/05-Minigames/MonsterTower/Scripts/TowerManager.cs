@@ -79,6 +79,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         /// <summary>
         /// if the images arent loaded, waits with setting tower data and building the tower until the images are loaded
+        /// 
+        /// ATTENTION!!!! WILL NOT LOAD FROM SCENE DIRECTLY. YOU NEED TO GO INTO TOWERSCENE FROM ANOTHER SCENE FIRST BECAUSE THE ASSETS NEED TO LOAD BEFORE THEY CAN BE USED
         /// </summary>
         /// <returns></returns>
         IEnumerator WaitUntillDataIsLoaded()
@@ -113,7 +115,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
             // if not a tower is built and will be saved when exiting the game. 
 
-            Debug.Log(loadedBrickLanes.Count);
+            
 
             if (loadedBrickLanes.Count > 0)
             {
@@ -328,15 +330,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                         }
                         else
+                        {
                             gameMode.SetWrongAnswer(this);
 
-                        // the sentence for the random brick is also inputtet into the data on the particular lane. 
-                        // the top and bottom image key is defined in the SetRandomImage
-                        loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                            // the sentence for the random brick is also inputtet into the data on the particular lane. 
+                            // the top and bottom image key is defined in the SetRandomImage
+                            loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                        }
 
 
                         GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.transform.localPosition = new(0, 1.58f, -1.4f);
+                      
                         if (z == 0)
                         {
                       
@@ -436,7 +441,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         }
 
                         GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.transform.localPosition = new(0, 1.58f, -1.4f);
+                        
                         if (z == 0)
                         {
                             brickComponent.isShootable = true;

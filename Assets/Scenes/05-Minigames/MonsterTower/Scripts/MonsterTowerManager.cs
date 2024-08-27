@@ -84,7 +84,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             ammo = ammoDisplay.Count;
 
 
-            towerManager.SetupGame(new SentenceToPictures(),new SpellWord());
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
