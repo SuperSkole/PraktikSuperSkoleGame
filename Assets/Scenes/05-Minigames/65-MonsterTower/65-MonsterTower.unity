@@ -1856,6 +1856,22 @@ PrefabInstance:
       propertyPath: imageHolerPrefab
       value: 
       objectReference: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
+    - target: {fileID: 4810737106061394192, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810737106061394192, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810737106061394192, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810737106061394192, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7682296799501767108, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
       propertyPath: m_TagString
       value: Setup
@@ -3056,7 +3072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726272125018d4c4db0f1bfaeb69fa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brickPrefab: {fileID: 4237366790475014984, guid: d565d34c00e118a4ab141fc370a4aff9, type: 3}
+  brickPrefab: {fileID: 147310, guid: b1ad8ef6890687249a641abef8e26baf, type: 3}
   correctAnswer: 0
   displayBox: {fileID: 1980325502}
   imageHolerPrefab: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
