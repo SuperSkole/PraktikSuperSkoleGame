@@ -27,7 +27,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         [SerializeField] private GameObject gameOverObject;
 
-
+        public static List<string> completedWords = new List<string>();
 
         private TextMeshProUGUI answerText;
 
