@@ -13,7 +13,7 @@ public class SwitchScenes : MonoBehaviour
     // TODO : Change this when we have a racing scene
     public static void SwitchToRacingScene() => SceneManager.LoadScene(SceneNames.House);    
     // TODO : Change this to correct scene
-    public static void SwitchToSimpleEaterScene() => SceneManager.LoadScene(SceneNames.House);    
+    public static void SwitchToSymbolEaterScene() => SceneManager.LoadScene(SceneNames.Eater);    
     // TODO : Change this to correct scene
-    public static void SwitchToTowerScene() => SceneManager.LoadScene(SceneNames.House);
+    public static void SwitchToTowerScene() => SceneManager.LoadScene(SceneNames.Tower);
 }
