@@ -9,7 +9,6 @@ using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
 using CORE.Scripts;
-using Scenes.PlayerScene.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
@@ -44,15 +43,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         [SerializeField] GameObject monsterPrefab;
 
-        public DifficultyManager difficultyManager = new DifficultyManager();
+        private DifficultyManager difficultyManager = new DifficultyManager();
 
         public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
 
         public delegate void LoadFinished();
 
-
-        #region initialization
 
         /// <summary>
         /// Sets up the gameboard and the gamemode
@@ -93,12 +90,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            //SetupGame(new FindNumber(), new FindNumberSeries());
+            //SetupGame(new FindSymbol(), new FindCorrectLetter());
         }
 
-        #endregion
-
-        #region Gamemode communication
         public SymbolEaterPlayer GetPlayer()
         {
             return player;
@@ -145,6 +139,27 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             }
             answerImage.sprite = sprite;
         }
+
+        /// <summary>
+        /// Called when the player is thrown of the board and loses
+        /// </summary>
+        public void Lost()
+        {
+            gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+            monsterHivemind.OnGameOver();
+        }
+
+        /// <summary>
+        /// Called when the player wins a gamemode
+        /// </summary>
+        /// <param name="winText">The text to display</param>
+        public void Won(string winText)
+        {
+            gameOverText.text = winText;
+            monsterHivemind.OnGameOver();
+        }
+
+
         /// <summary>
         /// Instantiates a monster at the given coordinates
         /// </summary>
@@ -203,36 +218,5 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             monsterHivemind.StartMovement();
             gameOverText.text = "";
         }
-        #endregion
-
-        #region Game Over
-
-        /// <summary>
-        /// Called when the player is thrown of the board and loses
-        /// </summary>
-        public void Lost()
-        {
-            gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
-            monsterHivemind.OnGameOver();
-        }
-
-        /// <summary>
-        /// Called when the player wins a gamemode
-        /// </summary>
-        /// <param name="winText">The text to display</param>
-        public void Won(string winText, int xpReward, int goldReward)
-        {
-            gameOverText.text = winText;
-            monsterHivemind.OnGameOver();
-            //Calls to update the players xp and gold. Temporary values
-            
-            PlayerEvents.RaiseGoldChanged(goldReward);
-            PlayerEvents.RaiseXPChanged(xpReward);
-        }
-
-
-        #endregion
-
-        
     }
 }

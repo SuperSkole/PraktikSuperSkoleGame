@@ -16,8 +16,6 @@ namespace CORE.Scripts.GameRules
             private int currentNumber;
             private int maxNumber;
 
-            private bool foundFirstNumber;
-
             /// <summary>
             /// Returns the current number the player should look for
             /// </summary>
@@ -33,7 +31,7 @@ namespace CORE.Scripts.GameRules
             /// <returns>information for the player</returns>
             public string GetDisplayAnswer()
             {
-                if(currentNumber == mminNumber && !foundFirstNumber)
+                if(currentNumber == mminNumber)
                 {
                     return "Find tallene fra " + mminNumber + " til " + maxNumber + " i rækkefølge. Du har foreløbigt ikke fundet nogen";
                 }
@@ -64,9 +62,6 @@ namespace CORE.Scripts.GameRules
             /// <returns>Whether the symbol is the same as the correct one</returns>
             public bool IsCorrectSymbol(string symbol)
             {
-                if (!foundFirstNumber && symbol == currentNumber.ToString()){
-                    foundFirstNumber = true;
-                }
                 return symbol == currentNumber.ToString();
             }
 
@@ -89,7 +84,6 @@ namespace CORE.Scripts.GameRules
                     mminNumber = Random.Range(6, 85);
                     currentNumber = mminNumber;
                     maxNumber = Random.Range(mminNumber + 5, mminNumber + 15);
-                    foundFirstNumber = false;
                 }
                 else {
                     currentNumber++;
