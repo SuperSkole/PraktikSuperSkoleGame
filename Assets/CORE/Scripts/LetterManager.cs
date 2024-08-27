@@ -84,7 +84,7 @@ namespace CORE.Scripts
         /// Gets a list of all danish vowels
         /// </summary>
         /// <returns>List of all danish vowels</returns>
-        public static List<char>GetDanishVowels()
+        public static List<char> GetDanishVowels()
         {
             return DanishVowels.ToList();
         }

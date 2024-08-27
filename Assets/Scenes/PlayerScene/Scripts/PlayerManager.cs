@@ -136,7 +136,7 @@ namespace Scenes.PlayerScene.Scripts
             playerColorChanger.ColorChange(GameManager.Instance.CurrentMonsterColor);
             
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
-            playerData.SetLastInteractionPoint(new Vector3(-191, 40, -168));
+            playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
 
             // Log for debugging
             Debug.Log(
@@ -190,7 +190,7 @@ namespace Scenes.PlayerScene.Scripts
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
-                    ? new Vector3(-191, 40, -168)
+                    ? new Vector3(-184, 39, -144)
                     : playerData.LastInteractionPoint);
 
             // Log for debugging

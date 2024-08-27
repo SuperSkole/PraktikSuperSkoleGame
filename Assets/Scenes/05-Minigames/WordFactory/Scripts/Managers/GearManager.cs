@@ -1,15 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
+using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 {
     public class GearManager : MonoBehaviour
     {
         // List of all gears in the game
-        public List<GameObject> gears; 
+        public List<GameObject> Gears; 
+        
         // Reference to the LetterGearGenerator object, that store all gears
-        public GameObject letterGearGenerator;
+        public GameObject LetterGearGenerator;
         
         [SerializeField] private ClosestTeethFinder closestTeethFinder;
         private List<Transform> previousClosestTeeth = new List<Transform>();
@@ -24,12 +25,12 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         /// </summary>
         private void PopulateGearsList()
         {
-            gears = new List<GameObject>();
-            foreach (Transform child in letterGearGenerator.transform)
+            Gears = new List<GameObject>();
+            foreach (Transform child in LetterGearGenerator.transform)
             {
                 if (child.CompareTag("Gear")) 
                 {
-                    gears.Add(child.gameObject);
+                    Gears.Add(child.gameObject);
                 }
             }
         }
@@ -51,7 +52,10 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
             GearRotationController.OnRotationComplete -= UpdateClosestTeethColor;
             ColorTooth.OnBlinkingCompleted -= StartGame;
         }
-        
+
+        /// <summary>
+        /// Method that starts the game by updating the closest teeth color and subscribing to relevant events.
+        /// </summary>
         private void StartGame()
         {
             // Direct call to update the closest teeth color
@@ -60,7 +64,7 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         
         private void UpdateClosestTeethColor()
         {
-            List<Transform> currentClosestTeeth = closestTeethFinder.FindClosestTeeth(gears);
+            List<Transform> currentClosestTeeth = closestTeethFinder.FindClosestTeeth(Gears);
 
             // Uncolor previous closest teeth
             foreach (Transform tooth in previousClosestTeeth)

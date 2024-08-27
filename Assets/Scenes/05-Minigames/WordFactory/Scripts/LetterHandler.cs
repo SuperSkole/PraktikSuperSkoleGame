@@ -1,17 +1,27 @@
-using TMPro;
-using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
 using CORE.Scripts;
 using Scenes._05_Minigames.WordFactory.Scripts.Managers;
-using Scenes.Minigames.WordFactory.Scripts.Managers;
-using UnityEngine.Serialization;
+using TMPro;
+using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._05_Minigames.WordFactory.Scripts
 {
     public class LetterHandler : MonoBehaviour
     {
-        [FormerlySerializedAs("wordValidation")] [SerializeField] private WordValidator wordValidator;
+        [SerializeField] private WordValidator wordValidator;
+
+        private IGearStrategy gearStrategy;
+
+        private void Awake()
+        {
+            // Retrieve the gear strategy from the WordFactoryGameManager
+            gearStrategy = WordFactoryGameManager.Instance.GetGearStrategy();
+
+            if (gearStrategy == null)
+            {
+                Debug.LogError("Gear strategy is not initialized in LetterHandler.");
+            }
+        }
 
         public void DistributeLetters()
         {
@@ -27,69 +37,13 @@ namespace Scenes.Minigames.WordFactory.Scripts
 
         private List<List<char>> GetLettersForGears()
         {
-            int numberOfGears = WordFactoryGameManager.Instance.GetNumberOfGears();
-            int numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfTeeth();
-            int difficulty = WordFactoryGameManager.Instance.GetDifficultyLevel();
-
-            // Calculate the number of words based on the difficulty
-            int numberOfWords = numberOfTeeth - difficulty;
-
-            // Fetch random words equal to the number of required words
-            List<string> words = WordsManager.GetRandomWordsByLengthAndCount(numberOfGears,numberOfWords);
-
-            // Ensure we have enough words
-            if (words.Count < numberOfWords)
+            if (gearStrategy == null)
             {
-                Debug.LogError("Not enough valid words available.");
+                Debug.LogError("Gear strategy is null when attempting to get letters for gears.");
                 return null;
             }
-
-            // Split the words into letters for each gear, filling with random letters if the word is too short
-            List<List<char>> gearLetters = SplitWordsIntoLetters(words, numberOfGears);
-
-            // Fill remaining letters with random letters from the Danish alphabet
-            FillRemainingLetters(gearLetters, numberOfTeeth);
-
-            return gearLetters;
-        }
-
-        private List<List<char>> SplitWordsIntoLetters(List<string> words, int numberOfGears)
-        {
-            List<List<char>> gearLetters = new List<List<char>>();
-            for (int i = 0; i < numberOfGears; i++)
-            {
-                gearLetters.Add(new List<char>());
-            }
-
-            foreach (var word in words)
-            {
-                for (int gearIndex = 0; gearIndex < numberOfGears; gearIndex++)
-                {
-                    if (gearIndex < word.Length)
-                    {
-                        gearLetters[gearIndex].Add(word[gearIndex]);
-                    }
-                    else
-                    {
-                        // Add a random letter if the word is shorter than the number of gears
-                        gearLetters[gearIndex].Add(LetterManager.GetRandomLetters(1).First());
-                    }
-                }
-            }
-
-            return gearLetters;
-        }
-
-        private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
-        {
-            // Ensure each gear has the required number of teeth
-            foreach (var gear in gearLetters)
-            {
-                while (gear.Count < numberOfTeeth)
-                {
-                    gear.Add(LetterManager.GetRandomLetters(1).First());
-                }
-            }
+            
+            return gearStrategy.GetLettersForGears();
         }
 
         private void AssignLettersToGears(List<List<char>> gearLetters)
@@ -110,6 +64,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
                         {
                             AddLetterToTooth(tooth.gameObject, gearLetters[gearIndex][toothIndex]);
                         }
+                        
                         toothIndex++;
                     }
                 }
@@ -131,7 +86,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
                 Debug.Log("Failed to find TextMeshProUGUI on tooth");
                 return;
             }
-            
+
             textMeshPro.rectTransform.localPosition = new Vector3(0, -1f, 0);
             textMeshPro.text = letter.ToString();
             textMeshPro.fontSize = 1;
