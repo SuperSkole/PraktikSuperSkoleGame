@@ -131,8 +131,7 @@ namespace CORE
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Early out
-            if (scene.name.StartsWith("00") ||
-                scene.name.StartsWith("01") ||
+            if (scene.name.StartsWith("0") ||
                 scene.name.Equals("Bootstrapper"))
             {
                 return;
