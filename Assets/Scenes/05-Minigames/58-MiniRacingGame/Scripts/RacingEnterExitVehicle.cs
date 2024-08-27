@@ -2,7 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Scenes.Minigames.MiniRacingGame
+namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class EnterExitVehicle : MonoBehaviour
     {

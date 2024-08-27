@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenes.Minigames.MiniRacingGame
+namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class CameraController : MonoBehaviour
     {

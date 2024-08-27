@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Scenes.Minigames.MiniRacingGame
+namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class RacingGameManager : MonoBehaviour
     {

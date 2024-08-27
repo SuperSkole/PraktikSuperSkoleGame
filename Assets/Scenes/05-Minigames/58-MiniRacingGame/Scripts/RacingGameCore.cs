@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.Minigames.MiniRacingGame
+namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class RacingGameCore : MonoBehaviour
     {
