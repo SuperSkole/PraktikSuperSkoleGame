@@ -315,15 +315,16 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                         }
                         else
+                        {
                             gameMode.SetWrongAnswer(this);
 
-                        // the sentence for the random brick is also inputtet into the data on the particular lane. 
-                        // the top and bottom image key is defined in the SetRandomImage
-                        loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
-
+                            // the sentence for the random brick is also inputtet into the data on the particular lane. 
+                            // the top and bottom image key is defined in the SetRandomImage
+                            loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                        }
 
                         GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 1.58f, -1.4f);
                         if (z == 0)
                         {
                       
@@ -423,7 +424,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         }
 
                         GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.transform.localPosition = new(0,1.58f, -1.4f);
                         if (z == 0)
                         {
                             brickComponent.isShootable = true;

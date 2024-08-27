@@ -957,9 +957,8 @@ GameObject:
   - component: {fileID: 4327873244755890838}
   - component: {fileID: 3023203191005532624}
   - component: {fileID: -7051071632369896933}
-  - component: {fileID: 5100085159077835523}
   m_Layer: 0
-  m_Name: ammo
+  m_Name: ammoForDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1082,16 +1081,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5100085159077835523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8399951662530303645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 659e381c7f722c049b02e2e84427e1f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particals: {fileID: 1265720855497889114, guid: 1be9ac3dbc99db0409705d3e836ca43a, type: 3}

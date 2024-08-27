@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -58,6 +59,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     rotateThisMuch += rotateAmount;
                     yield return new WaitForSecondsRealtime(rotateActualSpeed);
                 }
+
+                for (int i = 0; i < prjectipePrefab.transform.childCount; i
+++)
+                {
+                    prjectipePrefab.transform.GetChild
+                    (i).transform.GetChild(0).GetComponent<TextMeshProUGUI>
+                    ().text = "Word Test";
+                }
+
 
                 manager.RemoveAmmo();
                 GameObject temp = Instantiate(prjectipePrefab, shootPos.position, quaternion.identity);

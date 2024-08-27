@@ -6,6 +6,7 @@ using CORE.Scripts.GameRules;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,11 +25,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     public class MonsterTowerManager : MonoBehaviour
     {
 
-        int ammo = 10;
+        int ammo;
 
         [SerializeField] Camera mainCamera;
         [SerializeField] GameObject noAmmoText;
-        [SerializeField] GameObject[] ammoDisplay;
+        [SerializeField] List<GameObject> ammoDisplay;
+        [SerializeField] GameObject ammoPlatform;
+        [SerializeField] GameObject ammoDisplayPrefab;
         [SerializeField] CatapultAming catapultAming;
         RaycastHit hit;
         Ray ray;
@@ -39,29 +42,25 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public Difficulty difficulty;
 
         //temp
-        string[] sentanses;
+        List<string>words;
         /// <summary>
         /// used to setup sentanses TEMP make this better!!
         /// </summary>
         void SetupSentanses()
         {
-            sentanses = new string[3];
-            sentanses[0] = "is på ko";
-            sentanses[1] = "ko på is";
-            sentanses[2] = "gås under ko";
+            words = new List<string>()
+            {
+               "is på ko",
+                "ko på is",
+                 "gås under ko",
+            };
         }
 
         /// <summary>
         /// call this to setup the minigame
         /// </summary>
         /// <param name="input">the dictionary that contains all the questions and images</param>
-        public void SetDic(string[] input)
-        {
-            sentanses = input;
-
-        
-            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
-        }
+    
 
 
 
@@ -72,20 +71,36 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
             SetupSentanses();
-            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
+
+            for (int x = 0; x < words.Count; x++)
+            {
+                for (int i = 0; i < ammoDisplayPrefab.transform.childCount; i++)
+                {
+                    ammoDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+
+                }
+
+                GameObject ammo = Instantiate(ammoDisplayPrefab, ammoPlatform.transform.position + new Vector3(1 * x - 2, 0.78f, 0), Quaternion.identity);
+                ammo.transform.parent = ammoPlatform.transform;
+                ammoDisplay.Add(ammo);
+
+            }
+
+            ammo = ammoDisplay.Count;
+
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
-                for (int i = 0; i < ammoDisplay.Length; i++)
+                for (int i = 0; i < ammoDisplay.Count; i++)
                 {
                     ammoDisplay[i].SetActive(false);
                 }
                 return;
             }
 
-            if (ammo < ammoDisplay.Length)
+            if (ammo < ammoDisplay.Count)
             {
-                for (int i = ammoDisplay.Length - 1; i >= ammo; i--)
+                for (int i = ammoDisplay.Count - 1; i >= ammo; i--)
                 {
                     ammoDisplay[i].SetActive(false);
                 }
@@ -124,7 +139,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public void RemoveAmmo()
         {
             ammo--;
-            if(ammo < ammoDisplay.Length)
+            if(ammo < ammoDisplay.Count)
                 ammoDisplay[ammo].SetActive(false);
             if (ammo <= 0)
                 noAmmoText.SetActive(true);
