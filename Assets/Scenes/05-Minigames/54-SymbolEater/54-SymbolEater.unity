@@ -8486,8 +8486,6 @@ GameObject:
   - component: {fileID: 1208524958}
   - component: {fileID: 1208524957}
   - component: {fileID: 1208524960}
-  - component: {fileID: 1208524962}
-  - component: {fileID: 1208524961}
   m_Layer: 0
   m_Name: Board
   m_TagString: Setup
@@ -8800,30 +8798,6 @@ MonoBehaviour:
   gameOverObject: {fileID: 334966099}
   playerObject: {fileID: 1777014168}
   monsterPrefab: {fileID: 5232203753461534465, guid: 62ca29d52e064d649b85b9067a6ae05b, type: 3}
---- !u!114 &1208524961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208524955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c98b823ec0654d247b99785470231012, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1208524962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208524955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f2b9f4884ed81641a92d78d6b2b746c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1210221080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5984104342079197732, guid: 1a854bdac77a3c44bae747d83ed23583, type: 3}
