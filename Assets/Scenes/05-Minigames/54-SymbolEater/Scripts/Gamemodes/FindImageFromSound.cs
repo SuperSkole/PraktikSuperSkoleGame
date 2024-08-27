@@ -261,7 +261,21 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     {
                         letterCube.DeactivateImage();
                     }
-                    boardController.Won("Du vandt. Du fandt det korrekte Billede fem gange");
+                    int multiplier = 1;
+                    //Calculates the multiplier for the xp reward. All values are temporary
+                    switch(boardController.difficultyManager.diffculty){
+                        case DiffcultyPreset.CUSTOM:
+                        case DiffcultyPreset.EASY:
+                            multiplier = 1;
+                            break;
+                        case DiffcultyPreset.MEDIUM:
+                            multiplier = 2;
+                            break;
+                        case DiffcultyPreset.HARD:
+                            multiplier = 4;
+                            break;
+                    }
+                    boardController.Won("Du vandt. Du fandt det korrekte Billede fem gange", 1 * multiplier, 1 * multiplier);
                 }
             }
         }

@@ -16,28 +16,12 @@ namespace CORE.Scripts
     {
         public static bool IsDataLoaded { get; private set; } = false;
         
-        /// <summary>
-        /// Starts loading all CSV, texture, and letter sound files simultaneously.
-        /// </summary>
         public void Start()
         {
-            StartCoroutine(LoadAllResources());
-        }
-
-        /// <summary>
-        /// Coroutine to load CSV files, textures, and letter sounds concurrently.
-        /// </summary>
-        private IEnumerator LoadAllResources()
-        {
-            var csvCoroutine = LoadAllCsvFiles();
-            var texturesCoroutine = LoadAllTextures();
-            var letterSoundsCoroutine = LoadAllletterSounds();
-
-            yield return StartCoroutine(csvCoroutine);
-            yield return StartCoroutine(texturesCoroutine);
-            yield return StartCoroutine(letterSoundsCoroutine);
-
-            Debug.Log("All resources loaded.");
+            StartCoroutine(LoadAllCsvFiles());
+            StartCoroutine(LoadAllTextures());
+            StartCoroutine(LoadAllletterSounds());
+            StartCoroutine(LoadAllCongratsSounds());
         }
         
         private IEnumerator LoadAllCsvFiles()

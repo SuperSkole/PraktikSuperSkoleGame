@@ -48,7 +48,7 @@ namespace LoadSave
             // Early out; no username no save.
             if (string.IsNullOrEmpty(username))
             {
-                Debug.Log("Save operation aborted: Username is required.");
+                Debug.LogError("Save operation aborted: Username is required.");
                 return; 
             }
             

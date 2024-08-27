@@ -19,8 +19,6 @@ namespace CORE
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
         
-        public bool IsNewGame { get; set; }
-        
         // GameManager Singleton
         private static GameManager instance;
         private static readonly object Lock = new object();
@@ -131,7 +129,8 @@ namespace CORE
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Early out
-            if (scene.name.StartsWith("0") ||
+            if (scene.name.StartsWith("00") ||
+                scene.name.StartsWith("01") ||
                 scene.name.Equals("Bootstrapper"))
             {
                 return;
