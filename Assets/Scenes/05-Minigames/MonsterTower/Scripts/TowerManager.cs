@@ -16,13 +16,14 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+using CORE.Scripts.GameRules;
 
 
 
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
-    public class TowerManager : MonoBehaviour, IDataPersistence
+    public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
         private int towerHeight;

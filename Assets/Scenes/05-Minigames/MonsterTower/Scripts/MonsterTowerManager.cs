@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
+using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,7 +52,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             words = new string[3];
             words[0] = "Is";
             words[1] = "Ko";
-            words[2] = "Gås";
+            words[2] = "Gï¿½s";
         }
 
      

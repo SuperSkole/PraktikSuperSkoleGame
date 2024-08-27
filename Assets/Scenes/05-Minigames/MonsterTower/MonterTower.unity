@@ -96,7 +96,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 9014ded14ae22c449909c26399ff8de1, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1857,6 +1857,10 @@ PrefabInstance:
       propertyPath: imageHolerPrefab
       value: 
       objectReference: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
+    - target: {fileID: 7682296799501767108, guid: af398069aa23fc24aa0bec5aeea3f2a5, type: 3}
+      propertyPath: m_TagString
+      value: Setup
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2401,7 +2405,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
