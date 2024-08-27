@@ -10,14 +10,18 @@ namespace Scenes
         public const string Splash = "01-SplashScene";
         
         // Login and startup scenes
-        public const string Login = "10-LoginScene";
-        public const string Start = "11-StartScene";
-        public const string Tutorial = "13-TutorialScene";  //
+        public const string Login = "02-LoginScene";
+        public const string Start = "03-StartScene";
+        public const string Tutorial = "04-TutorialScene";  //
+        
+        // Ending and miscellaneous
+        public const string Credits = "09-EndingCredits";  
 
         // Player related scenes
         public const string Player = "20-PlayerScene";  
         public const string House = "21-PlayerHouse";
         public const string Profile = "23-ProfileScene"; //
+        
         
         // Main gameplay and utilities
         public const string Main = "30-MainWorld";
@@ -48,7 +52,6 @@ namespace Scenes
         public const string Matchmaking = "81-MatchmakingScene";
         public const string MultiPlayerHighScores = "89-HighScoreScene"; 
 
-        // Ending and miscellaneous
-        public const string Credits = "90-EndingCredits";  
+        
     }
 }
