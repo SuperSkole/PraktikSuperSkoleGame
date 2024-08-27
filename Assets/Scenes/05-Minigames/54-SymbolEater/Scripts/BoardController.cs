@@ -93,7 +93,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            //SetupGame(new FindNumber(), new FindNumberSeries());
+            //SetupGame(new FindNumbers(), new FindNumberSeries());
         }
 
         #endregion
