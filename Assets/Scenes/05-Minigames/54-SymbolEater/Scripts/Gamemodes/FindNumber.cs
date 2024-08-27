@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CORE.Scripts.GameRules;
-using Unity.PlasticSCM.Editor.WebApi;
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
@@ -17,65 +16,26 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         int minWrongNumbers = 6;
         int maxWrongNumbers = 10;
 
-        string currentNumber;
+            /// <summary>
+            /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
+            /// </summary>
+            List<LetterCube> letterCubes;
 
-        /// <summary>
-        /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
-        /// </summary>
-        List<LetterCube> letterCubes;
+            /// <summary>
+            /// The lettercubes displaying a letter
+            /// </summary>
+            List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
-        /// <summary>
-        /// The lettercubes displaying a letter
-        /// </summary>
-        List<LetterCube> activeLetterCubes = new List<LetterCube>();
-
-        /// <summary>
-        /// The boardController of the current game
-        /// </summary>
-        BoardController boardController;
+            /// <summary>
+            /// The boardController of the current game
+            /// </summary>
+            BoardController boardController;
 
         IGameRules gameRules = new FindNumberSeries();
 
-        bool setup = false;
-
-        /// <summary>
-        /// Activates the given cube with a value depending on if it needs to be correct or not
-        /// </summary>
-        /// <param name="letterCube">the letter cube to be activated</param>
-        /// <param name="correct">whether it needs to be correct</param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-            if(correct)
-            {
-                letterCube.Activate(gameRules.GetCorrectAnswer(), true);
-            }
-            else
-            {
-                if(setup)
-                {
-                    letterCube.Activate(gameRules.GetWrongAnswer());
-                }
-                else
-                {
-                    bool foundCorrectAnswer = false;
-                    foreach(LetterCube letter in activeLetterCubes)
-                    {
-                        if(letter.GetLetter() == gameRules.GetCorrectAnswer())
-                        {
-                            foundCorrectAnswer = true;
-                            break;
-                        }
-                    }
-                    if(!foundCorrectAnswer)
-                    {
-                        letterCube.Activate(gameRules.GetCorrectAnswer());
-                    }
-                    else 
-                    {
-                        letterCube.Activate(gameRules.GetWrongAnswer());
-                    }
-                }
-            }
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -83,7 +43,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// </summary>
         public void GetSymbols()
         {
-            setup = true;
             //Sets up the number series
             gameRules.SetCorrectAnswer();
             //deactives all current active lettercubes
@@ -96,11 +55,29 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             activeLetterCubes.Clear();
             
             //finds new letterboxes to be activated and assigns them a random incorrect number.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
-            GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
+            for (int i = 0; i < count; i++)
+            {
+                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+                //Check to ensure numbers dont spawn below the player and that it is not an allready activated lettercube
+                while(activeLetterCubes.Contains(potentialCube))
+                {
+                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
+                }
+                activeLetterCubes.Add(potentialCube);
+                activeLetterCubes[i].Activate(gameRules.GetWrongAnswer());
+            }
+            LetterCube potentialCorrectCube = letterCubes[Random.Range(0, letterCubes.Count)];
+
+            //Check to ensure letters arent spawned on an allready activated letter cube.
+            while(activeLetterCubes.Contains(potentialCorrectCube))
+            {
+                potentialCorrectCube = letterCubes[Random.Range(0, letterCubes.Count)];
+            }
+            activeLetterCubes.Add(potentialCorrectCube);
+            potentialCorrectCube.Activate(gameRules.GetCorrectAnswer());
             
             boardController.SetAnswerText(gameRules.GetDisplayAnswer());
-            setup = false;
         }
 
 
@@ -115,10 +92,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
                 
                 boardController.SetAnswerText(gameRules.GetDisplayAnswer());
-                if(!gameRules.SequenceComplete())
-                {
-                    gameRules.SetCorrectAnswer();
-                }
+                gameRules.SetCorrectAnswer();
+                
                 return true;
             }
             else
@@ -130,19 +105,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         
 
         /// <summary>
-        /// Returns whether the current numberseries is complete
+        /// Not implemented yet
         /// </summary>
-        /// <returns>Whether the current numberseries is complete</returns>
+        /// <returns></returns>
         public bool IsGameComplete()
         {
-            if(gameRules.SequenceComplete() && gameRules.GetCorrectAnswer() == currentNumber)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
@@ -151,31 +119,53 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
-            currentNumber = letter.GetLetter();
-            if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete)){
-                correctSeries++;
+            if(letter.active)
+            {
+                letter.Deactivate();
+                activeLetterCubes.Remove(letter);
+                LetterCube newLetter;
+                //finds a new random letterbox which is not active and is not the one which should be replaced
+                while(true)
+                {
+                    newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
+                    if(newLetter != letter && !activeLetterCubes.Contains(newLetter))
+                    {
+                        break;
+                    }
+                }
+                //Checks if the end of the series is reached. If not it activates a new lettercube
+                if(!gameRules.SequenceComplete())
+                {
+                    int newLettercubeValue = System.Convert.ToInt32(gameRules.GetWrongAnswer());
+                    bool containsCorrectNumber = false;
+                    foreach(LetterCube letterCube in activeLetterCubes)
+                    {
+                        if(gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                        {
+                            containsCorrectNumber = true;
+                            break;
+                        }
+                    }
+                    if(!containsCorrectNumber)
+                    {
+                        newLettercubeValue = System.Convert.ToInt32(gameRules.GetCorrectAnswer());
+                    }
+                    newLetter.Activate(newLettercubeValue.ToString());
+                    activeLetterCubes.Add(newLetter);
+                }
+                //Determines if the player has won. If they have it starts a new game
+                else
+                {
+                    correctSeries++;
                     if(correctSeries == 3)
                     {
-                        //Calculates the multiplier for the xp reward. All values are temporary
-                        int multiplier = 1;
-                        switch(boardController.difficultyManager.diffculty){
-                            case DiffcultyPreset.CUSTOM:
-                            case DiffcultyPreset.EASY:
-                                multiplier = 1;
-                                break;
-                            case DiffcultyPreset.MEDIUM:
-                                multiplier = 2;
-                                break;
-                            case DiffcultyPreset.HARD:
-                                multiplier = 4;
-                                break;
-                        }
-                        boardController.Won("Du vandt. Du fandt 3 talrækker", 1 * multiplier, 1 * multiplier);
+                        boardController.Won("Du vandt. Du fandt 3 talrækker");
                     }
                     else 
                     {
                         GetSymbols();
                     }
+                }
             }
         }
 
@@ -216,8 +206,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="max"></param>
         public void SetMinAndMaxWrongSymbols(int min, int max)
         {
-            minWrongNumbers = min * 2;
-            maxWrongNumbers = max * 2;
+            minWrongNumbers = min;
+            maxWrongNumbers = max;
         }
     }
 }

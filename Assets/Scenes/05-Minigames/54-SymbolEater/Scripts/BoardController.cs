@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CORE.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
-using Scenes.PlayerScene.Scripts;
+using CORE.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
@@ -27,8 +29,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         [SerializeField] private GameObject gameOverObject;
 
-        public static List<string> completedWords = new List<string>();
-
         private TextMeshProUGUI answerText;
 
         private TextMeshProUGUI gameOverText;
@@ -43,7 +43,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         [SerializeField] GameObject monsterPrefab;
 
-        public DifficultyManager difficultyManager = new DifficultyManager();
+        private DifficultyManager difficultyManager = new DifficultyManager();
 
         public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
@@ -51,18 +51,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         public delegate void LoadFinished();
 
 
-        #region initialization
-
         /// <summary>
         /// Sets up the gameboard and the gamemode
         /// </summary>
         /// <param name="targetMode">The game mode which should be used</param>
         public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
-            //Backup code in case the dataloader hasnt been created
-            if(!DataLoader.IsDataLoaded){
-                gameObject.AddComponent<DataLoader>();
-            }
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
@@ -99,9 +93,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             //SetupGame(new FindSymbol(), new FindCorrectLetter());
         }
 
-        #endregion
-
-        #region Gamemode communication
         public SymbolEaterPlayer GetPlayer()
         {
             return player;
@@ -148,6 +139,27 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             }
             answerImage.sprite = sprite;
         }
+
+        /// <summary>
+        /// Called when the player is thrown of the board and loses
+        /// </summary>
+        public void Lost()
+        {
+            gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+            monsterHivemind.OnGameOver();
+        }
+
+        /// <summary>
+        /// Called when the player wins a gamemode
+        /// </summary>
+        /// <param name="winText">The text to display</param>
+        public void Won(string winText)
+        {
+            gameOverText.text = winText;
+            monsterHivemind.OnGameOver();
+        }
+
+
         /// <summary>
         /// Instantiates a monster at the given coordinates
         /// </summary>
@@ -206,36 +218,5 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             monsterHivemind.StartMovement();
             gameOverText.text = "";
         }
-        #endregion
-
-        #region Game Over
-
-        /// <summary>
-        /// Called when the player is thrown of the board and loses
-        /// </summary>
-        public void Lost()
-        {
-            gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
-            monsterHivemind.OnGameOver();
-        }
-
-        /// <summary>
-        /// Called when the player wins a gamemode
-        /// </summary>
-        /// <param name="winText">The text to display</param>
-        public void Won(string winText, int xpReward, int goldReward)
-        {
-            gameOverText.text = winText;
-            monsterHivemind.OnGameOver();
-            //Calls to update the players xp and gold. Temporary values
-            
-            PlayerEvents.RaiseGoldChanged(goldReward);
-            PlayerEvents.RaiseXPChanged(xpReward);
-        }
-
-
-        #endregion
-
-        
     }
 }
