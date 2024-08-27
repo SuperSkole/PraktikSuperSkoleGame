@@ -2,12 +2,10 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace RacingGame
+namespace Scenes.Minigames.MiniRacingGame
 {
     public class EnterExitVehicle : MonoBehaviour
     {
-
-    
         public GameObject player; // Assign your player GameObject in the Inspector
         public GameObject car;    // Assign your car GameObject in the Inspector
         //public GameObject racingGameManager;
