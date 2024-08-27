@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Scenes.Minigames.MonsterTower.Scrips;
+using CORE.Scripts;
 
 namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 {
-    public interface IMTGameMode
+    public interface IMTGameMode : IGenericGameMode
     {
         /// <summary>
         /// Will be called by the TowerManager to create a brick with the correct answer

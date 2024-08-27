@@ -21,6 +21,7 @@ namespace CORE.Scripts
             StartCoroutine(LoadAllCsvFiles());
             StartCoroutine(LoadAllTextures());
             StartCoroutine(LoadAllletterSounds());
+            StartCoroutine(LoadAllCongratsSounds());
         }
         
         private IEnumerator LoadAllCsvFiles()
@@ -187,6 +188,90 @@ namespace CORE.Scripts
                 LetterAudioManager.AddAudioClipToSet(setName, audioClip);
             }
         }
+
+
+        /// <summary>
+        /// Loads all the congrats Sounds. 
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadAllCongratsSounds()
+        {
+
+         
+            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(Danish)");
+
+            // Get all mp3 files in the directory for danish Audio
+            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
+            foreach (string filePath in fileEntries)
+            {
+                StartCoroutine(LoadAndSetListDanishCongratsSounds(filePath));
+            }
+
+            string directoryPath2 = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(English)");
+
+            // Get all mp3 files in the directory for English Audio
+            string[] fileEntries2 = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
+            foreach (string filePath in fileEntries2)
+            {
+                StartCoroutine(LoadAndSetListEnglishCongratsSounds(filePath));
+            }
+
+            yield return null;
+        }
+
+
+
+        /// <summary>
+        /// loades the danish congrats AudioClips based on a filepath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
+        /// </summary>
+        /// <param name="filePath">the path of the file you are loading</param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetListDanishCongratsSounds(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
+                CongratsAudioManager.AddAudioClipToDanishSet(audioClip);
+            }
+
+        }
+
+        /// <summary>
+        /// loades the danish congrats AudioClips based on a filePath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetListEnglishCongratsSounds(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
+                CongratsAudioManager.AddAudioClipToEnglishSet(audioClip);
+            }
+
+        }
+
+
 
 
         /// <summary>

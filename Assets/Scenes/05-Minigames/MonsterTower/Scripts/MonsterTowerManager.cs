@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
+using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -44,9 +46,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         void SetupSentanses()
         {
             sentanses = new string[3];
-            sentanses[0] = "is på ko";
-            sentanses[1] = "ko på is";
-            sentanses[2] = "gås under ko";
+            sentanses[0] = "is pÃ¥ ko";
+            sentanses[1] = "ko pÃ¥ is";
+            sentanses[2] = "gÃ¥s under ko";
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             sentanses = input;
 
         
-            towerManager.SetTowerData(sentanses);
+            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
         }
 
 
@@ -70,7 +72,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
             SetupSentanses();
-            towerManager.SetTowerData(sentanses);
+            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
