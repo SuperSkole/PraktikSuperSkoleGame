@@ -22,6 +22,11 @@ public class CamChange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SetupCamera();
+    }
+
+    private void SetupCamera()
+    {
         initialAngle = camera_one.transform;
         camAngleDif = 25;
         camPlayer = Quaternion.Euler(initialAngle.rotation.eulerAngles.x - camAngleDif,
@@ -32,6 +37,7 @@ public class CamChange : MonoBehaviour
                                                 initialAngle.rotation.eulerAngles.y,
                                                 initialAngle.rotation.eulerAngles.z);
     }
+
     /// <summary>
     /// Maybe Fix this later with camera angels?
     /// </summary>
@@ -52,11 +58,13 @@ public class CamChange : MonoBehaviour
         camera_one.GetComponent<CinemachineVirtualCamera>().Follow = car;
         camera_one.GetComponent<CinemachineVirtualCamera>().LookAt = car;
         camera_one.GetComponent<CinemachineVirtualCamera>().m_Lens.FieldOfView = 100;
-        camera_one.transform.rotation = Quaternion.Euler(initialAngle.rotation.eulerAngles.x + camAngleDif,
-                                                initialAngle.rotation.eulerAngles.y,
-                                                initialAngle.rotation.eulerAngles.z);
-
-
+        if(initialAngle == null)
+        {
+            SetupCamera();
+        }
+        camera_one.transform.rotation = Quaternion.Euler(initialAngle.rotation.eulerAngles.x + camAngleDif, 
+            initialAngle.rotation.eulerAngles.y, 
+            initialAngle.rotation.eulerAngles.z);
     }
 
 }

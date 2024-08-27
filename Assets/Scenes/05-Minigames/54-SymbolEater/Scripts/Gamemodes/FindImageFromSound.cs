@@ -1,6 +1,7 @@
 using CORE.Scripts;
 using CORE.Scripts.GameRules;
 using System.Collections.Generic;
+using Scenes.Minigames.SymbolEater.Scripts;
 
 using UnityEngine;
 

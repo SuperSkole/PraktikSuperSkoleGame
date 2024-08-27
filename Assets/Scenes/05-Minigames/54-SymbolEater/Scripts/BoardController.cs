@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CORE.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
+using CORE.Scripts;
 using Scenes.PlayerScene.Scripts;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
@@ -26,8 +29,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         [SerializeField] private GameObject answerImageObject;
 
         [SerializeField] private GameObject gameOverObject;
-
-        public static List<string> completedWords = new List<string>();
 
         private TextMeshProUGUI answerText;
 
@@ -59,10 +60,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// <param name="targetMode">The game mode which should be used</param>
         public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
-            //Backup code in case the dataloader hasnt been created
-            if(!DataLoader.IsDataLoaded){
-                gameObject.AddComponent<DataLoader>();
-            }
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
@@ -96,7 +93,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         private void Start()
         {
-            //SetupGame(new FindSymbol(), new FindCorrectLetter());
+            //SetupGame(new FindNumber(), new FindNumberSeries());
         }
 
         #endregion

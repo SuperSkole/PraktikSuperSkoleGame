@@ -255,4 +255,3 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         }
     }
 }
-
