@@ -48,7 +48,6 @@ public class CarMainWorldMovement : MonoBehaviour
     //Steering correction when parking
     [SerializeField] private float steeringCorrectionRate;
 
-
     // Start is called before the first frame update.
     private void Start()
     {
@@ -86,7 +85,7 @@ public class CarMainWorldMovement : MonoBehaviour
         if (carActive)
         {
             GetInput(); // Reads the player's input.
-
+            
         }
 
     }
@@ -170,11 +169,11 @@ public class CarMainWorldMovement : MonoBehaviour
 
         if (!carActive)
         {
-
+            
+            ApplyBrakingToStop();
 
             if (combinedSpeed > 0)
             {
-                ApplyBrakingToStop();
             }
             return; // Skip the rest of the method if the car isn't active.
         }

@@ -49,8 +49,9 @@ namespace Scenes.PlayerScene.Scripts
                 try
                 {
                     PlayerInteraction.Invoke();
+                    PlayerInteraction = null;
                 }
-                catch{ print("PlayerEventManager/Update/No playeraction"); }
+                catch { print("PlayerEventManager/Update/No playeraction"); }
             }
         }
 

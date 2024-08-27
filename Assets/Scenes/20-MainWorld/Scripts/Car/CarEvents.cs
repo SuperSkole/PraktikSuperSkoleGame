@@ -9,16 +9,22 @@ public class CarEvents : MonoBehaviour
     private CinemachineVirtualCamera cam;
     [SerializeField] CarSetPlayerPos carSetPlayerPos;
 
+    public GameObject CarSmoke1;
+    public GameObject CarSmoke2;
     private void Start()
     {
         gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
         spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+        CarSmoke1.SetActive(false);
+        CarSmoke2.SetActive(false);
     }
     public void TurnOnCar()
     {
         gameObject.GetComponent<CarMainWorldMovement>().enabled = true;
         car.CarActive = true;
 
+        CarSmoke1.SetActive(true);
+        CarSmoke2.SetActive(true);
         cam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         cam.Follow = gameObject.transform;
         cam.LookAt = gameObject.transform;
@@ -34,14 +40,17 @@ public class CarEvents : MonoBehaviour
         {
             car.CarActive = false;
             gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
+            CarSmoke1.SetActive(false);
+            CarSmoke2.SetActive(false);
+
             cam.Follow = spawnedPlayer.transform;
             cam.LookAt = spawnedPlayer.transform;
             spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
-            
+
             var pos = carSetPlayerPos.SetTransformOfPlayer().position;
             pos.y += 1;
             spawnedPlayer.transform.position = pos;
-            
+
             EnablePlayer();
             carSetPlayerPos.isDriving = false;
 

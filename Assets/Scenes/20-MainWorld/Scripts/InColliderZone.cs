@@ -82,7 +82,7 @@ namespace Scenes._03_MainWorld.Scripts
             {
                 try
                 {
-                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
 
                     //parent.action = null;
                     parent.inZone = false;
