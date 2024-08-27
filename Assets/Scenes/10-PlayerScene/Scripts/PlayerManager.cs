@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
+using Spine.Unity;
 
 namespace Scenes.PlayerScene.Scripts
 {
@@ -21,11 +22,12 @@ namespace Scenes.PlayerScene.Scripts
 
         private PlayerData playerData;
         private GameObject spawnedPlayer;
-        private PlayerColorChanger playerColorChanger;
-        
+        private ColorChanging colorChanging;
+        private ISkeletonComponent skeleton;
+
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
-        
+
         //temp for testing
         public GameObject SpawnedPlayer 
         {
@@ -105,11 +107,11 @@ namespace Scenes.PlayerScene.Scripts
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
             spawnedPlayer.name = "PlayerMonster";
             
-            playerColorChanger = spawnedPlayer.GetComponentInChildren<PlayerColorChanger>();
-            if (playerColorChanger == null) 
+            colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
+            if (colorChanging == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
-                               "PlayerColorChanger component not found on spawned player.");
+                               "ColorChanging component not found on spawned player.");
                 return;
             }
             
@@ -118,6 +120,14 @@ namespace Scenes.PlayerScene.Scripts
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
                                "PlayerData component not found on spawned player.");
+                return;
+            }
+
+            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            if (skeleton == null)
+            {
+                Debug.LogError("PlayerManager.SetupPlayer(): " +
+                               "ISkeleton component not found on spawned player.");
                 return;
             }
 
@@ -133,7 +143,7 @@ namespace Scenes.PlayerScene.Scripts
             );
             
             // Call the ColorChange method to recolor the player
-            playerColorChanger.ColorChange(GameManager.Instance.CurrentMonsterColor);
+            colorChanging.ColorChange(skeleton,GameManager.Instance.CurrentMonsterColor);
             
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
@@ -158,11 +168,11 @@ namespace Scenes.PlayerScene.Scripts
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
             spawnedPlayer.name = "PlayerMonster";
 
-            playerColorChanger = spawnedPlayer.GetComponentInChildren<PlayerColorChanger>();
-            if (playerColorChanger == null) 
+            colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
+            if (colorChanging == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
-                               "PlayerColorChanger component not found on spawned player.");
+                               "ColorChanging component not found on spawned player.");
                 return;
             }
 
@@ -173,6 +183,14 @@ namespace Scenes.PlayerScene.Scripts
                                "PlayerData component not found on spawned player.");
                 return;
             }
+
+            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            {
+                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
+                              "ISkeletonComponent component not found on spawned player.");
+                return;
+            }
+
 
             // Init player data with saved data
             playerData.Initialize(
@@ -186,7 +204,7 @@ namespace Scenes.PlayerScene.Scripts
             );
             
             // Call the ColorChange method to recolor the player
-            playerColorChanger.ColorChange(playerData.MonsterColor);
+            colorChanging.ColorChange(skeleton,playerData.MonsterColor);
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
@@ -257,10 +275,10 @@ namespace Scenes.PlayerScene.Scripts
                 scene.name.StartsWith("6") ||
                 scene.name.StartsWith("7"))
             {
-                if (playerColorChanger != null)
+                if (colorChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
-                    playerColorChanger.ColorChange(playerData.MonsterColor);
+                   colorChanging.ColorChange(skeleton,playerData.MonsterColor);
                 }    
             }
         }
