@@ -8,19 +8,19 @@ using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-public enum Difficulty
-{
-    Easy,
-    Medium,
-    Hard,
 
-
-}
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
-      
+    public enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard,
 
-   
+
+    }
+
+
     public class MonsterTowerManager : MonoBehaviour
     {
 
