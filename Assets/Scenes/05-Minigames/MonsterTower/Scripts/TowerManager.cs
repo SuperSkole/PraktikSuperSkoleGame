@@ -134,16 +134,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public void SetupGame(IGenericGameMode genericGameMode, IGameRules gameRules)
         {
             gameMode = (IMTGameMode)genericGameMode;
-            //questions = input;
-            //towerHeight = questions.Length;
-
-            //topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            //bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
-
-            //brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
-
-            //currentQuestion = questions[currentQuestionIndex];
-            //displayBox.text = currentQuestion;
 
 
             StartCoroutine(WaitUntillDataIsLoaded());
