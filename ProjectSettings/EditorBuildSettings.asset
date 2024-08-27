@@ -6,43 +6,43 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Bootstrapper.unity
+    path: Assets/Scenes/00-Bootstrapper/00-Bootstrapper.unity
     guid: 7e025d1fc2069464cb47a7db02e7be3d
   - enabled: 1
-    path: Assets/Scenes/00-LoginScene.unity
+    path: Assets/Scenes/02-LoginScene/02-LoginScene.unity
     guid: 76032ff66751a5f429b894584e91cdd1
   - enabled: 1
-    path: Assets/Scenes/01-StartScene.unity
+    path: Assets/Scenes/03-StartScene/03-StartScene.unity
     guid: 7a8268323a9fc33498abc736a828d3d9
   - enabled: 1
-    path: Assets/Scenes/02-PlayerHouse.unity
+    path: Assets/Scenes/11-PlayerHouseScene/11-PlayerHouse.unity
     guid: 740f65f9cdf90e849976864be80c351b
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/99-Legacy/MainMenu.unity
     guid: 9d7da1318f4e7dd4bb77cedcab39a1fc
   - enabled: 1
-    path: Assets/Scenes/VideoPlayerTesting.unity
+    path: Assets/Scenes/99-TestScenes/VideoPlayerTesting.unity
     guid: 3c72e5bfde427fa409464adb9e3c19d2
   - enabled: 1
-    path: Assets/Scenes/05-Minigames/WordFactory.unity
+    path: Assets/Scenes/05-Minigames/56-WordFactory/56-WordFactory.unity
     guid: 28104d6eece377d428d7d4caed747256
   - enabled: 1
-    path: Assets/Scenes/03-MainWorld.unity
+    path: Assets/Scenes/20-MainWorld/20-MainWorld.unity
     guid: ae8dd1c52efe96049bb30df477db4c7c
   - enabled: 1
-    path: Assets/Scenes/WordFactoryLoadingscene.unity
+    path: Assets/Scenes/05-Minigames/56-WordFactory/55-WordFactoryLoadingscene.unity
     guid: 53474ce6c094a6a46bcb0be110afe647
   - enabled: 1
-    path: Assets/Scenes/PlayerScene.unity
+    path: Assets/Scenes/10-PlayerScene/10-PlayerScene.unity
     guid: f6d37c2aec2f04f47bc43714d626259c
   - enabled: 1
-    path: Assets/Scenes/Gamemode/GameModeSelector.unity
+    path: Assets/Scenes/05-Minigames/Gamemode/GameModeSelector.unity
     guid: e4f60cdc8baf5254eac36324caa7784d
   - enabled: 1
-    path: Assets/Scenes/05-Minigames/65-MonsterTower/MonterTower.unity
+    path: Assets/Scenes/05-Minigames/65-MonsterTower/65-MonsterTower.unity
     guid: ccf7b59a3f6cb2643a59991b27624996
   - enabled: 1
-    path: Assets/Scenes/05-Minigames/SymbolEater/SymbolEater.unity
+    path: Assets/Scenes/05-Minigames/54-SymbolEater/54-SymbolEater.unity
     guid: 9c8b23bbe87e4da4d8ec6d4e1fa8f38d
   - enabled: 1
     path: Assets/Scenes/05-Minigames/65-MonsterTower/Scenes/WinScene.unity
