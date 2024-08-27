@@ -231,7 +231,7 @@ namespace Scenes.PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void SetCinemachineCameraTarget(Scene scene)
         {
-            if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
+            if (!scene.name.StartsWith("0"))
             {
                 var cinemachineCam = GameObject.FindGameObjectWithTag("Camera");
                 var virtualCamera = cinemachineCam.GetComponent<CinemachineVirtualCamera>();
@@ -251,9 +251,11 @@ namespace Scenes.PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void UpdatePlayerColorOnSceneChange(Scene scene)
         {
-            if (scene.name.StartsWith("02") ||
-                scene.name.StartsWith("03") ||
-                scene.name.StartsWith("05"))
+            if (scene.name == SceneNames.House ||
+                scene.name == SceneNames.Main ||
+                scene.name.StartsWith("5") ||
+                scene.name.StartsWith("6") ||
+                scene.name.StartsWith("7"))
             {
                 if (playerColorChanger != null)
                 {
@@ -274,7 +276,7 @@ namespace Scenes.PlayerScene.Scripts
                       $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
 
             // Player House sat spawn to 0,2,0
-            if (scene.name.StartsWith("02"))
+            if (scene.name == SceneNames.House)
             {
                 // Ensure PlayerData have been properly initialized
                 if (playerData != null)
@@ -290,7 +292,7 @@ namespace Scenes.PlayerScene.Scripts
             }
             
             // if going to main world spawn at last known interaction point
-            if (scene.name.StartsWith("03"))
+            if (scene.name == SceneNames.Main)
             {
                 // Ensure PlayerData and the lastInteractionPoint have been properly initialized
                 if (playerData != null && playerData.LastInteractionPoint != Vector3.zero)
