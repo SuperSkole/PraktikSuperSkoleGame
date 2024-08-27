@@ -178,7 +178,21 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 correctWords++;
                 if(correctWords == 5)
                 {
-                    boardController.Won("Du vandt. Du stavede rigtigt 5 gange");
+                    //Calculates the multiplier for the xp reward. All values are temporary
+                    int multiplier = 1;
+                    switch(boardController.difficultyManager.diffculty){
+                        case DiffcultyPreset.CUSTOM:
+                        case DiffcultyPreset.EASY:
+                            multiplier = 1;
+                            break;
+                        case DiffcultyPreset.MEDIUM:
+                            multiplier = 2;
+                            break;
+                        case DiffcultyPreset.HARD:
+                            multiplier = 4;
+                            break;
+                    }
+                    boardController.Won("Du vandt. Du stavede rigtigt 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else
                 {
