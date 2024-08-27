@@ -134,6 +134,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public void SetTowerData()
         {
 
+           
+        }
+
+
+        public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+        {
+            this.gameMode = (IMTGameMode)gameMode;
+
             StartCoroutine(WaitUntillDataIsLoaded());
         }
 
@@ -585,5 +593,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             Debug.Log("Data Saved");
 
         }
+
     }
 }
