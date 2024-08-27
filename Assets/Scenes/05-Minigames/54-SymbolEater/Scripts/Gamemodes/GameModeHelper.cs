@@ -19,7 +19,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// activates a given amount of lettercubes with values given by the gamemode
         /// </summary>
         /// <param name="amount">how many lettercubes which should be activated</param>
-        /// <param name="letterCubes">all lettercubes which could be activated</param>
+        /// <param name="letterCubes">all lettercubes which should be activated</param>
         /// <param name="activeLetterCubes">all currently active lettercubes</param>
         /// <param name="getLetterCubeValue">method which activates the lettercube</param>
         /// <param name="correct">whether the value on the cube should be the correct one</param>
@@ -37,23 +37,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 activeLetterCubes.Add(potientialCube);
                 getLetterCubeValue(potientialCube, correct);
             }
-        }
-
-        /// <summary>
-        /// Activates a random lettercube
-        /// </summary>
-        /// <param name="letterCubes">all lettercubes which could be activated</param>
-        /// <param name="activeLetterCubes">all currently active lettercubes</param>
-        /// <param name="getLetterCubeValue">method which activates the lettercube</param>
-        /// <param name="correct">whether the value on the cube should be the correct one</param>
-        public static void ActivateLetterCube(List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, GetLetterCubeValue getLetterCubeValue, bool correct)
-        {
-            LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-            while(activeLetterCubes.Contains(potentialCube)){
-                potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-            }
-            activeLetterCubes.Add(potentialCube);
-            getLetterCubeValue(potentialCube, correct);
         }
 
         /// <summary>
