@@ -16,11 +16,28 @@ namespace CORE.Scripts
     {
         public static bool IsDataLoaded { get; private set; } = false;
         
+        /// <summary>
+        /// Starts loading all CSV, texture, and letter sound files simultaneously.
+        /// </summary>
         public void Start()
         {
-            StartCoroutine(LoadAllCsvFiles());
-            StartCoroutine(LoadAllTextures());
-            StartCoroutine(LoadAllletterSounds());
+            StartCoroutine(LoadAllResources());
+        }
+
+        /// <summary>
+        /// Coroutine to load CSV files, textures, and letter sounds concurrently.
+        /// </summary>
+        private IEnumerator LoadAllResources()
+        {
+            var csvCoroutine = LoadAllCsvFiles();
+            var texturesCoroutine = LoadAllTextures();
+            var letterSoundsCoroutine = LoadAllletterSounds();
+
+            yield return StartCoroutine(csvCoroutine);
+            yield return StartCoroutine(texturesCoroutine);
+            yield return StartCoroutine(letterSoundsCoroutine);
+
+            Debug.Log("All resources loaded.");
         }
         
         private IEnumerator LoadAllCsvFiles()
@@ -100,7 +117,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="filePath">the path of the file you are loading</param>
         /// <returns></returns>
-        IEnumerator LoadAndSetDic(string filePath)
+        private IEnumerator LoadAndSetDic(string filePath)
         {
             UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
             string setName = Path.GetFileNameWithoutExtension(filePath);
@@ -127,7 +144,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="name">the name that needs to be "fixed"</param>
         /// <returns>a fixed vertion of the name</returns>
-        string GetName(string name)
+        private string GetName(string name)
         {
             StringBuilder output = new();
             output.Append(name);
@@ -168,7 +185,7 @@ namespace CORE.Scripts
         /// </summary>
         /// <param name="filePath">the path of the file you are loading</param>
         /// <returns></returns>
-        IEnumerator LoadAndSetDicLetterSound(string filePath)
+        private IEnumerator LoadAndSetDicLetterSound(string filePath)
         {
             UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath,AudioType.UNKNOWN);
             string setName = Path.GetFileNameWithoutExtension(filePath);
@@ -190,11 +207,95 @@ namespace CORE.Scripts
 
 
         /// <summary>
+        /// Loads all the congrats Sounds. 
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadAllCongratsSounds()
+        {
+
+         
+            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(Danish)");
+
+            // Get all mp3 files in the directory for danish Audio
+            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
+            foreach (string filePath in fileEntries)
+            {
+                StartCoroutine(LoadAndSetListDanishCongratsSounds(filePath));
+            }
+
+            string directoryPath2 = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(English)");
+
+            // Get all mp3 files in the directory for English Audio
+            string[] fileEntries2 = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
+            foreach (string filePath in fileEntries2)
+            {
+                StartCoroutine(LoadAndSetListEnglishCongratsSounds(filePath));
+            }
+
+            yield return null;
+        }
+
+
+
+        /// <summary>
+        /// loades the danish congrats AudioClips based on a filepath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
+        /// </summary>
+        /// <param name="filePath">the path of the file you are loading</param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetListDanishCongratsSounds(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
+                CongratsAudioManager.AddAudioClipToDanishSet(audioClip);
+            }
+
+        }
+
+        /// <summary>
+        /// loades the danish congrats AudioClips based on a filePath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetListEnglishCongratsSounds(string filePath)
+        {
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
+            string setName = Path.GetFileNameWithoutExtension(filePath);
+            yield return request.SendWebRequest();
+            // Early out if the request failed.
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}:" + request.error);
+                yield break;
+            }
+            else
+            {
+                // Get downloaded asset bundle
+                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
+                CongratsAudioManager.AddAudioClipToEnglishSet(audioClip);
+            }
+
+        }
+
+
+
+
+        /// <summary>
         /// removes numbers names so they can be combined in the dic.
         /// </summary>
         /// <param name="name">the name that needs to be "fixed"</param>
         /// <returns>a fixed vertion of the name</returns>
-        string GetNameLetterSound(string name)
+        private string GetNameLetterSound(string name)
         {
             StringBuilder output = new();
             output.Append(name);

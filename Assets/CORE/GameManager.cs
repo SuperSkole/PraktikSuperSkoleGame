@@ -1,4 +1,5 @@
 using LoadSave;
+using Scenes.PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,15 +9,21 @@ namespace CORE
     public class GameManager : MonoBehaviour
     {
         // Player and game Data
-        public PlayerData PlayerData { get; set; }
+        public SaveToJsonManager SaveManager;
+        public LoadGameManager LoadManager;
 
-        
-        public string CurrentUsername { get; private set; }
-        public string CurrentPlayerName { get; private set; }
+        public PlayerData PlayerData { get; set; }
+        public HighScore HighScore;
+        public string CurrentUser { get; set; }
+        public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
+        public string CurrentMonsterColor { get; set; }
         
-        private SaveToJsonManager saveManager;
-        private static GameManager _instance;
+        public bool IsNewGame { get; set; }
+        
+        // GameManager Singleton
+        private static GameManager instance;
+        private static readonly object Lock = new object();
         
         /// <summary>
         /// Auto self Creating Lazy Singleton instance
@@ -25,42 +32,43 @@ namespace CORE
         {
             get
             {
-                if (_instance == null)
+                lock (Lock)
                 {
-                    // Find existing GameManager instance in the scene or create new one if none exists
-                    _instance = FindObjectOfType<GameManager>();
-                    if (_instance == null)
+                    if (instance is null)
                     {
-                        GameObject gameManager = new GameObject("GameManager");
-                        _instance = gameManager.AddComponent<GameManager>();
+                        instance = FindObjectOfType<GameManager>();
+                        if (instance is null)
+                        {
+                            GameObject singletonObject = new GameObject("GameManager");
+                            instance = singletonObject.AddComponent<GameManager>();
+                            DontDestroyOnLoad(singletonObject);
+                        }
                     }
+                    
+                    return instance;
                 }
-                
-                return _instance;
             }
         }
 
         private void Awake()
         {
-            if (_instance == null)
+            // Highlander other GM's There can only be 1
+            if (instance != null && instance != this)
             {
-                _instance = this;
-                // Make GM persistent when changing scnes
-                DontDestroyOnLoad(gameObject); 
-                
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
                 InitializeManagers();
                 SceneManager.sceneLoaded += OnSceneLoaded;
+                InitializeGameManager();
             }
-            else if (_instance != this)
-            {
-                // Highlander other GM's There can only be 1
-                Destroy(gameObject); 
-            }
-            
-            InitializeGameManager();
         }
 
         #region Login Region
+        
         public void SetUserDuringLogin()
         {
             // Find the username input field in login scene
@@ -69,30 +77,23 @@ namespace CORE
 
             if (inputField != null)
             {
-                CurrentUsername = inputField.text;  
-                Debug.Log("Username set to: " + CurrentUsername);
+                CurrentUser = inputField.text;  
+                Debug.Log("Username set to: " + CurrentUser);
             }
             else
             {
                 Debug.Log("No TMP Input Field found in the scene!");
             }
         }
+        
         #endregion Login Region
-        
-        
 
-        public void LoadGame(string saveFileName)
+        public void LoadGame()
         {
             // Logic to load game data
-            Debug.Log("Loading game from: " + saveFileName);
-            
-        }
-
-        public void SaveGame()
-        {
-            // save logic, using savemanager
-            Debug.Log("Game Saved!");
-            saveManager.SaveGame(PlayerData.Username);
+            LoadManager.LoadGame(CurrentUser);
+                
+            Debug.Log("Loading game");
         }
 
         public void ExitGame()
@@ -102,24 +103,42 @@ namespace CORE
             Application.Quit();
         }
         
+        public void SaveGame()
+        {
+            
+            // save logic, using savemanager
+            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
+        }
+        
         private void InitializeGameManager()
         {
             Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
+
+            if (instance.GetComponent<PlayerData>() == null)
+            {
+                PlayerData = instance.gameObject.AddComponent<PlayerData>();
+            }
         }
         
         private void InitializeManagers()
         {
-            saveManager = new SaveToJsonManager();
+            //gameObject.AddComponent<PlayerManager>();
+            SaveManager = new SaveToJsonManager();
+            LoadManager = new LoadGameManager();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (!scene.name.StartsWith("00") && !scene.name.StartsWith("01"))
+            // Early out
+            if (scene.name.StartsWith("0") ||
+                scene.name.Equals("Bootstrapper"))
             {
-                // save player data before entering new scene
-                SaveGame();
+                return;
             }
+
+            // save player data before entering new scene
+            SaveGame();
         }
 
         private void OnDestroy()

@@ -20,9 +20,9 @@ public class Interactions : MonoBehaviour
         interactionZoneObj.transform.position = new Vector3(transform.position.x + xOffset,
             transform.position.y + yOffset,
             transform.position.z + zOffset);
-        interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 2,
-            interactionZoneRadius * 2,
-            interactionZoneRadius * 2);
+        interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 4,
+            interactionZoneRadius * 4,
+            interactionZoneRadius * 4);
     }
 
     private void Update()
