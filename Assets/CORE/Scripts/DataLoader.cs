@@ -32,10 +32,12 @@ namespace CORE.Scripts
             var csvCoroutine = LoadAllCsvFiles();
             var texturesCoroutine = LoadAllTextures();
             var letterSoundsCoroutine = LoadAllletterSounds();
+            var congratsSoundCoroutine=LoadAllCongratsSounds();
 
             yield return StartCoroutine(csvCoroutine);
             yield return StartCoroutine(texturesCoroutine);
             yield return StartCoroutine(letterSoundsCoroutine);
+            yield return StartCoroutine(congratsSoundCoroutine);
 
             Debug.Log("All resources loaded.");
         }
