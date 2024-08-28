@@ -60,6 +60,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// <param name="targetMode">The game mode which should be used</param>
         public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
+            Debug.Log("test");
+            Debug.Log("Gamemode: " + targetMode.GetType());
+            Debug.Log("Gamerules: " + targetRules.GetType());
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
