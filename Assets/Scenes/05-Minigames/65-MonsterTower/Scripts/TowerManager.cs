@@ -95,6 +95,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 yield return null;
             }
 
+
+
             //if (loadedBrickLanes.Count > 0)
             //{
                
@@ -227,7 +229,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                     }
                 }
-                // gameObject.transform.Translate(0, -brickDimensions.y, 0);
+                
+                // Falling animation starts and the new position that the tower neeeds to fall to is set. 
                 falling = true;
                 yPosGoal = gameObject.transform.position.y - brickDimensions.y;
 
@@ -248,18 +251,21 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         }
 
-
+        /// <summary>
+        /// Animation for the tower falling based on the yPosGoal which is the y position the tower needs to fall to. 
+        /// falling is set to false when the tower has reached its yPosGoal. 
+        /// </summary>
         void TowerFallsAnimation()
         {
 
                 gameObject.transform.Translate(0, -0.1f, 0);
-                time = 0;
+               
             
                 
                 if(gameObject.transform.position.y<=yPosGoal)
                 {
                     falling = false;
-                    time = 0;
+                    
                 }
             
            

@@ -60,6 +60,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     yield return new WaitForSecondsRealtime(rotateActualSpeed);
                 }
 
+
+                // sets the word being shot onto the brick projectile. 
                 for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
                 {
                     prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = manager.words[manager.ammoCount-1];

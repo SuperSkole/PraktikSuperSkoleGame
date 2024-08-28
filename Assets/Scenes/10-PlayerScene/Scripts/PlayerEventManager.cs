@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using LoadSave;
 using UnityEngine;
@@ -30,16 +31,21 @@ namespace Scenes.PlayerScene.Scripts
         private void OnEnable()
         {
             PlayerEvents.OnWordValidated += AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
+            
+
         }
 
         private void OnDisable()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
         }
 
         private void OnDestroy()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
         }
 
         private void Update()
@@ -87,7 +93,10 @@ namespace Scenes.PlayerScene.Scripts
                 Debug.LogError($"Failed to add word to player data: {ex.Message}");
             }
         }
-        
+
+
+     
+
         /// <summary>
         /// Removes a word from the player's collected words list,
         /// if it is not null or empty.
@@ -110,11 +119,16 @@ namespace Scenes.PlayerScene.Scripts
                 Debug.LogError($"Failed to remove word from player data: {ex.Message}");
             }
         }
-        
+
+  
+
+
+
+
         //---------- templates and ideas for later------------
 
         #region ideas
-        
+
         /// <summary>
         /// Adds or removes gold from the player's current total.
         /// </summary>

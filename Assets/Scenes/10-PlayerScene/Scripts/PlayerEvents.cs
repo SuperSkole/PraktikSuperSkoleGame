@@ -24,11 +24,16 @@ namespace Scenes.PlayerScene.Scripts
         /// </summary>
         /// <param name="position">The Vector3 position involved in the event.</param>
         public delegate void PlayerPositionEvent(Vector3 position);
-        
+
         // Actions for sending word, letter and number to playerData
         public static event Action<string> OnWordValidated;
         public static event Action<char> OnLetterValidated;
         public static event Action<char> OnNumberValidated;
+
+        // Actions for removing word, letter or number from playerData
+         public static event Action<string> OnWordRemovedValidated;
+
+ 
 
         // Events for adding or removing words, letters, and numbers
         public static event PlayerWordEventWithDateTime OnWordAdded;
@@ -56,6 +61,8 @@ namespace Scenes.PlayerScene.Scripts
         // Methods to trigger each event and actions.
         // Utilizing the null-conditional operator to prevent invoking events with no subscribers.
         public static void RaiseWordValidated(string word) => OnWordValidated?.Invoke(word);
+        public static void RaiseWordRemovedValidated(string word) => OnWordRemovedValidated?.Invoke(word);
+
         public static void RaiseWordAdded(string word, DateTime dateTime) => OnWordAdded?.Invoke(word, dateTime);
         public static void RaiseWordRemoved(string word, DateTime dateTime) => OnWordRemoved?.Invoke(word, dateTime);
         public static void RaiseLetterAdded(string letter, DateTime dateTime) => OnLetterAdded?.Invoke(letter, dateTime);

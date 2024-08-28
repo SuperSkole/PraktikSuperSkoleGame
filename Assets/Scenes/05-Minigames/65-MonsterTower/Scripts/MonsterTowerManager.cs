@@ -57,7 +57,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             };
            
         }
-
+        /// <summary>
+        /// Gets the words collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
+        /// </summary>
         void SetupPlayerWords()
         {
             words = PlayerManager.Instance.PlayerData.CollectedWords;
@@ -82,25 +84,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
-            
 
+
+            
+            //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
             SetupPlayerWords();
 
-            for (int x = 0; x < words.Count; x++)
-            {
-                for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
-                {
-                    ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+            //Spawns the ammunition that needed to be displayed beside the catapult. 
+            SpawnAmmoForDisplay();
 
-                }
+            // the ammocount is set to the amount of words that player has. 
+            ammoCount = words.Count;
 
-                GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1,0), Quaternion.identity);
-                ammo.transform.parent = ammoPlatform.transform;
-                ammoDisplay.Add(ammo);
-            }
-
-            ammoCount = ammoDisplay.Count;
-            Debug.Log(ammoCount);
+           
             if (ammoCount <= 0)
             {
                 noAmmoText.SetActive(true);
@@ -127,6 +123,26 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
 
 
+        /// <summary>
+        /// Spawns the ammo with each block representing a word that the player has picked up from the other minigames. 
+        /// </summary>
+        void SpawnAmmoForDisplay()
+        {
+            for (int x = 0; x < words.Count; x++)
+            {
+                for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
+                {
+                    ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+
+                }
+
+                GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
+                ammo.transform.parent = ammoPlatform.transform;
+                ammoDisplay.Add(ammo);
+            }
+
+          
+        }
 
 
         /// <summary>
@@ -153,8 +169,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         public void RemoveAmmo()
         {
-
-            PlayerEvents.RaiseWordValidated(words[ammoCount-1]);
+            
+            PlayerEvents.RaiseWordRemovedValidated((words[ammoCount-1]));
             words.RemoveAt(ammoCount-1);
          
             ammoCount--;
