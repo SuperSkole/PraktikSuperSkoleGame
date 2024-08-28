@@ -60,7 +60,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         private void Start()
         {
             sceneID = SceneManagerScript.Instance.SceneID;
-            if (sceneID == 13)
+            if (sceneID == 1)
             {
                 carActive = true; // Start with the car being off.
                 leftHeadlight.SetActive(carActive == true);

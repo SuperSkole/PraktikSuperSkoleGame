@@ -8541,6 +8541,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Road (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7946925164234004352, guid: cb92ef99bede7354b9bdaa3aa7c6f840, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 85eb07e04397983458351393e1613e31, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

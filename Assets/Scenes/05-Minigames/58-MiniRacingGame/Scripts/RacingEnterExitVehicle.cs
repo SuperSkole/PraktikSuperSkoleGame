@@ -33,7 +33,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 //CarActive();
             }
 
-            if (sceneID == 13) //Racing scene
+            if (sceneID == 1) //Racing scene
             {
                 CarActive();
                 //PlayerActive();
