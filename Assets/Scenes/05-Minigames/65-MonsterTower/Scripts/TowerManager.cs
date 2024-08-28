@@ -49,9 +49,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         string currentQuestion;
         int currentQuestionIndex = 0;
         [SerializeField] public TextMeshProUGUI displayBox;
-        [SerializeField] public GameObject ImageHolderPrefab;
-        [SerializeField] public GameObject SingleImageHolderPrefab;
-        public GameObject AnswerHolderPrefab;
+        [SerializeField] public GameObject imageHolderPrefab;
+        [SerializeField] public GameObject singleImageHolderPrefab;
+        public GameObject answerHolderPrefab;
         string[] questions;
         [SerializeField] GameObject OrcPrefab;
         [SerializeField] Camera mainCamera;
