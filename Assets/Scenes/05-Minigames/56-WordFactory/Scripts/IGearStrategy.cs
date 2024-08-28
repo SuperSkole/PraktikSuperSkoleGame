@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._05_Minigames._56_WordFactory.Scripts
 {
     /// <summary>
     /// Interface for gear strategies in different game modes.

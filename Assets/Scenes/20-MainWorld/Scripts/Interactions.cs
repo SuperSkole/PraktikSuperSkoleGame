@@ -27,10 +27,10 @@ public class Interactions : MonoBehaviour
 
     private void Update()
     {
-        if (inZone)
-        {
-            if (Input.GetKeyDown(KeyCode.F)) { action.Invoke(); }
-        }
+        //if (inZone)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.F)) { action.Invoke(); }
+        //}
     }
     private void OnDrawGizmos()
     {

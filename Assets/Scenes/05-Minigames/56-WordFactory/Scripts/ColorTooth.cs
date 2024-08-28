@@ -1,9 +1,9 @@
 using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._05_Minigames._56_WordFactory.Scripts
 {
     public class ColorTooth : MonoBehaviour
     {
