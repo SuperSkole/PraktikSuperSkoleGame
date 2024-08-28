@@ -44,7 +44,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 
             switch (words[1])
             {
-                case "på":
+                case "pÃ¥":
                     manager.bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
                     manager.topImage.texture = ImageManager.GetImageFromWord(words[0]);
                     break;
@@ -70,7 +70,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
-            manager.imageKey = rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2;
+            manager.imageKey = rndImageWithKey2.Item2 + " pÃ¥ " + rndImageWithKey1.Item2;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
                 switch (rnd)
                 {
                     case 0:
-                        sentence = words[0] + " på " + words[1];
+                        sentence = words[0] + " pÃ¥ " + words[1];
                         break;
 
                     case 1:
@@ -109,8 +109,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
                         break;
 
                     default:
-                        sentence = "ko på is";
-                        Debug.Log("the number given was out of the range of expected results, defaulting to ko på is");
+                        sentence = "ko pÃ¥ is";
+                        Debug.Log("the number given was out of the range of expected results, defaulting to ko pÃ¥ is");
                         break;
                 }
                 answers[i] = sentence;
