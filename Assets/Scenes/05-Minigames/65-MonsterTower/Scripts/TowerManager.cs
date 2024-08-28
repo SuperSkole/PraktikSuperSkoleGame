@@ -80,21 +80,25 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
 
             //Both the images and the savedata needs to be loaded before the tower is built. 
-            while (!ImageManager.IsDataLoaded || !IsSaveDataLoaded)
+            //reinsert: || !IsSaveDataLoaded
+            while (!ImageManager.IsDataLoaded)
             {
                 yield return null;
             }
 
-            if (loadedBrickLanes.Count > 0)
-            {
-                towerHeight = questions.Length;
-            }
-            else
-            {
-                questions = gameMode.GenerateAnswers(3);
-                towerHeight = questions.Length;
-            }
-            
+            //if (loadedBrickLanes.Count > 0)
+            //{
+            //    towerHeight = questions.Length;
+            //}
+            //else
+            //{
+            //    questions = gameMode.GenerateAnswers(3);
+            //    towerHeight = questions.Length;
+            //}
+
+            questions = gameMode.GenerateAnswers(3);
+            towerHeight = questions.Length;
+
 
             gameMode.SetAnswerPrefab(this);
             //topImage = AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
@@ -110,18 +114,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             Debug.Log(loadedBrickLanes.Count);
 
-            if (loadedBrickLanes.Count > 0)
-            {
+            //if (loadedBrickLanes.Count > 0)
+            //{
 
-                LoadTower();
-            }
-            else
-            {
+            //    LoadTower();
+            //}
+            //else
+            //{
 
-                rowToDelete = 0;
-                BuildTower();
-            }
-
+            //    rowToDelete = 0;
+            //    BuildTower();
+            //}
+            rowToDelete = 0;
+            BuildTower();
         }
 
         /// <summary>
@@ -243,7 +248,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
 
             SceneManager.LoadScene("WinScene");
 
