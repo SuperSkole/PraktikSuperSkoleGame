@@ -1,46 +1,104 @@
-using Minigames.LetterGarden.Scripts;
-using Scenes.Minigames.LetterGarden.Scrips;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class ActiveLeterHandler : MonoBehaviour
+namespace Scenes.Minigames.LetterGarden.Scrips
 {
-    [SerializeField] SymbolManager symbolManager;
-    [SerializeField] Transform splineHolder;
 
-    private List<SplineContainer> splines = new();
-    private List<GameObject> splineObjects = new();
-    private SplineContainer currentSymbol;
-    private int currentSymbolIndex = 0;
-    void StartGame()
+    public class ActiveLeterHandler : MonoBehaviour
     {
-        GetSymbolseToDwar(5);
-    }
+        [SerializeField] SymbolManager symbolManager;
+        [SerializeField] Transform splineHolder;
+        [SerializeField] BeeMovement bee;
 
-    public void CheakDwaingQualaty(LineRenderer dwaing)
-    {
-        if (LineSecmentEvaluator.EvaluateSpline(currentSymbol[currentSymbolIndex],dwaing))
+        private List<SplineSymbolDataHolder> splines = new();
+        private SplineSymbolDataHolder currentSymbol;
+        private int currentSymbolIndex = 0;
+
+        /// <summary>
+        /// used for testing only!!!!
+        /// </summary>
+        private void Start () //TODO remove and replace when we got a loading scene
         {
-            currentSymbolIndex++;
-            if(currentSymbol.Splines.Count >= currentSymbolIndex)
+            symbolManager.StartLoad();
+            StartGame();
+        }
+        /// <summary>
+        /// call to start the game
+        /// </summary>
+        public void StartGame()
+        {
+            splines = GetCapitalSymbolseToDwar(5);
+            if (splines.Count <= 0) return;//end game
+
+            currentSymbol = splines[0];
+            splines.RemoveAt(0);
+            bee.NextLetter(currentSymbol.splineContainer);
+        }
+
+        /// <summary>
+        /// cheaks if the dwaing given is good and handles sending the bee to the next letter/segment of the letter.
+        /// </summary>
+        /// <param name="dwaing">the line the player has dwan</param>
+        public void CheakDwaingQualaty(LineRenderer dwaing)
+        {
+            if (LineSecmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing))
             {
-                //next letter
-                return;
+                currentSymbolIndex++;
+                if(!bee.NextSplineInLetter())
+                {
+                    //next letter
+                    currentSymbolIndex = 0;
+                    if(splines.Count <= 0) return;//end game
+
+                    currentSymbol = splines[0];
+                    splines.RemoveAt(0);
+                    bee.NextLetter(currentSymbol.splineContainer);
+                    return;
+                }
+                //next Spline in container
             }
-            //next Spline in container
+        }
+
+        /// <summary>
+        /// used to get random symbols for the game form the SymbolManager.
+        /// </summary>
+        /// <param name="amount">the amount of symbols you want to get</param>
+        /// <returns>a list of SplineSymbolDataHolders whitch have data in them</returns>
+        private List<SplineSymbolDataHolder> GetCapitalSymbolseToDwar(int amount)
+        {
+            List<SplineSymbolDataHolder> output = new();
+            for (int i = 0; i < amount; i++)
+            {
+                int randomIndex = Random.Range(0, symbolManager.capitalLettersObjects.Count);
+                output.Add(new(Instantiate(symbolManager.capitalLettersObjects.ElementAt(randomIndex).Value, splineHolder),
+                                            symbolManager.capitalLetters.ElementAt(randomIndex).Value, 
+                                            symbolManager.capitalLetters.ElementAt(randomIndex).Key));
+            }
+            return output;
         }
     }
 
-    void GetSymbolseToDwar(int amount)
+    public class SplineSymbolDataHolder
     {
-        for (int i = 0; i < amount; i++)
+        public GameObject splineObject;
+        public SplineContainer splineContainer;
+        public char Symbol;
+
+        /// <summary>
+        /// this is a class for holding information about a Symbol for LetterGarden
+        /// </summary>
+        /// <param name="splineObject">a refrence to the instanc of a symbol</param>
+        /// <param name="splineContainer">the splineContainer for the symbol</param>
+        /// <param name="Symbol">the spisific symbol(used to update player after finishing a dwaing)</param>
+        public SplineSymbolDataHolder(GameObject splineObject, SplineContainer splineContainer, char Symbol)
         {
-            int randomIndex = Random.Range(0, symbolManager.capitalLettersObjects.Count);
-            splineObjects.Add(Instantiate(symbolManager.capitalLettersObjects.ElementAt(randomIndex).Value,splineHolder));
-            splines.Add(symbolManager.capitalLetters.ElementAt(randomIndex).Value);
+            this.splineObject = splineObject;
+            this.splineContainer = splineContainer;
+            this.Symbol = Symbol;
         }
     }
+
 }

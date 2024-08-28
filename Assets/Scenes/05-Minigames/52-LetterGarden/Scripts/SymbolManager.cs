@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace Minigames.LetterGarden.Scripts
+namespace Scenes.Minigames.LetterGarden.Scrips
 {
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace Minigames.LetterGarden.Scripts
         /// <summary>
         /// Takes the gameobjects from the symbolprefabs list and sorts them into the various dictionaries
         /// </summary>
-        void Start()
+        public void StartLoad()
         {
             capitalLettersObjects = new Dictionary<char, GameObject>();
             lowercaseLettersObjects = new Dictionary<char, GameObject>();

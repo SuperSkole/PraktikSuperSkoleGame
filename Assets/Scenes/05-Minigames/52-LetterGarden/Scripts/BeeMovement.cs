@@ -24,6 +24,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         public void NextLetter(SplineContainer currentLetter)
         {
             letterSpline = currentLetter;
+            splineIndex = 0;
             spineLeangth = letterSpline.CalculateLength(splineIndex);
         }
 
@@ -60,7 +61,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 splineIndex++;
                 spineLeangth = letterSpline.CalculateLength(splineIndex);
             }
-            distancePercentage = -0.05f;
+            distancePercentage = 0f;
             return !result;
         }
 

@@ -3217,6 +3217,7 @@ GameObject:
   - component: {fileID: 2004008631}
   - component: {fileID: 2004008630}
   - component: {fileID: 2004008633}
+  - component: {fileID: 2004008634}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -3240,9 +3241,9 @@ MonoBehaviour:
   brushPrefab: {fileID: 5013858553156630089, guid: f63d4be3105aa9f4ca60c5c60c1aadab, type: 3}
   isPainting: 1
   offsetDistance: 0.5
+  leterHandler: {fileID: 2004008633}
   inkMeterSlider: {fileID: 1040110756}
   maxInkAmount: 100
-  Bee: {fileID: 701910460}
 --- !u!114 &2004008631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3285,8 +3286,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d96a9e5601805b34ea0f850496d15fa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  symbolManager: {fileID: 0}
-  splineHolder: {fileID: 0}
+  symbolManager: {fileID: 2004008634}
+  splineHolder: {fileID: 1130921608}
+  bee: {fileID: 701910462}
+--- !u!114 &2004008634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004008629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 988f2bee8bd756544b36c3c65fccf5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  symbolPrefabs:
+  - {fileID: 5995926800779126430, guid: 45c55e49b805c514fa94170329f9b130, type: 3}
+  - {fileID: 4012271627881130843, guid: 8ad8fca9ff376c44797fcd92b503bf1d, type: 3}
+  - {fileID: 999625679390653593, guid: 9af1a42539204bb49bee41f5e4eaf3da, type: 3}
+  - {fileID: 1162851588291227076, guid: 1ced93f72efc124498cc5a33c48df55f, type: 3}
+  - {fileID: 8028671007517159285, guid: c9c975bad6011664d9141349782221f7, type: 3}
+  - {fileID: 455604892393352983, guid: 85fb3bbbf01686b45b270f292f935334, type: 3}
+  - {fileID: 8424518618166802038, guid: 03033d4fab0a4bd4e82c28793cff1510, type: 3}
+  - {fileID: 6935379997715342368, guid: 3e98e13d7757b3c40a38799f6d0620c1, type: 3}
+  - {fileID: 2864023301534634554, guid: 725e66a336ae0e84d9057df5aa0a2bf3, type: 3}
+  - {fileID: 2492765055921380313, guid: 87265e31617bab64da91fc8bc4fdb0e1, type: 3}
+  - {fileID: 1448117408575548279, guid: c0b870bed9058de47934a2e474937799, type: 3}
+  - {fileID: 5080175274917327164, guid: 85281889dc6aab14fa812a537fd0ba20, type: 3}
 --- !u!1 &2063667416
 GameObject:
   m_ObjectHideFlags: 0
