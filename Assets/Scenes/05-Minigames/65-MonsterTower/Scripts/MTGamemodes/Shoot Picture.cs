@@ -54,7 +54,10 @@ public class ShootPicture : MonoBehaviour, IMTGameMode
         }
         return returnedString;
     }
-
+    /// <summary>
+    /// changes the prefab of the TowerManager so we only apply 1 image to the bricks
+    /// </summary>
+    /// <param name="manager">a reference back to the towermanager</param>
     public void SetAnswerPrefab(TowerManager manager)
     {
         manager.AnswerHolderPrefab = manager.SingleImageHolderPrefab;

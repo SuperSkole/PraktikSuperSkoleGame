@@ -36,6 +36,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count);
 
+        /// <summary>
+        /// will pick the correct prefab from prefabs in the TowerManager, then set that to be the TowerManagers AnswerHolderPrefab
+        /// </summary>
+        /// <param name="manager">references back to the towermanager so it can pick one of the prefabs and use it for the answerholder</param>
         public void SetAnswerPrefab(TowerManager manager);
     }
 }

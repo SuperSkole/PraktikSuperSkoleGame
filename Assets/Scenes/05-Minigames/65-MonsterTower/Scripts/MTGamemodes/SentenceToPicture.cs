@@ -118,6 +118,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             return answers;
         }
 
+        /// <summary>
+        /// changes the prefab of the TowerManager so we apply 2 images to the bricks
+        /// </summary>
+        /// <param name="manager">a reference back to the manager that called the function</param>
         public void SetAnswerPrefab(TowerManager manager)
         {
             manager.AnswerHolderPrefab = manager.ImageHolderPrefab;
