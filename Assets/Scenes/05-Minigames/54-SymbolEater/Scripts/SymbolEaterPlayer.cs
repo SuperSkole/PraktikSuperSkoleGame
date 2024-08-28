@@ -79,14 +79,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
 
-            if (PlayerManager.Instance != null)
-            {
-                PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
-            }
-            else
-            {
-                Debug.Log("WordFactory GM.Start(): Player Manager Is null");
-            }
+            //if (PlayerManager.Instance != null)
+            //{
+            //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+            //}
+            //else
+            //{
+            //    Debug.Log("WordFactory GM.Start(): Player Manager Is null");
+            //}
         }
 
         /// <summary>

@@ -95,16 +95,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 yield return null;
             }
 
-            if (loadedBrickLanes.Count > 0)
-            {
+            //if (loadedBrickLanes.Count > 0)
+            //{
                
-                towerHeight = questions.Length;
-            }
-            else
-            {
-                questions = gameMode.GenerateAnswers(3);
-                towerHeight = questions.Length;
-            }
+            //    towerHeight = questions.Length;
+            //}
+            //else
+            //{
+            //    questions = gameMode.GenerateAnswers(3);
+            //    towerHeight = questions.Length;
+            //}
+            questions = gameMode.GenerateAnswers(3);
+            towerHeight = questions.Length;
 
 
             topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
@@ -120,17 +122,20 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             Debug.Log(loadedBrickLanes.Count);
 
-            if (loadedBrickLanes.Count > 0)
-            {
+            //if (loadedBrickLanes.Count > 0)
+            //{
 
-                LoadTower();
-            }
-            else
-            {
+            //    LoadTower();
+            //}
+            //else
+            //{
              
-                rowToDelete = 0;
-                BuildTower();
-            }
+            //    rowToDelete = 0;
+            //    BuildTower();
+            //}
+
+            rowToDelete = 0;
+            BuildTower();
 
 
         }

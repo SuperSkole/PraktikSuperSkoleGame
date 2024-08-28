@@ -61,7 +61,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         void SetupPlayerWords()
         {
             words = PlayerManager.Instance.PlayerData.CollectedWords;
-
+           
             
            
         
@@ -154,7 +154,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public void RemoveAmmo()
         {
 
-            PlayerEvents.RaiseLetterRemoved(words[ammoCount],DateTime.Now);
+            PlayerEvents.RaiseWordValidated(words[ammoCount-1]);
             words.RemoveAt(ammoCount-1);
          
             ammoCount--;
