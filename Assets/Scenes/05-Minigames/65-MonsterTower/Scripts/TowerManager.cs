@@ -68,6 +68,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public string topImageKey;
         public string bottomImageKey;
         private bool IsSaveDataLoaded=false;
+        private float time=0;
+        private float yPosGoal;
+        private bool falling=false;
 
 
 
@@ -164,6 +167,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 DestroyLowestTowerLane();
                 correctAnswer = false;
             }
+
+            if(falling==true)
+            {
+               
+                TowerFallsAnimation();
+            }
+
         }
 
         // the lowest tower lane is destroyed by knowing the numberOfBricksInLane and the accessing the 2d tower array that have all the bricks.
@@ -207,7 +217,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                     }
                 }
-                gameObject.transform.Translate(0, -brickDimensions.y, 0);
+                // gameObject.transform.Translate(0, -brickDimensions.y, 0);
+                falling = true;
+                yPosGoal = gameObject.transform.position.y - brickDimensions.y;
+
+
 
             }
             else
@@ -222,6 +236,23 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
+        }
+
+
+        void TowerFallsAnimation()
+        {
+
+                gameObject.transform.Translate(0, -0.1f, 0);
+                time = 0;
+            
+                
+                if(gameObject.transform.position.y<=yPosGoal)
+                {
+                    falling = false;
+                    time = 0;
+                }
+            
+           
         }
 
 
