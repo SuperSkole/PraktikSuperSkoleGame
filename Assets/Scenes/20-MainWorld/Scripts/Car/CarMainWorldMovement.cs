@@ -2,14 +2,12 @@ using UnityEngine;
 
 public class CarMainWorldMovement : MonoBehaviour
 {
-    public bool carActive; //the car state
+    private bool carActive; //the car state
     public bool CarActive
     {
         get { return carActive; }
         set { carActive = value; }
     }
-    private bool turnOnCar= true;
-
 
     // Constants for input axes names, used for reading player input.
     private const string HORIZONTAL = "Horizontal";
@@ -17,9 +15,9 @@ public class CarMainWorldMovement : MonoBehaviour
 
 
     private float horizontalInput;
-    private float verticalInput;
+    private float forwardInput;
 
-    
+
     private float currentSteerAngle;
     private float currentBreakForce;
 
@@ -28,7 +26,10 @@ public class CarMainWorldMovement : MonoBehaviour
     public float maxSpeed; // Maximum speed for the car.
     public float reverseMaxSpeed;
 
-    public float brakingForce = 100000f;
+    /// <summary>
+    /// Brake torque expressed in Newton metres.
+    /// </summary>
+    public float brakingTorque = 100000f;
     public float carSpeed;
 
     // Wheel colliders for simulating wheel physics.
@@ -44,39 +45,38 @@ public class CarMainWorldMovement : MonoBehaviour
     public Transform wheelTransformRearL;
 
     //Headlight ref for toggle viseblity
-   // public GameObject leftHeadlight;
-   // public GameObject rightHeadlight;
+    // public GameObject leftHeadlight;
+    // public GameObject rightHeadlight;
 
     //Steering correction when parking
     [SerializeField] private float steeringCorrectionRate;
-
+    private Rigidbody rb;
 
     // Start is called before the first frame update.
     private void Start()
     {
-        if (turnOnCar)
+        rb = GetComponent<Rigidbody>();
+        if (carActive)
         {
-            carActive = true; // Start with the car being off.
             //leftHeadlight.SetActive(carActive == true);
             //rightHeadlight.SetActive(carActive == true);
         }
-        if (!turnOnCar)
+        else
         {
-            carActive = false; // Start with the car being off.
             //leftHeadlight.SetActive(carActive == false);
             //rightHeadlight.SetActive(carActive == false);
         }
-        
+
     }
 
     private void Update()
-    {        
+    {
         // Toggle CarActive state when 'E' key is pressed.
         if (Input.GetKeyDown(KeyCode.E))
         {
             // Toggle the headlights based on the CarActive state.
-           // leftHeadlight.SetActive(carActive);
-          //  rightHeadlight.SetActive(carActive);
+            // leftHeadlight.SetActive(carActive);
+            //  rightHeadlight.SetActive(carActive);
         }
     }
 
@@ -85,13 +85,14 @@ public class CarMainWorldMovement : MonoBehaviour
     {
         HandleSteering();  // Manages the car's steering based on input.
         HandleMotor(); // Handle motor logic irrespective of CarActive state.
-        UpdateWheels();    // Updates the visual representation of the wheels.
+        UpdateRotationWheels();    // Updates the visual representation of the wheels.
 
         if (carActive)
         {
             GetInput(); // Reads the player's input.
-
+            
         }
+
     }
 
     /// <summary>
@@ -101,24 +102,24 @@ public class CarMainWorldMovement : MonoBehaviour
     private void GetInput()
     {
         horizontalInput = Input.GetAxis(HORIZONTAL);
-        verticalInput = Input.GetAxis(VERTICAL);
+        forwardInput = Input.GetAxis(VERTICAL);
 
         // Check if the car is currently moving forward or is stopped
         bool movingForward = IsCarMovingForward();
-        
 
-        if (verticalInput < 0 && movingForward == true)
+
+        if (forwardInput < 0 && movingForward == true)
         {
             // Player is attempting to reverse while the car is moving forward
             ApplyBrakingToStop();
         }
-        else if (verticalInput > 0)
+        else if (forwardInput > 0)
         {
-            
+
             // Player is moving forward
             ResetBraking();
         }
-        if (verticalInput < 0 && movingForward == false)
+        if (forwardInput < 0 && movingForward == false)
         {
             ResetBraking();
             // Player is reversing
@@ -148,36 +149,22 @@ public class CarMainWorldMovement : MonoBehaviour
     /// <summary>
     /// Controls the car's motor, applying force to move the car.
     /// </summary>
-
     private void HandleMotor()
-    {
-        float speedFL = wheelColliderFrontL.attachedRigidbody.velocity.magnitude;
-        float speedFR = wheelColliderFrontR.attachedRigidbody.velocity.magnitude;
-        float speedRL = wheelColliderRearL.attachedRigidbody.velocity.magnitude;
-        float speedRR = wheelColliderRearR.attachedRigidbody.velocity.magnitude;
-
-        speedFL *= 3.6f; // Convert to km/h.
-        speedFR *= 3.6f;
-        speedRL *= 3.6f;
-        speedRR *= 3.6f;
-
-
-        Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilføj flere??
-        carSpeed = carRigidbody.velocity.magnitude * 3.6f; // Convert to km/h
+    {       
+        carSpeed = rb.velocity.magnitude * 3.6f; // Convert to km/h
 
         if (carSpeed > maxSpeed)
         {
-            carRigidbody.velocity = carRigidbody.velocity.normalized * (maxSpeed / 3.6f); // Set velocity to max speed
+            rb.velocity = rb.velocity.normalized * (maxSpeed / 3.6f); // Set velocity to max speed
         }
 
         if (!carActive)
         {
+            
+            ApplyBrakingToStop();
 
-            float combinedSpeed = (speedFL + speedFR + speedRL + speedRR) / 4; // Average speed of all wheels.
-
-            if (combinedSpeed > 0)
+            if (carSpeed > 0)
             {
-                ApplyBrakingToStop();
             }
             return; // Skip the rest of the method if the car isn't active.
         }
@@ -189,12 +176,12 @@ public class CarMainWorldMovement : MonoBehaviour
         if (IsCarMovingBackwards() == false)
         {
             //Going forward
-            if (speedFL < maxSpeed|| speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed )
+            if (carSpeed < maxSpeed)
             {
-                wheelColliderFrontL.motorTorque = verticalInput * motorForce;
-                wheelColliderFrontR.motorTorque = verticalInput * motorForce;
-                wheelColliderRearL.motorTorque = verticalInput * motorForce;
-                wheelColliderRearR.motorTorque = verticalInput * motorForce;
+                wheelColliderFrontL.motorTorque = forwardInput * motorForce;
+                wheelColliderFrontR.motorTorque = forwardInput * motorForce;
+                wheelColliderRearL.motorTorque = forwardInput * motorForce;
+                wheelColliderRearR.motorTorque = forwardInput * motorForce;
             }
             else
             {
@@ -208,12 +195,12 @@ public class CarMainWorldMovement : MonoBehaviour
         if (IsCarMovingForward() == false)
         {
             //Going Backwards
-            if (speedFL < reverseMaxSpeed || speedFR < reverseMaxSpeed || speedRR < reverseMaxSpeed || speedRL < reverseMaxSpeed)
+            if (carSpeed < reverseMaxSpeed)
             {
-                wheelColliderFrontL.motorTorque = verticalInput * motorForce/2;
-                wheelColliderFrontR.motorTorque = verticalInput * motorForce/2;
-                wheelColliderRearL.motorTorque = verticalInput * motorForce/2;
-                wheelColliderRearR.motorTorque = verticalInput * motorForce/2;
+                wheelColliderFrontL.motorTorque = forwardInput * motorForce / 2;
+                wheelColliderFrontR.motorTorque = forwardInput * motorForce / 2;
+                wheelColliderRearL.motorTorque = forwardInput * motorForce / 2;
+                wheelColliderRearR.motorTorque = forwardInput * motorForce / 2;
             }
             else
             {
@@ -231,10 +218,10 @@ public class CarMainWorldMovement : MonoBehaviour
     private void ApplyBrakingToStop()
     {
 
-        wheelColliderFrontL.brakeTorque = brakingForce;
-        wheelColliderFrontR.brakeTorque = brakingForce;
-        wheelColliderRearL.brakeTorque = brakingForce;
-        wheelColliderRearR.brakeTorque = brakingForce;
+        wheelColliderFrontL.brakeTorque = brakingTorque;
+        wheelColliderFrontR.brakeTorque = brakingTorque;
+        wheelColliderRearL.brakeTorque = brakingTorque;
+        wheelColliderRearR.brakeTorque = brakingTorque;
 
     }
 
@@ -250,7 +237,7 @@ public class CarMainWorldMovement : MonoBehaviour
 
 
     /// <summary>
-    /// Manages the car's steering mechanism.
+    /// Manages the car's steering
     /// </summary>
     private void HandleSteering()
     {
@@ -275,25 +262,22 @@ public class CarMainWorldMovement : MonoBehaviour
     /// <summary>
     /// Updates the position and rotation of the wheel models to match the physics
     /// </summary>
-    private void UpdateWheels()
+    private void UpdateRotationWheels()
     {
-        UpdateSingleWheel(wheelColliderFrontL, wheelTransformFrontL);
-        UpdateSingleWheel(wheelColliderFrontR, wheelTransformFrontR);
-        UpdateSingleWheel(wheelColliderRearL, wheelTransformRearL);
-        UpdateSingleWheel(wheelColliderRearR, wheelTransformRearR);
+        UpdateRotationOfSingleWheel(wheelColliderFrontL, wheelTransformFrontL);
+        UpdateRotationOfSingleWheel(wheelColliderFrontR, wheelTransformFrontR);
+        UpdateRotationOfSingleWheel(wheelColliderRearL, wheelTransformRearL);
+        UpdateRotationOfSingleWheel(wheelColliderRearR, wheelTransformRearR);
     }
 
     /// <summary>
     /// Updates a single wheel's visual representation to match its collider.
     /// </summary>
-
-
-    private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
+    private void UpdateRotationOfSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
     {
         Vector3 pos;
         Quaternion rot;
         wheelCollider.GetWorldPose(out pos, out rot);
-        wheelTransform.position = pos;
         wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 90);
     }
 }

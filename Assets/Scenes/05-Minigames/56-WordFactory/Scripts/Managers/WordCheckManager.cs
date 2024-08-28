@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CORE.Scripts;
+using Scenes._05_Minigames._56_WordFactory.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
 using Scenes.PlayerScene.Scripts;

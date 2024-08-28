@@ -1,6 +1,9 @@
 using System;
+using System.Net.NetworkInformation;
 using LoadSave;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem.Layouts;
 
 namespace Scenes.PlayerScene.Scripts
 {
@@ -13,6 +16,7 @@ namespace Scenes.PlayerScene.Scripts
 
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
+        public UnityEvent PlayerInteraction { get; set; } = new UnityEvent();
 
         void Start() 
         {
@@ -38,6 +42,19 @@ namespace Scenes.PlayerScene.Scripts
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                try
+                {
+                    PlayerInteraction.Invoke();
+                    PlayerInteraction = null;
+                }
+                catch { print("PlayerEventManager/Update/No playeraction"); }
+            }
+        }
+
         // /// <summary>
         // /// Initializes the PlayerEventManager with references to player data.
         // /// </summary>
@@ -47,7 +64,7 @@ namespace Scenes.PlayerScene.Scripts
         //     print("InitializePlayerEventManager");
         //     playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
         // }
-        
+
         /// <summary>
         /// Adds a word to the player's collected words list,
         /// if it is not null or empty.

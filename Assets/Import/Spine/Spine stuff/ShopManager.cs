@@ -1,3 +1,4 @@
+using Scenes.PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,14 +9,16 @@ public class ShopManager : MonoBehaviour
 {
     //Display model
     public SkeletonGraphic skeletonGraphic;
-
+    //changing color
+    private ColorChanging colorChanging;
     //The chosen item
     private string currentItem;
+    
 
     List<string> colors = new List<string> { "orange", "blue", "red", "green", "white" };
 
     //!!Fill this one out with the amount the player has avaliable!!
-    private int avaliableMoney = 200;
+    private int avaliableMoney ;
 
     private int currentPrice;
 
@@ -26,16 +29,32 @@ public class ShopManager : MonoBehaviour
     //Check if they can buy bool
     private bool ableToBuy = false;
 
+    private void Awake()
+    {
+        colorChanging = this.GetComponent<ColorChanging>();
+
+        if(PlayerManager.Instance == null )
+        {
+            Debug.Log("Didn't mind playermanager");
+        }
+        else
+        {
+            avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
+        }
+    }
 
 
     //Shop Option function
     public void Click(string itemName, int thisprice, Shopoption shopOption)
     {
+
+        //turns off the outline on the previous item
         if (currentShopOption != null)
         {
             currentShopOption.UnSelect();
         }
 
+        //set in the new option
         currentPrice = thisprice;
         currentShopOption = shopOption;
 
@@ -52,58 +71,10 @@ public class ShopManager : MonoBehaviour
 
         foreach(var color in colors)
         {
-
-        if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
-        {
-            Color selectedColor;
-
-            //register farven
-            switch (itemName.ToLower())
+            if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
             {
-                case "orange":
-                    selectedColor = HexToColor("ead25f");
-                    break;
-                case "blue":
-                    selectedColor = HexToColor("19daf9");
-                    break;
-                case "red":
-                    selectedColor = HexToColor("cf5b5d");
-                    break;
-                case "green":
-                    selectedColor = HexToColor("6aa85c");
-                    break;
-                default:
-                    selectedColor = Color.white;
-                    break;
+                    colorChanging.ColorChange(itemName);
             }
-            switch (skeletonGraphic.skeletonDataAsset.name)
-            {
-                case "PraktikMonster_SkeletonData":
-                    string[] slotsToColor =
-                    {
-                    "Monster L lowerleg color",
-                    "Monster R lowerleg color",
-                    "Monster L upperleg color",
-                    "Monster R upperleg color",
-                    "Monster head",
-                    "Monster body",
-                    "Monster R upperarm color",
-                    "Monster L upperarm color",
-                    "Monster R lowerarm color",
-                    "Monster L lowerarm color"
-                };
-
-                    foreach (string slotName in slotsToColor)
-                    {
-                        ChangeSlotColor(slotName, selectedColor);
-                    }
-
-                    break;
-
-                default:
-                    break;
-            }
-        }
         }
      
 
@@ -129,14 +100,14 @@ public class ShopManager : MonoBehaviour
         {
             //add item to dictionary here, save their current money
             avaliableMoney -= currentPrice;
+            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney; 
+
             Destroy(currentShopOption.gameObject);
 
             offBuyButton.gameObject.SetActive(true);
             ableToBuy =false;
 
-            currentPrice = 0;
-
-            Debug.Log(avaliableMoney+"");
+            currentPrice = 0; 
 
         }
 
@@ -149,26 +120,4 @@ public class ShopManager : MonoBehaviour
 
     }
 
-    private Color HexToColor(string hex)
-    {
-        //Unity's colorUtility klasse, der forsøger at konverter en string i HTML style hex format
-        if (ColorUtility.TryParseHtmlString("#" + hex, out Color color))
-        {
-            //hvis farvekoden matcher
-            return color;
-        }
-        else
-        {
-            //hvis farvekoden ikke matcher
-            return Color.white;
-        }
-    }
-    private void ChangeSlotColor(string slotName, Color color)
-    {
-        var slot = skeletonGraphic.Skeleton.FindSlot(slotName);
-        if (slot != null)
-        {
-            slot.SetColor(color);
-        }
-    }
 }

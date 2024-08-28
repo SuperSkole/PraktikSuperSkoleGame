@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 670015491915011591}
   - component: {fileID: 6993002293429878496}
   - component: {fileID: 7402370540620466295}
+  - component: {fileID: 6042454717193140810}
   m_Layer: 5
   m_Name: ColorButton
   m_TagString: Untagged
@@ -139,8 +140,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: ChangingPlayerColor, Assembly-CSharp
+        - m_Target: {fileID: 6042454717193140810}
+          m_TargetAssemblyTypeName: ColorChanging, Assembly-CSharp
           m_MethodName: ColorChange
           m_Mode: 5
           m_Arguments:
@@ -151,3 +152,15 @@ MonoBehaviour:
             m_StringArgument: blue
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6042454717193140810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5464804887412335239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36cc408569ee6241878b291bb81f95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
