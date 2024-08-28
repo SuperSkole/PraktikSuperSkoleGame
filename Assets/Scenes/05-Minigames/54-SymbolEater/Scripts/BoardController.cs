@@ -10,6 +10,7 @@ using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
 using CORE.Scripts;
 using Scenes.PlayerScene.Scripts;
+using UnityEngine.SceneManagement;
 
 namespace Scenes.Minigames.SymbolEater.Scripts
 {
@@ -214,6 +215,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
             monsterHivemind.OnGameOver();
+            StartCoroutine(ReturnToGamemodeSelect());
         }
 
         /// <summary>
@@ -228,6 +230,18 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             
             PlayerEvents.RaiseGoldChanged(goldReward);
             PlayerEvents.RaiseXPChanged(xpReward);
+            StartCoroutine(ReturnToGamemodeSelect());
+        }
+
+
+        /// <summary>
+        /// Called when the game is over in order to wait a bit before returning to gamemode select
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator ReturnToGamemodeSelect()
+        {
+            yield return new WaitForSeconds(5);
+            SwitchScenes.SwitchToSymbolEaterLoaderScene();
         }
 
 
