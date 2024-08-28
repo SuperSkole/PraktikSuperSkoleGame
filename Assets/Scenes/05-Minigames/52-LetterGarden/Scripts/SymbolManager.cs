@@ -51,7 +51,8 @@ namespace Minigames.LetterGarden.Scripts
             lowercaseLetters = new Dictionary<char, SplineContainer>();
             numbers = new Dictionary<int, SplineContainer>();
             //Takes each gameobject and sorts it based on its name
-            foreach(GameObject gameObject in symbolPrefabs){
+            foreach(GameObject gameObject in symbolPrefabs)
+            {
                 //Adds the game object and splinecontainer of a capital letter to their dictionaries using the letter at the end as key
                 if(gameObject.name.Contains("Capital"))
                 {

@@ -1,20 +1,13 @@
-using System;
-using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using CORE.Scripts;
-using Scenes.Minigames.MonsterTower.Scrips;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using TMPro;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using CORE.Scripts.GameRules;
 
@@ -134,16 +127,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public void SetupGame(IGenericGameMode genericGameMode, IGameRules gameRules)
         {
             gameMode = (IMTGameMode)genericGameMode;
-            //questions = input;
-            //towerHeight = questions.Length;
-
-            //topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            //bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
-
-            //brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
-
-            //currentQuestion = questions[currentQuestionIndex];
-            //displayBox.text = currentQuestion;
 
 
             StartCoroutine(WaitUntillDataIsLoaded());
