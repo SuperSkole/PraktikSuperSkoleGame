@@ -41,7 +41,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         private int amountOfOptions = 4;
 
-        private IMTGameMode gameMode = new SentenceToPictures();
+        private IMTGameMode gameMode;
 
         private List<BrickLane> loadedBrickLanes = new List<BrickLane>();
 
@@ -49,7 +49,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         string currentQuestion;
         int currentQuestionIndex = 0;
         [SerializeField] public TextMeshProUGUI displayBox;
-        [SerializeField] GameObject imageHolerPrefab;
+        [SerializeField] public GameObject imageHolderPrefab;
+        [SerializeField] public GameObject singleImageHolderPrefab;
+        public GameObject answerHolderPrefab;
         string[] questions;
         [SerializeField] GameObject OrcPrefab;
         [SerializeField] Camera mainCamera;
@@ -62,10 +64,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
         public RawImage topImage;
         public RawImage bottomImage;
+        public RawImage soloImage;
 
-        public string topImageKey;
-        public string bottomImageKey;
-        private bool IsSaveDataLoaded=false;
+        public string imageKey;
+        private bool isSaveDataLoaded=false;
 
         
 
@@ -78,25 +80,29 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
 
             //Both the images and the savedata needs to be loaded before the tower is built. 
-            while (!ImageManager.IsDataLoaded || !IsSaveDataLoaded)
+            //reinsert: || !IsSaveDataLoaded
+            while (!ImageManager.IsDataLoaded)
             {
                 yield return null;
             }
 
-            if (loadedBrickLanes.Count > 0)
-            {
-               
-                towerHeight = questions.Length;
-            }
-            else
-            {
-                questions = gameMode.GenerateAnswers(3);
-                towerHeight = questions.Length;
-            }
+            //if (loadedBrickLanes.Count > 0)
+            //{
+            //    towerHeight = questions.Length;
+            //}
+            //else
+            //{
+            //    questions = gameMode.GenerateAnswers(3);
+            //    towerHeight = questions.Length;
+            //}
+
+            questions = gameMode.GenerateAnswers(3);
+            towerHeight = questions.Length;
 
 
-            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+            gameMode.SetAnswerPrefab(this);
+            //topImage = AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            //bottomImage = AnswerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
@@ -106,19 +112,21 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
             // if not a tower is built and will be saved when exiting the game. 
 
-            Debug.Log(loadedBrickLanes.Count);
+            //Debug.Log(loadedBrickLanes.Count);
 
-            if (loadedBrickLanes.Count > 0)
-            {
+            //if (loadedBrickLanes.Count > 0)
+            //{
 
-                LoadTower();
-            }
-            else
-            {
-             
-                rowToDelete = 0;
-                BuildTower();
-            }
+            //    LoadTower();
+            //}
+            //else
+            //{
+
+            //    rowToDelete = 0;
+            //    BuildTower();
+            //}
+            rowToDelete = 0;
+            BuildTower();
         }
 
         /// <summary>
@@ -240,7 +248,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-            DataPersistenceManager.instance.SaveGame();
+            //DataPersistenceManager.instance.SaveGame();
 
             SceneManager.LoadScene("WinScene");
 
@@ -315,14 +323,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                         }
                         else
+                        {
                             gameMode.SetWrongAnswer(this);
 
-                        // the sentence for the random brick is also inputtet into the data on the particular lane. 
-                        // the top and bottom image key is defined in the SetRandomImage
-                        loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                            // the sentence for the random brick is also inputtet into the data on the particular lane. 
+                            // the top and bottom image key is defined in the SetRandomImage
+                            loadedBrickLanes[z].bricks.Add(new BrickData(imageKey));
+                        }
 
-
-                        GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
@@ -417,12 +426,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         }
                         else
                         {
-
                             //The SetCorrectImage is also used when the answer is wrong because the wrong answers also neeed to be drawn based on a sentence corresponding to the brick. 
                             SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
                         }
 
-                        GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
@@ -458,67 +466,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <param name="sent">the sentens that the images is matching</param>
         void SetCorrectImage(string sent)
         {
-            List<string> words = new();
-            StringBuilder currentWord = new();
-            for (int i = 0; i < sent.Length; i++)
-            {
-                char ch = sent[i];
-                if (ch == ' ')
-                {
-                    words.Add(currentWord.ToString());
-                    currentWord = new StringBuilder();
-                    continue;
-                }
-
-                currentWord.Append(ch);
-            }
-            words.Add(currentWord.ToString());
-            if (words.Count < 3)
-            {
-                Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
-                SetRandomImage();
-                return;
-            }
-
-            switch (words[1])
-            {
-                case "på":
-                    bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    topImage.texture = ImageManager.GetImageFromWord(words[0]);
-                    break;
-                case "under":
-                    topImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
-                    break;
-                default:
-                    Debug.Log("word is not in switch case please add it.");
-                    break;
-            }
+            gameMode.SetCorrectAnswer(sent, this);
         }
 
 
-        /// <summary>
-        /// sets random wrong images
-        /// </summary>
-        void SetRandomImage()
-        {
-
-            var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
-            var rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
-
-            bottomImage.texture = rndImageWithKey1.Item1;
-            topImage.texture = rndImageWithKey2.Item1;
-
-
-
-            bottomImageKey = rndImageWithKey1.Item2;
-            topImageKey = rndImageWithKey2.Item2;
-
-
-
-
-        }
-
+       
 
         // The LoadData method is used when starting up the game
         // the bricklanes that are saved is loaded in and set. 
@@ -556,7 +508,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     currentQuestionIndex = 0;
                 }
 
-                IsSaveDataLoaded = true;
+                isSaveDataLoaded = true;
 
                 Debug.Log("Data Loaded");
             }

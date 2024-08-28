@@ -72,7 +72,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
             SetupSentanses();
-            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
