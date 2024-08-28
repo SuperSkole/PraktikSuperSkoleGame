@@ -74,7 +74,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     lC.Deactivate();
                 }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
-                Debug.Log(count);
                 activeLetterCubes.Clear();
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 for (int i = 0; i < count; i++)
