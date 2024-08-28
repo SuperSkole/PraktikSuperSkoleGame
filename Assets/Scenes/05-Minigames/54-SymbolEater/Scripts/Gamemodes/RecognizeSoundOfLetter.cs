@@ -86,7 +86,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             /// Uses the Lettersound.
             /// </summary>
 
-            //CurrentLetterSound();
+            CurrentLetterSound();
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //Finds sound clip from the Audio Clip Manager.
             AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower());
 
-            Debug.Log(clip);
+            
 
             //checks whether or not its null.
             if (clip != null)
