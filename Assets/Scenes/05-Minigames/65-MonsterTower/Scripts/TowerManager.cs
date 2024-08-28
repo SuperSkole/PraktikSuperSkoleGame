@@ -112,7 +112,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
             // if not a tower is built and will be saved when exiting the game. 
 
-            Debug.Log(loadedBrickLanes.Count);
+            //Debug.Log(loadedBrickLanes.Count);
 
             //if (loadedBrickLanes.Count > 0)
             //{
