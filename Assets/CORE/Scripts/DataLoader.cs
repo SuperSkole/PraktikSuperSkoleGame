@@ -154,6 +154,9 @@ namespace CORE.Scripts
                 output.Remove(space, output.Length - space);
             else if (index != -1)
                 output.Remove(index, output.Length - index);
+            output.Replace("(aa)", "å");
+            output.Replace("(ae)", "æ");
+            output.Replace("(oe)", "ø");
             return output.ToString();
         }
 
@@ -299,7 +302,12 @@ namespace CORE.Scripts
         {
             StringBuilder output = new();
             output.Append(name);
-                output.Remove(1, output.Length - 1);
+            int index = output.ToString().LastIndexOf('.');
+            if (index != -1)
+                output.Remove(index - 1, output.Length - index - 1);
+            output.Replace("(aa)", "å");
+            output.Replace("(ae)", "æ");
+            output.Replace("(oe)", "ø");
             return output.ToString();
         }
 
