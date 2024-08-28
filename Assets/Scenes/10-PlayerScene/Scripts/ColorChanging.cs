@@ -6,6 +6,9 @@ using CORE;
 
 public class ColorChanging : MonoBehaviour
 {
+
+    [SerializeField] SkeletonGraphic graphic;
+
     private ISkeletonComponent chosenSkeletonComponent;
 
     private Dictionary<string, string> colorMap = new Dictionary<string, string>
@@ -16,6 +19,19 @@ public class ColorChanging : MonoBehaviour
             { "green", "6aa85c" }
     };
 
+    private void Awake()
+    {
+        if(graphic != null)
+        {
+            chosenSkeletonComponent = graphic;
+
+            if (graphic == null)
+            {
+                Debug.Log("Ingen grafik");
+            }
+        }
+        
+    }
 
     public void SetSkeleton(ISkeletonComponent givenSkeleton)
     {
@@ -47,7 +63,12 @@ public class ColorChanging : MonoBehaviour
             ApplyColorToSlots(skeletonGraphic, selectedColor, skeletonGraphic.skeletonDataAsset.name);
         }
 
-        GameManager.Instance.CurrentMonsterColor = colorName;
+        if(GameManager.Instance.CurrentMonsterColor != "" && colorName != GameManager.Instance.CurrentMonsterColor)
+        {
+            GameManager.Instance.CurrentMonsterColor = colorName;
+
+        }
+
     }
 
 
