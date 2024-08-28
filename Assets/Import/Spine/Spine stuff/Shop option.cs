@@ -10,6 +10,7 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
     [SerializeField] string itemName;
     [SerializeField] int Price;
     [SerializeField] TextMeshProUGUI priceText;
+    [SerializeField] Image profilImage;
 
     Image imageComponent;
     Outline outlineComponent;
@@ -22,6 +23,18 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
         imageComponent = GetComponent<Image>();
         outlineComponent = GetComponent<Outline>();
         priceText.text = Price.ToString();
+    }
+
+    public void Initialize(string newItemName, int newPrice, Image newImage)
+    {
+        itemName = newItemName;
+        Price = newPrice;
+        profilImage = newImage;
+
+        if (priceText != null)
+        {
+            priceText.text = Price.ToString();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
