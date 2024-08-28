@@ -34,9 +34,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             //plays the audioLetterSource once by pressing space
             if (Input.GetKeyDown(KeyCode.Space) && keydown == false)
             {
-                keydown = true;
+                
 
                 audioLetterSource.PlayOneShot(letterSoundClip);
+                keydown = true;
             }
 
             if (Input.GetKeyUp(KeyCode.Space) && keydown == true)
