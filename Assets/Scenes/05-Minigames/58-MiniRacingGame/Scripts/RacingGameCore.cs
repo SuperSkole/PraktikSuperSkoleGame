@@ -190,7 +190,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             timerRunning = false;
         }
         #endregion
- 
+
         #region controls
         /// <summary>
         /// Keeps the timer up-to-date and handles the player input.
@@ -240,7 +240,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// <param name="gameMode">The gamemode the racing game is using</param>
         private void DetermineWordToUse(string gameMode = "Mode 1")
         {
-            if(gameMode == GameModes.Mode1)
+            if (gameMode == GameModes.Mode1)
             {
                 if (spelledWordsList.Count < 3)
                 {
@@ -249,7 +249,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 else
                     EndGame();
             }
-            else if(gameMode == GameModes.Mode2)
+            else if (gameMode == GameModes.Mode2)
             {
                 if (spelledWordsList.Count < 1)
                 {
