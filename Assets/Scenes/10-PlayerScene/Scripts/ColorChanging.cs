@@ -16,7 +16,8 @@ public class ColorChanging : MonoBehaviour
             { "orange", "ead25f" },
             { "blue", "19daf9" },
             { "red", "cf5b5d" },
-            { "green", "6aa85c" }
+            { "green", "6aa85c" },
+            {"white", "FFFFFF" }
     };
 
     private void Awake()
@@ -43,6 +44,10 @@ public class ColorChanging : MonoBehaviour
         var skeleton = chosenSkeletonComponent.Skeleton;
 
         Color selectedColor;
+        if (colorName == null)
+        {
+            colorName = "White";
+        }
 
         if (colorMap.TryGetValue(colorName.ToLower(), out string hexValue))
         {
@@ -67,6 +72,10 @@ public class ColorChanging : MonoBehaviour
         {
             GameManager.Instance.CurrentMonsterColor = colorName;
 
+        }
+        else
+        {
+            GameManager.Instance.CurrentMonsterColor = "White";
         }
 
     }
