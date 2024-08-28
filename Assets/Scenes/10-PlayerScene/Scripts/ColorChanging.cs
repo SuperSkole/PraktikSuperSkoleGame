@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CORE;
+using Scenes.PlayerScene.Scripts;
 
 public class ColorChanging : MonoBehaviour
 {
-
-    [SerializeField] SkeletonGraphic graphic;
+    public SkeletonGraphic graphic;
 
     private ISkeletonComponent chosenSkeletonComponent;
 

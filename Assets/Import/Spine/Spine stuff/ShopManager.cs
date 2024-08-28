@@ -42,7 +42,10 @@ public class ShopManager : MonoBehaviour
             avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
     }
-
+    private void OnEnable()
+    {
+        //gameObject.GetComponent<ColorChanging>().graphic.color = PlayerManager.Instance.SpawnedPlayer
+    }
 
     //Shop Option function
     public void Click(string itemName, int thisprice, Shopoption shopOption)
