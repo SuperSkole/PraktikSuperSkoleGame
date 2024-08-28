@@ -11,9 +11,10 @@ namespace Scenes._03_MainWorld.Scripts
         [SerializeField] private GameObject door;
         [SerializeField] private bool isDoor;
         [SerializeField] private bool isNPC;
+        [SerializeField] private bool isCar;
         [SerializeField] private NPCInteractions interactions;
-        
-        private OpenCloseDoor doorMechanism; 
+
+        private OpenCloseDoor doorMechanism;
 
         private void Start()
         {
@@ -25,7 +26,7 @@ namespace Scenes._03_MainWorld.Scripts
         }
 
         /// <summary>
-        /// Enter zone for interaction enables the interaction bubble
+        /// Enter zone for interaction
         /// </summary>
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
@@ -35,14 +36,12 @@ namespace Scenes._03_MainWorld.Scripts
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
                 {
-                    parent.action = action;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = action;
+                    //parent.action = action;
                     parent.inZone = true;
                 }
-                catch
-                {
-                
-                }          
-            
+                catch { }
+
                 if (isDoor && doorMechanism != null)
                 {
                     try
@@ -50,23 +49,29 @@ namespace Scenes._03_MainWorld.Scripts
                         doorMechanism.OpenDoor();
                         SetLastInteractionPoint(transform);
                     }
-                    catch
-                    {
-                    
-                    }
+                    catch { }
                 }
                 else if (isNPC)
                 {
                     interactions.StartScaling();
                 }
-            
-                if (gameObject.name == "WalkInto")
+
+                switch (gameObject.name)
                 {
-                    action.Invoke();
+                    case "WalkInto":
+                        action.Invoke();
+                        break;
+                    case "PlayerCar":
+                        action.Invoke();
+                        break;
+                    default:
+                        print("InColliderZone/OnTriggerEnter/No name matches");
+                        break;
+
                 }
             }
         }
-    
+
         /// <summary>
         /// Left the zone for interactions disables the interaction bubble.
         /// </summary>
@@ -77,13 +82,12 @@ namespace Scenes._03_MainWorld.Scripts
             {
                 try
                 {
-                    parent.action = null;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
+
+                    //parent.action = null;
                     parent.inZone = false;
                 }
-                catch
-                {
-                
-                }
+                catch { }
 
                 if (isDoor && doorMechanism != null)
                 {

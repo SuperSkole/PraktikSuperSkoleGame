@@ -173,7 +173,21 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     {
                         letterCube.Deactivate();
                     }
-                    boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange");
+                    //Calculates the multiplier for the xp reward. All values are temporary
+                    int multiplier = 1;
+                    switch(boardController.difficultyManager.diffculty){
+                        case DiffcultyPreset.CUSTOM:
+                        case DiffcultyPreset.EASY:
+                            multiplier = 1;
+                            break;
+                        case DiffcultyPreset.MEDIUM:
+                            multiplier = 2;
+                            break;
+                        case DiffcultyPreset.HARD:
+                            multiplier = 4;
+                            break;
+                    }
+                    boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange", 1 * multiplier, 1 * multiplier);
                 }
             }
         }
@@ -241,4 +255,3 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         }
     }
 }
-

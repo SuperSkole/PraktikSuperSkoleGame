@@ -17,7 +17,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts
         {
             // Set the number of gears
             GameConfig.NumberOfGears = numberOfGears; 
-            SceneManager.LoadScene("WordFactory"); 
+            SceneManager.LoadScene(SceneNames.Factory); 
         }
     }
 }

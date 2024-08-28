@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using CORE.Scripts;
 using Scenes._05_Minigames.WordFactory.Scripts.Managers;
+using Scenes.Minigames.WordFactory.Scripts;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._05_Minigames._56_WordFactory.Scripts
 {
     public class LetterHandler : MonoBehaviour
     {
@@ -33,7 +34,23 @@ namespace Scenes._05_Minigames.WordFactory.Scripts
         {
             List<List<char>> gearLetters = GetLettersForGears();
             AssignLettersToGears(gearLetters);
+
+            // Reset the consonant block if using SingleGearStrategy
+            if (WordFactoryGameManager.Instance.GetNumberOfGears() == 1)
+            {
+                ResetConsonantBlock();
+            }
         }
+
+        private void ResetConsonantBlock()
+        {
+            GearGenerator gearGenerator = FindObjectOfType<GearGenerator>();
+            if (gearGenerator != null)
+            {
+                gearGenerator.ClearConsonantBlock();
+            }
+        }
+
 
         private List<List<char>> GetLettersForGears()
         {
