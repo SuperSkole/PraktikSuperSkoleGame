@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 480734}
   - component: {fileID: 3347006}
   - component: {fileID: 2301326}
-  - component: {fileID: 64256009918868462}
   - component: {fileID: -1168881130580895203}
+  - component: {fileID: 5752877967196435451}
   m_Layer: 0
   m_Name: SM_Bld_Castle_Tower_01
   m_TagString: Untagged
@@ -85,28 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64256009918868462
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 147310}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43967786770004108, guid: de5dd26f2498f0b43b7382cfbab51793, type: 2}
 --- !u!114 &-1168881130580895203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,3 +102,24 @@ MonoBehaviour:
   checkCollision: 0
   isShootable: 0
   isCorrect: 0
+--- !u!65 &5752877967196435451
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147310}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.7786865, y: 3.0363083, z: 2.7786849}
+  m_Center: {x: 0, y: 1.5181541, z: 0}

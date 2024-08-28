@@ -18,6 +18,7 @@ using static UnityEngine.ParticleSystem;
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
+    
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
@@ -34,7 +35,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
 
         private int towerRadius = 20;
-        private int numberOfBricksInLane = 40;
+        private int numberOfBricksInLane = 30;
 
 
         public bool correctAnswer = false;

@@ -87,7 +87,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             }
 
             ammo = ammoDisplay.Count;
-
+            Debug.Log(ammo);
             if (ammo <= 0)
             {
                 noAmmoText.SetActive(true);
@@ -129,6 +129,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             if (hit.transform == null) return;
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
+            Debug.Log(comp.isCorrect);
+            
             if (comp == null || comp.isShootable == false) return;
             StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
