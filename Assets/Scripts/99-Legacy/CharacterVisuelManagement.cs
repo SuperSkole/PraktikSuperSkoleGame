@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using CORE;
 using LoadSave;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class CharacterVisuelManagement : MonoBehaviour
 {
