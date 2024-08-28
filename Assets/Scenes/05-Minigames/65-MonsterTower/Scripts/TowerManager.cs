@@ -41,7 +41,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         private int amountOfOptions = 4;
 
-        private IMTGameMode gameMode = new SentenceToPictures();
+        private IMTGameMode gameMode;
 
         private List<BrickLane> loadedBrickLanes = new List<BrickLane>();
 
@@ -49,7 +49,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         string currentQuestion;
         int currentQuestionIndex = 0;
         [SerializeField] public TextMeshProUGUI displayBox;
-        [SerializeField] GameObject imageHolerPrefab;
+        [SerializeField] public GameObject ImageHolderPrefab;
+        [SerializeField] public GameObject SingleImageHolderPrefab;
+        public GameObject AnswerHolderPrefab;
         string[] questions;
         [SerializeField] GameObject OrcPrefab;
         [SerializeField] Camera mainCamera;
@@ -62,9 +64,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
         public RawImage topImage;
         public RawImage bottomImage;
+        public RawImage soloImage;
 
-        public string topImageKey;
-        public string bottomImageKey;
+        public string ImageKey;
         private bool IsSaveDataLoaded=false;
 
         
@@ -85,7 +87,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             if (loadedBrickLanes.Count > 0)
             {
-               
                 towerHeight = questions.Length;
             }
             else
@@ -93,10 +94,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 questions = gameMode.GenerateAnswers(3);
                 towerHeight = questions.Length;
             }
+            
 
-
-            topImage = imageHolerPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            bottomImage = imageHolerPrefab.transform.GetChild(1).GetComponent<RawImage>();
+            gameMode.SetAnswerPrefab(this);
+            //topImage = AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            //bottomImage = AnswerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
@@ -115,10 +117,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             }
             else
             {
-             
+
                 rowToDelete = 0;
                 BuildTower();
             }
+
         }
 
         /// <summary>
@@ -315,14 +318,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                         }
                         else
+                        {
                             gameMode.SetWrongAnswer(this);
 
-                        // the sentence for the random brick is also inputtet into the data on the particular lane. 
-                        // the top and bottom image key is defined in the SetRandomImage
-                        loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                            // the sentence for the random brick is also inputtet into the data on the particular lane. 
+                            // the top and bottom image key is defined in the SetRandomImage
+                            loadedBrickLanes[z].bricks.Add(new BrickData(ImageKey));
+                        }
 
-
-                        GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(AnswerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
@@ -417,12 +421,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         }
                         else
                         {
-
                             //The SetCorrectImage is also used when the answer is wrong because the wrong answers also neeed to be drawn based on a sentence corresponding to the brick. 
                             SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
                         }
 
-                        GameObject imageholder = Instantiate(imageHolerPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(AnswerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
@@ -458,67 +461,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <param name="sent">the sentens that the images is matching</param>
         void SetCorrectImage(string sent)
         {
-            List<string> words = new();
-            StringBuilder currentWord = new();
-            for (int i = 0; i < sent.Length; i++)
-            {
-                char ch = sent[i];
-                if (ch == ' ')
-                {
-                    words.Add(currentWord.ToString());
-                    currentWord = new StringBuilder();
-                    continue;
-                }
-
-                currentWord.Append(ch);
-            }
-            words.Add(currentWord.ToString());
-            if (words.Count < 3)
-            {
-                Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
-                SetRandomImage();
-                return;
-            }
-
-            switch (words[1])
-            {
-                case "på":
-                    bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    topImage.texture = ImageManager.GetImageFromWord(words[0]);
-                    break;
-                case "under":
-                    topImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
-                    break;
-                default:
-                    Debug.Log("word is not in switch case please add it.");
-                    break;
-            }
+            gameMode.SetCorrectAnswer(sent, this);
         }
 
 
-        /// <summary>
-        /// sets random wrong images
-        /// </summary>
-        void SetRandomImage()
-        {
-
-            var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
-            var rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
-
-            bottomImage.texture = rndImageWithKey1.Item1;
-            topImage.texture = rndImageWithKey2.Item1;
-
-
-
-            bottomImageKey = rndImageWithKey1.Item2;
-            topImageKey = rndImageWithKey2.Item2;
-
-
-
-
-        }
-
+       
 
         // The LoadData method is used when starting up the game
         // the bricklanes that are saved is loaded in and set. 

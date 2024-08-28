@@ -35,5 +35,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
         /// <param name="count">number of answers to create</param>
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count);
+
+        public void SetAnswerPrefab(TowerManager manager);
     }
 }

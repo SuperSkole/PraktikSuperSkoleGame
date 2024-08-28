@@ -70,10 +70,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
-
-
-            manager.bottomImageKey = rndImageWithKey1.Item2;
-            manager.topImageKey = rndImageWithKey2.Item2;
+            manager.ImageKey = rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2;
         }
 
         /// <summary>
@@ -98,6 +95,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             string[] answers = new string[count];
             for (int i = 0; i < count; i++)
             {
+                //update the range if more options are needed for the binding word of the sentence generator, the range should be (0, x) where x is the number of cases
                 int rnd = Random.Range(0, 2);
                 string[] words = WordsForImagesManager.GetRandomWordForImage(2);
                 switch (rnd)
@@ -118,6 +116,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
                 answers[i] = sentence;
             }
             return answers;
+        }
+
+        public void SetAnswerPrefab(TowerManager manager)
+        {
+            manager.AnswerHolderPrefab = manager.ImageHolderPrefab;
+            manager.topImage = manager.AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            manager.bottomImage = manager.AnswerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
         }
     }
 }
