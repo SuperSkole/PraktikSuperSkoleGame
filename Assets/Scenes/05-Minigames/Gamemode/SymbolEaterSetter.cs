@@ -24,11 +24,15 @@ public class SymbolEaterSetter: IGameModeSetter
             case "imagetosound":
                 modeReturned = new FindImageFromSound();
                 break;
-
+            case "recognizesoundofletter":
+                modeReturned = new RecognizeSoundOfLetter();
+                break;
             case "findnumber":
                 modeReturned = new FindNumber();
                 break;
-
+            case "findsymbol":
+                modeReturned = new FindSymbol();
+                break;
             default:
                 Debug.Log("given mode was not among expected options, setting to default mode");
                 modeReturned = new FindImageFromSound();
@@ -54,7 +58,12 @@ public class SymbolEaterSetter: IGameModeSetter
             case "findnumberseries":
                 rulesReturned = new FindNumberSeries();
                 break;
-
+            case "findcorrectletter":
+                rulesReturned = new FindCorrectLetter();
+                break;
+            case "findlettertype":
+                rulesReturned = new FindLetterType();
+                break;
             default:
                 Debug.Log("given ruleset was not among expected options, setting to default ruleset");
                 rulesReturned = new SpellWord();
