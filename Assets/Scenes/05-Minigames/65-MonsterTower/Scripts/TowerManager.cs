@@ -331,7 +331,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                             loadedBrickLanes[z].bricks.Add(new BrickData(ImageKey));
                         }
 
-                        GameObject imageholder = Instantiate(AnswerHolderPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {
@@ -430,7 +430,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                             SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
                         }
 
-                        GameObject imageholder = Instantiate(AnswerHolderPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
                         if (z == 0)
                         {

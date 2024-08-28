@@ -60,7 +60,7 @@ public class ShootPicture : MonoBehaviour, IMTGameMode
     /// <param name="manager">a reference back to the towermanager</param>
     public void SetAnswerPrefab(TowerManager manager)
     {
-        manager.AnswerHolderPrefab = manager.SingleImageHolderPrefab;
-        manager.soloImage = manager.SingleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+        manager.answerHolderPrefab = manager.singleImageHolderPrefab;
+        manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
     }
 }

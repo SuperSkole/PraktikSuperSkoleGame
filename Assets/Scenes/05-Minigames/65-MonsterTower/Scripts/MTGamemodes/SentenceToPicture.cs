@@ -124,9 +124,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the manager that called the function</param>
         public void SetAnswerPrefab(TowerManager manager)
         {
-            manager.AnswerHolderPrefab = manager.ImageHolderPrefab;
-            manager.topImage = manager.AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            manager.bottomImage = manager.AnswerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
+            manager.answerHolderPrefab = manager.imageHolderPrefab;
+            manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
         }
     }
 }
