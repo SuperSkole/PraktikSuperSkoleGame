@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using LoadSave;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.Layouts;
+using UnityEngine.UIElements;
 
 namespace Scenes.PlayerScene.Scripts
 {
@@ -32,7 +34,7 @@ namespace Scenes.PlayerScene.Scripts
         {
             PlayerEvents.OnWordValidated += AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
-            
+            PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
 
         }
 
@@ -40,12 +42,14 @@ namespace Scenes.PlayerScene.Scripts
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
         }
 
         private void OnDestroy()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
         }
 
         private void Update()
@@ -120,7 +124,25 @@ namespace Scenes.PlayerScene.Scripts
             }
         }
 
-  
+
+        private List<string> HandlePlayerDataWordsExtracted(List<string> words)
+        {
+            Debug.Log($"Extracted {words.Count} words from player data.");
+
+            // Liste hvor de fundne ord skal tilføjes
+            List<string> updatedWordList = new List<string>();
+
+            // Tilføj de fundne ord til updatedWordList
+            updatedWordList.AddRange(words);
+
+            // Returner den opdaterede liste
+            return updatedWordList;
+        }
+
+
+
+
+
 
 
 

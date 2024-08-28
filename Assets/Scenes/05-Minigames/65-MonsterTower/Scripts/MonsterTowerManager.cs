@@ -62,9 +62,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void SetupPlayerWords()
         {
-            words = PlayerManager.Instance.PlayerData.CollectedWords;
+            words = PlayerEvents.RaisePlayerDataWordsExtracted();
            
-            
+           
            
         
 
