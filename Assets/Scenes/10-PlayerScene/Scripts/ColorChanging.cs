@@ -2,9 +2,12 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CORE;
 
 public class ColorChanging : MonoBehaviour
 {
+    private ISkeletonComponent chosenSkeletonComponent;
+
     private Dictionary<string, string> colorMap = new Dictionary<string, string>
     {
             { "orange", "ead25f" },
@@ -14,9 +17,14 @@ public class ColorChanging : MonoBehaviour
     };
 
 
-    public void ColorChange(ISkeletonComponent skeletonComponent, string colorName)
+    public void SetSkeleton(ISkeletonComponent givenSkeleton)
     {
-        var skeleton = skeletonComponent.Skeleton;
+        chosenSkeletonComponent = givenSkeleton;
+    }
+
+    public void ColorChange(string colorName)
+    {
+        var skeleton = chosenSkeletonComponent.Skeleton;
 
         Color selectedColor;
 
@@ -29,17 +37,17 @@ public class ColorChanging : MonoBehaviour
             selectedColor = (Color.white);
         }
 
-        if (skeletonComponent is SkeletonRenderer skeletonRenderer)
+        if (chosenSkeletonComponent is SkeletonRenderer skeletonRenderer)
         {
             ApplyColorToSlots(skeletonRenderer, selectedColor, skeletonRenderer.skeletonDataAsset.name);
         }
 
-        else if (skeletonComponent is SkeletonGraphic skeletonGraphic)
+        else if (chosenSkeletonComponent is SkeletonGraphic skeletonGraphic)
         {
             ApplyColorToSlots(skeletonGraphic, selectedColor, skeletonGraphic.skeletonDataAsset.name);
         }
 
-        //gameSetup.ChosenMonsterColor = colorName;
+        GameManager.Instance.CurrentMonsterColor = colorName;
     }
 
 

@@ -123,7 +123,7 @@ namespace Scenes.PlayerScene.Scripts
                 return;
             }
 
-            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
             if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
@@ -141,9 +141,10 @@ namespace Scenes.PlayerScene.Scripts
                 0,
                 spawnedPlayer.transform.position
             );
-            
+
             // Call the ColorChange method to recolor the player
-            colorChanging.ColorChange(skeleton,GameManager.Instance.CurrentMonsterColor);
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
             
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
@@ -202,9 +203,10 @@ namespace Scenes.PlayerScene.Scripts
                 saveData.PlayerLevel,
                 saveData.SavedPlayerStartPostion.GetVector3()
             );
-            
+
             // Call the ColorChange method to recolor the player
-            colorChanging.ColorChange(skeleton,playerData.MonsterColor);
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(playerData.MonsterColor);
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
@@ -278,7 +280,8 @@ namespace Scenes.PlayerScene.Scripts
                 if (colorChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
-                   colorChanging.ColorChange(skeleton,playerData.MonsterColor);
+                    colorChanging.SetSkeleton(skeleton);
+                   colorChanging.ColorChange(playerData.MonsterColor);
                 }    
             }
         }

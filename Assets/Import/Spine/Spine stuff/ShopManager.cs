@@ -13,7 +13,7 @@ public class ShopManager : MonoBehaviour
     private ColorChanging colorChanging;
     //The chosen item
     private string currentItem;
-    private PlayerManager playerManager;
+    
 
     List<string> colors = new List<string> { "orange", "blue", "red", "green", "white" };
 
@@ -32,14 +32,14 @@ public class ShopManager : MonoBehaviour
     private void Awake()
     {
         colorChanging = this.GetComponent<ColorChanging>();
-        playerManager = FindObjectOfType<PlayerManager>();
-        if(playerManager == null )
+
+        if(PlayerManager.Instance == null )
         {
             Debug.Log("Didn't mind playermanager");
         }
         else
         {
-            avaliableMoney = playerManager.PlayerData.CurrentGoldAmount;
+            avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
     }
 
@@ -73,7 +73,7 @@ public class ShopManager : MonoBehaviour
         {
             if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
             {
-                    colorChanging.ColorChange(skeletonGraphic, itemName);
+                    colorChanging.ColorChange(itemName);
             }
         }
      
@@ -100,7 +100,7 @@ public class ShopManager : MonoBehaviour
         {
             //add item to dictionary here, save their current money
             avaliableMoney -= currentPrice;
-            playerManager.PlayerData.CurrentGoldAmount = avaliableMoney; 
+            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney; 
 
             Destroy(currentShopOption.gameObject);
 
