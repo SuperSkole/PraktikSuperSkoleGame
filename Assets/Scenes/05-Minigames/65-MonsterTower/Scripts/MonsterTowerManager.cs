@@ -6,6 +6,7 @@ using CORE.Scripts;
 using CORE.Scripts.GameRules;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+using Scenes.PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     public class MonsterTowerManager : MonoBehaviour
     {
 
-        int ammo;
+        public int ammoCount;
 
         [SerializeField] Camera mainCamera;
         [SerializeField] GameObject noAmmoText;
@@ -42,7 +43,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public Difficulty difficulty;
 
         //temp
-        List<string> words;
+        public List<string> words;
         /// <summary>
         /// used to setup sentanses TEMP make this better!!
         /// </summary>
@@ -57,11 +58,21 @@ namespace Scenes.Minigames.MonsterTower.Scrips
            
         }
 
+        void SetupPlayerWords()
+        {
+            words = PlayerManager.Instance.PlayerData.CollectedWords;
+
+            
+           
+        
+
+        }
+
         /// <summary>
         /// call this to setup the minigame
         /// </summary>
         /// <param name="input">the dictionary that contains all the questions and images</param>
-     
+
 
 
 
@@ -71,24 +82,26 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
-            SetupSentanses();
+            
+
+            SetupPlayerWords();
 
             for (int x = 0; x < words.Count; x++)
             {
-                for (int i = 0; i < ammoDisplay.Count; i++)
+                for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                 {
                     ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
 
                 }
 
-                GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(1 * x - 0.78f, 0), Quaternion.identity);
+                GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1,0), Quaternion.identity);
                 ammo.transform.parent = ammoPlatform.transform;
                 ammoDisplay.Add(ammo);
             }
 
-            ammo = ammoDisplay.Count;
-            Debug.Log(ammo);
-            if (ammo <= 0)
+            ammoCount = ammoDisplay.Count;
+            Debug.Log(ammoCount);
+            if (ammoCount <= 0)
             {
                 noAmmoText.SetActive(true);
                 for (int i = 0; i < ammoDisplay.Count; i++)
@@ -98,9 +111,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 return;
             }
 
-            if (ammo < ammoDisplay.Count)
+            if (ammoCount < ammoDisplay.Count)
             {
-                for (int i = ammoDisplay.Count - 1; i >= ammo; i--)
+                for (int i = ammoDisplay.Count - 1; i >= ammoCount; i--)
                 {
                     ammoDisplay[i].SetActive(false);
                 }
@@ -122,37 +135,47 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void CheckWhatWasClickedOn()
         {
-            if(ammo <= 0) return;
+            if(ammoCount <= 0) return;
 
             ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
             if (hit.transform == null) return;
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
-            Debug.Log(comp.isCorrect);
+         
             
             if (comp == null || comp.isShootable == false) return;
             StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
 
         /// <summary>
-        /// removes ammo and updates the pile of ammo
+        /// removes ammoCount and updates the pile of ammoCount
         /// </summary>
         public void RemoveAmmo()
         {
-            ammo--;
-            if(ammo < ammoDisplay.Count)
-                ammoDisplay[ammo].SetActive(false);
-            if (ammo <= 0)
+
+            PlayerEvents.RaiseLetterRemoved(words[ammoCount],DateTime.Now);
+            words.RemoveAt(ammoCount-1);
+         
+            ammoCount--;
+
+            foreach (var item in words)
+            {
+                Debug.Log(words);
+            }
+          
+            if(ammoCount < ammoDisplay.Count)
+                ammoDisplay[ammoCount].SetActive(false);
+            if (ammoCount <= 0)
                 noAmmoText.SetActive(true);
         }
 
         /// <summary>
-        /// shows the tooltip for the amount of ammo the player has
+        /// shows the tooltip for the amount of ammoCount the player has
         /// </summary>
         private void OnMouseEnter()
         {
-            pupUp.SetAndShowToolTip(ammo.ToString());
+            pupUp.SetAndShowToolTip(ammoCount.ToString());
         }
 
         /// <summary>

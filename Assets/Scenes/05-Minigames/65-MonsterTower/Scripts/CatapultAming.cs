@@ -62,7 +62,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                 for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
                 {
-                    prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "word test";
+                    prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = manager.words[manager.ammoCount-1];
 
                 }
 

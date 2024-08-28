@@ -88,7 +88,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
 
             //Both the images and the savedata needs to be loaded before the tower is built. 
-            while (!ImageManager.IsDataLoaded || !IsSaveDataLoaded)
+            //reinsert: || !IsSaveDataLoaded
+
+            while (!ImageManager.IsDataLoaded)
             {
                 yield return null;
             }
@@ -129,6 +131,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 rowToDelete = 0;
                 BuildTower();
             }
+
+
         }
 
         /// <summary>
@@ -278,7 +282,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-            DataPersistenceManager.instance.SaveGame();
+           
+            // DataPersistenceManager.instance.SaveGame();
 
             SceneManager.LoadScene("WinScene");
 
