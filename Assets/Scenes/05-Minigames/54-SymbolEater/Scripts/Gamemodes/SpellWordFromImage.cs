@@ -191,6 +191,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
+                    gameRules.SetCorrectAnswer();
                     boardController.Won("Du vandt. Du stavede rigtigt 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else
