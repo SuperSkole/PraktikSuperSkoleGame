@@ -27,7 +27,7 @@ public class ShootPicture : MonoBehaviour, IMTGameMode
         var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
         manager.soloImage.texture = rndImageWithKey.Item1;
-        manager.ImageKey = rndImageWithKey.Item2;
+        manager.imageKey = rndImageWithKey.Item2;
     }
 
     /// <summary>

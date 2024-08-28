@@ -66,8 +66,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public RawImage bottomImage;
         public RawImage soloImage;
 
-        public string ImageKey;
-        private bool IsSaveDataLoaded=false;
+        public string imageKey;
+        private bool isSaveDataLoaded=false;
 
         
 
@@ -328,7 +328,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                             // the sentence for the random brick is also inputtet into the data on the particular lane. 
                             // the top and bottom image key is defined in the SetRandomImage
-                            loadedBrickLanes[z].bricks.Add(new BrickData(ImageKey));
+                            loadedBrickLanes[z].bricks.Add(new BrickData(imageKey));
                         }
 
                         GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
@@ -508,7 +508,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     currentQuestionIndex = 0;
                 }
 
-                IsSaveDataLoaded = true;
+                isSaveDataLoaded = true;
 
                 Debug.Log("Data Loaded");
             }
