@@ -280,7 +280,7 @@ namespace Scenes.PlayerScene.Scripts
                 if (colorChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
-                    colorChanging.SetSkeleton(skeleton);
+                   colorChanging.SetSkeleton(skeleton);
                    colorChanging.ColorChange(playerData.MonsterColor);
                 }    
             }
