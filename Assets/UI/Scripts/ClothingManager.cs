@@ -1,0 +1,77 @@
+using Scenes.Minigames.SymbolEater.Scripts;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ClothingManager : MonoBehaviour
+{
+    //IMAGES FOR SHOPITEM
+    [SerializeField] private Sprite briller;
+    [SerializeField] private Sprite tryllehat;
+    [SerializeField] private Sprite tophat;
+    [SerializeField] private Sprite slips;
+    [SerializeField] private Sprite halstorklade;
+    [SerializeField] private Sprite ballerinaskort;
+
+    [SerializeField] private Sprite rod;
+    [SerializeField] private Sprite gron;
+    [SerializeField] private Sprite gul;
+    [SerializeField] private Sprite hvid;
+    [SerializeField] private Sprite bla;
+
+    public static ClothingManager Instance;
+    public List<ClothInfo> AvailableClothesList = new List<ClothInfo>();
+
+    private void Awake()
+    {
+        // Singleton
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            InitializeClothes();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    private void InitializeClothes()
+    {
+
+        // SHOPITEMS
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = briller, Price = 50, Name = "Briller", SpineName = "Monster HEAD Tophat" });
+        AvailableClothesList.Add(new ClothInfo { ID = 2, image = tryllehat, Price = 75, Name = "Tryllehat", SpineName = "Monster HEAD Briller" });
+        AvailableClothesList.Add(new ClothInfo { ID = 3, image = tophat, Price = 100, Name = "Tophat", SpineName = "Monster HEAD Tryllehat" });
+
+        AvailableClothesList.Add(new ClothInfo { ID = 4, image = slips, Price = 50, Name = "Slips", SpineName = "Monster MID Slips" });
+        AvailableClothesList.Add(new ClothInfo { ID = 5, image = halstorklade, Price = 100, Name = "Halstørklæde", SpineName = "Monster MID Halstørklæde" });
+        AvailableClothesList.Add(new ClothInfo { ID = 6, image = ballerinaskort, Price = 200, Name = "Ballerinaskørt", SpineName = "Monster MID Ballerinaskørt" });
+
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = rod, Price = 20, Name = "Rød", SpineName = "red" });
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = gron, Price = 20, Name = "Grøn", SpineName = "green" });
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = bla, Price = 20, Name = "Blå", SpineName = "blue" });
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = gul, Price = 20, Name = "Gul", SpineName = "orange" });
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = hvid, Price = 20, Name = "Hvid", SpineName = "white" });
+    }
+    public List<ClothInfo> CipherList(List<int> checkList)
+    {
+        // the list we send back
+        List<ClothInfo> nonMatchingClothes = new List<ClothInfo>();
+
+        foreach (ClothInfo cloth in AvailableClothesList)
+        {
+            // check if the cloth ID is not in the checkList
+            if (!checkList.Contains(cloth.ID))
+            {
+                // if not found, add to nonMatchingClothes
+                nonMatchingClothes.Add(cloth);
+            }
+        }
+
+        return nonMatchingClothes;
+    }
+
+
+}
