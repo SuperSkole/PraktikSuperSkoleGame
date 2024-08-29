@@ -6,9 +6,8 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
     {
 
         //public GameObject racingGameManager;
-        int sceneID = 0;
 
-        public bool carActive; //the car state
+        public bool carActive = false; //the car state
         public bool CarActive
         {
             get { return carActive; }
@@ -54,24 +53,13 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
 
         /// <summary>
-        /// Check if this is in the racing scene before triggering. 
-        /// TODO: Figure out a better way than scene ID.
+        /// Sets up the car once the map is ready.
         /// </summary>
-        private void Start()
+        public void Setup()
         {
-            sceneID = SceneManagerScript.Instance.SceneID;
-            if (sceneID == 13)
-            {
-                carActive = true; // Start with the car being off.
-                leftHeadlight.SetActive(carActive == true);
-                rightHeadlight.SetActive(carActive == true);
-            }
-            if (sceneID == 0)
-            {
-                carActive = false; // Start with the car being off.
-                leftHeadlight.SetActive(carActive == false);
-                rightHeadlight.SetActive(carActive == false);
-            }
+            carActive = true; // Start with the car being off.
+            leftHeadlight.SetActive(carActive);
+            rightHeadlight.SetActive(carActive);
         }
 
         /// <summary>
@@ -117,7 +105,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             bool movingForward = IsCarMovingForward();
         
 
-            if (verticalInput < 0 && movingForward == true)
+            if (verticalInput < 0 && movingForward)
             {
                 // Player is attempting to reverse while the car is moving forward
                 ApplyBrakingToStop();
@@ -128,7 +116,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 // Player is moving forward
                 ResetBraking();
             }
-            if (verticalInput < 0 && movingForward == false)
+            if (verticalInput < 0 && movingForward)
             {
                 ResetBraking();
                 // Player is reversing
@@ -204,7 +192,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             //ResetBraking();
 
             // Apply motor force if under max speed.
-            if (IsCarMovingBackwards() == false)
+            if (IsCarMovingBackwards())
             {
                 //Going forward
                 if (speedFL < maxSpeed|| speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed )
@@ -223,7 +211,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                     wheelColliderRearR.motorTorque = 0;
                 }
             }
-            if (IsCarMovingForward() == false)
+            if (IsCarMovingForward())
             {
                 //Going Backwards
                 if (speedFL < reverseMaxSpeed || speedFR < reverseMaxSpeed || speedRR < reverseMaxSpeed || speedRL < reverseMaxSpeed)
@@ -318,7 +306,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             Quaternion rot;
             wheelCollider.GetWorldPose(out pos, out rot);
             wheelTransform.position = pos;
-            wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 90);
+            wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 0);
         }
     }
 }

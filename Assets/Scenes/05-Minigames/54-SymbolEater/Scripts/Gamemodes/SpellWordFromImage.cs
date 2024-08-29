@@ -74,7 +74,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     lC.Deactivate();
                 }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
-                Debug.Log(count);
                 activeLetterCubes.Clear();
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 for (int i = 0; i < count; i++)
@@ -192,6 +191,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
+                    gameRules.SetCorrectAnswer();
                     boardController.Won("Du vandt. Du stavede rigtigt 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else
