@@ -1,18 +1,37 @@
 using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using LoadSave;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem.Layouts;
+using UnityEngine.UIElements;
 
-namespace Scenes.PlayerScene.Scripts
+namespace Scenes._10_PlayerScene.Scripts
 {
     /// <summary>
-    /// Manages all player-related events, interactions, and data modifications.
+    /// Manages player-related events and data interactions within the game,
+    /// utilizing design patterns to enhance modularity and reduce component dependencies.
+    /// 
+    /// <para><b>Event Aggregator:</b> Centralizes player events
+    /// to ensure consistent handling and dispatch across various game components.</para>
+    /// 
+    /// <para><b>Observer:</b> Listens and reacts to player events
+    /// to keep player data synchronized with game activities.</para>
+    /// 
+    /// <para><b>Mediator:</b> Facilitates communication between game components
+    /// concerning player data and events,
+    /// acting as a central coordinator to simplify interactions and dependencies.</para>
     /// </summary>
     public class PlayerEventManager : MonoBehaviour
+
     {
         [SerializeField] private PlayerData playerData;
 
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
+        public UnityEvent PlayerInteraction { get; set; } = new UnityEvent();
 
         void Start() 
         {
@@ -26,16 +45,36 @@ namespace Scenes.PlayerScene.Scripts
         private void OnEnable()
         {
             PlayerEvents.OnWordValidated += AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
+
         }
 
         private void OnDisable()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
         }
 
         private void OnDestroy()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                try
+                {
+                    PlayerInteraction.Invoke();
+                    PlayerInteraction = null;
+                }
+                catch { print("PlayerEventManager/Update/No playeraction"); }
+            }
         }
 
         // /// <summary>
@@ -47,7 +86,7 @@ namespace Scenes.PlayerScene.Scripts
         //     print("InitializePlayerEventManager");
         //     playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
         // }
-        
+
         /// <summary>
         /// Adds a word to the player's collected words list,
         /// if it is not null or empty.
@@ -70,7 +109,10 @@ namespace Scenes.PlayerScene.Scripts
                 Debug.LogError($"Failed to add word to player data: {ex.Message}");
             }
         }
-        
+
+
+     
+
         /// <summary>
         /// Removes a word from the player's collected words list,
         /// if it is not null or empty.
@@ -93,11 +135,34 @@ namespace Scenes.PlayerScene.Scripts
                 Debug.LogError($"Failed to remove word from player data: {ex.Message}");
             }
         }
-        
+
+
+        private List<string> HandlePlayerDataWordsExtracted(List<string> words)
+        {
+            Debug.Log($"Extracted {words.Count} words from player data.");
+
+            // Liste hvor de fundne ord skal tilf�jes
+            List<string> updatedWordList = new List<string>();
+
+            // Tilf�j de fundne ord til updatedWordList
+            updatedWordList.AddRange(words);
+
+            // Returner den opdaterede liste
+            return updatedWordList;
+        }
+
+
+
+
+
+
+
+
+
         //---------- templates and ideas for later------------
 
         #region ideas
-        
+
         /// <summary>
         /// Adds or removes gold from the player's current total.
         /// </summary>

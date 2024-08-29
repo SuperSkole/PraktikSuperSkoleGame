@@ -50,6 +50,7 @@ namespace Scenes.GameMode
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
 
+
             Destroy(gameObject);
         }
         /// <summary>
@@ -67,6 +68,12 @@ namespace Scenes.GameMode
         public void SetGameRules(string gameRuleID)
         {
             gameRule = modeSetter.SetRules(gameRuleID);
+        }
+
+        public void SelfDestruct()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            Destroy(gameObject);
         }
     }
 }

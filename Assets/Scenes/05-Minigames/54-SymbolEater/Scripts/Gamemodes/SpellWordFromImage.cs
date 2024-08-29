@@ -74,7 +74,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     lC.Deactivate();
                 }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
-                Debug.Log(count);
                 activeLetterCubes.Clear();
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 for (int i = 0; i < count; i++)
@@ -161,7 +160,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
             activeLetterCubes.Add(newLetter);
             //Checks if the word has been completed. If it hasnt a new random letter is placed on the board unless the old letter is in the currrent word, in which case the same letter is used
-            if(!gameRules.SequenceComplete() || oldLetter[0] != oldWord[oldWord.Length - 1])
+            if(!gameRules.SequenceComplete() || oldLetter.ToLower()[0] != oldWord[oldWord.Length - 1])
             {
                 string newLettercubeValue = gameRules.GetWrongAnswer();
                 if(gameRules.GetDisplayAnswer().Contains(oldLetter))
@@ -192,6 +191,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
+                    gameRules.SetCorrectAnswer();
                     boardController.Won("Du vandt. Du stavede rigtigt 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else

@@ -1,4 +1,5 @@
 using System;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -22,6 +23,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         [SerializeField] private GameObject cooldownTextObject;
 
         [SerializeField] private GameObject healthTextObject;
+
+        [SerializeField] private GameObject placePlayerMonster;
 
         private TextMeshProUGUI healthText;
 
@@ -75,6 +78,15 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             maxLivesRemaining = livesRemaining;
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
+
+            //if (PlayerManager.Instance != null)
+            //{
+            //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+            //}
+            //else
+            //{
+            //    Debug.Log("WordFactory GM.Start(): Player Manager Is null");
+            //}
         }
 
         /// <summary>

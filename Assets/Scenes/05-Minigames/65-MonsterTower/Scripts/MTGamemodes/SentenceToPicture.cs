@@ -44,7 +44,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
 
             switch (words[1])
             {
-                case "pÂ":
+                case "p√•":
                     manager.bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
                     manager.topImage.texture = ImageManager.GetImageFromWord(words[0]);
                     break;
@@ -70,10 +70,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
-
-
-            manager.bottomImageKey = rndImageWithKey1.Item2;
-            manager.topImageKey = rndImageWithKey2.Item2;
+            manager.imageKey = rndImageWithKey2.Item2 + " p√• " + rndImageWithKey1.Item2;
         }
 
         /// <summary>
@@ -98,12 +95,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
             string[] answers = new string[count];
             for (int i = 0; i < count; i++)
             {
+                //update the range if more options are needed for the binding word of the sentence generator, the range should be (0, x) where x is the number of cases
                 int rnd = Random.Range(0, 2);
                 string[] words = WordsForImagesManager.GetRandomWordForImage(2);
                 switch (rnd)
                 {
                     case 0:
-                        sentence = words[0] + " pÂ " + words[1];
+                        sentence = words[0] + " p√• " + words[1];
                         break;
 
                     case 1:
@@ -111,13 +109,24 @@ namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
                         break;
 
                     default:
-                        sentence = "ko pÂ is";
-                        Debug.Log("the number given was out of the range of expected results, defaulting to ko pÂ is");
+                        sentence = "ko p√• is";
+                        Debug.Log("the number given was out of the range of expected results, defaulting to ko p√• is");
                         break;
                 }
                 answers[i] = sentence;
             }
             return answers;
+        }
+
+        /// <summary>
+        /// changes the prefab of the TowerManager so we apply 2 images to the bricks
+        /// </summary>
+        /// <param name="manager">a reference back to the manager that called the function</param>
+        public void SetAnswerPrefab(TowerManager manager)
+        {
+            manager.answerHolderPrefab = manager.imageHolderPrefab;
+            manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
         }
     }
 }

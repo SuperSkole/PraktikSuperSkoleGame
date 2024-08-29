@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CORE.Scripts.GameRules;
-using Unity.PlasticSCM.Editor.WebApi;
 
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes

@@ -20,6 +20,7 @@ namespace LoadSave
         public int PlayerLevel; 
         public SavePlayerPosition SavedPlayerStartPostion; 
         public List<string> CollectedWords;
-        public List<char> CollectedLetters;
+        public List<char> CollectedLetters; 
+        public List<int> BoughtClothes;
     }
 }

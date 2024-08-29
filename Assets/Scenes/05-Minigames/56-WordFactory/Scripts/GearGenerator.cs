@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Scenes._05_Minigames._56_WordFactory.Scripts;
 using Scenes._05_Minigames.WordFactory.Scripts;
 using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
@@ -26,7 +27,9 @@ namespace Scenes.Minigames.WordFactory.Scripts
         private void Awake()
         {
             numberOfGears = WordFactoryGameManager.Instance.GetNumberOfGears();
-            numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfTeeth();
+            numberOfTeeth = numberOfGears >= 2
+                ? WordFactoryGameManager.Instance.GetNumberOfTeeth()
+                : 9;
             
             // Set the semi-circle radius to accommodate gear spacing correctly
             semiCircleRadius = (cylinderScaleXZ / 2) + 0.6f + (numberOfGears - 2);  // half diameter + teeth outward position
@@ -54,11 +57,41 @@ namespace Scenes.Minigames.WordFactory.Scripts
 
         private void DisplayConsonants(List<char> consonants)
         {
-            // Find the TextMeshProUGUI component within the instantiated wordBlockPrefab
-            TextMeshProUGUI consonantsTextBlock = singleGearConsonantWordBlock.GetComponentInChildren<TextMeshProUGUI>();
-            if (consonantsTextBlock != null)
+            if (singleGearConsonantWordBlock == null)
             {
-                consonantsTextBlock.text = string.Join("", consonants);
+                Debug.LogError("SingleGearConsonantWordBlock is not instantiated.");
+                return;
+            }
+
+            // Find the TextMeshProUGUI components within the instantiated wordBlockPrefabStatic
+            TextMeshProUGUI[] textBlocks = singleGearConsonantWordBlock.GetComponentsInChildren<TextMeshProUGUI>();
+
+            if (textBlocks.Length < consonants.Count)
+            {
+                Debug.LogError("Not enough text blocks to display all consonants.");
+                return;
+            }
+
+            // Assign each consonant to the respective block
+            for (int i = 0; i < consonants.Count && i < textBlocks.Length; i++)
+            {
+                textBlocks[i].text = consonants[i].ToString();
+            }
+        }
+        
+        public void ClearConsonantBlock()
+        {
+            if (singleGearConsonantWordBlock != null)
+            {
+                TextMeshProUGUI[] textBlocks = singleGearConsonantWordBlock.GetComponentsInChildren<TextMeshProUGUI>();
+                foreach (var textBlock in textBlocks)
+                {
+                    textBlock.text = ""; // Clear the text
+                }
+            }
+            else
+            {
+                Debug.LogError("No consonant block found to reset.");
             }
         }
 
@@ -75,7 +108,10 @@ namespace Scenes.Minigames.WordFactory.Scripts
                     5);                                        
 
                 // Instantiate and configure the single gear
-                GameObject gear = InstantiateGear("Gear1", gearPosition, 0, numberOfTeeth);
+                GameObject gear = InstantiateGear("Gear1",
+                    gearPosition,
+                    0,
+                    numberOfTeeth);
                 WordFactoryGameManager.Instance.AddGear(gear);
                 gearButtonManager.CreateButtonsForGear(gear);
                 
@@ -83,11 +119,17 @@ namespace Scenes.Minigames.WordFactory.Scripts
                 // Slightly left from the central point, Same vertical level as the central point
                 // Slightly in front of the gear for visibility
                 Vector3 uiPosition = new Vector3(
-                    centralPoint.position.x - 1.75f,  
+                    centralPoint.position.x - 1.6f,  
                     centralPoint.position.y,           
                     4);                                
-                singleGearConsonantWordBlock = Instantiate(wordBlockPrefabForSingleGearMode, uiPosition, Quaternion.identity, transform);
-                singleGearConsonantWordBlock.name = "SingleGearUI";
+                singleGearConsonantWordBlock = Instantiate(
+                    wordBlockPrefabForSingleGearMode,
+                    uiPosition,
+                    Quaternion.identity,
+                    transform);
+                singleGearConsonantWordBlock.name = "ConsonantWordBlock";
+                WordFactoryGameManager.Instance.SetWordBlock(
+                    singleGearConsonantWordBlock);
             }
             else
             {
@@ -135,17 +177,23 @@ namespace Scenes.Minigames.WordFactory.Scripts
             return gearInstance;
         }
 
-        private void GenerateTeeth(Transform parent, float radius, int numberOfTeeth)
+        /// <summary>
+        /// Generates teeth around the parent transform in a circle, starting from the 9 o'clock position.
+        /// </summary>
+        /// <param name="parent">The parent transform to attach the teeth.</param>
+        /// <param name="radius">The radius at which to place the teeth.</param>
+        /// <param name="numberOfTeeth">The total number of teeth to generate.</param>
+        private void GenerateTeeth(Transform parent, float radius, int toothnumber)
         {
-            for (var i = 0; i < numberOfTeeth; i++)
+            for (var i = 0; i < toothnumber; i++)
             {
-                float angle = i * Mathf.PI * 2 / numberOfTeeth;
+                float angle = i * Mathf.PI * 2 / toothnumber + Mathf.PI;
                 Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
                 Quaternion rotation = Quaternion.LookRotation(position, Vector3.up);
                 var tooth = Instantiate(letterGearToothPrefab, parent);
                 tooth.transform.localPosition = position;
                 tooth.transform.localRotation = rotation;
-                tooth.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                tooth.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 tooth.name = "Tooth " + (i + 1);
             }
         }

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class NewGameSetup : MonoBehaviour
     {
@@ -13,7 +13,7 @@ namespace Scenes._01_StartScene.Scripts
         [SerializeField] private TextMeshProUGUI playerName;
         [SerializeField] private GameObject playerPrefab;
 
-        public string ChosenMonsterColor;
+        //public string ChosenMonsterColor;
         
         public void OnClick()
         {
@@ -27,10 +27,10 @@ namespace Scenes._01_StartScene.Scripts
             GameManager.Instance.IsNewGame = true;
             
             GameManager.Instance.CurrentMonsterName = nameInput.text;
-            GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
+            //GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
             
             GameManager.Instance.PlayerData.MonsterName = nameInput.text;
-            GameManager.Instance.PlayerData.MonsterColor = ChosenMonsterColor;
+            //GameManager.Instance.PlayerData.MonsterColor = ChosenMonsterColor;
         }
     }
 }

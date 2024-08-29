@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
 namespace CORE.Scripts.GameRules
@@ -78,6 +79,10 @@ namespace CORE.Scripts.GameRules
         {
             if(currentWord.Length == 0 || currentIndex == currentWord.Length - 1)
             {
+                if(currentWord.Length > 0)
+                {
+                    PlayerEvents.RaiseWordValidated(currentWord);
+                }
                 currentWord = WordsForImagesManager.GetRandomWordForImage();
                 currentIndex = 0;
                 currentLetter = currentWord[0].ToString();
