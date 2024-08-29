@@ -259,19 +259,23 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 try
                 {
-                    var cinemachineCam = GameObject.FindGameObjectWithTag("Camera");
-                    var virtualCamera = cinemachineCam.GetComponent<CinemachineVirtualCamera>();
+                    var cinemachineCam
+                        = GameObject.FindGameObjectWithTag("Camera");
+                    var virtualCamera = cinemachineCam
+                        .GetComponent<CinemachineVirtualCamera>();
 
                     virtualCamera.Follow = spawnedPlayer.transform;
                     virtualCamera.LookAt = spawnedPlayer.transform;
 
                     var cameraBrain = GameObject.Find("CameraBrain");
-                    spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain.GetComponent<Camera>();
+                    spawnedPlayer.GetComponent<SpinePlayerMovement>()
+                        .sceneCamera = cameraBrain.GetComponent<Camera>();
                 }
-                catch{}
-                
+                catch
+                {
+                    
+                }
             }
-            
         }
 
         /// <summary>
