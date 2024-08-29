@@ -1,8 +1,8 @@
-using Scenes.PlayerScene.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Scenes._03_MainWorld.Scripts
+namespace Scenes._20_MainWorld.Scripts
 {
     public class InColliderZone : MonoBehaviour
     {
