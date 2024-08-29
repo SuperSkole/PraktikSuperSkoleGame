@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -16,7 +15,7 @@ namespace CORE.Scripts
         /// <param name="name">the name to add to the list</param>
         public static void AddNameToSet(string name)
         {
-            if(imageWords.Contains(name)) return;
+            if (imageWords.Contains(name)) return;
             imageWords.Add(name);
         }
 

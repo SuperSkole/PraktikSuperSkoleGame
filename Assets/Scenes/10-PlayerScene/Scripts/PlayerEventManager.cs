@@ -1,16 +1,26 @@
 using System;
-using System.Net.NetworkInformation;
 using LoadSave;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.Layouts;
 
-namespace Scenes.PlayerScene.Scripts
+namespace Scenes._10_PlayerScene.Scripts
 {
     /// <summary>
-    /// Manages all player-related events, interactions, and data modifications.
+    /// Manages player-related events and data interactions within the game,
+    /// utilizing design patterns to enhance modularity and reduce component dependencies.
+    /// 
+    /// <para><b>Event Aggregator:</b> Centralizes player events
+    /// to ensure consistent handling and dispatch across various game components.</para>
+    /// 
+    /// <para><b>Observer:</b> Listens and reacts to player events
+    /// to keep player data synchronized with game activities.</para>
+    /// 
+    /// <para><b>Mediator:</b> Facilitates communication between game components
+    /// concerning player data and events,
+    /// acting as a central coordinator to simplify interactions and dependencies.</para>
     /// </summary>
     public class PlayerEventManager : MonoBehaviour
+
     {
         [SerializeField] private PlayerData playerData;
 

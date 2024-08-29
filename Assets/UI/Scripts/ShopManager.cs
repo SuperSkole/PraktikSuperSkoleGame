@@ -1,16 +1,18 @@
-using Scenes.PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
     //Display model
     public SkeletonGraphic skeletonGraphic;
     //changing color
-    private ColorChanging colorChanging;
+    private ColorChanging playerColorChanging;
     //The chosen item
     private string currentItem;
     
@@ -23,7 +25,11 @@ public class ShopManager : MonoBehaviour
     private int currentPrice;
 
     //GameObjects
-    [SerializeField] Image offBuyButton; 
+    [SerializeField] Image offBuyButton;
+
+    [SerializeField] GameObject shopOptionPrefab;  
+    [SerializeField] Transform shopOptionsParent;
+
     private Shopoption currentShopOption;
 
     //Check if they can buy bool
@@ -31,18 +37,43 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-        colorChanging = this.GetComponent<ColorChanging>();
+
+        playerColorChanging = this.GetComponent<ColorChanging>();
 
         if(PlayerManager.Instance == null )
         {
-            Debug.Log("Didn't mind playermanager");
+            Debug.Log("Didn't find playermanager");
         }
         else
         {
             avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
-    }
 
+        //Build shop
+        List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
+        InitializeShopOptions(theShopOptions);
+
+        Debug.Log(theShopOptions.Count + "antal p� listen");
+        
+    }
+    private void OnEnable()
+    {
+        //gameObject.GetComponent<ColorChanging>().graphic.color = PlayerManager.Instance.SpawnedPlayer
+    }
+    //Create the shop options
+    private void InitializeShopOptions(List<ClothInfo> availableClothes)
+    {
+        foreach (ClothInfo cloth in availableClothes)
+        {
+            // Instantiate a new ShopOption as a child of shopOptionsParent
+            GameObject newShopOptionObj = Instantiate(shopOptionPrefab, shopOptionsParent);
+
+            // Initialize the ShopOption with the cloth data
+            Shopoption shopOption = newShopOptionObj.GetComponent<Shopoption>();
+            shopOption.Initialize(cloth.Name, cloth.Price, cloth.image, cloth.SpineName, cloth.ID);
+            Debug.Log("SHOPOPTION MADE");
+        }
+    }
 
     //Shop Option function
     public void Click(string itemName, int thisprice, Shopoption shopOption)
@@ -73,10 +104,10 @@ public class ShopManager : MonoBehaviour
         {
             if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
             {
-                    colorChanging.ColorChange(itemName);
+                    playerColorChanging.ColorChange(itemName);
             }
         }
-     
+    
 
         //Check if the player can afford this
 
@@ -98,7 +129,10 @@ public class ShopManager : MonoBehaviour
     {
         if (ableToBuy)
         {
-            //add item to dictionary here, save their current money
+            //add item to list here
+            PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+            //takes away money
             avaliableMoney -= currentPrice;
             PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney; 
 

@@ -1,7 +1,7 @@
 using Spine.Unity;
 using UnityEngine;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class CharacterChoice : MonoBehaviour
     {

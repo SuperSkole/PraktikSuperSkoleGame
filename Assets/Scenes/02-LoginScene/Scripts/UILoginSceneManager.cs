@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Scenes._00_LoginScene.Scripts
+namespace Scenes._02_LoginScene.Scripts
 {
     /// <summary>
     /// Manages the UI interactions for the login and registration screens.

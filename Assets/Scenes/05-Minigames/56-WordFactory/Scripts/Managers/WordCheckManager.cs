@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using CORE.Scripts;
 using Scenes._05_Minigames._56_WordFactory.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
 using Scenes.Minigames.WordFactory.Scripts.Managers;
-using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 
 namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
@@ -32,6 +32,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
 
         // HashSet to keep track of created words
         private HashSet<string> createdWords = new HashSet<string>();
+        private bool isWordValid;
 
         private void Awake()
         {
@@ -75,7 +76,14 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
             string formedWord = wordBuilder.BuildWord(closestTeeth);
             int wordlength = formedWord.Length;
 
-            if (wordValidator.IsValidWord(formedWord, wordlength))
+            isWordValid = WordFactoryGameManager.Instance.NumberOfGears >= 2
+                ? wordValidator.IsValidWord(formedWord,
+                    wordlength)
+                : wordValidator.IsValidCombinationWord(formedWord,
+                    formedWord.Substring(0,
+                        2));
+
+            if (isWordValid)
             {
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {

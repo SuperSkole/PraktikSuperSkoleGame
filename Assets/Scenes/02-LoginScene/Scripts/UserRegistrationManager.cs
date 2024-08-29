@@ -3,7 +3,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._00_LoginScene.Scripts
+namespace Scenes._02_LoginScene.Scripts
 {
     /// <summary>
     /// Manages user registration by saving usernames and securely hashed passwords to a file.
