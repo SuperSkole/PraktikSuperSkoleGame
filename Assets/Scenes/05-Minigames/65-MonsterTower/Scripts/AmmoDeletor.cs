@@ -18,6 +18,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
             Instantiate(particals,transform.position,Quaternion.identity);
             targetBrick.checkCollision = true;
+
             Destroy(gameObject);
         }
 
@@ -28,3 +29,5 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     }
 
 }
+
+
