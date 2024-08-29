@@ -23,7 +23,9 @@ namespace Scenes.GameMode
                     modeReturned = new SentenceToPictures();
                     break;
 
-
+                case "shoot picture":
+                    modeReturned = new ShootPicture();
+                    break;
 
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
