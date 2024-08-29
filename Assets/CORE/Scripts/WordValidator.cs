@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CORE.Scripts
@@ -32,6 +34,31 @@ namespace CORE.Scripts
                 if (WordsManager.GetWordsFromSet(setName).Contains(word.ToUpper()))
                     return true;
             }
+            
+            return false;
+        }
+        
+        /// <summary>
+        /// Validates whether a given word is a valid combination that starts with specific initial consonants and exists in any word set.
+        /// </summary>
+        /// <param name="word">The word to verify.</param>
+        /// <param name="initialConsonants">The initial consonants used to form words (e.g., "sk").</param>
+        /// <returns>True if the word starts with the initial consonants and exists in any hashset; otherwise, false.</returns>
+        public bool IsValidCombinationWord(string word, string initialConsonants)
+        {
+            // Ensure the word starts with the specified initial consonants
+            if (!word.StartsWith(initialConsonants, StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            // Normalize and check if the word exists in the relevant hashset
+            string upperWord = word.ToUpper();
+            foreach (var setName in WordsManager.AllSetNames)
+            {
+                var wordsSet = WordsManager.GetWordsFromSet(setName);
+                if (wordsSet.Contains(upperWord))
+                    return true;
+            }
+            
             return false;
         }
     }

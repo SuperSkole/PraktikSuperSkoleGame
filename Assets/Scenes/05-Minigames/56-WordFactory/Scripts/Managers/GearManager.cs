@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Scenes._05_Minigames.WordFactory.Scripts;
+using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
     public class GearManager : MonoBehaviour
     {
@@ -14,9 +16,18 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         
         [SerializeField] private ClosestTeethFinder closestTeethFinder;
         private List<Transform> previousClosestTeeth = new List<Transform>();
+        private GameObject singleGearWordBlockPrefab;
+        private List<Transform> prefabBlocks = new List<Transform>();
+        
 
         private void Start()
         {
+            PopulateGearsList();
+            if (WordFactoryGameManager.Instance.GetGearStrategy() is SingleGearStrategy)
+            {
+                LoadPrefabBlocks();
+            }
+            
             PopulateGearsList();
         }
 
@@ -32,6 +43,25 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
                 {
                     Gears.Add(child.gameObject);
                 }
+            }
+        }
+        
+        private void LoadPrefabBlocks()
+        {
+            GameObject singleGearWordBlockPrefab
+                = WordFactoryGameManager.Instance.GetWordBlock();
+            
+            if (singleGearWordBlockPrefab != null)
+            {
+                // Find the consonant prefab in scene
+                foreach (Transform child in singleGearWordBlockPrefab.transform)
+                {
+                    prefabBlocks.Add(child); 
+                }
+            }
+            else
+            {
+                Debug.LogError("SingleGearWordBlockPrefab is not assigned in the inspector!");
             }
         }
         
@@ -65,6 +95,12 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         private void UpdateClosestTeethColor()
         {
             List<Transform> currentClosestTeeth = closestTeethFinder.FindClosestTeeth(Gears);
+            
+            // Include prefab blocks if in SingleGearStrategy
+            if (WordFactoryGameManager.Instance.GetGearStrategy() is SingleGearStrategy)
+            {
+                currentClosestTeeth.AddRange(prefabBlocks);
+            }
 
             // Uncolor previous closest teeth
             foreach (Transform tooth in previousClosestTeeth)

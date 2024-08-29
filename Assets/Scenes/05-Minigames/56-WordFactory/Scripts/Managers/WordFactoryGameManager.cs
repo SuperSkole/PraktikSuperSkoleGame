@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Scenes.PlayerScene.Scripts;
+using Scenes._05_Minigames._56_WordFactory.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
 namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
@@ -16,6 +17,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         
         [SerializeField] private GameObject playerSpawnPoint;
         
+        private GameObject wordBlockPrefabForSingleGearMode;
         private List<GameObject> gears = new List<GameObject>();
         private IGearStrategy gearStrategy;
 
@@ -31,7 +33,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
 
                 IntializeFactoryManager();
             }
@@ -69,6 +71,8 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         }
 
         public List<GameObject> GetGears() => gears;
+        public GameObject GetWordBlock() => wordBlockPrefabForSingleGearMode;
+        public GameObject SetWordBlock(GameObject prefab) => wordBlockPrefabForSingleGearMode = prefab;
 
         public int GetNumberOfGears() => NumberOfGears;
 

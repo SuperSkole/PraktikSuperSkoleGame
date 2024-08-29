@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 namespace LoadSave
 {
@@ -23,7 +24,8 @@ namespace LoadSave
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
         public List<char> CollectedNumbers = new List<char>();
-        
+        public List<int> BoughtClothes = new List<int>();
+
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
@@ -32,6 +34,7 @@ namespace LoadSave
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
+
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
         public Vector3 LastInteractionPoint;

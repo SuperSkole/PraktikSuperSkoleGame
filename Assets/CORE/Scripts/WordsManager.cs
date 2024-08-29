@@ -13,8 +13,14 @@ namespace CORE.Scripts
         private static Dictionary<string, HashSet<string>> _wordSets = new Dictionary<string, HashSet<string>>();
         private static HashSet<string> _validWords = new HashSet<string>();
 
-        // magic name property for current csv setup
-        private static string GetSetName(int length) => $"Words_Danish_{length}L";
+        /// <summary>
+        /// Generates a set name based on the length and optionally a type.
+        /// </summary>
+        private static string GetSetName(int length, string type = "")
+        {
+            return $"Words_Danish_{length}L{type}";
+        }
+
         
         // Property to get all set names
         public static IEnumerable<string> AllSetNames => new List<string>(_wordSets.Keys);
@@ -56,7 +62,7 @@ namespace CORE.Scripts
             else
             {
                 // Ensure validWords is empty if no set matches
-                Debug.Log("LettersAndWordsManager: PopulateValidWords() found no matching hashset");
+                Debug.Log("WordsManager.PopulateValidWords(): found no matching hashset");
                 _validWords.Clear(); 
             }
         }
@@ -64,7 +70,7 @@ namespace CORE.Scripts
         {
             // Add the new words to the valid set
             _validWords.UnionWith(words); 
-            Debug.Log("GameWordUtilities: ValidWords updated with random selection.");
+            Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
         }
         
         public static List<string> PopulateValidWordsWithRandomWordsByLengthAndCount(int length, int count)
@@ -77,7 +83,7 @@ namespace CORE.Scripts
                 PopulateValidWordsWithListofWords(randomWords);
                 return randomWords;
             }
-            Debug.Log("GameWordUtilities: GetRandomWordsByLength() returned empty list");
+            Debug.Log("WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount() returned empty list");
             return new List<string>();
         }
         
@@ -90,7 +96,7 @@ namespace CORE.Scripts
         public static void ResetValidWords()
         {
             _validWords.Clear();
-            Debug.Log("LettersAndWordsManager: ValidWords have been reset.");
+            Debug.Log("WordsManager.ResetValidWords(): ValidWords have been reset.");
         }
         #endregion
 
@@ -109,13 +115,28 @@ namespace CORE.Scripts
             {
                 return _wordSets[setName].OrderBy(word => Random.value).Take(count).ToList();
             }
-            else
-            {
-                // Return an empty list if the set is not found and log error
-                Debug.Log("LettersAndWordsManager: GetRandomWordsByLength() returned empty list");
-                return new List<string>();
-            }
+
+            // Return an empty list if the set is not found and log error
+            Debug.Log("LettersAndWordsManager: GetRandomWordsByLength() returned empty list");
+            return new List<string>();
         }
+        
+        public static List<string> GetRandomWordsFromCombinationByCount(int count)
+        {
+            // This assumes your combination set is named specifically for the combination CSV you mentioned
+            string setName = "Words_Danish_3L_Combination";
+    
+            if (_wordSets.TryGetValue(setName, out var set))
+            {
+                var randomWords = set.OrderBy(word => Random.value).Take(count).ToList();
+                PopulateValidWordsWithListofWords(randomWords);
+                return randomWords;
+            }
+    
+            Debug.Log($"No words found for the combination set: {setName}");
+            return new List<string>(); // Returns an empty list if no set found or not enough words are present
+        }
+
         #endregion
     }
 }
