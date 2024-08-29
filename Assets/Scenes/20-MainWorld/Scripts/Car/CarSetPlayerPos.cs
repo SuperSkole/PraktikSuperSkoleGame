@@ -1,5 +1,5 @@
-using Scenes.PlayerScene.Scripts;
 using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
 public class CarSetPlayerPos : MonoBehaviour

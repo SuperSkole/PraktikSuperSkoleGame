@@ -117,8 +117,14 @@ namespace Scenes.Minigames.WordFactory.Scripts
                     centralPoint.position.x - 1.6f,  
                     centralPoint.position.y,           
                     4);                                
-                singleGearConsonantWordBlock = Instantiate(wordBlockPrefabForSingleGearMode, uiPosition, Quaternion.identity, transform);
+                singleGearConsonantWordBlock = Instantiate(
+                    wordBlockPrefabForSingleGearMode,
+                    uiPosition,
+                    Quaternion.identity,
+                    transform);
                 singleGearConsonantWordBlock.name = "ConsonantWordBlock";
+                WordFactoryGameManager.Instance.SetWordBlock(
+                    singleGearConsonantWordBlock);
             }
             else
             {

@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 
-namespace Scenes.PlayerScene.Scripts
+namespace Scenes._10_PlayerScene.Scripts
 {
     /// <summary>
     /// Manages player-related events through static delegates and methods.
-    /// we use this class to centralizes the logic for triggering events that affect the player's state within the game.
+    /// we use this class to <b>centralize</b> the logic for triggering events,
+    /// that affect the player's state within the game.
     /// </summary>
     public static class PlayerEvents
     {

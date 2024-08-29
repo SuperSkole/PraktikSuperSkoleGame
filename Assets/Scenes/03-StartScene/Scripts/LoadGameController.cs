@@ -1,10 +1,9 @@
 using CORE;
 using LoadSave;
-using Scenes.StartScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     /// <summary>
     /// controlling the game loading process.

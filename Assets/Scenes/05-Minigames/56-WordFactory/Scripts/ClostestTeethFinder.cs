@@ -43,7 +43,8 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts
         private List<Transform> FindTeethForSingleGear(List<GameObject> gears)
         {
             // Find the consonant prefab in scene
-            GameObject singleGearWordBlockPrefab = GameObject.Find("ConsonantWordBlock");
+            GameObject singleGearWordBlockPrefab
+                = WordFactoryGameManager.Instance.GetWordBlock();
 
 
             var closestTeeth = new List<Transform>();
