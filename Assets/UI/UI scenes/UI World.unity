@@ -885,51 +885,55 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 4863099187415091618, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -145
       objectReference: {fileID: 0}
     - target: {fileID: 6283887153712969950, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_Name
       value: WardRobe
       objectReference: {fileID: 0}
-    - target: {fileID: 8763455881759328891, guid: 0e95630ac8874624884837eb771c874d, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6283887153712969950, guid: 0e95630ac8874624884837eb771c874d, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8763455881759328891, guid: 0e95630ac8874624884837eb771c874d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763455881759328891, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8763455881759328891, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 8920621211323622224, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8920621211323622224, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
