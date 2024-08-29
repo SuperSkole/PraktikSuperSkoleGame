@@ -95,7 +95,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             SpawnAmmoForDisplay();
 
             // the ammocount is set to the amount of words that player has. 
-            ammoCount = words.Count;
+            if (words != null)
+            {
+                ammoCount = words.Count;
+            }
 
            
             if (ammoCount <= 0)
@@ -129,19 +132,22 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void SpawnAmmoForDisplay()
         {
-            for (int x = 0; x < words.Count; x++)
+
+            if (words!=null)
             {
-                for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
+                for (int x = 0; x < words.Count; x++)
                 {
-                    ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+                    for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
+                    {
+                        ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
 
+                    }
+
+                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
+                    ammo.transform.parent = ammoPlatform.transform;
+                    ammoDisplay.Add(ammo);
                 }
-
-                GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
-                ammo.transform.parent = ammoPlatform.transform;
-                ammoDisplay.Add(ammo);
             }
-
           
         }
 
@@ -176,10 +182,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
          
             ammoCount--;
 
-            foreach (var item in words)
-            {
-                Debug.Log(words);
-            }
           
             if(ammoCount < ammoDisplay.Count)
                 ammoDisplay[ammoCount].SetActive(false);

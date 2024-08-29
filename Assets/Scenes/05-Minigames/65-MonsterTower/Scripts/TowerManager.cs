@@ -187,7 +187,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 correctAnswer = false;
             }
 
-            if(falling==true)
+            if(falling)
             {
                
                 TowerFallsAnimation();
