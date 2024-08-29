@@ -86,7 +86,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
             if (PlayerManager.Instance != null)
             {
-
+                PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 Scene getScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
 
                 foreach (GameObject gameObject in getScene.GetRootGameObjects())
