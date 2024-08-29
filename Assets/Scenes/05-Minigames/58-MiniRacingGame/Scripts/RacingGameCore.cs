@@ -70,7 +70,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         private bool displayToggle = false;
         //private List<string> wordsList = new List<string>() { "F" };
-        private readonly List<string> wordsList = new() { "FLY", "BÅD", "BIL" };
+        private readonly List<string> wordsList = new() { "FLY", "BIL" };
         //private List<string> wordsList = new List<string>() { "FLY", "BIL", "BÅD" };
 
 
@@ -89,6 +89,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         public Transform correctCheckpointTrans;
         public Transform passedCheckpointTrans;
+        private string currentMode;
         #endregion
 
         #region setup
@@ -117,6 +118,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         private void Setup(string gameMode)
         {
+            currentMode = gameMode;
             playerCar.SetActive(true);
             StartUI.SetActive(false);
             RaceActive = true;
@@ -132,7 +134,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             timerDisplayActive = true;
 
 
-            DetermineWordToUse(gameMode); // Select a random word from the list
+            DetermineWordToUse(); // Select a random word from the list
             UpdateBranchAndLetters();
             if (letterDisplayActive == true)
             {
@@ -255,18 +257,18 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// Checks which game mode is in use
         /// </summary>
         /// <param name="gameMode">The gamemode the racing game is using</param>
-        private void DetermineWordToUse(string gameMode = "Mode 2")
+        private void DetermineWordToUse()
         {
-            if (gameMode == GameModes.Mode1)
+            if (currentMode == GameModes.Mode1)
             {
-                if (spelledWordsList.Count < 3)
+                if (spelledWordsList.Count < 2) // TODO: Temporary fix, change to 3 later
                 {
                     SelectRandomWord();
                 }
                 else
                     EndGame();
             }
-            else if (gameMode == GameModes.Mode2)
+            else if (currentMode == GameModes.Mode2)
             {
                 if (spelledWordsList.Count < 1)
                 {
