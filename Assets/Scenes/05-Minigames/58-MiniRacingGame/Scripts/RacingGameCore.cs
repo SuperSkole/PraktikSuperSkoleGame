@@ -8,10 +8,11 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class RacingGameCore : MonoBehaviour
     {
-        private int sceneID = 13;
+        #region variables
 
         private readonly AudioSource gameManagerAudioSource;
         public EndGameUI endGameUI;
+        public GameObject StartUI;
         public GameObject playerCar;
         public CarController carController;
         public RacingGameManager racingGameManager;
@@ -69,7 +70,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         private bool displayToggle = false;
         //private List<string> wordsList = new List<string>() { "F" };
-        private readonly List<string> wordsList = new() { "FLY", "BÅD", "BIL" };
+        private readonly List<string> wordsList = new() { "FLY", "BIL" };
         //private List<string> wordsList = new List<string>() { "FLY", "BIL", "BÅD" };
 
 
@@ -88,20 +89,41 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         public Transform correctCheckpointTrans;
         public Transform passedCheckpointTrans;
+        private string currentMode;
+        #endregion
+
+        #region setup
+        /// <summary>
+        /// Gamemode selection for players.
+        /// </summary>
+        public void GameMode_Three_Words()
+        {
+            Setup(GameModes.Mode1);
+        }
+        public void GamemMode_One_Word()
+        {
+            Setup(GameModes.Mode2);
+        }
 
         /// <summary>
-        /// Checks it is the racing scene,
-        /// then sets up everything to race.
+        /// Ensures the player car is not active until setup is done
         /// </summary>
-        private void Start()
+        void Start()
         {
-            sceneID = SceneManagerScript.Instance.SceneID;
+            playerCar.SetActive(false);
+        }
 
-            if (sceneID == 13)
-            {
-                RaceActive = true;
-                raceActive = true;
-            }
+        /// <summary>
+        /// Sets up everything to race once the player picks a gamemode.
+        /// </summary>
+        private void Setup(string gameMode)
+        {
+            currentMode = gameMode;
+            playerCar.SetActive(true);
+            StartUI.SetActive(false);
+            RaceActive = true;
+            raceActive = true;
+
 
             carController.GetComponent<CarController>();
 
@@ -112,7 +134,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             timerDisplayActive = true;
 
 
-            SelectRandomWord(); // Select a random word from the list
+            DetermineWordToUse(); // Select a random word from the list
             UpdateBranchAndLetters();
             if (letterDisplayActive == true)
             {
@@ -129,9 +151,66 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 InitializeWordAudioMap();
                 PlayWordAudio(targetWord);
             }
+            carController.Setup();
+        }
+        /// <summary>
+        /// Picks a random word from the list.
+        /// </summary>
+        private void SelectRandomWord()
+        {
+            List<string> availableWords = new(wordsList); // Copy the original list
+            availableWords.RemoveAll(word => spelledWordsList.Contains(word)); // Remove already spelled words
+
+            // Check if there are any available words left
+            if (availableWords.Count > 0)
+            {
+                // Randomly select a word from the remaining available words
+                targetWord = availableWords[Random.Range(0, availableWords.Count)];
+                PlayWordAudio(targetWord);
+                UpdateWordImageDisplay(targetWord);
+            }
+            else
+            {
+                EndGame();
+            }
+        }
+        #endregion
+
+        #region timer
+        /// <summary>
+        /// Updates the timer on the billboards.
+        /// </summary>
+        private void UpdateTimerDisplay()
+        {
+            if (timerDisplayActive == true)
+            {
+
+                timerTextN.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(timer / 60), Mathf.FloorToInt(timer) % 60);
+                timerTextS.text = timerTextN.text;
+            }
 
         }
 
+        /// <summary>
+        /// Starts the timer.
+        /// </summary>
+        private void StartTimer()
+        {
+
+            timerRunning = true;
+            timer = 0f; // Reset the timer
+        }
+
+        /// <summary>
+        /// Stops the timer.
+        /// </summary>
+        private void StopTimer()
+        {
+            timerRunning = false;
+        }
+        #endregion
+
+        #region controls
         /// <summary>
         /// Keeps the timer up-to-date and handles the player input.
         /// </summary>
@@ -159,7 +238,6 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 this.GetComponent<StateNameController>().ChangeToTownScene();
             }
         }
-
         /// <summary>
         /// Flips the car, in case the player is stuck.
         /// </summary>
@@ -172,43 +250,59 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             float yRotation = playerCar.transform.eulerAngles.y;
             playerCar.transform.rotation = Quaternion.Euler(0, yRotation, 0);
         }
+        #endregion
 
+        #region other
         /// <summary>
-        /// Picks a random word from the list.
+        /// Checks which game mode is in use
         /// </summary>
-        private void SelectRandomWord()
+        /// <param name="gameMode">The gamemode the racing game is using</param>
+        private void DetermineWordToUse()
         {
-            List<string> availableWords = new(wordsList); // Copy the original list
-            availableWords.RemoveAll(word => spelledWordsList.Contains(word)); // Remove already spelled words
-
-            // Check if there are any available words left
-            if (availableWords.Count > 0)
+            if (currentMode == GameModes.Mode1)
             {
-                // Randomly select a word from the remaining available words
-                targetWord = availableWords[Random.Range(0, availableWords.Count)];
-                PlayWordAudio(targetWord);
-                UpdateWordImageDisplay(targetWord);
+                if (spelledWordsList.Count < 2) // TODO: Temporary fix, change to 3 later
+                {
+                    SelectRandomWord();
+                }
+                else
+                    EndGame();
             }
-            else
+            else if (currentMode == GameModes.Mode2)
             {
-                targetWord = "End";
-
-                leftTextS.text = "";
-                rightTextS.text = "";
-                leftTextN.text = "";
-                rightTextN.text = "";
-                raceActive = false;
-                showEndUi = true;
-                carController.CarActive = false;
-
-                StopTimer();
-                racingGameManager = GetComponent<RacingGameManager>();
-                racingGameManager.EndGame();
-                endGameUI = GetComponent<EndGameUI>();
-                endGameUI.ToggleEndGameUI(true);
+                if (spelledWordsList.Count < 1)
+                {
+                    SelectRandomWord();
+                }
+                else
+                    EndGame();
             }
         }
 
+        /// <summary>
+        /// Ends the game and give players their reward
+        /// </summary>
+        private void EndGame()
+        {
+            targetWord = "End";
+
+            leftTextS.text = "";
+            rightTextS.text = "";
+            leftTextN.text = "";
+            rightTextN.text = "";
+            raceActive = false;
+            showEndUi = true;
+            carController.CarActive = false;
+
+            StopTimer();
+            racingGameManager = GetComponent<RacingGameManager>();
+            racingGameManager.EndGame();
+            endGameUI = GetComponent<EndGameUI>();
+            endGameUI.ToggleEndGameUI(true);
+        }
+        #endregion
+
+        #region letters and branches
         /// <summary>
         /// Updates the billboards with the letters and images
         /// that the player have to spell.
@@ -221,7 +315,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
 
                 char correctLetter = targetWord[currentIndex];
-                char wrongLetter = RandomWrongLetter(correctLetter);
+                char wrongLetter = RandomWrongLetter(targetWord);
 
                 // Toggle the display of letters between North and South branching points
                 if (displayToggle == false)
@@ -244,35 +338,35 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 }
             }
         }
-
-        /// <summary>
-        /// Updates the timer on the billboards.
-        /// </summary>
-        private void UpdateTimerDisplay()
-        {
-            if (timerDisplayActive == true)
-            {
-
-                timerTextN.text = string.Format("{0:00}:{1:00}", Mathf.FloorToInt(timer / 60), Mathf.FloorToInt(timer) % 60);
-                timerTextS.text = timerTextN.text;
-            }
-
-        }
-
         /// <summary>
         /// Shows a random wrong letter for the wrong choice.
         /// </summary>
         /// <param name="correctLetter"></param>
         /// <returns></returns>
-        private char RandomWrongLetter(char correctLetter)
+        private char RandomWrongLetter(string correctLetter)
         {
             char wrongLetter;
             do
             {
                 wrongLetter = (char)('A' + Random.Range(0, 26));
-            } while (wrongLetter == correctLetter);
+            } while (CheckLetter(wrongLetter, correctLetter));
 
             return wrongLetter;
+        }
+
+        /// <summary>
+        /// Checks that no letter from the correct word is shown as a wrong letter.
+        /// </summary>
+        private bool CheckLetter(char wrongLetter, string correctWord)
+        {
+            foreach (char letter in correctWord)
+            {
+                if(wrongLetter == letter)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -314,25 +408,55 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 Debug.Log($"Incorrect checkpoint {triggeredCheckpoint}. Expected {checkpointOrder[currentCheckpointIndex]}.");
             }
         }
-
         /// <summary>
-        /// Starts the timer.
+        /// Triggered when a player picks a branch.
+        /// Checks if the choice is correct and sets up what happens after.
         /// </summary>
-        private void StartTimer()
+        /// <param name="branchName">The triggered branch to compare with</param>
+        public void BranchTriggered(string branchName)
         {
+            if (raceActive == true)
+            {
+                if (checkpointOrder[currentCheckpointIndex] == Checkpoint.BPn || checkpointOrder[currentCheckpointIndex] == Checkpoint.BPs)
+                {
+                    Branch chosenBranch = branchName.Contains("LeftC") ? Branch.Left : Branch.Right;
 
-            timerRunning = true;
-            timer = 0f; // Reset the timer
+                    if (chosenBranch == correctBranch)
+                    {
+                        currentIndex++;
+
+                        if (currentIndex >= targetWord.Length)
+                        {
+                            currentIndex = 0; // Reset for the next game or end game
+                            spelledWordsList.Add(targetWord); // Add the spelled word to the list
+
+                            DetermineWordToUse(); // Select a new random word for the next game
+                            if (letterDisplayActive == true)
+                            {
+                                wordTextN.text = targetWord;
+                                wordTextS.text = targetWord;
+                            }
+
+                            displayToggle = !displayToggle;
+                            UpdateBranchAndLetters(); // Update the letters for the new word
+                        }
+                        else
+                        {
+                            displayToggle = !displayToggle; // Toggle for the next choice
+                            UpdateBranchAndLetters(); // Prepare for the next letter
+                        }
+                    }
+                    else
+                    {
+                        displayToggle = !displayToggle;
+                        UpdateBranchAndLetters(); // Repeat the current letter
+                    }
+                }
+            }
         }
+        #endregion
 
-        /// <summary>
-        /// Stops the timer.
-        /// </summary>
-        private void StopTimer()
-        {
-            timerRunning = false;
-        }
-
+        #region image
         /// <summary>
         /// Sets up the image to be used.
         /// </summary>
@@ -388,7 +512,9 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 Debug.LogWarning($"Failed to update image display for word: {word}");
             }
         }
+        #endregion
 
+        #region audio
         /// <summary>
         /// Sets up audio files
         /// </summary>
@@ -423,52 +549,6 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 }
             }
         }
-
-        /// <summary>
-        /// Triggered when a player picks a branch.
-        /// Checks if the choice is correct and sets up what happens after.
-        /// </summary>
-        /// <param name="branchName">The triggered branch to compare with</param>
-        public void BranchTriggered(string branchName)
-        {
-            if (raceActive == true)
-            {
-                if (checkpointOrder[currentCheckpointIndex] == Checkpoint.BPn || checkpointOrder[currentCheckpointIndex] == Checkpoint.BPs)
-                {
-                    Branch chosenBranch = branchName.Contains("LeftC") ? Branch.Left : Branch.Right;
-
-                    if (chosenBranch == correctBranch)
-                    {
-                        currentIndex++;
-
-                        if (currentIndex >= targetWord.Length)
-                        {
-                            currentIndex = 0; // Reset for the next game or end game
-                            spelledWordsList.Add(targetWord); // Add the spelled word to the list
-
-                            SelectRandomWord(); // Select a new random word for the next game
-                            if (letterDisplayActive == true)
-                            {
-                                wordTextN.text = targetWord;
-                                wordTextS.text = targetWord;
-                            }
-
-                            displayToggle = !displayToggle;
-                            UpdateBranchAndLetters(); // Update the letters for the new word
-                        }
-                        else
-                        {
-                            displayToggle = !displayToggle; // Toggle for the next choice
-                            UpdateBranchAndLetters(); // Prepare for the next letter
-                        }
-                    }
-                    else
-                    {
-                        displayToggle = !displayToggle;
-                        UpdateBranchAndLetters(); // Repeat the current letter
-                    }
-                }
-            }
-        }
+        #endregion
     }
 }

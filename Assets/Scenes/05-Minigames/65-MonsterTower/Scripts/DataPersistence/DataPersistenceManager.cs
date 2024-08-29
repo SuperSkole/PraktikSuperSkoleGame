@@ -43,7 +43,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
         public void LoadGame()
         {
             gameData = dataHandler.Load();
-            if (gameData == null)
+            if (gameData == null ||gameData.BrickLanes==null || gameData.questions==null)
             {
                 Debug.Log("No data was found. initialising data to default values");
                 NewGame();

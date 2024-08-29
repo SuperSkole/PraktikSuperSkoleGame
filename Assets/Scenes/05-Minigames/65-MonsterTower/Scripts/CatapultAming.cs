@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -57,6 +58,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                     catapultArm.gameObject.transform.Rotate(0, -rotateAmount, 0);
                     rotateThisMuch += rotateAmount;
                     yield return new WaitForSecondsRealtime(rotateActualSpeed);
+                }
+
+
+                // sets the word being shot onto the brick projectile. 
+                for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
+                {
+                    prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = manager.words[manager.ammoCount-1];
+
                 }
 
                 manager.RemoveAmmo();

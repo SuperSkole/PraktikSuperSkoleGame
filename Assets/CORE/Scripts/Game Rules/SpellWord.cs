@@ -81,7 +81,7 @@ namespace CORE.Scripts.GameRules
             {
                 if(currentWord.Length > 0)
                 {
-                    PlayerEvents.RaiseWordAdded(currentWord, System.DateTime.Now);
+                    PlayerEvents.RaiseWordValidated(currentWord);
                 }
                 currentWord = WordsForImagesManager.GetRandomWordForImage();
                 currentIndex = 0;

@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using LoadSave;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Layouts;
+using UnityEngine.UIElements;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -40,16 +45,23 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnEnable()
         {
             PlayerEvents.OnWordValidated += AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
+
         }
 
         private void OnDisable()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
         }
 
         private void OnDestroy()
         {
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
+            PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
+            PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
         }
 
         private void Update()
@@ -97,7 +109,10 @@ namespace Scenes._10_PlayerScene.Scripts
                 Debug.LogError($"Failed to add word to player data: {ex.Message}");
             }
         }
-        
+
+
+     
+
         /// <summary>
         /// Removes a word from the player's collected words list,
         /// if it is not null or empty.
@@ -120,11 +135,34 @@ namespace Scenes._10_PlayerScene.Scripts
                 Debug.LogError($"Failed to remove word from player data: {ex.Message}");
             }
         }
-        
+
+
+        private List<string> HandlePlayerDataWordsExtracted(List<string> words)
+        {
+            Debug.Log($"Extracted {words.Count} words from player data.");
+
+            // Liste hvor de fundne ord skal tilf�jes
+            List<string> updatedWordList = new List<string>();
+
+            // Tilf�j de fundne ord til updatedWordList
+            updatedWordList.AddRange(words);
+
+            // Returner den opdaterede liste
+            return updatedWordList;
+        }
+
+
+
+
+
+
+
+
+
         //---------- templates and ideas for later------------
 
         #region ideas
-        
+
         /// <summary>
         /// Adds or removes gold from the player's current total.
         /// </summary>
