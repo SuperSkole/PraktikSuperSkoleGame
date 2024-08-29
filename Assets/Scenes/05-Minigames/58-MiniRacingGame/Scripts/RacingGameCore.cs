@@ -354,6 +354,9 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             return wrongLetter;
         }
 
+        /// <summary>
+        /// Checks that no letter from the correct word is shown as a wrong letter.
+        /// </summary>
         private bool CheckLetter(char wrongLetter, string correctWord)
         {
             foreach (char letter in correctWord)
