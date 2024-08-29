@@ -83,7 +83,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
 
-
+            //Instanciate playerCharactor in SymbolEater
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
