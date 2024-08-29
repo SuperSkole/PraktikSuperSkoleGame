@@ -315,7 +315,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
 
                 char correctLetter = targetWord[currentIndex];
-                char wrongLetter = RandomWrongLetter(correctLetter);
+                char wrongLetter = RandomWrongLetter(targetWord);
 
                 // Toggle the display of letters between North and South branching points
                 if (displayToggle == false)
@@ -343,16 +343,29 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         /// <param name="correctLetter"></param>
         /// <returns></returns>
-        private char RandomWrongLetter(char correctLetter)
+        private char RandomWrongLetter(string correctLetter)
         {
             char wrongLetter;
             do
             {
                 wrongLetter = (char)('A' + Random.Range(0, 26));
-            } while (wrongLetter == correctLetter);
+            } while (CheckLetter(wrongLetter, correctLetter));
 
             return wrongLetter;
         }
+
+        private bool CheckLetter(char wrongLetter, string correctWord)
+        {
+            foreach (char letter in correctWord)
+            {
+                if(wrongLetter == letter)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// CHecks when a checkpoint is hit.
         /// </summary>
