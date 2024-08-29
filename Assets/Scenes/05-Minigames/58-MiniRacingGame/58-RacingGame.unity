@@ -28356,8 +28356,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
+      propertyPath: maxSpeed
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
+      propertyPath: motorForce
+      value: 1500000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
+      propertyPath: reverseMaxSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28410,7 +28422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   carActive: 0
-  motorForce: 15000
+  motorForce: 150000
   maxSteeringAngle: 30
   maxSpeed: 37
   reverseMaxSpeed: 15
