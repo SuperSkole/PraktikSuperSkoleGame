@@ -53,6 +53,7 @@ public class CarEvents : MonoBehaviour
 
             EnablePlayer();
             carSetPlayerPos.isDriving = false;
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
 
         }
 
