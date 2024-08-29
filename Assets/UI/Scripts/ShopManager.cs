@@ -47,10 +47,10 @@ public class ShopManager : MonoBehaviour
         }
 
         //Build shop
-        List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
-        InitializeShopOptions(theShopOptions);
+        //List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
+        //InitializeShopOptions(theShopOptions);
 
-        Debug.Log(theShopOptions.Count + "antal p� listen");
+        //Debug.Log(theShopOptions.Count + "antal p� listen");
 
     }
     private void OnEnable()
@@ -61,6 +61,15 @@ public class ShopManager : MonoBehaviour
 
         List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
         InitializeShopOptions(theShopOptions);
+    }
+    private void OnDisable()
+    {
+        var amountOfChild = shopOptionsParent.childCount;
+
+        for (int i = 0; i < amountOfChild; i++)
+        {
+            Destroy(shopOptionsParent.GetChild(i));
+        }
     }
     //Create the shop options
     private void InitializeShopOptions(List<ClothInfo> availableClothes)
@@ -152,8 +161,6 @@ public class ShopManager : MonoBehaviour
 
     public void CloseShop()
     {
-        var amountOfChild = shopOptionsParent.childCount;
-        
         this.gameObject.SetActive(false);
 
     }
