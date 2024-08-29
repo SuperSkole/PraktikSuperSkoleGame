@@ -39,7 +39,6 @@ public class ClothingManager : MonoBehaviour
     }
     private void InitializeClothes()
     {
-
         // SHOPITEMS
         AvailableClothesList.Add(new ClothInfo { ID = 1, image = briller, Price = 50, Name = "Briller", SpineName = "Monster HEAD Tophat" });
         AvailableClothesList.Add(new ClothInfo { ID = 2, image = tryllehat, Price = 75, Name = "Tryllehat", SpineName = "Monster HEAD Briller" });
@@ -49,11 +48,11 @@ public class ClothingManager : MonoBehaviour
         AvailableClothesList.Add(new ClothInfo { ID = 5, image = halstorklade, Price = 100, Name = "Halstørklæde", SpineName = "Monster MID Halstørklæde" });
         AvailableClothesList.Add(new ClothInfo { ID = 6, image = ballerinaskort, Price = 200, Name = "Ballerinaskørt", SpineName = "Monster MID Ballerinaskørt" });
 
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = rod, Price = 20, Name = "Rød", SpineName = "red" });
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = gron, Price = 20, Name = "Grøn", SpineName = "green" });
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = bla, Price = 20, Name = "Blå", SpineName = "blue" });
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = gul, Price = 20, Name = "Gul", SpineName = "orange" });
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = hvid, Price = 20, Name = "Hvid", SpineName = "white" });
+        AvailableClothesList.Add(new ClothInfo { ID = 7, image = rod, Price = 20, Name = "Rød", SpineName = "red" });
+        AvailableClothesList.Add(new ClothInfo { ID = 8, image = gron, Price = 20, Name = "Grøn", SpineName = "green" });
+        AvailableClothesList.Add(new ClothInfo { ID = 9, image = bla, Price = 20, Name = "Blå", SpineName = "blue" });
+        AvailableClothesList.Add(new ClothInfo { ID = 10, image = gul, Price = 20, Name = "Gul", SpineName = "orange" });
+        AvailableClothesList.Add(new ClothInfo { ID = 11, image = hvid, Price = 20, Name = "Hvid", SpineName = "white" });
     }
     public List<ClothInfo> CipherList(List<int> checkList)
     {
