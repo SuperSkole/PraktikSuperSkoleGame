@@ -3,7 +3,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._00_LoginScene.Scripts
+namespace Scenes._02_LoginScene.Scripts
 {
     /// <summary>
     /// Manages the login process, including validating user credentials against stored data.
