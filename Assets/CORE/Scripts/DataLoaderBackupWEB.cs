@@ -9,7 +9,7 @@ namespace CORE.Scripts
     /// Load Words From CSV
     /// Run during login screen
     /// </summary>
-    public class DataLoader : MonoBehaviour
+    public class DataLoaderBackupWEB : MonoBehaviour
     {
         public static bool IsDataLoaded { get; private set; } = false;
 
