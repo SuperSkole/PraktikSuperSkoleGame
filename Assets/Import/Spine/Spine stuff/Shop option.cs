@@ -7,10 +7,13 @@ using UnityEngine.UI;
 
 public class Shopoption : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] string itemName;
-    [SerializeField] int Price;
+    private string itemName;
+    private int Price;
     [SerializeField] TextMeshProUGUI priceText;
-    [SerializeField] Image profilImage;
+    private Image profilImage;
+    private string SpineName;
+
+    public int ID;
 
     Image imageComponent;
     Outline outlineComponent;
@@ -25,11 +28,12 @@ public class Shopoption : MonoBehaviour, IPointerClickHandler
         priceText.text = Price.ToString();
     }
 
-    public void Initialize(string newItemName, int newPrice, Image newImage)
+    public void Initialize(string newItemName, int newPrice, Sprite newImage, string newSpineName, int newID)
     {
         itemName = newItemName;
         Price = newPrice;
-        profilImage = newImage;
+        profilImage.sprite = newImage;
+        SpineName = newSpineName;
 
         if (priceText != null)
         {

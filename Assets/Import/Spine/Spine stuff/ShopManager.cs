@@ -52,6 +52,9 @@ public class ShopManager : MonoBehaviour
         //Build shop
         List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
         InitializeShopOptions(theShopOptions);
+
+        Debug.Log(theShopOptions.Count + "antal på listen");
+        
     }
 
     //Create the shop options
@@ -64,7 +67,8 @@ public class ShopManager : MonoBehaviour
 
             // Initialize the ShopOption with the cloth data
             Shopoption shopOption = newShopOptionObj.GetComponent<Shopoption>();
-            shopOption.Initialize(cloth.Name, cloth.Price, cloth.image);
+            shopOption.Initialize(cloth.Name, cloth.Price, cloth.image, cloth.SpineName, cloth.ID);
+            Debug.Log("SHOPOPTION MADE");
         }
     }
 
@@ -122,7 +126,10 @@ public class ShopManager : MonoBehaviour
     {
         if (ableToBuy)
         {
-            //add item to dictionary here, save their current money
+            //add item to list here
+            PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+            //takes away money
             avaliableMoney -= currentPrice;
             PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney; 
 
