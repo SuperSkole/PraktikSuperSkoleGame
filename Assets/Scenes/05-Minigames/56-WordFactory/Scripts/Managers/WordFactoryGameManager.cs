@@ -33,7 +33,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
             else
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
 
                 IntializeFactoryManager();
             }

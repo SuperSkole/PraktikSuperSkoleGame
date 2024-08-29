@@ -79,10 +79,6 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
-            if (SceneManager.GetActiveScene().name.StartsWith("56"))
-            {
-                //gameObject.GetComponent<SpinePlayerMovement>().
-            }
         }
         
         /// <summary>
@@ -247,6 +243,15 @@ namespace Scenes._10_PlayerScene.Scripts
             
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
+
+            if (SceneManager.GetActiveScene().name.StartsWith("11") || SceneManager.GetActiveScene().name.StartsWith("20"))
+            {
+                instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
+            }
+            else
+            {
+                instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+            }
         }
 
         /// <summary>
