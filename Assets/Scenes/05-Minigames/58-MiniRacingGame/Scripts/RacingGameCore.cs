@@ -9,10 +9,10 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
     public class RacingGameCore : MonoBehaviour
     {
         #region variables
-        private int sceneID = 13;
 
         private readonly AudioSource gameManagerAudioSource;
         public EndGameUI endGameUI;
+        public GameObject StartUI;
         public GameObject playerCar;
         public CarController carController;
         public RacingGameManager racingGameManager;
@@ -93,18 +93,35 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         #region setup
         /// <summary>
-        /// Checks it is the racing scene,
-        /// then sets up everything to race.
+        /// Gamemode selection for players.
         /// </summary>
-        private void Start()
+        public void GameMode_Three_Words()
         {
-            sceneID = SceneManagerScript.Instance.SceneID;
+            Setup(GameModes.Mode1);
+        }
+        public void GamemMode_One_Word()
+        {
+            Setup(GameModes.Mode2);
+        }
 
-            if (sceneID == 1)
-            {
-                RaceActive = true;
-                raceActive = true;
-            }
+        /// <summary>
+        /// Ensures the player car is not active until setup is done
+        /// </summary>
+        void Start()
+        {
+            playerCar.SetActive(false);
+        }
+
+        /// <summary>
+        /// Sets up everything to race once the player picks a gamemode.
+        /// </summary>
+        private void Setup(string gameMode)
+        {
+            playerCar.SetActive(true);
+            StartUI.SetActive(false);
+            RaceActive = true;
+            raceActive = true;
+
 
             carController.GetComponent<CarController>();
 
@@ -115,7 +132,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             timerDisplayActive = true;
 
 
-            DetermineWordToUse(); // Select a random word from the list
+            DetermineWordToUse(gameMode); // Select a random word from the list
             UpdateBranchAndLetters();
             if (letterDisplayActive == true)
             {
@@ -132,7 +149,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
                 InitializeWordAudioMap();
                 PlayWordAudio(targetWord);
             }
-
+            carController.Setup();
         }
         /// <summary>
         /// Picks a random word from the list.
@@ -238,7 +255,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// Checks which game mode is in use
         /// </summary>
         /// <param name="gameMode">The gamemode the racing game is using</param>
-        private void DetermineWordToUse(string gameMode = "Mode 1")
+        private void DetermineWordToUse(string gameMode = "Mode 2")
         {
             if (gameMode == GameModes.Mode1)
             {

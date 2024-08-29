@@ -6,9 +6,8 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
     {
 
         //public GameObject racingGameManager;
-        int sceneID = 0;
 
-        public bool carActive; //the car state
+        public bool carActive = false; //the car state
         public bool CarActive
         {
             get { return carActive; }
@@ -54,24 +53,13 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
 
         /// <summary>
-        /// Check if this is in the racing scene before triggering. 
-        /// TODO: Figure out a better way than scene ID.
+        /// Sets up the car once the map is ready.
         /// </summary>
-        private void Start()
+        public void Setup()
         {
-            sceneID = SceneManagerScript.Instance.SceneID;
-            if (sceneID == 1)
-            {
-                carActive = true; // Start with the car being off.
-                leftHeadlight.SetActive(carActive == true);
-                rightHeadlight.SetActive(carActive == true);
-            }
-            if (sceneID == 0)
-            {
-                carActive = false; // Start with the car being off.
-                leftHeadlight.SetActive(carActive == false);
-                rightHeadlight.SetActive(carActive == false);
-            }
+            carActive = true; // Start with the car being off.
+            leftHeadlight.SetActive(carActive == true);
+            rightHeadlight.SetActive(carActive == true);
         }
 
         /// <summary>
@@ -318,7 +306,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             Quaternion rot;
             wheelCollider.GetWorldPose(out pos, out rot);
             wheelTransform.position = pos;
-            wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 90);
+            wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 0);
         }
     }
 }

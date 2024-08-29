@@ -6,16 +6,9 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 {
     public class EnterExitVehicle : MonoBehaviour
     {
-        public GameObject player; // Assign your player GameObject in the Inspector
         public GameObject car;    // Assign your car GameObject in the Inspector
-        //public GameObject racingGameManager;
-        private bool isPlayerNearby = false;
         private CarController carController;
-        //private RacingGameCore racingGameCore;
-        //[SerializeField] private GameObject camera;
         public UnityEvent enterCar;
-        public UnityEvent exitCar;
-        int sceneID = 0;
 
         [SerializeField] private CinemachineVirtualCamera mainCamera;
 
@@ -24,36 +17,8 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         private void Start()
         {
-            sceneID = SceneManagerScript.Instance.SceneID;
-
             carController = car.GetComponent<CarController>();
-            if (sceneID == 0) //Town scene
-            {
-                //PlayerActive();
-                //CarActive();
-            }
-
-            if (sceneID == 1) //Racing scene
-            {
-                CarActive();
-                //PlayerActive();
-            }
-        }
-
-        /// <summary>
-        /// Check if the player is trying to enter or exit the car.
-        /// </summary>
-        private void Update()
-        {
-            if (isPlayerNearby && Input.GetKeyDown(KeyCode.E)) //Town scene
-            {
-                //ToggleCarAndPlayer();
-            }
-
-            //if (sceneID == 0 && isPlayerNearby && Input.GetKeyDown(KeyCode.E)) //Town scene
-            //{
-            //    ToggleCarAndPlayer();
-            //}
+            CarActive();
         }
 
         // private void ToggleCarAndPlayer()
@@ -97,41 +62,8 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         private void CarActive()
         {
             carController.CarActive = true;
-            player.SetActive(false); // Disable player and enable car
 
             enterCar.Invoke();  
-        }
-
-        /// <summary>
-        /// Fetch the player.
-        /// </summary>
-        public void FindPlayer()
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
-
-        /// <summary>
-        /// Check if the player is colliding with it.
-        /// </summary>
-        /// <param name="other"></param>
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject == player)
-            {
-                isPlayerNearby = true;
-            }
-        }
-
-        /// <summary>
-        /// Checks if the player is leaving the car.
-        /// </summary>
-        /// <param name="other"></param>
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject == player)
-            {
-                isPlayerNearby = false;
-            }
         }
     }
 }
