@@ -1,6 +1,5 @@
 using Cinemachine;
 using Scenes._10_PlayerScene.Scripts;
-using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 
 public class CarEvents : MonoBehaviour

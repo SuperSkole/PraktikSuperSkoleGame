@@ -1,7 +1,7 @@
-using Scenes.PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +10,7 @@ public class ShopManager : MonoBehaviour
     //Display model
     public SkeletonGraphic skeletonGraphic;
     //changing color
-    private ColorChanging colorChanging;
+    private ColorChanging playerColorChanging;
     //The chosen item
     private string currentItem;
     
@@ -31,7 +31,7 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-        colorChanging = this.GetComponent<ColorChanging>();
+        playerColorChanging = this.GetComponent<ColorChanging>();
 
         if(PlayerManager.Instance == null )
         {
@@ -76,7 +76,7 @@ public class ShopManager : MonoBehaviour
         {
             if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
             {
-                    colorChanging.ColorChange(itemName);
+                    playerColorChanging.ColorChange(itemName);
             }
         }
      

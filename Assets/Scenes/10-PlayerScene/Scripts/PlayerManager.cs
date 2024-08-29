@@ -1,14 +1,12 @@
 using Cinemachine;
 using CORE;
 using LoadSave;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
-using Spine.Unity;
-using UnityEngine.Splines;
 
-namespace Scenes.PlayerScene.Scripts
+namespace Scenes._10_PlayerScene.Scripts
 {
     /// <summary>
     /// Manages the player's data, interactions, and scene changes within the game.

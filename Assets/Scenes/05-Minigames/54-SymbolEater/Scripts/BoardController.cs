@@ -10,7 +10,6 @@ using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
 using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
-using Scenes.PlayerScene.Scripts;
 using UnityEngine.SceneManagement;
 
 namespace Scenes.Minigames.SymbolEater.Scripts

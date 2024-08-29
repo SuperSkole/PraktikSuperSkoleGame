@@ -1,8 +1,8 @@
 using Cinemachine;
-using Scenes.PlayerScene.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
-namespace Scenes._03_MainWorld.Scripts
+namespace Scenes._20_MainWorld.Scripts
 {
     public class MainWorldStartup : MonoBehaviour
     {
