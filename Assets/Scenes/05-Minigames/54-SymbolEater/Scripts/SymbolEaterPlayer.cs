@@ -101,6 +101,13 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 canMove = false;
                 board.Lost();
             }
+            //Check to ensure currentDestination is in sync with the center of the tiles.
+            if((currentDestination.x - 10.5f) % 1 != 0 || (currentDestination.z - 10.5f) % 1 != 0)
+            {
+                float fixedX = MathF.Round(currentDestination.x - 10.5f) + 10.5f;
+                float fixedZ = MathF.Round(currentDestination.z - 10.5f) + 10.5f;
+                currentDestination = new Vector3(fixedX, currentDestination.y, fixedZ);
+            }
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
             {
