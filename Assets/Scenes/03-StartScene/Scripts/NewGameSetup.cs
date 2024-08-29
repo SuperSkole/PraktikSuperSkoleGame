@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class NewGameSetup : MonoBehaviour
     {
