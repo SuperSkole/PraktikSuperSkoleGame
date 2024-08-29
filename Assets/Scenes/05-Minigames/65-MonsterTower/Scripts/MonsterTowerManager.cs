@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
 using CORE.Scripts.GameRules;
+using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
-using Scenes.PlayerScene.Scripts;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
