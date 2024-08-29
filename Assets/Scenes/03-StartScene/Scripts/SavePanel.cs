@@ -1,13 +1,11 @@
 using System;
 using LoadSave;
-using Scenes._01_StartScene.Scripts;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Scenes.StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class SavePanel : MonoBehaviour, IPointerClickHandler
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class UIStartSceneManager : MonoBehaviour
     {

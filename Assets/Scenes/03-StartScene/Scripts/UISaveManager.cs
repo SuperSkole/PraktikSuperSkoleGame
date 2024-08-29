@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using CORE;
 using LoadSave;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Scenes.StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class UISaveManager : MonoBehaviour
     {

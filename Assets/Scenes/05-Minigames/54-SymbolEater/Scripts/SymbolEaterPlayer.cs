@@ -1,5 +1,5 @@
-using Scenes.PlayerScene.Scripts;
 using System;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;

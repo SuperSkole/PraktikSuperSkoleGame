@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Scenes.PlayerScene.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
 namespace CORE.Scripts.GameRules

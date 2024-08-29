@@ -1,10 +1,9 @@
-using CORE;
 using LoadSave;
-using Scenes.PlayerScene.Scripts;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes._01_StartScene.Scripts
+namespace Scenes._03_StartScene.Scripts
 {
     public class LoadGameSetup : MonoBehaviour
     {
