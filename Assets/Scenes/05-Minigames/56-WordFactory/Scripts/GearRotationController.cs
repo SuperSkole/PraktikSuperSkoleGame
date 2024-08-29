@@ -37,6 +37,10 @@ namespace Scenes.Minigames.WordFactory.Scripts
         /// Coroutine to animate the rotation of a gear by one tooth
         private IEnumerator RotateGear(GameObject gear, bool clockwise)
         {
+            var numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfGears() >= 2
+                ? WordFactoryGameManager.Instance.GetNumberOfTeeth()
+                : 9;
+            
             GearRotationController controller = gear.GetComponent<GearRotationController>();
             if (controller.isRotating)
                 yield break;  
@@ -44,7 +48,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             controller.isRotating = true;  
             OnGearRotate?.Invoke(gearIndex, clockwise);
 
-            float anglePerTooth = 360f / WordFactoryGameManager.Instance.GetNumberOfTeeth();
+            float anglePerTooth = 360f / numberOfTeeth;
             float angle = clockwise ? anglePerTooth : -anglePerTooth;
             Quaternion startRotation = gear.transform.localRotation;
             Quaternion endRotation = Quaternion.Euler(0, 0, angle) * startRotation;

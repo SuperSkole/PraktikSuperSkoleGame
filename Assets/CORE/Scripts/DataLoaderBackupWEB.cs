@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,14 +9,9 @@ namespace CORE.Scripts
     /// Load Words From CSV
     /// Run during login screen
     /// </summary>
-    public class DataLoader : MonoBehaviour
+    public class DataLoaderBackupWEB : MonoBehaviour
     {
         public static bool IsDataLoaded { get; private set; } = false;
-
-        public List<Texture2D> images = new();
-        public List<AudioClip> letterSounds = new();
-        public List<AudioClip> danskCongrats = new();
-        public List<AudioClip> englishCongrats = new();
 
         /// <summary>
         /// Starts loading all CSV, texture, and letter sound files simultaneously.
@@ -36,12 +29,10 @@ namespace CORE.Scripts
             var csvCoroutine = LoadAllCsvFiles();
             var texturesCoroutine = LoadAllTextures();
             var letterSoundsCoroutine = LoadAllletterSounds();
-            var congratsSoundCoroutine = LoadAllCongratsSounds();
 
             yield return StartCoroutine(csvCoroutine);
             yield return StartCoroutine(texturesCoroutine);
             yield return StartCoroutine(letterSoundsCoroutine);
-            yield return StartCoroutine(congratsSoundCoroutine);
 
             Debug.Log("All resources loaded.");
         }
@@ -115,25 +106,40 @@ namespace CORE.Scripts
 
         private IEnumerator LoadAllTextures()
         {
-            
-            foreach (Texture2D fileName in images)
+            string directoryPath = Application.streamingAssetsPath + "/Pictures/";
+
+            // List your PNG files here
+            string[] textureFiles = new string[] { "image1.png", "image2.png" }; // Replace with your actual texture files
+            foreach (string fileName in textureFiles)
             {
-                yield return StartCoroutine(LoadAndSetDic(fileName));
+                string filePath = directoryPath + fileName;
+                yield return StartCoroutine(LoadAndSetDic(filePath));
             }
         }
 
-        private IEnumerator LoadAndSetDic(Texture2D texture)
+        private IEnumerator LoadAndSetDic(string filePath)
         {
-            string name = texture.name;
-            name = GetName(name);
-            ImageManager.AddImageToSet(name, texture);
-            WordsForImagesManager.AddNameToSet(name);
-            yield return null;
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
+            string setName = GetFileNameWithoutExtension(filePath);
+            setName = GetName(setName);
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}: " + request.error);
+                yield break;
+            }
+            else
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(request);
+                ImageManager.AddImageToSet(setName, texture);
+                WordsForImagesManager.AddNameToSet(setName);
+            }
         }
 
         private string GetName(string name)
         {
-            StringBuilder output = new(name);
+            StringBuilder output = new StringBuilder(name);
             int space = output.ToString().IndexOf(" ");
             if (space != -1)
                 output.Remove(space, output.Length - space);
@@ -149,18 +155,34 @@ namespace CORE.Scripts
 
         private IEnumerator LoadAllletterSounds()
         {
-            foreach (AudioClip fileName in letterSounds)
+            string directoryPath = Application.streamingAssetsPath + "/Audio/Letters/";
+
+            // List your letter sound files here
+            string[] soundFiles = new string[] { "letter1.mp3", "letter2.mp3" }; // Replace with your actual sound files
+            foreach (string fileName in soundFiles)
             {
-                yield return StartCoroutine(LoadAndSetDicLetterSound(fileName));
+                string filePath = directoryPath + fileName;
+                yield return StartCoroutine(LoadAndSetDicLetterSound(filePath));
             }
         }
 
-        private IEnumerator LoadAndSetDicLetterSound(AudioClip clip)
+        private IEnumerator LoadAndSetDicLetterSound(string filePath)
         {
-            string name = clip.name;
-            name = GetNameLetterSound(name);
-            LetterAudioManager.AddAudioClipToSet(name, clip);
-            yield return null;
+            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.MPEG);
+            string setName = GetFileNameWithoutExtension(filePath);
+            setName = GetNameLetterSound(setName);
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError($"Error loading {filePath}: " + request.error);
+                yield break;
+            }
+            else
+            {
+                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
+                LetterAudioManager.AddAudioClipToSet(setName, audioClip);
+            }
         }
 
         private string GetNameLetterSound(string name)
@@ -173,48 +195,5 @@ namespace CORE.Scripts
         }
 
         #endregion
-
-        /// <summary>
-        /// Loads all the congrats Sounds. 
-        /// </summary>
-        /// <returns></returns>
-        private IEnumerator LoadAllCongratsSounds()
-        {
-            foreach (AudioClip clip in danskCongrats)
-            {
-                StartCoroutine(LoadAndSetListDanishCongratsSounds(clip));
-            }
-
-            foreach (AudioClip clip in englishCongrats)
-            {
-                StartCoroutine(LoadAndSetListEnglishCongratsSounds(clip));
-            }
-
-            yield return null;
-        }
-
-
-
-        /// <summary>
-        /// loades the danish congrats AudioClips based on a filepath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
-        /// </summary>
-        /// <param name="clip">the path of the file you are loading</param>
-        /// <returns></returns>
-        IEnumerator LoadAndSetListDanishCongratsSounds(AudioClip clip)
-        {
-            CongratsAudioManager.AddAudioClipToDanishSet(clip);
-            yield return null;
-        }
-
-        /// <summary>
-        /// loades the danish congrats AudioClips based on a filePath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
-        /// </summary>
-        /// <param name="clip"></param>
-        /// <returns></returns>
-        IEnumerator LoadAndSetListEnglishCongratsSounds(AudioClip clip)
-        {
-            CongratsAudioManager.AddAudioClipToEnglishSet(clip);
-            yield return null;
-        }
     }
 }
