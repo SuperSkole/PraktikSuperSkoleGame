@@ -17,6 +17,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         
         [SerializeField] private GameObject playerSpawnPoint;
         
+        private GameObject wordBlockPrefabForSingleGearMode;
         private List<GameObject> gears = new List<GameObject>();
         private IGearStrategy gearStrategy;
 
@@ -70,6 +71,8 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         }
 
         public List<GameObject> GetGears() => gears;
+        public GameObject GetWordBlock() => wordBlockPrefabForSingleGearMode;
+        public GameObject SetWordBlock(GameObject prefab) => wordBlockPrefabForSingleGearMode = prefab;
 
         public int GetNumberOfGears() => NumberOfGears;
 

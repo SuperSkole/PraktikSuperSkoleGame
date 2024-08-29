@@ -48,7 +48,8 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         
         private void LoadPrefabBlocks()
         {
-            GameObject singleGearWordBlockPrefab = GameObject.Find("ConsonantWordBlock");
+            GameObject singleGearWordBlockPrefab
+                = WordFactoryGameManager.Instance.GetWordBlock();
             
             if (singleGearWordBlockPrefab != null)
             {

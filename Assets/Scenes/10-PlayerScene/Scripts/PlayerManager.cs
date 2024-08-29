@@ -186,9 +186,10 @@ namespace Scenes.PlayerScene.Scripts
             }
 
             skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
-                              "ISkeletonComponent component not found on spawned player.");
+                               "ISkeletonComponent component not found on spawned player.");
                 return;
             }
 

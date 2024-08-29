@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using Scenes.PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
