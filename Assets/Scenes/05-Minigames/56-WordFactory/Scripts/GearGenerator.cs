@@ -27,7 +27,9 @@ namespace Scenes.Minigames.WordFactory.Scripts
         private void Awake()
         {
             numberOfGears = WordFactoryGameManager.Instance.GetNumberOfGears();
-            numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfTeeth();
+            numberOfTeeth = numberOfGears >= 2
+                ? WordFactoryGameManager.Instance.GetNumberOfTeeth()
+                : 9;
             
             // Set the semi-circle radius to accommodate gear spacing correctly
             semiCircleRadius = (cylinderScaleXZ / 2) + 0.6f + (numberOfGears - 2);  // half diameter + teeth outward position
@@ -106,7 +108,10 @@ namespace Scenes.Minigames.WordFactory.Scripts
                     5);                                        
 
                 // Instantiate and configure the single gear
-                GameObject gear = InstantiateGear("Gear1", gearPosition, 0, numberOfTeeth);
+                GameObject gear = InstantiateGear("Gear1",
+                    gearPosition,
+                    0,
+                    numberOfTeeth);
                 WordFactoryGameManager.Instance.AddGear(gear);
                 gearButtonManager.CreateButtonsForGear(gear);
                 
@@ -172,11 +177,17 @@ namespace Scenes.Minigames.WordFactory.Scripts
             return gearInstance;
         }
 
-        private void GenerateTeeth(Transform parent, float radius, int numberOfTeeth)
+        /// <summary>
+        /// Generates teeth around the parent transform in a circle, starting from the 9 o'clock position.
+        /// </summary>
+        /// <param name="parent">The parent transform to attach the teeth.</param>
+        /// <param name="radius">The radius at which to place the teeth.</param>
+        /// <param name="numberOfTeeth">The total number of teeth to generate.</param>
+        private void GenerateTeeth(Transform parent, float radius, int toothnumber)
         {
-            for (var i = 0; i < numberOfTeeth; i++)
+            for (var i = 0; i < toothnumber; i++)
             {
-                float angle = i * Mathf.PI * 2 / numberOfTeeth;
+                float angle = i * Mathf.PI * 2 / toothnumber + Mathf.PI;
                 Vector3 position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
                 Quaternion rotation = Quaternion.LookRotation(position, Vector3.up);
                 var tooth = Instantiate(letterGearToothPrefab, parent);

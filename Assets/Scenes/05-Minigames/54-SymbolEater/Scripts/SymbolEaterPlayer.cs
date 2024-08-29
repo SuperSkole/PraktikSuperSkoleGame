@@ -106,6 +106,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             {
                 Debug.Log("WordFactory GM.Start(): Player Manager Is null");
             }
+            //if (PlayerManager.Instance != null)
+            //{
+            //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+            //}
+            //else
+            //{
+            //    Debug.Log("WordFactory GM.Start(): Player Manager Is null");
+            //}
         }
 
         /// <summary>
