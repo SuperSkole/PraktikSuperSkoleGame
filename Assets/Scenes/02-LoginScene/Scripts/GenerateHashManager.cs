@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Scenes._00_LoginScene.Scripts
+namespace Scenes._02_LoginScene.Scripts
 {
     /// <summary>
     /// This class is responsible for generating cryptographic hashes and salts, typically used for securing passwords.

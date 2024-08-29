@@ -1,13 +1,12 @@
 using Cinemachine;
 using CORE;
 using LoadSave;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
-using Spine.Unity;
 
-namespace Scenes.PlayerScene.Scripts
+namespace Scenes._10_PlayerScene.Scripts
 {
     /// <summary>
     /// Manages the player's data, interactions, and scene changes within the game.
@@ -186,9 +185,10 @@ namespace Scenes.PlayerScene.Scripts
             }
 
             skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
-                              "ISkeletonComponent component not found on spawned player.");
+                               "ISkeletonComponent component not found on spawned player.");
                 return;
             }
 
@@ -243,6 +243,21 @@ namespace Scenes.PlayerScene.Scripts
             
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
+
+            // TODO : Find a more permnat solution
+            if (SceneManager.GetActiveScene().name.StartsWith("11") || SceneManager.GetActiveScene().name.StartsWith("20"))
+            {
+                instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
+                instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+
+            }
+            else
+            {
+                instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
+                instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+            }
         }
 
         /// <summary>
@@ -253,16 +268,25 @@ namespace Scenes.PlayerScene.Scripts
         {
             if (!scene.name.StartsWith("0"))
             {
-                var cinemachineCam = GameObject.FindGameObjectWithTag("Camera");
-                var virtualCamera = cinemachineCam.GetComponent<CinemachineVirtualCamera>();
+                try
+                {
+                    var cinemachineCam
+                        = GameObject.FindGameObjectWithTag("Camera");
+                    var virtualCamera = cinemachineCam
+                        .GetComponent<CinemachineVirtualCamera>();
 
-                virtualCamera.Follow = spawnedPlayer.transform;
-                virtualCamera.LookAt = spawnedPlayer.transform;
+                    virtualCamera.Follow = spawnedPlayer.transform;
+                    virtualCamera.LookAt = spawnedPlayer.transform;
 
-                var cameraBrain = GameObject.Find("CameraBrain");
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain.GetComponent<Camera>();
+                    var cameraBrain = GameObject.Find("CameraBrain");
+                    spawnedPlayer.GetComponent<SpinePlayerMovement>()
+                        .sceneCamera = cameraBrain.GetComponent<Camera>();
+                }
+                catch
+                {
+                    
+                }
             }
-            
         }
 
         /// <summary>

@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
 using CORE.Scripts.GameRules;
+using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,11 +27,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     public class MonsterTowerManager : MonoBehaviour
     {
 
-        int ammo = 10;
+        public int ammoCount;
 
         [SerializeField] Camera mainCamera;
         [SerializeField] GameObject noAmmoText;
-        [SerializeField] GameObject[] ammoDisplay;
+        [SerializeField] List<GameObject> ammoDisplay;
+        [SerializeField] GameObject ammoToDisplayPrefab;
+        [SerializeField] GameObject ammoPlatform;
         [SerializeField] CatapultAming catapultAming;
         RaycastHit hit;
         Ray ray;
@@ -39,29 +44,38 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public Difficulty difficulty;
 
         //temp
-        string[] sentanses;
+        public List<string> words;
         /// <summary>
         /// used to setup sentanses TEMP make this better!!
         /// </summary>
         void SetupSentanses()
         {
-            sentanses = new string[3];
-            sentanses[0] = "is på ko";
-            sentanses[1] = "ko på is";
-            sentanses[2] = "gås under ko";
+            words = new List<string>()
+            {
+                "is på ko",
+                "ko på is",
+                "gås under ko"
+            };
+           
+        }
+        /// <summary>
+        /// Gets the words collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
+        /// </summary>
+        void SetupPlayerWords()
+        {
+            words = PlayerEvents.RaisePlayerDataWordsExtracted();
+           
+           
+           
+        
+
         }
 
         /// <summary>
         /// call this to setup the minigame
         /// </summary>
         /// <param name="input">the dictionary that contains all the questions and images</param>
-        public void SetDic(string[] input)
-        {
-            sentanses = input;
 
-        
-            towerManager.SetupGame(new SentenceToPictures(), new SpellWord());
-        }
 
 
 
@@ -71,20 +85,35 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
-            SetupSentanses();
-            if (ammo <= 0)
+
+
+            
+            //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
+            SetupPlayerWords();
+
+            //Spawns the ammunition that needed to be displayed beside the catapult. 
+            SpawnAmmoForDisplay();
+
+            // the ammocount is set to the amount of words that player has. 
+            if (words != null)
+            {
+                ammoCount = words.Count;
+            }
+
+           
+            if (ammoCount <= 0)
             {
                 noAmmoText.SetActive(true);
-                for (int i = 0; i < ammoDisplay.Length; i++)
+                for (int i = 0; i < ammoDisplay.Count; i++)
                 {
                     ammoDisplay[i].SetActive(false);
                 }
                 return;
             }
 
-            if (ammo < ammoDisplay.Length)
+            if (ammoCount < ammoDisplay.Count)
             {
-                for (int i = ammoDisplay.Length - 1; i >= ammo; i--)
+                for (int i = ammoDisplay.Count - 1; i >= ammoCount; i--)
                 {
                     ammoDisplay[i].SetActive(false);
                 }
@@ -98,6 +127,29 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
 
 
+        /// <summary>
+        /// Spawns the ammo with each block representing a word that the player has picked up from the other minigames. 
+        /// </summary>
+        void SpawnAmmoForDisplay()
+        {
+
+            if (words!=null)
+            {
+                for (int x = 0; x < words.Count; x++)
+                {
+                    for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
+                    {
+                        ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+
+                    }
+
+                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
+                    ammo.transform.parent = ammoPlatform.transform;
+                    ammoDisplay.Add(ammo);
+                }
+            }
+          
+        }
 
 
         /// <summary>
@@ -106,35 +158,43 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void CheckWhatWasClickedOn()
         {
-            if(ammo <= 0) return;
+            if(ammoCount <= 0) return;
 
             ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
             if (hit.transform == null) return;
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
+         
+            
             if (comp == null || comp.isShootable == false) return;
             StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
 
         /// <summary>
-        /// removes ammo and updates the pile of ammo
+        /// removes ammoCount and updates the pile of ammoCount
         /// </summary>
         public void RemoveAmmo()
         {
-            ammo--;
-            if(ammo < ammoDisplay.Length)
-                ammoDisplay[ammo].SetActive(false);
-            if (ammo <= 0)
+            
+            PlayerEvents.RaiseWordRemovedValidated((words[ammoCount-1]));
+            words.RemoveAt(ammoCount-1);
+         
+            ammoCount--;
+
+          
+            if(ammoCount < ammoDisplay.Count)
+                ammoDisplay[ammoCount].SetActive(false);
+            if (ammoCount <= 0)
                 noAmmoText.SetActive(true);
         }
 
         /// <summary>
-        /// shows the tooltip for the amount of ammo the player has
+        /// shows the tooltip for the amount of ammoCount the player has
         /// </summary>
         private void OnMouseEnter()
         {
-            pupUp.SetAndShowToolTip(ammo.ToString());
+            pupUp.SetAndShowToolTip(ammoCount.ToString());
         }
 
         /// <summary>

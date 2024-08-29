@@ -10,12 +10,15 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using CORE.Scripts.GameRules;
+using Barmetler.RoadSystem;
+using static UnityEngine.ParticleSystem;
 
 
 
 
 namespace Scenes.Minigames.MonsterTower.Scrips
 {
+    
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
@@ -32,7 +35,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
 
         private int towerRadius = 20;
-        private int numberOfBricksInLane = 40;
+        private int numberOfBricksInLane = 30;
 
 
         public bool correctAnswer = false;
@@ -56,24 +59,36 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] GameObject OrcPrefab;
         [SerializeField] Camera mainCamera;
 
+        public RawImage topImage;
+        public RawImage bottomImage;
+        public RawImage soloImage;
+       
+        public string imageKey;
+
+        private bool isSaveDataLoaded = false;
+        
+        private float yPosGoal;
+        private bool falling = false;
 
       
+
+
+
         void Start()
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
         }
-        public RawImage topImage;
-        public RawImage bottomImage;
-        public RawImage soloImage;
-
-        public string imageKey;
-        private bool isSaveDataLoaded=false;
-
+     
         
+
 
 
         /// <summary>
         /// if the images arent loaded, waits with setting tower data and building the tower until the images are loaded
+        /// 
+        /// ATTENTION!!!! WILL NOT LOAD FROM SCENE DIRECTLY. YOU NEED TO
+        /// GO INTO TOWERSCENE FROM ANOTHER SCENE FIRST BECAUSE THE ASSETS
+        /// NEED TO LOAD BEFORE THEY CAN BE USED
         /// </summary>
         /// <returns></returns>
         IEnumerator WaitUntillDataIsLoaded()
@@ -86,8 +101,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 yield return null;
             }
 
+
+
             //if (loadedBrickLanes.Count > 0)
             //{
+               
             //    towerHeight = questions.Length;
             //}
             //else
@@ -95,7 +113,6 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             //    questions = gameMode.GenerateAnswers(3);
             //    towerHeight = questions.Length;
             //}
-
             questions = gameMode.GenerateAnswers(3);
             towerHeight = questions.Length;
 
@@ -121,12 +138,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             //}
             //else
             //{
-
+             
             //    rowToDelete = 0;
             //    BuildTower();
             //}
+
             rowToDelete = 0;
             BuildTower();
+
+
         }
 
         /// <summary>
@@ -166,6 +186,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 DestroyLowestTowerLane();
                 correctAnswer = false;
             }
+
+            if(falling)
+            {
+               
+                TowerFallsAnimation();
+            }
+
         }
 
         // the lowest tower lane is destroyed by knowing the numberOfBricksInLane and the accessing the 2d tower array that have all the bricks.
@@ -209,7 +236,12 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                     }
                 }
-                gameObject.transform.Translate(0, -brickDimensions.y, 0);
+                
+                // Falling animation starts and the new position that the tower neeeds to fall to is set. 
+                falling = true;
+                yPosGoal = gameObject.transform.position.y - brickDimensions.y;
+
+
 
             }
             else
@@ -224,6 +256,26 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
+        }
+
+        /// <summary>
+        /// Animation for the tower falling based on the yPosGoal which is the y position the tower needs to fall to. 
+        /// falling is set to false when the tower has reached its yPosGoal. 
+        /// </summary>
+        void TowerFallsAnimation()
+        {
+
+                gameObject.transform.Translate(0, -0.1f, 0);
+               
+            
+                
+                if(gameObject.transform.position.y<=yPosGoal)
+                {
+                    falling = false;
+                    
+                }
+            
+           
         }
 
 
@@ -248,7 +300,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         {
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-            //DataPersistenceManager.instance.SaveGame();
+           
+            // DataPersistenceManager.instance.SaveGame();
 
             SceneManager.LoadScene("WinScene");
 
@@ -331,8 +384,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                             loadedBrickLanes[z].bricks.Add(new BrickData(imageKey));
                         }
 
+
                         GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 1.58f, -1.4f);
                         if (z == 0)
                         {
                       
@@ -431,7 +485,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         }
 
                         GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -0.5001f);
+                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -1.4f);
                         if (z == 0)
                         {
                             brickComponent.isShootable = true;

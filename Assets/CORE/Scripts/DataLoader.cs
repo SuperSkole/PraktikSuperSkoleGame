@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -15,7 +14,12 @@ namespace CORE.Scripts
     public class DataLoader : MonoBehaviour
     {
         public static bool IsDataLoaded { get; private set; } = false;
-        
+
+        public List<Texture2D> images = new();
+        public List<AudioClip> letterSounds = new();
+        public List<AudioClip> danskCongrats = new();
+        public List<AudioClip> englishCongrats = new();
+
         /// <summary>
         /// Starts loading all CSV, texture, and letter sound files simultaneously.
         /// </summary>
@@ -32,41 +36,50 @@ namespace CORE.Scripts
             var csvCoroutine = LoadAllCsvFiles();
             var texturesCoroutine = LoadAllTextures();
             var letterSoundsCoroutine = LoadAllletterSounds();
+            var congratsSoundCoroutine = LoadAllCongratsSounds();
 
             yield return StartCoroutine(csvCoroutine);
             yield return StartCoroutine(texturesCoroutine);
             yield return StartCoroutine(letterSoundsCoroutine);
+            yield return StartCoroutine(congratsSoundCoroutine);
 
             Debug.Log("All resources loaded.");
         }
-        
+
         private IEnumerator LoadAllCsvFiles()
         {
             IsDataLoaded = true;
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "WordData");
+            string directoryPath = Application.streamingAssetsPath + "/WordData/";
 
-            // Get all CSV files in the directory
-            string[] fileEntries = Directory.GetFiles(directoryPath, "*.csv");
-            foreach (string filePath in fileEntries)
+            // List your CSV files here
+            string[] csvFiles = new string[]
             {
+                "Words_Danish_2L.csv",
+                "Words_Danish_3L_Combination.csv",
+                "Words_Danish_3L_Easy.csv",
+                "Words_Danish_3L_Hard.csv",
+            };
+                
+            foreach (string fileName in csvFiles)
+            {
+                string filePath = directoryPath + fileName;
                 yield return StartCoroutine(LoadWordsFromCsvFile(filePath));
             }
         }
 
         private IEnumerator LoadWordsFromCsvFile(string filePath)
         {
-            // use unitywebrequest and get the data from the path
+            // Load CSV file from StreamingAssets using UnityWebRequest
             using (UnityWebRequest request = UnityWebRequest.Get(filePath))
             {
                 yield return request.SendWebRequest();
-                // Early out if the request failed.
+
                 if (request.result != UnityWebRequest.Result.Success)
                 {
-                    Debug.LogError($"Error loading {filePath}:" + request.error);
+                    Debug.LogError($"Error loading {filePath}: " + request.error);
                     yield break;
                 }
 
-                // Store words here temp. or send directly to LettersAndWordsManager
                 AddWordsToHashsetInLettersAndWordsManager(filePath, request);
             }
         }
@@ -75,10 +88,9 @@ namespace CORE.Scripts
         {
             string csvData = request.downloadHandler.text;
             string[] lines = csvData.Split('\n');
-            string setName = Path.GetFileNameWithoutExtension(filePath);
+            string setName = GetFileNameWithoutExtension(filePath);
 
-            // Start from index 1 to skip the header
-            for (int i = 1; i < lines.Length; i++)
+            for (int i = 1; i < lines.Length; i++) // Skip header
             {
                 string word = lines[i].Trim();
                 if (!string.IsNullOrWhiteSpace(word))
@@ -90,124 +102,76 @@ namespace CORE.Scripts
             Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
         }
 
-        #region load textures
+        private static string GetFileNameWithoutExtension(string filePath)
+        {
+            int lastSlash = filePath.LastIndexOf('/');
+            string fileName = (lastSlash >= 0) ? filePath.Substring(lastSlash + 1) : filePath;
+            int extensionIndex = fileName.LastIndexOf('.');
+            return (extensionIndex >= 0) ? fileName.Substring(0, extensionIndex) : fileName;
+        }
 
+        #region Load Textures
 
-        /// <summary>
-        /// loads all the images in the pictures folder in the streamingAssest folder.
-        /// </summary>
-        /// <returns></returns>
         private IEnumerator LoadAllTextures()
         {
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Pictures");
-           
-            // Get all PNG files in the directory
-            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.png");
-
-            foreach (string filePath in fileEntries)
+            
+            foreach (Texture2D fileName in images)
             {
-                StartCoroutine(LoadAndSetDic(filePath));
+                yield return StartCoroutine(LoadAndSetDic(fileName));
             }
+        }
+
+        private IEnumerator LoadAndSetDic(Texture2D texture)
+        {
+            string name = texture.name;
+            name = GetName(name);
+            ImageManager.AddImageToSet(name, texture);
+            WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }
 
-
-        /// <summary>
-        /// loades the textures and calles the ImageManager to add it.
-        /// </summary>
-        /// <param name="filePath">the path of the file you are loading</param>
-        /// <returns></returns>
-        private IEnumerator LoadAndSetDic(string filePath)
-        {
-            UnityWebRequest request = UnityWebRequestTexture.GetTexture(filePath);
-            string setName = Path.GetFileNameWithoutExtension(filePath);
-            setName = GetName(setName);
-            yield return request.SendWebRequest();
-            // Early out if the request failed.
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Error loading {filePath}:" + request.error);
-                yield break;
-            }
-            else
-            {
-                // Get downloaded asset bundle
-                Texture2D texture = DownloadHandlerTexture.GetContent(request);
-                ImageManager.AddImageToSet(setName, texture);
-                WordsForImagesManager.AddNameToSet(setName);
-            }
-        }
-
-
-        /// <summary>
-        /// removes numbers and extentions of names so they can be combined in the dic.
-        /// </summary>
-        /// <param name="name">the name that needs to be "fixed"</param>
-        /// <returns>a fixed vertion of the name</returns>
         private string GetName(string name)
         {
-            StringBuilder output = new();
-            output.Append(name);
-            int index = output.ToString().LastIndexOf('.');
+            StringBuilder output = new(name);
             int space = output.ToString().IndexOf(" ");
             if (space != -1)
                 output.Remove(space, output.Length - space);
-            else if (index != -1)
-                output.Remove(index, output.Length - index);
-            output.Replace("(aa)", "å");
-            output.Replace("(ae)", "æ");
-            output.Replace("(oe)", "ø");
+            output.Replace("(aa)", "Ã¥");
+            output.Replace("(ae)", "Ã¦");
+            output.Replace("(oe)", "Ã¸");
             return output.ToString();
         }
 
         #endregion
 
+        #region Load Letter Sounds
 
-        #region letter audio loading
-
-        /// <summary>
-        /// loads all the letter audio in the audio/letters folder in the streamingAssest folder.
-        /// </summary>
-        /// <returns></returns>
         private IEnumerator LoadAllletterSounds()
         {
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Audio/Letters");
-
-            // Get all mp3 files in the directory
-            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
-            foreach (string filePath in fileEntries)
+            foreach (AudioClip fileName in letterSounds)
             {
-                StartCoroutine(LoadAndSetDicLetterSound(filePath));
+                yield return StartCoroutine(LoadAndSetDicLetterSound(fileName));
             }
+        }
+
+        private IEnumerator LoadAndSetDicLetterSound(AudioClip clip)
+        {
+            string name = clip.name;
+            name = GetNameLetterSound(name);
+            LetterAudioManager.AddAudioClipToSet(name, clip);
             yield return null;
         }
 
-
-        /// <summary>
-        /// loades the AudioClip and calles the LetterAudioManager to add it.
-        /// </summary>
-        /// <param name="filePath">the path of the file you are loading</param>
-        /// <returns></returns>
-        private IEnumerator LoadAndSetDicLetterSound(string filePath)
+        private string GetNameLetterSound(string name)
         {
-            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath,AudioType.UNKNOWN);
-            string setName = Path.GetFileNameWithoutExtension(filePath);
-            setName = GetNameLetterSound(setName);
-            yield return request.SendWebRequest();
-            // Early out if the request failed.
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Error loading {filePath}:" + request.error);
-                yield break;
-            }
-            else
-            {
-                // Get downloaded asset bundle
-                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
-                LetterAudioManager.AddAudioClipToSet(setName, audioClip);
-            }
+            StringBuilder output = new StringBuilder(name);
+            output.Replace("(aa)", "Ã¥");
+            output.Replace("(ae)", "Ã¦");
+            output.Replace("(oe)", "Ã¸");
+            return output.ToString();
         }
 
+        #endregion
 
         /// <summary>
         /// Loads all the congrats Sounds. 
@@ -215,24 +179,14 @@ namespace CORE.Scripts
         /// <returns></returns>
         private IEnumerator LoadAllCongratsSounds()
         {
-
-         
-            string directoryPath = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(Danish)");
-
-            // Get all mp3 files in the directory for danish Audio
-            string[] fileEntries = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
-            foreach (string filePath in fileEntries)
+            foreach (AudioClip clip in danskCongrats)
             {
-                StartCoroutine(LoadAndSetListDanishCongratsSounds(filePath));
+                StartCoroutine(LoadAndSetListDanishCongratsSounds(clip));
             }
 
-            string directoryPath2 = Path.Combine(Application.streamingAssetsPath, "Audio/Praise(English)");
-
-            // Get all mp3 files in the directory for English Audio
-            string[] fileEntries2 = System.IO.Directory.GetFiles(directoryPath, "*.mp3");
-            foreach (string filePath in fileEntries2)
+            foreach (AudioClip clip in englishCongrats)
             {
-                StartCoroutine(LoadAndSetListEnglishCongratsSounds(filePath));
+                StartCoroutine(LoadAndSetListEnglishCongratsSounds(clip));
             }
 
             yield return null;
@@ -243,74 +197,23 @@ namespace CORE.Scripts
         /// <summary>
         /// loades the danish congrats AudioClips based on a filepath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
         /// </summary>
-        /// <param name="filePath">the path of the file you are loading</param>
+        /// <param name="clip">the path of the file you are loading</param>
         /// <returns></returns>
-        IEnumerator LoadAndSetListDanishCongratsSounds(string filePath)
+        IEnumerator LoadAndSetListDanishCongratsSounds(AudioClip clip)
         {
-            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
-            string setName = Path.GetFileNameWithoutExtension(filePath);
-            yield return request.SendWebRequest();
-            // Early out if the request failed.
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Error loading {filePath}:" + request.error);
-                yield break;
-            }
-            else
-            {
-                // Get downloaded asset bundle
-                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
-                CongratsAudioManager.AddAudioClipToDanishSet(audioClip);
-            }
-
+            CongratsAudioManager.AddAudioClipToDanishSet(clip);
+            yield return null;
         }
 
         /// <summary>
         /// loades the danish congrats AudioClips based on a filePath and calls the CongratsAudioManager to add it to the danishPraiselist of audioClips.
         /// </summary>
-        /// <param name="filePath"></param>
+        /// <param name="clip"></param>
         /// <returns></returns>
-        IEnumerator LoadAndSetListEnglishCongratsSounds(string filePath)
+        IEnumerator LoadAndSetListEnglishCongratsSounds(AudioClip clip)
         {
-            UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(filePath, AudioType.UNKNOWN);
-            string setName = Path.GetFileNameWithoutExtension(filePath);
-            yield return request.SendWebRequest();
-            // Early out if the request failed.
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError($"Error loading {filePath}:" + request.error);
-                yield break;
-            }
-            else
-            {
-                // Get downloaded asset bundle
-                AudioClip audioClip = DownloadHandlerAudioClip.GetContent(request);
-                CongratsAudioManager.AddAudioClipToEnglishSet(audioClip);
-            }
-
+            CongratsAudioManager.AddAudioClipToEnglishSet(clip);
+            yield return null;
         }
-
-
-
-
-        /// <summary>
-        /// removes numbers names so they can be combined in the dic.
-        /// </summary>
-        /// <param name="name">the name that needs to be "fixed"</param>
-        /// <returns>a fixed vertion of the name</returns>
-        private string GetNameLetterSound(string name)
-        {
-            StringBuilder output = new();
-            output.Append(name);
-            int index = output.ToString().LastIndexOf('.');
-            if (index != -1)
-                output.Remove(index - 1, output.Length - index - 1);
-            output.Replace("(aa)", "å");
-            output.Replace("(ae)", "æ");
-            output.Replace("(oe)", "ø");
-            return output.ToString();
-        }
-
-        #endregion
     }
 }
