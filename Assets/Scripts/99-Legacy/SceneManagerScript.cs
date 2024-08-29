@@ -34,7 +34,7 @@ public class SceneManagerScript : MonoBehaviour
             case "Town":
                 SceneID = 0;
                 break;
-            case "MiniRacingGame":
+            case "58-MiniRacingGame":
                 SceneID = 1;
                 break;
             case "MiniWritingGame":
