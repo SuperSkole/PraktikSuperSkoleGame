@@ -37,8 +37,7 @@ public class ShopManager : MonoBehaviour
 
     private void Awake()
     {
-
-        colorChanging = this.GetComponent<ColorChanging>();
+        playerColorChanging = this.GetComponent<ColorChanging>();
 
         if(PlayerManager.Instance == null )
         {
