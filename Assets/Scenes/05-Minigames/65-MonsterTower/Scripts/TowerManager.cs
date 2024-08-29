@@ -59,24 +59,26 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] GameObject OrcPrefab;
         [SerializeField] Camera mainCamera;
 
+        public RawImage topImage;
+        public RawImage bottomImage;
+        public RawImage soloImage;
+       
+        public string imageKey;
+
+        private bool isSaveDataLoaded = false;
+        
+        private float yPosGoal;
+        private bool falling = false;
 
       
+
+
+
         void Start()
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
         }
-        public RawImage topImage;
-        public RawImage bottomImage;
-        public RawImage soloImage;
-
-        public string topImageKey;
-        public string bottomImageKey;
-        private bool isSaveDataLoaded=false;
-        private float time=0;
-        private float yPosGoal;
-        private bool falling=false;
-
-        public string imageKey;
+     
         
 
 
@@ -379,11 +381,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
                             // the sentence for the random brick is also inputtet into the data on the particular lane. 
                             // the top and bottom image key is defined in the SetRandomImage
-                            loadedBrickLanes[z].bricks.Add(new BrickData(topImageKey + " på " + bottomImageKey));
+                            loadedBrickLanes[z].bricks.Add(new BrickData(imageKey));
                         }
 
 
-                        GameObject imageholder = Instantiate(imageHolderPrefab, tower[x, z].transform);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 1.58f, -1.4f);
                         if (z == 0)
                         {
