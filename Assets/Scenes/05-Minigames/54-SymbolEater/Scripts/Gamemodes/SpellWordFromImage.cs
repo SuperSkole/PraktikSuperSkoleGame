@@ -161,7 +161,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
             activeLetterCubes.Add(newLetter);
             //Checks if the word has been completed. If it hasnt a new random letter is placed on the board unless the old letter is in the currrent word, in which case the same letter is used
-            if(!gameRules.SequenceComplete() || oldLetter[0] != oldWord[oldWord.Length - 1])
+            if(!gameRules.SequenceComplete() || oldLetter.ToLower()[0] != oldWord[oldWord.Length - 1])
             {
                 string newLettercubeValue = gameRules.GetWrongAnswer();
                 if(gameRules.GetDisplayAnswer().Contains(oldLetter))

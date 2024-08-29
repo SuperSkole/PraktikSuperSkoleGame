@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CORE;
+using Scenes.PlayerScene.Scripts;
 
 public class ColorChanging : MonoBehaviour
 {
+    public SkeletonGraphic graphic;
+
     private ISkeletonComponent chosenSkeletonComponent;
 
     private Dictionary<string, string> colorMap = new Dictionary<string, string>
@@ -13,9 +16,23 @@ public class ColorChanging : MonoBehaviour
             { "orange", "ead25f" },
             { "blue", "19daf9" },
             { "red", "cf5b5d" },
-            { "green", "6aa85c" }
+            { "green", "6aa85c" },
+            {"white", "FFFFFF" }
     };
 
+    private void Awake()
+    {
+        if(graphic != null)
+        {
+            chosenSkeletonComponent = graphic;
+
+            if (graphic == null)
+            {
+                Debug.Log("Ingen grafik");
+            }
+        }
+        
+    }
 
     public void SetSkeleton(ISkeletonComponent givenSkeleton)
     {
@@ -27,6 +44,10 @@ public class ColorChanging : MonoBehaviour
         var skeleton = chosenSkeletonComponent.Skeleton;
 
         Color selectedColor;
+        if (colorName == null)
+        {
+            colorName = "White";
+        }
 
         if (colorMap.TryGetValue(colorName.ToLower(), out string hexValue))
         {
@@ -47,7 +68,16 @@ public class ColorChanging : MonoBehaviour
             ApplyColorToSlots(skeletonGraphic, selectedColor, skeletonGraphic.skeletonDataAsset.name);
         }
 
-        GameManager.Instance.CurrentMonsterColor = colorName;
+        if(GameManager.Instance.CurrentMonsterColor != "" && colorName != GameManager.Instance.CurrentMonsterColor)
+        {
+            GameManager.Instance.CurrentMonsterColor = colorName;
+
+        }
+        else
+        {
+            GameManager.Instance.CurrentMonsterColor = "White";
+        }
+
     }
 
 

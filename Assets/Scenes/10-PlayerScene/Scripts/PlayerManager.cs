@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 using Spine.Unity;
+using UnityEngine.Splines;
 
 namespace Scenes.PlayerScene.Scripts
 {
@@ -79,6 +80,10 @@ namespace Scenes.PlayerScene.Scripts
             if (GameManager.Instance.IsNewGame)
             {
                 SetupNewPlayer();
+            }
+            if (SceneManager.GetActiveScene().name.StartsWith("56"))
+            {
+                //gameObject.GetComponent<SpinePlayerMovement>().
             }
         }
         
@@ -254,14 +259,19 @@ namespace Scenes.PlayerScene.Scripts
         {
             if (!scene.name.StartsWith("0"))
             {
-                var cinemachineCam = GameObject.FindGameObjectWithTag("Camera");
-                var virtualCamera = cinemachineCam.GetComponent<CinemachineVirtualCamera>();
+                try
+                {
+                    var cinemachineCam = GameObject.FindGameObjectWithTag("Camera");
+                    var virtualCamera = cinemachineCam.GetComponent<CinemachineVirtualCamera>();
 
-                virtualCamera.Follow = spawnedPlayer.transform;
-                virtualCamera.LookAt = spawnedPlayer.transform;
+                    virtualCamera.Follow = spawnedPlayer.transform;
+                    virtualCamera.LookAt = spawnedPlayer.transform;
 
-                var cameraBrain = GameObject.Find("CameraBrain");
-                spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain.GetComponent<Camera>();
+                    var cameraBrain = GameObject.Find("CameraBrain");
+                    spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain.GetComponent<Camera>();
+                }
+                catch{}
+                
             }
             
         }
@@ -281,7 +291,7 @@ namespace Scenes.PlayerScene.Scripts
                 if (colorChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
-                    colorChanging.SetSkeleton(skeleton);
+                   colorChanging.SetSkeleton(skeleton);
                    colorChanging.ColorChange(playerData.MonsterColor);
                 }    
             }

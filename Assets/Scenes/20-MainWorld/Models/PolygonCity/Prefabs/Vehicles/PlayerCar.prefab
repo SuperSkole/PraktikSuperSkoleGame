@@ -279,11 +279,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d18e46b2d5724a4db084a54583bed32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 400
+  motorForce: 800
   maxSteeringAngle: 45
   maxSpeed: 40
   reverseMaxSpeed: 15
-  brakingForce: 50000
+  brakingTorque: 100000
   carSpeed: 0
   wheelColliderFrontL: {fileID: 6852793362269492445}
   wheelColliderFrontR: {fileID: 8299854790424794941}
@@ -302,7 +302,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141870}
   serializedVersion: 4
-  m_Mass: 1000
+  m_Mass: 2000
   m_Drag: 0.05
   m_AngularDrag: 0.9
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1521,14 +1521,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7584633369747456675}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071058, w: 0.7071078}
-  m_LocalPosition: {x: 1.014, y: 0.307, z: -1.336}
-  m_LocalScale: {x: 0.63761, y: 0.13408938, z: 0.63761}
+  m_LocalRotation: {x: -0.7071058, y: 0.7071078, z: -0.0000019179886, w: 0.0000019775991}
+  m_LocalPosition: {x: 0.9924243, y: 0.3069992, z: -1.3372592}
+  m_LocalScale: {x: -0.63761, y: -0.1340894, z: -0.63761}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 485822}
   m_Father: {fileID: 484704}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -90}
 --- !u!33 &3109079898909372015
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1605,14 +1605,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8103893422562513082}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.7071058, w: 0.7071078}
-  m_LocalPosition: {x: 1.024, y: 0.25, z: 1.891}
-  m_LocalScale: {x: 0.63761, y: 0.13408938, z: 0.63761}
+  m_LocalRotation: {x: -0.7071059, y: 0.7071077, z: -0.0000019179888, w: 0.000001940346}
+  m_LocalPosition: {x: 0.9890329, y: 0.25, z: 1.9024717}
+  m_LocalScale: {x: -0.63761, y: -0.1340894, z: -0.63761}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 434452}
   m_Father: {fileID: 484704}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: -90}
 --- !u!33 &3991377670902287822
 MeshFilter:
   m_ObjectHideFlags: 0
