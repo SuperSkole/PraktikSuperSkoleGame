@@ -1,6 +1,7 @@
 using Cinemachine;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CarEvents : MonoBehaviour
 {
@@ -22,14 +23,16 @@ public class CarEvents : MonoBehaviour
     {
         gameObject.GetComponent<CarMainWorldMovement>().enabled = true;
         car.CarActive = true;
-
         CarSmoke1.SetActive(true);
         CarSmoke2.SetActive(true);
         cam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+       
         cam.Follow = gameObject.transform;
         cam.LookAt = gameObject.transform;
-
+        
+        spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
         spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(TurnOffCar);
+
         DisablePlayer();
         carSetPlayerPos.isDriving = true;
 
@@ -39,12 +42,15 @@ public class CarEvents : MonoBehaviour
         if (carSetPlayerPos.ReturningPlayerPlacement())
         {
             car.CarActive = false;
+            car.ApplyBrakingToStop();
             gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
             CarSmoke1.SetActive(false);
             CarSmoke2.SetActive(false);
 
             cam.Follow = spawnedPlayer.transform;
             cam.LookAt = spawnedPlayer.transform;
+           
+            spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
             spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
 
             var pos = carSetPlayerPos.SetTransformOfPlayer().position;
@@ -53,8 +59,8 @@ public class CarEvents : MonoBehaviour
 
             EnablePlayer();
             carSetPlayerPos.isDriving = false;
-            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
-
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = new UnityEvent();
+            
         }
 
     }

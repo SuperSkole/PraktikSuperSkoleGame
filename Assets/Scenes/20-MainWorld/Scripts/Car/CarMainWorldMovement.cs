@@ -29,7 +29,7 @@ public class CarMainWorldMovement : MonoBehaviour
     /// <summary>
     /// Brake torque expressed in Newton metres.
     /// </summary>
-    public float brakingTorque = 100000f;
+    private float brakingTorque = 1000000f;
     public float carSpeed;
 
     // Wheel colliders for simulating wheel physics.
@@ -90,7 +90,7 @@ public class CarMainWorldMovement : MonoBehaviour
         if (carActive)
         {
             GetInput(); // Reads the player's input.
-            
+
         }
 
     }
@@ -150,7 +150,7 @@ public class CarMainWorldMovement : MonoBehaviour
     /// Controls the car's motor, applying force to move the car.
     /// </summary>
     private void HandleMotor()
-    {       
+    {
         carSpeed = rb.velocity.magnitude * 3.6f; // Convert to km/h
 
         if (carSpeed > maxSpeed)
@@ -160,11 +160,9 @@ public class CarMainWorldMovement : MonoBehaviour
 
         if (!carActive)
         {
-            
-            ApplyBrakingToStop();
-
             if (carSpeed > 0)
             {
+                ApplyBrakingToStop();
             }
             return; // Skip the rest of the method if the car isn't active.
         }
@@ -215,9 +213,9 @@ public class CarMainWorldMovement : MonoBehaviour
 
     }
 
-    private void ApplyBrakingToStop()
+    public void ApplyBrakingToStop()
     {
-
+        //carSpeed = 0;
         wheelColliderFrontL.brakeTorque = brakingTorque;
         wheelColliderFrontR.brakeTorque = brakingTorque;
         wheelColliderRearL.brakeTorque = brakingTorque;
