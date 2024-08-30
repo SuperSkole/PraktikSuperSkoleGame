@@ -132,19 +132,36 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void SpawnAmmoForDisplay()
         {
-
+            int currentAmmoSpawnSpot=0;
+            Vector3 ammoPosition=new Vector3();
             if (words!=null)
             {
                 for (int x = 0; x < words.Count; x++)
                 {
+
                     for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                     {
                         ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
 
                     }
 
-                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
+
+
+                    //if (currentAmmoSpawnSpot < ammoPlatform.transform.childCount)
+                    //{
+                    //  ammoPosition = ammoPlatform.transform.GetChild(x).transform.position+new Vector3(0,ammoToDisplayPrefab.,0);
+                    //}
+                    //else
+                    //{
+                        
+                    //}
+                   
+                    
+                    currentAmmoSpawnSpot += 1;
+
+                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPosition, Quaternion.identity);
                     ammo.transform.parent = ammoPlatform.transform;
+                    
                     ammoDisplay.Add(ammo);
                 }
             }
