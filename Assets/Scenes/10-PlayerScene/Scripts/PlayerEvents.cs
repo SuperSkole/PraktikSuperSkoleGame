@@ -1,4 +1,6 @@
+using LoadSave;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scenes._10_PlayerScene.Scripts
@@ -25,11 +27,23 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         /// <param name="position">The Vector3 position involved in the event.</param>
         public delegate void PlayerPositionEvent(Vector3 position);
-        
+
         // Actions for sending word, letter and number to playerData
         public static event Action<string> OnWordValidated;
         public static event Action<char> OnLetterValidated;
         public static event Action<char> OnNumberValidated;
+
+        public static event Func<List<string>,List<string>> OnPlayerDataWordsExtracted;
+
+        public static event Action<List<char>> OnPlayerDataLettersExtracted;
+        public static event Action<List<char>> OnPlayerDataNumbersExtracted;
+
+
+
+        // Actions for removing word, letter or number from playerData
+        public static event Action<string> OnWordRemovedValidated;
+
+ 
 
         // Events for adding or removing words, letters, and numbers
         public static event PlayerWordEventWithDateTime OnWordAdded;
@@ -56,7 +70,27 @@ namespace Scenes._10_PlayerScene.Scripts
 
         // Methods to trigger each event and actions.
         // Utilizing the null-conditional operator to prevent invoking events with no subscribers.
+
+       
+/// <summary>
+/// Raises an event after extracting words from PlayerData, if any words are found.
+/// </summary>
+       public static List<string> RaisePlayerDataWordsExtracted()
+        {
+            if (PlayerManager.Instance.PlayerData.CollectedWords.Count > 0)
+            {
+                return PlayerEvents.OnPlayerDataWordsExtracted?.Invoke(PlayerManager.Instance.PlayerData.CollectedWords);
+            }
+            else
+            {
+                Debug.Log("No words found in player data.");
+                return null;
+            }
+        }
+
         public static void RaiseWordValidated(string word) => OnWordValidated?.Invoke(word);
+        public static void RaiseWordRemovedValidated(string word) => OnWordRemovedValidated?.Invoke(word);
+
         public static void RaiseWordAdded(string word, DateTime dateTime) => OnWordAdded?.Invoke(word, dateTime);
         public static void RaiseWordRemoved(string word, DateTime dateTime) => OnWordRemoved?.Invoke(word, dateTime);
         public static void RaiseLetterAdded(string letter, DateTime dateTime) => OnLetterAdded?.Invoke(letter, dateTime);

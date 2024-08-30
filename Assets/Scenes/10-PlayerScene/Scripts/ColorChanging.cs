@@ -38,7 +38,7 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             chosenSkeletonComponent = givenSkeleton;
         }
-
+            
         public void ColorChange(string colorName)
         {
             var skeleton = chosenSkeletonComponent.Skeleton;
