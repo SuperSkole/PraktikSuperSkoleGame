@@ -84,31 +84,23 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
 
             //Instanciate playerCharactor in SymbolEater
-            if (PlayerManager.Instance != null)
-            {
-                PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
-                Scene getScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
-
-                foreach (GameObject gameObject in getScene.GetRootGameObjects())
-                {
-                    if (gameObject.CompareTag("Player"))
-                    {
-
-                        playerMonster = gameObject;
-
-                        break;
-                    }
-                }
-
-                playerMonster.transform.position = placePlayerMonster.transform.position;
-            }
-            else
-            {
-                Debug.Log("WordFactory GM.Start(): Player Manager Is null");
-            }
             //if (PlayerManager.Instance != null)
             //{
             //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+            //    Scene getScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
+
+            //    foreach (GameObject gameObject in getScene.GetRootGameObjects())
+            //    {
+            //        if (gameObject.CompareTag("Player"))
+            //        {
+
+            //            playerMonster = gameObject;
+
+            //            break;
+            //        }
+            //    }
+
+            //    playerMonster.transform.position = placePlayerMonster.transform.position;
             //}
             //else
             //{
@@ -194,7 +186,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             float step = speed * Time.deltaTime;
             Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
             transform.Translate(deltaPosition);
-            playerMonster.transform.Translate(deltaPosition);
+            //playerMonster.transform.Translate(deltaPosition);
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;

@@ -291,6 +291,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 {
                     step *= 2;
                 }
+
+                //Her Marc.
                 transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             }
         }
