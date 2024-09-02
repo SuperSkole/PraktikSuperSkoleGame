@@ -60,7 +60,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             get => livesRemaining;
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     livesRemaining = value;
                 }
