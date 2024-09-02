@@ -161,8 +161,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             else
             {
                 correctLetters++;
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
                 if (correctLetters < 5)
                 {
+                    boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
                 }
                 else

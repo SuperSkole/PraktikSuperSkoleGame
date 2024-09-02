@@ -43,6 +43,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         private float throwArcProgress;
 
+        private float defaultSpeed = 0.5f;
+
 
     /// <summary>
     /// Gets the monster ready for movement and gets reference to the player script
@@ -295,6 +297,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                
                 transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             }
+        }
+
+        public void ResetMoveSpeed()
+        {
+            speed = defaultSpeed;
+
         }
 
 
