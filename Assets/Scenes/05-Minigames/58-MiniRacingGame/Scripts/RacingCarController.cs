@@ -8,11 +8,6 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
 
         #region Car activity & axe constants
         public bool carActive = false; //the car state
-        public bool CarActive
-        {
-            get { return carActive; }
-            set { carActive = value; }
-        }
         #endregion
 
         #region Player input
@@ -68,7 +63,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         public void Setup()
         {
-            CarActive = true; // Start with the car being off.
+            carActive = true; // Start with the car being off.
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             MoveTheCar();
             UpdateWheels();    // Updates the visual representation of the wheels.
 
-            if (CarActive)
+            if (carActive)
             {
                 GetInput(); // Reads the player's input.
             }
@@ -102,7 +97,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         private void MoveTheCar()
         {
-            if (!CarActive)
+            if (!carActive)
             {
                 if (IsCarMoving())
                 {
@@ -295,7 +290,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         private void HandleSteering()
         {
-            if (CarActive)
+            if (carActive)
             {
                 // Calculate the steering angle based on player input when car is active.
                 currentSteerAngle = maxSteeringAngle * horizontalInput;
