@@ -62,6 +62,7 @@ MonoBehaviour:
   CollectedWords: []
   CollectedLetters: 
   CollectedNumbers: 
+  BoughtClothes: 
   LastInteractionPoint: {x: 0, y: 0, z: 0}
 --- !u!54 &5874153678614725772
 Rigidbody:
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36cc408569ee6241878b291bb81f95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphic: {fileID: 0}
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0

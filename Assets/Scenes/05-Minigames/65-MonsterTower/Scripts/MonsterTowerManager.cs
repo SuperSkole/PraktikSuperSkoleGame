@@ -35,6 +35,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         [SerializeField] GameObject ammoToDisplayPrefab;
         [SerializeField] GameObject ammoPlatform;
         [SerializeField] CatapultAming catapultAming;
+        [SerializeField] GameObject playerSpawnPosition;
         RaycastHit hit;
         Ray ray;
         [SerializeField] AmmoPupUp pupUp;
@@ -43,8 +44,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         public Difficulty difficulty;
 
+        Vector3 ammoDimensions; 
+
         //temp
         public List<string> words;
+
+        public List<Vector3> ammoSpawnPoints=new List<Vector3>();
+
+        private GameObject spawnedPlayer;
         /// <summary>
         /// used to setup sentanses TEMP make this better!!
         /// </summary>
@@ -81,12 +88,19 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         void Start()
         {
-
+            ammoDimensions=ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
 
+            for (int i = 0; i < ammoPlatform.transform.childCount; i++)
+            {
 
+                ammoSpawnPoints.Add(ammoPlatform.transform.GetChild(0).transform.position);
+
+            }
+
+           
             
             //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
             SetupPlayerWords();
@@ -99,6 +113,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             {
                 ammoCount = words.Count;
             }
+
+            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+            spawnedPlayer.SetActive(true);
+            spawnedPlayer.transform.position = playerSpawnPosition.transform.position;
 
            
             if (ammoCount <= 0)
@@ -132,20 +150,44 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void SpawnAmmoForDisplay()
         {
+           
+
+            int spawnIndex = 0;
+
+            int spawnHeightIndex=0;
+
+            int amountOfSpawnPositions = ammoPlatform.transform.childCount;
+
+
 
             if (words!=null)
             {
                 for (int x = 0; x < words.Count; x++)
                 {
+                   
+
                     for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                     {
                         ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
 
                     }
 
-                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
+                    if (spawnIndex >= amountOfSpawnPositions)
+                    {
+                        spawnIndex = 0;
+                        spawnHeightIndex++;
+                    }
+
+                    Vector3 spawnPos = ammoPlatform.transform.GetChild(spawnIndex).transform.position + new Vector3(0, ammoDimensions.y * spawnHeightIndex);
+
+                  
+
+                    GameObject ammo = Instantiate(ammoToDisplayPrefab, spawnPos, Quaternion.identity);
                     ammo.transform.parent = ammoPlatform.transform;
                     ammoDisplay.Add(ammo);
+
+
+                    spawnIndex++;
                 }
             }
           
