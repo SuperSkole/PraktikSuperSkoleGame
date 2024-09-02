@@ -22,6 +22,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private PlayerData playerData;
         private GameObject spawnedPlayer;
         private ColorChanging colorChanging;
+        private ClothChanging clothChanging;
         private ISkeletonComponent skeleton;
 
         // public GameObject SpawnedPlayer => spawnedPlayer;
@@ -130,6 +131,13 @@ namespace Scenes._10_PlayerScene.Scripts
                 return;
             }
 
+            clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
+            if (clothChanging == null)
+            {
+                Debug.LogError("PlayerManager.SetupPlayer(): " +
+                               "ClothChanging component not found on spawned player.");
+            }
+
             // Init player data
             playerData.Initialize(
                 GameManager.Instance.CurrentUser,
@@ -138,13 +146,18 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 0,
                 0,
-                spawnedPlayer.transform.position
+                spawnedPlayer.transform.position,
+                null,
+                null
             );
 
             // Call the ColorChange method to recolor the player
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
-            
+
+            clothChanging.ChangeClothes(GameManager.Instance.CurrentClothMid, skeleton);
+            clothChanging.ChangeClothes(GameManager.Instance.CurrentClothTop, skeleton);
+
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
 
@@ -192,6 +205,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 return;
             }
 
+            clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
+            if (clothChanging == null)
+            {
+                Debug.LogError("PlayerManager.SetupPlayer(): " +
+                               "ClothChanging component not found on spawned player.");
+            }
 
             // Init player data with saved data
             playerData.Initialize(
@@ -201,7 +220,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.GoldAmount,
                 saveData.XPAmount,
                 saveData.PlayerLevel,
-                saveData.SavedPlayerStartPostion.GetVector3()
+                saveData.SavedPlayerStartPostion.GetVector3(),
+                saveData.clothMid,
+                saveData.clothTop
             );
 
             // Call the ColorChange method to recolor the player

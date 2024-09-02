@@ -10,6 +10,8 @@ public class ShopManager : MonoBehaviour
     public SkeletonGraphic skeletonGraphic;
     //changing color
     private ColorChanging playerColorChanging;
+    //ClothChanging
+    private ClothChanging clothChanging;
     //The chosen item
     private string currentItem;
 
@@ -37,6 +39,8 @@ public class ShopManager : MonoBehaviour
 
         playerColorChanging = this.GetComponent<ColorChanging>();
 
+        clothChanging = this.GetComponent<ClothChanging>();
+
         if (PlayerManager.Instance == null)
         {
             Debug.Log("Didn't find playermanager");
@@ -46,17 +50,15 @@ public class ShopManager : MonoBehaviour
             avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
 
-        //Build shop
-        //List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
-        //InitializeShopOptions(theShopOptions);
-
-        //Debug.Log(theShopOptions.Count + "antal p� listen");
-
     }
     private void OnEnable()
     {
         playerColorChanging.SetSkeleton(skeletonGraphic);
         playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+
+
+        clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid,skeletonGraphic);
+        clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
         //Build shop
 
         List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
@@ -142,6 +144,17 @@ public class ShopManager : MonoBehaviour
         {
             //add item to list here
             PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+            //change clothing
+            if(currentItem.Contains("HEAD"))
+            {
+                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+            }
+            if(currentItem.Contains("MID"))
+            {
+                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+            }
+            
 
             //takes away money
             avaliableMoney -= currentPrice;

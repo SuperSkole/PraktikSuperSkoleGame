@@ -17,7 +17,8 @@ namespace CORE
         public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
-        
+        public string CurrentClothMid { get; set; }
+        public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
         
         // GameManager Singleton
