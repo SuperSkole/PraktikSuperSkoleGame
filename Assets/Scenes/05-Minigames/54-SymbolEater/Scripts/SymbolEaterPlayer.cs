@@ -1,8 +1,11 @@
 using System;
+using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 using Vector3 = UnityEngine.Vector3;
 
 
@@ -25,6 +28,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         [SerializeField] private GameObject healthTextObject;
 
         [SerializeField] private GameObject placePlayerMonster;
+
+        private GameObject playerMonster;
 
         private TextMeshProUGUI healthText;
 
@@ -55,7 +60,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             get => livesRemaining;
             set
             {
-                if (value > 0)
+                if (value >= 0)
                 {
                     livesRemaining = value;
                 }
@@ -79,9 +84,28 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
 
+
+            /// <summary>
+            /// Spawn Player Charector on Player prefab?
+            /// </summary>
+            //Instanciate playerCharactor in SymbolEater
             //if (PlayerManager.Instance != null)
             //{
             //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+            //    Scene getScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
+
+            //    foreach (GameObject gameObject in getScene.GetRootGameObjects())
+            //    {
+            //        if (gameObject.CompareTag("Player"))
+            //        {
+
+            //            playerMonster = gameObject;
+
+            //            break;
+            //        }
+            //    }
+
+            //    playerMonster.transform.position = placePlayerMonster.transform.position;
             //}
             //else
             //{
@@ -163,8 +187,15 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// </summary>
         void Move()
         {
+            
             float step = speed * Time.deltaTime;
+            
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
+            
+            // former attempt at having the Player Charector model at Player Prefab.
+            //Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
+            //transform.Translate(deltaPosition);
+            //playerMonster.transform.Translate(deltaPosition);
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;

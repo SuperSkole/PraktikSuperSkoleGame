@@ -175,7 +175,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             else
             {
                 correctWords++;
-                if(correctWords == 5)
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
+                if (correctWords == 5)
                 {
                     //Calculates the multiplier for the xp reward. All values are temporary
                     int multiplier = 1;
@@ -196,6 +197,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 }
                 else
                 {
+                    boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
                 }
             }
