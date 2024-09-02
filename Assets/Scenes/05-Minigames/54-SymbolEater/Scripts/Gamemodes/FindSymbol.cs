@@ -143,7 +143,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
-                    boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange", multiplier * 1, multiplier * 1);
+                    boardController.Won("Du vandt. Du fandt det korrekte Symbol fem gange", multiplier * 1, multiplier * 1);
                 }
             }
         }
