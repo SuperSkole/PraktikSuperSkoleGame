@@ -70,6 +70,8 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+            
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
             int wordlength = formedWord.Length;
@@ -134,6 +136,11 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
+            
+            PlayerEvents.RaiseGoldChanged(1);
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
+            PlayerEvents.RaiseXPChanged(1);
+            
             
             // Send word to playerdata
             AddWordToPlayerData(word);
