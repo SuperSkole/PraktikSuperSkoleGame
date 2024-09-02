@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using CORE.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.WordFactory.Scripts;
-using Scenes.Minigames.WordFactory.Scripts.Managers;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
     public class WordCheckManager : MonoBehaviour
     {
@@ -72,6 +70,8 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+            
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
             int wordlength = formedWord.Length;
@@ -136,6 +136,11 @@ namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
             
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
+            
+            PlayerEvents.RaiseGoldChanged(1);
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
+            PlayerEvents.RaiseXPChanged(1);
+            
             
             // Send word to playerdata
             AddWordToPlayerData(word);

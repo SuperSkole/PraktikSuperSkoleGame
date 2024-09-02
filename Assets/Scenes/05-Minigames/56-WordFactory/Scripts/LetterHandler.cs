@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using CORE.Scripts;
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
+using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts;
 using TMPro;
 using UnityEngine;

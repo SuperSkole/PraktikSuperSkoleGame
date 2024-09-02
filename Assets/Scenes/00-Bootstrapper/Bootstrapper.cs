@@ -1,12 +1,12 @@
 // inspired by Jason Weimann's Bootstrapper
 // https://www.youtube.com/watch?v=o03NpUdpdrc
- 
+
 using System.Threading.Tasks;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes.Bootstrapper
+namespace Scenes._00_Bootstrapper
 {
     /// <summary>
     /// Manages initial scene loading and setup for the game.

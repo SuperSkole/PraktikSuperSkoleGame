@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
-using Scenes.Minigames.WordFactory.Scripts.Managers;
+using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
 using UnityEngine;
 
 namespace Scenes.Minigames.WordFactory.Scripts
@@ -21,6 +20,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
         {
             if (!isRotating)
             {
+                WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.RotateGear);
                 StartCoroutine(RotateGear(gameObject, true));
             }
         }
@@ -30,6 +30,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
         {
             if (!isRotating)
             {
+                WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.RotateGear);
                 StartCoroutine(RotateGear(gameObject, false));
             }
         }
@@ -64,6 +65,7 @@ namespace Scenes.Minigames.WordFactory.Scripts
             gear.transform.localRotation = endRotation;
             controller.isRotating = false;
             NotifyRotationComplete();
+            
         }
 
         // Notification method when rotation is complete
