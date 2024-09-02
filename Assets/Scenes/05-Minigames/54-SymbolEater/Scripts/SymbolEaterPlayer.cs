@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
+using UnityEngine.VFX;
 using Vector3 = UnityEngine.Vector3;
 
 
@@ -83,6 +84,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
 
+
+            /// <summary>
+            /// Spawn Player Charector on Player prefab?
+            /// </summary>
             //Instanciate playerCharactor in SymbolEater
             //if (PlayerManager.Instance != null)
             //{
