@@ -4369,7 +4369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2164433105843332071, guid: 2ba4ad6e47559724b8cc3e40e5956e10, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.8213015
+      value: -7.82
       objectReference: {fileID: 0}
     - target: {fileID: 2164433105843332071, guid: 2ba4ad6e47559724b8cc3e40e5956e10, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10291,11 +10291,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1244829723}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1250134936 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2082324963609375271, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
-  m_PrefabInstance: {fileID: 6617813843653195677}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1256780948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14005,11 +14000,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2537484531506880048, guid: 1f175c516de83e345ad51e1763fc74f4, type: 3}
   m_PrefabInstance: {fileID: 1452259805}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1774837165 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1257897713795180063, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
-  m_PrefabInstance: {fileID: 6617813843653195677}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1788223678
 GameObject:
@@ -28365,7 +28355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
       propertyPath: motorForce
-      value: 1500000
+      value: 15000
       objectReference: {fileID: 0}
     - target: {fileID: 6570575650816039085, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
       propertyPath: reverseMaxSpeed
@@ -28377,10 +28367,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1481021324071304322, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5735706273331187467}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3785234402012161634, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 6916329621617969567}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e8cbbd0ce1c93c479d65900bcda9826, type: 3}
 --- !u!4 &6768962003356676976
 Transform:
@@ -28409,36 +28396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a6dfe15acd8bb4c93c87b56c1564bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6916329621617969567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2879028704737507585}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a6dfe15acd8bb4c93c87b56c1564bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  carActive: 0
-  motorForce: 150000
-  maxSteeringAngle: 30
-  maxSpeed: 37
-  reverseMaxSpeed: 15
-  brakingForce: 100000000
-  carSpeed: 0
-  wheelColliderFrontL: {fileID: 4374775907919723862}
-  wheelColliderFrontR: {fileID: 1189884019745996470}
-  wheelColliderRearR: {fileID: 1699613418229414084}
-  wheelColliderRearL: {fileID: 3090571198193454028}
-  wheelTransformFrontL: {fileID: 3954397801606557795}
-  wheelTransformFrontR: {fileID: 6768962003356676976}
-  wheelTransformRearR: {fileID: 8073360281319098543}
-  wheelTransformRearL: {fileID: 2812626110076012842}
-  leftHeadlight: {fileID: 1774837165}
-  rightHeadlight: {fileID: 1250134936}
-  steeringCorrectionRate: 20
 --- !u!23 &6971997307111213997
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -8,7 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.GameRules;
-using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine.SceneManagement;
 
@@ -38,6 +37,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private Image answerImage;
 
         [SerializeField]private GameObject playerObject;
+
+        [SerializeField] private GameObject coinAnimationPrefab;
 
         private SymbolEaterPlayer player;
 
@@ -82,6 +83,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 {
                     letterCubes.Add(lC);
                     lC.SetBoard(this);
+                    lC.SetCoin(coinAnimationPrefab);
                 }
             }
             gameMode.SetLetterCubesAndBoard(letterCubes, this);
