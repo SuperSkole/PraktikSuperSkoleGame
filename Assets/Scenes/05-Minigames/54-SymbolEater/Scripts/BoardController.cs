@@ -38,6 +38,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts
 
         [SerializeField]private GameObject playerObject;
 
+        [SerializeField] private GameObject coinAnimationPrefab;
+
         private SymbolEaterPlayer player;
 
         private ISEGameMode gameMode;
@@ -81,6 +83,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 {
                     letterCubes.Add(lC);
                     lC.SetBoard(this);
+                    lC.SetCoin(coinAnimationPrefab);
                 }
             }
             gameMode.SetLetterCubesAndBoard(letterCubes, this);

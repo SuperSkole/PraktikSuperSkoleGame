@@ -23,7 +23,7 @@ namespace Scenes._05_Minigames.WordFactory.Scripts
         public List<List<char>> GetLettersForGears()
         {
             // The number of teeth on the gear is fixed at 9
-            int numberOfTeeth = 9;
+            int numberOfTeeth = 9;//is never used?
 
             // Fetch a random word from WordManager
             List<string> words = WordsManager.GetRandomWordsFromCombinationByCount(1);
