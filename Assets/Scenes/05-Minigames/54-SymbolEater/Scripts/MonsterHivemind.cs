@@ -44,6 +44,10 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             }
         }
 
+
+        /// <summary>
+        /// Increase monster speed
+        /// </summary>
         public void IncreaseMonsterSpeed()
         {
             foreach (Monster monster in monsters)
@@ -52,6 +56,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             }
         }
 
+        /// <summary>
+        /// reset to the default monster speed.
+        /// </summary>
         public void ResetSpeed()
         {
             foreach (Monster monster in monsters)

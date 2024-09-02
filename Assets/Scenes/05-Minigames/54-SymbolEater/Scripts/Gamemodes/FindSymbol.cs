@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using CORE.Scripts;
-using Unity.VisualScripting;
-using UnityEngine;
 using CORE.Scripts.GameRules;
-using Scenes.Minigames.SymbolEater.Scripts;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
@@ -44,7 +41,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <param name="correct">Whether the symbol should be correct</param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-            if(correct)
+            if (correct)
             {
                 letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
                 numberOfCorrectLettersOnBoard++;
@@ -96,7 +93,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
@@ -109,29 +106,32 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void ReplaceSymbol(LetterCube letter)
         {
             //Checks if the symbol on the lettercube is the correct one
-            if(IsCorrectSymbol(letter.GetLetter()))
+            if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
                 boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             //Checks if the current game is over or if it should continue the current game
-            if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
+            if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
             {
                 //Checks if the player has won. If not a new game is started
                 correctLetters++;
-                if(correctLetters < 5)
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
+                if (correctLetters < 5)
                 {
+                    boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
                 }
-                else 
+                else
                 {
-                    foreach(LetterCube letterCube in activeLetterCubes)
+                    foreach (LetterCube letterCube in activeLetterCubes)
                     {
                         letterCube.Deactivate();
                     }
                     //Calculates the multiplier for the xp reward. All values are temporary
                     int multiplier = 1;
-                    switch(boardController.difficultyManager.diffculty){
+                    switch (boardController.difficultyManager.diffculty)
+                    {
                         case DiffcultyPreset.CUSTOM:
                         case DiffcultyPreset.EASY:
                             multiplier = 1;
