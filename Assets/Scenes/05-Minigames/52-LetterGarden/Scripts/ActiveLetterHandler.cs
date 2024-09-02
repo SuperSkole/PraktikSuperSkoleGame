@@ -96,7 +96,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
     {
         public GameObject splineObject;
         public SplineContainer splineContainer;
-        public char Symbol;
+        public char symbol;
 
         /// <summary>
         /// this is a class for holding information about a Symbol for LetterGarden
@@ -108,7 +108,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             this.splineObject = splineObject;
             this.splineContainer = splineContainer;
-            this.Symbol = Symbol;
+            this.symbol = Symbol;
         }
     }
 

@@ -61,10 +61,6 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 splineIndex++;
                 spineLeangth = letterSpline.CalculateLength(splineIndex);
             }
-            else
-            {
-                Debug.Log("Ready for new letter");
-            }
             distancePercentage = 0f;
             return result;
         }

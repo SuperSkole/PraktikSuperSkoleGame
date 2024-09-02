@@ -27,18 +27,15 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             SplineUtility.GetNearestPoint(spline, temp, out _, out float firstT);
             if (firstT > 0.05f) 
             {
-                Debug.Log("firstT: " + firstT);
                 return false;//checks that the start of the drawing is within the first 5% of the spline
             }
             for (int i = 0; i < dwaing.positionCount; i++)
             {
                 Vector3 dwaingPoint = dwaing.GetPosition(i);
-                dwaingPoint = new(0,dwaingPoint.y - 2.308069f,dwaingPoint.z);
+                dwaingPoint.x = 0;
                 float distToSpline = SplineUtility.GetNearestPoint(spline,dwaingPoint,out _,out float t);
                 if (oldT > (t + 0.05f))
                 {
-                    Debug.Log("oldT: " + oldT);
-                    Debug.Log("t: " + t);
                     return false;//makes sure you are drawing in the correct direction
                 }
                 oldT = t;
@@ -53,8 +50,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             Vector3 testVector = new Vector3(test.x, test.y - 2.308069f, test.z);
             if (Vector3.Distance(testVector, temp) > 2.4f) 
             {
-                Debug.Log(Vector3.Distance(testVector, temp));
-                Debug.Log("LastT:" + lastT);
+
                 return false;//checks that the end of the drawing is within the last 5% of the spline
             }
             bool testResult = totalDist <= maxDist;

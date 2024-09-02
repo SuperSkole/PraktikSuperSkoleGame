@@ -95,9 +95,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             }
         }
 
+        /// <summary>
+        /// Translates the letter replacement from files t the equivelent danish letter
+        /// </summary>
+        /// <param name="gameObject">The gameobject which should be inserted on listst</param>
+        /// <param name="isCapitalLetter"></param>
+        /// <param name="character">The letter replacement from the file name</param>
         private void DanishLetterHandler(GameObject gameObject, bool isCapitalLetter, string character)
         {
+
             char letter = ' ';
+            //Finds out which letter it is
             switch (character)
             {
                 case "AA":
@@ -113,6 +121,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                     Debug.LogError("No character could be found for " + character);
                     break;
             }
+            //Inserts the letter into the correct dictionary
             if (isCapitalLetter)
             {
                 capitalLettersObjects.Add(letter, gameObject);

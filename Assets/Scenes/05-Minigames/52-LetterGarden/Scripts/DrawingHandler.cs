@@ -30,7 +30,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         private SplineSymbolDataHolder currentSymbol;
 
-        [SerializeField] public GameObject Bee;
+        [SerializeField] public GameObject bee;
         BeeMovement beeMovement;
 
         LettergardenGameMode gameMode;
@@ -41,13 +41,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         }
 
 
+        /// <summary>
+        /// Sets up various variables and the gamemode
+        /// </summary>
+        /// <param name="gameMode">The gamemode which should be used</param>
         public void Setup(LettergardenGameMode gameMode)
         {
             this.gameMode = gameMode;
             currentInkAmount = maxInkAmount;
             inkMeterSlider.maxValue = maxInkAmount;
             inkMeterSlider.value = currentInkAmount;
-            beeMovement = Bee.gameObject.GetComponentInChildren<BeeMovement>();
+            beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
             switch (gameMode)
             {
                 case LettergardenGameMode.AllLetters:
@@ -199,6 +203,10 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             drawnBrushInstances.Clear();
         }
 
+
+        /// <summary>
+        /// Returns the player to the main world then the game is over
+        /// </summary>
         private void OnGameOver(){
             SwitchScenes.SwitchToMainWorld();
         }
