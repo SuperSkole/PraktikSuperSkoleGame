@@ -189,8 +189,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             
             float step = speed * Time.deltaTime;
-            Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
-            transform.Translate(deltaPosition);
+            
+            transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
+            
+            // former attempt at having the Player Charector model at Player Prefab.
+            //Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
+            //transform.Translate(deltaPosition);
             //playerMonster.transform.Translate(deltaPosition);
             if (transform.position == currentDestination && thrown)
             {
