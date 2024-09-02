@@ -1,11 +1,8 @@
-using Spine.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using Scenes._10_PlayerScene.Scripts;
+using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Advertisements;
 using UnityEngine.UI;
-using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
@@ -15,19 +12,19 @@ public class ShopManager : MonoBehaviour
     private ColorChanging playerColorChanging;
     //The chosen item
     private string currentItem;
-    
+
 
     List<string> colors = new List<string> { "orange", "blue", "red", "green", "white" };
 
     //!!Fill this one out with the amount the player has avaliable!!
-    private int avaliableMoney ;
+    private int avaliableMoney;
 
     private int currentPrice;
 
     //GameObjects
     [SerializeField] Image offBuyButton;
 
-    [SerializeField] GameObject shopOptionPrefab;  
+    [SerializeField] GameObject shopOptionPrefab;
     [SerializeField] Transform shopOptionsParent;
 
     private Shopoption currentShopOption;
@@ -40,7 +37,7 @@ public class ShopManager : MonoBehaviour
 
         playerColorChanging = this.GetComponent<ColorChanging>();
 
-        if(PlayerManager.Instance == null )
+        if (PlayerManager.Instance == null)
         {
             Debug.Log("Didn't find playermanager");
         }
@@ -54,11 +51,16 @@ public class ShopManager : MonoBehaviour
         InitializeShopOptions(theShopOptions);
 
         Debug.Log(theShopOptions.Count + "antal p� listen");
-        
+
     }
     private void OnEnable()
     {
-        //gameObject.GetComponent<ColorChanging>().graphic.color = PlayerManager.Instance.SpawnedPlayer
+        playerColorChanging.SetSkeleton(skeletonGraphic);
+        playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+        //Build shop
+
+        List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
+        InitializeShopOptions(theShopOptions);
     }
     //Create the shop options
     private void InitializeShopOptions(List<ClothInfo> availableClothes)
@@ -89,25 +91,25 @@ public class ShopManager : MonoBehaviour
         currentPrice = thisprice;
         currentShopOption = shopOption;
 
-        if (itemName.Contains("HEAD")|| itemName.Contains("MID"))
+        if (itemName.Contains("HEAD") || itemName.Contains("MID"))
         {
             //hvis curren item ikke er tom, 
-            if(currentItem != null)
-            { 
+            if (currentItem != null)
+            {
                 skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
             }
             skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
             currentItem = itemName;
         }
 
-        foreach(var color in colors)
+        foreach (var color in colors)
         {
-            if(itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
+            if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
             {
-                    playerColorChanging.ColorChange(itemName);
+                playerColorChanging.ColorChange(itemName);
             }
         }
-    
+
 
         //Check if the player can afford this
 
@@ -134,14 +136,14 @@ public class ShopManager : MonoBehaviour
 
             //takes away money
             avaliableMoney -= currentPrice;
-            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney; 
+            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
             Destroy(currentShopOption.gameObject);
 
             offBuyButton.gameObject.SetActive(true);
-            ableToBuy =false;
+            ableToBuy = false;
 
-            currentPrice = 0; 
+            currentPrice = 0;
 
         }
 
@@ -150,6 +152,8 @@ public class ShopManager : MonoBehaviour
 
     public void CloseShop()
     {
+        var amountOfChild = shopOptionsParent.childCount;
+        
         this.gameObject.SetActive(false);
 
     }

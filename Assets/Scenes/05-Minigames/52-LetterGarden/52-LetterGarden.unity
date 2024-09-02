@@ -3217,6 +3217,8 @@ GameObject:
   - component: {fileID: 2004008631}
   - component: {fileID: 2004008630}
   - component: {fileID: 2004008633}
+  - component: {fileID: 2004008634}
+  - component: {fileID: 2004008633}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -3240,9 +3242,9 @@ MonoBehaviour:
   brushPrefab: {fileID: 5013858553156630089, guid: f63d4be3105aa9f4ca60c5c60c1aadab, type: 3}
   isPainting: 1
   offsetDistance: 0.5
+  leterHandler: {fileID: 2004008633}
   inkMeterSlider: {fileID: 1040110756}
   maxInkAmount: 100
-  Bee: {fileID: 701910460}
 --- !u!114 &2004008631
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         [SerializeField] private LetterController letterController;
 
+        [SerializeField] ActiveLeterHandler leterHandler;
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
@@ -163,10 +164,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             if (currentLineRenderer != null)
             {
-                if(LineSecmentEvaluator.EvaluateSpline(beeMovement.letterSpline[beeMovement.splineIndex], currentLineRenderer))
-                {
-                    beeMovement.NextSplineInLetter();
-                }
+                leterHandler.CheakDwaingQualaty(currentLineRenderer);
 
                 currentLineRenderer = null;
             }
