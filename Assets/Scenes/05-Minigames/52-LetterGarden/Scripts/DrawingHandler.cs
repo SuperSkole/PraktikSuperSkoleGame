@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 
 namespace Scenes.Minigames.LetterGarden.Scrips
 {
+    public enum LettergardenGameMode {AllLetters, CapitalLetters, LowercaseLetters, Numbers, Consonants, Vowels}
     public class DrawingHandler : MonoBehaviour
     {
         public Camera m_camera;
@@ -18,21 +20,47 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         private List<GameObject> drawnBrushInstances = new List<GameObject>();
 
+        [SerializeField] private LetterController letterController;
 
+        [SerializeField] ActiveLetterHandler leterHandler;
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
         private float minDist = 0.2f;
 
-        [SerializeField] public GameObject Bee;
+        private SplineSymbolDataHolder currentSymbol;
+
+        [SerializeField] public GameObject bee;
         BeeMovement beeMovement;
+
+        LettergardenGameMode gameMode;
 
         private void Start()
         {
+            Setup(LettergardenGameMode.AllLetters);
+        }
+
+
+        /// <summary>
+        /// Sets up various variables and the gamemode
+        /// </summary>
+        /// <param name="gameMode">The gamemode which should be used</param>
+        public void Setup(LettergardenGameMode gameMode)
+        {
+            this.gameMode = gameMode;
             currentInkAmount = maxInkAmount;
             inkMeterSlider.maxValue = maxInkAmount;
             inkMeterSlider.value = currentInkAmount;
-            beeMovement = Bee.gameObject.GetComponentInChildren<BeeMovement>();
+            beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
+            switch (gameMode)
+            {
+                case LettergardenGameMode.AllLetters:
+                    break;
+                default:
+                    Debug.LogError("The gamemode "  + gameMode + " is not implemented yet");
+                    break;
+            }
+
         }
 
         private void Update()
@@ -142,12 +170,23 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             if (currentLineRenderer != null)
             {
-                if(LineSecmentEvaluator.EvaluateSpline(beeMovement.letterSpline[beeMovement.splineIndex], currentLineRenderer))
+                if(currentSymbol == null)
                 {
-                    beeMovement.NextSplineInLetter();
+                    currentSymbol = leterHandler.currentSymbol;
                 }
-
-                currentLineRenderer = null;
+                if(leterHandler.CheakDwaingQualaty(currentLineRenderer))
+                {
+                    currentLineRenderer = null;
+                    if(currentSymbol != leterHandler.currentSymbol)
+                    {
+                        currentSymbol = leterHandler.currentSymbol;
+                        ClearDrawnSegments();
+                    }
+                    if(leterHandler.GameOver())
+                    {
+                        OnGameOver();
+                    }
+                }
             }
             currentInkAmount = maxInkAmount;
         }
@@ -162,6 +201,14 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 Destroy(brushInstance);
             }
             drawnBrushInstances.Clear();
+        }
+
+
+        /// <summary>
+        /// Returns the player to the main world then the game is over
+        /// </summary>
+        private void OnGameOver(){
+            SwitchScenes.SwitchToMainWorld();
         }
     }
 }

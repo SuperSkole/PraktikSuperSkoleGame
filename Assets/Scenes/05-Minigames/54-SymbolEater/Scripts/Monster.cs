@@ -99,7 +99,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 }
                 velocity.y = 0;
                 //check to ensure the monster does not move out of right side of the board
-                if (velocity.x + transform.position.x > 19.5f)
+                if (velocity.x + transform.position.x > 19.5f  || velocity.x +transform.position.x < 10.5f)
                 {
                     velocity.x = 0;
                 }
