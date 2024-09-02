@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8818127677896040934}
   - component: {fileID: 4324639162851700580}
   - component: {fileID: 2585038715358045455}
-  - component: {fileID: 7689562754645470504}
+  - component: {fileID: 5185989093708546039}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -76,22 +76,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!111 &7689562754645470504
-Animation:
+--- !u!95 &5185989093708546039
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114145347168119784}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: a98aabf1071dd414ca83218eb4cc04af, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2eeb70c7badb52541a36fe62038b9504, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4789875805035089658
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,6 +109,7 @@ GameObject:
   - component: {fileID: 1769972562531325020}
   - component: {fileID: 965561283710648171}
   - component: {fileID: 3845277121570841896}
+  - component: {fileID: 2841538551833671666}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -194,3 +200,16 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2841538551833671666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789875805035089658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae02dfed7cff66544a3df82c0b6a9651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ageLimit: 1
