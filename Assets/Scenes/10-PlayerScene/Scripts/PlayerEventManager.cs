@@ -29,6 +29,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
         public UnityEvent PlayerInteraction { get; set; } = new UnityEvent();
+        public GameObject interactionIcon;
 
         void Start()
         {
@@ -65,18 +66,25 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                try
-                {
-                    PlayerInteraction.Invoke();
-                    if (!IsInCar)
-                    {
-                        PlayerInteraction = new UnityEvent();
-                    }
-
-                }
-                catch { print("PlayerEventManager/Update/No playeraction"); }
+                InvokeAction();
             }
         }
+        public void InvokeAction()
+        {
+            try
+            {
+                interactionIcon.SetActive(false);
+                GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
+                PlayerInteraction.Invoke();
+                if (!IsInCar)
+                {
+                    PlayerInteraction = new UnityEvent();
+                }
+
+            }
+            catch { print("PlayerEventManager/Update/No playeraction"); }
+        }
+
 
         // /// <summary>
         // /// Initializes the PlayerEventManager with references to player data.

@@ -32,9 +32,11 @@ public class CarEvents : MonoBehaviour
         
         spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
         spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(TurnOffCar);
+        spawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
 
         DisablePlayer();
         carSetPlayerPos.isDriving = true;
+
 
     }
     public void TurnOffCar()
