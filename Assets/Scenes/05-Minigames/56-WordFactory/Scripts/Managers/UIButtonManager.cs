@@ -1,45 +1,77 @@
-using Scenes._05_Minigames._56_WordFactory.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
-using Scenes._05_Minigames.WordFactory.Scripts;
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
-using Scenes.Minigames.WordFactory.Scripts.Managers;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
-    public class UIButtonManager : MonoBehaviour
+    /// <summary>
+    /// Manages the functionality of the UI buttons and handles pointer click events.
+    /// </summary>
+    public class UIButtonManager : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField] private WordCheckManager wordCheckManager;
-        [SerializeField] private LetterHandler letterHandler;
-        [SerializeField] private Button checkWordButton;
+        [SerializeField] private WordCheckManager wordCheckManager; 
+        [SerializeField] private LetterHandler letterHandler; 
         [SerializeField] private Button resetButton;
-        [SerializeField] private Button exitButton;
-
+        [SerializeField] private Image checkWordImage;
+        [SerializeField] private Image exitImage;
+        
         private void Start()
         {
-            // Assign scene-specific buttons
-            checkWordButton.onClick.AddListener(OnCheckWordButton);
-            resetButton.onClick.AddListener(OnResetButton);
-            exitButton.onClick.AddListener(OnExitButton);
+            checkWordImage.gameObject.AddComponent<Button>().onClick.AddListener(OnCheckWordButton);
+            exitImage.gameObject.AddComponent<Button>().onClick.AddListener(OnExitButton);
         }
 
-        private void OnCheckWordButton()
+        /// <summary>
+        /// Called when the "Check Word" button is clicked.
+        /// </summary>
+        public void OnCheckWordButton()
         {
             Debug.Log("Check Word button clicked");
             wordCheckManager.CheckForWord();
         }
 
-        private void OnResetButton()
+        /// <summary>
+        /// Called when the "Reset" button is clicked.
+        /// </summary>
+        public void OnResetButton()
         {
             // Reset the letters on all gears
             letterHandler.ResetLetters();
         }
 
-        private void OnExitButton()
+        /// <summary>
+        /// Called when the "Exit" button is clicked.
+        /// </summary>
+        public void OnExitButton()
         {
+            // Load the main scene
             SceneManager.LoadScene(SceneNames.Main); 
+        }
+
+        /// <summary>
+        /// Handles pointer click events for the buttons.
+        /// </summary>
+        /// <param name="eventData">Pointer event data</param>
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // Check which image was clicked
+            if (eventData.pointerCurrentRaycast.gameObject == checkWordImage.gameObject)
+            {
+                Debug.Log("check button clicked");
+                WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+                OnCheckWordButton();
+            }
+            else if (eventData.pointerCurrentRaycast.gameObject == exitImage.gameObject)
+            {
+                Debug.Log("exit button clicked");
+                OnExitButton();
+            }
+            else if (eventData.pointerPress == resetButton.gameObject)
+            {
+                Debug.Log("reset button clicked");
+                OnResetButton();
+            }
         }
     }
 }

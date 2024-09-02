@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
 using Scenes._05_Minigames.WordFactory.Scripts;
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using UnityEngine;
 
 namespace Scenes._05_Minigames._56_WordFactory.Scripts

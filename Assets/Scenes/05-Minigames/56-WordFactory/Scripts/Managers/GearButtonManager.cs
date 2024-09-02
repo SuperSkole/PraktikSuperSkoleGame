@@ -1,13 +1,13 @@
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
+using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
     public class GearButtonManager : MonoBehaviour
     {
-        [SerializeField] private GameObject buttonPrefab; 
-        [SerializeField] private Transform gearButtonParent;
+        [SerializeField] private GameObject gearLeverPrefab; 
+        [SerializeField] private Transform gearLeverParent;
 
         private void Start()
         {
@@ -27,7 +27,7 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
         public void CreateButtonsForGear(GameObject gear)
         {
             // Create buttons as children of the gear
-            GameObject buttonGroup = Instantiate(buttonPrefab, gear.transform);
+            GameObject buttonGroup = Instantiate(gearLeverPrefab, gear.transform);
 
             // Find the buttons in the instantiated prefab
             Button[] buttons = buttonGroup.GetComponentsInChildren<Button>();
@@ -78,7 +78,7 @@ namespace Scenes.Minigames.WordFactory.Scripts.Managers
             // Adjust the rotation of the button group
             buttonGroup.transform.localRotation = Quaternion.Euler(-90, 0, 0);
             // Ensure button group is not parented to gear to avoid rotation
-            buttonGroup.transform.SetParent(gearButtonParent); 
+            buttonGroup.transform.SetParent(gearLeverParent); 
         }
     }
 }
