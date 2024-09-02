@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Splines;
 
 namespace Scenes.Minigames.LetterGarden.Scrips
 {
 
-    public class ActiveLeterHandler : MonoBehaviour
+    public class ActiveLetterHandler : MonoBehaviour
     {
         [SerializeField] SymbolManager symbolManager;
         [SerializeField] Transform splineHolder;
         [SerializeField] BeeMovement bee;
 
         private List<SplineSymbolDataHolder> splines = new();
-        private SplineSymbolDataHolder currentSymbol;
+        public SplineSymbolDataHolder currentSymbol;
         private int currentSymbolIndex = 0;
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         public void StartGame()
         {
-            splines = GetCapitalSymbolseToDwar(5);
+            splines = GetCapitalSymbolseToDraw(5);
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
@@ -39,27 +40,32 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         }
 
         /// <summary>
-        /// cheaks if the dwaing given is good and handles sending the bee to the next letter/segment of the letter.
+        /// cheaks if the drawing given is good and handles sending the bee to the next letter/segment of the letter.
         /// </summary>
-        /// <param name="dwaing">the line the player has dwan</param>
-        public void CheakDwaingQualaty(LineRenderer dwaing)
+        /// <param name="dwaing">the line the player has drawn</param>
+        public bool CheakDwaingQualaty(LineRenderer dwaing)
         {
-            if (LineSecmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing))
+            if (LineSegmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing))
             {
                 currentSymbolIndex++;
                 if(!bee.NextSplineInLetter())
                 {
+                    PlayerEvents.RaiseGoldChanged(1);
+                    PlayerEvents.RaiseXPChanged(1);
                     //next letter
                     currentSymbolIndex = 0;
-                    if(splines.Count <= 0) return;//end game
+                    if(splines.Count <= 0) return true;//end game
 
                     currentSymbol = splines[0];
                     splines.RemoveAt(0);
                     bee.NextLetter(currentSymbol.splineContainer);
-                    return;
+                    return true;
                 }
                 //next Spline in container
+                return true;
             }
+            dwaing.positionCount = 0;
+            return false;
         }
 
         /// <summary>
@@ -67,17 +73,22 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         /// <param name="amount">the amount of symbols you want to get</param>
         /// <returns>a list of SplineSymbolDataHolders whitch have data in them</returns>
-        private List<SplineSymbolDataHolder> GetCapitalSymbolseToDwar(int amount)
+        private List<SplineSymbolDataHolder> GetCapitalSymbolseToDraw(int amount)
         {
             List<SplineSymbolDataHolder> output = new();
             for (int i = 0; i < amount; i++)
             {
-                int randomIndex = Random.Range(0, symbolManager.capitalLettersObjects.Count);
-                output.Add(new(Instantiate(symbolManager.capitalLettersObjects.ElementAt(randomIndex).Value, splineHolder),
-                                            symbolManager.capitalLetters.ElementAt(randomIndex).Value, 
-                                            symbolManager.capitalLetters.ElementAt(randomIndex).Key));
+                int randomIndex = Random.Range(0, SymbolManager.capitalLettersObjects.Count);
+                output.Add(new(Instantiate(SymbolManager.capitalLettersObjects.ElementAt(randomIndex).Value, splineHolder),
+                                            SymbolManager.capitalLetters.ElementAt(randomIndex).Value, 
+                                            SymbolManager.capitalLetters.ElementAt(randomIndex).Key));
             }
             return output;
+        }
+
+        public bool GameOver()
+        {
+            return splines.Count == 0;
         }
     }
 

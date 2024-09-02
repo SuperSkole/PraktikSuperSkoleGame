@@ -22,11 +22,13 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         [SerializeField] private LetterController letterController;
 
-        [SerializeField] ActiveLeterHandler leterHandler;
+        [SerializeField] ActiveLetterHandler leterHandler;
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
         private float minDist = 0.2f;
+
+        private SplineSymbolDataHolder currentSymbol;
 
         [SerializeField] public GameObject Bee;
         BeeMovement beeMovement;
@@ -164,9 +166,23 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         {
             if (currentLineRenderer != null)
             {
-                leterHandler.CheakDwaingQualaty(currentLineRenderer);
-
-                currentLineRenderer = null;
+                if(currentSymbol == null)
+                {
+                    currentSymbol = leterHandler.currentSymbol;
+                }
+                if(leterHandler.CheakDwaingQualaty(currentLineRenderer))
+                {
+                    currentLineRenderer = null;
+                    if(currentSymbol != leterHandler.currentSymbol)
+                    {
+                        currentSymbol = leterHandler.currentSymbol;
+                        ClearDrawnSegments();
+                    }
+                    if(leterHandler.GameOver())
+                    {
+                        OnGameOver();
+                    }
+                }
             }
             currentInkAmount = maxInkAmount;
         }
@@ -181,6 +197,10 @@ namespace Scenes.Minigames.LetterGarden.Scrips
                 Destroy(brushInstance);
             }
             drawnBrushInstances.Clear();
+        }
+
+        private void OnGameOver(){
+            SwitchScenes.SwitchToMainWorld();
         }
     }
 }

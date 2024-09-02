@@ -67,17 +67,51 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -0.76281255
+        z: -0.7006705
       TangentOut:
         x: 0
         y: 0
-        z: 0.76281255
+        z: 0.7006705
       Rotation:
         value:
-          x: 0.5694341
-          y: 0.47110227
-          z: 0.5744742
-          w: -0.35183364
+          x: 0.46157658
+          y: 0.5356748
+          z: 0.53567433
+          w: -0.46157616
+    - Position:
+        x: 0
+        y: 2.50625
+        z: -0.22
+      TangentIn:
+        x: 0
+        y: 0
+        z: -0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 1.6324141
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    m_MetaData:
+    - Mode: 2
+      Tension: 0.5
+    - Mode: 3
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  - m_EditModeType: 1
+    m_Knots:
     - Position:
         x: 0
         y: 2.50625
@@ -114,6 +148,74 @@ MonoBehaviour:
           y: 0.70728415
           z: -0.7069294
           w: 0
+    m_MetaData:
+    - Mode: 3
+      Tension: 0.5
+    - Mode: 3
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 0
+        y: 0.18625
+        z: 1.79
+      TangentIn:
+        x: 0
+        y: 0
+        z: -0.7570007
+      TangentOut:
+        x: 0
+        y: 0
+        z: 1.9884685
+      Rotation:
+        value:
+          x: 0
+          y: 0.70728415
+          z: -0.7069294
+          w: 0
+    - Position:
+        x: 0
+        y: -2.10375
+        z: -0.2
+      TangentIn:
+        x: 0
+        y: 0
+        z: -0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 1.2900517
+      Rotation:
+        value:
+          x: 0
+          y: 1
+          z: 0
+          w: 0
+    m_MetaData:
+    - Mode: 3
+      Tension: 0.5
+    - Mode: 3
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  - m_EditModeType: 1
+    m_Knots:
     - Position:
         x: 0
         y: -2.10375
@@ -151,12 +253,6 @@ MonoBehaviour:
           z: 0
           w: 0.9695233
     m_MetaData:
-    - Mode: 2
-      Tension: 0.5
-    - Mode: 3
-      Tension: 0.5
-    - Mode: 3
-      Tension: 0.5
     - Mode: 3
       Tension: 0.5
     - Mode: 3

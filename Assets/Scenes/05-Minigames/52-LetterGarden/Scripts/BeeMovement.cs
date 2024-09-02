@@ -55,14 +55,18 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// <returns>returns false if you cant go to the next line(we are out of lines) and returns true if it sucsesfully moves on to the next line</returns>
         public bool NextSplineInLetter()
         {
-            bool result = splineIndex >= letterSpline.Splines.Count - 1;
-            if (!result)
+            bool result = splineIndex < letterSpline.Splines.Count - 1;
+            if (result)
             {
                 splineIndex++;
                 spineLeangth = letterSpline.CalculateLength(splineIndex);
             }
+            else
+            {
+                Debug.Log("Ready for new letter");
+            }
             distancePercentage = 0f;
-            return !result;
+            return result;
         }
 
         /// <summary>

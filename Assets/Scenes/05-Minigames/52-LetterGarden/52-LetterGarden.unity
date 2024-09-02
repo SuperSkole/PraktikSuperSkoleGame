@@ -3203,8 +3203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56df12804e6022d43984910e172f5f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToMove: {fileID: 701910461}
-  speed: 3
 --- !u!1 &2004008629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,7 +3216,6 @@ GameObject:
   - component: {fileID: 2004008630}
   - component: {fileID: 2004008633}
   - component: {fileID: 2004008634}
-  - component: {fileID: 2004008633}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -3242,9 +3239,11 @@ MonoBehaviour:
   brushPrefab: {fileID: 5013858553156630089, guid: f63d4be3105aa9f4ca60c5c60c1aadab, type: 3}
   isPainting: 1
   offsetDistance: 0.5
-  leterHandler: {fileID: 2004008633}
+  letterController: {fileID: 0}
+  leterHandler: {fileID: 2004008634}
   inkMeterSlider: {fileID: 1040110756}
   maxInkAmount: 100
+  Bee: {fileID: 701910460}
 --- !u!114 &2004008631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3355,6 +3354,21 @@ MonoBehaviour:
   - {fileID: 8465389756894205909, guid: a5d5041237a9b5f4f90e839c93b1dc74, type: 3}
   - {fileID: 3070008163955438992, guid: 4f804294317ad874593990fdca9b2f44, type: 3}
   - {fileID: 6633145100238992218, guid: bd4c61f6b3107a64a84690a44d4c382d, type: 3}
+--- !u!114 &2004008634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004008629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96a9e5601805b34ea0f850496d15fa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  symbolManager: {fileID: 2004008633}
+  splineHolder: {fileID: 0}
+  bee: {fileID: 701910462}
 --- !u!1 &2063667416
 GameObject:
   m_ObjectHideFlags: 0
