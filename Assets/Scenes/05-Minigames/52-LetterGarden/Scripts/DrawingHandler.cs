@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 
 namespace Scenes.Minigames.LetterGarden.Scrips
 {
+    public enum LettergardenGameMode {AllLetters, CapitalLetters, LowercaseLetters, Numbers, Consonants, Vowels}
     public class DrawingHandler : MonoBehaviour
     {
         public Camera m_camera;
@@ -18,6 +20,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         private List<GameObject> drawnBrushInstances = new List<GameObject>();
 
+        [SerializeField] private LetterController letterController;
 
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
@@ -27,12 +30,30 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         [SerializeField] public GameObject Bee;
         BeeMovement beeMovement;
 
+        LettergardenGameMode gameMode;
+
         private void Start()
         {
+            Setup(LettergardenGameMode.AllLetters);
+        }
+
+
+        public void Setup(LettergardenGameMode gameMode)
+        {
+            this.gameMode = gameMode;
             currentInkAmount = maxInkAmount;
             inkMeterSlider.maxValue = maxInkAmount;
             inkMeterSlider.value = currentInkAmount;
             beeMovement = Bee.gameObject.GetComponentInChildren<BeeMovement>();
+            switch (gameMode)
+            {
+                case LettergardenGameMode.AllLetters:
+                    break;
+                default:
+                    Debug.LogError("The gamemode "  + gameMode + " is not implemented yet");
+                    break;
+            }
+
         }
 
         private void Update()

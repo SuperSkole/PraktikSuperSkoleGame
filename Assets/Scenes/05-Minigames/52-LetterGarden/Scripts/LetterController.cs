@@ -5,7 +5,7 @@ using UnityEngine.Splines;
 
 namespace Scenes.Minigames.LetterGarden.Scrips
 {
-    public class LettterContorller : MonoBehaviour
+    public class LetterController : MonoBehaviour
     {
         public List<GameObject> Letters = new();
         public GameObject currentLettter;
