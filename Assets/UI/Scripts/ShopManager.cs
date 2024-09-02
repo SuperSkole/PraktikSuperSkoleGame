@@ -1,6 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +17,7 @@ public class ShopManager : MonoBehaviour
     private string currentItem;
 
 
-    List<string> colors = new List<string> { "orange", "blue", "red", "green", "white" };
+    List<string> colors = new List<string>;
 
     //!!Fill this one out with the amount the player has avaliable!!
     private int avaliableMoney;
@@ -49,6 +50,8 @@ public class ShopManager : MonoBehaviour
         {
             avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
+
+        colors.AddRange(playerColorChanging.colors);
 
     }
     private void OnEnable()
