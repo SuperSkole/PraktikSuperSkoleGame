@@ -1,14 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts.GameRules;
-using Scenes.Minigames.MonsterTower;
-using Scenes.Minigames.MonsterTower.Scrips;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
-using Scenes.Minigames.SymbolEater.Scripts;
 using CORE.Scripts;
-using CORE.Scripts.GameRules;
 
 namespace Scenes.GameMode
 {
