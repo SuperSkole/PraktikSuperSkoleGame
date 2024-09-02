@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cinemachine;
 using CORE.Scripts;
 using CORE.Scripts.GameRules;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
-
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,17 +31,27 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public int ammoCount;
 
         [SerializeField] Camera mainCamera;
+        [SerializeField] Camera cameraBrain;
+        public LayerMask placementLayermask;
+        public SpinePlayerMovement mainWorldMovement;
+
         [SerializeField] GameObject noAmmoText;
         [SerializeField] List<GameObject> ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
         [SerializeField] GameObject ammoPlatform;
         [SerializeField] CatapultAming catapultAming;
         [SerializeField] GameObject playerSpawnPosition;
+
+        [SerializeField] AnimationReferenceAsset idle;
+        [SerializeField] AnimationReferenceAsset walk;
+        [SerializeField] ParticleSystem pointAndClickEffect;
         RaycastHit hit;
         Ray ray;
         [SerializeField] AmmoPupUp pupUp;
 
         [SerializeField] TowerManager towerManager;
+
+        
 
         public Difficulty difficulty;
 
@@ -115,8 +126,24 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             }
 
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+
+            spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+            
+
+            PlayerMovement_MT pMovement = spawnedPlayer.AddComponent<PlayerMovement_MT>();
+            pMovement.idle = idle;
+            pMovement.walk = walk;
+            pMovement.pointAndClickEffect = pointAndClickEffect;
+            pMovement.sceneCamera = mainCamera;
+            pMovement.placementLayermask = placementLayermask;
+            pMovement.skeletonAnimation = spawnedPlayer.transform.GetChild(0).GetComponent<SkeletonAnimation>();
             spawnedPlayer.SetActive(true);
             spawnedPlayer.transform.position = playerSpawnPosition.transform.position;
+
+            CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
+            virtualCamera.Follow = spawnedPlayer.transform;
+            virtualCamera.LookAt = spawnedPlayer.transform;
+            
 
            
             if (ammoCount <= 0)
@@ -144,6 +171,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 CheckWhatWasClickedOn();
         }
 
+
+        public void SetPlayerMovementToDefault()
+        {
+            
+            Destroy(spawnedPlayer.GetComponent<PlayerMovement_MT>());
+            spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
+
+        }
 
         /// <summary>
         /// Spawns the ammo with each block representing a word that the player has picked up from the other minigames. 

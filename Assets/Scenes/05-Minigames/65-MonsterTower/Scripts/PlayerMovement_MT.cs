@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement_MT : MonoBehaviour
 {
-   
+    // Start is called before the first frame update
+
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset walk;
     public AnimationReferenceAsset idle;
@@ -23,7 +24,10 @@ public class PlayerMovement_MT : MonoBehaviour
     private bool isMoving;
     private Coroutine moveCoroutine;
 
-    [SerializeField] ParticleSystem pointAndClickEffect;
+    public ParticleSystem pointAndClickEffect;
+
+    
+
     /// <summary>
     /// Initializes the player's animation state to idle.
     /// </summary>
