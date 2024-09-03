@@ -1,3 +1,4 @@
+using Scenes.Minigames.MonsterTower.Scrips;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using UnityEngine;
 public class PlayerMovement_MT : MonoBehaviour
 {
     // Start is called before the first frame update
+
+    [SerializeField] MonsterTowerManager monsterTowerManager;
 
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset walk;
@@ -210,6 +213,25 @@ public class PlayerMovement_MT : MonoBehaviour
             currentState = "Walk";
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "ammo")
+        {
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                string[] displayPosition = other.name.Split(",");
+
+
+            }
+
+            
+            
+
+        }
+    }
+
 }
 
 

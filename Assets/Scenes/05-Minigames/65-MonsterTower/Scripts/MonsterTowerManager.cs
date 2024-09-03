@@ -10,6 +10,7 @@ using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
 using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using Spine.Unity;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -36,7 +37,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public SpinePlayerMovement mainWorldMovement;
 
         [SerializeField] GameObject noAmmoText;
-        [SerializeField] List<GameObject> ammoDisplay;
+        public GameObject[,] ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
         [SerializeField] GameObject ammoPlatform;
         [SerializeField] CatapultAming catapultAming;
@@ -99,6 +100,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
         void Start()
         {
+
+           
             ammoDimensions=ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
@@ -115,6 +118,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             
             //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
             SetupPlayerWords();
+            
+            
 
             //Spawns the ammunition that needed to be displayed beside the catapult. 
             SpawnAmmoForDisplay();
@@ -125,10 +130,44 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 ammoCount = words.Count;
             }
 
+            SetupPlayerMovementForMonsterTower();
+            
+           
+            if (ammoCount <= 0)
+            {
+                noAmmoText.SetActive(true);
+            
+                return;
+            }
+
+           
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+                CheckWhatWasClickedOn();
+        }
+
+
+        public void SetPlayerMovementToDefault()
+        {
+            
+            Destroy(spawnedPlayer.GetComponent<PlayerMovement_MT>());
+        
+
+        }
+
+
+        private void SetupPlayerMovementForMonsterTower()
+        {
+
+
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
-            
+          
+            spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+
 
             PlayerMovement_MT pMovement = spawnedPlayer.AddComponent<PlayerMovement_MT>();
             pMovement.idle = idle;
@@ -143,49 +182,24 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
             virtualCamera.Follow = spawnedPlayer.transform;
             virtualCamera.LookAt = spawnedPlayer.transform;
-            
-
-           
-            if (ammoCount <= 0)
-            {
-                noAmmoText.SetActive(true);
-                for (int i = 0; i < ammoDisplay.Count; i++)
-                {
-                    ammoDisplay[i].SetActive(false);
-                }
-                return;
-            }
-
-            if (ammoCount < ammoDisplay.Count)
-            {
-                for (int i = ammoDisplay.Count - 1; i >= ammoCount; i--)
-                {
-                    ammoDisplay[i].SetActive(false);
-                }
-            }
-        }
-
-        void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-                CheckWhatWasClickedOn();
         }
 
 
-        public void SetPlayerMovementToDefault()
-        {
-            
-            Destroy(spawnedPlayer.GetComponent<PlayerMovement_MT>());
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
-
-        }
 
         /// <summary>
         /// Spawns the ammo with each block representing a word that the player has picked up from the other minigames. 
         /// </summary>
         void SpawnAmmoForDisplay()
         {
-           
+            if (words != null)
+            {
+                //dividing the amount of words with 4 because i have 4 spawnpoints. 
+                // Then making sure its rounded up all the time. 
+                int wordsMaxHeightIndex = (int)Math.Ceiling((double)words.Count / (double)4);
+
+                ammoDisplay = new GameObject[4, wordsMaxHeightIndex];
+            }
+
 
             int spawnIndex = 0;
 
@@ -193,13 +207,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             int amountOfSpawnPositions = ammoPlatform.transform.childCount;
 
+            BoxCollider ammoCollider = ammoToDisplayPrefab.GetComponent<BoxCollider>();
 
 
             if (words!=null)
             {
+                Debug.Log(words.Count);
                 for (int x = 0; x < words.Count; x++)
                 {
-                   
+
 
                     for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                     {
@@ -213,13 +229,21 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                         spawnHeightIndex++;
                     }
 
+                 
+
+                    ammoToDisplayPrefab.tag = "ammo";
+
+                    
+
                     Vector3 spawnPos = ammoPlatform.transform.GetChild(spawnIndex).transform.position + new Vector3(0, ammoDimensions.y * spawnHeightIndex);
 
-                  
+
 
                     GameObject ammo = Instantiate(ammoToDisplayPrefab, spawnPos, Quaternion.identity);
                     ammo.transform.parent = ammoPlatform.transform;
-                    ammoDisplay.Add(ammo);
+
+                    ammo.name = spawnIndex + "," + spawnHeightIndex;
+                    ammoDisplay[spawnIndex,spawnHeightIndex]= ammo;
 
 
                     spawnIndex++;
@@ -260,10 +284,10 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             ammoCount--;
 
           
-            if(ammoCount < ammoDisplay.Count)
-                ammoDisplay[ammoCount].SetActive(false);
-            if (ammoCount <= 0)
-                noAmmoText.SetActive(true);
+            //if(ammoCount < ammoDisplay.Length)
+            //    ammoDisplay[ammoCount].SetActive(false);
+            //if (ammoCount <= 0)
+            //    noAmmoText.SetActive(true);
         }
 
         /// <summary>

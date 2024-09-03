@@ -12,6 +12,7 @@ using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
 using CORE.Scripts.GameRules;
 using Barmetler.RoadSystem;
 using static UnityEngine.ParticleSystem;
+using System;
 
 
 
@@ -250,13 +251,34 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 GoToWinScreen();
             }
 
+            //Shaking the camera
+            ShakeCamera();
+
+
+            PlayAudioExplosion();
+
             // Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
-            PlayAudioPraise();
+           StartCoroutine( PlayAudioPraise());
+
+           
+            
 
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
         }
+
+        /// <summary>
+        /// Shakes the main camera 
+        /// </summary>
+        void ShakeCamera()
+        {
+            StartCoroutine(mainCamera.GetComponent<CameraShake>().Shake(.30f, .4f));
+        }
+       
+
+        
+     
 
         /// <summary>
         /// Animation for the tower falling based on the yPosGoal which is the y position the tower needs to fall to. 
@@ -283,8 +305,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         ///  Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
         ///  Is set To Danish as default but can be changed if needed. 
         /// </summary>
-        void PlayAudioPraise()
+        IEnumerator PlayAudioPraise()
         {
+            while (towerAudioSource.isPlaying)
+            {
+                yield return null;
+            }
+
             int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
 
             AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
@@ -292,6 +319,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             towerAudioSource.Play();
         }
+
+        /// <summary>
+        /// 
+        ///  Gets a explosion audioclip from the soundFXManager and plays it.
+        /// </summary>
+        void PlayAudioExplosion()
+        {
+            AudioClip explosionAudio = SoundFXManager.GetAudioClipFromExplosionsList(0);
+            towerAudioSource.clip = explosionAudio;
+            towerAudioSource.Play();
+        }
+
 
         /// <summary>
         /// Loads the win screen sceene

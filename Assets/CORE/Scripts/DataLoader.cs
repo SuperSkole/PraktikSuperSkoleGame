@@ -19,6 +19,8 @@ namespace CORE.Scripts
         public List<AudioClip> letterSounds = new();
         public List<AudioClip> danskCongrats = new();
         public List<AudioClip> englishCongrats = new();
+        public List<AudioClip> explosionSounds = new();
+
 
         /// <summary>
         /// Starts loading all CSV, texture, and letter sound files simultaneously.
@@ -37,11 +39,13 @@ namespace CORE.Scripts
             var texturesCoroutine = LoadAllTextures();
             var letterSoundsCoroutine = LoadAllletterSounds();
             var congratsSoundCoroutine = LoadAllCongratsSounds();
+            var soundFxCourutine = LoadAllSoundFX();
 
             yield return StartCoroutine(csvCoroutine);
             yield return StartCoroutine(texturesCoroutine);
             yield return StartCoroutine(letterSoundsCoroutine);
             yield return StartCoroutine(congratsSoundCoroutine);
+            yield return StartCoroutine(soundFxCourutine);
 
             Debug.Log("All resources loaded.");
         }
@@ -215,5 +219,38 @@ namespace CORE.Scripts
             CongratsAudioManager.AddAudioClipToEnglishSet(clip);
             yield return null;
         }
+
+
+
+
+        /// <summary>
+        /// Loads all the soundFX. 
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator LoadAllSoundFX()
+        {
+            foreach (AudioClip clip in explosionSounds)
+            {
+                StartCoroutine(LoadAndSetListExplosionSounds(clip));
+            }
+
+
+            yield return null;
+        }
+
+
+
+        /// <summary>
+        /// Loads and sets the explosionsound. 
+        /// </summary>
+        /// <param name="clip">the path of the file you are loading</param>
+        /// <returns></returns>
+        IEnumerator LoadAndSetListExplosionSounds(AudioClip clip)
+        {
+            SoundFXManager.AddAudioClipToExplosionsList(clip);
+            yield return null;
+        }
+
+
     }
 }
