@@ -33,7 +33,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
                     result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[randomIndex], SymbolManager.capitalLetters[randomIndex], randomIndex));
                 }
                 else {
-                    randomIndex = char.ToLower(LetterManager.GetRandomLetter());
                     result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[randomIndex], SymbolManager.lowercaseLetters[randomIndex], randomIndex));
                 }
             }
