@@ -24,18 +24,22 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             float totalDist = 0;
             float oldT = -0.1f;
             Vector3 temp = dwaing.GetPosition(0);
-            SplineUtility.GetNearestPoint(spline, temp, out _, out float firstT);
-            if (firstT > 0.05f) 
+            
+            SplineUtility.GetNearestPoint(spline, temp, out float3 nearest, out float firstT);
+            Vector3 offSet = new Vector3(temp.x - nearest.x, temp.y - nearest.y, temp.z - nearest.z);
+            /*if (firstT > 0.9f) 
             {
+                Debug.Log("error on first point");
                 return false;//checks that the start of the drawing is within the first 5% of the spline
-            }
+            }*/
             for (int i = 0; i < dwaing.positionCount; i++)
             {
-                Vector3 dwaingPoint = dwaing.GetPosition(i);
+                Vector3 dwaingPoint = dwaing.GetPosition(i) + offSet;
                 dwaingPoint.x = 0;
                 float distToSpline = SplineUtility.GetNearestPoint(spline,dwaingPoint,out _,out float t);
-                if (oldT > (t + 0.05f))
+                if (oldT > (t + 0.25f))
                 {
+                    Debug.Log("error on middle point");
                     return false;//makes sure you are drawing in the correct direction
                 }
                 oldT = t;
@@ -43,14 +47,14 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 distToSpline = Mathf.Clamp(distToSpline, 0,5);
                 totalDist += distToSpline;
             }
-            temp = dwaing.GetPosition(dwaing.positionCount-1);
-            temp.x = 0;
-            temp.y -= 2.308069f;
-            SplineUtility.GetNearestPoint(spline, temp, out float3 test, out float lastT);
-            Vector3 testVector = new Vector3(test.x, test.y - 2.308069f, test.z);
-            if (Vector3.Distance(testVector, temp) > 2.4f) 
-            {
+            temp = dwaing.GetPosition(dwaing.positionCount-1) + offSet;
+            //temp.x = 0;
+            //temp.y -= 2.308069f;
+            SplineUtility.GetNearestPoint(spline, temp, out _, out float lastT);
 
+            if (lastT < 0.8f) 
+            {
+                Debug.Log("error on end point");
                 return false;//checks that the end of the drawing is within the last 5% of the spline
             }
             bool testResult = totalDist <= maxDist;
