@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using Scenes._05_Minigames.WordFactory.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
+    /// <summary>
+    /// Manages the Word Factory game, handling gear addition, player positioning, and scene transitions.
+    /// </summary>
     public class WordFactoryGameManager : MonoBehaviour
     {
         public event Action<GameObject> OnGearAdded;
@@ -22,6 +26,9 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         private IGearStrategy gearStrategy;
 
         // Word Factory GameManger singleton
+        /// <summary>
+        /// Singleton instance of the WordFactoryGameManager.
+        /// </summary>
         public static WordFactoryGameManager Instance { get; private set; }
         
         private void Awake()
@@ -34,11 +41,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             {
                 Instance = this;
                 //DontDestroyOnLoad(gameObject);
-
+                SceneManager.sceneLoaded += OnSceneLoaded;
                 IntializeFactoryManager();
             }
         }
 
+        /// <summary>
+        /// Initializes the factory manager by setting up the gear strategy.
+        /// </summary>
         private void IntializeFactoryManager()
         {
             Debug.Log("IntializeFactoryManager");
@@ -55,6 +65,7 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = false;
             }
             else
             {
@@ -62,8 +73,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             }
         }
         
+        /// <summary>
+        /// Retrieves the current gear strategy.
+        /// </summary>
         public IGearStrategy GetGearStrategy() => gearStrategy;
 
+        /// <summary>
+        /// Adds a gear to the game and invokes the OnGearAdded event.
+        /// </summary>
         public void AddGear(GameObject gear)
         {
             gears.Add(gear);
@@ -82,6 +99,9 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 
         public void SetDifficultyLevel(int level) => DifficultyLevel = level;
         
+        /// <summary>
+        /// Sets the gear strategy based on the number of gears.
+        /// </summary>
         private void SetGearStrategy()
         {
             if (NumberOfGears >= 2)
@@ -97,6 +117,28 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             {
                 Debug.LogError("Failed to initialize gear strategy.");
             }
+        }
+
+        /// <summary>
+        /// If Next scene is main re-enable player movement and destroy factory singleton managers.
+        /// </summary>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == SceneNames.Main)
+            {
+                // Re-enable player movement in the main scene
+                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
+        
+                // Clean up the game manager and sound manager when transitioning to the main scene
+                Destroy(Instance);
+                Destroy(WordFactorySoundManager.Instance);
+            }
+        }
+
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 }
