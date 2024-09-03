@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes.Minigames.LetterGarden.Scripts
 {
 
     public class ActiveLetterHandler : MonoBehaviour
@@ -23,15 +24,15 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// </summary>
         private void Start () //TODO remove and replace when we got a loading scene
         {
-            symbolManager.StartLoad();
-            StartGame();
+            
         }
         /// <summary>
         /// call to start the game
         /// </summary>
-        public void StartGame()
+        public void StartGame(LettergardenGameMode gameMode)
         {
-            splines = GetCapitalSymbolseToDraw(5);
+            symbolManager.StartLoad();
+            splines = gameMode.GetSymbols(5);
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
@@ -69,23 +70,9 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         }
 
         /// <summary>
-        /// used to get random symbols for the game form the SymbolManager.
+        /// Checks whether there are splines remaining
         /// </summary>
-        /// <param name="amount">the amount of symbols you want to get</param>
-        /// <returns>a list of SplineSymbolDataHolders whitch have data in them</returns>
-        private List<SplineSymbolDataHolder> GetCapitalSymbolseToDraw(int amount)
-        {
-            List<SplineSymbolDataHolder> output = new();
-            for (int i = 0; i < amount; i++)
-            {
-                int randomIndex = Random.Range(0, SymbolManager.capitalLettersObjects.Count);
-                output.Add(new(Instantiate(SymbolManager.capitalLettersObjects.ElementAt(randomIndex).Value, splineHolder),
-                                            SymbolManager.capitalLetters.ElementAt(randomIndex).Value, 
-                                            SymbolManager.capitalLetters.ElementAt(randomIndex).Key));
-            }
-            return output;
-        }
-
+        /// <returns>whether there are splines remaining</returns>
         public bool GameOver()
         {
             return splines.Count == 0;

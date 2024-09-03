@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Scenes.Minigames.LetterGarden.Scrips;
+using Scenes.Minigames.LetterGarden.Scripts;
 using UnityEngine;
 
 public class DrawingEvaluator : MonoBehaviour

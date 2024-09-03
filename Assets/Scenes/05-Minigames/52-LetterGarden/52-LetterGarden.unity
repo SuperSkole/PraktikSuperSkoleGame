@@ -3203,6 +3203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56df12804e6022d43984910e172f5f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objectToMove: {fileID: 0}
+  speed: 5
 --- !u!1 &2004008629
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,7 +3220,7 @@ GameObject:
   - component: {fileID: 2004008634}
   m_Layer: 0
   m_Name: Manager
-  m_TagString: Untagged
+  m_TagString: Setup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3240,10 +3242,10 @@ MonoBehaviour:
   isPainting: 1
   offsetDistance: 0.5
   letterController: {fileID: 0}
-  leterHandler: {fileID: 2004008634}
+  letterHandler: {fileID: 2004008634}
   inkMeterSlider: {fileID: 1040110756}
-  maxInkAmount: 100
-  Bee: {fileID: 701910460}
+  maxInkAmount: 40
+  bee: {fileID: 701910460}
 --- !u!114 &2004008631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3349,6 +3351,7 @@ MonoBehaviour:
   - {fileID: 4052069218603539811, guid: 0f5df2d5cb2683b4bb5dc700ca8a4c56, type: 3}
   - {fileID: 8714410443692310367, guid: 6515db17d21a48c448087cab88060e6f, type: 3}
   - {fileID: 3598170545100760891, guid: a17393840a65e29468cce44bd576cced, type: 3}
+  - {fileID: 7817665758872764408, guid: 9123289544623af408536c0dd9ba021f, type: 3}
   - {fileID: 6228723015427180855, guid: 5d12a605c742e8c4691563b9d46a6524, type: 3}
   - {fileID: 8335906927514179290, guid: be66ea2fd49503e4896ea31926e258de, type: 3}
   - {fileID: 8465389756894205909, guid: a5d5041237a9b5f4f90e839c93b1dc74, type: 3}
