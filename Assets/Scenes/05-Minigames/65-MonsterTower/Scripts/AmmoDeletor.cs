@@ -9,6 +9,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     public class AmmoDeletor : MonoBehaviour
     {
         [SerializeField] GameObject particals;
+
+        public TowerManager towerManager;
         Brick targetBrick;
         /// <summary>
         /// when anything enters the trigger it spawns the particals and destroyes this gameobject
@@ -16,7 +18,18 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
-            Instantiate(particals,transform.position,Quaternion.identity);
+            if(towerManager.rowToDelete==towerManager.towerHeight-1)
+            {
+                particals.transform.localScale = new Vector3(3, 3, 3);
+                Instantiate(particals, transform.position, Quaternion.identity);
+            }
+            else
+            {
+
+                Instantiate(particals, transform.position, Quaternion.identity);
+            }
+
+         
             targetBrick.checkCollision = true;
 
             Destroy(gameObject);

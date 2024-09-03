@@ -73,8 +73,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 Rigidbody rb = temp.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.velocity = CalcolateTerejectory(target);
-                temp.GetComponent<AmmoDeletor>().Hitbox(brick);
-
+                AmmoDeletor ammoDeleterComp = temp.GetComponent<AmmoDeletor>();
+                ammoDeleterComp.Hitbox(brick);
+                ammoDeleterComp.towerManager = manager.towerManager;
                 while (rotateThisMuch > 0)
                 {
                     catapultArm.gameObject.transform.Rotate(0, rotateAmount / 5f, 0);

@@ -50,7 +50,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         Ray ray;
         [SerializeField] AmmoPupUp pupUp;
 
-        [SerializeField] TowerManager towerManager;
+        public TowerManager towerManager;
 
         
 

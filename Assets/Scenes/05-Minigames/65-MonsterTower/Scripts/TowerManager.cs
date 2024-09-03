@@ -23,11 +23,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
-        private int towerHeight;
+        public int towerHeight;
 
         private GameObject[,] tower;
 
-        private int rowToDelete = 0;
+        public int rowToDelete = 0;
 
 
         [SerializeField] GameObject brickPrefab;
@@ -70,10 +70,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         
         private float yPosGoal;
         private bool falling = false;
-
-      
-
-
+        private bool waitForLastExplosionToFinish=true;
+        private float goToWinScreenTimer=0;
 
         void Start()
         {
@@ -248,7 +246,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             else
             {
                 //Goes to the win screen if there are no more bricks of the tower left. 
-                GoToWinScreen();
+               StartCoroutine(GoToWinScreen());
             }
 
             //Shaking the camera
@@ -335,15 +333,17 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <summary>
         /// Loads the win screen sceene
         /// </summary>
-        public void GoToWinScreen()
-        {
+         IEnumerator GoToWinScreen()
+        { 
+            yield return new WaitForSeconds(4);
+            
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-           
+
             // DataPersistenceManager.instance.SaveGame();
 
-            SceneManager.LoadScene("WinScene");
 
+            SceneManager.LoadScene("WinScene");
         }
 
 
