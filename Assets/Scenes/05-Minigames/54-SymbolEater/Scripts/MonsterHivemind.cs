@@ -43,5 +43,28 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 monster.StartMovement();
             }
         }
+
+
+        /// <summary>
+        /// Increase monster speed
+        /// </summary>
+        public void IncreaseMonsterSpeed()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.speed += 1; 
+            }
+        }
+
+        /// <summary>
+        /// reset to the default monster speed.
+        /// </summary>
+        public void ResetSpeed()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.ResetMoveSpeed();
+            }
+        }
     }
 }

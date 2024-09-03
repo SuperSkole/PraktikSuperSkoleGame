@@ -151,6 +151,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         {
             currentNumber = letter.GetLetter();
             if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete)){
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
                 correctSeries++;
                     if(correctSeries == 3)
                     {
@@ -172,7 +173,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                     }
                     else 
                     {
-                        GetSymbols();
+                    boardController.monsterHivemind.ResetSpeed();
+                    GetSymbols();
                     }
             }
         }
