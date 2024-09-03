@@ -26,6 +26,9 @@ namespace Scenes.GameMode
                 case 1:
                     modeSetter = new SymbolEaterSetter();
                     break;
+                case 2:
+                    modeSetter = new LetterGardenSetter();
+                    break;
             }
         }
 

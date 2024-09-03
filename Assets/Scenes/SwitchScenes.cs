@@ -16,5 +16,7 @@ public class SwitchScenes : MonoBehaviour
     public static void SwitchToTowerLoaderScene() => SceneManager.LoadScene(SceneNames.TowerLoading);
     public static void SwitchToRacerLoaderScene() => SceneManager.LoadScene(SceneNames.RacerLoading);
     public static void SwitchToRacerScene() => SceneManager.LoadScene(SceneNames.Racer);
+    public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
+    public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
 
 }

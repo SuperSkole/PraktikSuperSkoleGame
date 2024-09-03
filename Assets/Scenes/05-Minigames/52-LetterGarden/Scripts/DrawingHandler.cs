@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CORE.Scripts;
+using CORE.Scripts.GameRules;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Scenes.Minigames.LetterGarden.Scripts
 {
-    public class DrawingHandler : MonoBehaviour
+    public class DrawingHandler : MonoBehaviour, IMinigameSetup
     {
         public Camera m_camera;
         public GameObject brushPrefab;
@@ -35,7 +37,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         private void Start()
         {
-            Setup(new DrawNumbers());
+            //Setup(new DrawNumbers());
         }
 
 
@@ -200,6 +202,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// </summary>
         private void OnGameOver(){
             SwitchScenes.SwitchToMainWorld();
+        }
+
+        public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+        {
+            Setup((LettergardenGameMode)gameMode);
         }
     }
 }
