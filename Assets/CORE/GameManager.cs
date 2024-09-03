@@ -17,6 +17,7 @@ namespace CORE
         public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
+        public DeviceType UserDevice { get; set; }
         
         public bool IsNewGame { get; set; }
         
