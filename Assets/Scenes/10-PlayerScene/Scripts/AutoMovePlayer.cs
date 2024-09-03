@@ -86,11 +86,6 @@ namespace Scenes._10_PlayerScene.Scripts
             onReachedTarget?.Invoke();
         }
 
-        private IEnumerator Wait(float seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-        }
-
         /// <summary>
         /// Picks up the block after reaching its position.
         /// </summary>
@@ -102,17 +97,27 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = GameObject.Find("WordBlock");
             if (block != null)
             {
-                block.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-                block.transform.SetParent(spawnedPlayer.transform);
+                // Wait for animation to complete before moving to the drop-off point
+                StartCoroutine(
+                    WaitForAnimation(
+                        "Throw",
+                        MoveToDropOffPoint));
                 
-                // Adjust position relative to the player if needed
-                block.transform.localPosition = spawnedPlayer.transform.GetChild(1).position;
+                // Disable physics interactions
+                Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
+                if (blockRigidbody != null)
+                {
+                    blockRigidbody.useGravity = false; 
+                    blockRigidbody.isKinematic = true; 
+                }
                 
-                // Wait for animation before moving
-                StartCoroutine(Wait(1));
-
-                // Move to the drop-off point after picking up the block
-                MoveToDropOffPoint();
+                block.transform.SetParent(spawnedPlayer.transform.GetChild(1));
+                //block.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+                block.transform.localScale = new Vector3(1, 1, 1);
+                
+                // Reset block's local position and rotation 
+                block.transform.localPosition = Vector3.zero;
+                block.transform.localRotation = Quaternion.identity;
             }
             else
             {
@@ -140,6 +145,14 @@ namespace Scenes._10_PlayerScene.Scripts
                 block.transform.SetParent(null);
                 block.transform.position = DropOffPoint.transform.position;
                 
+                // Re-enable physics interactions
+                Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
+                if (blockRigidbody != null)
+                {
+                    blockRigidbody.useGravity = true;  
+                    blockRigidbody.isKinematic = false;
+                }
+                
                 Destroy(block);
             }
             else
@@ -149,5 +162,44 @@ namespace Scenes._10_PlayerScene.Scripts
             
             MoveToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
         }
+        
+        /// <summary>
+        /// Waits for the specified animation to finish playing, then invokes a callback action.
+        /// </summary>
+        /// <param name="animationName">The name of the animation to wait for.</param>
+        /// <param name="onComplete">The callback action to invoke after the animation completes.</param>
+        private IEnumerator WaitForAnimation(string animationName, Action onComplete)
+        {
+            var state = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation.state;
+            // if (spawnedPlayer == null)
+            // {
+            //     Debug.LogError("Spawned player is null.");
+            //     yield break;
+            // }
+            //
+            // var skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+            // if (skeletonAnimation == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation component is missing on the spawned player.");
+            //     yield break;
+            // }
+            //
+            // var state = skeletonAnimation.state;
+            // if (state == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation state is null.");
+            //     yield break;
+            // }
+
+            // Wait until the animation completes
+            while (state.GetCurrent(0) != null && state.GetCurrent(0).Animation.Name == animationName && !state.GetCurrent(0).IsComplete)
+            {
+                yield return null;
+            }
+
+            // Invoke the callback action
+            onComplete?.Invoke();
+        }
+
     }
 }
