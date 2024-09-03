@@ -85,6 +85,7 @@ public class SpinePlayerMovement : MonoBehaviour
         else if (horizontalInput > 0)
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
         }
 
         if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
