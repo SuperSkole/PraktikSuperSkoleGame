@@ -18,16 +18,19 @@ public class Wardrop : MonoBehaviour
     //ClothChanging
     private ClothChanging clothChanging;
 
-    [SerializeField] Image offEquipButton;
-
     [SerializeField] GameObject WardrobePrefab;
     [SerializeField] Transform WardrobeParent;
+
+    //colors
+    List<string> colors = new List<string>();
 
     private void Awake()
     {
         playerColorChanging = this.GetComponent<ColorChanging>();
 
         clothChanging = this.GetComponent<ClothChanging>();
+
+        colors.AddRange(playerColorChanging.colors);
     }
 
 
@@ -42,6 +45,7 @@ public class Wardrop : MonoBehaviour
         clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
         List<ClothInfo> theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
+        InitializeWardrobeOption(theWardrobeOptions);
 
     }
 
@@ -55,8 +59,20 @@ public class Wardrop : MonoBehaviour
         }
     }
 
+    private void InitializeWardrobeOption(List<ClothInfo> availableoptions)
+    {
+        foreach (ClothInfo cloth in availableoptions)
+        {
+            //instantiate a new WardrobeOption
+            GameObject newWardrobeObj = Instantiate(WardrobePrefab, WardrobeParent);
 
-    public void Click(string itemName, int thisprice, Shopoption shopOption)
+            //initialize the wardrobeOption with the cloth data
+            WardrobeOption wardrobeOption = newWardrobeObj.GetComponent<WardrobeOption>();
+            wardrobeOption.Initialize(cloth.Name, cloth.image, cloth.SpineName);
+        }
+    }
+
+    public void Click(string itemName, WardrobeOption wardrobeShopOption)
     {
         if (itemName.Contains("TOP"))
         {
@@ -66,6 +82,8 @@ public class Wardrop : MonoBehaviour
             }
             skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
             currentTopItem = itemName;
+
+            PlayerManager.Instance.PlayerData.ClothMid = currentTopItem;
         }
 
         if (itemName.Contains("MID"))
@@ -76,12 +94,21 @@ public class Wardrop : MonoBehaviour
             }
             skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
             currentMidItem = itemName;
+
+            PlayerManager.Instance.PlayerData.ClothMid = currentMidItem;
+        }
+
+        foreach (var color in colors)
+        {
+            if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
+            {
+                playerColorChanging.ColorChange(itemName);
+            }
         }
     }
 
     public void CloseShop()
     {
         this.gameObject.SetActive(false);
-
     }
 }

@@ -17,7 +17,7 @@ public class ShopManager : MonoBehaviour
     private string currentItem;
 
 
-    List<string> colors = new List<string>;
+    List<string> colors = new List<string>();
 
     //!!Fill this one out with the amount the player has avaliable!!
     private int avaliableMoney;
@@ -87,7 +87,6 @@ public class ShopManager : MonoBehaviour
             // Initialize the ShopOption with the cloth data
             Shopoption shopOption = newShopOptionObj.GetComponent<Shopoption>();
             shopOption.Initialize(cloth.Name, cloth.Price, cloth.image, cloth.SpineName, cloth.ID);
-            Debug.Log("SHOPOPTION MADE");
         }
     }
 
