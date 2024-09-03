@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.Splines;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes.Minigames.LetterGarden.Scripts
 {
     public static class LineSegmentEvaluator
     {

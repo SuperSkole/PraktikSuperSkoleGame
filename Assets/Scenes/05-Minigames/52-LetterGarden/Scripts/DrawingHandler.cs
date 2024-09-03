@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes.Minigames.LetterGarden.Scripts
 {
-    public enum LettergardenGameMode {AllLetters, CapitalLetters, LowercaseLetters, Numbers, Consonants, Vowels}
     public class DrawingHandler : MonoBehaviour
     {
         public Camera m_camera;
@@ -22,7 +21,7 @@ namespace Scenes.Minigames.LetterGarden.Scrips
 
         [SerializeField] private LetterController letterController;
 
-        [SerializeField] ActiveLetterHandler leterHandler;
+        [SerializeField] ActiveLetterHandler letterHandler;
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
         private float currentInkAmount;
@@ -33,11 +32,10 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         [SerializeField] public GameObject bee;
         BeeMovement beeMovement;
 
-        LettergardenGameMode gameMode;
 
         private void Start()
         {
-            Setup(LettergardenGameMode.AllLetters);
+            Setup(new DrawCapitalLetters());
         }
 
 
@@ -47,19 +45,12 @@ namespace Scenes.Minigames.LetterGarden.Scrips
         /// <param name="gameMode">The gamemode which should be used</param>
         public void Setup(LettergardenGameMode gameMode)
         {
-            this.gameMode = gameMode;
             currentInkAmount = maxInkAmount;
             inkMeterSlider.maxValue = maxInkAmount;
             inkMeterSlider.value = currentInkAmount;
             beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
-            switch (gameMode)
-            {
-                case LettergardenGameMode.AllLetters:
-                    break;
-                default:
-                    Debug.LogError("The gamemode "  + gameMode + " is not implemented yet");
-                    break;
-            }
+            
+            letterHandler.StartGame(gameMode);
 
         }
 
@@ -172,17 +163,17 @@ namespace Scenes.Minigames.LetterGarden.Scrips
             {
                 if(currentSymbol == null)
                 {
-                    currentSymbol = leterHandler.currentSymbol;
+                    currentSymbol = letterHandler.currentSymbol;
                 }
-                if(leterHandler.CheakDwaingQualaty(currentLineRenderer))
+                if(letterHandler.CheakDwaingQualaty(currentLineRenderer))
                 {
                     currentLineRenderer = null;
-                    if(currentSymbol != leterHandler.currentSymbol)
+                    if(currentSymbol != letterHandler.currentSymbol)
                     {
-                        currentSymbol = leterHandler.currentSymbol;
+                        currentSymbol = letterHandler.currentSymbol;
                         ClearDrawnSegments();
                     }
-                    if(leterHandler.GameOver())
+                    if(letterHandler.GameOver())
                     {
                         OnGameOver();
                     }

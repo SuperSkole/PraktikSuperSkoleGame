@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes.Minigames.LetterGarden.Scripts
 {
     public class LetterController : MonoBehaviour
     {
