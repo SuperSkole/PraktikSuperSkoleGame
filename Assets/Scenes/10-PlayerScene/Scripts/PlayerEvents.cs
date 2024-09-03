@@ -69,7 +69,7 @@ namespace Scenes._10_PlayerScene.Scripts
         public static event Action<string> OnMonsterColorChanged;
         
         // Event for moving player
-        public static event Action<Vector3> OnMovePlayerToBlock;
+        public static event Action<GameObject> OnMovePlayerToBlock;
 
         // Methods to trigger each event and actions.
         // Utilizing the null-conditional operator to prevent invoking events with no subscribers.
@@ -108,7 +108,7 @@ namespace Scenes._10_PlayerScene.Scripts
         public static void RaiseMonsterNameChanged(string name) => OnMonsterNameChanged?.Invoke(name);
         public static void RaiseMonsterColorChanged(string color) => OnMonsterColorChanged?.Invoke(color);
         
-        public static void RaiseMovePlayerToBlock(Vector3 position)
+        public static void RaiseMovePlayerToBlock(GameObject position)
         {
             OnMovePlayerToBlock?.Invoke(position);
         }

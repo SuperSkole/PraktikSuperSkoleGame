@@ -36,6 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7954909943777536845}
+  - {fileID: 1293247995344566005}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-2984174739293466506
@@ -62,6 +63,7 @@ MonoBehaviour:
   CollectedWords: []
   CollectedLetters: 
   CollectedNumbers: 
+  BoughtClothes: 
   LastInteractionPoint: {x: 0, y: 0, z: 0}
 --- !u!54 &5874153678614725772
 Rigidbody:
@@ -125,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36cc408569ee6241878b291bb81f95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphic: {fileID: 0}
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,6 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 6963554171686360834}
   walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
+  throwing: {fileID: 11400000, guid: d117dc0ac9257a441b5ccc10e4d5621c, type: 2}
   idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
   currentState: 
   walkThreshold: 0.1
@@ -287,3 +291,34 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!1 &3574297101773757731
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1293247995344566005}
+  m_Layer: 8
+  m_Name: PickupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1293247995344566005
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3574297101773757731}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.5, y: -5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3403437169497779405}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

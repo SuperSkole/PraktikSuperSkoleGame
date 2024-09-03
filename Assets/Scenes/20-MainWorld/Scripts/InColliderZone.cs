@@ -65,9 +65,8 @@ namespace Scenes._20_MainWorld.Scripts
                         action.Invoke();
                         break;
                     default:
-                        print("InColliderZone/OnTriggerEnter/No name matches");
+                        //print("InColliderZone/OnTriggerEnter/No name matches");
                         break;
-
                 }
             }
         }

@@ -19,7 +19,7 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
         
-        [SerializeField] private GameObject playerSpawnPoint;
+        public GameObject PlayerSpawnPoint;
         [SerializeField] private GameObject dropOffPoint;
         
         private GameObject wordBlockPrefabForSingleGearMode;
@@ -65,13 +65,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         {
             if (PlayerManager.Instance != null)
             {
-                PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+                PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
                 
                 PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint.transform.position;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
             }
             else
             {
@@ -136,6 +137,7 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
                 PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
                 // remove automove
                 Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+                StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
         
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);

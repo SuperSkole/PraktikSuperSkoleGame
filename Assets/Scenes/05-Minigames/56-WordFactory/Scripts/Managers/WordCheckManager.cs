@@ -140,7 +140,7 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             if (createdBlock != null)
             {
                 // Notify the PlayerEventManager to move the player to the block's position
-                PlayerEvents.RaiseMovePlayerToBlock(createdBlock.transform.position);
+                PlayerEvents.RaiseMovePlayerToBlock(createdBlock);
             }
             else
             {
