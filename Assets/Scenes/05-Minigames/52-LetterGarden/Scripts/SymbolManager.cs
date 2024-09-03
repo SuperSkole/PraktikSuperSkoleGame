@@ -36,7 +36,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <summary>
         /// a gameobject gets added to this list if it can be converted to an int
         /// </summary>
-        public Dictionary<int, SplineContainer> numbers;
+        public static Dictionary<int, SplineContainer> numbers;
 
         [SerializeField] private List<GameObject>symbolPrefabs;
         /// <summary>

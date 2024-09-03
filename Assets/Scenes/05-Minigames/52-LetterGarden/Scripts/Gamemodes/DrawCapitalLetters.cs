@@ -19,9 +19,14 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         public List<SplineSymbolDataHolder> GetSymbols(int amount)
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
+            List<char> usedLetters = new List<char>();
             //Adds a given amount of random capital letters to the result list.
             for (int i = 0; i < amount; i++){
                 char randomIndex = LetterManager.GetRandomLetter();
+                while(usedLetters.Contains(randomIndex)){
+                    randomIndex = LetterManager.GetRandomLetter();
+                }
+                usedLetters.Add(randomIndex);
                 result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[randomIndex], SymbolManager.capitalLetters[randomIndex], randomIndex));
             }
             return result;

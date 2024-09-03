@@ -35,7 +35,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         private void Start()
         {
-            Setup(new DrawLowercaseLetters());
+            Setup(new DrawNumbers());
         }
 
 

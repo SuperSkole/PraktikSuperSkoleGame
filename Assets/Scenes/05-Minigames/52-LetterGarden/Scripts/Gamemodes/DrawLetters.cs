@@ -7,9 +7,9 @@ using CORE.Scripts;
 
 namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
     /// <summary>
-    /// A LettergardenGamemode implementation where the player should draw random lowercase letters
+    /// A LettergardenGamemode implementation where the player should draw random letters
     /// </summary>
-    public class DrawLowercaseLetters : LettergardenGameMode
+    public class DrawLetters : LettergardenGameMode
     {
         /// <summary>
         /// creates a list of SplineSymbolDataHolders of a given length
@@ -20,14 +20,21 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
             List<char>usedLetters = new List<char>();
-            //Adds a given amount of random lowercase letters to the result list.
+            //Adds a given amount of random letters to the result list.
             for (int i = 0; i < amount; i++){
                 char randomIndex = LetterManager.GetRandomLetter();
                 while(usedLetters.Contains(randomIndex)){
                     randomIndex = LetterManager.GetRandomLetter();
                 }
                 usedLetters.Add(randomIndex);
-                result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[randomIndex], SymbolManager.lowercaseLetters[randomIndex], randomIndex));
+                //Determines whether the letter should be capitalized
+                int capitalization = Random.Range(0, 2);
+                if(capitalization == 0){
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[randomIndex], SymbolManager.capitalLetters[randomIndex], randomIndex));
+                }
+                else {
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[randomIndex], SymbolManager.lowercaseLetters[randomIndex], randomIndex));
+                }
             }
             return result;
         }
