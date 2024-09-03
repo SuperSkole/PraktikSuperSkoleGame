@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2014260511405141757}
   - component: {fileID: 2303528203887376164}
   - component: {fileID: 5743102167441662518}
+  - component: {fileID: 4370899767886551907}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -59,9 +60,12 @@ MonoBehaviour:
   currentXPAmount: 0
   currentLevel: 0
   currentPosition: {x: 0, y: 0, z: 0}
+  clothMid: 
+  clothTop: 
   CollectedWords: []
   CollectedLetters: 
   CollectedNumbers: 
+  BoughtClothes: 
   LastInteractionPoint: {x: 0, y: 0, z: 0}
 --- !u!54 &5874153678614725772
 Rigidbody:
@@ -125,6 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36cc408569ee6241878b291bb81f95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  graphic: {fileID: 0}
+  colors: []
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +169,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: -2984174739293466506}
+--- !u!114 &4370899767886551907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
