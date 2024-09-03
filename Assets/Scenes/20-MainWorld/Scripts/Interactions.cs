@@ -20,12 +20,16 @@ namespace Scenes._20_MainWorld.Scripts
         public bool inZone { get; set; } = false;
         private void Start()
         {
-            interactionZoneObj.transform.position = new Vector3(transform.position.x + xOffset,
+            try
+            {
+                interactionZoneObj.transform.position = new Vector3(transform.position.x + xOffset,
                 transform.position.y + yOffset,
                 transform.position.z + zOffset);
-            interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 4,
-                interactionZoneRadius * 4,
-                interactionZoneRadius * 4);
+                interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 4,
+                    interactionZoneRadius * 4,
+                    interactionZoneRadius * 4);
+            }
+            catch { }
         }
 
         private void Update()
