@@ -25,7 +25,7 @@ namespace Scenes._00_Bootstrapper
         private void DetectDeviceType()
         {
             detectedDeviceType = SystemInfo.deviceType;
-            Debug.Log("Detected Device Type: " + detectedDeviceType.ToString());
+            //Debug.Log("Detected Device Type: " + detectedDeviceType.ToString());
         }
 
         /// <summary>

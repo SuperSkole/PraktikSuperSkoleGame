@@ -20,6 +20,7 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         public int DifficultyLevel = 1; // Default difficulty level
         
         [SerializeField] private GameObject playerSpawnPoint;
+        [SerializeField] private GameObject dropOffPoint;
         
         private GameObject wordBlockPrefabForSingleGearMode;
         private List<GameObject> gears = new List<GameObject>();
@@ -65,7 +66,12 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
-                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = false;
+                
+                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint.transform.position;
             }
             else
             {
@@ -128,6 +134,8 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             {
                 // Re-enable player movement in the main scene
                 PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
+                // remove automove
+                Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
         
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
