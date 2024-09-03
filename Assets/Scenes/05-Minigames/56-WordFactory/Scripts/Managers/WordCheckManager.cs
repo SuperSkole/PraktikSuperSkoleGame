@@ -141,7 +141,6 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
             PlayerEvents.RaiseXPChanged(1);
             
-            
             // Send word to playerdata
             AddWordToPlayerData(word);
             
