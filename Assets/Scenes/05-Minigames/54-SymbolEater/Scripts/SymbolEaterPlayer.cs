@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
+using Spine.Unity;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -52,6 +53,15 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
 
 
+        private string currentState = "Walk";
+        private SkeletonAnimation skeletonAnimation;
+        private AnimationReferenceAsset walk;
+        private AnimationReferenceAsset idle;
+        private Vector3 playerOldScale;
+
+        private readonly float blendDuration = 0.2f;
+        private bool facingRight = false;
+
         /// <summary>
         /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
         /// </summary>
@@ -89,28 +99,45 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             /// Spawn Player Charector on Player prefab?
             /// </summary>
             //Instanciate playerCharactor in SymbolEater
-            //if (PlayerManager.Instance != null)
-            //{
-            //    PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
-            //    Scene getScene = SceneManager.GetSceneByName("DontDestroyOnLoad");
+            if (PlayerManager.Instance != null)
+            {   //ask Sofie if you dont know what is happeing here!
+                PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
+                playerMonster = PlayerManager.Instance.SpawnedPlayer;
+                playerMonster.transform.parent = placePlayerMonster.transform;
+                playerOldScale = playerMonster.transform.localScale;
+                playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
+                playerMonster.transform.localPosition += Vector3.up * 0.8f;
+                skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
+                SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
+                walk = skeletorn.walk;
+                idle = skeletorn.idle;
+                SetCharacterState("Idle");
+            }
+            else
+            {
+                Debug.Log("WordFactory GM.Start(): Player Manager Is null");
+            }
+        }
 
-            //    foreach (GameObject gameObject in getScene.GetRootGameObjects())
-            //    {
-            //        if (gameObject.CompareTag("Player"))
-            //        {
 
-            //            playerMonster = gameObject;
-
-            //            break;
-            //        }
-            //    }
-
-            //    playerMonster.transform.position = placePlayerMonster.transform.position;
-            //}
-            //else
-            //{
-            //    Debug.Log("WordFactory GM.Start(): Player Manager Is null");
-            //}
+        /// <summary>
+        /// Sets the player's animation state to either idle or walk, with blending between states.
+        /// </summary>
+        /// <param name="state">The desired animation state ("Idle" or "Walk").</param>
+        public void SetCharacterState(string state)//this was stolen from SpinePlayerMovement to animate the player
+        {
+            if (state.Equals("Idle") && currentState != "Idle")
+            {
+                //Blending animations walk - idle
+                skeletonAnimation.state.SetAnimation(0, idle, true).MixDuration = blendDuration;
+                currentState = "Idle";
+            }
+            else if (state.Equals("Walk") && currentState != "Walk")
+            {
+                //Blending animations idle - walk
+                skeletonAnimation.state.SetAnimation(0, walk, true).MixDuration = blendDuration;
+                currentState = "Walk";
+            }
         }
 
         /// <summary>
@@ -123,6 +150,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             {
                 thrown = true;
                 canMove = false;
+                SetCharacterState("Idle");
                 board.Lost();
             }
             //Check to ensure currentDestination is in sync with the center of the tiles.
@@ -146,10 +174,20 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 else if (Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f)
                 {
                     currentDestination = transform.position + new Vector3(0, 0, 1);
+                    if(facingRight)
+                    {
+                        facingRight = false;
+                        Flip();
+                    }
                 }
                 else if (Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f)
                 {
                     currentDestination = transform.position + new Vector3(0, 0, -1);
+                    if (!facingRight)
+                    {
+                        facingRight = !false;
+                        Flip();
+                    }
                 }
 
             }
@@ -177,6 +215,27 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                     cooldownText.text = Math.Round(IncorrectSymbolStepMoveDelayRemaining, 2) + " sek. tilbage";
                 }
             }
+
+            if(currentDestination == transform.position)
+            {
+
+                SetCharacterState("Idle");
+            }
+            else
+            {
+
+                SetCharacterState("Walk");
+            }
+        }
+
+        /// <summary>
+        /// used to flip the dirrection the player is facing
+        /// </summary>
+        void Flip()
+        {
+            Vector3 currentScale = playerMonster.transform.localScale;
+            currentScale.x *= -1;
+            playerMonster.transform.localScale = currentScale;
         }
 
         /// <summary>
@@ -212,11 +271,24 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         public void StopMovement()
         {
             canMove = false;
+            SetCharacterState("Idle");
         }
 
         public void StartMovement()
         {
             canMove = true;
+            SetCharacterState("Walk");
+        }
+
+        /// <summary>
+        /// used to fix player after the game!!
+        /// </summary>
+        public void GameOver()
+        {
+            playerMonster.transform.parent = null;
+            playerMonster.transform.localScale = playerOldScale;
+            playerMonster.transform.rotation = Quaternion.Euler(0,0,0);
+            DontDestroyOnLoad(playerMonster);
         }
     }
 

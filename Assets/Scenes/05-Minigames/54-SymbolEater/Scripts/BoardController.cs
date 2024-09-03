@@ -217,6 +217,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
             monsterHivemind.OnGameOver();
+            player.GameOver();
             StartCoroutine(ReturnToMainWorld());
         }
 
@@ -229,7 +230,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             gameOverText.text = winText;
             monsterHivemind.OnGameOver();
             //Calls to update the players xp and gold. Temporary values
-            
+            player.GameOver();
             PlayerEvents.RaiseGoldChanged(goldReward);
             PlayerEvents.RaiseXPChanged(xpReward);
             StartCoroutine(ReturnToMainWorld());
@@ -242,6 +243,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator ReturnToMainWorld()
         {
+            player.GameOver();
             yield return new WaitForSeconds(5);
             SwitchScenes.SwitchToMainWorld();
         }
