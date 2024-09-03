@@ -5,7 +5,9 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Adds a user specified script to the player on awake and the removes it later on sceneunload
+/// </summary>
 public class ComponetAddMiniGameSceneStart : MonoBehaviour
 {
     // Select the script to be added to the player in the Inspector
@@ -33,7 +35,7 @@ public class ComponetAddMiniGameSceneStart : MonoBehaviour
     }
     
     /// <summary>
-    /// Call this method to remove the added component
+    /// This method to removes the added component from Awake
     /// </summary>
     private void RemoveAddedComponent()
     {
@@ -48,7 +50,7 @@ public class ComponetAddMiniGameSceneStart : MonoBehaviour
         }
     }
     /// <summary>
-    /// This method is called when the scene is unloaded
+    /// Called when the scene is unloaded
     /// </summary>
     /// <param name="current"></param>
     private void OnSceneUnloaded(Scene current)
