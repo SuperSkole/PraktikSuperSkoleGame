@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// The gameboard the letter cube is connected to
         /// </summary>
         [SerializeField] private BoardController board;
+        private GameObject coinPrefab;
 
         [SerializeField] private Material defaultMaterial;
         [SerializeField] private Material correctMaterial;
@@ -81,6 +83,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 else if (active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
                 {
                     StartCoroutine(CorrectGuess());
+                    Instantiate(coinPrefab);
                 }
             }
         }
@@ -210,6 +213,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             this.board = board;
         }
+
+        /// <summary>
+        /// Sets the coin prefab so it can be instanciated later
+        /// </summary>
+        /// <param name="coinPrefab">the prefab to be created</param>
+        public void SetCoin(GameObject coinPrefab)
+        { 
+            this.coinPrefab = coinPrefab; 
+        }
+
 
         /// <summary>
         /// tells the board to replace this lettercube and deactivate it

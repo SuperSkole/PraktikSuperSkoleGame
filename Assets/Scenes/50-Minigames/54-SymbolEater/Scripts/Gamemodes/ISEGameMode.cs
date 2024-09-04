@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {

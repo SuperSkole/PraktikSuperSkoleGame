@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
 

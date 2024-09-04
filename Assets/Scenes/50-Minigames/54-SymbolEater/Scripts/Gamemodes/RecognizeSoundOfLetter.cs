@@ -1,6 +1,7 @@
-using System.Collections.Generic;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
@@ -50,35 +51,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            for (int i = 0; i < count; i++)
-            {
-                string letter = gameRules.GetWrongAnswer();
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
-                while (activeLetterCubes.Contains(potentialCube) && potentialCube.gameObject.transform.position != boardController.GetPlayer().gameObject.transform.position)
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i].Activate(letter);
-            }
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
             //creates a random number of correct letters on the board
-            int wrongCubeCount = activeLetterCubes.Count;
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-            for (int i = 0; i < count; i++)
-            {
-                string letter = gameRules.GetCorrectAnswer();
-                LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                //Check to ensure letters dont spawn below the player and that it is not an already activated lettercube
-                while (activeLetterCubes.Contains(potentialCube))
-                {
-                    potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                }
-                activeLetterCubes.Add(potentialCube);
-                activeLetterCubes[i + wrongCubeCount].Activate(letter, true);
-                numberOfCorrectLettersOnBoard++;
-            }
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true);
+
             boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 
             /// <summary>
@@ -106,7 +83,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             //Finds sound clip from the Audio Clip Manager.
             AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower());
 
-            
+
 
             //checks whether or not its null.
             if (clip != null)
@@ -136,32 +113,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 numberOfCorrectLettersOnBoard--;
                 boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
-            letter.Deactivate();
-            activeLetterCubes.Remove(letter);
-
-            LetterCube newLetter;
-            //finds a new random letterbox which is not active and is not the one which should be replaced
-            while (true)
-            {
-                newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-                if (newLetter != letter && !activeLetterCubes.Contains(newLetter))
-                {
-                    break;
-                }
-            }
-            activeLetterCubes.Add(newLetter);
-            //Checks if the game should continue. if it should a new random incorrect letter is shown on the new letterblock
-            if (numberOfCorrectLettersOnBoard > 0)
-            {
-                newLetter.Activate(gameRules.GetWrongAnswer());
-            }
-
-            //Checks if a new game should be started or if the player has won
-            else
+            //Checks if the current game is over or if it should continue the current game
+            if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
+            //Checks if a new game should be started or if the player has won 
             {
                 correctLetters++;
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
                 if (correctLetters < 5)
                 {
+                    boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
                 }
                 else
@@ -172,7 +132,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     }
                     //Calculates the multiplier for the xp reward. All values are temporary
                     int multiplier = 1;
-                    switch(boardController.difficultyManager.diffculty){
+                    switch (boardController.difficultyManager.diffculty)
+                    {
                         case DiffcultyPreset.CUSTOM:
                         case DiffcultyPreset.EASY:
                             multiplier = 1;
@@ -185,11 +146,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                             break;
                     }
                     boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange", 1 * multiplier, 1 * multiplier);
+
                 }
+
             }
         }
 
-       
+
         /// <summary>
         /// Gets the list of lettercubes and the boardController from the boardcontroller
         /// </summary>
@@ -239,7 +202,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="correct"></param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-            
+
         }
 
         /// <summary>

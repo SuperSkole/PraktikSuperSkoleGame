@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
 
@@ -40,6 +41,29 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             foreach (Monster monster in monsters)
             {
                 monster.StartMovement();
+            }
+        }
+
+
+        /// <summary>
+        /// Increase monster speed
+        /// </summary>
+        public void IncreaseMonsterSpeed()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.speed += 1; 
+            }
+        }
+
+        /// <summary>
+        /// reset to the default monster speed.
+        /// </summary>
+        public void ResetSpeed()
+        {
+            foreach (Monster monster in monsters)
+            {
+                monster.ResetMoveSpeed();
             }
         }
     }

@@ -1,8 +1,9 @@
-using System.Collections.Generic;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._00_Bootstrapper;
+using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
@@ -250,8 +251,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             else
             {
                 correctLetters++;
+                boardController.monsterHivemind.IncreaseMonsterSpeed();
                 if (correctLetters < 5)
                 {
+                    boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
                 }
                 else
