@@ -1,6 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections.Generic;
+using UI.Scripts;
 using UnityEngine;
 
 public class Wardrop : MonoBehaviour
