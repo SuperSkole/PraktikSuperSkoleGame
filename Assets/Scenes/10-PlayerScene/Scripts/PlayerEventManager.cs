@@ -1,12 +1,8 @@
+using LoadSave;
 using System;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using LoadSave;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.Layouts;
-using UnityEngine.UIElements;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -28,14 +24,16 @@ namespace Scenes._10_PlayerScene.Scripts
 
     {
         [SerializeField] private PlayerData playerData;
+        public bool IsInCar { get; set; }
 
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
         public UnityEvent PlayerInteraction { get; set; } = new UnityEvent();
+        public GameObject interactionIcon;
 
-        void Start() 
+        void Start()
         {
-            if (playerData == null) 
+            if (playerData == null)
             {
                 Debug.LogError("PlayerData reference not set on PlayerEventManager.");
             }
@@ -68,14 +66,25 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                try
-                {
-                    PlayerInteraction.Invoke();
-                    PlayerInteraction = null;
-                }
-                catch { print("PlayerEventManager/Update/No playeraction"); }
+                InvokeAction();
             }
         }
+        public void InvokeAction()
+        {
+            try
+            {
+                interactionIcon.SetActive(false);
+                GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
+                PlayerInteraction.Invoke();
+                if (!IsInCar)
+                {
+                    PlayerInteraction = new UnityEvent();
+                }
+
+            }
+            catch { print("PlayerEventManager/Update/No playeraction"); }
+        }
+
 
         // /// <summary>
         // /// Initializes the PlayerEventManager with references to player data.
@@ -111,7 +120,7 @@ namespace Scenes._10_PlayerScene.Scripts
         }
 
 
-     
+
 
         /// <summary>
         /// Removes a word from the player's collected words list,
@@ -226,7 +235,7 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             playerData.MonsterColor = newColor;
         }
-        
+
         #endregion
     }
 }

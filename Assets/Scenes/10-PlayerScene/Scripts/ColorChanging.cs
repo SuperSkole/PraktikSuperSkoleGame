@@ -20,6 +20,8 @@ namespace Scenes._10_PlayerScene.Scripts
             {"white", "FFFFFF" }
         };
 
+        public List<string> colors = new List<string>();
+
         private void Awake()
         {
             if(graphic != null)
@@ -31,6 +33,8 @@ namespace Scenes._10_PlayerScene.Scripts
                     Debug.Log("Ingen grafik");
                 }
             }
+
+            colors.AddRange(colorMap.Keys);
         
         }
 
