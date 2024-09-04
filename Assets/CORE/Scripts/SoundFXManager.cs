@@ -8,7 +8,7 @@ using UnityEngine;
 namespace CORE.Scripts
 {
     /// <summary>
-    /// Class containing static methods that can manipulate lists that contain audioclips that praise the player for doing well. 
+    /// Class containing static methods that can manipulate lists that contain soundFX audioclips 
     /// </summary>
     public class SoundFXManager : MonoBehaviour
     {

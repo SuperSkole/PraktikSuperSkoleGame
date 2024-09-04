@@ -18,6 +18,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
+
+            //Checks if the row to delete on the monsterTower is the last and if it is the explosion gets scaled up. 
             if(towerManager.rowToDelete==towerManager.towerHeight-1)
             {
                 particals.transform.localScale = new Vector3(3, 3, 3);

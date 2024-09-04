@@ -64,19 +64,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         public List<Vector3> ammoSpawnPoints=new List<Vector3>();
 
         private GameObject spawnedPlayer;
-        /// <summary>
-        /// used to setup sentanses TEMP make this better!!
-        /// </summary>
-        void SetupSentanses()
-        {
-            words = new List<string>()
-            {
-                "is på ko",
-                "ko på is",
-                "gås under ko"
-            };
-           
-        }
+       
+
         /// <summary>
         /// Gets the words collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
         /// </summary>
@@ -85,15 +74,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             words = PlayerEvents.RaisePlayerDataWordsExtracted();
            
            
-           
-        
 
         }
 
-        /// <summary>
-        /// call this to setup the minigame
-        /// </summary>
-        /// <param name="input">the dictionary that contains all the questions and images</param>
 
 
 
@@ -101,12 +84,13 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         void Start()
         {
 
-           
+           // getting and setting the ammodimensions from the prefab 
             ammoDimensions=ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
 
+            //Saving the ammoSpawnPoints positions that are children to the ammoPlatform in a list. 
             for (int i = 0; i < ammoPlatform.transform.childCount; i++)
             {
 
@@ -121,7 +105,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             
             
 
-            //Spawns the ammunition that needed to be displayed beside the catapult. 
+            //Spawns the ammunition with with the words in the words list and is displayed beside the catapult. 
+            // its set up in 4 points and then the ammo boxes is stacked on eachother. 
             SpawnAmmoForDisplay();
 
             // the ammocount is set to the amount of words that player has. 
@@ -150,15 +135,12 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
 
 
-        public void SetPlayerMovementToDefault()
-        {
-            
-            Destroy(spawnedPlayer.GetComponent<PlayerMovement_MT>());
-        
+     
 
-        }
-
-
+        /// <summary>
+        /// Adds the playermovement component that is used specifically  in monstertower to the player character . 
+        /// Sets up the camera so it works with the players movements and the Player characthers StartPosition is set. 
+        /// </summary>
         private void SetupPlayerMovementForMonsterTower()
         {
 
@@ -191,13 +173,15 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         /// </summary>
         void SpawnAmmoForDisplay()
         {
+            //Calculating the size of the 2 dimensional array holding the ammoboxes based on the amount of words given. 
             if (words != null)
             {
-                //dividing the amount of words with 4 because i have 4 spawnpoints. 
+                //dividing the amount of words with 4 because i have 4 spawnpoints . 
                 // Then making sure its rounded up all the time. 
-                int wordsMaxHeightIndex = (int)Math.Ceiling((double)words.Count / (double)4);
+                int amountOfSpawnPoints = ammoPlatform.transform.childCount;
+                int wordsMaxHeightIndex = (int)Math.Ceiling((double)words.Count / (double)amountOfSpawnPoints);
 
-                ammoDisplay = new GameObject[4, wordsMaxHeightIndex];
+                ammoDisplay = new GameObject[amountOfSpawnPoints, wordsMaxHeightIndex];
             }
 
 
@@ -207,12 +191,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
             int amountOfSpawnPositions = ammoPlatform.transform.childCount;
 
-            BoxCollider ammoCollider = ammoToDisplayPrefab.GetComponent<BoxCollider>();
-
+            
+            //Putting the boxes in the right position and saving the box in ammoDisplay 2D array with a x,y position.
+            // Also puts the words on the list of words on the box itself. 
+            //Also setting the name of the box to the position it has and setting a tag on it which can be used to do collision detection. 
 
             if (words!=null)
             {
-                Debug.Log(words.Count);
+               
                 for (int x = 0; x < words.Count; x++)
                 {
 
@@ -254,7 +240,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
 
         /// <summary>
-        /// sends out a ray to detect what was cliced on.
+        /// sends out a ray to detect what was clicked on.
         /// also handels the check if you cliced on the right image/stone
         /// </summary>
         void CheckWhatWasClickedOn()
@@ -273,7 +259,7 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
 
         /// <summary>
-        /// removes ammoCount and updates the pile of ammoCount
+        /// removes ammoCount and updates the wordlist in playerdata and locally for the words List. 
         /// </summary>
         public void RemoveAmmo()
         {
