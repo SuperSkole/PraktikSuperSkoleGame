@@ -1,12 +1,10 @@
-using CORE.Scripts;
-using CORE.Scripts.GameRules;
 using System.Collections.Generic;
-using Scenes.Minigames.SymbolEater.Scripts;
-
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
+using Scenes._00_Bootstrapper;
 using UnityEngine;
 
-
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     public class FindImageFromSound : ISEGameMode
     {

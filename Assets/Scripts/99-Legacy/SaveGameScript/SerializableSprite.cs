@@ -1,24 +1,27 @@
 using UnityEngine;
 
-[System.Serializable]
-public class SerializableSprite
+namespace _99_Legacy.SaveGameScript
 {
-    public SerializableTexture2D texture;
-    public Rect rect;
-    public Vector2 pivot;
-    public float pixelsPerUnit;
-
-    public SerializableSprite(Sprite sprite)
+    [System.Serializable]
+    public class SerializableSprite
     {
-        texture = new SerializableTexture2D(sprite.texture);
-        rect = sprite.rect;
-        pivot = sprite.pivot;
-        pixelsPerUnit = sprite.pixelsPerUnit;
-    }
+        public SerializableTexture2D texture;
+        public Rect rect;
+        public Vector2 pivot;
+        public float pixelsPerUnit;
 
-    public Sprite ToSprite()
-    {
-        Texture2D texture2D = texture.ToTexture2D();
-        return Sprite.Create(texture2D, rect, pivot, pixelsPerUnit);
+        public SerializableSprite(Sprite sprite)
+        {
+            texture = new SerializableTexture2D(sprite.texture);
+            rect = sprite.rect;
+            pivot = sprite.pivot;
+            pixelsPerUnit = sprite.pixelsPerUnit;
+        }
+
+        public Sprite ToSprite()
+        {
+            Texture2D texture2D = texture.ToTexture2D();
+            return Sprite.Create(texture2D, rect, pivot, pixelsPerUnit);
+        }
     }
 }

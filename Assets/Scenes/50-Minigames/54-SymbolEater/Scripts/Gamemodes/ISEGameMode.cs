@@ -1,12 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Scenes.Minigames.SymbolEater.Scripts;
-using CORE.Scripts.GameRules;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 
-
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Interface for interaction between the board controller and the active gamemode in the Symbol Eater mini game

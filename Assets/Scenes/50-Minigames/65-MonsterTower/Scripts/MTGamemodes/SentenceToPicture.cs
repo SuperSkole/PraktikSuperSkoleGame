@@ -1,15 +1,10 @@
-using CORE.Scripts;
-using CORE.Scripts.GameRules;
-using Scenes.Minigames.MonsterTower;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using TMPro;
+using CORE.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
-using Scenes.Minigames.MonsterTower.Scrips;
 
-namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
+namespace Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes
 {
     public class SentenceToPictures : IMTGameMode
     {

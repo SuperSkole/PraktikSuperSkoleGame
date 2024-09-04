@@ -1,9 +1,8 @@
 using System.Collections.Generic;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
-using CORE.Scripts.GameRules;
 
-
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of IGameMode with the goal of finding the numbers in a number series

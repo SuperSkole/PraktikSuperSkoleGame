@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class LoadingSceneController : MonoBehaviour
     {

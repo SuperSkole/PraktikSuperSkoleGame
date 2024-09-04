@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes._50_Minigames._52_LetterGarden.Scripts
 {
     public class BeeMovement : MonoBehaviour
     {

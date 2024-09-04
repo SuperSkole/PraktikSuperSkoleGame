@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class GearRotationController : MonoBehaviour
     {

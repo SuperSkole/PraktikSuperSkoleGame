@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using _99_Legacy;
+using Minigames;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.Minigames.MiniRacingGame.Scripts
+namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class RacingGameCore : MonoBehaviour
     {
@@ -71,7 +73,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         private bool displayToggle = false;
         //private List<string> wordsList = new List<string>() { "F" };
         private readonly List<string> wordsList = new() { "FLY", "BIL" };
-        //private List<string> wordsList = new List<string>() { "FLY", "BIL", "BÅD" };
+        //private List<string> wordsList = new List<string>() { "FLY", "BIL", "Bï¿½D" };
 
 
         private readonly List<string> spelledWordsList = new(); // Tracks spelled words

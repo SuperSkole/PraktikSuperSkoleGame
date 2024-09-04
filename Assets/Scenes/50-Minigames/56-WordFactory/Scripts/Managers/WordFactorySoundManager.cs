@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
     public class WordFactorySoundManager : MonoBehaviour
     {

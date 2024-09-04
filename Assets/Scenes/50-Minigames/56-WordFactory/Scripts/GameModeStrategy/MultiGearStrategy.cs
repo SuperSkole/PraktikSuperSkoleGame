@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 {
     /// <summary>
     /// Strategy for handling game modes with more than 2 gears.

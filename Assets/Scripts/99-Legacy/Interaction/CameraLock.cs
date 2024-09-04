@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class CameraLock : MonoBehaviour
+namespace _99_Legacy.Interaction
 {
-    void Update()
+    public class CameraLock : MonoBehaviour
     {
-        // Lock the rotation of the camera on the X and Y axes
-        transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+        void Update()
+        {
+            // Lock the rotation of the camera on the X and Y axes
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+        }
     }
 }

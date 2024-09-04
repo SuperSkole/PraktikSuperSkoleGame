@@ -1,11 +1,8 @@
 using System.Collections.Generic;
-using CORE.Scripts;
-using Unity.VisualScripting;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
-using CORE.Scripts.GameRules;
-using Scenes.Minigames.SymbolEater.Scripts;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.

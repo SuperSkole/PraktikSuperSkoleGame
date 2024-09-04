@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using Cinemachine.Utility;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 {
     public class CatapultAming : MonoBehaviour
     {
