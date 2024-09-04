@@ -39,6 +39,9 @@ public class SymbolEaterSetter: IGameModeSetter
             case "findfirstletterfromimage":
                 modeReturned = new FindFirstLetterFromImage();
                 break;
+            case "spellincorrectword":
+                modeReturned = new SpellIncorrectWord();
+                break;
             default:
                 Debug.Log("given mode was not among expected options, setting to default mode");
                 modeReturned = new FindImageFromSound();
@@ -75,6 +78,9 @@ public class SymbolEaterSetter: IGameModeSetter
                 break;
             case "findfirstletter":
                 rulesReturned = new FindFirstLetter();
+                break;
+            case "findincorrectwords":
+                rulesReturned = new FindIncorrectWords();
                 break;
             default:
                 Debug.Log("given ruleset was not among expected options, setting to default ruleset");
