@@ -1,11 +1,6 @@
-using Scenes.Minigames.MonsterTower;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Scenes.Minigames.MonsterTower.Scrips;
 using CORE.Scripts;
 
-namespace Scenes.Minigames.MonsterTower.Scrips.MTGameModes
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public interface IMTGameMode : IGenericGameMode
     {

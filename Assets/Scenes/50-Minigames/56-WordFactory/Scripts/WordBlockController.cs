@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     [RequireComponent(typeof(Rigidbody))]
     public class WordBlockController : MonoBehaviour

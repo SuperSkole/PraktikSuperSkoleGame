@@ -23,6 +23,7 @@ public class SpinePlayerMovement : MonoBehaviour
     private Coroutine moveCoroutine;
 
     public bool hoveringOverUI = false;
+    [SerializeField] private GameObject interactionGO;
     [SerializeField] ParticleSystem pointAndClickEffect;
     /// <summary>
     /// Initializes the player's animation state to idle.
@@ -82,11 +83,14 @@ public class SpinePlayerMovement : MonoBehaviour
         if (horizontalInput < 0)
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+            interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
         }
         else if (horizontalInput > 0)
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-
+            interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+            interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
         }
 
         if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
@@ -118,11 +122,16 @@ public class SpinePlayerMovement : MonoBehaviour
         {
             // Moving right
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+            interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
+
         }
         else
         {
             // Moving left
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+            interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
         }
         SetCharacterState("Walk");
         var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);

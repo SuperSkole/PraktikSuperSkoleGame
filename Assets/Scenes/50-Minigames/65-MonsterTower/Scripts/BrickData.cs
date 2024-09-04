@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Scenes.Minigames.MonsterTower
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     //Holds a sentence symbolising the images that need to be displayed on the brick. 
     [System.Serializable]

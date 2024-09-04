@@ -1,22 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class WardropeCus : MonoBehaviour
+namespace _99_Legacy.Objects
 {
-    [SerializeField] private GameObject customizationScreen;
-
-    public void HandleCustomzation()
+    public class WardropeCus : MonoBehaviour
     {
-        PlayerMovement.allowedToMove = false;
-        //customizationScreen.GetComponent<SetCuzCurrentColor>().OpeningScreen();
-        customizationScreen.SetActive(true);
-    }
+        [SerializeField] private GameObject customizationScreen;
 
-    public void DisableCuz()
-    {
-        customizationScreen.SetActive(false);
-        PlayerMovement.allowedToMove = true;
-    }
+        public void HandleCustomzation()
+        {
+            PlayerMovement.allowedToMove = false;
+            //customizationScreen.GetComponent<SetCuzCurrentColor>().OpeningScreen();
+            customizationScreen.SetActive(true);
+        }
 
+        public void DisableCuz()
+        {
+            customizationScreen.SetActive(false);
+            PlayerMovement.allowedToMove = true;
+        }
+
+    }
 }

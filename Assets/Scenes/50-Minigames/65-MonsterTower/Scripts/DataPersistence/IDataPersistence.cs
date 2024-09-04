@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Interface an object can use to save and load data. 
-namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips.DataPersistence.Data
 {
     public interface IDataPersistence
     {

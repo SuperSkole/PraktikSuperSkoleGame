@@ -1,16 +1,19 @@
-[System.Serializable]
-public class SkinData
+namespace _99_Legacy.Menu
 {
-    public string Skintype;
-    public string SkinName;
-    public bool isPurchased;
-    public bool isEquipped;
-
-    public SkinData(string skintype, string skinName, bool isPurchased, bool isEquipped)
+    [System.Serializable]
+    public class SkinData
     {
-        Skintype = skintype;
-        SkinName = skinName;
-        this.isPurchased = isPurchased;
-        this.isEquipped = isEquipped;
+        public string Skintype;
+        public string SkinName;
+        public bool isPurchased;
+        public bool isEquipped;
+
+        public SkinData(string skintype, string skinName, bool isPurchased, bool isEquipped)
+        {
+            Skintype = skintype;
+            SkinName = skinName;
+            this.isPurchased = isPurchased;
+            this.isEquipped = isEquipped;
+        }
     }
 }

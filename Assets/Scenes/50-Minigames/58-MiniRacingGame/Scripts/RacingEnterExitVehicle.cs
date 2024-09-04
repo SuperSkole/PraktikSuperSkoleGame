@@ -2,7 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Scenes.Minigames.MiniRacingGame.Scripts
+namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class EnterExitVehicle : MonoBehaviour
     {
@@ -32,7 +32,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         //     {
         //         CamChange obj = camera.GetComponent<CamChange>();
         //         UnityEvent newEvent = new UnityEvent();
-        //         player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 for at kompensere for spillerens højde
+        //         player.transform.position = car.transform.position - car.transform.right + 0.5f * Vector3.up; //0.5 for at kompensere for spillerens hï¿½jde
         //         exitCar.AddListener(() => obj.ChangeCamToPlayer(player.transform));
         //         exitCar.Invoke();
         //     }
@@ -61,6 +61,8 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
         /// </summary>
         private void CarActive()
         {
+            carController.CarActive = true;
+
             enterCar.Invoke();  
         }
     }

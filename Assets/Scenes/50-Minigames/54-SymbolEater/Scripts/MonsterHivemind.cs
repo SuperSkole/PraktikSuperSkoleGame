@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
 
 

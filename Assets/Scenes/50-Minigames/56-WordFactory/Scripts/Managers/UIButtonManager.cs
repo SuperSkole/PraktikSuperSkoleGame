@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
     /// <summary>
     /// Manages the functionality of the UI buttons and handles pointer click events.

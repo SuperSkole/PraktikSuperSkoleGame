@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
+using CORE.Scripts;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace CORE.Scripts
+namespace Scenes._00_Bootstrapper
 {
     /// <summary>
     /// Load Words From CSV

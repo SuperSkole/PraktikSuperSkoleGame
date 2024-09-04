@@ -1,5 +1,8 @@
-[System.Serializable]
-public class Dialogue
+namespace _99_Legacy.NPC
 {
-    public string[] lines;
+    [System.Serializable]
+    public class Dialogue
+    {
+        public string[] lines;
+    }
 }

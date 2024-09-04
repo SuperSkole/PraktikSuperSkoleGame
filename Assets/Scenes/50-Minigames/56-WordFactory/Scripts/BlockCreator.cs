@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class BlockCreator : MonoBehaviour
     {
