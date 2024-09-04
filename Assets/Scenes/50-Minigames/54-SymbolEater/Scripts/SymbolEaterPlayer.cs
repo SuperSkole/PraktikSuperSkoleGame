@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
@@ -52,6 +53,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
 
+        private IEnumerator coroutine;
 
         private string currentState = "Walk";
         private SkeletonAnimation skeletonAnimation;
@@ -160,19 +162,26 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 float fixedZ = MathF.Round(currentDestination.z - 10.5f) + 10.5f;
                 currentDestination = new Vector3(fixedX, currentDestination.y, fixedZ);
             }
+
+
+            coroutine = WaitAfterMove(2.0f);
+
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
             {
-                if (Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f)
+                if (Input.GetKey(KeyCode.W) && transform.position.x < 19.5f)
                 {
+                    StartCoroutine(coroutine);
                     currentDestination = transform.position + new Vector3(1, 0, 0);
                 }
-                else if (Input.GetKeyDown(KeyCode.S) && transform.position.x > 10.5f)
+                else if (Input.GetKey(KeyCode.S) && transform.position.x > 10.5f)
                 {
+                    StartCoroutine(coroutine);
                     currentDestination = transform.position + new Vector3(-1, 0, 0);
                 }
-                else if (Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f)
+                else if (Input.GetKey(KeyCode.A) && transform.position.z < 19.5f)
                 {
+                    StartCoroutine(coroutine);
                     currentDestination = transform.position + new Vector3(0, 0, 1);
                     if(facingRight)
                     {
@@ -180,8 +189,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                         Flip();
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f)
+                else if (Input.GetKey(KeyCode.D) && transform.position.z > 10.5f)
                 {
+                    StartCoroutine(coroutine);
                     currentDestination = transform.position + new Vector3(0, 0, -1);
                     if (!facingRight)
                     {
@@ -236,6 +246,18 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             Vector3 currentScale = playerMonster.transform.localScale;
             currentScale.x *= -1;
             playerMonster.transform.localScale = currentScale;
+        }
+
+        /// <summary>
+        /// a Ienumratae to stop the playermovement for a second or 2 so it dosnt Sprint through the map and is uncontrollerable
+        /// </summary>
+        private IEnumerator WaitAfterMove(float waitTime)
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(waitTime);
+
+            }
         }
 
         /// <summary>
