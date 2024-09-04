@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
-using CORE.Scripts.GameRules;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
+using UnityEngine;
 
-namespace Scenes.GameMode
+namespace Scenes._50_Minigames.Gamemode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {

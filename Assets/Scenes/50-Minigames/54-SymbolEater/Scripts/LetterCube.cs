@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
     /// <summary>
     /// Manager for letter cubes in the Symbol Eater mini game.

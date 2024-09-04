@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scenes.Minigames.MiniRacingGame.Scripts
+namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class GameTimer : MonoBehaviour
     {

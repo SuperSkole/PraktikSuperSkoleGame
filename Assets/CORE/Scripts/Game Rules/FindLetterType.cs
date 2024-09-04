@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CORE.Scripts.GameRules
+namespace CORE.Scripts.Game_Rules
 {
 
     /// <summary>
@@ -31,7 +30,7 @@ namespace CORE.Scripts.GameRules
         public string GetWrongAnswer()
         {
             string letter = LetterManager.GetRandomLetter().ToString().ToLower();
-            while(IsCorrectSymbol(letter))
+            while(letter == GetCorrectAnswer())
             {
                 letter = LetterManager.GetRandomLetter().ToString().ToLower();
             }

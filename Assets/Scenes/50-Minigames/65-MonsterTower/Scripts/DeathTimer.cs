@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
 
     public class DeathTimer : MonoBehaviour

@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using Scenes._05_Minigames._56_WordFactory.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
-using Scenes._05_Minigames.WordFactory.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class GearGenerator : MonoBehaviour
     {

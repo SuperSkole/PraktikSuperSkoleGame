@@ -1,10 +1,7 @@
-
-using System.Collections;
 using System.Collections.Generic;
-using Scenes.Minigames.SymbolEater.Scripts;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes 
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes 
 {
     /// <summary>
     /// Static class containing various helper methods for the gamemodes in the symbol eater minigame

@@ -1,22 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using CORE.Scripts;
-using Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data;
+using CORE.Scripts.Game_Rules;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.DataPersistence.Data;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
-using CORE.Scripts.GameRules;
-using Barmetler.RoadSystem;
-using static UnityEngine.ParticleSystem;
 
 
 
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup

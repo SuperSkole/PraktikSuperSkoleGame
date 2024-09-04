@@ -1,7 +1,9 @@
+using _99_Legacy;
+using Minigames;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Scenes.Minigames.MiniRacingGame.Scripts
+namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class RacingGameManager : MonoBehaviour
     {

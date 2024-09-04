@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using CORE.Scripts;
-using Unity.Collections.LowLevel.Unsafe;
+using CORE.Scripts.Game_Rules;
+using Scenes._00_Bootstrapper;
 using UnityEngine;
-using Scenes.Minigames.SymbolEater.Scripts;
-using CORE.Scripts.GameRules;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of IGameMode with the goal of spelling a word based on an image.

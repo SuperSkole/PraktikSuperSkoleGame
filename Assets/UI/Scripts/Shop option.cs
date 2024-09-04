@@ -1,60 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Shopoption : MonoBehaviour, IPointerClickHandler
+namespace UI.Scripts
 {
-    private int Price;
-    [SerializeField] TextMeshProUGUI priceText;
-    [SerializeField] TextMeshProUGUI Name;
-    [SerializeField] Image profilImage;
-    //private Image profilImage;
-    private string SpineName;
-
-    public int ID;
-
-    Image imageComponent;
-    Outline outlineComponent;
-
-    private ShopManager shopManager;
-
-    private void Awake()
+    public class Shopoption : MonoBehaviour, IPointerClickHandler
     {
-        shopManager = FindObjectOfType<ShopManager>();
-        imageComponent = GetComponent<Image>();
-        outlineComponent = GetComponent<Outline>();
-        priceText.text = Price.ToString();
-    }
+        private int Price;
+        [SerializeField] TextMeshProUGUI priceText;
+        [SerializeField] TextMeshProUGUI Name;
+        [SerializeField] Image profilImage;
+        //private Image profilImage;
+        private string SpineName;
 
-    public void Initialize(string newItemName, int newPrice, Sprite newImage, string newSpineName, int newID)
-    {
-        ID = newID;
-        Price = newPrice;
-        profilImage.sprite = newImage;
-        SpineName = newSpineName;
-        Name.text = newItemName;
+        public int ID;
 
-        if (priceText != null)
+        Image imageComponent;
+        Outline outlineComponent;
+
+        private ShopManager shopManager;
+
+        private void Awake()
         {
+            shopManager = FindObjectOfType<ShopManager>();
+            imageComponent = GetComponent<Image>();
+            outlineComponent = GetComponent<Outline>();
             priceText.text = Price.ToString();
         }
-    }
 
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        //skal lige overfører pris også
-        shopManager.Click(SpineName, Price, this);
-        imageComponent.enabled = true;
-        outlineComponent.enabled = true;
-    }
+        public void Initialize(string newItemName, int newPrice, Sprite newImage, string newSpineName, int newID)
+        {
+            ID = newID;
+            Price = newPrice;
+            profilImage.sprite = newImage;
+            SpineName = newSpineName;
+            Name.text = newItemName;
 
-    public void UnSelect()
-    {
-        imageComponent.enabled = false;
-        outlineComponent.enabled = false;
-    }
+            if (priceText != null)
+            {
+                priceText.text = Price.ToString();
+            }
+        }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            //skal lige overfï¿½rer pris ogsï¿½
+            shopManager.Click(SpineName, Price, this);
+            imageComponent.enabled = true;
+            outlineComponent.enabled = true;
+        }
+
+        public void UnSelect()
+        {
+            imageComponent.enabled = false;
+            outlineComponent.enabled = false;
+        }
+
+    }
 }

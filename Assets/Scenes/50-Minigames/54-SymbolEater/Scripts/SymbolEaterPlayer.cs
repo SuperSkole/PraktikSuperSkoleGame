@@ -10,7 +10,7 @@ using UnityEngine.VFX;
 using Vector3 = UnityEngine.Vector3;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
     /// <summary>
     /// Player class for the Symbol Eater mini game

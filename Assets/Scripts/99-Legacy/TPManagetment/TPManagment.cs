@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TPManagment : MonoBehaviour
+namespace _99_Legacy.TPManagetment
 {
-    //public List<GameObject> list = new List<GameObject>();
-    public GameObject Player;
-    public GameObject schoolEnter;
-    public GameObject schoolExit;
-
-    public void OnTriggerEnter(Collider collision)
+    public class TPManagment : MonoBehaviour
     {
-        Debug.Log("Hit");
-        if (collision.gameObject == schoolEnter && collision.gameObject.tag == "Player")
+        //public List<GameObject> list = new List<GameObject>();
+        public GameObject Player;
+        public GameObject schoolEnter;
+        public GameObject schoolExit;
+
+        public void OnTriggerEnter(Collider collision)
         {
-            Player.transform.position = schoolExit.transform.position;
+            Debug.Log("Hit");
+            if (collision.gameObject == schoolEnter && collision.gameObject.tag == "Player")
+            {
+                Player.transform.position = schoolExit.transform.position;
+            }
         }
     }
 }

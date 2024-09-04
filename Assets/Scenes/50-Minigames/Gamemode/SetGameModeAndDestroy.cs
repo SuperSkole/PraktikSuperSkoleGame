@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using CORE.Scripts.GameRules;
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using CORE.Scripts;
 
-namespace Scenes.GameMode
+namespace Scenes._50_Minigames.Gamemode
 {
     public class SetGameModeAndDestroy : MonoBehaviour
     {
@@ -25,9 +23,6 @@ namespace Scenes.GameMode
 
                 case 1:
                     modeSetter = new SymbolEaterSetter();
-                    break;
-                case 2:
-                    modeSetter = new LetterGardenSetter();
                     break;
             }
         }

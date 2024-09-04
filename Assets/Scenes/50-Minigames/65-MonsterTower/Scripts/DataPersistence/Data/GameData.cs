@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips.DataPersistence.Data
 {
 
     /// <summary>

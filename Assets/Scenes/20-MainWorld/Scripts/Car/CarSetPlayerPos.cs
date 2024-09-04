@@ -2,46 +2,49 @@ using System.Collections.Generic;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
-public class CarSetPlayerPos : MonoBehaviour
+namespace Scenes._20_MainWorld.Scripts.Car
 {
-    [SerializeField] private List<GameObject> PlacementPoints = new List<GameObject>();
-    private GameObject spawnedPlayer;
-    public bool isDriving = false;
-    // Update is called once per frame
-    private void Start()
+    public class CarSetPlayerPos : MonoBehaviour
     {
-        spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-    }
-    void Update()
-    {
-        if (isDriving)
+        [SerializeField] private List<GameObject> PlacementPoints = new List<GameObject>();
+        private GameObject spawnedPlayer;
+        public bool isDriving = false;
+        // Update is called once per frame
+        private void Start()
         {
-            spawnedPlayer.transform.position = PlacementPoints[0].transform.position;
+            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
         }
-    }
-
-    public Transform SetTransformOfPlayer()
-    {
-        foreach (var item in PlacementPoints)
+        void Update()
         {
-            if (!item.GetComponent<CarPlacementPoint>().isColliding)
+            if (isDriving)
             {
-                return item.transform;
+                spawnedPlayer.transform.position = PlacementPoints[0].transform.position;
             }
         }
 
-        return null;
-    }
-    public bool ReturningPlayerPlacement()
-    {
-        foreach (var item in PlacementPoints)
+        public Transform SetTransformOfPlayer()
         {
-            if (!item.GetComponent<CarPlacementPoint>().isColliding)
+            foreach (var item in PlacementPoints)
             {
-                return true;
+                if (!item.GetComponent<CarPlacementPoint>().isColliding)
+                {
+                    return item.transform;
+                }
             }
-        }
 
-        return false;
+            return null;
+        }
+        public bool ReturningPlayerPlacement()
+        {
+            foreach (var item in PlacementPoints)
+            {
+                if (!item.GetComponent<CarPlacementPoint>().isColliding)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }
