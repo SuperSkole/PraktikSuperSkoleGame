@@ -258,10 +258,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             
-            // former attempt at having the Player Charector model at Player Prefab.
-            //Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
-            //transform.Translate(deltaPosition);
-            //playerMonster.transform.Translate(deltaPosition);
+            ;
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
