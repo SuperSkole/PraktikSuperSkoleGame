@@ -11,7 +11,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     {
 
         IGameRules gameRules;
-
+        
         /// <summary>
         /// Should be retrieved from Boardcontroller with method SetLetterCubesAndBoard
         /// </summary>

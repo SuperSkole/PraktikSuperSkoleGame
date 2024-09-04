@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
-    /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
+    /// Implementation of IGameMode with the goal of finding a given letter on the board
     /// </summary>
     public class FindSymbol : ISEGameMode
     {

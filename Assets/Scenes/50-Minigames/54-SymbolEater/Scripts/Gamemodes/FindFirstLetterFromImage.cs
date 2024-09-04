@@ -9,14 +9,12 @@ using CORE.Scripts.GameRules;
 namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
-    /// Implementation of IGameMode with the goal of spelling a word based on an image.
+    /// Implementation of IGameMode with the goal of finding the first letter of a word
     /// </summary>
-    public class SpellWordFromImage : ISEGameMode
+    public class FindFirstLetterFromImage : ISEGameMode
     {
 
         int correctWords = 0;
-
-        Queue<char> foundLetters = new Queue<char>();
 
         int minWrongLetters = 6;
 
@@ -32,27 +30,19 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         IGameRules gameRules;
 
-        string foundWordPart = "";
-
-        string oldWord = "";
-
         bool wordsLoaded = false;
 
-        int activationIndex = 0;
+        bool foundLetter;
 
         /// <summary>
         /// Gets the letters for the current game
         /// </summary>
         public void GetSymbols()
         { 
-            foundWordPart = "";
-            oldWord = "";
-            activationIndex = 0;
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if(DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
-                oldWord = gameRules.GetDisplayAnswer();
                 if(sprites.ContainsKey(gameRules.GetDisplayAnswer())){
                     boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
                 }
@@ -71,6 +61,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //If the words are loaded then it starts generating the board
             if(wordsLoaded)
             {
+                foundLetter = false;
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
@@ -81,8 +72,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                 
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
                 GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
-                //finds some new letterboxes and assigns them a correct letter
-                GameModeHelper.ActivateLetterCubes(gameRules.GetDisplayAnswer().Length, letterCubes, activeLetterCubes, ActivateCube, true);
+                //finds a new letterbox and assigns it the correct letter
+                GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
                 boardController.SetAnswerText("");
             }
         }
@@ -93,23 +84,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <returns>Whether the letter is the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
-            
-            if(gameRules.IsCorrectSymbol(letter) && gameRules.GetCorrectAnswer()[0] != gameRules.GetDisplayAnswer()[gameRules.GetDisplayAnswer().Length - 1])
-            {
-                foundLetters.Enqueue(letter[0]);
-                gameRules.SetCorrectAnswer();
-                return true;
-            }
-            else if(gameRules.IsCorrectSymbol(letter))
-            {
-                foundLetters.Enqueue(letter.ToLower()[0]);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
+            return gameRules.IsCorrectSymbol(letter);
         }
 
         /// <summary>
@@ -119,10 +94,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         public void ReplaceSymbol(LetterCube letter)
         {
             //Updates the display of letters which the player has already found
-            if(foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString())
+            if(IsCorrectSymbol(letter.GetLetter()))
             {
-                foundWordPart += foundLetters.Dequeue();
-                boardController.SetAnswerText(foundWordPart);
+                foundLetter = true;
             }
             //Checks if the game is over. If it is it informs the boardcontroller that the game is over. Otherwise it just restarts with a new word.
             if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, true, ActivateCube, IsGameComplete))
@@ -146,7 +120,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             break;
                     }
                     gameRules.SetCorrectAnswer();
-                    boardController.Won("Du vandt. Du stavede rigtigt 5 gange", multiplier * 1, multiplier * 1);
+                    boardController.Won("Du vandt. Du fandt det første bogstav 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else
                 {
@@ -190,7 +164,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
 
         /// <summary>
-        /// sets the game rules of the game. Currently only support SpellWord
+        /// sets the game rules of the game. Currently only support FindFirstLetter
         /// </summary>
         /// <param name="gameRules">game rules to be used by the game mode</param>
         public void SetGameRules(IGameRules gameRules)
@@ -199,16 +173,15 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         }
 
         /// <summary>
-        /// Currently not implemented
+        /// Activates a lettercube with either a correct or an incorrect letter
         /// </summary>
-        /// <param name="letterCube"></param>
-        /// <param name="correct"></param>
+        /// <param name="letterCube">the lettercube to be activated</param>
+        /// <param name="correct">whether the letter should be correct</param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
             if(correct)
             {
-                letterCube.Activate(gameRules.GetDisplayAnswer()[activationIndex].ToString());
-                activationIndex++;
+                letterCube.Activate(gameRules.GetCorrectAnswer());
             }
             else 
             {
@@ -217,12 +190,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         }
 
         /// <summary>
-        /// Currently not implemented
+        /// checks if the correct letter has been found
         /// </summary>
-        /// <returns></returns>
+        /// <returns>whether foundletter is true</returns>
         public bool IsGameComplete()
         {
-            return foundWordPart.Length == gameRules.GetDisplayAnswer().Length;
+            return foundLetter;
         }
     }
 }

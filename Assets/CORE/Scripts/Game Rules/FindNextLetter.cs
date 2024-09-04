@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CORE.Scripts.GameRules
 {
     /// <summary>
-    /// Implementation of IGameRules for games where the player should look for a specific letter
+    /// Implementation of IGameRules for games where the player should look for the letter after a random letter
     /// </summary>
     public class FindNextLetter : IGameRules
     {
@@ -24,9 +24,9 @@ namespace CORE.Scripts.GameRules
         }
 
         /// <summary>
-        /// Returns the correct letter in uppercase
+        /// Returns a display string
         /// </summary>
-        /// <returns>the correct letter in uppercase</returns>
+        /// <returns>a display string</returns>
         public string GetDisplayAnswer()
         {
             return "Find bogstavet efter " + previousLetter;
@@ -39,6 +39,7 @@ namespace CORE.Scripts.GameRules
         public string GetWrongAnswer()
         {
             string letter = LetterManager.GetRandomLetter().ToString().ToLower();
+            //Ensures the letter is not the correct one
             while(letter == GetCorrectAnswer())
             {
                 letter = LetterManager.GetRandomLetter().ToString().ToLower();
@@ -74,6 +75,7 @@ namespace CORE.Scripts.GameRules
             char temp = LetterManager.GetRandomLetter();
             
             List<char> letters = LetterManager.GetAllLetters();
+            //ensures the letter has not been used in the current game
             while(letters.IndexOf(temp) == letters.Count - 1 || previousLetters.Contains(temp)){
                 temp = LetterManager.GetRandomLetter();
             }
