@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts
@@ -12,7 +13,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
     {
 
         public List<Monster> monsters = new List<Monster>();
-
 
         /// <summary>
         /// Stops movement for all monsters on the board

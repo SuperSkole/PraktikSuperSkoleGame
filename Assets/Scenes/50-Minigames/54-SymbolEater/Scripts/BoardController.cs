@@ -73,7 +73,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             gameOverText.text = "";
             difficultyManager.SetBoardControllerAndMonsterPrefab(this, monsterPrefab);
             difficultyManager.SetDifficulty(DiffcultyPreset.EASY);
-
             //Retrieves the lettercubes from the list of lettercube objects and sets their board variable to this board controller
             foreach (GameObject l in letterCubeObjects)
             {
@@ -155,6 +154,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public void InstantitateMonster(GameObject monster, Vector3 pos)
         {
             GameObject monsterObject = Instantiate(monster, pos, Quaternion.identity);
+            monsterObject.GetComponent<Monster>().SetBord(this);
             monsterHivemind.monsters.Add(monsterObject.GetComponent<Monster>());
         }
 
@@ -206,6 +206,22 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             gameOverText.text = "";
         }
         #endregion
+
+        public bool IsPosFree(Vector3 pos)
+        {
+            GameObject closestCube = null;
+            float Dist = Mathf.Infinity;
+            for (int i = 0; i < letterCubeObjects.Count; i++)
+            {
+                if(Dist > Vector3.Distance(pos, letterCubeObjects[i].transform.position))
+                {
+                    Dist = Vector3.Distance(pos, letterCubeObjects[i].transform.position);
+                    closestCube = letterCubeObjects[i];
+                }
+            }
+            return !closestCube.GetComponent<LetterCube>().active;
+        }
+
 
         #region Game Over
 
