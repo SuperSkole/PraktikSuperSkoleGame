@@ -3214,7 +3214,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2004008632}
-  - component: {fileID: 2004008631}
   - component: {fileID: 2004008630}
   - component: {fileID: 2004008633}
   - component: {fileID: 2004008634}
@@ -3241,26 +3240,10 @@ MonoBehaviour:
   brushPrefab: {fileID: 5013858553156630089, guid: f63d4be3105aa9f4ca60c5c60c1aadab, type: 3}
   isPainting: 1
   offsetDistance: 0.5
-  letterController: {fileID: 0}
   letterHandler: {fileID: 2004008634}
   inkMeterSlider: {fileID: 1040110756}
   maxInkAmount: 40
   bee: {fileID: 701910460}
---- !u!114 &2004008631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004008629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5f91a9019544c428d628e68ea90ea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Letters: []
-  currentLettter: {fileID: 0}
-  currentLettterContainer: {fileID: 0}
 --- !u!4 &2004008632
 Transform:
   m_ObjectHideFlags: 0
@@ -3326,7 +3309,7 @@ MonoBehaviour:
   - {fileID: 2783941427554853546, guid: 0070024b44f7a09499a970363abe3a16, type: 3}
   - {fileID: 3834668262779129360, guid: 8ffdf6f102464a945a3f3ba889971b2a, type: 3}
   - {fileID: 4921057364718165133, guid: 80ecb08a074352a47b76d6cc5bc208e8, type: 3}
-  - {fileID: 8299605279101774176, guid: f8b695d1d49765949b264e70540851ad, type: 3}
+  - {fileID: 8299605279101774176, guid: f026266771f09a240927a6820f879bc9, type: 3}
   - {fileID: 2575214423478766937, guid: f5dcfb0d83d161c4c9e562b5d9a8705b, type: 3}
   - {fileID: 2507159131242587036, guid: 857431f24845d8243ae2aee420dc46d1, type: 3}
   - {fileID: 6493723623885051263, guid: df1d4d39b7b6c6b4a8982508b61b72da, type: 3}
@@ -3354,9 +3337,9 @@ MonoBehaviour:
   - {fileID: 7817665758872764408, guid: 9123289544623af408536c0dd9ba021f, type: 3}
   - {fileID: 6228723015427180855, guid: 5d12a605c742e8c4691563b9d46a6524, type: 3}
   - {fileID: 8335906927514179290, guid: be66ea2fd49503e4896ea31926e258de, type: 3}
-  - {fileID: 8465389756894205909, guid: a5d5041237a9b5f4f90e839c93b1dc74, type: 3}
-  - {fileID: 3070008163955438992, guid: 4f804294317ad874593990fdca9b2f44, type: 3}
-  - {fileID: 6633145100238992218, guid: bd4c61f6b3107a64a84690a44d4c382d, type: 3}
+  - {fileID: 8465389756894205909, guid: 4cd98374951a355468d4e94289b48699, type: 3}
+  - {fileID: 3070008163955438992, guid: 9b56c9ba711db9c4f9ebe288a6e58234, type: 3}
+  - {fileID: 6633145100238992218, guid: ff96eb625d24b9f4780be207e4651761, type: 3}
 --- !u!114 &2004008634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3370,7 +3353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolManager: {fileID: 2004008633}
-  splineHolder: {fileID: 0}
+  splineHolder: {fileID: 1130921608}
   bee: {fileID: 701910462}
 --- !u!1 &2063667416
 GameObject:

@@ -21,8 +21,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         private List<GameObject> drawnBrushInstances = new List<GameObject>();
 
-        [SerializeField] private LetterController letterController;
-
         [SerializeField] ActiveLetterHandler letterHandler;
         public Slider inkMeterSlider;
         public float maxInkAmount = 100f;
