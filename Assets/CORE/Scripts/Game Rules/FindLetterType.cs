@@ -30,7 +30,7 @@ namespace CORE.Scripts.Game_Rules
         public string GetWrongAnswer()
         {
             string letter = LetterManager.GetRandomLetter().ToString().ToLower();
-            while(letter == GetCorrectAnswer())
+            while(IsCorrectSymbol(letter))
             {
                 letter = LetterManager.GetRandomLetter().ToString().ToLower();
             }

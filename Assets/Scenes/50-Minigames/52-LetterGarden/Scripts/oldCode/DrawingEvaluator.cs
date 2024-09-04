@@ -1,5 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
+=======
+using Scenes.Minigames.LetterGarden.Scripts;
+>>>>>>> origin/Project-Praktik-Main
 using UnityEngine;
 
 namespace Scenes._50_Minigames._52_LetterGarden.Scripts.oldCode
