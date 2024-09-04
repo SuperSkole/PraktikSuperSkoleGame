@@ -1,11 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class HoverEffectUI : MonoBehaviour
 {
-    [SerializeField] private Image image; 
+    [SerializeField] private Image image;
     private Vector3 originalScale;
 
     private void Awake()
@@ -15,7 +14,10 @@ public class HoverEffectUI : MonoBehaviour
         {
             image = GetComponent<Image>();
         }
-        originalScale = image.rectTransform.localScale;
+        if (image != null)
+        {
+            originalScale = image.rectTransform.localScale;
+        }
     }
 
     public void HoverEnter()
@@ -29,6 +31,7 @@ public class HoverEffectUI : MonoBehaviour
             audioSource.Play();
         }
     }
+
 
     public void HoverExit()
     {
@@ -53,7 +56,5 @@ public class HoverEffectUI : MonoBehaviour
     {
         LeanTween.scale(image.rectTransform, originalScale, 0.1f);
         LeanTween.rotateZ(image.gameObject, 0f, 0f);
-
-
     }
 }

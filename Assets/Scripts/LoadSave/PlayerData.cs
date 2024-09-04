@@ -19,6 +19,8 @@ namespace LoadSave
         [SerializeField] private int currentXPAmount;
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
+        [SerializeField] private string clothMid;
+        [SerializeField] private string clothTop;
 
         // Lists for storing active words
         public List<string> CollectedWords = new List<string>();
@@ -35,6 +37,9 @@ namespace LoadSave
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
+        public string ClothMid { get => clothMid; set => clothMid = value; }
+        public string ClothTop { get => clothTop; set => clothTop = value; }
+
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
         public Vector3 LastInteractionPoint;
@@ -49,7 +54,7 @@ namespace LoadSave
         /// <param name="xpAmount">Initial experience points.</param>
         /// <param name="level">Starting level of the character.</param>
         /// <param name="position">Initial position of the character in the game world.</param>
-        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position)
+        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position, string midCloth, string topCloth)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -58,6 +63,9 @@ namespace LoadSave
             this.currentXPAmount = xpAmount;
             this.currentLevel = level;
             this.currentPosition = position;
+            this.clothMid = midCloth;
+            this.clothTop = topCloth;
+
         }
 
         public void SetLastInteractionPoint(Vector3 position)

@@ -37,6 +37,7 @@ namespace Scenes._20_MainWorld.Scripts
                 try
                 {
                     PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = action;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(true);
                     //parent.action = action;
                     parent.inZone = true;
                 }
@@ -59,10 +60,10 @@ namespace Scenes._20_MainWorld.Scripts
                 switch (gameObject.name)
                 {
                     case "WalkInto":
-                        action.Invoke();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     case "PlayerCar":
-                        action.Invoke();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     default:
                         //print("InColliderZone/OnTriggerEnter/No name matches");
@@ -82,6 +83,7 @@ namespace Scenes._20_MainWorld.Scripts
                 try
                 {
                     PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
 
                     //parent.action = null;
                     parent.inZone = false;
