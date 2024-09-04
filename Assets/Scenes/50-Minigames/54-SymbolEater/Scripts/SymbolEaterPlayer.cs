@@ -258,7 +258,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             
-            ;
+            
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
