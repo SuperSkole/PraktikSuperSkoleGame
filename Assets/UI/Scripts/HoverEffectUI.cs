@@ -1,60 +1,64 @@
 using System.Collections;
+using Import.LeanTween.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HoverEffectUI : MonoBehaviour
+namespace UI.Scripts
 {
-    [SerializeField] private Image image;
-    private Vector3 originalScale;
-
-    private void Awake()
+    public class HoverEffectUI : MonoBehaviour
     {
-        //tjek om billede er blevet udfyldt i Inspektoren 
-        if (image == null)
+        [SerializeField] private Image image;
+        private Vector3 originalScale;
+
+        private void Awake()
         {
-            image = GetComponent<Image>();
+            //tjek om billede er blevet udfyldt i Inspektoren 
+            if (image == null)
+            {
+                image = GetComponent<Image>();
+            }
+            if (image != null)
+            {
+                originalScale = image.rectTransform.localScale;
+            }
         }
-        if (image != null)
+
+        public void HoverEnter()
         {
-            originalScale = image.rectTransform.localScale;
+            //Nï¿½r mus/finger er over knappen
+            StartCoroutine(JiggleAndLightUp());
+
+            AudioSource audioSource = this.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.Play();
+            }
         }
-    }
 
-    public void HoverEnter()
-    {
-        //Når mus/finger er over knappen
-        StartCoroutine(JiggleAndLightUp());
 
-        AudioSource audioSource = this.GetComponent<AudioSource>();
-        if (audioSource != null)
+        public void HoverExit()
         {
-            audioSource.Play();
+            //Nï¿½r mus/finger ikke lï¿½ngere er over knappen
+            ResetImage();
         }
-    }
 
+        //LeanTween animation for HoverEnter
+        private IEnumerator JiggleAndLightUp()
+        {
+            // Stï¿½rre
+            LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
 
-    public void HoverExit()
-    {
-        //Når mus/finger ikke længere er over knappen
-        ResetImage();
-    }
+            // Jiggle effect
+            LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
 
-    //LeanTween animation for HoverEnter
-    private IEnumerator JiggleAndLightUp()
-    {
-        // Større
-        LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
+            yield return new WaitForSeconds(0.2f);
+        }
 
-        // Jiggle effect
-        LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
-
-        yield return new WaitForSeconds(0.2f);
-    }
-
-    // Reset
-    private void ResetImage()
-    {
-        LeanTween.scale(image.rectTransform, originalScale, 0.1f);
-        LeanTween.rotateZ(image.gameObject, 0f, 0f);
+        // Reset
+        private void ResetImage()
+        {
+            LeanTween.scale(image.rectTransform, originalScale, 0.1f);
+            LeanTween.rotateZ(image.gameObject, 0f, 0f);
+        }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Scenes.Minigames.MiniRacingGame.Scripts
+namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class CarController : MonoBehaviour
     {
@@ -168,7 +168,7 @@ namespace Scenes.Minigames.MiniRacingGame.Scripts
             speedRR *= 3.6f;
 
 
-            Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilføj flere??
+            Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilfï¿½j flere??
             carSpeed = carRigidbody.velocity.magnitude * 3.6f; // Convert to km/h
 
             if (carSpeed > maxSpeed)

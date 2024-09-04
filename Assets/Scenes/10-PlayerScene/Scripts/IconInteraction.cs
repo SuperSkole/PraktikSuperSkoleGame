@@ -10,10 +10,10 @@ public class IconInteraction : MonoBehaviour
 
     private void Awake()
     {
-        orginalScale = transform.localScale;
     }
     private void OnMouseEnter()
     {
+        orginalScale = transform.localScale;
         StartCoroutine(JiggleAndLightUp());
         GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = true;
 

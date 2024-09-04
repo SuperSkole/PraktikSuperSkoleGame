@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using CORE.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
-using Scenes.Minigames.WordFactory.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class LetterHandler : MonoBehaviour
     {

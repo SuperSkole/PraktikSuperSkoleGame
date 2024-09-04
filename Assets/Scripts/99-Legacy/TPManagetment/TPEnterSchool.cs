@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class TPEnterSchool : MonoBehaviour
+namespace _99_Legacy.TPManagetment
 {
-    public GameObject tpPlacement;
-
-    public void OnTriggerEnter(Collider collision)
+    public class TPEnterSchool : MonoBehaviour
     {
-        Debug.Log("TP");
-        if (collision.gameObject.tag == "Player")
+        public GameObject tpPlacement;
+
+        public void OnTriggerEnter(Collider collision)
         {
-            collision.transform.position = tpPlacement.transform.position;
+            Debug.Log("TP");
+            if (collision.gameObject.tag == "Player")
+            {
+                collision.transform.position = tpPlacement.transform.position;
+            }
         }
     }
 }

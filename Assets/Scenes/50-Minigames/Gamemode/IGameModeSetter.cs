@@ -1,10 +1,7 @@
 using CORE.Scripts;
-using CORE.Scripts.GameRules;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using CORE.Scripts.Game_Rules;
 
-namespace Scenes.GameMode
+namespace Scenes._50_Minigames.Gamemode
 {
     
     public interface IGameModeSetter

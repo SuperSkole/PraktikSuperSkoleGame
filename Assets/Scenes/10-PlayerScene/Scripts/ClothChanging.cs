@@ -1,17 +1,20 @@
 using Spine.Unity;
 using UnityEngine;
 
-public class ClothChanging : MonoBehaviour
+namespace Scenes._10_PlayerScene.Scripts
 {
-
-    public void ChangeClothes(string clothName, ISkeletonComponent givenSkeleton)
+    public class ClothChanging : MonoBehaviour
     {
-        if (givenSkeleton == null && clothName == null)
-        { 
-            var skeleton = givenSkeleton.Skeleton;
 
-            skeleton.SetAttachment(clothName, clothName);
+        public void ChangeClothes(string clothName, ISkeletonComponent givenSkeleton)
+        {
+            if (givenSkeleton == null && clothName == null)
+            { 
+                var skeleton = givenSkeleton.Skeleton;
+
+                skeleton.SetAttachment(clothName, clothName);
+            }
         }
-    }
 
+    }
 }

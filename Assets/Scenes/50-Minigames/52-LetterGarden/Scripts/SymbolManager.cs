@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
-namespace Minigames.LetterGarden.Scripts
+namespace Scenes._50_Minigames._52_LetterGarden.Scripts
 {
 
     /// <summary>

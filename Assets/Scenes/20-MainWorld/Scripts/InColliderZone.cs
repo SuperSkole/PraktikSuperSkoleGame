@@ -1,3 +1,4 @@
+using _99_Legacy.Interaction;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;

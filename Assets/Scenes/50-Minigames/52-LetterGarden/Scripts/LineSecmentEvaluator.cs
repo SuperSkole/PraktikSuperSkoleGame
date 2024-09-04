@@ -1,11 +1,7 @@
-using Unity.Mathematics;
-using Unity.VisualScripting;
-
 using UnityEngine;
-using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.Splines;
 
-namespace Scenes.Minigames.LetterGarden.Scrips
+namespace Scenes._50_Minigames._52_LetterGarden.Scripts
 {
     public static class LineSecmentEvaluator
     {

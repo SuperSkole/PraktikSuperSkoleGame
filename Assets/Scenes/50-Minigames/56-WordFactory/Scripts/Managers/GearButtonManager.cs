@@ -1,8 +1,7 @@
-using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
     public class GearButtonManager : MonoBehaviour
     {

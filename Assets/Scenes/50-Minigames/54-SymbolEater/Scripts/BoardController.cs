@@ -1,18 +1,15 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
+using Scenes._00_Bootstrapper;
+using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
-using CORE.Scripts.GameRules;
-using CORE.Scripts;
-using Scenes._10_PlayerScene.Scripts;
-using UnityEngine.SceneManagement;
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
 
     /// <summary>

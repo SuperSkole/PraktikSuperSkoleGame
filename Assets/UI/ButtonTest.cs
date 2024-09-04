@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class ButtonTest : MonoBehaviour
+namespace UI
 {
-    public void OptionClick()
+    public class ButtonTest : MonoBehaviour
     {
-        Debug.Log("Click!");
-    }
+        public void OptionClick()
+        {
+            Debug.Log("Click!");
+        }
 
-    public void OptionHoverEnter()
-    {
-        Debug.Log("Hover Enter!");
-    }
+        public void OptionHoverEnter()
+        {
+            Debug.Log("Hover Enter!");
+        }
 
-    public void OptionHoverExit()
-    {
-        Debug.Log("Hover Exit!");
+        public void OptionHoverExit()
+        {
+            Debug.Log("Hover Exit!");
+        }
     }
 }
