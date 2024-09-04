@@ -40,9 +40,9 @@ public class ClothingManager : MonoBehaviour
     private void InitializeClothes()
     {
         // SHOPITEMS
-        AvailableClothesList.Add(new ClothInfo { ID = 1, image = briller, Price = 50, Name = "Briller", SpineName = "Monster HEAD Tophat" });
-        AvailableClothesList.Add(new ClothInfo { ID = 2, image = tryllehat, Price = 75, Name = "Tryllehat", SpineName = "Monster HEAD Briller" });
-        AvailableClothesList.Add(new ClothInfo { ID = 3, image = tophat, Price = 100, Name = "Tophat", SpineName = "Monster HEAD Tryllehat" });
+        AvailableClothesList.Add(new ClothInfo { ID = 1, image = briller, Price = 50, Name = "Briller", SpineName = "Monster HEAD Briller" });
+        AvailableClothesList.Add(new ClothInfo { ID = 2, image = tryllehat, Price = 75, Name = "Tryllehat", SpineName = "Monster HEAD Tryllehat" });
+        AvailableClothesList.Add(new ClothInfo { ID = 3, image = tophat, Price = 100, Name = "Tophat", SpineName = "Monster HEAD Tophat" });
 
         AvailableClothesList.Add(new ClothInfo { ID = 4, image = slips, Price = 50, Name = "Slips", SpineName = "Monster MID Slips" });
         AvailableClothesList.Add(new ClothInfo { ID = 5, image = halstorklade, Price = 100, Name = "Halstørklæde", SpineName = "Monster MID Halstørklæde" });

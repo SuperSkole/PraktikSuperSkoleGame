@@ -67,15 +67,15 @@ public class ShopManager : MonoBehaviour
         List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
         InitializeShopOptions(theShopOptions);
     }
+
     private void OnDisable()
     {
-        var amountOfChild = shopOptionsParent.childCount;
-
-        for (int i = 0; i < amountOfChild; i++)
+        while (shopOptionsParent.childCount > 0)
         {
-            Destroy(shopOptionsParent.GetChild(i));
+            Destroy(shopOptionsParent.GetChild(0).gameObject);
         }
     }
+
     //Create the shop options
     private void InitializeShopOptions(List<ClothInfo> availableClothes)
     {
@@ -106,6 +106,8 @@ public class ShopManager : MonoBehaviour
 
         if (itemName.Contains("HEAD") || itemName.Contains("MID"))
         {
+            Debug.Log(itemName);
+
             //hvis curren item ikke er tom, 
             if (currentItem != null)
             {

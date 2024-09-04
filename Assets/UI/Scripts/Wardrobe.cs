@@ -52,14 +52,12 @@ public class Wardrop : MonoBehaviour
 
     private void OnDisable()
     {
-        var amountOfChild = WardrobeParent.childCount;
-
-        for (int i = 0; i < amountOfChild; i++)
-
+        while (WardrobeParent.childCount > 0)
         {
-            Destroy(WardrobeParent.GetChild(i));
+            Destroy(WardrobeParent.GetChild(0).gameObject);
         }
     }
+
 
     private void InitializeWardrobeOption(List<ClothInfo> availableoptions)
     {
