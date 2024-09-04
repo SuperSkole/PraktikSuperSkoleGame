@@ -1,9 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Wardrop : MonoBehaviour
 {
@@ -45,7 +43,10 @@ public class Wardrop : MonoBehaviour
         clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
         List<ClothInfo> theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
-        InitializeWardrobeOption(theWardrobeOptions);
+        if (theWardrobeOptions.Count != 0)
+        {
+            InitializeWardrobeOption(theWardrobeOptions);
+        }
 
     }
 
@@ -54,6 +55,7 @@ public class Wardrop : MonoBehaviour
         var amountOfChild = WardrobeParent.childCount;
 
         for (int i = 0; i < amountOfChild; i++)
+
         {
             Destroy(WardrobeParent.GetChild(i));
         }

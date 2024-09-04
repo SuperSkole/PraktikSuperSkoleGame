@@ -1,3 +1,4 @@
+using System.Collections;
 using Cinemachine;
 using CORE;
 using LoadSave;
@@ -18,6 +19,8 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private TMP_InputField nameInput;
         [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private int moveSpeed = 5;
+        [SerializeField] private Vector3 dropOffPoint; 
 
         private PlayerData playerData;
         private GameObject spawnedPlayer;
@@ -64,7 +67,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void Awake()
         {
-            Debug.Log("PlayerManager.Awake: Setting up Player instance");
+            //Debug.Log("PlayerManager.Awake: Setting up Player instance");
             if (instance != null && instance != this)
             {
                 Destroy(gameObject);
@@ -162,13 +165,13 @@ namespace Scenes._10_PlayerScene.Scripts
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
 
             // Log for debugging
-            Debug.Log(
-                $"PlayerManager.SetupPlayer(): " +
-                $"username: {playerData.Username} " +
-                $"Player Name: {playerData.MonsterName} " +
-                $"Monster Color: {playerData.MonsterColor} " +
-                $"XP: {playerData.CurrentXPAmount} " +
-                $"Gold: {playerData.CurrentGoldAmount}");
+            // Debug.Log(
+            //     $"PlayerManager.SetupPlayer(): " +
+            //     $"username: {playerData.Username} " +
+            //     $"Player Name: {playerData.MonsterName} " +
+            //     $"Monster Color: {playerData.MonsterColor} " +
+            //     $"XP: {playerData.CurrentXPAmount} " +
+            //     $"Gold: {playerData.CurrentGoldAmount}");
 
             // TODO: delete at later date when PlayerManger works
             GameManager.Instance.PlayerData = playerData;
@@ -326,8 +329,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 if (colorChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
-                   colorChanging.SetSkeleton(skeleton);
-                   colorChanging.ColorChange(playerData.MonsterColor);
+                    colorChanging.SetSkeleton(skeleton);
+                    colorChanging.ColorChange(playerData.MonsterColor);
                 }    
             }
         }
@@ -338,9 +341,9 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void SetPlayerPositionOnSceneChange(Scene scene)
         {
-            Debug.Log($"PlayerManager.SetPlayerPositionOnSceneChange():" +
-                      $"Loaded Scene: {scene.name}, " +
-                      $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
+            // Debug.Log($"PlayerManager.SetPlayerPositionOnSceneChange():" +
+            //           $"Loaded Scene: {scene.name}, " +
+            //           $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
 
             // Player House sat spawn to 0,2,0
             if (scene.name == SceneNames.House)
@@ -367,7 +370,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Set the player's position to the last interaction point stored in PlayerData
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
 
-                    Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
+                    //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
                 }
                 else
                 {

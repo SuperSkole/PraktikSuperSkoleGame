@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2014260511405141757}
   - component: {fileID: 2303528203887376164}
   - component: {fileID: 5743102167441662518}
+  - component: {fileID: 7000402631017721828}
+  - component: {fileID: 4370899767886551907}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -36,6 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7954909943777536845}
+  - {fileID: 5553046305399648821}
   - {fileID: 1359369177252859840}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,6 +63,8 @@ MonoBehaviour:
   currentXPAmount: 0
   currentLevel: 0
   currentPosition: {x: 0, y: 0, z: 0}
+  clothMid: 
+  clothTop: 
   CollectedWords: []
   CollectedLetters: 
   CollectedNumbers: 
@@ -128,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphic: {fileID: 0}
+  colors: []
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 6963554171686360834}
   walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
+  throwing: {fileID: 11400000, guid: d117dc0ac9257a441b5ccc10e4d5621c, type: 2}
   idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
   currentState: 
   walkThreshold: 0.1
@@ -152,6 +159,7 @@ MonoBehaviour:
   placementLayermask:
     serializedVersion: 2
     m_Bits: 8
+  hoveringOverUI: 0
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
 --- !u!114 &5743102167441662518
 MonoBehaviour:
@@ -167,6 +175,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: -2984174739293466506}
   interactionIcon: {fileID: 2615622183424237912}
+--- !u!114 &7000402631017721828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4370899767886551907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7193185b3da759a44b94223912462e5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraMoveWithMouse: 0
+  cameraMoveWithDrag: 0
+  turnSpeed: 1
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +326,37 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!1 &1359046755281412456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5553046305399648821}
+  m_Layer: 8
+  m_Name: PickupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5553046305399648821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359046755281412456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3403437169497779405}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2615622183424237912
 GameObject:
   m_ObjectHideFlags: 0

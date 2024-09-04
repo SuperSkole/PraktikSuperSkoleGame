@@ -100,7 +100,7 @@ namespace CORE.Scripts
                 }
             }
 
-            Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
+            //Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
         }
 
         private static string GetFileNameWithoutExtension(string filePath)

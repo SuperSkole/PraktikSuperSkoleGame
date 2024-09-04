@@ -17,6 +17,8 @@ namespace CORE
         public string CurrentMonsterName { get; set; }
         public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
+        public DeviceType UserDevice { get; set; }
+        
         public string CurrentClothMid { get; set; }
         public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
@@ -112,7 +114,7 @@ namespace CORE
         
         private void InitializeGameManager()
         {
-            Debug.Log("GameManager.InitializeGameManager()");
+            //Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
 
             if (instance.GetComponent<PlayerData>() == null)

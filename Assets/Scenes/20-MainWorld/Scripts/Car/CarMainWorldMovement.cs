@@ -89,10 +89,10 @@ public class CarMainWorldMovement : MonoBehaviour
         HandleMotor(); // Handle motor logic irrespective of CarActive state.
         UpdateRotationWheels();    // Updates the visual representation of the wheels.
 
-        if (carActive)
+        if (carActive && GetComponent<CarFuel>().fuelAmount > 0)
         {
             GetInput(); // Reads the player's input.
-
+            print(GetComponent<CarFuel>().fuelAmount);
         }
 
     }
@@ -115,7 +115,6 @@ public class CarMainWorldMovement : MonoBehaviour
             // Player is attempting to reverse while the car is moving forward
             ApplyBrakingToStop();
 
-            GetComponent<CarFuel>().fuelAmount -= 0.01f;
         }
         else if (forwardInput > 0)
         {
@@ -127,8 +126,6 @@ public class CarMainWorldMovement : MonoBehaviour
         {
             ResetBraking();
             // Player is reversing
-            GetComponent<CarFuel>().fuelAmount -= 0.01f;
-
         }
     }
 
@@ -172,9 +169,6 @@ public class CarMainWorldMovement : MonoBehaviour
             return; // Skip the rest of the method if the car isn't active.
         }
 
-        // Reset brake torque when car is active.
-        //ResetBraking();
-
         // Apply motor force if under max speed.
         if (IsCarMovingBackwards() == false)
         {
@@ -185,6 +179,7 @@ public class CarMainWorldMovement : MonoBehaviour
                 wheelColliderFrontR.motorTorque = forwardInput * motorForce;
                 wheelColliderRearL.motorTorque = forwardInput * motorForce;
                 wheelColliderRearR.motorTorque = forwardInput * motorForce;
+                RemoveFuel();
             }
             else
             {
@@ -204,6 +199,7 @@ public class CarMainWorldMovement : MonoBehaviour
                 wheelColliderFrontR.motorTorque = forwardInput * motorForce / 2;
                 wheelColliderRearL.motorTorque = forwardInput * motorForce / 2;
                 wheelColliderRearR.motorTorque = forwardInput * motorForce / 2;
+                RemoveFuel();
             }
             else
             {
@@ -216,6 +212,16 @@ public class CarMainWorldMovement : MonoBehaviour
         }
 
 
+    }
+    float fuelTimer;
+    private void RemoveFuel()
+    {
+        fuelTimer += Time.deltaTime;
+        if (fuelTimer >0.5f)
+        {
+            GetComponent<CarFuel>().fuelAmount -= 0.001f;
+            fuelTimer = 0;
+        }
     }
 
     public void ApplyBrakingToStop()

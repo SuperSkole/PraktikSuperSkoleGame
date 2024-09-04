@@ -5,24 +5,30 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+/// <summary>
+/// Adds a user specified script to the player on awake and the removes it later on sceneunload
+/// </summary>
 public class ComponetAddMiniGameSceneStart : MonoBehaviour
 {
     // Select the script to be added to the player in the Inspector
     //[SerializeField] private MonoBehaviour scriptToAdd;
-    [SerializeField] private MonoScript scriptToAdd;
+    [SerializeField] private List<MonoScript> scriptToAdd;
 
     // Reference to the added component for later removal
-    private MonoBehaviour addedComponent;
+    private List<MonoBehaviour> addedComponents;
 
     private void Awake()
     {
-        // Ensure both fields are set
-        if (PlayerManager.Instance.SpawnedPlayer != null && scriptToAdd != null)
+        addedComponents = new List<MonoBehaviour>();
+
+        if (PlayerManager.Instance.SpawnedPlayer != null)
         {
-            // Add the selected script as a component to the player GameObject
             //addedComponent = (MonoBehaviour)PlayerManager.Instance.SpawnedPlayer.AddComponent(scriptToAdd.GetType());
-            addedComponent = (MonoBehaviour)PlayerManager.Instance.SpawnedPlayer.AddComponent(scriptToAdd.GetClass());
+            foreach (var script in scriptToAdd)
+            {
+                MonoBehaviour addedComponent = (MonoBehaviour)PlayerManager.Instance.SpawnedPlayer.AddComponent(script.GetClass());
+                addedComponents.Add(addedComponent);
+            }
         }
         else
         {
@@ -33,22 +39,28 @@ public class ComponetAddMiniGameSceneStart : MonoBehaviour
     }
     
     /// <summary>
-    /// Call this method to remove the added component
+    /// This method to removes the added component from Awake
     /// </summary>
     private void RemoveAddedComponent()
     {
-        if (addedComponent != null)
+        if (addedComponents != null)
         {
-            Destroy(addedComponent);
-            addedComponent = null; //Clear the reference to the removed component
+            foreach (var component in addedComponents)
+            {
+                if (component != null)
+                {
+                    Destroy(component);
+                }
+            }
+            addedComponents.Clear(); // Clear the list after removing all components
         }
         else
         {
-            Debug.LogWarning("No component to remove.");
+            Debug.LogWarning("No components to remove.");
         }
     }
     /// <summary>
-    /// This method is called when the scene is unloaded
+    /// Called when the scene is unloaded
     /// </summary>
     /// <param name="current"></param>
     private void OnSceneUnloaded(Scene current)

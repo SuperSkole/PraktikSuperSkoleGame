@@ -134,13 +134,25 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         {
             blockCreator.HandleValidWord(word);
             
+            // Find the newly created block named "WordBlock"
+            GameObject createdBlock = GameObject.Find("WordBlock");
+
+            if (createdBlock != null)
+            {
+                // Notify the PlayerEventManager to move the player to the block's position
+                PlayerEvents.RaiseMovePlayerToBlock(createdBlock);
+            }
+            else
+            {
+                Debug.LogError("Word block not found.");
+            }
+            
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
             
             PlayerEvents.RaiseGoldChanged(1);
             WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
             PlayerEvents.RaiseXPChanged(1);
-            
             
             // Send word to playerdata
             AddWordToPlayerData(word);
