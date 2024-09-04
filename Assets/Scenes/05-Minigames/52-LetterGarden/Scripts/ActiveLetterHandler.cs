@@ -18,7 +18,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         private List<SplineSymbolDataHolder> splines = new();
         public SplineSymbolDataHolder currentSymbol;
         private int currentSymbolIndex = 0;
-
+        [SerializeField] GameObject coinObject;
         /// <summary>
         /// used for testing only!!!!
         /// </summary>
@@ -53,6 +53,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+                    Instantiate(coinObject);
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game
