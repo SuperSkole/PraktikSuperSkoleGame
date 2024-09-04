@@ -21,7 +21,7 @@ public class ClothingManager : MonoBehaviour
     [SerializeField] private Sprite bla;
 
     public static ClothingManager Instance;
-    public List<ClothInfo> AvailableClothesList = new List<ClothInfo>();
+    [SerializeField] public List<ClothInfo> AvailableClothesList = new List<ClothInfo>();
 
     private void Awake()
     {
@@ -70,6 +70,24 @@ public class ClothingManager : MonoBehaviour
         }
 
         return nonMatchingClothes;
+    }
+
+    public List<ClothInfo> WardrobeContent(List<int> checkList)
+    {
+        //list we send back
+        List<ClothInfo> matchingClothes = new List<ClothInfo>();
+
+        foreach (ClothInfo cloth in AvailableClothesList)
+        {
+            // check if the cloth ID is not in the checkList
+            if (checkList.Contains(cloth.ID))
+            {
+                // if not found, add to nonMatchingClothes
+                matchingClothes.Add(cloth);
+            }
+        }
+
+        return matchingClothes;
     }
 
 

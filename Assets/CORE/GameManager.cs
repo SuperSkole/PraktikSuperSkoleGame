@@ -19,6 +19,8 @@ namespace CORE
         public string CurrentMonsterColor { get; set; }
         public DeviceType UserDevice { get; set; }
         
+        public string CurrentClothMid { get; set; }
+        public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
         
         // GameManager Singleton

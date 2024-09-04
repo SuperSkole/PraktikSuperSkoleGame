@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2303528203887376164}
   - component: {fileID: 5743102167441662518}
   - component: {fileID: 7000402631017721828}
+  - component: {fileID: 4370899767886551907}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -61,6 +62,8 @@ MonoBehaviour:
   currentXPAmount: 0
   currentLevel: 0
   currentPosition: {x: 0, y: 0, z: 0}
+  clothMid: 
+  clothTop: 
   CollectedWords: []
   CollectedLetters: 
   CollectedNumbers: 
@@ -129,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphic: {fileID: 0}
+  colors: []
 --- !u!114 &2303528203887376164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +174,7 @@ MonoBehaviour:
   playerData: {fileID: -2984174739293466506}
   interactionIcon: {fileID: 2615622183424237912}
 --- !u!114 &7000402631017721828
+--- !u!114 &4370899767886551907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -184,6 +189,9 @@ MonoBehaviour:
   cameraMoveWithMouse: 0
   cameraMoveWithDrag: 0
   turnSpeed: 1
+  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0

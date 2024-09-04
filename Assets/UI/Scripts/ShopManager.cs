@@ -1,6 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,11 +11,13 @@ public class ShopManager : MonoBehaviour
     public SkeletonGraphic skeletonGraphic;
     //changing color
     private ColorChanging playerColorChanging;
+    //ClothChanging
+    private ClothChanging clothChanging;
     //The chosen item
     private string currentItem;
 
 
-    List<string> colors = new List<string> { "orange", "blue", "red", "green", "white" };
+    List<string> colors = new List<string>();
 
     //!!Fill this one out with the amount the player has avaliable!!
     private int avaliableMoney;
@@ -37,6 +40,8 @@ public class ShopManager : MonoBehaviour
 
         playerColorChanging = this.GetComponent<ColorChanging>();
 
+        clothChanging = this.GetComponent<ClothChanging>();
+
         if (PlayerManager.Instance == null)
         {
             Debug.Log("Didn't find playermanager");
@@ -46,17 +51,17 @@ public class ShopManager : MonoBehaviour
             avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
         }
 
-        //Build shop
-        //List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
-        //InitializeShopOptions(theShopOptions);
-
-        //Debug.Log(theShopOptions.Count + "antal p� listen");
+        colors.AddRange(playerColorChanging.colors);
 
     }
     private void OnEnable()
     {
         playerColorChanging.SetSkeleton(skeletonGraphic);
         playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+
+
+        clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid,skeletonGraphic);
+        clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
         //Build shop
 
         List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
@@ -82,7 +87,6 @@ public class ShopManager : MonoBehaviour
             // Initialize the ShopOption with the cloth data
             Shopoption shopOption = newShopOptionObj.GetComponent<Shopoption>();
             shopOption.Initialize(cloth.Name, cloth.Price, cloth.image, cloth.SpineName, cloth.ID);
-            Debug.Log("SHOPOPTION MADE");
         }
     }
 
@@ -142,6 +146,17 @@ public class ShopManager : MonoBehaviour
         {
             //add item to list here
             PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+            //change clothing
+            if(currentItem.Contains("HEAD"))
+            {
+                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+            }
+            if(currentItem.Contains("MID"))
+            {
+                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+            }
+            
 
             //takes away money
             avaliableMoney -= currentPrice;
