@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,6 +50,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public bool active;
 
+        public bool shouldActivate;
+
         private string letter;
 
 
@@ -75,6 +76,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             // Checks if the overlap is with the player, if the player should trigger it and if the symbol on it is the one the player is looking for
             if (!readyForDeactivation)
             {
+                //An attempt to check if the player is already colliding with a box, therefore it should not activate
+                if (other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+                {
+                    shouldActivate = true;
+                }
+
                 if (other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
                 {
                     StartCoroutine(IncorrectGuess());
@@ -88,13 +95,29 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             }
         }
 
+        private void OnTriggerExit(Collider other)
+        {
+            if (!readyForDeactivation)
+            {
+                //An attempt to check if the player is already colliding with a box, therefore it should not activate
+                if (other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+                {
+                    shouldActivate = false;
+                }
+            }
+        }
+
         /// <summary>
         /// Overload on the activate method in case it is not important whether the letter is lower case. Takes the desired letter as input
         /// </summary>
         /// <param name="letter">The letter which should be displayed</param>
         public void Activate(string letter)
         {
-            Activate(letter, false);
+            if (!shouldActivate)
+            {
+                Activate(letter, false);
+            }
+
         }
 
         /// <summary>
@@ -105,20 +128,21 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         public void ActivateImage(Texture2D texture2D, string word)
         {
-            if (rawImage == null)
-            {
-                rawImage = imageObject.GetComponent<RawImage>();
-            }
-            rawImage.gameObject.SetActive(true);
-            
-            rawImage.texture = texture2D;
-
-            
-
-            letter = word;
-
             if (!active)
             {
+                if (rawImage == null)
+                {
+                    rawImage = imageObject.GetComponent<RawImage>();
+                }
+                rawImage.gameObject.SetActive(true);
+
+                rawImage.texture = texture2D;
+
+
+
+                letter = word;
+
+
                 active = true;
                 transform.Translate(0, 0.2f, 0);
             }
@@ -146,26 +170,32 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="specific">Whether capitilzation should be preserved</param>
         public void Activate(string letter, bool specific)
         {
-            //Randomly sets some letters to lower case
-            int lower = Random.Range(0, 2);
-            if (lower == 0 && !specific)
+            if (!shouldActivate)
             {
-                letter = letter.ToLower();
-            }
-            //Randomizes the font if the setting is turned on
-            if (randomizeFont)
-            {
-                text.font = fonts[Random.Range(0, fonts.Count)];
+                //Randomly sets some letters to lower case
+                int lower = Random.Range(0, 2);
+                if (lower == 0 && !specific)
+                {
+                    letter = letter.ToLower();
+                }
+                //Randomizes the font if the setting is turned on
+                if (randomizeFont)
+                {
+                    text.font = fonts[Random.Range(0, fonts.Count)];
+                }
+
+                //Sets up the the letter variable and the visual display of the symbol
+                text.text = letter;
+                this.letter = letter;
+
+
+                if (!active)
+                {
+                    active = true;
+                    transform.Translate(0, 0.2f, 0);
+                }
             }
 
-            //Sets up the the letter variable and the visual display of the symbol
-            text.text = letter;
-            this.letter = letter;
-            if (!active)
-            {
-                active = true;
-                transform.Translate(0, 0.2f, 0);
-            }
         }
 
         /// <summary>
@@ -193,7 +223,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             rawImage.texture = null;
             isCurrentWord = ".";
-            
+
             rawImage.gameObject.SetActive(false);
 
             if (active)
@@ -219,8 +249,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         /// <param name="coinPrefab">the prefab to be created</param>
         public void SetCoin(GameObject coinPrefab)
-        { 
-            this.coinPrefab = coinPrefab; 
+        {
+            this.coinPrefab = coinPrefab;
         }
 
 
@@ -261,17 +291,18 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             meshRenderer.material = defaultMaterial;
             SelfDeactivate();
         }
-    
+
 
         /// <summary>
         /// Toggles whether the image on the letter cube is displayed
         /// </summary>
-        public void ToggleImage(){
+        public void ToggleImage()
+        {
             spriteRenderer.enabled = !spriteRenderer.enabled;
         }
 
     }
 
 }
-    
+
 
