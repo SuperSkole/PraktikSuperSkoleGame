@@ -104,12 +104,11 @@ namespace Scenes._10_PlayerScene.Scripts
                 boneFollow = block.AddComponent<BoneFollower>();
                 boneFollow.SkeletonRenderer = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
                 boneFollow.boneName = "Head";
-                boneFollow.transform.position += offset;
                 boneFollow.Initialize();
-
-                boneFollow.followLocalScale = false;
+                
+                boneFollow.followLocalScale = true;
                 boneFollow.followXYPosition = true;
-                boneFollow.followBoneRotation = true;
+                boneFollow.transform.position += offset;
                 
 
                 //block.transform.position = boneFollow.transform.position;
