@@ -8,6 +8,7 @@ public class CarMainWorldMovement : MonoBehaviour
         get { return carActive; }
         set { carActive = value; }
     }
+    private float fuelAmount;
 
     // Constants for input axes names, used for reading player input.
     private const string HORIZONTAL = "Horizontal";
@@ -56,6 +57,7 @@ public class CarMainWorldMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        fuelAmount = GetComponent<CarFuel>().fuelAmount;
         if (carActive)
         {
             //leftHeadlight.SetActive(carActive == true);
@@ -112,6 +114,8 @@ public class CarMainWorldMovement : MonoBehaviour
         {
             // Player is attempting to reverse while the car is moving forward
             ApplyBrakingToStop();
+
+            GetComponent<CarFuel>().fuelAmount -= 0.01f;
         }
         else if (forwardInput > 0)
         {
@@ -123,6 +127,7 @@ public class CarMainWorldMovement : MonoBehaviour
         {
             ResetBraking();
             // Player is reversing
+            GetComponent<CarFuel>().fuelAmount -= 0.01f;
 
         }
     }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Scenes._05_Minigames.WordFactory.Scripts;
-using Scenes._05_Minigames.WordFactory.Scripts.Managers;
 using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 

@@ -29,12 +29,15 @@ public class CarEvents : MonoBehaviour
        
         cam.Follow = gameObject.transform;
         cam.LookAt = gameObject.transform;
-        
+        GetComponent<CarFuel>().gaugeImg.enabled = true;
+
         spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
         spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(TurnOffCar);
+        spawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
 
         DisablePlayer();
         carSetPlayerPos.isDriving = true;
+
 
     }
     public void TurnOffCar()
@@ -49,7 +52,8 @@ public class CarEvents : MonoBehaviour
 
             cam.Follow = spawnedPlayer.transform;
             cam.LookAt = spawnedPlayer.transform;
-           
+            GetComponent<CarFuel>().gaugeImg.enabled = false;
+
             spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
             spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
 

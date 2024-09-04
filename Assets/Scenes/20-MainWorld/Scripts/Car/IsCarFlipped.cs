@@ -16,7 +16,6 @@ public class IsCarFlipped : MonoBehaviour
 
     }
     // Update is called once per frame
-    // TODO : Fix So this works with flipping the car
     void FixedUpdate()
     {
         timer += Time.deltaTime;
@@ -32,6 +31,8 @@ public class IsCarFlipped : MonoBehaviour
             }
 
             PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(FlipCarEvent);
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(true);
+
             eventSet = true;
 
         }
@@ -41,6 +42,7 @@ public class IsCarFlipped : MonoBehaviour
             {
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
             }
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
             PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(carEvents.TurnOffCar);
         }
     }

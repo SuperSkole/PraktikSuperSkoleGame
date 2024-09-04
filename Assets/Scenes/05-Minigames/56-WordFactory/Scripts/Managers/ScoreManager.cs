@@ -1,6 +1,7 @@
+using Scenes.Minigames.WordFactory.Scripts;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
     public class ScoreManager : MonoBehaviour
     {

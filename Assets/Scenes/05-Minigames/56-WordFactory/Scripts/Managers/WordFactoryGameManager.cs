@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Scenes._05_Minigames._56_WordFactory.Scripts;
+using Scenes._05_Minigames.WordFactory.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts.Managers
+namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
     public class WordFactoryGameManager : MonoBehaviour
     {
