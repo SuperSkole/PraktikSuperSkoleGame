@@ -6,6 +6,7 @@ public class SpinePlayerMovement : MonoBehaviour
 {
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset walk;
+    public AnimationReferenceAsset throwing;
     public AnimationReferenceAsset idle;
     public string currentState;
 
@@ -205,6 +206,12 @@ public class SpinePlayerMovement : MonoBehaviour
             //Blending animations idle - walk
             skeletonAnimation.state.SetAnimation(0, walk, true).MixDuration = blendDuration;
             currentState = "Walk";
+        }
+        else if (state.Equals("Throw") && currentState != "Throw")
+        {
+            //Blending animations idle - walk
+            skeletonAnimation.state.SetAnimation(0, throwing, false).MixDuration = blendDuration;
+            currentState = "Throw";
         }
     }
 }

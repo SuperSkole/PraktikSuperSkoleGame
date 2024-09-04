@@ -60,11 +60,11 @@ namespace LoadSave
             {
                 EnsureDirectoryExists();
                 string json = JsonUtility.ToJson(data, true); // 'true' for writing with focus on human readabilty //do we want the player to be able to easely read there safe file?
-                Debug.Log($"Serialized JSON: {json}");
+                //Debug.Log($"Serialized JSON: {json}");
                 try
                 {
                     File.WriteAllText(filePath, json);
-                    Debug.Log($"Successfully saved game to {filePath}");
+                    //Debug.Log($"Successfully saved game to {filePath}");
                 }
                 catch (Exception ex)
                 {

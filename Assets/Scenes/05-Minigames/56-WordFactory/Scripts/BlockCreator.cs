@@ -53,6 +53,8 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts
             // Instantiate the block at the spawn point's position
             GameObject block = Instantiate(blockPrefab, spawnPoint.position, Quaternion.identity);
             
+            block.name = "WordBlock";
+            
             // Find the Canvas component first
             Canvas canvas = block.GetComponentInChildren<Canvas>();
             if (canvas == null)
