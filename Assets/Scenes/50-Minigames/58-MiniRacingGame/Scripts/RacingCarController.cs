@@ -4,36 +4,34 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public class CarController : MonoBehaviour
     {
-        #region Variables
 
-        #region Car activity & axe constants
+        //public GameObject racingGameManager;
+
         public bool carActive = false; //the car state
-        #endregion
+        public bool CarActive
+        {
+            get { return carActive; }
+            set { carActive = value; }
+        }
 
-        #region Player input
         // Constants for input axes names, used for reading player input.
         private const string HORIZONTAL = "Horizontal";
         private const string VERTICAL = "Vertical";
+
         private float horizontalInput;
         private float verticalInput;
-        #endregion
 
-        #region Steering, speed & braking
         private float currentSteerAngle;
+        private float currentBreakForce;
 
         public float motorForce; // Power of the car's engine.
         public float maxSteeringAngle; // Maximum angle for steering.
         public float maxSpeed; // Maximum speed for the car.
         public float reverseMaxSpeed;
 
-        public float brakingForce = 10000000f;
+        public float brakingForce = 100000f;
         public float carSpeed;
 
-        //Steering correction when parking
-        public float steeringCorrectionRate = 2.0f;
-        #endregion
-
-        #region Wheels
         // Wheel colliders for simulating wheel physics.
         public WheelCollider wheelColliderFrontL;
         public WheelCollider wheelColliderFrontR;
@@ -46,24 +44,37 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public Transform wheelTransformRearR;
         public Transform wheelTransformRearL;
 
-        // Speed of each wheel
-        private float speedFL;
-        private float speedFR;
-        private float speedRL;
-        private float speedRR;
-        #endregion
+        //Headlight ref for toggle viseblity
+        public GameObject leftHeadlight;
+        public GameObject rightHeadlight;
 
-        #endregion
+        //Steering correction when parking
+        public float steeringCorrectionRate = 2.0f;
 
-        #region Functions
 
-        #region Setup and update
         /// <summary>
         /// Sets up the car once the map is ready.
         /// </summary>
         public void Setup()
         {
             carActive = true; // Start with the car being off.
+            leftHeadlight.SetActive(carActive);
+            rightHeadlight.SetActive(carActive);
+        }
+
+        /// <summary>
+        /// Checks if the player clicks E to activate headlights.
+        /// </summary>
+        private void Update()
+        {
+        
+            // Toggle CarActive state when 'E' key is pressed.
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                // Toggle the headlights based on the CarActive state.
+                leftHeadlight.SetActive(carActive);
+                rightHeadlight.SetActive(carActive);
+            }
         }
 
         /// <summary>
@@ -72,12 +83,13 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private void FixedUpdate()
         {
             HandleSteering();  // Manages the car's steering based on input.
-            MoveTheCar();
+            HandleMotor(); // Handle motor logic irrespective of CarActive state.
             UpdateWheels();    // Updates the visual representation of the wheels.
 
             if (carActive)
             {
                 GetInput(); // Reads the player's input.
+
             }
         }
 
@@ -88,120 +100,32 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         {
             horizontalInput = Input.GetAxis(HORIZONTAL);
             verticalInput = Input.GetAxis(VERTICAL);
-        }
-        #endregion
 
-        #region Car movement
-        /// <summary>
-        /// Controls the cars movement and checks what direction to move it
-        /// </summary>
-        private void MoveTheCar()
-        {
-            if (!carActive)
-            {
-                if (IsCarMoving())
-                {
-                    ApplyBrakingToStop();
-                }
-                return; // Skip the rest of the method if the car isn't active.
-            }
+            // Check if the car is currently moving forward or is stopped
+            bool movingForward = IsCarMovingForward();
+        
 
-            Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilføj flere??
-            carSpeed = carRigidbody.velocity.magnitude * 3.6f; // Convert to km/h
-
-            if (carSpeed > maxSpeed)
+            if (verticalInput < 0 && movingForward)
             {
-                carRigidbody.velocity = carRigidbody.velocity.normalized * (maxSpeed / 3.6f); // Set velocity to max speed
-            }
-
-            if (verticalInput > 0)
-            {
-                MoveCarForward();
-            }
-            else if (verticalInput < 0)
-            {
-                MoveCarBackward();
-            }
-            else if (verticalInput == 0 && (IsCarMovingBackwards() || IsCarMovingForward()))
-            {
+                // Player is attempting to reverse while the car is moving forward
                 ApplyBrakingToStop();
             }
-        }
-
-        /// <summary>
-        /// Attempts to drive forward
-        /// </summary>
-        private void MoveCarForward()
-        {
-            if (IsCarMovingBackwards()) // If the car is going backwards, brake it
+            else if (verticalInput > 0)
             {
-                ApplyBrakingToStop();
+            
+                // Player is moving forward
+                ResetBraking();
             }
-            else // If car is not going backwards, go forward
+            if (verticalInput < 0 && movingForward)
             {
                 ResetBraking();
-                if (WheelSpeedCheck(true)) // Apply speed if not at max speed
-                {
-                    wheelColliderFrontL.motorTorque = verticalInput * motorForce;
-                    wheelColliderFrontR.motorTorque = verticalInput * motorForce;
-                    wheelColliderRearL.motorTorque = verticalInput * motorForce;
-                    wheelColliderRearR.motorTorque = verticalInput * motorForce;
-                }
-                else
-                {
-                    wheelColliderFrontL.motorTorque = 0;
-                    wheelColliderFrontR.motorTorque = 0;
-                    wheelColliderRearL.motorTorque = 0;
-                    wheelColliderRearR.motorTorque = 0;
-                }
-            }
-        }
-        /// <summary>
-        /// Attempts to drive backwards
-        /// </summary>
-        private void MoveCarBackward()
-        {
-            if (IsCarMovingForward()) // If the car is going forward, brake it
-            {
-                ApplyBrakingToStop();
-            }
-            else // If car is not going forward, go backwards
-            {
-                ResetBraking();
-                if (WheelSpeedCheck(false)) // Apply speed if not at max speed
-                {
-                    wheelColliderFrontL.motorTorque = verticalInput * motorForce / 2;
-                    wheelColliderFrontR.motorTorque = verticalInput * motorForce / 2;
-                    wheelColliderRearL.motorTorque = verticalInput * motorForce / 2;
-                    wheelColliderRearR.motorTorque = verticalInput * motorForce / 2;
-                }
-                else
-                {
+                // Player is reversing
 
-                    wheelColliderFrontL.motorTorque = 0;
-                    wheelColliderFrontR.motorTorque = 0;
-                    wheelColliderRearL.motorTorque = 0;
-                    wheelColliderRearR.motorTorque = 0;
-                }
             }
         }
-        #endregion
 
-        #region Car movement & speed check
         /// <summary>
-        /// Checks if the car is moving at all.
-        /// </summary>
-        /// <returns>Returns true if the car is moving at all</returns>
-        private bool IsCarMoving()
-        {
-            if (IsCarMovingForward() || IsCarMovingBackwards())
-            {
-                return true;
-            }
-            return false;
-        }
-        /// <summary>
-        /// Checks if the car is moving forward
+        /// Checks what way the car is moving.
         /// </summary>
         /// <returns>Returns true if movement is forward</returns>
         private bool IsCarMovingForward()
@@ -227,60 +151,100 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             return forwardVelocityDotProduct < 0; //True or false 
         }
 
+
         /// <summary>
-        /// Checks the speed of all the wheels
+        /// Controls the car's motor, applying force to move the car.
         /// </summary>
-        /// <param name="forward">Should it check for going forward? If not, it checks for going backwards</param>
-        /// <returns>Returns true if any wheel is below the max speed</returns>
-        private bool WheelSpeedCheck(bool forward)
+        private void HandleMotor()
         {
-            speedFL = wheelColliderFrontL.attachedRigidbody.velocity.magnitude;
-            speedFR = wheelColliderFrontR.attachedRigidbody.velocity.magnitude;
-            speedRL = wheelColliderRearL.attachedRigidbody.velocity.magnitude;
-            speedRR = wheelColliderRearR.attachedRigidbody.velocity.magnitude;
+            float speedFL = wheelColliderFrontL.attachedRigidbody.velocity.magnitude;
+            float speedFR = wheelColliderFrontR.attachedRigidbody.velocity.magnitude;
+            float speedRL = wheelColliderRearL.attachedRigidbody.velocity.magnitude;
+            float speedRR = wheelColliderRearR.attachedRigidbody.velocity.magnitude;
 
             speedFL *= 3.6f; // Convert to km/h.
             speedFR *= 3.6f;
             speedRL *= 3.6f;
             speedRR *= 3.6f;
-<<<<<<< HEAD
 
 
             Rigidbody carRigidbody = wheelColliderFrontL.attachedRigidbody; //Tilfï¿½j flere??
             carSpeed = carRigidbody.velocity.magnitude * 3.6f; // Convert to km/h
 
             if (carSpeed > maxSpeed)
-=======
-            if (forward)
->>>>>>> origin/Project-Praktik-Main
             {
-                if (speedFL < maxSpeed || speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed)
-                {
-                    return true;
-                }
-                return false;
+                carRigidbody.velocity = carRigidbody.velocity.normalized * (maxSpeed / 3.6f); // Set velocity to max speed
             }
-            else
+
+            if (!carActive)
             {
+
+                float combinedSpeed = (speedFL + speedFR + speedRL + speedRR) / 4; // Average speed of all wheels.
+
+                if (combinedSpeed > 0)
+                {
+                    ApplyBrakingToStop();
+                }
+                return; // Skip the rest of the method if the car isn't active.
+            }
+
+            // Reset brake torque when car is active.
+            //ResetBraking();
+
+            // Apply motor force if under max speed.
+            if (IsCarMovingBackwards())
+            {
+                //Going forward
+                if (speedFL < maxSpeed|| speedFR < maxSpeed || speedRR < maxSpeed || speedRL < maxSpeed )
+                {
+                    wheelColliderFrontL.motorTorque = verticalInput * motorForce;
+                    wheelColliderFrontR.motorTorque = verticalInput * motorForce;
+                    wheelColliderRearL.motorTorque = verticalInput * motorForce;
+                    wheelColliderRearR.motorTorque = verticalInput * motorForce;
+                }
+                else
+                {
+
+                    wheelColliderFrontL.motorTorque = 0;
+                    wheelColliderFrontR.motorTorque = 0;
+                    wheelColliderRearL.motorTorque = 0;
+                    wheelColliderRearR.motorTorque = 0;
+                }
+            }
+            if (IsCarMovingForward())
+            {
+                //Going Backwards
                 if (speedFL < reverseMaxSpeed || speedFR < reverseMaxSpeed || speedRR < reverseMaxSpeed || speedRL < reverseMaxSpeed)
                 {
-                    return true;
+                    wheelColliderFrontL.motorTorque = verticalInput * motorForce/2;
+                    wheelColliderFrontR.motorTorque = verticalInput * motorForce/2;
+                    wheelColliderRearL.motorTorque = verticalInput * motorForce/2;
+                    wheelColliderRearR.motorTorque = verticalInput * motorForce/2;
                 }
-                return false;
-            }
-        }
-        #endregion
+                else
+                {
 
-        #region Braking & steering
+                    wheelColliderFrontL.motorTorque = 0;
+                    wheelColliderFrontR.motorTorque = 0;
+                    wheelColliderRearL.motorTorque = 0;
+                    wheelColliderRearR.motorTorque = 0;
+                }
+            }
+
+
+        }
+        
         /// <summary>
         /// Attempts to brake.
         /// </summary>
         private void ApplyBrakingToStop()
         {
+
             wheelColliderFrontL.brakeTorque = brakingForce;
             wheelColliderFrontR.brakeTorque = brakingForce;
             wheelColliderRearL.brakeTorque = brakingForce;
             wheelColliderRearR.brakeTorque = brakingForce;
+
         }
 
         /// <summary>
@@ -299,6 +263,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         private void HandleSteering()
         {
+
             if (carActive)
             {
                 // Calculate the steering angle based on player input when car is active.
@@ -313,10 +278,14 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             // Apply the steer angle to the wheel colliders.
             wheelColliderFrontL.steerAngle = currentSteerAngle;
             wheelColliderFrontR.steerAngle = currentSteerAngle;
-        }
-        #endregion
 
-        #region Wheel updates
+
+            //// Calculate the steering angle based on player's input.
+            //currentSteerAngle = maxSteeringAngle * horizontalInput;
+            //wheelColliderFrontL.steerAngle = currentSteerAngle;
+            //wheelColliderFrontR.steerAngle = currentSteerAngle;
+        }
+
         /// <summary>
         /// Updates the position and rotation of the wheel models to match the physics
         /// </summary>
@@ -339,8 +308,5 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             wheelTransform.position = pos;
             wheelTransform.rotation = rot * Quaternion.Euler(0, 0, 0);
         }
-        #endregion
-
-        #endregion
     }
 }

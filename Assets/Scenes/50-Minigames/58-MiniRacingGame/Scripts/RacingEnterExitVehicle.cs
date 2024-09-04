@@ -61,6 +61,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         private void CarActive()
         {
+            carController.CarActive = true;
+
             enterCar.Invoke();  
         }
     }
