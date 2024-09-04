@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
-using Scenes._05_Minigames._56_WordFactory.Scripts;
 using UnityEngine;
 
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 {
     /// <summary>
     /// Strategy for handling a game mode with 1 gear, where the gear has 9 teeth and the letters are Danish vowels.

@@ -1,10 +1,9 @@
-using CORE.Scripts;
-using CORE.Scripts.GameRules;
 using System.Collections.Generic;
-
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     public class RecognizeSoundOfLetter : ISEGameMode
     {

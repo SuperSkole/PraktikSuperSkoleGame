@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
-using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using Spine.Unity;
 using UnityEngine;
-using UnityEngine.Analytics;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -12,13 +11,13 @@ namespace Scenes._10_PlayerScene.Scripts
     /// </summary>
     public class AutoMovePlayer : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 5.0f;
         public GameObject DropOffPoint;
+        
+        [SerializeField] private float moveSpeed = 5.0f;
+        
         private GameObject spawnedPlayer;
-
         private BoneFollower boneFollow;
-
-        private Vector3 offset;
+        private Vector3 offset = new Vector3(0, 1, 0);
 
         private void Awake()
         {
@@ -102,16 +101,18 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = GameObject.Find("WordBlock");
             if (block != null)
             {
-  
                 boneFollow = block.AddComponent<BoneFollower>();
-                boneFollow.skeletonRenderer = spawnedPlayer.GetComponent<SkeletonRenderer>();
+                boneFollow.SkeletonRenderer = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
                 boneFollow.boneName = "Head";
+                boneFollow.transform.position += offset;
                 boneFollow.Initialize();
 
+                boneFollow.followLocalScale = false;
                 boneFollow.followXYPosition = true;
                 boneFollow.followBoneRotation = true;
+                
 
-                block.transform.position += offset;
+                //block.transform.position = boneFollow.transform.position;
 
                 // Wait for animation to complete before moving to the drop-off point
                 StartCoroutine(

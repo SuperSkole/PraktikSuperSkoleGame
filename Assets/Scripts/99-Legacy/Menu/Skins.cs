@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-
-public class Skins 
+namespace _99_Legacy.Menu
 {
-    public Sprite skin;
-    public bool purchased;
-    public bool equipped;
-    public int price;
+    [System.Serializable]
+
+    public class Skins 
+    {
+        public Sprite skin;
+        public bool purchased;
+        public bool equipped;
+        public int price;
+    }
 }
 
 

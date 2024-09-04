@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Scenes._05_Minigames.WordFactory.Scripts;
+using _99_Legacy;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
     /// <summary>
     /// Manages the Word Factory game, handling gear addition, player positioning, and scene transitions.

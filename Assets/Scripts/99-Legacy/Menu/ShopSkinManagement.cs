@@ -1,56 +1,55 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime;
 using UnityEngine;
 
-
-public class ShopSkinManagement : MonoBehaviour
+namespace _99_Legacy.Menu
 {
-    public CusParts girlSkins;// Assign these in the inspector
-    public CusParts monsterSkins;// Assign these in the inspector
-
-    public IconSpriteMapper iconSpriteMapper;
-    [Header("De skal følge same rækkefølge")]
-    //These list have to follow the same order of sprites
-    public List<Sprite> icons; // Assign these in the inspector
-    public List<Sprite> sprites; // Assign these in the inspector
-
-    public void PrintList()
+    public class ShopSkinManagement : MonoBehaviour
     {
-        Debug.Log(girlSkins.head[0].purchased + " " + girlSkins.head[0].equipped);
-    }
-    public void StartMapping()
-    {
-        // Ensure the iconSpriteMapper is assigned
-        if (iconSpriteMapper != null)
+        public CusParts girlSkins;// Assign these in the inspector
+        public CusParts monsterSkins;// Assign these in the inspector
+
+        public IconSpriteMapper iconSpriteMapper;
+        [Header("De skal fï¿½lge same rï¿½kkefï¿½lge")]
+        //These list have to follow the same order of sprites
+        public List<Sprite> icons; // Assign these in the inspector
+        public List<Sprite> sprites; // Assign these in the inspector
+
+        public void PrintList()
         {
-            iconSpriteMapper.InitializeMappings(icons, sprites);
+            Debug.Log(girlSkins.head[0].purchased + " " + girlSkins.head[0].equipped);
         }
-        else
+        public void StartMapping()
         {
-            Debug.LogError("ShopSkinManagement/StartMapping/IconSpriteMapper not assigned.");
+            // Ensure the iconSpriteMapper is assigned
+            if (iconSpriteMapper != null)
+            {
+                iconSpriteMapper.InitializeMappings(icons, sprites);
+            }
+            else
+            {
+                Debug.LogError("ShopSkinManagement/StartMapping/IconSpriteMapper not assigned.");
+            }
         }
-    }
    
-    //Extracts the skin data from CusParts and returns a list of SkinData.
-    private List<SkinData> GetSkinData(CusParts cusParts)
-    {
-        List<SkinData> skinDataList = new List<SkinData>();
+        //Extracts the skin data from CusParts and returns a list of SkinData.
+        private List<SkinData> GetSkinData(CusParts cusParts)
+        {
+            List<SkinData> skinDataList = new List<SkinData>();
 
-        foreach (var skin in cusParts.head)
-        {
-            skinDataList.Add(new SkinData("Head",skin.skin.name, skin.purchased, skin.equipped));
-        }
-        foreach (var skin in cusParts.torso)
-        {
-            skinDataList.Add(new SkinData("Body", skin.skin.name, skin.purchased, skin.equipped));
-        }
-        foreach (var skin in cusParts.legs)
-        {
-            skinDataList.Add(new SkinData("Legs", skin.skin.name, skin.purchased, skin.equipped));
-        }
+            foreach (var skin in cusParts.head)
+            {
+                skinDataList.Add(new SkinData("Head",skin.skin.name, skin.purchased, skin.equipped));
+            }
+            foreach (var skin in cusParts.torso)
+            {
+                skinDataList.Add(new SkinData("Body", skin.skin.name, skin.purchased, skin.equipped));
+            }
+            foreach (var skin in cusParts.legs)
+            {
+                skinDataList.Add(new SkinData("Legs", skin.skin.name, skin.purchased, skin.equipped));
+            }
 
-        return skinDataList;
+            return skinDataList;
+        }
     }
 }

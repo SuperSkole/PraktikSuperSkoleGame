@@ -1,38 +1,41 @@
 using UnityEngine;
 
-public class PlayerCameraMovement : MonoBehaviour
+namespace Scenes._10_PlayerScene.Scripts
 {
-
-    [SerializeField] private bool cameraMoveWithMouse;
-    [SerializeField] private bool cameraMoveWithDrag;
-
-    [SerializeField] private float turnSpeed;
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerCameraMovement : MonoBehaviour
     {
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
 
+        [SerializeField] private bool cameraMoveWithMouse;
+        [SerializeField] private bool cameraMoveWithDrag;
 
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        float y = Input.GetAxis("Mouse X") * turnSpeed;
-        if (cameraMoveWithMouse)
+        [SerializeField] private float turnSpeed;
+        // Start is called before the first frame update
+        void Start()
         {
+            //Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
 
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + y, 0);
+
+
         }
-        if (cameraMoveWithDrag)
+
+        // Update is called once per frame
+        void Update()
         {
-            if (Input.GetMouseButton(1))
+            float y = Input.GetAxis("Mouse X") * turnSpeed;
+            if (cameraMoveWithMouse)
             {
+
                 transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + y, 0);
             }
+            if (cameraMoveWithDrag)
+            {
+                if (Input.GetMouseButton(1))
+                {
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + y, 0);
+                }
+            }
         }
-    }
 
+    }
 }

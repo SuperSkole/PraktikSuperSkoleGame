@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-
-
-namespace Scenes.Minigames.MonsterTower.Scrips.DataPersistence.Data
+namespace Scenes._50_Minigames._65_MonsterTower.Scripts.DataPersistence.Data
 {
 
     /// <summary>

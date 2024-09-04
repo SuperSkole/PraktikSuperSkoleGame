@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Scenes._05_Minigames.WordFactory.Scripts;
-using Scenes.Minigames.WordFactory.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
 using UnityEngine;
 
-namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
+namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
     public class GearManager : MonoBehaviour
     {

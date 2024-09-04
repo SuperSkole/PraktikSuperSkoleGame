@@ -1,10 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-
-namespace Scenes.Minigames.MonsterTower
+namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 {
     //Holds a sentence symbolising the images that need to be displayed on the brick. 
     [System.Serializable]
