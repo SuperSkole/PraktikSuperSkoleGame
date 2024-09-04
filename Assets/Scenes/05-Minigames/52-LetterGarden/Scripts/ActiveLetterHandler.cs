@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CORE;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
@@ -53,7 +54,9 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+                    GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
                     Instantiate(coinObject);
+
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game

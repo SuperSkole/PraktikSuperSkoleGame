@@ -30,6 +30,9 @@ public class SymbolEaterSetter: IGameModeSetter
             case "findnumber":
                 modeReturned = new FindNumber();
                 break;
+            case "findsymbols":
+                modeReturned = new FindSymbols();
+                break;
             case "findsymbol":
                 modeReturned = new FindSymbol();
                 break;
@@ -63,6 +66,9 @@ public class SymbolEaterSetter: IGameModeSetter
                 break;
             case "findlettertype":
                 rulesReturned = new FindLetterType();
+                break;
+            case "findnextletter":
+                rulesReturned = new FindNextLetter();
                 break;
             default:
                 Debug.Log("given ruleset was not among expected options, setting to default ruleset");

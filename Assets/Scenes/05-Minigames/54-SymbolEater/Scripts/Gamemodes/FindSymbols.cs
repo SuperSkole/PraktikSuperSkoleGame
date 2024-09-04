@@ -7,7 +7,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
     /// <summary>
     /// Implementation of IGameMode with the goal of finding all variants of the correct letter on the board.
     /// </summary>
-    public class FindSymbol : ISEGameMode
+    public class FindSymbols : ISEGameMode
     {
 
         IGameRules gameRules;
@@ -19,7 +19,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         List<LetterCube> activeLetterCubes = new List<LetterCube>();
 
-        bool foundLetter;
+        int numberOfCorrectLettersOnBoard;
 
         BoardController boardController;
 
@@ -33,7 +33,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
 
         int minCorrectLetters = 1;
 
-        List<string> incorrectAnswers = new List<string>();
+
         /// <summary>
         /// Activates the given cube
         /// </summary>
@@ -44,17 +44,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             if (correct)
             {
                 letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
-                foundLetter = false;
+                numberOfCorrectLettersOnBoard++;
             }
             else
             {
-                string temp = gameRules.GetWrongAnswer();
-                while(incorrectAnswers.Contains(temp) || temp == gameRules.GetCorrectAnswer())
-                {
-                    temp = gameRules.GetWrongAnswer();
-                }
-                incorrectAnswers.Add(temp);
-                letterCube.Activate(temp);
+                letterCube.Activate(gameRules.GetWrongAnswer());
             }
         }
 
@@ -71,12 +65,12 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             }
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
-            incorrectAnswers.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
-            //Activates a random lettercube with the correct letter
-            GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-            boardController.SetAnswerText(gameRules.GetDisplayAnswer());
+            //creates a random number of correct letters on the board
+            count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true);
+            boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
 
         /// <summary>
@@ -95,7 +89,14 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
         /// <returns>if there are correct letters on the board</returns>
         public bool IsGameComplete()
         {
-            return foundLetter;
+            if (numberOfCorrectLettersOnBoard == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -107,7 +108,8 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
             //Checks if the symbol on the lettercube is the correct one
             if (IsCorrectSymbol(letter.GetLetter()))
             {
-                foundLetter = true;
+                numberOfCorrectLettersOnBoard--;
+                boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
@@ -141,7 +143,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
-                    boardController.Won("Du vandt. Du fandt det næste bogstav fem gange", multiplier * 1, multiplier * 1);
+                    boardController.Won("Du vandt. Du fandt det korrekte Symbol fem gange", multiplier * 1, multiplier * 1);
                 }
             }
         }
