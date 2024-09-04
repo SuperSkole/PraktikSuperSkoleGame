@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using Scenes._05_Minigames.WordFactory.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 {
+    /// <summary>
+    /// Manages the Word Factory game, handling gear addition, player positioning, and scene transitions.
+    /// </summary>
     public class WordFactoryGameManager : MonoBehaviour
     {
         public event Action<GameObject> OnGearAdded;
@@ -15,13 +19,17 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
         
-        [SerializeField] private GameObject playerSpawnPoint;
+        public GameObject PlayerSpawnPoint;
+        [SerializeField] private GameObject dropOffPoint;
         
         private GameObject wordBlockPrefabForSingleGearMode;
         private List<GameObject> gears = new List<GameObject>();
         private IGearStrategy gearStrategy;
 
         // Word Factory GameManger singleton
+        /// <summary>
+        /// Singleton instance of the WordFactoryGameManager.
+        /// </summary>
         public static WordFactoryGameManager Instance { get; private set; }
         
         private void Awake()
@@ -34,11 +42,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             {
                 Instance = this;
                 //DontDestroyOnLoad(gameObject);
-
+                SceneManager.sceneLoaded += OnSceneLoaded;
                 IntializeFactoryManager();
             }
         }
 
+        /// <summary>
+        /// Initializes the factory manager by setting up the gear strategy.
+        /// </summary>
         private void IntializeFactoryManager()
         {
             Debug.Log("IntializeFactoryManager");
@@ -54,7 +65,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
         {
             if (PlayerManager.Instance != null)
             {
-                PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+                PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
+                
+                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
             }
             else
             {
@@ -62,8 +80,14 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             }
         }
         
+        /// <summary>
+        /// Retrieves the current gear strategy.
+        /// </summary>
         public IGearStrategy GetGearStrategy() => gearStrategy;
 
+        /// <summary>
+        /// Adds a gear to the game and invokes the OnGearAdded event.
+        /// </summary>
         public void AddGear(GameObject gear)
         {
             gears.Add(gear);
@@ -82,6 +106,9 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
 
         public void SetDifficultyLevel(int level) => DifficultyLevel = level;
         
+        /// <summary>
+        /// Sets the gear strategy based on the number of gears.
+        /// </summary>
         private void SetGearStrategy()
         {
             if (NumberOfGears >= 2)
@@ -97,6 +124,31 @@ namespace Scenes._05_Minigames._56_WordFactory.Scripts.Managers
             {
                 Debug.LogError("Failed to initialize gear strategy.");
             }
+        }
+
+        /// <summary>
+        /// If Next scene is main re-enable player movement and destroy factory singleton managers.
+        /// </summary>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name == SceneNames.Main)
+            {
+                // Re-enable player movement in the main scene
+                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
+                // remove automove
+                Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+                StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
+        
+                // Clean up the game manager and sound manager when transitioning to the main scene
+                Destroy(Instance);
+                Destroy(WordFactorySoundManager.Instance);
+            }
+        }
+
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 }

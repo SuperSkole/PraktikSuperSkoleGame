@@ -112,7 +112,7 @@ namespace CORE
         
         private void InitializeGameManager()
         {
-            Debug.Log("GameManager.InitializeGameManager()");
+            //Debug.Log("GameManager.InitializeGameManager()");
             // placeholder in case we need to init GM with default or necessary starting values
 
             if (instance.GetComponent<PlayerData>() == null)
