@@ -28,7 +28,7 @@ public class PlayerCameraMovement : MonoBehaviour
         }
         if (cameraMoveWithDrag)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(1))
             {
                 transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + y, 0);
             }
