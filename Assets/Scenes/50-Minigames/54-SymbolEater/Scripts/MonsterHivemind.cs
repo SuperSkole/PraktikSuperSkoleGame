@@ -52,7 +52,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             foreach (Monster monster in monsters)
             {
-                monster.speed += 1; 
+                monster.speed += 2; 
             }
         }
 

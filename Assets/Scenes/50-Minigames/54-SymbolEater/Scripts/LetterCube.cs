@@ -81,10 +81,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 {
                     shouldActivate = true;
                 }
-                if (true)
-                {
-                    shouldActivate = false;
-                }
 
                 if (other.gameObject.tag == "Player" && active && !board.IsCorrectSymbol(letter) && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
                 {
@@ -95,6 +91,18 @@ namespace Scenes.Minigames.SymbolEater.Scripts
                 {
                     StartCoroutine(CorrectGuess());
                     Instantiate(coinPrefab);
+                }
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!readyForDeactivation)
+            {
+                //An attempt to check if the player is already colliding with a box, therefore it should not activate
+                if (other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+                {
+                    shouldActivate = false;
                 }
             }
         }
