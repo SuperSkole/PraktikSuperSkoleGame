@@ -70,9 +70,11 @@ public class ShopManager : MonoBehaviour
 
     private void OnDisable()
     {
-        while (shopOptionsParent.childCount > 0)
+        var amountOfChild = shopOptionsParent.childCount;
+
+        for (int i = amountOfChild - 1; i >= 0; i--)
         {
-            Destroy(shopOptionsParent.GetChild(0).gameObject);
+            Destroy(shopOptionsParent.GetChild(i).gameObject);
         }
     }
 

@@ -52,9 +52,11 @@ public class Wardrop : MonoBehaviour
 
     private void OnDisable()
     {
-        while (WardrobeParent.childCount > 0)
+        var amountOfChild = WardrobeParent.childCount;
+
+        for (int i = amountOfChild - 1; i >= 0; i--)
         {
-            Destroy(WardrobeParent.GetChild(0).gameObject);
+            Destroy(WardrobeParent.GetChild(i).gameObject);
         }
     }
 
