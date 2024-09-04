@@ -143,6 +143,14 @@ namespace Scenes.Minigames.MonsterTower.Scrips
         }
 
 
+        /// <summary>
+        /// Removes the PlayerMovement_MT component from the player characther. 
+        /// </summary>
+        public void SetupPlayerMovementToDefault()
+        {
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
+        }
+
 
 
         // Update is called once per frame
@@ -223,7 +231,8 @@ namespace Scenes.Minigames.MonsterTower.Scrips
             else
             {
                 //Goes to the win screen if there are no more bricks of the tower left. 
-               StartCoroutine(GoToWinScreen());
+                SetupPlayerMovementToDefault();
+                StartCoroutine(GoToWinScreen());
             }
 
             //Shaking the camera
@@ -313,11 +322,12 @@ namespace Scenes.Minigames.MonsterTower.Scrips
          IEnumerator GoToWinScreen()
         { 
             yield return new WaitForSeconds(4);
-            
+
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
 
             // DataPersistenceManager.instance.SaveGame();
+           
 
 
             SceneManager.LoadScene("WinScene");

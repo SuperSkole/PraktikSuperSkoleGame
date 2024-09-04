@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using CORE.Scripts;
-using CORE.Scripts.Game_Rules;
+using CORE.Scripts.GameRules;
 using Scenes._10_PlayerScene.Scripts;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.DataPersistence;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes;
+using Scenes._50_Minigames._65_MonsterTower.Scripts;
+using Scenes.Minigames.MonsterTower.Scrips;
 using Spine.Unity;
 using TMPro;
 using Unity.Mathematics;
@@ -132,12 +133,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         }
 
 
-     
+
 
         /// <summary>
         /// Adds the playermovement component that is used specifically  in monstertower to the player character . 
         /// Sets up the camera so it works with the players movements and the Player characthers StartPosition is set. 
         /// </summary>
+        /// 
+        public void SetupPlayerMovementToDefault()
+        {
+           Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());   
+        }
         private void SetupPlayerMovementForMonsterTower()
         {
 
@@ -162,6 +168,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             virtualCamera.Follow = spawnedPlayer.transform;
             virtualCamera.LookAt = spawnedPlayer.transform;
         }
+
+
 
 
 

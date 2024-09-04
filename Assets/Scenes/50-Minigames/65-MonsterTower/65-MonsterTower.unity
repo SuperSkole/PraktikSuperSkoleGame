@@ -2171,9 +2171,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 525595726}
-        m_TargetAssemblyTypeName: Scenes.Minigames.MonsterTower.Scrips.MonsterTowerManager,
+        m_TargetAssemblyTypeName: Scenes._50_Minigames._65_MonsterTower.Scripts.MonsterTowerManager,
           Assembly-CSharp
-        m_MethodName: SetPlayerMovementToDefault
+        m_MethodName: SetupPlayerMovementToDefault
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4528,6 +4528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726272125018d4c4db0f1bfaeb69fa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerHeight: 0
+  rowToDelete: 0
   brickPrefab: {fileID: 147310, guid: b1ad8ef6890687249a641abef8e26baf, type: 3}
   correctAnswer: 0
   displayBox: {fileID: 1980325502}
@@ -5055,6 +5057,7 @@ MonoBehaviour:
   letterSounds: []
   danskCongrats: []
   englishCongrats: []
+  explosionSounds: []
 --- !u!1 &1719416366
 GameObject:
   m_ObjectHideFlags: 0
