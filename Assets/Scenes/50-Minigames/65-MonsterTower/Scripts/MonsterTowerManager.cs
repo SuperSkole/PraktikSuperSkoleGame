@@ -1,20 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using CORE.Scripts;
-using CORE.Scripts.GameRules;
+using CORE.Scripts.Game_Rules;
 using Scenes._10_PlayerScene.Scripts;
-using Scenes.Minigames.MonsterTower.Scrips.DataPersistence;
-using Scenes.Minigames.MonsterTower.Scrips.MTGameModes;
+using Scenes._50_Minigames._65_MonsterTower.Scripts.DataPersistence;
+using Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes;
 using Spine.Unity;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 {
     public enum Difficulty
     {
