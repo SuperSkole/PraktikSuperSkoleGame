@@ -14,7 +14,7 @@ public class HouseSceneStartBehavior : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        Debug.Log("Trying to set player obj in house start");
+        //Debug.Log("Trying to set player obj in house start");
         spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
         buildingSystem.SetActive(false);
