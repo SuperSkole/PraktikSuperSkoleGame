@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+
+    /// <summary>
+    /// Shakes the camera based on a defined duration and magnitude
+    /// and then sets the cameraposition back to the original position.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <param name="magnitude"></param>
+    /// <returns></returns>
    public IEnumerator Shake(float duration,float magnitude)
     {
         Vector3 originalPos = transform.localPosition;

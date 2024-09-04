@@ -13,6 +13,7 @@ using CORE.Scripts.GameRules;
 using Barmetler.RoadSystem;
 using static UnityEngine.ParticleSystem;
 using System;
+using Scenes._10_PlayerScene.Scripts;
 
 
 
@@ -181,6 +182,11 @@ namespace Scenes.Minigames.MonsterTower.Scrips
 
 
             }
+
+            //Adds gold and Xp To the player for destroying a lane of the tower. 
+
+            PlayerEvents.RaiseGoldChanged(1);
+            PlayerEvents.RaiseXPChanged(1);
 
 
             // list holding data on the lanes is also updated so the lowest lane is removed from the save data. 

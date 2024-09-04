@@ -47,14 +47,21 @@ public class PlayerMovement_MT : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
-        {
-            if (isMoving)
-            {
-                StopPointAndClickMovement();
-            }
-            PlayerWASDMovement();
-        }
+
+
+        ///Code that can be used if we decide to grant movement control with WASD in MonsterTower
+        //if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        //{
+        //    if (isMoving)
+        //    {
+        //        StopPointAndClickMovement();
+        //    }
+
+
+        
+
+        //    //  PlayerWASDMovement();
+        //}
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -151,6 +158,8 @@ public class PlayerMovement_MT : MonoBehaviour
 
         // Snap to the exact position when very close to avoid overshooting
         transform.position = targetPosition;
+
+        SetCharacterState("Idle");
 
         isMoving = false;
     }
