@@ -1,16 +1,7 @@
-<<<<<<< HEAD
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-=======
-using System.Collections;
-using System.Collections.Generic;
-using CORE.Scripts.GameRules;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using CORE.Scripts;
->>>>>>> origin/Project-Praktik-Main
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -32,9 +23,6 @@ namespace Scenes._50_Minigames.Gamemode
 
                 case 1:
                     modeSetter = new SymbolEaterSetter();
-                    break;
-                case 2:
-                    modeSetter = new LetterGardenSetter();
                     break;
             }
         }
