@@ -1,13 +1,9 @@
-using System;
-using System.Collections;
-using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.SceneManagement;
-using UnityEngine.VFX;
 using Vector3 = UnityEngine.Vector3;
 
 
@@ -54,6 +50,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
 
         private IEnumerator coroutine;
+
+        private float moveDelayTimer = 2.0f;
 
         private string currentState = "Walk";
         private SkeletonAnimation skeletonAnimation;
@@ -107,7 +105,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
                 playerMonster.transform.parent = placePlayerMonster.transform;
                 playerOldScale = playerMonster.transform.localScale;
-                playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
+                playerMonster.transform.localScale = new(0.12f, 0.12f, 0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
                 SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
@@ -156,7 +154,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 board.Lost();
             }
             //Check to ensure currentDestination is in sync with the center of the tiles.
-            if((currentDestination.x - 10.5f) % 1 != 0 || (currentDestination.z - 10.5f) % 1 != 0)
+            if ((currentDestination.x - 10.5f) % 1 != 0 || (currentDestination.z - 10.5f) % 1 != 0)
             {
                 float fixedX = MathF.Round(currentDestination.x - 10.5f) + 10.5f;
                 float fixedZ = MathF.Round(currentDestination.z - 10.5f) + 10.5f;
@@ -164,7 +162,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             }
 
 
-            coroutine = WaitAfterMove(2.0f);
+            coroutine = WaitAfterMove(moveDelayTimer);
 
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
@@ -183,7 +181,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 {
                     StartCoroutine(coroutine);
                     currentDestination = transform.position + new Vector3(0, 0, 1);
-                    if(facingRight)
+                    if (facingRight)
                     {
                         facingRight = false;
                         Flip();
@@ -226,7 +224,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 }
             }
 
-            if(currentDestination == transform.position)
+            if (currentDestination == transform.position)
             {
 
                 SetCharacterState("Idle");
@@ -253,11 +251,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         private IEnumerator WaitAfterMove(float waitTime)
         {
-            while (true)
-            {
-                yield return new WaitForSeconds(waitTime);
-
-            }
+            yield return new WaitForSeconds(waitTime);
         }
 
         /// <summary>
@@ -275,12 +269,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         void Move()
         {
-            
+
             float step = speed * Time.deltaTime;
-            
+
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
-            
-            
+
+
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
@@ -306,7 +300,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             playerMonster.transform.parent = null;
             playerMonster.transform.localScale = playerOldScale;
-            playerMonster.transform.rotation = Quaternion.Euler(0,0,0);
+            playerMonster.transform.rotation = Quaternion.Euler(0, 0, 0);
             DontDestroyOnLoad(playerMonster);
         }
     }
