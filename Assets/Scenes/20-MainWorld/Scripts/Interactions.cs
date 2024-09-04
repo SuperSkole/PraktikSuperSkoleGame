@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,12 +20,16 @@ namespace Scenes._20_MainWorld.Scripts
         public bool inZone { get; set; } = false;
         private void Start()
         {
-            interactionZoneObj.transform.position = new Vector3(transform.position.x + xOffset,
+            try
+            {
+                interactionZoneObj.transform.position = new Vector3(transform.position.x + xOffset,
                 transform.position.y + yOffset,
                 transform.position.z + zOffset);
-            interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 4,
-                interactionZoneRadius * 4,
-                interactionZoneRadius * 4);
+                interactionZoneObj.transform.localScale = new Vector3(interactionZoneRadius * 4,
+                    interactionZoneRadius * 4,
+                    interactionZoneRadius * 4);
+            }
+            catch { }
         }
 
         private void Update()
@@ -38,6 +43,23 @@ namespace Scenes._20_MainWorld.Scripts
         {
             Gizmos.color = Color.green;
             Gizmos.DrawWireSphere(new Vector3(transform.position.x + xOffset, transform.position.y + yOffset, transform.position.z + zOffset), interactionZoneRadius);
+        }
+
+        public void DisableClickMovement()
+        {
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().hoveringOverUI = true;
+        }
+        public void EnableClickMovement()
+        {
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().hoveringOverUI = false;
+        }
+        public void DisablePlayerMovement()
+        {
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+        }
+        public void EnablePlayerMovement()
+        {
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
         }
 
     }

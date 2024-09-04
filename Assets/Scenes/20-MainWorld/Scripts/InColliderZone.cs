@@ -37,6 +37,7 @@ namespace Scenes._20_MainWorld.Scripts
                 try
                 {
                     PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = action;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(true);
                     //parent.action = action;
                     parent.inZone = true;
                 }
@@ -59,15 +60,14 @@ namespace Scenes._20_MainWorld.Scripts
                 switch (gameObject.name)
                 {
                     case "WalkInto":
-                        action.Invoke();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     case "PlayerCar":
-                        action.Invoke();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     default:
-                        print("InColliderZone/OnTriggerEnter/No name matches");
+                        //print("InColliderZone/OnTriggerEnter/No name matches");
                         break;
-
                 }
             }
         }
@@ -83,6 +83,7 @@ namespace Scenes._20_MainWorld.Scripts
                 try
                 {
                     PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
 
                     //parent.action = null;
                     parent.inZone = false;
@@ -102,7 +103,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="interactionPoint">The transform of the interaction point.</param>
         public void SetLastInteractionPoint(Transform interactionPoint)
         {
-            print($"Here is the saved position: {interactionPoint.position}");
+            //print($"Here is the saved position: {interactionPoint.position}");
             // set next spawn point, add 1 in height so we dont spawn in ground
             PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
         }
