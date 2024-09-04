@@ -12,12 +12,14 @@ namespace Scenes._10_PlayerScene.Scripts
     public class AutoMovePlayer : MonoBehaviour
     {
         public GameObject DropOffPoint;
+        public GameObject PlayerSpawnPoint;
         
         [SerializeField] private float moveSpeed = 5.0f;
         
         private GameObject spawnedPlayer;
         private BoneFollower boneFollow;
         private Vector3 offset = new Vector3(0, 1, 0);
+        private GameObject chosenBlock;
 
         private void Awake()
         {
@@ -63,6 +65,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="blockPosition">The position of the block to move to.</param>
         private void MovePlayerToBlockAndPickUpBlock(GameObject block)
         {
+            chosenBlock = block;
             MoveToPosition(block, PickUpBlock);
         }
 
@@ -98,7 +101,8 @@ namespace Scenes._10_PlayerScene.Scripts
             spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Throw");
             
             Debug.Log("Picked up block");
-            GameObject block = GameObject.Find("WordBlock");
+            //GameObject block = GameObject.Find("WordBlock");
+            GameObject block = chosenBlock;
             if (block != null)
             {
                 boneFollow = block.AddComponent<BoneFollower>();
@@ -127,6 +131,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void MoveToDropOffPoint()
         {
+           
             MoveToPosition(DropOffPoint, DropOffBlock);
         }
 
@@ -136,7 +141,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void DropOffBlock()
         {
             Debug.Log("dropped off block");
-            GameObject block = GameObject.Find("WordBlock");
+            //GameObject block = GameObject.Find("WordBlock");
+            GameObject block = chosenBlock;
             if (block != null)
             {
                 boneFollow.followXYPosition = false;
@@ -157,7 +163,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 Debug.LogError("Block not found for drop-off.");
             }
             
-            MoveToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
+            MoveToPosition(PlayerSpawnPoint);
         }
         
         /// <summary>
