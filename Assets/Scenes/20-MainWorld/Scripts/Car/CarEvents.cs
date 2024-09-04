@@ -47,7 +47,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
             cam.Follow = gameObject.transform;
             cam.LookAt = gameObject.transform;
-            GetComponent<CarFuel>().gaugeImg.enabled = true;
+            //GetComponent<CarFuel>().gaugeImg.enabled = true;
 
             spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
             spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(TurnOffCar);
@@ -78,9 +78,9 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
                 cam.Follow = spawnedPlayer.transform;
                 cam.LookAt = spawnedPlayer.transform;
-                GetComponent<CarFuel>().gaugeImg.enabled = false;
+                //GetComponent<CarFuel>().gaugeImg.enabled = false;
 
-                spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = true;
+                spawnedPlayer.GetComponent<PlayerEventManager>().IsInCar = false;
                 spawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
 
                 var pos = carSetPlayerPos.SetTransformOfPlayer().position;
