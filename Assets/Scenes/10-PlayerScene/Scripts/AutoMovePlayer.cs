@@ -112,8 +112,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
                 
                 block.transform.SetParent(spawnedPlayer.transform.GetChild(1));
-                //block.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-                block.transform.localScale = new Vector3(1, 1, 1);
+                
+                // Compensate for the player's scale to ensure correct visual appearance
+                block.transform.localScale = Vector3.one / spawnedPlayer.transform.localScale.x;
                 
                 // Reset block's local position and rotation 
                 block.transform.localPosition = Vector3.zero;
