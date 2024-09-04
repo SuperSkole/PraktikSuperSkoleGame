@@ -132,7 +132,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 CheckWhatWasClickedOn();
         }
 
-
+        /// <summary>
+        /// Destroys the added PlayerMovement_MT component so it it isn't used outside of monsterTower. 
+        /// Is used on the back to MainWorld button. 
+        /// </summary>
+        public void SetupPlayerMovementToDefault()
+        {
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
+        }
 
 
         /// <summary>
@@ -140,10 +147,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// Sets up the camera so it works with the players movements and the Player characthers StartPosition is set. 
         /// </summary>
         /// 
-        public void SetupPlayerMovementToDefault()
-        {
-           Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());   
-        }
         private void SetupPlayerMovementForMonsterTower()
         {
 
