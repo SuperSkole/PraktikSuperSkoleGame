@@ -162,24 +162,24 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             }
 
 
-            coroutine = WaitAfterMove(moveDelayTimer);
+            
 
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
             {
                 if (Input.GetKey(KeyCode.W) && transform.position.x < 19.5f)
                 {
-                    StartCoroutine(coroutine);
+                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(1, 0, 0);
                 }
                 else if (Input.GetKey(KeyCode.S) && transform.position.x > 10.5f)
                 {
-                    StartCoroutine(coroutine);
+                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(-1, 0, 0);
                 }
                 else if (Input.GetKey(KeyCode.A) && transform.position.z < 19.5f)
                 {
-                    StartCoroutine(coroutine);
+                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(0, 0, 1);
                     if (facingRight)
                     {
@@ -189,7 +189,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 }
                 else if (Input.GetKey(KeyCode.D) && transform.position.z > 10.5f)
                 {
-                    StartCoroutine(coroutine);
+                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(0, 0, -1);
                     if (!facingRight)
                     {
