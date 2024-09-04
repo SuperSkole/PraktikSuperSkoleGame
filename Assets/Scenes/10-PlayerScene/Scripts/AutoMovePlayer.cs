@@ -104,11 +104,15 @@ namespace Scenes._10_PlayerScene.Scripts
                 boneFollow = block.AddComponent<BoneFollower>();
                 boneFollow.SkeletonRenderer = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
                 boneFollow.boneName = "Head";
-                boneFollow.Initialize();
-                
-                boneFollow.followLocalScale = true;
-                boneFollow.followXYPosition = true;
                 boneFollow.transform.position += offset;
+                boneFollow.Initialize();
+
+                boneFollow.followLocalScale = false;
+                boneFollow.followXYPosition = true;
+                boneFollow.followBoneRotation = true;
+                
+
+                //block.transform.position = boneFollow.transform.position;
 
                 // Wait for animation to complete before moving to the drop-off point
                 StartCoroutine(
@@ -168,6 +172,25 @@ namespace Scenes._10_PlayerScene.Scripts
         private IEnumerator WaitForAnimation(string animationName, Action onComplete)
         {
             var state = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation.state;
+            // if (spawnedPlayer == null)
+            // {
+            //     Debug.LogError("Spawned player is null.");
+            //     yield break;
+            // }
+            //
+            // var skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+            // if (skeletonAnimation == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation component is missing on the spawned player.");
+            //     yield break;
+            // }
+            //
+            // var state = skeletonAnimation.state;
+            // if (state == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation state is null.");
+            //     yield break;
+            // }
 
             // Wait until the animation completes
             while (state.GetCurrent(0) != null && state.GetCurrent(0).Animation.Name == animationName && !state.GetCurrent(0).IsComplete)
@@ -178,5 +201,6 @@ namespace Scenes._10_PlayerScene.Scripts
             // Invoke the callback action
             onComplete?.Invoke();
         }
+
     }
 }
