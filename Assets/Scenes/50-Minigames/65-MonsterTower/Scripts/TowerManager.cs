@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.DataPersistence;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.DataPersistence.Data;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.DataPersistence.Data;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -12,7 +11,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts
+
+
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
@@ -50,6 +51,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         [SerializeField] public TextMeshProUGUI displayBox;
         [SerializeField] public GameObject imageHolderPrefab;
         [SerializeField] public GameObject singleImageHolderPrefab;
+        [SerializeField] private GameObject coinPrefab;
         public GameObject answerHolderPrefab;
         string[] questions;
         [SerializeField] GameObject OrcPrefab;
@@ -97,47 +99,16 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 yield return null;
             }
 
-
-
-            //if (loadedBrickLanes.Count > 0)
-            //{
-               
-            //    towerHeight = questions.Length;
-            //}
-            //else
-            //{
-            //    questions = gameMode.GenerateAnswers(3);
-            //    towerHeight = questions.Length;
-            //}
             questions = gameMode.GenerateAnswers(3);
             towerHeight = questions.Length;
 
 
             gameMode.SetAnswerPrefab(this);
-            //topImage = AnswerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            //bottomImage = AnswerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
             currentQuestion = questions[currentQuestionIndex];
             displayBox.text = currentQuestion;
-
-            // if the loadedBrickLanes list has any data a tower is loaded based on saved sentences and the correctImageIndex. 
-            // if not a tower is built and will be saved when exiting the game. 
-
-            //Debug.Log(loadedBrickLanes.Count);
-
-            //if (loadedBrickLanes.Count > 0)
-            //{
-
-            //    LoadTower();
-            //}
-            //else
-            //{
-             
-            //    rowToDelete = 0;
-            //    BuildTower();
-            //}
 
             rowToDelete = 0;
             BuildTower();
@@ -164,6 +135,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         {
             if (questions.Length <= currentQuestionIndex) return;
             gameMode.GetDisplayAnswer(questions[currentQuestionIndex], this);
+            Instantiate(coinPrefab);
 
         }
 
@@ -171,7 +143,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
 
         // Update is called once per frame
-        // The tower�checks if the right answer has been chosen and destroys the lowest tower lane. 
+        // The towerchecks if the right answer has been chosen and destroys the lowest tower lane. 
         void Update()
         {
 
@@ -480,8 +452,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                             SetCorrectImage(loadedBrickLanes[z].bricks[x].input);
                         }
 
-                        GameObject imageholder = Instantiate(imageHolderPrefab, tower[x, z].transform);
-                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 1.58f, -1.4f);
+                        GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
+                        imageholder.GetComponent<RectTransform>().localPosition = new(0, 0, -1.4f);
                         if (z == 0)
                         {
                             brickComponent.isShootable = true;

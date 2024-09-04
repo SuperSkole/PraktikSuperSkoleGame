@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     /// <summary>
     /// Holds a list of brickdata and the correctImageIndex. 

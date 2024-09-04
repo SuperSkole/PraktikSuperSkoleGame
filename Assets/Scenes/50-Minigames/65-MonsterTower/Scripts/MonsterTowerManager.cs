@@ -3,7 +3,7 @@ using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     public enum Difficulty
     {

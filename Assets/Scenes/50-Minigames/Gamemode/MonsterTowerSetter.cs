@@ -1,6 +1,6 @@
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
-using Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using UnityEngine;
 
 namespace Scenes._50_Minigames.Gamemode

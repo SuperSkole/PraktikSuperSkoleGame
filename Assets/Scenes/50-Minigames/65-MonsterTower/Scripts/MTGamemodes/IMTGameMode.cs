@@ -1,6 +1,6 @@
 using CORE.Scripts;
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public interface IMTGameMode : IGenericGameMode
     {

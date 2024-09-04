@@ -2,7 +2,7 @@ using CORE.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public class ShootPicture : MonoBehaviour, IMTGameMode
     {
@@ -62,4 +62,5 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts.MTGamemodes
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
         }
     }
+
 }
