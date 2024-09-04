@@ -207,6 +207,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         }
         #endregion
 
+        /// <summary>
+        /// used to check if a pos is an active symobl
+        /// </summary>
+        /// <param name="pos">the pos you want to cheak</param>
+        /// <returns>fasle if ther is an active symbol, and true if its a free space</returns>
         public bool IsPosFree(Vector3 pos)
         {
             GameObject closestCube = null;
