@@ -3,6 +3,7 @@ using System.Collections;
 using Scenes._05_Minigames._56_WordFactory.Scripts.Managers;
 using Spine.Unity;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -14,6 +15,10 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private float moveSpeed = 5.0f;
         public GameObject DropOffPoint;
         private GameObject spawnedPlayer;
+
+        private BoneFollower boneFollow;
+
+        private Vector3 offset;
 
         private void Awake()
         {
@@ -97,28 +102,22 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = GameObject.Find("WordBlock");
             if (block != null)
             {
+  
+                boneFollow = block.AddComponent<BoneFollower>();
+                boneFollow.skeletonRenderer = spawnedPlayer.GetComponent<SkeletonRenderer>();
+                boneFollow.boneName = "Head";
+                boneFollow.Initialize();
+
+                boneFollow.followXYPosition = true;
+                boneFollow.followBoneRotation = true;
+
+                block.transform.position += offset;
+
                 // Wait for animation to complete before moving to the drop-off point
                 StartCoroutine(
                     WaitForAnimation(
                         "Throw",
                         MoveToDropOffPoint));
-                
-                // Disable physics interactions
-                Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
-                if (blockRigidbody != null)
-                {
-                    blockRigidbody.useGravity = false; 
-                    blockRigidbody.isKinematic = true; 
-                }
-                
-                block.transform.SetParent(spawnedPlayer.transform.GetChild(1));
-                
-                // Compensate for the player's scale to ensure correct visual appearance
-                block.transform.localScale = Vector3.one / spawnedPlayer.transform.localScale.x;
-                
-                // Reset block's local position and rotation 
-                block.transform.localPosition = Vector3.zero;
-                block.transform.localRotation = Quaternion.identity;
             }
             else
             {
@@ -143,9 +142,9 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = GameObject.Find("WordBlock");
             if (block != null)
             {
-                block.transform.SetParent(null);
-                block.transform.position = DropOffPoint.transform.position;
-                
+                boneFollow.followXYPosition = false;
+                boneFollow.followBoneRotation = false;
+
                 // Re-enable physics interactions
                 Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
                 if (blockRigidbody != null)
