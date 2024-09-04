@@ -1,5 +1,5 @@
 using Scenes._50_Minigames._65_MonsterTower.Scripts;
-using Scenes.Minigames.MonsterTower.Scrips;
+using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
