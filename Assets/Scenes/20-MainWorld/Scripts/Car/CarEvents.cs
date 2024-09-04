@@ -8,6 +8,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
     public class CarEvents : MonoBehaviour
     {
         [SerializeField] CarMainWorldMovement car;
+        [SerializeField] PrometeoCarController prometeoCarController;
         private GameObject spawnedPlayer;
         private CinemachineVirtualCamera cam;
         [SerializeField] CarSetPlayerPos carSetPlayerPos;
@@ -16,19 +17,34 @@ namespace Scenes._20_MainWorld.Scripts.Car
         public GameObject CarSmoke2;
         private void Start()
         {
-            gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
+            if (car != null)
+            {
+                gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
+            }
+            if (prometeoCarController != null)
+            {
+                gameObject.GetComponent<PrometeoCarController>().enabled = false;
+            }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
             CarSmoke1.SetActive(false);
             CarSmoke2.SetActive(false);
         }
         public void TurnOnCar()
         {
-            gameObject.GetComponent<CarMainWorldMovement>().enabled = true;
-            car.CarActive = true;
+            if (car != null)
+            {
+                gameObject.GetComponent<CarMainWorldMovement>().enabled = true;
+                car.CarActive = true;
+            }
+            if (prometeoCarController != null)
+            {
+                prometeoCarController.enabled = true;
+            }
+
             CarSmoke1.SetActive(true);
             CarSmoke2.SetActive(true);
             cam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
-       
+
             cam.Follow = gameObject.transform;
             cam.LookAt = gameObject.transform;
             GetComponent<CarFuel>().gaugeImg.enabled = true;
@@ -46,8 +62,16 @@ namespace Scenes._20_MainWorld.Scripts.Car
         {
             if (carSetPlayerPos.ReturningPlayerPlacement())
             {
-                car.CarActive = false;
-                car.ApplyBrakingToStop();
+                if (car != null)
+                {
+                    car.CarActive = false;
+                    car.ApplyBrakingToStop();
+                }
+                if (prometeoCarController != null)
+                {
+                    prometeoCarController.enabled = false;
+                }
+                
                 gameObject.GetComponent<CarMainWorldMovement>().enabled = false;
                 CarSmoke1.SetActive(false);
                 CarSmoke2.SetActive(false);
@@ -66,7 +90,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 EnablePlayer();
                 carSetPlayerPos.isDriving = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = new UnityEvent();
-            
+
             }
 
         }
