@@ -38,6 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7954909943777536845}
+  - {fileID: 5553046305399648821}
   - {fileID: 1359369177252859840}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -147,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 6963554171686360834}
   walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
+  throwing: {fileID: 0}
   idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
   currentState: 
   walkThreshold: 0.1
@@ -174,6 +176,17 @@ MonoBehaviour:
   playerData: {fileID: -2984174739293466506}
   interactionIcon: {fileID: 2615622183424237912}
 --- !u!114 &7000402631017721828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4370899767886551907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,9 +202,6 @@ MonoBehaviour:
   cameraMoveWithMouse: 0
   cameraMoveWithDrag: 0
   turnSpeed: 1
-  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +326,37 @@ MonoBehaviour:
   _animationName: 
   loop: 1
   timeScale: 1
+--- !u!1 &1359046755281412456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5553046305399648821}
+  m_Layer: 8
+  m_Name: PickupPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5553046305399648821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359046755281412456}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3403437169497779405}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2615622183424237912
 GameObject:
   m_ObjectHideFlags: 0
