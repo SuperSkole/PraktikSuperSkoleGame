@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ClothInfo : MonoBehaviour
+public class ClothInfo
 {
     public int ID { get; set; }
     public Sprite image { get; set; }

@@ -6,6 +6,7 @@ public class SpinePlayerMovement : MonoBehaviour
 {
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset walk;
+    public AnimationReferenceAsset throwing;
     public AnimationReferenceAsset idle;
     public string currentState;
 
@@ -21,17 +22,22 @@ public class SpinePlayerMovement : MonoBehaviour
     private bool isMoving;
     private Coroutine moveCoroutine;
 
+    public bool hoveringOverUI = false;
     [SerializeField] ParticleSystem pointAndClickEffect;
     /// <summary>
     /// Initializes the player's animation state to idle.
     /// </summary>
     void Start()
     {
-        currentState = "idle";
-        SetCharacterState("Idle");
+        SceneStart();
 
         //When player gets instanced we need to add the sceneCamera or movement is not going to work
         //skeletonAnimation.Skeleton.SetAttachment("Monster TOP1", "Monster TOP1");
+    }
+    public void SceneStart()
+    {
+        currentState = "idle";
+        SetCharacterState("Idle");
     }
     /// <summary>
     /// Handles player input for both WASD movement and point-and-click movement.
@@ -47,7 +53,7 @@ public class SpinePlayerMovement : MonoBehaviour
             PlayerWASDMovement();
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (!hoveringOverUI && Input.GetMouseButtonDown(0))
         {
             Vector3 newMoveToPos = GetSelectedMapPosition();
             if (newMoveToPos != Vector3.zero)
@@ -73,15 +79,14 @@ public class SpinePlayerMovement : MonoBehaviour
         transform.Translate(movement * moveSpeed * Time.deltaTime);
 
         // Flip the player based on the horizontal input
-        if (Input.GetKeyDown(KeyCode.A))
+        if (horizontalInput < 0)
         {
-            // Moving right
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        else if (horizontalInput > 0)
         {
-            // Moving left
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+
         }
 
         if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
@@ -121,7 +126,7 @@ public class SpinePlayerMovement : MonoBehaviour
         }
         SetCharacterState("Walk");
         var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
-        Destroy(effect.gameObject,0.5f);
+        Destroy(effect.gameObject, 0.5f);
         moveCoroutine = StartCoroutine(MoveToTarget());
     }
 
@@ -145,11 +150,11 @@ public class SpinePlayerMovement : MonoBehaviour
 
         isMoving = false;
     }
-    
+
     /// <summary>
     /// Stops the point-and-click movement of the player.
     /// </summary>
-    private void StopPointAndClickMovement()
+    public void StopPointAndClickMovement()
     {
         if (isMoving && moveCoroutine != null)
         {
@@ -202,6 +207,12 @@ public class SpinePlayerMovement : MonoBehaviour
             //Blending animations idle - walk
             skeletonAnimation.state.SetAnimation(0, walk, true).MixDuration = blendDuration;
             currentState = "Walk";
+        }
+        else if (state.Equals("Throw") && currentState != "Throw")
+        {
+            //Blending animations idle - walk
+            skeletonAnimation.state.SetAnimation(0, throwing, false).MixDuration = blendDuration;
+            currentState = "Throw";
         }
     }
 }

@@ -8,6 +8,7 @@ public class CarMainWorldMovement : MonoBehaviour
         get { return carActive; }
         set { carActive = value; }
     }
+    private float fuelAmount;
 
     // Constants for input axes names, used for reading player input.
     private const string HORIZONTAL = "Horizontal";
@@ -29,7 +30,7 @@ public class CarMainWorldMovement : MonoBehaviour
     /// <summary>
     /// Brake torque expressed in Newton metres.
     /// </summary>
-    public float brakingTorque = 100000f;
+    private float brakingTorque = 1000000f;
     public float carSpeed;
 
     // Wheel colliders for simulating wheel physics.
@@ -56,6 +57,7 @@ public class CarMainWorldMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        fuelAmount = GetComponent<CarFuel>().fuelAmount;
         if (carActive)
         {
             //leftHeadlight.SetActive(carActive == true);
@@ -87,10 +89,10 @@ public class CarMainWorldMovement : MonoBehaviour
         HandleMotor(); // Handle motor logic irrespective of CarActive state.
         UpdateRotationWheels();    // Updates the visual representation of the wheels.
 
-        if (carActive)
+        if (carActive && GetComponent<CarFuel>().fuelAmount > 0)
         {
             GetInput(); // Reads the player's input.
-            
+            print(GetComponent<CarFuel>().fuelAmount);
         }
 
     }
@@ -112,6 +114,7 @@ public class CarMainWorldMovement : MonoBehaviour
         {
             // Player is attempting to reverse while the car is moving forward
             ApplyBrakingToStop();
+
         }
         else if (forwardInput > 0)
         {
@@ -123,7 +126,6 @@ public class CarMainWorldMovement : MonoBehaviour
         {
             ResetBraking();
             // Player is reversing
-
         }
     }
 
@@ -150,7 +152,7 @@ public class CarMainWorldMovement : MonoBehaviour
     /// Controls the car's motor, applying force to move the car.
     /// </summary>
     private void HandleMotor()
-    {       
+    {
         carSpeed = rb.velocity.magnitude * 3.6f; // Convert to km/h
 
         if (carSpeed > maxSpeed)
@@ -160,17 +162,12 @@ public class CarMainWorldMovement : MonoBehaviour
 
         if (!carActive)
         {
-            
-            ApplyBrakingToStop();
-
             if (carSpeed > 0)
             {
+                ApplyBrakingToStop();
             }
             return; // Skip the rest of the method if the car isn't active.
         }
-
-        // Reset brake torque when car is active.
-        //ResetBraking();
 
         // Apply motor force if under max speed.
         if (IsCarMovingBackwards() == false)
@@ -182,6 +179,7 @@ public class CarMainWorldMovement : MonoBehaviour
                 wheelColliderFrontR.motorTorque = forwardInput * motorForce;
                 wheelColliderRearL.motorTorque = forwardInput * motorForce;
                 wheelColliderRearR.motorTorque = forwardInput * motorForce;
+                RemoveFuel();
             }
             else
             {
@@ -201,6 +199,7 @@ public class CarMainWorldMovement : MonoBehaviour
                 wheelColliderFrontR.motorTorque = forwardInput * motorForce / 2;
                 wheelColliderRearL.motorTorque = forwardInput * motorForce / 2;
                 wheelColliderRearR.motorTorque = forwardInput * motorForce / 2;
+                RemoveFuel();
             }
             else
             {
@@ -214,10 +213,20 @@ public class CarMainWorldMovement : MonoBehaviour
 
 
     }
-
-    private void ApplyBrakingToStop()
+    float fuelTimer;
+    private void RemoveFuel()
     {
+        fuelTimer += Time.deltaTime;
+        if (fuelTimer >0.5f)
+        {
+            GetComponent<CarFuel>().fuelAmount -= 0.001f;
+            fuelTimer = 0;
+        }
+    }
 
+    public void ApplyBrakingToStop()
+    {
+        //carSpeed = 0;
         wheelColliderFrontL.brakeTorque = brakingTorque;
         wheelColliderFrontR.brakeTorque = brakingTorque;
         wheelColliderRearL.brakeTorque = brakingTorque;
