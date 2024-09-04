@@ -294,7 +294,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             rightTextN.text = "";
             raceActive = false;
             showEndUi = true;
-            carController.CarActive = false;
 
             StopTimer();
             racingGameManager = GetComponent<RacingGameManager>();

@@ -41,6 +41,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private float throwArcProgress;
 
+        private float defaultSpeed = 0.5f;
+
 
     /// <summary>
     /// Gets the monster ready for movement and gets reference to the player script
@@ -95,7 +97,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 }
                 velocity.y = 0;
                 //check to ensure the monster does not move out of right side of the board
-                if (velocity.x + transform.position.x > 19.5f)
+                if (velocity.x + transform.position.x > 19.5f  || velocity.x +transform.position.x < 10.5f)
                 {
                     velocity.x = 0;
                 }
@@ -289,8 +291,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 {
                     step *= 2;
                 }
+
+               
                 transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             }
+        }
+
+        public void ResetMoveSpeed()
+        {
+            speed = defaultSpeed;
+
         }
 
 

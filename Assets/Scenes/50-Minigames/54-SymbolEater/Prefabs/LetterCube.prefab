@@ -142,7 +142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1d62dfdb74284f44f9e14b416fbc79ef, type: 2}
+  - {fileID: 2100000, guid: e59fe3ec5cf17444c89d3eded05ba33d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   text: {fileID: 4563195224083046244}
   imageObject: {fileID: 5269931623894542064}
   board: {fileID: 0}
-  defaultMaterial: {fileID: 0}
+  defaultMaterial: {fileID: 2100000, guid: e59fe3ec5cf17444c89d3eded05ba33d, type: 2}
   correctMaterial: {fileID: 2100000, guid: d0bddb35d1629ff469d35217ef085b5d, type: 2}
   incorrectMaterial: {fileID: 2100000, guid: ae3bba3d956795045a93489e0be8bb54, type: 2}
   meshRenderer: {fileID: 0}
@@ -333,8 +333,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294901502
+  m_fontColor: {r: 0.9960785, g: 0.9960785, b: 0.9960785, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
