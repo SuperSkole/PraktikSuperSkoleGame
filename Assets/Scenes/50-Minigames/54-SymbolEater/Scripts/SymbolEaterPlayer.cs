@@ -39,7 +39,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public bool hasMoved = false;
 
-        public float speed = 2;
+        public float speed = 0.5f;
 
         public bool hasMoveDelay = false;
 
@@ -49,9 +49,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
 
-        private IEnumerator coroutine;
+        private float timerSinceMoved = 0;
 
-        private float moveDelayTimer = 2.0f;
+        private float moveDelayTimer = 0.25f;
 
         private string currentState = "Walk";
         private SkeletonAnimation skeletonAnimation;
@@ -145,6 +145,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         void Update()
         {
+
+            timerSinceMoved += Time.deltaTime;
+
             //Checks if the player is outside the board and ends the game if it is true
             if ((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown)
             {
@@ -167,35 +170,38 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
             {
-                if (Input.GetKey(KeyCode.W) && transform.position.x < 19.5f)
+
+
+                if (Input.GetKey(KeyCode.W) && transform.position.x < 19.5f && timerSinceMoved >= moveDelayTimer)
                 {
-                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(1, 0, 0);
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKey(KeyCode.S) && transform.position.x > 10.5f)
+                else if (Input.GetKey(KeyCode.S) && transform.position.x > 10.5f && timerSinceMoved >= moveDelayTimer)
                 {
-                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(-1, 0, 0);
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKey(KeyCode.A) && transform.position.z < 19.5f)
+                else if (Input.GetKey(KeyCode.A) && transform.position.z < 19.5f && timerSinceMoved >= moveDelayTimer)
                 {
-                    StartCoroutine(WaitAfterMove(moveDelayTimer));
+                    
                     currentDestination = transform.position + new Vector3(0, 0, 1);
                     if (facingRight)
                     {
                         facingRight = false;
                         Flip();
                     }
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKey(KeyCode.D) && transform.position.z > 10.5f)
+                else if (Input.GetKey(KeyCode.D) && transform.position.z > 10.5f && timerSinceMoved >= moveDelayTimer)
                 {
-                    StartCoroutine(WaitAfterMove(moveDelayTimer));
                     currentDestination = transform.position + new Vector3(0, 0, -1);
                     if (!facingRight)
                     {
                         facingRight = !false;
                         Flip();
                     }
+                    timerSinceMoved = 0;
                 }
 
             }
@@ -245,15 +251,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             currentScale.x *= -1;
             playerMonster.transform.localScale = currentScale;
         }
-
-        /// <summary>
-        /// a Ienumratae to stop the playermovement for a second or 2 so it dosnt Sprint through the map and is uncontrollerable
-        /// </summary>
-        private IEnumerator WaitAfterMove(float waitTime)
-        {
-            yield return new WaitForSeconds(waitTime);
-        }
-
+   
         /// <summary>
         /// code to start the delay in the players movement.
         /// </summary>
