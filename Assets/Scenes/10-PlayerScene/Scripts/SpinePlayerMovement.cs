@@ -25,6 +25,7 @@ public class SpinePlayerMovement : MonoBehaviour
     public bool hoveringOverUI = false;
     [SerializeField] private GameObject interactionGO;
     [SerializeField] ParticleSystem pointAndClickEffect;
+    [SerializeField] private Rigidbody rigidbody;
     /// <summary>
     /// Initializes the player's animation state to idle.
     /// </summary>
@@ -45,14 +46,14 @@ public class SpinePlayerMovement : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
-        {
-            if (isMoving)
-            {
-                StopPointAndClickMovement();
-            }
-            PlayerWASDMovement();
-        }
+        //if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        //{
+            //if (isMoving)
+            //{
+                //StopPointAndClickMovement();
+            //}
+            //PlayerWASDMovement();
+        //}
 
         if (!hoveringOverUI && Input.GetMouseButtonDown(0))
         {
@@ -64,6 +65,18 @@ public class SpinePlayerMovement : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        {
+            if (isMoving)
+            {
+                StopPointAndClickMovement();
+            }
+            PlayerWASDMovement();
+        }
+    }
+
     /// <summary>
     /// Handles movement of the player using WASD keys.
     /// </summary>
@@ -71,22 +84,29 @@ public class SpinePlayerMovement : MonoBehaviour
     {
         StopCoroutine(MoveToTarget());
         //Remove Raw to add inertia
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
 
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
 
         // Move the player
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
+        
+
+        if(rigidbody.velocity.y > 0f) 
+            rigidbody.velocity = new(movement.x, 0, movement.z);
+        else
+            rigidbody.velocity = new(movement.x, rigidbody.velocity.y, movement.z);
+
+        //transform.Translate(movement * moveSpeed * Time.deltaTime);
 
         // Flip the player based on the horizontal input
-        if (horizontalInput < 0)
+        if (rigidbody.velocity.x < 0)
         {
             transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
             interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
         }
-        else if (horizontalInput > 0)
+        else if (rigidbody.velocity.x > 0)
         {
             transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);

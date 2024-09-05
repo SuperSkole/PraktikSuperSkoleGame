@@ -94,9 +94,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &2102550191519774190
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -104,7 +104,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370280089111779063}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7be86173bf5b59e4d8283e7f179cb39f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -116,10 +116,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.83
-  m_Height: 12.4
+  m_Radius: 1.8300002
+  m_Height: 12.199941
   m_Direction: 1
-  m_Center: {x: 0.3, y: -4.35, z: -1.88}
+  m_Center: {x: 0.3, y: -4.249971, z: -1.8800001}
 --- !u!114 &2014260511405141757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   currentState: 
   walkThreshold: 0.1
   blendDuration: 0.2
-  moveSpeed: 5
+  moveSpeed: 7
   facingRight: 1
   sceneCamera: {fileID: 0}
   placementLayermask:
@@ -162,6 +162,7 @@ MonoBehaviour:
   hoveringOverUI: 0
   interactionGO: {fileID: 2615622183424237912}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
+  rigidbody: {fileID: 5874153678614725772}
 --- !u!114 &5743102167441662518
 MonoBehaviour:
   m_ObjectHideFlags: 0
