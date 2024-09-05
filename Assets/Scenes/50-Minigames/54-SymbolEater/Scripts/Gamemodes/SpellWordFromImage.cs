@@ -78,9 +78,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 activeLetterCubes.Clear();
                 
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
-                GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
+                GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
                 //finds some new letterboxes and assigns them a correct letter
-                GameModeHelper.ActivateLetterCubes(gameRules.GetDisplayAnswer().Length, letterCubes, activeLetterCubes, ActivateCube, true);
+                for(int i = 0; i < gameRules.GetDisplayAnswer().Length; i++)
+                {
+                    GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
+                }
                 boardController.SetAnswerText("");
             }
         }
@@ -197,16 +200,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         }
 
         /// <summary>
-        /// Currently not implemented
+        /// Activates the given cube
         /// </summary>
-        /// <param name="letterCube"></param>
-        /// <param name="correct"></param>
+        /// <param name="letterCube">The lettercube to be activated</param>
+        /// <param name="correct">Whether the symbol should be correct</param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
             if(correct)
             {
                 letterCube.Activate(gameRules.GetDisplayAnswer()[activationIndex].ToString());
-                activationIndex++;
             }
             else 
             {
@@ -215,7 +217,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         }
 
         /// <summary>
-        /// Currently not implemented
+        /// Checks whether the whole word has been found
         /// </summary>
         /// <returns></returns>
         public bool IsGameComplete()
