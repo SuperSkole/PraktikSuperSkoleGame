@@ -2,69 +2,72 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class MoveFloatingNumbers : MonoBehaviour
+namespace _99_Legacy.Menu
 {
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform xpEndPoint;
-    [SerializeField] private Transform goldEndPoint;
-    [SerializeField] private GameObject xpAmount;
-    [SerializeField] private GameObject goldAmount;
-    [SerializeField] private GeneralManagement valueInfo;
-
-    private float moveDuration = 1.5f; // Duration of the movement
-
-    private void Start()
+    public class MoveFloatingNumbers : MonoBehaviour
     {
-        xpAmount.SetActive(false);
-        goldAmount.SetActive(false);
-    }
+        [SerializeField] private Transform startPoint;
+        [SerializeField] private Transform xpEndPoint;
+        [SerializeField] private Transform goldEndPoint;
+        [SerializeField] private GameObject xpAmount;
+        [SerializeField] private GameObject goldAmount;
+        [SerializeField] private GeneralManagement valueInfo;
 
-    public void MoveXp(int xpValue)
-    {
-        xpAmount.transform.position = startPoint.position;
-        xpAmount.SetActive(true);
-        xpAmount.GetComponent<TextMeshProUGUI>().text = xpValue.ToString();
+        private float moveDuration = 1.5f; // Duration of the movement
 
-        // Start the movement coroutine
-        StartCoroutine(MoveToEndPoint("xp", xpAmount.transform, xpEndPoint.position, moveDuration));
-
-    }
-    public void MoveGold(int goldValue)
-    {
-        goldAmount.transform.position = startPoint.position;
-        goldAmount.SetActive(true);
-        goldAmount.GetComponent<TextMeshProUGUI>().text = goldValue.ToString();
-
-        // Start the movement coroutine
-        StartCoroutine(MoveToEndPoint("gold", goldAmount.transform, goldEndPoint.position, moveDuration));
-
-    }
-
-    private IEnumerator MoveToEndPoint(string type, Transform objectTransform, Vector3 endPoint, float duration)
-    {
-        Vector3 startPoint = objectTransform.position;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        private void Start()
         {
-            objectTransform.position = Vector3.Lerp(startPoint, endPoint, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            xpAmount.SetActive(false);
+            goldAmount.SetActive(false);
         }
 
-        objectTransform.position = endPoint;
+        public void MoveXp(int xpValue)
+        {
+            xpAmount.transform.position = startPoint.position;
+            xpAmount.SetActive(true);
+            xpAmount.GetComponent<TextMeshProUGUI>().text = xpValue.ToString();
 
-        if (type == "gold")
-        {
-            valueInfo.UseXP();
-            //Play effect
+            // Start the movement coroutine
+            StartCoroutine(MoveToEndPoint("xp", xpAmount.transform, xpEndPoint.position, moveDuration));
+
         }
-        else
+        public void MoveGold(int goldValue)
         {
-            valueInfo.UseGold();
-            //play xp effect
+            goldAmount.transform.position = startPoint.position;
+            goldAmount.SetActive(true);
+            goldAmount.GetComponent<TextMeshProUGUI>().text = goldValue.ToString();
+
+            // Start the movement coroutine
+            StartCoroutine(MoveToEndPoint("gold", goldAmount.transform, goldEndPoint.position, moveDuration));
+
         }
-        objectTransform.gameObject.SetActive(false);
-        //Gets called twice, so keep crossed for now
+
+        private IEnumerator MoveToEndPoint(string type, Transform objectTransform, Vector3 endPoint, float duration)
+        {
+            Vector3 startPoint = objectTransform.position;
+            float elapsedTime = 0f;
+
+            while (elapsedTime < duration)
+            {
+                objectTransform.position = Vector3.Lerp(startPoint, endPoint, elapsedTime / duration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            objectTransform.position = endPoint;
+
+            if (type == "gold")
+            {
+                valueInfo.UseXP();
+                //Play effect
+            }
+            else
+            {
+                valueInfo.UseGold();
+                //play xp effect
+            }
+            objectTransform.gameObject.SetActive(false);
+            //Gets called twice, so keep crossed for now
+        }
     }
 }

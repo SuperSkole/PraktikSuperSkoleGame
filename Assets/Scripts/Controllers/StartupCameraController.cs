@@ -1,23 +1,25 @@
 using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 
-public class StartupCameraController : MonoBehaviour
+namespace Controllers
 {
-    [SerializeField] private CinemachineVirtualCamera virtualCamera;
-    [SerializeField] private Camera cameraBrain;
-    [SerializeField] private LayerMask layerMask;
-    private GameObject spawnedPlayer;
-
-
-    // Start is called before the first frame update
-    public void Setup()
+    public class StartupCameraController : MonoBehaviour
     {
-        spawnedPlayer = GameObject.FindGameObjectWithTag("Player");
-        virtualCamera.Follow = spawnedPlayer.transform;
-        virtualCamera.LookAt = spawnedPlayer.transform;
-        spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain;
-        spawnedPlayer.GetComponent<SpinePlayerMovement>().placementLayermask = layerMask;
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
+        [SerializeField] private Camera cameraBrain;
+        [SerializeField] private LayerMask layerMask;
+        private GameObject spawnedPlayer;
+
+
+        // Start is called before the first frame update
+        public void Setup()
+        {
+            spawnedPlayer = GameObject.FindGameObjectWithTag("Player");
+            virtualCamera.Follow = spawnedPlayer.transform;
+            virtualCamera.LookAt = spawnedPlayer.transform;
+            spawnedPlayer.GetComponent<SpinePlayerMovement>().sceneCamera = cameraBrain;
+            spawnedPlayer.GetComponent<SpinePlayerMovement>().placementLayermask = layerMask;
+        }
     }
 }

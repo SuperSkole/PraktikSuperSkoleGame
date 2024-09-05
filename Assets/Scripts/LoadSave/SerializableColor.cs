@@ -1,24 +1,26 @@
-using System;
 using UnityEngine;
 
-[System.Serializable]
-public class SerializableColor
+namespace LoadSave
 {
-    public float r;
-    public float g;
-    public float b;
-    public float a;
-
-    public SerializableColor(Color color)
+    [System.Serializable]
+    public class SerializableColor
     {
-        r = color.r;
-        g = color.g;
-        b = color.b;
-        a = color.a;
-    }
+        public float r;
+        public float g;
+        public float b;
+        public float a;
 
-    public Color ToColor()
-    {
-        return new Color(r, g, b, a);
+        public SerializableColor(Color color)
+        {
+            r = color.r;
+            g = color.g;
+            b = color.b;
+            a = color.a;
+        }
+
+        public Color ToColor()
+        {
+            return new Color(r, g, b, a);
+        }
     }
 }

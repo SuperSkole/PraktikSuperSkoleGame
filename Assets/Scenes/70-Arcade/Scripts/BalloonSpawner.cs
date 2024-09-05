@@ -1,4 +1,4 @@
-using CORE.Scripts.GameRules;
+using CORE.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;

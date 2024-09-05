@@ -1,3 +1,4 @@
+using _99_Legacy.Interaction;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,7 +14,7 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isNPC;
         [SerializeField] private bool isCar;
         [SerializeField] private NPCInteractions interactions;
-
+        private PlayerEventManager playerEventManager;
         private OpenCloseDoor doorMechanism;
 
         private void Start()
@@ -23,6 +24,7 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
+            playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
         }
 
         /// <summary>
@@ -36,7 +38,8 @@ namespace Scenes._20_MainWorld.Scripts
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
                 {
-                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = action;
+                    playerEventManager.PlayerInteraction = action;
+                    playerEventManager.interactionIcon.SetActive(true);
                     //parent.action = action;
                     parent.inZone = true;
                 }
@@ -59,15 +62,14 @@ namespace Scenes._20_MainWorld.Scripts
                 switch (gameObject.name)
                 {
                     case "WalkInto":
-                        action.Invoke();
+                        playerEventManager.InvokeAction();
                         break;
                     case "PlayerCar":
-                        action.Invoke();
+                        playerEventManager.InvokeAction();
                         break;
                     default:
-                        print("InColliderZone/OnTriggerEnter/No name matches");
+                        //print("InColliderZone/OnTriggerEnter/No name matches");
                         break;
-
                 }
             }
         }
@@ -82,7 +84,8 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 try
                 {
-                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
+                    playerEventManager.PlayerInteraction = null;
+                    playerEventManager.interactionIcon.SetActive(false);
 
                     //parent.action = null;
                     parent.inZone = false;
@@ -102,7 +105,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="interactionPoint">The transform of the interaction point.</param>
         public void SetLastInteractionPoint(Transform interactionPoint)
         {
-            print($"Here is the saved position: {interactionPoint.position}");
+            //print($"Here is the saved position: {interactionPoint.position}");
             // set next spawn point, add 1 in height so we dont spawn in ground
             PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
         }
