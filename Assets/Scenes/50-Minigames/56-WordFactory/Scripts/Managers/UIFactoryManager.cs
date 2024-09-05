@@ -68,7 +68,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private IEnumerator ResetInfoBoard(float delay)
         {
             yield return new WaitForSeconds(delay);
-            infoBoardHolder.sprite = infoBoardBaseSprite;  // Set to default state
+            infoBoardHolder.sprite = infoBoardBaseSprite; 
         }
 
         /// <summary>
