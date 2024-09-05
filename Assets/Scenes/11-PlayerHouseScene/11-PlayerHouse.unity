@@ -3723,6 +3723,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 904008594}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.Scripts.Interactions, Assembly-CSharp
+        m_MethodName: DisablePlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
       - m_Target: {fileID: 1608659258}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -6429,6 +6441,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 904008594}
@@ -6438,6 +6454,10 @@ PrefabInstance:
       objectReference: {fileID: 1608659260}
     - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
@@ -6454,6 +6474,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Wardrop, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: Wardrop, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5518368553224316999, guid: 0e95630ac8874624884837eb771c874d, type: 3}
