@@ -18,6 +18,8 @@ namespace Scenes
         public static void SwitchToRacerLoaderScene() => SceneManager.LoadScene(SceneNames.RacerLoading);
         public static void SwitchToRacerScene() => SceneManager.LoadScene(SceneNames.Racer);
         public static void SwitchToArcadeScene() => SceneManager.LoadScene(SceneNames.Arcade);
+        public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
+        public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
 
     }
 }

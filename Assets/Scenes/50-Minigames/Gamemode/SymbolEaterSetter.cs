@@ -32,6 +32,15 @@ namespace Scenes._50_Minigames.Gamemode
                 case "findsymbol":
                     modeReturned = new FindSymbol();
                     break;
+                case "findsymbols":
+                    modeReturned = new FindSymbols();
+                    break;
+                case "findfirstletterfromimage":
+                    modeReturned = new FindFirstLetterFromImage();
+                    break;
+                case "spellincorrectword":
+                    modeReturned = new SpellIncorrectWord();
+                    break;
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
                     modeReturned = new FindImageFromSound();
@@ -47,7 +56,6 @@ namespace Scenes._50_Minigames.Gamemode
         public IGameRules SetRules(string rules)
         {
             IGameRules rulesReturned;
-
             switch (rules)
             {
                 case "spellword":
@@ -62,6 +70,15 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "findlettertype":
                     rulesReturned = new FindLetterType();
+                    break;
+                case "findnextletter":
+                    rulesReturned = new FindNextLetter();
+                    break;
+                case "findfirstletter":
+                    rulesReturned = new FindFirstLetter();
+                    break;
+                case "findincorrectwords":
+                    rulesReturned = new FindIncorrectWords();
                     break;
                 default:
                     Debug.Log("given ruleset was not among expected options, setting to default ruleset");
