@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using Spine.Unity;
+using Spine;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -16,8 +18,14 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private float moveSpeed = 5.0f;
         
         private GameObject spawnedPlayer;
-        private BoneFollower boneFollow;
+        private Bone bone;
         private Vector3 offset = new Vector3(0, 1, 0);
+
+        private bool boxOn = false;
+
+        private SkeletonAnimation skeletonAnimation;
+
+        private GameObject savedBlock;
 
         private void Awake()
         {
@@ -36,6 +44,7 @@ namespace Scenes._10_PlayerScene.Scripts
         
         private void OnDestroy()
         {
+            StopAllCoroutines();
             PlayerEvents.OnMovePlayerToBlock -= MovePlayerToBlockAndPickUpBlock;
         }
         
@@ -90,6 +99,16 @@ namespace Scenes._10_PlayerScene.Scripts
             onReachedTarget?.Invoke();
         }
 
+        private void Update()
+        {
+            if (boxOn)
+            {
+                Vector3 boneWorldPos = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0));
+
+                savedBlock.transform.position = boneWorldPos + offset;
+            }
+        }
+
         /// <summary>
         /// Picks up the block after reaching its position.
         /// </summary>
@@ -99,20 +118,17 @@ namespace Scenes._10_PlayerScene.Scripts
             
             Debug.Log("Picked up block");
             GameObject block = GameObject.Find("WordBlock");
+
             if (block != null)
             {
-                boneFollow = block.AddComponent<BoneFollower>();
-                boneFollow.SkeletonRenderer = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
-                boneFollow.boneName = "Head";
-                boneFollow.transform.position += offset;
-                boneFollow.Initialize();
+                savedBlock = block;
 
-                boneFollow.followLocalScale = false;
-                boneFollow.followXYPosition = true;
-                boneFollow.followBoneRotation = true;
-                
+                skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
 
-                //block.transform.position = boneFollow.transform.position;
+                bone = skeletonAnimation.skeleton.FindBone("Head");
+
+                boxOn = true;
+
 
                 // Wait for animation to complete before moving to the drop-off point
                 StartCoroutine(
@@ -143,9 +159,7 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = GameObject.Find("WordBlock");
             if (block != null)
             {
-                boneFollow.followXYPosition = false;
-                boneFollow.followBoneRotation = false;
-
+                boxOn = false;
                 // Re-enable physics interactions
                 Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
                 if (blockRigidbody != null)
