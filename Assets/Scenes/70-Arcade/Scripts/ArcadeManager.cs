@@ -15,7 +15,7 @@ public class ArcadeManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        Debug.Log("MainWorldStartup/Start/Setting up player camera");
+        //Debug.Log("MainWorldStartup/Start/Setting up player camera");
         spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
         PlayerManager.Instance.PositionPlayerAt(gameObject);
     }
