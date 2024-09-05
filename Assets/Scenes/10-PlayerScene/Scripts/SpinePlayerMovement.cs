@@ -47,19 +47,10 @@ public class SpinePlayerMovement : MonoBehaviour
         SetCharacterState("Idle");
     }
     /// <summary>
-    /// Handles player input for both WASD movement and point-and-click movement.
+    /// Handles player input for point-and-click movement.
     /// </summary>
     void Update()
     {
-        //if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
-        //{
-            //if (isMoving)
-            //{
-                //StopPointAndClickMovement();
-            //}
-            //PlayerWASDMovement();
-        //}
-
         if (!hoveringOverUI && Input.GetMouseButtonDown(0))
         {
             Vector3 newMoveToPos = GetSelectedMapPosition();
@@ -71,6 +62,9 @@ public class SpinePlayerMovement : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// im using FixedUpdate becorse this is all physics
+    /// </summary>
     private void FixedUpdate()
     {
         if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
@@ -88,11 +82,16 @@ public class SpinePlayerMovement : MonoBehaviour
         Floating();
     }
 
+    /// <summary>
+    /// makes the player "float" a bit over the ground with a springy effect, made to fix player "jomping" when mooving over lips/steps
+    /// </summary>
     private void Floating()
     {
         bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, rideHeight*2);
         if (rayDidHit)
         {
+
+            //fancy magic vector math that "just works"(tm)  (sofie)
             Vector3 vel = rigidbody.velocity;
             Vector3 rayDir = Vector3.down;
 
