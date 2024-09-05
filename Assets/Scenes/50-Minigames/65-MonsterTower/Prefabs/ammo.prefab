@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 5100085159077835523}
   m_Layer: 0
   m_Name: ammo
-  m_TagString: Respawn
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -961,7 +961,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particals: {fileID: 1265720855497889114, guid: 1be9ac3dbc99db0409705d3e836ca43a, type: 3}
-  towerManager: {fileID: 0}
 --- !u!1 &8606195894303824903
 GameObject:
   m_ObjectHideFlags: 0

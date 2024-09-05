@@ -12,13 +12,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public static event Action<string> OnValidWord;
 
         [SerializeField] private WordFactoryGameManager wordFactoryGameManager;
-        [SerializeField] private UIFactoryManager uiFactoryManager;
         [SerializeField] private ClosestTeethFinder closestTeethFinder;
         [SerializeField] private WordBuilder wordBuilder;
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
         [SerializeField] private GameObject notificationTextObject;
+        
+        private INotificationDisplay notificationDisplay;
 
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
@@ -29,6 +30,20 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // HashSet to keep track of created words
         private HashSet<string> createdWords = new HashSet<string>();
         private bool isWordValid;
+
+        private void Awake()
+        {
+            // Ensure the notificationTextObject is assigned and active to get the component
+            if (notificationTextObject != null)
+            {
+                bool wasActive = notificationTextObject.activeSelf;
+                notificationTextObject.SetActive(true); 
+
+                notificationDisplay = notificationTextObject.GetComponent<INotificationDisplay>();
+
+                notificationTextObject.SetActive(wasActive); 
+            }
+        }
 
         private void Update()
         {
@@ -71,6 +86,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
+                    notificationDisplay.DisplayNotification("Valid word: " + formedWord);
                     Debug.Log("Valid word: " + formedWord);
     
                     scoreManager.AddScore(formedWord.Length);
@@ -82,12 +98,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     {
                         ColorTooth.RaiseColorChangeEvent(tooth, Color.green, 3, 0.25f);
                     }
-                    
-                    uiFactoryManager.UpdateInfoBoard(WordCheckState.Correct);
-                    uiFactoryManager.TriggerLightBlink(WordCheckState.Correct, 3);
                 }
                 else
                 {
+                    notificationDisplay.DisplayNotification("Word already used: " + formedWord);
                     Debug.Log("Word already used: " + formedWord);
 
                     // Blink each closest tooth yellow if the word is repeated using the event system
@@ -95,13 +109,11 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     {
                         ColorTooth.RaiseColorChangeEvent(tooth, Color.yellow, 3, 0.25f);
                     }
-                    
-                    uiFactoryManager.UpdateInfoBoard(WordCheckState.Repeated);
-                    uiFactoryManager.TriggerLightBlink(WordCheckState.Repeated, 3);
                 }
             }
             else
             {
+                notificationDisplay.DisplayNotification("Invalid word: " + formedWord);
                 Debug.Log("Invalid word: " + formedWord);
 
                 // Blink each closest tooth red using the event system
@@ -109,9 +121,6 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 {
                     ColorTooth.RaiseColorChangeEvent(tooth, Color.red, 3, 0.25f);
                 }
-                
-                uiFactoryManager.UpdateInfoBoard(WordCheckState.Wrong);
-                uiFactoryManager.TriggerLightBlink(WordCheckState.Wrong, 3);
             }
         }
 
@@ -161,7 +170,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         
         private void AddWordToHighScore(string word)
         {
-            // GameManager.Instance.HighScore.AddWord(word);
+//            GameManager.Instance.HighScore.AddWord(word);
         }
     }
 }

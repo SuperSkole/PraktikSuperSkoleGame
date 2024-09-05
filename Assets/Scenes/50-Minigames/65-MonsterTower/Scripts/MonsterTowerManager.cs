@@ -1,18 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Cinemachine;
-using CORE.Scripts;
-using CORE.Scripts.Game_Rules;
 using Scenes._10_PlayerScene.Scripts;
-using Scenes._50_Minigames._65_MonsterTower.Scripts;
-using Scenes._50_Minigames._65_MonsterTower.Scrips;
-using Spine.Unity;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
 
-namespace Scenes._50_Minigames._65_MonsterTower.Scripts
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     public enum Difficulty
     {
@@ -30,40 +21,34 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         public int ammoCount;
 
         [SerializeField] Camera mainCamera;
-        [SerializeField] Camera cameraBrain;
-        public LayerMask placementLayermask;
-        public SpinePlayerMovement mainWorldMovement;
-
         [SerializeField] GameObject noAmmoText;
-        public GameObject[,] ammoDisplay;
+        [SerializeField] List<GameObject> ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
         [SerializeField] GameObject ammoPlatform;
         [SerializeField] CatapultAming catapultAming;
-        [SerializeField] GameObject playerSpawnPosition;
-
-        [SerializeField] AnimationReferenceAsset idle;
-        [SerializeField] AnimationReferenceAsset walk;
-        [SerializeField] ParticleSystem pointAndClickEffect;
         RaycastHit hit;
         Ray ray;
         [SerializeField] AmmoPupUp pupUp;
 
-        public TowerManager towerManager;
-
-        
+        [SerializeField] TowerManager towerManager;
 
         public Difficulty difficulty;
 
-        Vector3 ammoDimensions; 
-
         //temp
         public List<string> words;
-
-        public List<Vector3> ammoSpawnPoints=new List<Vector3>();
-
-        private GameObject spawnedPlayer;
-       
-
+        /// <summary>
+        /// used to setup sentanses TEMP make this better!!
+        /// </summary>
+        void SetupSentanses()
+        {
+            words = new List<string>()
+            {
+                "is på ko",
+                "ko på is",
+                "gås under ko"
+            };
+           
+        }
         /// <summary>
         /// Gets the words collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
         /// </summary>
@@ -72,9 +57,15 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             words = PlayerEvents.RaisePlayerDataWordsExtracted();
            
            
+           
+        
 
         }
 
+        /// <summary>
+        /// call this to setup the minigame
+        /// </summary>
+        /// <param name="input">the dictionary that contains all the questions and images</param>
 
 
 
@@ -82,29 +73,16 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         void Start()
         {
 
-           // getting and setting the ammodimensions from the prefab 
-            ammoDimensions=ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
 
-            //Saving the ammoSpawnPoints positions that are children to the ammoPlatform in a list. 
-            for (int i = 0; i < ammoPlatform.transform.childCount; i++)
-            {
 
-                ammoSpawnPoints.Add(ammoPlatform.transform.GetChild(0).transform.position);
-
-            }
-
-           
             
             //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
             SetupPlayerWords();
-            
-            
 
-            //Spawns the ammunition with with the words in the words list and is displayed beside the catapult. 
-            // its set up in 4 points and then the ammo boxes is stacked on eachother. 
+            //Spawns the ammunition that needed to be displayed beside the catapult. 
             SpawnAmmoForDisplay();
 
             // the ammocount is set to the amount of words that player has. 
@@ -113,17 +91,24 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 ammoCount = words.Count;
             }
 
-            SetupPlayerMovementForMonsterTower();
-            
            
             if (ammoCount <= 0)
             {
                 noAmmoText.SetActive(true);
-            
+                for (int i = 0; i < ammoDisplay.Count; i++)
+                {
+                    ammoDisplay[i].SetActive(false);
+                }
                 return;
             }
 
-           
+            if (ammoCount < ammoDisplay.Count)
+            {
+                for (int i = ammoDisplay.Count - 1; i >= ammoCount; i--)
+                {
+                    ammoDisplay[i].SetActive(false);
+                }
+            }
         }
 
         void Update()
@@ -132,115 +117,26 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 CheckWhatWasClickedOn();
         }
 
-        /// <summary>
-        /// Destroys the added PlayerMovement_MT component so it it isn't used outside of monsterTower. 
-        /// Is used on the back to MainWorld button. 
-        /// </summary>
-        public void SetupPlayerMovementToDefault()
-        {
-            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
-        }
-
-
-        /// <summary>
-        /// Adds the playermovement component that is used specifically  in monstertower to the player character . 
-        /// Sets up the camera so it works with the players movements and the Player characthers StartPosition is set. 
-        /// </summary>
-        /// 
-        private void SetupPlayerMovementForMonsterTower()
-        {
-
-
-            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-
-          
-            spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-
-
-            PlayerMovement_MT pMovement = spawnedPlayer.AddComponent<PlayerMovement_MT>();
-            pMovement.idle = idle;
-            pMovement.walk = walk;
-            pMovement.pointAndClickEffect = pointAndClickEffect;
-            pMovement.sceneCamera = mainCamera;
-            pMovement.placementLayermask = placementLayermask;
-            pMovement.skeletonAnimation = spawnedPlayer.transform.GetChild(0).GetComponent<SkeletonAnimation>();
-            spawnedPlayer.SetActive(true);
-            spawnedPlayer.transform.position = playerSpawnPosition.transform.position;
-
-            CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
-            virtualCamera.Follow = spawnedPlayer.transform;
-            virtualCamera.LookAt = spawnedPlayer.transform;
-        }
-
-
-
-
 
         /// <summary>
         /// Spawns the ammo with each block representing a word that the player has picked up from the other minigames. 
         /// </summary>
         void SpawnAmmoForDisplay()
         {
-            //Calculating the size of the 2 dimensional array holding the ammoboxes based on the amount of words given. 
-            if (words != null)
-            {
-                //dividing the amount of words with 4 because i have 4 spawnpoints . 
-                // Then making sure its rounded up all the time. 
-                int amountOfSpawnPoints = ammoPlatform.transform.childCount;
-                int wordsMaxHeightIndex = (int)Math.Ceiling((double)words.Count / (double)amountOfSpawnPoints);
-
-                ammoDisplay = new GameObject[amountOfSpawnPoints, wordsMaxHeightIndex];
-            }
-
-
-            int spawnIndex = 0;
-
-            int spawnHeightIndex=0;
-
-            int amountOfSpawnPositions = ammoPlatform.transform.childCount;
-
-            
-            //Putting the boxes in the right position and saving the box in ammoDisplay 2D array with a x,y position.
-            // Also puts the words on the list of words on the box itself. 
-            //Also setting the name of the box to the position it has and setting a tag on it which can be used to do collision detection. 
 
             if (words!=null)
             {
-               
                 for (int x = 0; x < words.Count; x++)
                 {
-
-
                     for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                     {
                         ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
 
                     }
 
-                    if (spawnIndex >= amountOfSpawnPositions)
-                    {
-                        spawnIndex = 0;
-                        spawnHeightIndex++;
-                    }
-
-                 
-
-                    ammoToDisplayPrefab.tag = "ammo";
-
-                    
-
-                    Vector3 spawnPos = ammoPlatform.transform.GetChild(spawnIndex).transform.position + new Vector3(0, ammoDimensions.y * spawnHeightIndex);
-
-
-
-                    GameObject ammo = Instantiate(ammoToDisplayPrefab, spawnPos, Quaternion.identity);
+                    GameObject ammo = Instantiate(ammoToDisplayPrefab, ammoPlatform.transform.position + new Vector3(2 * x - 1.56f, 1, 0), Quaternion.identity);
                     ammo.transform.parent = ammoPlatform.transform;
-
-                    ammo.name = spawnIndex + "," + spawnHeightIndex;
-                    ammoDisplay[spawnIndex,spawnHeightIndex]= ammo;
-
-
-                    spawnIndex++;
+                    ammoDisplay.Add(ammo);
                 }
             }
           
@@ -248,7 +144,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
 
         /// <summary>
-        /// sends out a ray to detect what was clicked on.
+        /// sends out a ray to detect what was cliced on.
         /// also handels the check if you cliced on the right image/stone
         /// </summary>
         void CheckWhatWasClickedOn()
@@ -267,7 +163,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         }
 
         /// <summary>
-        /// removes ammoCount and updates the wordlist in playerdata and locally for the words List. 
+        /// removes ammoCount and updates the pile of ammoCount
         /// </summary>
         public void RemoveAmmo()
         {
@@ -278,10 +174,10 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             ammoCount--;
 
           
-            //if(ammoCount < ammoDisplay.Length)
-            //    ammoDisplay[ammoCount].SetActive(false);
-            //if (ammoCount <= 0)
-            //    noAmmoText.SetActive(true);
+            if(ammoCount < ammoDisplay.Count)
+                ammoDisplay[ammoCount].SetActive(false);
+            if (ammoCount <= 0)
+                noAmmoText.SetActive(true);
         }
 
         /// <summary>

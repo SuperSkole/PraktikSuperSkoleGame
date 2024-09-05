@@ -1,7 +1,6 @@
+using System.Collections.Generic;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,24 +61,22 @@ namespace UI.Scripts
             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
 
 
-            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
+            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid,skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
             //Build shop
 
             List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
             InitializeShopOptions(theShopOptions);
         }
-
         private void OnDisable()
         {
             var amountOfChild = shopOptionsParent.childCount;
 
-            for (int i = amountOfChild - 1; i >= 0; i--)
+            for (int i = 0; i < amountOfChild; i++)
             {
-                Destroy(shopOptionsParent.GetChild(i).gameObject);
+                Destroy(shopOptionsParent.GetChild(i));
             }
         }
-
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
@@ -110,8 +107,6 @@ namespace UI.Scripts
 
             if (itemName.Contains("HEAD") || itemName.Contains("MID"))
             {
-                Debug.Log(itemName);
-
                 //hvis curren item ikke er tom, 
                 if (currentItem != null)
                 {
@@ -154,15 +149,15 @@ namespace UI.Scripts
                 PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
                 //change clothing
-                if (currentItem.Contains("HEAD"))
+                if(currentItem.Contains("HEAD"))
                 {
                     PlayerManager.Instance.PlayerData.ClothMid = currentItem;
                 }
-                if (currentItem.Contains("MID"))
+                if(currentItem.Contains("MID"))
                 {
                     PlayerManager.Instance.PlayerData.ClothTop = currentItem;
                 }
-
+            
 
                 //takes away money
                 avaliableMoney -= currentPrice;

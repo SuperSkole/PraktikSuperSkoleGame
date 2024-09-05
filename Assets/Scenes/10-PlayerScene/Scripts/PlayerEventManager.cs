@@ -45,8 +45,7 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnWordValidated += AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
-            PlayerEvents.OnGoldChanged += ModifyGold;
-            PlayerEvents.OnXPChanged += ModifyXP;
+
         }
 
         private void OnDisable()
@@ -54,8 +53,6 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
-            PlayerEvents.OnGoldChanged -= ModifyGold;
-            PlayerEvents.OnXPChanged -= ModifyXP;
         }
 
         private void OnDestroy()
@@ -63,8 +60,6 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
-            PlayerEvents.OnGoldChanged -= ModifyGold;
-            PlayerEvents.OnXPChanged -= ModifyXP;
         }
 
         private void Update()
@@ -164,34 +159,6 @@ namespace Scenes._10_PlayerScene.Scripts
             // Returner den opdaterede liste
             return updatedWordList;
         }
-        
-        /// <summary>
-        /// Adds or removes gold from the player's current total.
-        /// </summary>
-        /// <param name="amount">The amount of gold to add (positive) or remove (negative).</param>
-        public void ModifyGold(int amount)
-        {
-            playerData.CurrentGoldAmount += amount;
-        }
-        
-        /// <summary>
-        /// Adds or removes XP from the player's current total.
-        /// </summary>
-        /// <param name="amount">The amount of XP to add (positive) or remove (negative).</param>
-        public void ModifyXP(int amount)
-        {
-            playerData.CurrentXPAmount += amount;
-            CheckForLevelUp();
-        }
-        
-        /// <summary>
-        /// Checks if the player has reached the XP threshold for leveling up.
-        /// </summary>
-        private void CheckForLevelUp()
-        {
-            // Check xp for level
-            // if level up confitte around player
-        }
 
 
 
@@ -205,11 +172,33 @@ namespace Scenes._10_PlayerScene.Scripts
 
         #region ideas
 
-        
+        /// <summary>
+        /// Adds or removes gold from the player's current total.
+        /// </summary>
+        /// <param name="amount">The amount of gold to add (positive) or remove (negative).</param>
+        public void ModifyGold(int amount)
+        {
+            playerData.CurrentGoldAmount += amount;
+        }
 
-        
+        /// <summary>
+        /// Adds or removes XP from the player's current total.
+        /// </summary>
+        /// <param name="amount">The amount of XP to add (positive) or remove (negative).</param>
+        public void ModifyXP(int amount)
+        {
+            playerData.CurrentXPAmount += amount;
+            CheckForLevelUp();
+        }
 
-        
+        /// <summary>
+        /// Checks if the player has reached the XP threshold for leveling up.
+        /// </summary>
+        private void CheckForLevelUp()
+        {
+            // Check xp for level
+            // if level up confitte around player
+        }
 
         /// <summary>
         /// Updates the player's current position.

@@ -14,7 +14,7 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isNPC;
         [SerializeField] private bool isCar;
         [SerializeField] private NPCInteractions interactions;
-        private PlayerEventManager playerEventManager;
+
         private OpenCloseDoor doorMechanism;
 
         private void Start()
@@ -24,7 +24,6 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
-            playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
         }
 
         /// <summary>
@@ -38,8 +37,8 @@ namespace Scenes._20_MainWorld.Scripts
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
                 {
-                    playerEventManager.PlayerInteraction = action;
-                    playerEventManager.interactionIcon.SetActive(true);
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = action;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(true);
                     //parent.action = action;
                     parent.inZone = true;
                 }
@@ -62,10 +61,10 @@ namespace Scenes._20_MainWorld.Scripts
                 switch (gameObject.name)
                 {
                     case "WalkInto":
-                        playerEventManager.InvokeAction();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     case "PlayerCar":
-                        playerEventManager.InvokeAction();
+                        PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().InvokeAction();
                         break;
                     default:
                         //print("InColliderZone/OnTriggerEnter/No name matches");
@@ -84,8 +83,8 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 try
                 {
-                    playerEventManager.PlayerInteraction = null;
-                    playerEventManager.interactionIcon.SetActive(false);
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = null;
+                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
 
                     //parent.action = null;
                     parent.inZone = false;

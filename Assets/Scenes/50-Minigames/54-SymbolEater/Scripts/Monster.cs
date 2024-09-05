@@ -27,7 +27,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private Vector3 playerDestination;
 
-        private SymbolEaterPlayer player;
+    private SymbolEaterPlayer player;
 
         [SerializeField] private GameObject targetMarker;
 
@@ -45,7 +45,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private float defaultSpeed = 0.5f;
 
-        private BoardController boardController;
 
     /// <summary>
     /// Gets the monster ready for movement and gets reference to the player script
@@ -58,11 +57,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             player = playerObject.GetComponent<SymbolEaterPlayer>();
         }
     }
-
-        public void SetBord(BoardController board)
-        {
-            boardController = board;
-        }
 
         /// <summary>
         /// Handles throwing the player and movement
@@ -133,7 +127,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             }
         }
 
-        int safty = 0;
+
         /// <summary>
         /// Throws the player towards a random point on the board
         /// </summary>
@@ -142,7 +136,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             //the setup code of the throw
             if (!throwingPlayer && !releasingPlayer)
             {
-                player.gameObject.GetComponent<CapsuleCollider>().enabled = false;
                 //sets up the rangemarker
                 Vector3 scale = new Vector3(throwRange * 0.2f, 0, throwRange * 0.2f);
                 spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
@@ -224,16 +217,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 else
                 {
                     throwRange++;
-                }
-
-                //chek if the chosen point is emty
-                if(!boardController.IsPosFree(newPos))
-                {
-                    if(safty >= 100) return;
-                    safty++;
-                    Destroy(spawnedRangeMarker);
-                    ThrowPlayer();
-                    return;
                 }
 
 

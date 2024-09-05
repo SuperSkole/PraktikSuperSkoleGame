@@ -43,7 +43,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 Instance = this;
                 //DontDestroyOnLoad(gameObject);
-                SceneManager.sceneUnloaded += OnSceneUnloaded;
+                SceneManager.sceneLoaded += OnSceneLoaded;
                 IntializeFactoryManager();
             }
         }
@@ -126,17 +126,19 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 Debug.LogError("Failed to initialize gear strategy.");
             }
         }
-        
+
         /// <summary>
         /// If Next scene is main re-enable player movement and destroy factory singleton managers.
         /// </summary>
-        private void OnSceneUnloaded(Scene scene)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name == SceneNames.Factory)
+            if (scene.name == SceneNames.Main)
             {
+                // Re-enable player movement in the main scene
+                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
                 // remove automove
-                StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
                 Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+                StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
         
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
@@ -147,7 +149,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private void OnDestroy()
         {
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 }

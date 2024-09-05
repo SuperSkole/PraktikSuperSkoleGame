@@ -1,5 +1,3 @@
-using System;
-using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 
@@ -64,9 +62,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         private readonly float blendDuration = 0.2f;
         private bool facingRight = false;
 
-        private bool isColiderOff = false;
-        private CapsuleCollider colider;
-
         /// <summary>
         /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
         /// </summary>
@@ -98,7 +93,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             maxLivesRemaining = livesRemaining;
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
-            colider = gameObject.GetComponent<CapsuleCollider>();
+
 
             /// <summary>
             /// Spawn Player Charector on Player prefab?
@@ -108,9 +103,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             {   //ask Sofie if you dont know what is happeing here!
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
+                playerMonster.transform.parent = placePlayerMonster.transform;
                 playerOldScale = playerMonster.transform.localScale;
-                playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
-                playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
+                playerMonster.transform.localScale = new(0.12f, 0.12f, 0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
                 SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
@@ -281,7 +276,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
-                colider.enabled = true;
             }
         }
 

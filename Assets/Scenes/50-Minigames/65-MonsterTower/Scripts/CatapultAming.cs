@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
-using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
@@ -74,9 +73,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                 Rigidbody rb = temp.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.velocity = CalcolateTerejectory(target);
-                AmmoDeletor ammoDeleterComp = temp.GetComponent<AmmoDeletor>();
-                ammoDeleterComp.Hitbox(brick);
-                ammoDeleterComp.towerManager = manager.towerManager;
+                temp.GetComponent<AmmoDeletor>().Hitbox(brick);
+
                 while (rotateThisMuch > 0)
                 {
                     catapultArm.gameObject.transform.Rotate(0, rotateAmount / 5f, 0);

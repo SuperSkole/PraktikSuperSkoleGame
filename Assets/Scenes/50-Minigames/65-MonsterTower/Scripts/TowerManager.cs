@@ -9,9 +9,6 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEngine.ParticleSystem;
-using System;
-using Scenes._10_PlayerScene.Scripts;
 
 
 
@@ -22,11 +19,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
-        public int towerHeight;
+        private int towerHeight;
 
         private GameObject[,] tower;
 
-        public int rowToDelete = 0;
+        private int rowToDelete = 0;
 
 
         [SerializeField] GameObject brickPrefab;
@@ -70,8 +67,10 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         
         private float yPosGoal;
         private bool falling = false;
-        private bool waitForLastExplosionToFinish=true;
-        private float goToWinScreenTimer=0;
+
+      
+
+
 
         void Start()
         {
@@ -141,14 +140,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         }
 
 
-        /// <summary>
-        /// Removes the PlayerMovement_MT component from the player characther. 
-        /// </summary>
-        public void SetupPlayerMovementToDefault()
-        {
-            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
-        }
-
 
 
         // Update is called once per frame
@@ -189,11 +180,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
             }
 
-            //Adds gold and Xp To the player for destroying a lane of the tower. 
-
-            PlayerEvents.RaiseGoldChanged(1);
-            PlayerEvents.RaiseXPChanged(1);
-
 
             // list holding data on the lanes is also updated so the lowest lane is removed from the save data. 
             loadedBrickLanes.RemoveAt(0);
@@ -229,38 +215,16 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             else
             {
                 //Goes to the win screen if there are no more bricks of the tower left. 
-                SetupPlayerMovementToDefault();
-                StartCoroutine(GoToWinScreen());
+                GoToWinScreen();
             }
 
-            //Shaking the camera
-            ShakeCamera();
-
-
-            PlayAudioExplosion();
-
             // Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
-           StartCoroutine( PlayAudioPraise());
-
-           
-            
+            PlayAudioPraise();
 
             // zoom out when when a tower lane is destroyed
             mainCamera.GetComponent<ToggleZoom>().ZoomOutWhenTowerLaneIsDestroyed();
 
         }
-
-        /// <summary>
-        /// Shakes the main camera 
-        /// </summary>
-        void ShakeCamera()
-        {
-            StartCoroutine(mainCamera.GetComponent<CameraShake>().Shake(.30f, .4f));
-        }
-       
-
-        
-     
 
         /// <summary>
         /// Animation for the tower falling based on the yPosGoal which is the y position the tower needs to fall to. 
@@ -287,13 +251,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         ///  Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
         ///  Is set To Danish as default but can be changed if needed. 
         /// </summary>
-        IEnumerator PlayAudioPraise()
+        void PlayAudioPraise()
         {
-            while (towerAudioSource.isPlaying)
-            {
-                yield return null;
-            }
-
             int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
 
             AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
@@ -303,32 +262,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         }
 
         /// <summary>
-        /// 
-        ///  Gets a explosion audioclip from the soundFXManager and plays it.
-        /// </summary>
-        void PlayAudioExplosion()
-        {
-            AudioClip explosionAudio = SoundFXManager.GetAudioClipFromExplosionsList(0);
-            towerAudioSource.clip = explosionAudio;
-            towerAudioSource.Play();
-        }
-
-
-        /// <summary>
         /// Loads the win screen sceene
         /// </summary>
-         IEnumerator GoToWinScreen()
-        { 
-            yield return new WaitForSeconds(4);
-
+        public void GoToWinScreen()
+        {
             // saving the game so the fact that there are no lanes left is saved .
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
-
-            // DataPersistenceManager.instance.SaveGame();
            
-
+            // DataPersistenceManager.instance.SaveGame();
 
             SceneManager.LoadScene("WinScene");
+
         }
 
 
