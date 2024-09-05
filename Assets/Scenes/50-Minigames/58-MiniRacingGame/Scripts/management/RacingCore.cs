@@ -21,6 +21,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private CarController carController;
         [SerializeField]
         private RacingGameManager racingGameManager;
+        [SerializeField]
+        private GameObject coinEffect;
 
         private bool imageInitialized = false;
 
@@ -393,6 +395,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
                         DetermineWordToUse(); // Select a new random word for the next game
                     }
+                    Instantiate(coinEffect);
                 }
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
