@@ -139,7 +139,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
-                Debug.Log("Set in Start:"+playerSpawnPoint);
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
@@ -167,6 +166,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         public void SetupPlayerMovementToDefault()
         {
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
         }
 
 

@@ -142,6 +142,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
                 Destroy(WordFactorySoundManager.Instance);
+
             }
         }
 

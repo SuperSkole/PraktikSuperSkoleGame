@@ -6,6 +6,7 @@ using Spine.Unity;
 using Spine;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
+using Scenes._50_Minigames._65_MonsterTower.Scrips;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -88,7 +89,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onReachedTarget">Action to perform once the target is reached.</param>
         public void MoveToPosition(GameObject block, Action onReachedTarget = null)
         {
-            Debug.Log(block);
+           
        
             StartCoroutine(MoveToPositionCoroutine(block, onReachedTarget));
         }
@@ -115,8 +116,10 @@ namespace Scenes._10_PlayerScene.Scripts
             if (boxOn)
             {
                 Vector3 boneWorldPos = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0));
-
-                savedBlock.transform.position = boneWorldPos + offset;
+              
+                    savedBlock.transform.position = boneWorldPos + offset;
+                
+               
             }
         }
 

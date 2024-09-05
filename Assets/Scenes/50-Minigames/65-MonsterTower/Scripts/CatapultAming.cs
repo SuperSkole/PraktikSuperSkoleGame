@@ -31,7 +31,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         /// <returns></returns>
         Vector3 CalcolateTerejectory(Vector3 target)
         {
-            Debug.Log(target);
+          
             Vector3 output;
             float grav = Physics.gravity.y;
             hight = 4;

@@ -37,7 +37,7 @@ namespace CORE.Scripts
         /// <param name="input"></param>
         public static AudioClip GetAudioClipFromExplosionsList(int index)
         {
-            Debug.Log("Explosions Count:"+Explosions.Count);
+            
             return Explosions[index];
         }
 
