@@ -24,6 +24,9 @@ namespace Scenes._50_Minigames.Gamemode
                 case 1:
                     modeSetter = new SymbolEaterSetter();
                     break;
+                case 2:
+                    modeSetter = new LetterGardenSetter();
+                    break;
             }
         }
 
