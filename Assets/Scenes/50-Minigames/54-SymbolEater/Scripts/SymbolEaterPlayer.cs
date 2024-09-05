@@ -102,8 +102,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             {   //ask Sofie if you dont know what is happeing here!
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
-                playerMonster.transform.parent = placePlayerMonster.transform;
                 playerOldScale = playerMonster.transform.localScale;
+                playerMonster.transform.parent = placePlayerMonster.transform;
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
