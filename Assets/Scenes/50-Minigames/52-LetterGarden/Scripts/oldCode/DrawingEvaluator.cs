@@ -21,7 +21,6 @@ namespace Scenes._50_Minigames._52_LetterGarden.Scripts.oldCode
         private CursorPositionDisplay cursorDisplay; 
 
         private bool markersVisible = true; 
-        private int currentPointIndex = 0; 
 
         public float tolerance = 0.5f; 
 

@@ -15,7 +15,6 @@ namespace UI.Scripts
         [SerializeField] private int maxAmount;
 
         private float fillSpeed = 0.5f;
-        private float tweenDuration = 0.5f;
 
         private Coroutine changeValueCoroutine;
 

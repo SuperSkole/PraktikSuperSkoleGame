@@ -57,8 +57,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private readonly float blendDuration = 0.2f;
         private bool facingRight = false;
-
-        private bool isColiderOff = false;
         private CapsuleCollider colider;
 
         /// <summary>

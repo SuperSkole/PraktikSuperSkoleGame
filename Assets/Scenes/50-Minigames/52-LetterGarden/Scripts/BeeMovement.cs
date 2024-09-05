@@ -19,11 +19,7 @@ namespace Scenes._50_Minigames._52_LetterGarden.Scripts
         private float spineLeangth;
         public int splineIndex = 0;
 
-        private readonly int difficultTest = 1;
         private readonly int difficultyEasy = 3;
-        private readonly int difficultyMedium = 5;
-        private readonly int difficultyHard = 7;
-        private readonly int difficultyAll;
         private int difficultyCurrent = 3;
         private int completedLetters = 0;
 
