@@ -3,7 +3,9 @@ using System.Collections;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using Spine.Unity;
+using Spine;
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -20,9 +22,15 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private float moveSpeed = 5.0f;
         
         private GameObject spawnedPlayer;
-        private BoneFollower boneFollow;
+        private Bone bone;
         private Vector3 offset = new Vector3(0, 1, 0);
         private GameObject chosenBlock;
+
+        private bool boxOn = false;
+
+        private SkeletonAnimation skeletonAnimation;
+
+        private GameObject savedBlock;
 
         private void Awake()
         {
@@ -41,6 +49,7 @@ namespace Scenes._10_PlayerScene.Scripts
         
         private void OnDestroy()
         {
+            StopAllCoroutines();
             PlayerEvents.OnMovePlayerToBlock -= MovePlayerToBlockAndPickUpBlock;
         }
         
@@ -101,6 +110,16 @@ namespace Scenes._10_PlayerScene.Scripts
             }
         }
 
+        private void Update()
+        {
+            if (boxOn)
+            {
+                Vector3 boneWorldPos = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0));
+
+                savedBlock.transform.position = boneWorldPos + offset;
+            }
+        }
+
         /// <summary>
         /// Picks up the block after reaching its position.
         /// </summary>
@@ -113,14 +132,14 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = chosenBlock;
             if (block != null)
             {
-                boneFollow = block.AddComponent<BoneFollower>();
-                boneFollow.SkeletonRenderer = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
-                boneFollow.boneName = "Head";
-                boneFollow.Initialize();
-                
-                boneFollow.followLocalScale = true;
-                boneFollow.followXYPosition = true;
-                boneFollow.transform.position += offset;
+                savedBlock = block;
+
+                skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+
+                bone = skeletonAnimation.skeleton.FindBone("Head");
+
+                boxOn = true;
+
 
                 // Wait for animation to complete before moving to the drop-off point
                 StartCoroutine(
@@ -153,9 +172,7 @@ namespace Scenes._10_PlayerScene.Scripts
             GameObject block = chosenBlock;
             if (block != null)
             {
-                boneFollow.followXYPosition = false;
-                boneFollow.followBoneRotation = false;
-
+                boxOn = false;
                 // Re-enable physics interactions
                 Rigidbody blockRigidbody = block.GetComponent<Rigidbody>();
                 if (blockRigidbody != null)
@@ -187,6 +204,25 @@ namespace Scenes._10_PlayerScene.Scripts
         private IEnumerator WaitForAnimation(string animationName, Action onComplete)
         {
             var state = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation.state;
+            // if (spawnedPlayer == null)
+            // {
+            //     Debug.LogError("Spawned player is null.");
+            //     yield break;
+            // }
+            //
+            // var skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+            // if (skeletonAnimation == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation component is missing on the spawned player.");
+            //     yield break;
+            // }
+            //
+            // var state = skeletonAnimation.state;
+            // if (state == null)
+            // {
+            //     Debug.LogError("SkeletonAnimation state is null.");
+            //     yield break;
+            // }
 
             // Wait until the animation completes
             while (state.GetCurrent(0) != null && state.GetCurrent(0).Animation.Name == animationName && !state.GetCurrent(0).IsComplete)
@@ -197,5 +233,6 @@ namespace Scenes._10_PlayerScene.Scripts
             // Invoke the callback action
             onComplete?.Invoke();
         }
+
     }
 }
