@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -45,6 +46,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void OnExitButton()
         {
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+            
             // Load the main scene
             SceneManager.LoadScene(SceneNames.Main); 
         }
