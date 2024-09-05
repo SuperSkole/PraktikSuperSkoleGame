@@ -116,10 +116,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.8300002
-  m_Height: 12.199941
+  m_Radius: 1.8300003
+  m_Height: 8.069439
   m_Direction: 1
-  m_Center: {x: 0.3, y: -4.249971, z: -1.8800001}
+  m_Center: {x: 0.3, y: -4.187174, z: -1.8800002}
 --- !u!114 &2014260511405141757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +163,9 @@ MonoBehaviour:
   interactionGO: {fileID: 2615622183424237912}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
   rigidbody: {fileID: 5874153678614725772}
+  rideHeight: 2.3
+  rideSpringStrength: 50
+  rideSpringDamper: 10
 --- !u!114 &5743102167441662518
 MonoBehaviour:
   m_ObjectHideFlags: 0

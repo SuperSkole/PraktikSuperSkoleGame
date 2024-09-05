@@ -26,6 +26,11 @@ public class SpinePlayerMovement : MonoBehaviour
     [SerializeField] private GameObject interactionGO;
     [SerializeField] ParticleSystem pointAndClickEffect;
     [SerializeField] private Rigidbody rigidbody;
+
+    [SerializeField] private float rideHeight = 2f;
+    [SerializeField] private float rideSpringStrength = 1f;
+    [SerializeField] private float rideSpringDamper = 1f;
+
     /// <summary>
     /// Initializes the player's animation state to idle.
     /// </summary>
@@ -63,6 +68,7 @@ public class SpinePlayerMovement : MonoBehaviour
                 StartMovement(newMoveToPos);
             }
         }
+
     }
 
     private void FixedUpdate()
@@ -75,6 +81,36 @@ public class SpinePlayerMovement : MonoBehaviour
             }
             PlayerWASDMovement();
         }
+        if(isMoving && Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+        {
+            MoveToTarget();
+        }
+        Floating();
+    }
+
+    private void Floating()
+    {
+        bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10f);
+        if (rayDidHit)
+        {
+            Vector3 vel = rigidbody.velocity;
+            Vector3 rayDir = Vector3.down;
+
+            Vector3 otherVel = Vector3.zero;
+
+            float rayDirVel = Vector3.Dot(rayDir, vel);
+            float otherDirVel = Vector3.Dot(rayDir, otherVel);
+
+            float relVel = rayDirVel - otherDirVel;
+
+            float x = hit.distance - rideHeight;
+
+            float springForce = (x * rideSpringStrength) - (relVel * rideSpringDamper);
+
+            Debug.DrawLine(transform.position, transform.position + (rayDir * springForce), Color.yellow);
+
+            rigidbody.AddForce(rayDir * springForce);
+        }
     }
 
     /// <summary>
@@ -82,7 +118,7 @@ public class SpinePlayerMovement : MonoBehaviour
     /// </summary>
     private void PlayerWASDMovement()
     {
-        StopCoroutine(MoveToTarget());
+        //StopCoroutine(MoveToTarget());
         //Remove Raw to add inertia
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         float verticalInput = Input.GetAxisRaw("Vertical");
@@ -90,12 +126,7 @@ public class SpinePlayerMovement : MonoBehaviour
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
 
         // Move the player
-        
-
-        if(rigidbody.velocity.y > 0f) 
-            rigidbody.velocity = new(movement.x, 0, movement.z);
-        else
-            rigidbody.velocity = new(movement.x, rigidbody.velocity.y, movement.z);
+        rigidbody.velocity = new(movement.x, rigidbody.velocity.y, movement.z);
 
         //transform.Translate(movement * moveSpeed * Time.deltaTime);
 
@@ -113,7 +144,7 @@ public class SpinePlayerMovement : MonoBehaviour
             interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
         }
 
-        if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        if (Input.GetAxisRaw("Horizontal") != 0f || Input.GetAxisRaw("Vertical") != 0f)
         {
             SetCharacterState("Walk");
         }
@@ -129,14 +160,11 @@ public class SpinePlayerMovement : MonoBehaviour
     private void StartMovement(Vector3 newMoveToPos)
     {
         targetPosition = newMoveToPos;
-        targetPosition.y = transform.position.y; // Keep the player's y position constant
-
+        isMoving = true;
         // Stop any ongoing point-and-click movement
-        if (isMoving && moveCoroutine != null)
+        if (isMoving)
         {
             SetCharacterState("Idle");
-            StopCoroutine(moveCoroutine);
-
         }
         if (transform.position.x > targetPosition.x)
         {
@@ -156,27 +184,23 @@ public class SpinePlayerMovement : MonoBehaviour
         SetCharacterState("Walk");
         var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
         Destroy(effect.gameObject, 0.5f);
-        moveCoroutine = StartCoroutine(MoveToTarget());
     }
 
     /// <summary>
     /// Coroutine that smoothly moves the player towards the target position.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator MoveToTarget()
+    private void MoveToTarget()
     {
-        isMoving = true;
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+        if(Vector3.Distance(transform.position, targetPosition) > 0.1f)
         {
             // Move towards the target position at the specified speed
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-            yield return null;
+            Vector3 moveVel = (targetPosition - transform.position).normalized * moveSpeed;
+            rigidbody.velocity = new(moveVel.x,rigidbody.velocity.y,moveVel.z);
+            return;
         }
-
         // Snap to the exact position when very close to avoid overshooting
         transform.position = targetPosition;
-
         isMoving = false;
     }
 
@@ -185,11 +209,7 @@ public class SpinePlayerMovement : MonoBehaviour
     /// </summary>
     public void StopPointAndClickMovement()
     {
-        if (isMoving && moveCoroutine != null)
-        {
-            StopCoroutine(moveCoroutine);
-            isMoving = false;
-        }
+        isMoving = false;
     }
     /// <summary>
     /// Gets the position on the map that the player clicked on.
