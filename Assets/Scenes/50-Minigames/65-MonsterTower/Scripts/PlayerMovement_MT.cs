@@ -10,7 +10,7 @@ public class PlayerMovement_MT : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    [SerializeField] MonsterTowerManager monsterTowerManager;
+   public MonsterTowerManager monsterTowerManager;
 
     public SkeletonAnimation skeletonAnimation;
     public AnimationReferenceAsset walk;
@@ -31,7 +31,7 @@ public class PlayerMovement_MT : MonoBehaviour
 
     public ParticleSystem pointAndClickEffect;
 
-    
+    private GameObject newAmmoBoxSelected;
 
     /// <summary>
     /// Initializes the player's animation state to idle.
@@ -60,18 +60,24 @@ public class PlayerMovement_MT : MonoBehaviour
         //    }
 
 
-        
+
 
         //    //  PlayerWASDMovement();
         //}
-
-        if (Input.GetMouseButtonDown(0))
+        if (monsterTowerManager.ammoLoaded ==false)
         {
-            GameObject newAmmoBoxSelected = GetSelectedAmmo();
-
-            if (newAmmoBoxSelected != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
+                GameObject newAmmoBoxSelected = GetSelectedAmmo();
+
+                if (newAmmoBoxSelected != null)
+                {
+                    monsterTowerManager.ammoLoaded = true;
+                    PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
+                    
+                }
+
+
             }
         }
     }
