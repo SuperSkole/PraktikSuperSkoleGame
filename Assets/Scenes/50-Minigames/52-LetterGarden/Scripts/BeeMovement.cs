@@ -17,46 +17,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         private float spineLeangth;
         public int splineIndex = 0;
 
-        private readonly int difficultyEasy = 3;
-        private int difficultyCurrent = 3;
-        private int completedLetters = 0;
-
-        /// <summary>
-        /// Runs at start and dynamically fetches all splines used to draw letters/symbols, then selects one at random.
-        /// </summary>
-        private void Start()
-        {
-            SetDifficulty(difficultyEasy); //TODO: Placeholder until difficulty selection is created
-            //SetDifficulty(difficultTest);
-            SetLettersToDraw();
-            NextLetter();
-        }
-
-        private void SetDifficulty(int difficulty)
-        {
-            difficultyCurrent = difficulty;
-        }
-
-        /// <summary>
-        /// Finds all possible letters and assigns a number to be drawn depending on difficulty level.
-        /// </summary>
-        private void SetLettersToDraw()
-        {
-            foreach (Transform spline in SplineParent.GetComponentInChildren<Transform>())
-            {
-                letterList.Add(spline.gameObject.GetComponent<SplineContainer>());
-            }
-            if (difficultyCurrent > letterList.Count)
-            {
-                Debug.LogError("The difficulty level for LetterGarden is attempting to load more letters than is available.");
-            }
-            for (completedLetters = 0; completedLetters < difficultyCurrent; completedLetters++)
-            {
-                SplineContainer currentLetter = letterList[Random.Range(0, letterList.Count)];
-                lettersToDraw.Add(currentLetter);
-                letterList.Remove(currentLetter);
-            }
-        }
 
         /// <summary>
         /// Called to switch to the next letter, once the previous one has been completed.
