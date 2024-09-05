@@ -9,6 +9,10 @@ public class ArcadeManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private GameObject spawnedPlayer;
 
+
+    /// <summary>
+    /// sets the player in the world at the object this script is attatched to
+    /// </summary>
     private void Start()
     {
         Debug.Log("MainWorldStartup/Start/Setting up player camera");
