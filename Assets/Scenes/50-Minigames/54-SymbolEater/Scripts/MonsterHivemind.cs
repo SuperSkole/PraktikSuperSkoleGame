@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
 
 
@@ -12,7 +13,6 @@ namespace Scenes.Minigames.SymbolEater.Scripts
     {
 
         public List<Monster> monsters = new List<Monster>();
-
 
         /// <summary>
         /// Stops movement for all monsters on the board
@@ -52,7 +52,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         {
             foreach (Monster monster in monsters)
             {
-                monster.speed += 1; 
+                monster.speed += 2; 
             }
         }
 

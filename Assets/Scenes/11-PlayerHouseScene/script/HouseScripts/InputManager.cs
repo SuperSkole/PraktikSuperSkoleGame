@@ -1,45 +1,46 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputManager : MonoBehaviour
+namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 {
-    [SerializeField] private Camera sceneCamera;
-    private Vector3 lastPos;
-    [SerializeField] private LayerMask placementLayermask;
-
-    public event Action OnClicked, OnExit;
-
-    private void Update()
+    public class InputManager : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
+        [SerializeField] private Camera sceneCamera;
+        private Vector3 lastPos;
+        [SerializeField] private LayerMask placementLayermask;
+
+        public event Action OnClicked, OnExit;
+
+        private void Update()
         {
-            OnClicked?.Invoke();
+            if (Input.GetMouseButtonDown(0))
+            {
+                OnClicked?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                OnExit?.Invoke();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+        public bool IsPointerOverUI() 
+            => EventSystem.current.IsPointerOverGameObject();
+
+
+
+        public Vector3 GetSelectedMapPosition()
         {
-            OnExit?.Invoke();
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = sceneCamera.nearClipPlane;
+            Ray ray = sceneCamera.ScreenPointToRay(mousePos);   
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit,100, placementLayermask))
+            {
+                lastPos = hit.point;
+            }
+            return lastPos;
         }
+
     }
-
-    public bool IsPointerOverUI() 
-        => EventSystem.current.IsPointerOverGameObject();
-
-
-
-    public Vector3 GetSelectedMapPosition()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = sceneCamera.nearClipPlane;
-        Ray ray = sceneCamera.ScreenPointToRay(mousePos);   
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit,100, placementLayermask))
-        {
-            lastPos = hit.point;
-        }
-        return lastPos;
-    }
-
 }

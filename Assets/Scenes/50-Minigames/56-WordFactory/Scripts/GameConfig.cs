@@ -1,4 +1,4 @@
-namespace Scenes._05_Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public static class GameConfig
     {

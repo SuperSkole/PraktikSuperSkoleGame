@@ -1,8 +1,8 @@
-using CORE.Scripts.GameRules;
+using CORE.Scripts.Game_Rules;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of IGameMode with the goal of finding a given letter on the board

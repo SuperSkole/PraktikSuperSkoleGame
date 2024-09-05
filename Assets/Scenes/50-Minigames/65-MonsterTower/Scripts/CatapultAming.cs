@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine.Utility;
+using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Scenes.Minigames.MonsterTower.Scrips
+namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
     public class CatapultAming : MonoBehaviour
     {
@@ -73,8 +74,9 @@ namespace Scenes.Minigames.MonsterTower.Scrips
                 Rigidbody rb = temp.GetComponent<Rigidbody>();
                 rb.isKinematic = false;
                 rb.velocity = CalcolateTerejectory(target);
-                temp.GetComponent<AmmoDeletor>().Hitbox(brick);
-
+                AmmoDeletor ammoDeleterComp = temp.GetComponent<AmmoDeletor>();
+                ammoDeleterComp.Hitbox(brick);
+                ammoDeleterComp.towerManager = manager.towerManager;
                 while (rotateThisMuch > 0)
                 {
                     catapultArm.gameObject.transform.Rotate(0, rotateAmount / 5f, 0);

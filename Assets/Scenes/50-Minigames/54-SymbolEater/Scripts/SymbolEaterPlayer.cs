@@ -1,16 +1,12 @@
 using System;
-using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.SceneManagement;
-using UnityEngine.VFX;
 using Vector3 = UnityEngine.Vector3;
 
 
-namespace Scenes.Minigames.SymbolEater.Scripts
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
     /// <summary>
     /// Player class for the Symbol Eater mini game
@@ -62,6 +58,9 @@ namespace Scenes.Minigames.SymbolEater.Scripts
         private readonly float blendDuration = 0.2f;
         private bool facingRight = false;
 
+        private bool isColiderOff = false;
+        private CapsuleCollider colider;
+
         /// <summary>
         /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
         /// </summary>
@@ -93,7 +92,7 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             maxLivesRemaining = livesRemaining;
             healthText = healthTextObject.GetComponent<TextMeshProUGUI>();
             healthText.text = livesRemaining + "/" + maxLivesRemaining + " liv tilbage";
-
+            colider = gameObject.GetComponent<CapsuleCollider>();
 
             /// <summary>
             /// Spawn Player Charector on Player prefab?
@@ -258,13 +257,11 @@ namespace Scenes.Minigames.SymbolEater.Scripts
             
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
             
-            // former attempt at having the Player Charector model at Player Prefab.
-            //Vector3 deltaPosition = Vector3.MoveTowards(transform.position, currentDestination, step);
-            //transform.Translate(deltaPosition);
-            //playerMonster.transform.Translate(deltaPosition);
+            
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
+                colider.enabled = true;
             }
         }
 

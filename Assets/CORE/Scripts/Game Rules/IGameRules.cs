@@ -1,6 +1,6 @@
 
 
-namespace CORE.Scripts.GameRules 
+namespace CORE.Scripts.Game_Rules 
 {
     /// <summary>
     /// Interface for handling game rules across games

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Scenes.Minigames.WordFactory.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     public class ScoreDisplay : MonoBehaviour, IScoreDisplay
     {

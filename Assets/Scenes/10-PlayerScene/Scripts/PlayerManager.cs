@@ -18,8 +18,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private TextMeshProUGUI playerName;
-        [SerializeField] private int moveSpeed = 5;
+        [SerializeField] private TextMeshProUGUI playerName;        
         [SerializeField] private Vector3 dropOffPoint; 
 
         private PlayerData playerData;
@@ -282,6 +281,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+
             }
         }
 

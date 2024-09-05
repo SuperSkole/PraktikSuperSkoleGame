@@ -1,36 +1,38 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighScore : MonoBehaviour
+namespace LoadSave
 {
-    // Using Dictionary to track words and their counts.
-    public Dictionary<string, int> CollectedWords = new Dictionary<string, int>();
-    public Dictionary<char, int> CollectedLetters = new Dictionary<char, int>();
-    public Dictionary<int, int> CollectedNumbers = new Dictionary<int, int>();
-
-    public void AddWord(string word)
+    public class HighScore : MonoBehaviour
     {
-        if (!CollectedWords.TryAdd(word, 1))
+        // Using Dictionary to track words and their counts.
+        public Dictionary<string, int> CollectedWords = new Dictionary<string, int>();
+        public Dictionary<char, int> CollectedLetters = new Dictionary<char, int>();
+        public Dictionary<int, int> CollectedNumbers = new Dictionary<int, int>();
+
+        public void AddWord(string word)
         {
-            CollectedWords[word]++; 
+            if (!CollectedWords.TryAdd(word, 1))
+            {
+                CollectedWords[word]++; 
+            }
         }
-    }
 
     
-    public void AddLetter(char letter)
-    {
-        if (!CollectedLetters.TryAdd(letter, 1))
+        public void AddLetter(char letter)
         {
-            CollectedLetters[letter]++;
+            if (!CollectedLetters.TryAdd(letter, 1))
+            {
+                CollectedLetters[letter]++;
+            }
         }
-    }
 
-    public void AddNumber(int number)
-    {
-        if (!CollectedNumbers.TryAdd(number, 1))
+        public void AddNumber(int number)
         {
-            CollectedNumbers[number]++;
+            if (!CollectedNumbers.TryAdd(number, 1))
+            {
+                CollectedNumbers[number]++;
+            }
         }
     }
 }
