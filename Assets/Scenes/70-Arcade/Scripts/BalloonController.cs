@@ -51,10 +51,6 @@ public class BalloonController : MonoBehaviour
         
     }
 
-    void Update()
-    {
-        
-    }
 
     /// <summary>
     /// called when the object attacthed is clicked on. Adds points if the balloon was correct and destroys itself.
