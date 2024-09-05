@@ -30,7 +30,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts
                 : 9;
             
             // Set the semi-circle radius to accommodate gear spacing correctly
-            semiCircleRadius = (cylinderScaleXZ / 2) + 0.6f + (numberOfGears - 2);  // half diameter + teeth outward position
+            semiCircleRadius = (cylinderScaleXZ / 2) + 0.7f + (numberOfGears - 2);  // half diameter + teeth outward position
             GenerateGears();
         }
 
