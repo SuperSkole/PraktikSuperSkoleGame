@@ -45,7 +45,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             //temp.x = 0;
             //temp.y -= 2.308069f;
             SplineUtility.GetNearestPoint(spline, temp, out _, out float lastT);
-
             if (lastT < 0.8f) 
             {
                 return false;//checks that the end of the drawing is within the last 5% of the spline

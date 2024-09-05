@@ -8,9 +8,9 @@ using CORE.Scripts.Game_Rules;
 
 namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
     /// <summary>
-    /// A LettergardenGamemode implementation where the player should draw random capital letters
+    /// A LettergardenGamemode implementation where the player should draw random numbers
     /// </summary>
-    public class DrawCapitalLetters : LettergardenGameMode
+    public class DrawWithoutBee : LettergardenGameMode
     {
         /// <summary>
         /// creates a list of SplineSymbolDataHolders of a given length
@@ -20,22 +20,22 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         public List<SplineSymbolDataHolder> GetSymbols(int amount, IGameRules gameRules)
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
-            List<char> usedLetters = new List<char>();
-            //Adds a given amount of random capital letters to the result list.
+            List<int>usedNumbers = new List<int>();
+            //Adds a given amount of random numbers to the result list.
             for (int i = 0; i < amount; i++){
-                char randomIndex = LetterManager.GetRandomLetter();
-                while(usedLetters.Contains(randomIndex)){
-                    randomIndex = LetterManager.GetRandomLetter();
+                int randomIndex = Random.Range(0, 10);
+                while(usedNumbers.Contains(randomIndex)){
+                    randomIndex = Random.Range(0, 10);
                 }
-                usedLetters.Add(randomIndex);
-                result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[randomIndex], SymbolManager.capitalLetters[randomIndex], randomIndex));
+                usedNumbers.Add(randomIndex);
+                result.Add(new SplineSymbolDataHolder(SymbolManager.numbersObjects[randomIndex], SymbolManager.numbers[randomIndex], System.Convert.ToChar(randomIndex)));
             }
             return result;
         }
 
         public bool UseBee()
         {
-            return true;
+            return false;
         }
 
     }

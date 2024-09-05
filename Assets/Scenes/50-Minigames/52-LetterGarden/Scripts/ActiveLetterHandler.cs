@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE;
+using CORE.Scripts.Game_Rules;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
@@ -30,10 +31,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <summary>
         /// call to start the game
         /// </summary>
-        public void StartGame(LettergardenGameMode gameMode)
+        public void StartGame(LettergardenGameMode gameMode, IGameRules gameRules)
         {
             symbolManager.StartLoad();
-            splines = gameMode.GetSymbols(5);
+            splines = gameMode.GetSymbols(5, gameRules);
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
