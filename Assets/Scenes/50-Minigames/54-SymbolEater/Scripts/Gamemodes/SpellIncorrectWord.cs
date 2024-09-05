@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using CORE.Scripts.GameRules;
-using Scenes.Minigames.SymbolEater.Scripts.Gamemodes;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of ISEGamemode where the player should spell incorrect two letter words

@@ -3,10 +3,10 @@ using System.Linq;
 using CORE.Scripts;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
-using Scenes.Minigames.SymbolEater.Scripts;
-using CORE.Scripts.GameRules;
+using CORE.Scripts.Game_Rules;
+using Scenes._00_Bootstrapper;
 
-namespace Scenes.Minigames.SymbolEater.Scripts.Gamemodes
+namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
     /// Implementation of IGameMode with the goal of finding the first letter of a word
