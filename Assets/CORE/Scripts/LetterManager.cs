@@ -98,6 +98,10 @@ namespace CORE.Scripts
             return Consonants.ToList();
         }
 
+        /// <summary>
+        /// Gets a list of all letters
+        /// </summary>
+        /// <returns>List of all letters</returns>
         public static List<char>GetAllLetters()
         {
             return AllDanishLetters.ToList();
