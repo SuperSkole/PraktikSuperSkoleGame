@@ -90,7 +90,7 @@ public class SpinePlayerMovement : MonoBehaviour
 
     private void Floating()
     {
-        bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 10f);
+        bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, rideHeight*2);
         if (rayDidHit)
         {
             Vector3 vel = rigidbody.velocity;
