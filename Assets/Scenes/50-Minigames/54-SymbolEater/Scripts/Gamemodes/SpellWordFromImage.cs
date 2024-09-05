@@ -36,6 +36,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
         bool wordsLoaded = false;
 
+        int activationIndex = 0;
+
         /// <summary>
         /// Gets the letters for the current game
         /// </summary>
@@ -43,6 +45,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         { 
             foundWordPart = "";
             oldWord = "";
+            activationIndex = 0;
             //Checks if data has been loaded and if it has it begins preparing the board. Otherwise it waits on data being loaded before restarting
             if(DataLoader.IsDataLoaded)
             {
@@ -73,35 +76,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
                 activeLetterCubes.Clear();
+                
                 //finds new letterboxes to be activated and assigns them a random incorrect letter.
-                for (int i = 0; i < count; i++)
-                {
-                    string letter = gameRules.GetWrongAnswer();
-                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                    //Check to ensure the potiential cube has not already been activated
-                    while(activeLetterCubes.Contains(potentialCube))
-                    {
-                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                    }
-                    activeLetterCubes.Add(potentialCube);
-                    potentialCube.Activate(letter);
-
-                }
+                GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
                 //finds some new letterboxes and assigns them a correct letter
-                for(int i = 0; i < gameRules.GetDisplayAnswer().Length; i++)
-                {
-                    string letter = gameRules.GetDisplayAnswer()[i].ToString();
-                    LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-
-                    //Check to ensure the potiential cube has not already been activated
-                    while(activeLetterCubes.Contains(potentialCube))
-                    {
-                        potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
-                    }
-                    activeLetterCubes.Add(potentialCube);
-                    activeLetterCubes[i].Activate(letter.ToString());
-                }
+                GameModeHelper.ActivateLetterCubes(gameRules.GetDisplayAnswer().Length, letterCubes, activeLetterCubes, ActivateCube, true);
                 boardController.SetAnswerText("");
             }
         }
@@ -143,34 +122,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 foundWordPart += foundLetters.Dequeue();
                 boardController.SetAnswerText(foundWordPart);
             }
-            string oldLetter = letter.GetLetter();
-            letter.Deactivate();
-            activeLetterCubes.Remove(letter);
-            LetterCube newLetter;
-            //finds a new random letterbox which is not active and is not the one which should be replaced
-            while(true)
-            {
-                newLetter = letterCubes[Random.Range(0, letterCubes.Count)];
-                if(newLetter != letter && !activeLetterCubes.Contains(newLetter))
-                {
-                    break;
-                }
-            }
-            activeLetterCubes.Add(newLetter);
-            //Checks if the word has been completed. If it hasnt a new random letter is placed on the board unless the old letter is in the currrent word, in which case the same letter is used
-            if(!gameRules.SequenceComplete() || oldLetter.ToLower()[0] != oldWord[oldWord.Length - 1])
-            {
-                string newLettercubeValue = gameRules.GetWrongAnswer();
-                if(gameRules.GetDisplayAnswer().Contains(oldLetter))
-                {
-                    newLettercubeValue = oldLetter;
-                }
-
-                newLetter.Activate(newLettercubeValue);
-
-            }
             //Checks if the game is over. If it is it informs the boardcontroller that the game is over. Otherwise it just restarts with a new word.
-            else
+            if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, true, ActivateCube, IsGameComplete))
             {
                 correctWords++;
                 boardController.monsterHivemind.IncreaseMonsterSpeed();
@@ -250,7 +203,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="correct"></param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-            
+            if(correct)
+            {
+                letterCube.Activate(gameRules.GetDisplayAnswer()[activationIndex].ToString());
+                activationIndex++;
+            }
+            else 
+            {
+                letterCube.Activate(gameRules.GetWrongAnswer());
+            }
         }
 
         /// <summary>
@@ -259,7 +220,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <returns></returns>
         public bool IsGameComplete()
         {
-            return false;
+            return foundWordPart.Length == gameRules.GetDisplayAnswer().Length;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CORE.Scripts.Game_Rules
+namespace CORE.Scripts.Game_Rules
 {
 
     /// <summary>

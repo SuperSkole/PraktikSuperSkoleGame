@@ -269,7 +269,9 @@ namespace Scenes._10_PlayerScene.Scripts
 
             instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().SceneStart();
             // TODO : Find a more permnat solution
-            if (SceneManager.GetActiveScene().name.StartsWith("11") || SceneManager.GetActiveScene().name.StartsWith("20"))
+            if (SceneManager.GetActiveScene().name.StartsWith("11") || 
+                SceneManager.GetActiveScene().name.StartsWith("20") || 
+                SceneManager.GetActiveScene().name.StartsWith("70"))
             {
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;

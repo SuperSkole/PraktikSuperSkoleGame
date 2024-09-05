@@ -46,6 +46,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void OnExitButton()
         {
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+            
             // Load the main scene
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
             SceneManager.LoadScene(SceneNames.Main); 

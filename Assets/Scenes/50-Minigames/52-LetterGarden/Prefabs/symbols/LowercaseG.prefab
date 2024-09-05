@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2695286372278426125
+--- !u!1 &7861225227486484453
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5392521987882662819}
-  - component: {fileID: 4783252288029583343}
+  - component: {fileID: 1743825989935952124}
+  - component: {fileID: 35094677093438841}
   m_Layer: 5
   m_Name: LowercaseG
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5392521987882662819
+--- !u!4 &1743825989935952124
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2695286372278426125}
+  m_GameObject: {fileID: 7861225227486484453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,13 +32,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4783252288029583343
+--- !u!114 &35094677093438841
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2695286372278426125}
+  m_GameObject: {fileID: 7861225227486484453}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
@@ -62,44 +62,44 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: -2.60375
-        z: 1.11
+        y: -3
+        z: 1
       TangentIn:
         x: 0
         y: 0
-        z: -0.5478215
+        z: -0
       TangentOut:
         x: 0
         y: 0
-        z: 0.5478215
+        z: 0
       Rotation:
         value:
-          x: 0.6138124
+          x: 0
           y: 0
           z: 0
-          w: 0.78945184
+          w: 1
     - Position:
         x: 0
-        y: -2.67375
-        z: -0.67
+        y: -3.5
+        z: -0.2
       TangentIn:
         x: 0
         y: 0
-        z: -0.6305993
+        z: -1.0348511
       TangentOut:
         x: 0
         y: 0
-        z: 0.6305993
+        z: 1.0348511
       Rotation:
         value:
-          x: -0.6983846
-          y: 0
-          z: -0
-          w: 0.71572274
+          x: 0
+          y: 1
+          z: 0
+          w: 0
     - Position:
         x: 0
-        y: 0.73725
-        z: -0.67
+        y: -2.3
+        z: -1.3
       TangentIn:
         x: 0
         y: 0
@@ -110,14 +110,34 @@ MonoBehaviour:
         z: 0
       Rotation:
         value:
-          x: -0.69838464
+          x: 0
           y: 0
-          z: -0
-          w: 0.7157226
+          z: 0
+          w: 1
+    - Position:
+        x: 0
+        y: 1.3
+        z: -1.3
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
     m_MetaData:
     - Mode: 2
       Tension: 0.5
     - Mode: 2
+      Tension: 0.5
+    - Mode: 1
       Tension: 0.5
     - Mode: 1
       Tension: 0.5
@@ -134,16 +154,16 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: -0.13975
-        z: -0.67
+        y: 0
+        z: -1.3
       TangentIn:
         x: 0
         y: 0
-        z: -0.0199911
+        z: -0
       TangentOut:
         x: 0
         y: 0
-        z: 0.0199911
+        z: 0
       Rotation:
         value:
           x: 0
@@ -152,8 +172,8 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 0.74625
-        z: 0.513
+        y: 1.3
+        z: 0.1
       TangentIn:
         x: 0
         y: 0
@@ -170,16 +190,16 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: -0.78375
-        z: 1.291
+        y: 0
+        z: 1.3
       TangentIn:
         x: 0
         y: 0
-        z: -0.0338645
+        z: -0
       TangentOut:
         x: 0
         y: 0
-        z: 0.0338645
+        z: 0
       Rotation:
         value:
           x: 0
@@ -188,16 +208,16 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: -2.03375
-        z: 0.48
+        y: -2.1
+        z: 0.1
       TangentIn:
         x: 0
         y: 0
-        z: -0.6252868
+        z: -1.4628198
       TangentOut:
         x: 0
         y: 0
-        z: 0.6252868
+        z: 0.9075868
       Rotation:
         value:
           x: 0
@@ -206,16 +226,16 @@ MonoBehaviour:
           w: 0
     - Position:
         x: 0
-        y: -1.07575
-        z: -0.661
+        y: -0.7
+        z: -1.3
       TangentIn:
         x: 0
         y: 0
-        z: -0.055797994
+        z: -0
       TangentOut:
         x: 0
         y: 0
-        z: 0.055797994
+        z: 0
       Rotation:
         value:
           x: 0
@@ -229,7 +249,7 @@ MonoBehaviour:
       Tension: 0.5
     - Mode: 2
       Tension: 0.5
-    - Mode: 2
+    - Mode: 3
       Tension: 0.5
     - Mode: 2
       Tension: 0.5
