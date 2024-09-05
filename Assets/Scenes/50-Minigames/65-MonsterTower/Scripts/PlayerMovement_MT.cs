@@ -69,7 +69,10 @@ public class PlayerMovement_MT : MonoBehaviour
         {
             GameObject newAmmoBoxSelected = GetSelectedAmmo();
 
-            PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
+            if (newAmmoBoxSelected != null)
+            {
+                PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
+            }
         }
     }
 
@@ -152,6 +155,7 @@ public class PlayerMovement_MT : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, placementLayermask))
         {
+            
             return hit.transform.gameObject;
         }
         return null;
@@ -167,6 +171,7 @@ public class PlayerMovement_MT : MonoBehaviour
     {
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
+
 
     /// <summary>
     /// Sets the player's animation state to either idle or walk, with blending between states.

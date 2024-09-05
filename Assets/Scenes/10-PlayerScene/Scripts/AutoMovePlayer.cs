@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
+using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using Spine.Unity;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Scenes._10_PlayerScene.Scripts
     {
         public GameObject DropOffPoint;
         public GameObject PlayerSpawnPoint;
+
+        public MonsterTowerManager monsterTowerManager;
         
         [SerializeField] private float moveSpeed = 5.0f;
         
@@ -76,6 +79,8 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onReachedTarget">Action to perform once the target is reached.</param>
         public void MoveToPosition(GameObject block, Action onReachedTarget = null)
         {
+            Debug.Log(block);
+       
             StartCoroutine(MoveToPositionCoroutine(block, onReachedTarget));
         }
 
@@ -90,7 +95,10 @@ namespace Scenes._10_PlayerScene.Scripts
             }
 
             spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
-            onReachedTarget?.Invoke();
+            if (onReachedTarget != null)
+            {
+                onReachedTarget?.Invoke();
+            }
         }
 
         /// <summary>
@@ -154,6 +162,11 @@ namespace Scenes._10_PlayerScene.Scripts
                 {
                     blockRigidbody.useGravity = true;  
                     blockRigidbody.isKinematic = false;
+                }
+                
+                if(monsterTowerManager!=null)
+                {
+                    monsterTowerManager.catapultAming.SetAmmo(block);
                 }
                 
                 Destroy(block);
