@@ -5146,7 +5146,7 @@ GameObject:
   - component: {fileID: 731337236}
   - component: {fileID: 731337235}
   - component: {fileID: 731337234}
-  - component: {fileID: 731337233}
+  - component: {fileID: 731337237}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -5173,18 +5173,6 @@ RectTransform:
   m_AnchoredPosition: {x: -160, y: 100}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &731337233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731337231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d93b551f48d10843b87435e8323cad3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &731337234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5229,9 +5217,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 731337233}
-        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
-        m_MethodName: SwitchToMainWorld
+      - m_Target: {fileID: 731337237}
+        m_TargetAssemblyTypeName: ButtonToMainWorld, Assembly-CSharp
+        m_MethodName: ChangeSceen
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5279,6 +5267,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 731337231}
   m_CullTransparentMesh: 1
+--- !u!114 &731337237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731337231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2067b02adac79ed4f9d643907e2bc18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &747670074
 PrefabInstance:
   m_ObjectHideFlags: 0
