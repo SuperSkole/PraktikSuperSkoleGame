@@ -1,4 +1,5 @@
 using System.Collections;
+using CORE;
 using Import.LeanTween.Framework;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
@@ -34,7 +35,7 @@ namespace UI.Scripts
 
             textMeshPro.text = 0 + "/" + maxAmount;
 
-            SettingValueAfterScene(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
+            SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
         }
 
         public void SettingValueAfterScene(int amount)

@@ -1,4 +1,5 @@
 using System.Collections;
+using CORE;
 using Import.LeanTween.Framework;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
@@ -36,14 +37,16 @@ namespace UI.Scripts
             originalScale = image.rectTransform.localScale;
 
 
-            currentLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
+            currentLevel = GameManager.Instance.PlayerData.CurrentLevel;
+            //currentLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
 
             for (int i = 0; i < currentLevel; i++)
             {
                 maxAmount = RaiseAmount(maxAmount);
             }
 
-            currentXP = PlayerManager.Instance.PlayerData.CurrentXPAmount;
+            currentXP = GameManager.Instance.PlayerData.CurrentXPAmount;
+            //currentXP = PlayerManager.Instance.PlayerData.CurrentXPAmount;
 
             amount.text = 0 + "/" + maxAmount;
         }
