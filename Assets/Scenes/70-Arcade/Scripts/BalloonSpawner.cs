@@ -22,7 +22,7 @@ public class BalloonSpawner : MonoBehaviour
     void Start()
     {
         spawnpoint.z = 0;
-        spawnpoint.y = 0;
+        spawnpoint.y = -200;
         correctLetter += letters[Random.Range(0, letters.Length)];
         StartCoroutine(BalloonWave());
         text = GetComponentInChildren<TMP_Text>();
