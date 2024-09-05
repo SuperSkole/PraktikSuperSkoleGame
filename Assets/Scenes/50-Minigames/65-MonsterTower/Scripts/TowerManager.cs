@@ -70,13 +70,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         
         private float yPosGoal;
         private bool falling = false;
-<<<<<<< HEAD
         private bool waitForLastExplosionToFinish = true;
         private float goToWinScreenTimer = 0;
-=======
-        private bool waitForLastExplosionToFinish=true;
-        private float goToWinScreenTimer=0;
->>>>>>> parent of 74636d4b (Revert "Merge branch 'Project-Praktik-Main' into Fixes-For-For-SymbolEater")
 
         void Start()
         {

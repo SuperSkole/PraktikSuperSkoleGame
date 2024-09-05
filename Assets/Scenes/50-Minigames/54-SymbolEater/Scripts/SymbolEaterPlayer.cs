@@ -65,9 +65,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         private bool facingRight = false;
         private CapsuleCollider colider;
 
-        private bool isColiderOff = false;
-        private CapsuleCollider colider;
-
         /// <summary>
         /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
         /// </summary>
