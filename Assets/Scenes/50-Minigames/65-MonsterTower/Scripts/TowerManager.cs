@@ -67,10 +67,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         
         private float yPosGoal;
         private bool falling = false;
-
-      
-
-
+        private bool waitForLastExplosionToFinish = true;
+        private float goToWinScreenTimer = 0;
 
         void Start()
         {

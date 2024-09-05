@@ -61,6 +61,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private readonly float blendDuration = 0.2f;
         private bool facingRight = false;
+        private CapsuleCollider colider;
 
         /// <summary>
         /// Property of livesRemaining. if used to setting the value it cant be below 0 and it also updates the lives remaining text
