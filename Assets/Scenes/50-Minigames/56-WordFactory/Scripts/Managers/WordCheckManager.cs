@@ -18,7 +18,6 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
-        [SerializeField] private GameObject notificationTextObject;
 
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
