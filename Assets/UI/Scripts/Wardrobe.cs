@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.Scripts
@@ -56,12 +56,12 @@ namespace UI.Scripts
         {
             var amountOfChild = WardrobeParent.childCount;
 
-            for (int i = 0; i < amountOfChild; i++)
-
+            for (int i = amountOfChild - 1; i >= 0; i--)
             {
-                Destroy(WardrobeParent.GetChild(i));
+                Destroy(WardrobeParent.GetChild(i).gameObject);
             }
         }
+
 
         private void InitializeWardrobeOption(List<ClothInfo> availableoptions)
         {
@@ -116,4 +116,5 @@ namespace UI.Scripts
             this.gameObject.SetActive(false);
         }
     }
+
 }
