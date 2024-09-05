@@ -41,7 +41,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public bool hasMoved = false;
 
-        public float speed = 0.5f;
+        public float speed = 0.001f;
 
         public bool hasMoveDelay = false;
 
@@ -107,7 +107,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
                 playerOldScale = playerMonster.transform.localScale;
-                playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
+                playerMonster.transform.parent = placePlayerMonster.transform;
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
