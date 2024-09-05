@@ -15,6 +15,10 @@ public class BalloonSpawner : MonoBehaviour
     public int lives;
     public int points;
     TMP_Text text;
+
+    /// <summary>
+    /// sets some values and starts the balloons
+    /// </summary>
     void Start()
     {
         spawnpoint.z = 0;
@@ -24,11 +28,17 @@ public class BalloonSpawner : MonoBehaviour
         text = GetComponentInChildren<TMP_Text>();
     }
 
+    /// <summary>
+    /// updates the text on the screen
+    /// </summary>
     private void Update()
     {
         text.text = $"Click all {correctLetter} \n You have clicked {points} \n you have {lives}/3 lives";
     }
 
+    /// <summary>
+    /// creates a new balloon at a random position below the screen and sets whether it is correct
+    /// </summary>
     private void SpawnBalloon()
     {
         spawnpoint.x = Random.Range(0, 1800);
@@ -49,6 +59,10 @@ public class BalloonSpawner : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// creates a balloon after a short time, then sets a random timer before the next is spawned
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BalloonWave()
     {
         while(true)
