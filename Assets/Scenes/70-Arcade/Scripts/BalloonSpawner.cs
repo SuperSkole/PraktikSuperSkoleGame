@@ -44,18 +44,21 @@ public class BalloonSpawner : MonoBehaviour
         spawnpoint.x = Random.Range(0, 1800);
         GameObject a = Instantiate(balloonPrefab, spawnpoint, this.transform.rotation, this.transform);
         BalloonController balloonSpawned = a.GetComponent<BalloonController>();
-        if(Random.Range(0, 3)==0)
+        int rnd = Random.Range(0, 2);
+        if (rnd==1)
         {
             balloonSpawned.letter = correctLetter;
             balloonSpawned.isCorrect = true;
         }
         else
         {
+            balloonSpawned.isCorrect = false;
             balloonSpawned.letter = "" + letters[Random.Range(0, letters.Length)];
             if(balloonSpawned.letter == correctLetter)
             {
                 balloonSpawned.isCorrect = true;
             }
+            
         }
     }
 
