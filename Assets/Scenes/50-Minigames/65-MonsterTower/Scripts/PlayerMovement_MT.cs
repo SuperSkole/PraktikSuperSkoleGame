@@ -4,6 +4,7 @@ using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scenes._10_PlayerScene.Scripts;
 
 public class PlayerMovement_MT : MonoBehaviour
 {
@@ -66,10 +67,11 @@ public class PlayerMovement_MT : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 newMoveToPos = GetSelectedMapPosition();
-            if (newMoveToPos != Vector3.zero)
+            GameObject newAmmoBoxSelected = GetSelectedAmmo();
+
+            if (newAmmoBoxSelected != null)
             {
-                StartMovement(newMoveToPos);
+                PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
             }
         }
     }
@@ -110,42 +112,7 @@ public class PlayerMovement_MT : MonoBehaviour
             SetCharacterState("Idle");
         }
     }
-    /// <summary>
-    /// Starts the movement of the player towards a target position clicked on the map.
-    /// </summary>
-    /// <param name="newMoveToPos">The target position to move towards.</param>
-    private void StartMovement(Vector3 newMoveToPos)
-    {
-        targetPosition = newMoveToPos;
-        targetPosition.y = transform.position.y; // Keep the player's y position constant
-
-        // Stop any ongoing point-and-click movement
-        if (isMoving && moveCoroutine != null)
-        {
-            SetCharacterState("Idle");
-            StopCoroutine(moveCoroutine);
-
-        }
-        if (transform.position.x > targetPosition.x)
-        {
-            // Moving right
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        else
-        {
-            // Moving left
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        SetCharacterState("Walk");
-        var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
-        Destroy(effect.gameObject, 0.5f);
-        moveCoroutine = StartCoroutine(MoveToTarget());
-    }
-
-    /// <summary>
-    /// Coroutine that smoothly moves the player towards the target position.
-    /// </summary>
-    /// <returns></returns>
+   
     private IEnumerator MoveToTarget()
     {
         isMoving = true;
@@ -180,7 +147,7 @@ public class PlayerMovement_MT : MonoBehaviour
     /// Gets the position on the map that the player clicked on.
     /// </summary>
     /// <returns>The position on the map where the player clicked, or Vector3.zero if no valid position was found.</returns>
-    public Vector3 GetSelectedMapPosition()
+    public GameObject GetSelectedAmmo()
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = sceneCamera.nearClipPlane;
@@ -188,9 +155,10 @@ public class PlayerMovement_MT : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000, placementLayermask))
         {
-            return hit.point;
+            
+            return hit.transform.gameObject;
         }
-        return Vector3.zero;
+        return null;
     }
 
     /// <summary>
@@ -203,6 +171,7 @@ public class PlayerMovement_MT : MonoBehaviour
     {
         skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
     }
+
 
     /// <summary>
     /// Sets the player's animation state to either idle or walk, with blending between states.
