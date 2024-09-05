@@ -285,7 +285,6 @@ MonoBehaviour:
   wordValidator: {fileID: 827242759}
   scoreManager: {fileID: 686904327}
   blockCreator: {fileID: 606711390}
-  notificationTextObject: {fileID: 1150243490}
   unlimitedBlocks: 0
 --- !u!1 &293589935
 GameObject:
@@ -1520,7 +1519,7 @@ GameObject:
   - component: {fileID: 1079550298}
   - component: {fileID: 1079550299}
   - component: {fileID: 1079550300}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InfoBoardHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1646,7 +1645,7 @@ GameObject:
   - component: {fileID: 1134313679}
   - component: {fileID: 1134313676}
   - component: {fileID: 1134313678}
-  - component: {fileID: 1134313677}
+  - component: {fileID: 1134313681}
   m_Layer: 5
   m_Name: Check Word
   m_TagString: Untagged
@@ -1684,19 +1683,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1134313677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1134313675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7863d6ce6e3c1a45bdcd1e9c0d67e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 1134313676}
 --- !u!114 &1134313678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1713,52 +1699,15 @@ MonoBehaviour:
   - eventID: 0
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1134313677}
-          m_TargetAssemblyTypeName: HoverEffectUI, Assembly-CSharp
-          m_MethodName: HoverEnter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - eventID: 1
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1134313677}
-          m_TargetAssemblyTypeName: HoverEffectUI, Assembly-CSharp
-          m_MethodName: HoverExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 306071330}
-          m_TargetAssemblyTypeName: Scenes.StartScene.Scripts.UIStartSceneManager,
-            Assembly-CSharp
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+        m_Calls: []
 --- !u!222 &1134313679
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1774,18 +1723,31 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1134313675}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.17364825, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1079550298}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.5, y: 2}
+  m_AnchoredPosition: {x: 2.5, y: 0}
   m_SizeDelta: {x: 5, y: 5}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1134313681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1134313675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed1c6b3d7d6dde344913c2568d814c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leverImage: {fileID: 1134313676}
 --- !u!1 &1150243490
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1906,7 @@ GameObject:
   - component: {fileID: 1159534463}
   - component: {fileID: 1159534465}
   - component: {fileID: 1159534464}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: LightHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2068,7 +2030,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gearLeverPrefab: {fileID: 3544154272448247523, guid: 0ce26e8c107a95441824e4a368bf52bf, type: 3}
-  gearLeverParent: {fileID: 293589936}
 --- !u!1 &1223167761
 GameObject:
   m_ObjectHideFlags: 0
