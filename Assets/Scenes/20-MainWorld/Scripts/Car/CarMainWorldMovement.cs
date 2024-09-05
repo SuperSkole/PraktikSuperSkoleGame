@@ -59,7 +59,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
-            fuelAmount = GetComponent<CarFuel>().fuelAmount;
+            //fuelAmount = GetComponent<CarFuel>().fuelAmount;
             if (carActive)
             {
                 //leftHeadlight.SetActive(carActive == true);
@@ -91,10 +91,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
             HandleMotor(); // Handle motor logic irrespective of CarActive state.
             UpdateRotationWheels();    // Updates the visual representation of the wheels.
 
-            if (carActive && GetComponent<CarFuel>().fuelAmount > 0)
+            if (carActive )
             {
                 GetInput(); // Reads the player's input.
-                print(GetComponent<CarFuel>().fuelAmount);
+                //print(GetComponent<CarFuel>().fuelAmount); && GetComponent<CarFuel>().fuelAmount > 0
             }
 
         }
@@ -181,7 +181,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     wheelColliderFrontR.motorTorque = forwardInput * motorForce;
                     wheelColliderRearL.motorTorque = forwardInput * motorForce;
                     wheelColliderRearR.motorTorque = forwardInput * motorForce;
-                    RemoveFuel();
+                    //RemoveFuel();
                 }
                 else
                 {
@@ -201,7 +201,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     wheelColliderFrontR.motorTorque = forwardInput * motorForce / 2;
                     wheelColliderRearL.motorTorque = forwardInput * motorForce / 2;
                     wheelColliderRearR.motorTorque = forwardInput * motorForce / 2;
-                    RemoveFuel();
+                    //RemoveFuel();
                 }
                 else
                 {

@@ -281,6 +281,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+
             }
         }
 
