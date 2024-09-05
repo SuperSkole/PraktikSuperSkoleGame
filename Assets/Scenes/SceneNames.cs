@@ -58,6 +58,8 @@ namespace Scenes
 
         //Arcade 70
         public const string Arcade = "70-ArcadeScene";
+        public const string ArcadeBalloon = "71-BalloonPopper";
+        
 
         // Multiplayer features
         public const string MultiplayerLobby = "80-MultiplayerLobby";
