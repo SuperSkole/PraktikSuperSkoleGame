@@ -11,7 +11,7 @@ namespace Scenes._20_MainWorld.Scripts
     
         private void Start()
         {
-            Debug.Log("MainWorldStartup/Start/Setting up player camera");
+            //Debug.Log("MainWorldStartup/Start/Setting up player camera");
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
             //virtualCamera.Follow = spawnedPlayer.transform;
