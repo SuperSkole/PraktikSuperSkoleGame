@@ -26,6 +26,9 @@ namespace Scenes._50_Minigames.Gamemode
                 case "recognizesoundofletter":
                     modeReturned = new RecognizeSoundOfLetter();
                     break;
+                case "recognizenameofletter":
+                    modeReturned = new RecognizeNameOfLetter();
+                    break;
                 case "findnumber":
                     modeReturned = new FindNumber();
                     break;
