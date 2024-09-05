@@ -8,7 +8,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         [SerializeField] private PrometeoCarController controller;
         private float speed;
         private float fuelConsumptionRate = 0.001f;
-        public float fuelAmount;
+        public float fuelAmount {  get; set; }
         public Image fuelGauge;
 
         private void Awake()
