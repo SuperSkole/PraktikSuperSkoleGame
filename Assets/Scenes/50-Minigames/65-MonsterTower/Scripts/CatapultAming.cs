@@ -108,6 +108,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                     }
                     isShooting = false;
                     catapultIsLoaded = false;
+                    manager.ammoLoaded = false;
                 }
                 yield return null;
             }

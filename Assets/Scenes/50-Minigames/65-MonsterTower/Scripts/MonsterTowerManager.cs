@@ -54,7 +54,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
         public TowerManager towerManager;
 
-        
+        public bool ammoLoaded = false;
 
         public Difficulty difficulty;
 
@@ -192,8 +192,10 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             pMovement.sceneCamera = mainCamera;
             pMovement.placementLayermask = AmmoLayermask;
             pMovement.skeletonAnimation = spawnedPlayer.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            pMovement.monsterTowerManager = this;
             spawnedPlayer.SetActive(true);
             spawnedPlayer.transform.position = playerSpawnPoint.transform.position;
+            
 
             CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
             virtualCamera.Follow = spawnedPlayer.transform;
