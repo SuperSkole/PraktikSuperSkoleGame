@@ -73,6 +73,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = PlayerSpawnPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
             }
             else
@@ -141,6 +142,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
                 Destroy(WordFactorySoundManager.Instance);
+
             }
         }
 

@@ -37,6 +37,7 @@ namespace CORE.Scripts
         /// <param name="input"></param>
         public static AudioClip GetAudioClipFromExplosionsList(int index)
         {
+            
             return Explosions[index];
         }
 
