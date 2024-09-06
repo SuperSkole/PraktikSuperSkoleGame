@@ -5,9 +5,9 @@ namespace CORE.Scripts.Game_Rules
 {
 
     /// <summary>
-    /// An implementation of IGameRules for games where the player is looking for vowels
+    /// An implementation of IGameRules for games where the player is looking for consonants
     /// </summary>
-    public class FindVowel : IGameRules
+    public class FindConsonant : IGameRules
     {
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>a random letter of the correct type</returns>
         public string GetCorrectAnswer()
         {
-            return LetterManager.GetRandomVowel().ToString();
+            return LetterManager.GetRandomConsonant().ToString();
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns> a random letter of the wrong type</returns>
         public string GetWrongAnswer()
         {
-            return LetterManager.GetRandomConsonant().ToString();
+            return LetterManager.GetRandomVowel().ToString();
         }
         /// <summary>
         /// Not used
@@ -36,22 +36,22 @@ namespace CORE.Scripts.Game_Rules
         }
 
         /// <summary>
-        /// Checks whether a letter is a vowel
+        /// Checks whether a letter is a consonant
         /// </summary>
         /// <param name="symbol">the letter to be checked</param>
-        /// <returns>Whether the letter is a vowel</returns>
+        /// <returns>Whether the letter is a consonant</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return LetterManager.GetDanishVowels().Contains(symbol[0]);
+            return LetterManager.GetConsonants().Contains(symbol[0]);
         }
 
         /// <summary>
-        /// Returns the word vokaler
+        /// Returns the word konsonanter
         /// </summary>
-        /// <returns>the word vokaler</returns>
+        /// <returns>the word konsonanter</returns>
         public string GetDisplayAnswer()
         {
-            return "vokaler";
+            return "konsonanter";
         }
 
         /// <summary>

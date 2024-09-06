@@ -19,17 +19,26 @@ namespace Scenes._50_Minigames.Gamemode
             LettergardenGameMode modeReturned;
             switch (mode)
             {
-                case "DrawCapitalLetters":
+                case "drawcapitalLetters":
                     modeReturned = new DrawCapitalLetters();
                     break;
-                case "DrawLowercaseLetters":
+                case "drawlowercaseLetters":
                     modeReturned = new DrawLowercaseLetters();
                     break;
-                case "DrawLetters":
+                case "drawletters":
                     modeReturned = new DrawLetters();
                     break;
-                case "DrawNumbers":
+                case "drawnumbers":
                     modeReturned = new DrawNumbers();
+                    break;
+                case "drawwithbee":
+                    modeReturned = new DrawWithBee();
+                    break;
+                case "drawithoutbee":
+                    modeReturned = new DrawWithoutBee();
+                    break;
+                case "drawwithorwithoutbee":
+                    modeReturned = new DrawWithOrWithOutBee();
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
@@ -49,6 +58,12 @@ namespace Scenes._50_Minigames.Gamemode
 
             switch (rules)
             {
+                case "vowels":
+                    rulesReturned = new FindVowel();
+                    break;
+                case "consonants":
+                    rulesReturned = new FindConsonant();
+                    break;
                 default:
                     rulesReturned = new SpellWord();
                     break;

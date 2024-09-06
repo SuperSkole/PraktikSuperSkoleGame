@@ -10,7 +10,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
     /// <summary>
     /// A LettergardenGamemode implementation where the player should draw random numbers
     /// </summary>
-    public class DrawWithBee : LettergardenGameMode
+    public class DrawWithOrWithOutBee : LettergardenGameMode
     {
         /// <summary>
         /// creates a list of SplineSymbolDataHolders of a given length
@@ -45,7 +45,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
 
         public bool UseBee()
         {
-            return true;
+            return 0 == Random.Range(0, 2);
         }
 
     }

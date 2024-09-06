@@ -20,15 +20,25 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         public List<SplineSymbolDataHolder> GetSymbols(int amount, IGameRules gameRules)
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
-            List<int>usedNumbers = new List<int>();
+            List<string> usedLetters = new List<string>();
             //Adds a given amount of random numbers to the result list.
-            for (int i = 0; i < amount; i++){
-                int randomIndex = Random.Range(0, 10);
-                while(usedNumbers.Contains(randomIndex)){
-                    randomIndex = Random.Range(0, 10);
+            for (int i = 0; i < amount; i++)
+            {
+                string letter = gameRules.GetCorrectAnswer();
+                
+                while(usedLetters.Contains(letter))
+                {
+                    letter = gameRules.GetCorrectAnswer();
                 }
-                usedNumbers.Add(randomIndex);
-                result.Add(new SplineSymbolDataHolder(SymbolManager.numbersObjects[randomIndex], SymbolManager.numbers[randomIndex], System.Convert.ToChar(randomIndex)));
+                usedLetters.Add(letter);
+                if(Random.Range(0, 2) == 0)
+                {
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[letter[0]], SymbolManager.capitalLetters[letter[0]], letter[0]));
+                }
+                else
+                {
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter[0]));
+                }
             }
             return result;
         }
