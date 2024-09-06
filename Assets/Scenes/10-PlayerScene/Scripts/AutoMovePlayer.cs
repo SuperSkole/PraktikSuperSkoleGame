@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
+using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using Spine.Unity;
 using Spine;
 using UnityEngine;
 using static Unity.Collections.AllocatorManager;
+using Scenes._50_Minigames._65_MonsterTower.Scrips;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -14,12 +16,16 @@ namespace Scenes._10_PlayerScene.Scripts
     public class AutoMovePlayer : MonoBehaviour
     {
         public GameObject DropOffPoint;
+        public GameObject PlayerSpawnPoint;
+
+        public MonsterTowerManager monsterTowerManager;
         
         [SerializeField] private float moveSpeed = 5.0f;
         
         private GameObject spawnedPlayer;
         private Bone bone;
         private Vector3 offset = new Vector3(0, 1, 0);
+        private GameObject chosenBlock;
 
         private bool boxOn = false;
 
@@ -72,6 +78,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="blockPosition">The position of the block to move to.</param>
         private void MovePlayerToBlockAndPickUpBlock(GameObject block)
         {
+            chosenBlock = block;
             MoveToPosition(block, PickUpBlock);
         }
 
@@ -82,21 +89,26 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onReachedTarget">Action to perform once the target is reached.</param>
         public void MoveToPosition(GameObject block, Action onReachedTarget = null)
         {
+           
+       
             StartCoroutine(MoveToPositionCoroutine(block, onReachedTarget));
         }
 
         public IEnumerator MoveToPositionCoroutine(GameObject block, Action onReachedTarget = null)
         {
             Debug.Log("moving");
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Walk");
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Walk");
             while (Vector3.Distance(spawnedPlayer.transform.position, block.transform.position) > 1.5f)
             {
                 spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, block.transform.position, moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
-            onReachedTarget?.Invoke();
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
+            if (onReachedTarget != null)
+            {
+                onReachedTarget?.Invoke();
+            }
         }
 
         private void Update()
@@ -104,8 +116,10 @@ namespace Scenes._10_PlayerScene.Scripts
             if (boxOn)
             {
                 Vector3 boneWorldPos = skeletonAnimation.transform.TransformPoint(new Vector3(bone.WorldX, bone.WorldY, 0));
-
-                savedBlock.transform.position = boneWorldPos + offset;
+              
+                    savedBlock.transform.position = boneWorldPos + offset;
+                
+               
             }
         }
 
@@ -114,16 +128,16 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void PickUpBlock()
         {
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Throw");
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Throw");
             
             Debug.Log("Picked up block");
-            GameObject block = GameObject.Find("WordBlock");
-
+            //GameObject block = GameObject.Find("WordBlock");
+            GameObject block = chosenBlock;
             if (block != null)
             {
                 savedBlock = block;
 
-                skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+                skeletonAnimation = spawnedPlayer.GetComponent<PlayerAnimatior>().skeletonAnimation;
 
                 bone = skeletonAnimation.skeleton.FindBone("Head");
 
@@ -147,6 +161,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void MoveToDropOffPoint()
         {
+           
             MoveToPosition(DropOffPoint, DropOffBlock);
         }
 
@@ -156,7 +171,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void DropOffBlock()
         {
             Debug.Log("dropped off block");
-            GameObject block = GameObject.Find("WordBlock");
+            //GameObject block = GameObject.Find("WordBlock");
+            GameObject block = chosenBlock;
             if (block != null)
             {
                 boxOn = false;
@@ -168,6 +184,11 @@ namespace Scenes._10_PlayerScene.Scripts
                     blockRigidbody.isKinematic = false;
                 }
                 
+                if(monsterTowerManager!=null)
+                {
+                    monsterTowerManager.catapultAming.SetAmmo(block);
+                }
+                
                 Destroy(block);
             }
             else
@@ -175,7 +196,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 Debug.LogError("Block not found for drop-off.");
             }
             
-            MoveToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
+            MoveToPosition(PlayerSpawnPoint);
         }
         
         /// <summary>
@@ -185,7 +206,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onComplete">The callback action to invoke after the animation completes.</param>
         private IEnumerator WaitForAnimation(string animationName, Action onComplete)
         {
-            var state = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation.state;
+            var state = spawnedPlayer.GetComponent<PlayerAnimatior>().skeletonAnimation.state;
             // if (spawnedPlayer == null)
             // {
             //     Debug.LogError("Spawned player is null.");
