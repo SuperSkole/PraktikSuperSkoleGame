@@ -72,6 +72,10 @@ namespace Scenes._20_MainWorld.Scripts
                         break;
                 }
             }
+            if (collision.gameObject.CompareTag("Car"))
+            {
+
+            }
         }
 
         /// <summary>
@@ -96,6 +100,10 @@ namespace Scenes._20_MainWorld.Scripts
                 {
                     doorMechanism.CloseDoor();
                 }
+            }
+            if (collision.gameObject.CompareTag("Car"))
+            {
+
             }
         }
 
