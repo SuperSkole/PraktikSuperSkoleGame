@@ -10,6 +10,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public LevelChunkdata[] levelTrackChunkData;
         public LevelChunkdata[] levelCheckpointChunkData;
         public LevelChunkdata[] levelBillboardChunkData;
+        public LevelChunkdata[] levelFinaleChunkData;
         public LevelChunkdata firstChunk;
 
         [SerializeField]
@@ -25,6 +26,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private LevelChunkdata previousChunk;
 
         public Vector3 spawnOrigin;
+        public bool finalStretch = false;
+        private bool finaleMade = false;
 
         private Vector3 spawnposition;
         public int chunksToSpawn = 10;
@@ -124,7 +127,18 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 default:
                     break;
             }
-            if (chunksPassed % chunksToBillBoard == 1)
+            if (finalStretch)
+            {
+                for (int i = 0; i < levelFinaleChunkData.Length; i++)
+                {
+                    if (levelFinaleChunkData[i].entryDirection == nextRequiredDirection)
+                    {
+                        allowedChunkList.Add(levelFinaleChunkData[i]);
+                        finaleMade = true;
+                    }
+                }
+            }
+            else if (chunksPassed % chunksToBillBoard == 1)
             {
                 for (int i = 0; i < levelBillboardChunkData.Length; i++)
                 {
@@ -166,6 +180,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         private void PickAndSpawnChunk()
         {
+            if (finaleMade)
+                return;
             LevelChunkdata chunkToSpawn = PicknextChunk();
 
             GameObject objectFromChunk = chunkToSpawn.levelChunks[UnityEngine.Random.Range(0, chunkToSpawn.levelChunks.Length)];
