@@ -386,6 +386,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
                 if (chosenBranch == correctBranch)
                 {
+                    Instantiate(coinEffect);
+                    racingGameManager.xp++;
+                    racingGameManager.gold++;
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
@@ -395,7 +398,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
                         DetermineWordToUse(); // Select a new random word for the next game
                     }
-                    Instantiate(coinEffect);
                 }
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;

@@ -8,8 +8,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
     public class RacingGameManager : MonoBehaviour
     {
         //public StateNameController stateNameController;
-        private readonly int gold;
-        private readonly int xp;
+        public int gold = 0;
+        public int xp = 0;
 
         public float completionTime = 0;
         public float maxTime => 15;
@@ -43,13 +43,13 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void EndGame()
         {
-            RewardCalculation rewardCalculator = this.AddComponent<RewardCalculation>();
+            //RewardCalculation rewardCalculator = this.AddComponent<RewardCalculation>();
 
-            (int XP, int Gold) = rewardCalculator.CalculateRewards(completionTime, maxTime, minTime, maxXP, minXP, difficulty, goldPerXP);
+            //(int XP, int Gold) = rewardCalculator.CalculateRewards(completionTime, maxTime, minTime, maxXP, minXP, difficulty, goldPerXP);
 
-            EndGameUI.Instance.DisplayRewards(XP, Gold, completionTime);
+            EndGameUI.Instance.DisplayRewards(xp, gold, completionTime);
 
-            StateNameController.SetXPandGoldandCheck(XP, Gold);
+            StateNameController.SetXPandGoldandCheck(xp, gold);
         }
     }
 }
