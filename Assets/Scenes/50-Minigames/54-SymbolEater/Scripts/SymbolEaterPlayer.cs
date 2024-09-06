@@ -106,13 +106,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             {   //ask Sofie if you dont know what is happeing here!
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
-                playerMonster.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 playerOldScale = playerMonster.transform.localScale;
                 playerMonster.transform.parent = placePlayerMonster.transform;
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
-                PlayerAnimatior skeletorn = playerMonster.GetComponent<PlayerAnimatior>();
+                SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
                 walk = skeletorn.walk;
                 idle = skeletorn.idle;
                 SetCharacterState("Idle");

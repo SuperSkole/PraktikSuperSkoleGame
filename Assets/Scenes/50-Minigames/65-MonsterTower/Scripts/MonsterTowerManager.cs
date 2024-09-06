@@ -139,7 +139,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
 
             }
             else
