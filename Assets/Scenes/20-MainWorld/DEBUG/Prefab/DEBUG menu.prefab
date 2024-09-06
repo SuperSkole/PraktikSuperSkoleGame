@@ -254,7 +254,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2525706019444755595}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: NewLetter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &268526234242642827
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,7 +504,20 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -992,6 +1031,115 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1750269326860879494
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1546392877723161339}
+  - component: {fileID: 5063348862819656846}
+  - component: {fileID: 8993904528746771503}
+  - component: {fileID: 43395242358285623}
+  m_Layer: 0
+  m_Name: raycastBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1546392877723161339
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750269326860879494}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9080481682502682680}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!33 &5063348862819656846
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750269326860879494}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8993904528746771503
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750269326860879494}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &43395242358285623
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750269326860879494}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 468.1461, y: 606.3513, z: 0}
+  m_Center: {x: 1.3505114, y: -0.08045229, z: 0.00024153756}
 --- !u!1 &2954644120560158381
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,6 +1227,7 @@ GameObject:
   - component: {fileID: 6695570311647837544}
   - component: {fileID: 1620440816683183849}
   - component: {fileID: 6814010932529155216}
+  - component: {fileID: 2560223940436848739}
   m_Layer: 0
   m_Name: DEBUG menu
   m_TagString: Untagged
@@ -1098,6 +1247,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1412736765977473925}
   - {fileID: 3562685337469819394}
   - {fileID: 2423328267421470080}
   - {fileID: 837845645214486399}
@@ -1105,6 +1255,7 @@ RectTransform:
   - {fileID: 1379733370339949905}
   - {fileID: 194779648883566617}
   - {fileID: 2231941708435247224}
+  - {fileID: 1546392877723161339}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
@@ -1171,6 +1322,40 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2560223940436848739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027734403106126109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8658c49cd678f4bb0b27d6f4374464, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuAnimator: {fileID: 6814010932529155216}
+  xPField: {fileID: 2437197032663448922}
+  goldField: {fileID: 5425531496659939248}
+  tpList: {fileID: 191163565091594933}
+  debugDoorsParrentObject: {fileID: 0}
+  openMenu:
+    m_Name: Open Menu
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9dd8d9c7-5d33-4f30-a389-176710584220
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: a2f7841a-919e-4f03-8299-2a67606c06fa
+      m_Path: <Keyboard>/quote
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Open Menu
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &3316705429564559194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,7 +1476,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7035348362597093825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: ToggleDebugDoors
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3665614931322903402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1680,7 +1891,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6839138608518665838}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: NewWord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4087242752925428472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,7 +2172,166 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4504294514279819033}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: AddGold
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &4342519972942981478
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1412736765977473925}
+  - component: {fileID: 2886187993441818062}
+  - component: {fileID: 8299273795857076464}
+  - component: {fileID: 8785084660379217826}
+  m_Layer: 0
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1412736765977473925
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342519972942981478}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9080481682502682680}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2886187993441818062
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342519972942981478}
+  m_CullTransparentMesh: 1
+--- !u!114 &8299273795857076464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342519972942981478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
       m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8785084660379217826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4342519972942981478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 8299273795857076464}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4652588101432330653
 GameObject:
   m_ObjectHideFlags: 0
@@ -2056,7 +2452,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1058869611461287405}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: AddXP
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4670648760165444428
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,7 +2513,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 17.621, y: 0}
+  m_AnchoredPosition: {x: 17.621002, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3186829686189930423
@@ -2653,7 +3075,20 @@ MonoBehaviour:
       m_Calls: []
   m_OnSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
@@ -3348,7 +3783,7 @@ GameObject:
   - component: {fileID: 4269517867851217572}
   - component: {fileID: 1639628922183453153}
   m_Layer: 0
-  m_Name: dore
+  m_Name: doors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3447,7 +3882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -39.343, y: -0.61245}
+  m_AnchoredPosition: {x: -39.342987, y: -0.61245}
   m_SizeDelta: {x: -79.046, y: 50.329}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7628816297437217037
@@ -4028,8 +4463,6 @@ MonoBehaviour:
     - m_Text: Hjem
       m_Image: {fileID: 0}
     - m_Text: Skow
-      m_Image: {fileID: 0}
-    - m_Text: Option C
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4797,7 +5230,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3248925759889356045}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: TPToLocation
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2560223940436848739}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.DebugManager,
+          Assembly-CSharp
+        m_MethodName: StopPlayerMovement
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9008138284271894162
 GameObject:
   m_ObjectHideFlags: 0
@@ -4832,7 +5291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 8.8104, y: -0.5}
+  m_AnchoredPosition: {x: 8.810402, y: -0.5}
   m_SizeDelta: {x: -37.6208, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6740007225303031313
