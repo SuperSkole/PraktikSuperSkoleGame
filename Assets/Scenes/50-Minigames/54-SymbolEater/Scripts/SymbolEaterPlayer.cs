@@ -1,6 +1,9 @@
 using System;
+using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
+using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
@@ -38,7 +41,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public bool hasMoved = false;
 
-        public float speed = 2;
+        public float speed = 0.001f;
 
         public bool hasMoveDelay = false;
 
@@ -48,6 +51,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public Vector3 CurrentDestination { get => currentDestination; set => currentDestination = value; }
 
+        private float timerSinceMoved = 0;
+
+        private float moveDelayTimer = 0.25f;
 
         private string currentState = "Walk";
         private SkeletonAnimation skeletonAnimation;
@@ -57,8 +63,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private readonly float blendDuration = 0.2f;
         private bool facingRight = false;
-
-        private bool isColiderOff = false;
         private CapsuleCollider colider;
 
         /// <summary>
@@ -102,12 +106,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             {   //ask Sofie if you dont know what is happeing here!
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
-                playerMonster.transform.parent = placePlayerMonster.transform;
+                playerMonster.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 playerOldScale = playerMonster.transform.localScale;
+                playerMonster.transform.parent = placePlayerMonster.transform;
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
-                SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
+                PlayerAnimatior skeletorn = playerMonster.GetComponent<PlayerAnimatior>();
                 walk = skeletorn.walk;
                 idle = skeletorn.idle;
                 SetCharacterState("Idle");
@@ -144,6 +149,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         void Update()
         {
+
+            timerSinceMoved += Time.deltaTime;
+
             //Checks if the player is outside the board and ends the game if it is true
             if ((transform.position.x > 20.4f || transform.position.x < 9.6f || transform.position.z > 20.4f || transform.position.z < 9.6f) && !thrown)
             {
@@ -153,33 +161,43 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 board.Lost();
             }
             //Check to ensure currentDestination is in sync with the center of the tiles.
-            if((currentDestination.x - 10.5f) % 1 != 0 || (currentDestination.z - 10.5f) % 1 != 0)
+            if ((currentDestination.x - 10.5f) % 1 != 0 || (currentDestination.z - 10.5f) % 1 != 0)
             {
                 float fixedX = MathF.Round(currentDestination.x - 10.5f) + 10.5f;
                 float fixedZ = MathF.Round(currentDestination.z - 10.5f) + 10.5f;
                 currentDestination = new Vector3(fixedX, currentDestination.y, fixedZ);
             }
+
+
+            
+
             //Checks if the player can control their movement and moves them a tile in the desired direction based on keyboard input
             if (IncorrectSymbolStepMoveDelayRemaining == 0 && currentDestination == transform.position && !thrown && canMove)
             {
-                if (Input.GetKeyDown(KeyCode.W) && transform.position.x < 19.5f)
+
+
+                if (Input.GetKey(KeyCode.W) && transform.position.x < 19.5f && timerSinceMoved >= moveDelayTimer)
                 {
                     currentDestination = transform.position + new Vector3(1, 0, 0);
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKeyDown(KeyCode.S) && transform.position.x > 10.5f)
+                else if (Input.GetKey(KeyCode.S) && transform.position.x > 10.5f && timerSinceMoved >= moveDelayTimer)
                 {
                     currentDestination = transform.position + new Vector3(-1, 0, 0);
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKeyDown(KeyCode.A) && transform.position.z < 19.5f)
+                else if (Input.GetKey(KeyCode.A) && transform.position.z < 19.5f && timerSinceMoved >= moveDelayTimer)
                 {
+                    
                     currentDestination = transform.position + new Vector3(0, 0, 1);
-                    if(facingRight)
+                    if (facingRight)
                     {
                         facingRight = false;
                         Flip();
                     }
+                    timerSinceMoved = 0;
                 }
-                else if (Input.GetKeyDown(KeyCode.D) && transform.position.z > 10.5f)
+                else if (Input.GetKey(KeyCode.D) && transform.position.z > 10.5f && timerSinceMoved >= moveDelayTimer)
                 {
                     currentDestination = transform.position + new Vector3(0, 0, -1);
                     if (!facingRight)
@@ -187,6 +205,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                         facingRight = !false;
                         Flip();
                     }
+                    timerSinceMoved = 0;
                 }
 
             }
@@ -215,7 +234,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 }
             }
 
-            if(currentDestination == transform.position)
+            if (currentDestination == transform.position)
             {
 
                 SetCharacterState("Idle");
@@ -236,7 +255,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             currentScale.x *= -1;
             playerMonster.transform.localScale = currentScale;
         }
-
+   
         /// <summary>
         /// code to start the delay in the players movement.
         /// </summary>
@@ -252,12 +271,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         void Move()
         {
-            
+
             float step = speed * Time.deltaTime;
-            
+
             transform.position = Vector3.MoveTowards(transform.position, currentDestination, step);
-            
-            
+
+
             if (transform.position == currentDestination && thrown)
             {
                 thrown = false;
@@ -284,7 +303,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             playerMonster.transform.parent = null;
             playerMonster.transform.localScale = playerOldScale;
-            playerMonster.transform.rotation = Quaternion.Euler(0,0,0);
+            playerMonster.transform.rotation = Quaternion.Euler(0, 0, 0);
             DontDestroyOnLoad(playerMonster);
         }
     }

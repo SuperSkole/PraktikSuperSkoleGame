@@ -43,7 +43,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 Instance = this;
                 //DontDestroyOnLoad(gameObject);
-                SceneManager.sceneLoaded += OnSceneLoaded;
+                SceneManager.sceneUnloaded += OnSceneUnloaded;
                 IntializeFactoryManager();
             }
         }
@@ -73,7 +73,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = PlayerSpawnPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
             }
             else
             {
@@ -126,30 +127,29 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 Debug.LogError("Failed to initialize gear strategy.");
             }
         }
-
+        
         /// <summary>
         /// If Next scene is main re-enable player movement and destroy factory singleton managers.
         /// </summary>
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        private void OnSceneUnloaded(Scene scene)
         {
-            if (scene.name == SceneNames.Main)
+            if (scene.name == SceneNames.Factory)
             {
-                // Re-enable player movement in the main scene
-                PlayerManager.Instance.GetComponent<PlayerMovement>().enabled = true;
                 // remove automove
-                Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
                 StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
+                Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
         
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
                 Destroy(WordFactorySoundManager.Instance);
+
             }
         }
 
 
         private void OnDestroy()
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
     }
 }

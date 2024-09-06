@@ -267,9 +267,11 @@ namespace Scenes._10_PlayerScene.Scripts
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
 
-            instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().SceneStart();
+            instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
             // TODO : Find a more permnat solution
-            if (SceneManager.GetActiveScene().name.StartsWith("11") || SceneManager.GetActiveScene().name.StartsWith("20"))
+            if (SceneManager.GetActiveScene().name.StartsWith("11") || 
+                SceneManager.GetActiveScene().name.StartsWith("20") || 
+                SceneManager.GetActiveScene().name.StartsWith("70"))
             {
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;

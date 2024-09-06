@@ -1,8 +1,11 @@
 using System.Collections;
+using CORE;
 using Import.LeanTween.Framework;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace UI.Scripts
 {
@@ -15,7 +18,6 @@ namespace UI.Scripts
         [SerializeField] private int maxAmount;
 
         private float fillSpeed = 0.5f;
-        private float tweenDuration = 0.5f;
 
         private Coroutine changeValueCoroutine;
 
@@ -31,6 +33,8 @@ namespace UI.Scripts
             originalScale = image.rectTransform.localScale;
 
             textMeshPro.text = 0 + "/" + maxAmount;
+
+            SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
         }
 
         public void SettingValueAfterScene(int amount)
