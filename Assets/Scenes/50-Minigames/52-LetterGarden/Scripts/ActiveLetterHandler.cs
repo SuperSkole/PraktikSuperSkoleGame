@@ -120,6 +120,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     }
                     return true;
                 }   
+                //Removes the currently active helper bee if it exist and replaces it with a new one at the end point of the current spline
                 else if(activeHelperBee != null && helperBeeActive)
                 {
                     Destroy(activeHelperBee);
