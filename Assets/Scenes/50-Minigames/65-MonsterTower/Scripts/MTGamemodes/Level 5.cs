@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootVowel : MonoBehaviour, IMTGameMode
+    public class Level5 : MonoBehaviour, IMTGameMode
     {
 
         List<char> vowels = LetterManager.GetDanishVowels();
@@ -63,6 +63,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public void GetDisplayAnswer(string str, TowerManager manager)
         {
             manager.displayBox.text = str;
+
+            manager.hearLetterButton.SetActive(true);
         }
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             {
                 returnedString[i] = LetterManager.GetRandomVowel().ToString();
             }
+            
             return returnedString;
         }
         /// <summary>

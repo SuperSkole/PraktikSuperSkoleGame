@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 336617410}
   - component: {fileID: 336617409}
   - component: {fileID: 336617412}
+  - component: {fileID: 336617413}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -320,6 +321,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 336617413}
+        m_TargetAssemblyTypeName: SetUpPlayerMovementToDefault, Assembly-CSharp
+        m_MethodName: SetUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &336617410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +381,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d93b551f48d10843b87435e8323cad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &336617413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336617407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fd2add291ceac419dac3e240912f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &596904502

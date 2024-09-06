@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootVowel : MonoBehaviour, IMTGameMode
+    public class ShootConsonant : MonoBehaviour, IMTGameMode
     {
-
-        List<char> vowels = LetterManager.GetDanishVowels();
+        /// <summary>
+        /// getting only the consonants F,M,N and S
+        /// </summary>
+        List<char> consonants = LetterManager.GetFMNSConsonants();
 
 
 
@@ -22,7 +24,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
           
 
-            foreach (var item in vowels)
+            foreach (var item in consonants)
             {
                 if (item == str.ToCharArray()[0])
                 {
@@ -75,7 +77,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             string[] returnedString = new string[count];
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = LetterManager.GetRandomVowel().ToString();
+                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
             }
             return returnedString;
         }

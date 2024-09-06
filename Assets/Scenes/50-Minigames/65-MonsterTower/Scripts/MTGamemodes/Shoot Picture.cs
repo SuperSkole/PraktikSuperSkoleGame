@@ -20,9 +20,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// Will be called by the TowerManager to create a brick with an (usually random) incorrect answer
         /// </summary>
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
-        public void SetWrongAnswer(TowerManager manager)
+        public void SetWrongAnswer(TowerManager manager,string correctAnswer)
         {
             var rndImageWithKey = ImageManager.GetRandomImageWithKey();
+
+            while(rndImageWithKey.Item2==correctAnswer)
+            {
+                rndImageWithKey = ImageManager.GetRandomImageWithKey();
+            }
 
             manager.soloImage.texture = rndImageWithKey.Item1;
             manager.imageKey = rndImageWithKey.Item2;

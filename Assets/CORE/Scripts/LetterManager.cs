@@ -27,6 +27,12 @@ namespace CORE.Scripts
             'R', 'S', 'T', 'V', 'W', 'X', 'Z'
         };
 
+        private static readonly HashSet<char> FMNSConsonants = new HashSet<char>
+        {
+            'F', 'M', 'N', 'S', 
+        };
+
+
         private static Dictionary<char, int> _weightedDanishLetters = new Dictionary<char, int>
         {
             {'A', 1}, {'B', 3}, {'C', 3}, {'D', 2}, {'E', 1},
@@ -88,6 +94,29 @@ namespace CORE.Scripts
         {
             return DanishVowels.ToList();
         }
+
+        /// <summary>
+        /// Gets a list containing the Consonants F,M,N,S
+        /// </summary>
+        /// <returns>List of all danish vowels</returns>
+        public static List<char> GetFMNSConsonants()
+        {
+            return FMNSConsonants.ToList();
+        }
+
+        /// <summary>
+        /// Gets a random consonant
+        /// </summary>
+        /// <returns>A random consonant from the list containing the Consonants F,M,N,S
+        public static char GetRandomFMNSConsonant()
+        {
+            return FMNSConsonants.ToList()[Random.Range(0, FMNSConsonants.Count)];
+        }
+
+
+
+
+
 
         /// <summary>
         /// Gets a list of all consonants

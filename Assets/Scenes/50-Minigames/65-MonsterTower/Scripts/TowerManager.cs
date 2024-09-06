@@ -30,6 +30,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
 
         [SerializeField] GameObject brickPrefab;
+        public GameObject hearLetterButton;
 
         private AudioSource towerAudioSource;
 
@@ -231,7 +232,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             else
             {
                 //Goes to the win screen if there are no more bricks of the tower left. 
-                SetupPlayerMovementToDefault();
                 StartCoroutine(GoToWinScreen());
             }
 
@@ -321,6 +321,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         /// </summary>
          IEnumerator GoToWinScreen()
         { 
+
+
+
             yield return new WaitForSeconds(4);
 
             // saving the game so the fact that there are no lanes left is saved .
@@ -403,14 +406,15 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         }
                         else
                         {
-                            gameMode.SetWrongAnswer(this);
+                            gameMode.SetWrongAnswer(this, questions[z]);
+                           
 
                             // the sentence for the random brick is also inputtet into the data on the particular lane. 
                             // the top and bottom image key is defined in the SetRandomImage
                             loadedBrickLanes[z].bricks.Add(new BrickData(imageKey));
                         }
 
-
+                        
                         GameObject imageholder = Instantiate(answerHolderPrefab, tower[x, z].transform);
                         imageholder.GetComponent<RectTransform>().localPosition = new(0, 1.58f, -1.4f);
                         if (z == 0)
