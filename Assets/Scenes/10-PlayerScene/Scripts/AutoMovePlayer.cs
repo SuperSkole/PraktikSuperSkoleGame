@@ -97,14 +97,14 @@ namespace Scenes._10_PlayerScene.Scripts
         public IEnumerator MoveToPositionCoroutine(GameObject block, Action onReachedTarget = null)
         {
             Debug.Log("moving");
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Walk");
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Walk");
             while (Vector3.Distance(spawnedPlayer.transform.position, block.transform.position) > 1.5f)
             {
                 spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, block.transform.position, moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Idle");
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
             if (onReachedTarget != null)
             {
                 onReachedTarget?.Invoke();
@@ -128,7 +128,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void PickUpBlock()
         {
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().SetCharacterState("Throw");
+            spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Throw");
             
             Debug.Log("Picked up block");
             //GameObject block = GameObject.Find("WordBlock");
@@ -137,7 +137,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 savedBlock = block;
 
-                skeletonAnimation = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation;
+                skeletonAnimation = spawnedPlayer.GetComponent<PlayerAnimatior>().skeletonAnimation;
 
                 bone = skeletonAnimation.skeleton.FindBone("Head");
 
@@ -206,7 +206,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onComplete">The callback action to invoke after the animation completes.</param>
         private IEnumerator WaitForAnimation(string animationName, Action onComplete)
         {
-            var state = spawnedPlayer.GetComponent<SpinePlayerMovement>().skeletonAnimation.state;
+            var state = spawnedPlayer.GetComponent<PlayerAnimatior>().skeletonAnimation.state;
             // if (spawnedPlayer == null)
             // {
             //     Debug.LogError("Spawned player is null.");

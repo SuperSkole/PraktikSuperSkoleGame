@@ -112,7 +112,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
-                SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
+                PlayerAnimatior skeletorn = playerMonster.GetComponent<PlayerAnimatior>();
                 walk = skeletorn.walk;
                 idle = skeletorn.idle;
                 SetCharacterState("Idle");
