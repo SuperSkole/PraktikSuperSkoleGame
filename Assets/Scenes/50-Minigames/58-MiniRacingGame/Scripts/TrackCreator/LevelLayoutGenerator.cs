@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
@@ -11,7 +13,14 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public LevelChunkdata firstChunk;
 
         [SerializeField]
+        public TextMeshProUGUI mapSeedText;
+        [SerializeField]
         private RacingCore racingCore;
+
+        [SerializeField]
+        private string mapSeed;
+
+        public string mapSeedSuggestion = "";
 
         private LevelChunkdata previousChunk;
 
@@ -26,13 +35,34 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private int chunksToBillBoard = 10;
         private int chunksPassed = 0;
         /// <summary>
-        /// Spawn new chunks of the map when called
+        /// Sets up the map and random seed when the track is enabled
         /// </summary>
         private void OnEnable()
         {
             {
                 TriggerExit.OnChunkExited += PickAndSpawnChunk;
             }
+            string mapInput = "";//mapSeedText.text; FIX: The seed code doesn't get from the input properly. It apparently receives unicode characters. No idea for a fix.
+            if (mapInput is "" or " ")
+            {
+                mapSeedText.text = mapSeedSuggestion;
+            }
+            mapSeed = mapSeedText.text;
+            int finalSeed = 0;
+            string result = "";
+            foreach (char c in mapSeed)
+            {
+                result += GetIndexInAlphabet(c).ToString();
+            }
+            finalSeed = Convert.ToInt32(result) * 3;
+            UnityEngine.Random.InitState(finalSeed);
+            previousChunk = firstChunk;
+
+            for (int i = 0; i < chunksToSpawn; i++)
+            {
+                PickAndSpawnChunk();
+            }
+            racingCore.UpdateBillBoard();
         }
 
         private void OnDisable()
@@ -41,18 +71,23 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         }
 
         /// <summary>
-        /// Sets up the random with a seed, then begin spawning chunks
+        /// Converts a latin character to the corresponding letter's index in the standard Latin alphabet
         /// </summary>
-        private void Start()
+        /// <param name="value">An upper- or lower-case Latin character</param>
+        /// <returns>The 0-based index of the letter in the Latin alphabet</returns>
+        private static int GetIndexInAlphabet(char value)
         {
-            Random.InitState(5000);
-            previousChunk = firstChunk;
-
-            for (int i = 0; i < chunksToSpawn; i++)
+            // Uses the uppercase character unicode code point. 'A' = U+0042 = 65, 'Z' = U+005A = 90
+            char upper = char.ToUpper(value);
+            if (upper is < 'A' or > 'Z')
             {
-                PickAndSpawnChunk();
+                return 0;
             }
+
+            return upper - 'A';
         }
+
+
         /// <summary>
         /// Picks the next chunk to be spawned, based on possible directions
         /// </summary>
@@ -89,7 +124,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 default:
                     break;
             }
-
             if (chunksPassed % chunksToBillBoard == 1)
             {
                 for (int i = 0; i < levelBillboardChunkData.Length; i++)
@@ -123,7 +157,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             }
 
-            nextChunk = allowedChunkList[Random.Range(0, allowedChunkList.Count)];
+            nextChunk = allowedChunkList[UnityEngine.Random.Range(0, allowedChunkList.Count)];
 
             return nextChunk;
         }
@@ -134,7 +168,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         {
             LevelChunkdata chunkToSpawn = PicknextChunk();
 
-            GameObject objectFromChunk = chunkToSpawn.levelChunks[Random.Range(0, chunkToSpawn.levelChunks.Length)];
+            GameObject objectFromChunk = chunkToSpawn.levelChunks[UnityEngine.Random.Range(0, chunkToSpawn.levelChunks.Length)];
             previousChunk = chunkToSpawn;
             Instantiate(objectFromChunk, spawnposition + spawnOrigin, Quaternion.identity);
             chunksPassed++;

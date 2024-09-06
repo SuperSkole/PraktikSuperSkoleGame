@@ -1,3 +1,4 @@
+using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace Minigames
         public TextMeshProUGUI timeText;
         public TextMeshProUGUI xpText;
         public TextMeshProUGUI goldText;
+        public TextMeshProUGUI seedText;
         public GameObject endGameUIPanel; // Parent GameObject for all end-game UI elements
     
 
@@ -24,7 +26,7 @@ namespace Minigames
             ToggleEndGameUI(false);
         }
 
-        public void DisplayRewards(float XP, float Gold, float time)
+        public void DisplayRewards(float XP, float Gold, float time, string seed)
         {
             string updatedTime;
             //updatedTime = time.ToString("0.0"); 
@@ -32,7 +34,7 @@ namespace Minigames
             xpText.text = $"XP: {XP}";
             goldText.text = $"Guld: {Gold}";
             timeText.text = $"{updatedTime}";
-
+            seedText.text = $"Seed: {seed}";
         }
 
         public void ToggleEndGameUI(bool visible)

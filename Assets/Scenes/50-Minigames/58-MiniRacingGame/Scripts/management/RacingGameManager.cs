@@ -10,6 +10,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         //public StateNameController stateNameController;
         public int gold = 0;
         public int xp = 0;
+        public LevelLayoutGenerator layout;
 
         public float completionTime = 0;
         public float maxTime => 15;
@@ -47,7 +48,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             //(int XP, int Gold) = rewardCalculator.CalculateRewards(completionTime, maxTime, minTime, maxXP, minXP, difficulty, goldPerXP);
 
-            EndGameUI.Instance.DisplayRewards(xp, gold, completionTime);
+            EndGameUI.Instance.DisplayRewards(xp, gold, completionTime, layout.mapSeedText.text);
 
             StateNameController.SetXPandGoldandCheck(xp, gold);
         }

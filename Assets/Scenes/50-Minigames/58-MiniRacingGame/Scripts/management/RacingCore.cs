@@ -23,6 +23,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private RacingGameManager racingGameManager;
         [SerializeField]
         private GameObject coinEffect;
+        [SerializeField]
+        private GameObject levelCreator;
 
         private bool imageInitialized = false;
 
@@ -48,7 +50,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private readonly List<string> wordsList = new() { "FLY", "BIL" };
 
         private readonly List<string> spelledWordsList = new(); // Tracks spelled words
-        private string targetWord = "";
+        public string targetWord = "";
         private int currentIndex = 0;
 
         private bool timerRunning = false;
@@ -89,7 +91,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private void Setup(string gameMode)
         {
             currentMode = gameMode;
-            playerCar.SetActive(true);
             StartUI.SetActive(false);
             raceActive = true;
 
@@ -103,6 +104,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             DetermineWordToUse(); // Select a random word from the list
             InitializeWordImageMap();
+            levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;
+            levelCreator.SetActive(true);
+            playerCar.SetActive(true);
 
             UpdateBillBoard();
             InitializeWordAudioMap();
@@ -265,7 +269,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// Updates the billboards with the letters and images
         /// that the player have to spell.
         /// </summary>
-        private void UpdateBillBoard()
+        public void UpdateBillBoard()
         {
             if (targetWord != "")
             {
@@ -297,6 +301,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 {
                     if (!image.IsActive())
                         removebillBoard.Add(image);
+                    else
+                        UpdateWordImageDisplay(targetWord);
                 }
                 ClearLists();
             }
