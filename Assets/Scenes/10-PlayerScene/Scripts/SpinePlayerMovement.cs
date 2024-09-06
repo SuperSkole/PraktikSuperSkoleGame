@@ -107,6 +107,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="newMoveToPos">The target position to move towards.</param>
         private void StartMovement(Vector3 newMoveToPos)
         {
+            newMoveToPos += new Vector3(0,2,0);
             targetPosition = newMoveToPos;
             isMoving = true;
             // Stop any ongoing point-and-click movement
@@ -140,7 +141,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <returns></returns>
         private void MoveToTarget()
         {
-            if (Vector3.Distance(transform.position, targetPosition) > 0.1f)
+            if (Vector2.Distance(new Vector2(transform.position.x,transform.position.z), new Vector2(targetPosition.x,targetPosition.z)) > 0.1f)
             {
                 // Move towards the target position at the specified speed
                 Vector3 moveVel = (targetPosition - transform.position).normalized * moveSpeed;
@@ -171,7 +172,8 @@ namespace Scenes._10_PlayerScene.Scripts
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 1000, placementLayermask))
             {
-                return hit.point;
+                if(hit.transform.gameObject.layer != 11)
+                    return hit.point;
             }
             return Vector3.zero;
         }
