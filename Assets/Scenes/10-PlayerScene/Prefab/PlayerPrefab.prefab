@@ -148,13 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82644e7acc52d5c4884eed9412d34f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonAnimation: {fileID: 6963554171686360834}
-  walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
-  throwing: {fileID: 11400000, guid: d117dc0ac9257a441b5ccc10e4d5621c, type: 2}
-  idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
-  currentState: 
   walkThreshold: 0.1
-  blendDuration: 0.2
   moveSpeed: 7
   facingRight: 1
   sceneCamera: {fileID: 0}
@@ -162,6 +156,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   hoveringOverUI: 0
+  animatior: {fileID: 3406586699645998164}
   interactionGO: {fileID: 2615622183424237912}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
   rigidbody: {fileID: 5874153678614725772}
