@@ -8,12 +8,10 @@ using UnityEngine.UI;
 
 public class CloudLoginManager : MonoBehaviour
 {
-    [SerializeField] private Text logTxt;
-     
     async void Start() 
     {
         await UnityServices.InitializeAsync();
-        SignIn();
+        //SignIn();
     }
     
     
@@ -37,7 +35,6 @@ public class CloudLoginManager : MonoBehaviour
         {
             print("Sign in failed!!");
             Debug.LogException(ex);
-        }
-        
+        }        
     }
 }

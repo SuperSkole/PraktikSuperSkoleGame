@@ -12,11 +12,13 @@ namespace Scenes._02_LoginScene.Scripts
     public class UILoginSceneManager : MonoBehaviour
     {
         [SerializeField] private LoginManager loginManager;
+        [SerializeField] private AuthenticationManager authenticationManager;
         [SerializeField] private UserRegistrationManager userRegistrationManager;
         [SerializeField] private GameObject loginScreen;
         [SerializeField] private Image panel;
         [SerializeField] private Image loginButton;
         [SerializeField] private Image registerButton;
+        [SerializeField] private Toggle anonLoginToggle; 
         
         private bool isLoginButtonInteractable = false;
         private bool isRegisterButtonInteractable = false;
@@ -44,6 +46,15 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private void Start()
         {
+            // Enable or disable anonymous login based on editor mode.
+#if UNITY_EDITOR
+            anonLoginToggle.gameObject.SetActive(true);
+            anonLoginToggle.onValueChanged.AddListener(OnAnonLoginToggleChanged);
+#else
+            anonLoginToggle.gameObject.SetActive(false);
+#endif
+            
+            
             // Add listeners to the input fields to check for changes
             loginManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             loginManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
@@ -63,6 +74,15 @@ namespace Scenes._02_LoginScene.Scripts
             // Update the visibility of the buttons
             ToggleButtonVisibility(loginButton, isLoginButtonInteractable);
             ToggleButtonVisibility(registerButton, isRegisterButtonInteractable);
+        }
+        
+        /// <summary>
+        /// This method is triggered when the anonymous login toggle is changed.
+        /// </summary>
+        /// <param name="isAnonLogin">True if anonymous login is enabled, false otherwise.</param>
+        private void OnAnonLoginToggleChanged(bool isAnonLogin)
+        {
+            authenticationManager.SetUseAnonymousLogin(isAnonLogin); // Switch between anonymous and username/password login
         }
         
         /// <summary>
@@ -90,6 +110,21 @@ namespace Scenes._02_LoginScene.Scripts
             {
                 string username = loginManager.UsernameInput.text;
                 string password = loginManager.PasswordInput.text;
+                
+#if UNITY_EDITOR
+                // During development, allow either anon or username/password based on the toggle
+                if (anonLoginToggle.isOn)
+                {
+                    authenticationManager.SignInAnonymouslyAsync(); // Anonymous login
+                }
+                else
+                {
+                    authenticationManager.SignInWithUsernamePasswordAsync(username, password); // Username/password login
+                }
+#else
+                // In build, force username/password login
+                authenticationManager.SignInWithUsernamePasswordAsync(username, password);
+#endif
 
                 if (loginManager.ValidateLogin(username, password))
                 {
