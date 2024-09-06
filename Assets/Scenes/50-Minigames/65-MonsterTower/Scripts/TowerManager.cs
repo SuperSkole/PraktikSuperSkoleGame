@@ -54,6 +54,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         [SerializeField] public TextMeshProUGUI displayBox;
         [SerializeField] public GameObject imageHolderPrefab;
         [SerializeField] public GameObject singleImageHolderPrefab;
+        [SerializeField] public GameObject textHolderPrefab;
         [SerializeField] private GameObject coinPrefab;
         public GameObject answerHolderPrefab;
         string[] questions;
@@ -63,6 +64,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         public RawImage topImage;
         public RawImage bottomImage;
         public RawImage soloImage;
+        public TextMeshProUGUI textOnBrick;
        
         public string imageKey;
 

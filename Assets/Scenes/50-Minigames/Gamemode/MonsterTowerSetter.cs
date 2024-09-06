@@ -25,6 +25,11 @@ namespace Scenes._50_Minigames.Gamemode
                     modeReturned = new ShootPicture();
                     break;
 
+                case "shoot vowel":
+                    modeReturned = new ShootVowel();
+
+                    break;
+
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
                     modeReturned = new SentenceToPictures();

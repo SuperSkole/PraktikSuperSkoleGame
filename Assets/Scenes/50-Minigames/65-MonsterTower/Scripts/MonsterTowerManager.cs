@@ -123,11 +123,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             if (ammoCount <= 0)
             {
                 noAmmoText.SetActive(true);
-            
+             
                 return;
             }
-
-
 
 
             if (PlayerManager.Instance != null)
@@ -148,7 +146,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             {
                 Debug.Log("WordFactory GM.Start(): Player Manager is null");
             }
-
 
 
         }
