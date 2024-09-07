@@ -1,40 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.Services.Core;
-using Unity.Services.Authentication;
+using System;
 using System.Threading.Tasks;
-using UnityEngine.UI;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using UnityEngine;
 
-public class CloudLoginManager : MonoBehaviour
+namespace Scenes._02_LoginScene.Scripts
 {
-    async void Start() 
+    public class CloudLoginManager : MonoBehaviour
     {
-        await UnityServices.InitializeAsync();
-        //SignIn();
-    }
-    
-    
-    public async void SignIn() 
-    {
-        await signInAnonymous();
-    }
-    
-    async Task signInAnonymous()
-    {
-        try
+        private async void Awake()
         {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
-    
-            print("Sign in Success");
-            print("Player Id:" + AuthenticationService.Instance.PlayerId);
-                
-            // logTxt.text = "Player id:" + AuthenticationService.Instance.PlayerId;
+            await InitializeUnityServices();
         }
-        catch (AuthenticationException ex)
+
+        /// <summary>
+        /// Initializes the Unity services.
+        /// </summary>
+        private async Task InitializeUnityServices()
         {
-            print("Sign in failed!!");
-            Debug.LogException(ex);
-        }        
+            await UnityServices.InitializeAsync();
+            Debug.Log("Unity services initialized.");
+        }
     }
 }

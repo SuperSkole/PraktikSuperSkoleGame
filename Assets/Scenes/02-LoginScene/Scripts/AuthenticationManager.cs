@@ -11,6 +11,7 @@ namespace Scenes._02_LoginScene.Scripts
     public class AuthenticationManager : MonoBehaviour
     {
         private bool useAnonymousLogin = false; // Default to false in builds
+        public bool IsSignedIn { get; private set; } = false;
 
         /// <summary>
         /// Sets whether anonymous login should be used. Only valid in the editor.
@@ -25,7 +26,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private async void Start()
         {
-            await InitializeUnityServices();
+            
 
 #if UNITY_EDITOR
             if (useAnonymousLogin)
@@ -34,7 +35,7 @@ namespace Scenes._02_LoginScene.Scripts
             }
             else
             {
-                await SignInWithUsernamePasswordAsync("testuser", "testpassword");
+               // await SignInWithUsernamePasswordAsync(, );
             }
 #else
             // In build, always use username/password login
@@ -42,21 +43,8 @@ namespace Scenes._02_LoginScene.Scripts
 #endif
         }
 
-        /// <summary>
-        /// Initializes the Unity services.
-        /// </summary>
-        private async Task InitializeUnityServices()
-        {
-            try
-            {
-                await UnityServices.InitializeAsync();
-                Debug.Log("Unity services initialized.");
-            }
-            catch (System.Exception ex)
-            {
-                Debug.LogException(ex);
-            }
-        }
+        
+        
 
         /// <summary>
         /// Signs in the user anonymously.
@@ -89,9 +77,11 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         public async Task SignUpWithUsernamePasswordAsync(string username, string password)
         {
+            Debug.Log("SignUpWithUsernamePasswordAsync");
             try
             {
                 await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
+                Debug.Log($"AuthenticationManager.SignUpWithUsernamePasswordAsync: Username: {username} Password: {password}");
                 Debug.Log("Sign-up successful.");
             }
             catch (AuthenticationException ex)
@@ -107,12 +97,15 @@ namespace Scenes._02_LoginScene.Scripts
         /// <summary>
         /// Signs in the user using a username and password.
         /// </summary>
-        public async Task SignInWithUsernamePasswordAsync(string username, string password)
+        public async Task<bool> SignInWithUsernamePasswordAsync(string username, string password)
         {
+            Debug.Log("SignInWithUsernamePasswordAsync");
             try
             {
                 await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
-                Debug.Log("Sign-in successful.");
+                Debug.Log($"Signed in: Username: {username} Password: {password}");
+                IsSignedIn = true;
+                return true;
             }
             catch (AuthenticationException ex)
             {
@@ -122,6 +115,9 @@ namespace Scenes._02_LoginScene.Scripts
             {
                 Debug.LogException(ex);
             }
+            
+            IsSignedIn = false;
+            return false;
         }
 
         /// <summary>
