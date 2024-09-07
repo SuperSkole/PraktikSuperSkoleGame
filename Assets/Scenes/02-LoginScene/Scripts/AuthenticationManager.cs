@@ -57,19 +57,21 @@ namespace Scenes._02_LoginScene.Scripts
         /// <summary>
         /// Signs in the user anonymously using Unity Authentication service.
         /// </summary>
-        public async Task SignInAnonymouslyAsync()
+        public async Task<bool> SignInAnonymouslyAsync()
         {
             try
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
                 Debug.Log("Sign-in successful. Player ID: " + AuthenticationService.Instance.PlayerId);
-                Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId); 
+                Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
+                return true;
             }
             catch (AuthenticationException ex)
             {
                 Debug.Log("Sign-in failed!");
                 Debug.LogException(ex);
             }
+            return false;
         }
 
         /// <summary>
@@ -83,6 +85,9 @@ namespace Scenes._02_LoginScene.Scripts
                 await AuthenticationService.Instance.SignUpWithUsernamePasswordAsync(username, password);
                 Debug.Log($"AuthenticationManager.SignUpWithUsernamePasswordAsync: Username: {username} Password: {password}");
                 Debug.Log("Sign-up successful.");
+                Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+                Debug.Log($"Access Token: {AuthenticationService.Instance.AccessToken}");
+                AuthenticationService.Instance.SignOut();
             }
             catch (AuthenticationException ex)
             {
@@ -104,6 +109,8 @@ namespace Scenes._02_LoginScene.Scripts
             {
                 await AuthenticationService.Instance.SignInWithUsernamePasswordAsync(username, password);
                 Debug.Log($"Signed in: Username: {username} Password: {password}");
+                Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
+                Debug.Log($"Access Token: {AuthenticationService.Instance.AccessToken}");
                 IsSignedIn = true;
                 return true;
             }
