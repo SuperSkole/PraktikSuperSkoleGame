@@ -9,6 +9,13 @@ public class CarEventsManager : MonoBehaviour
     public UnityEvent CarInteraction { get; set; } = new UnityEvent();
     public bool IsInCar { get; set; }
 
+    private void Awake()
+    {
+        if (enabled)
+        {
+            enabled = false;
+        }
+    }
 
     private void Update()
     {
@@ -22,7 +29,6 @@ public class CarEventsManager : MonoBehaviour
         try
         {
             interactionIcon.SetActive(false);
-            GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
             CarInteraction.Invoke();
             if (!IsInCar)
             {

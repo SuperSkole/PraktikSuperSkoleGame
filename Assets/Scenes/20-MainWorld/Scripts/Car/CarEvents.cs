@@ -47,6 +47,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 prometeoCarController.enabled = true;
                 gameObject.GetComponent<CarFuelMangent>().enabled = true;
                 carSpeedGo.SetActive(true);
+                carEventsMa.enabled = true;
 
             }
 
@@ -87,8 +88,9 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     prometeoCarController.enabled = false;
                     gameObject.GetComponent<CarFuelMangent>().enabled = false;
                     carSpeedGo.SetActive(false);
+                    carEventsMa.enabled = false;
                 }
-                
+
                 CarSmoke1.SetActive(false);
                 CarSmoke2.SetActive(false);
 
@@ -121,7 +123,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private void EnablePlayer()
         {
             spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
-            spawnedPlayer.GetComponent<PlayerEventManager>().enabled = false;
+            spawnedPlayer.GetComponent<PlayerEventManager>().enabled = true;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
             spawnedPlayer.GetComponentInChildren<MeshRenderer>().enabled = true;
             spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
