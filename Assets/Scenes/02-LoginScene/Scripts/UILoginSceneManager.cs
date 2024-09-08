@@ -1,5 +1,6 @@
 using CORE;
 using UI.Scripts;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -123,9 +124,17 @@ namespace Scenes._02_LoginScene.Scripts
                 if (anonLoginToggle.isOn)
                 {
                     // Anonymous login in editor mode
-                    authenticationManager.SignInAnonymouslyAsync();
+                    bool signInSuccessful = await authenticationManager.SignInAnonymouslyAsync();
+                    if (signInSuccessful)
+                    {
+                        
                     GameManager.Instance.CurrentUser = "TEST";
                     SceneManager.LoadScene(SceneNames.Start);
+                    }
+                    else
+                    {
+                        Debug.Log("Failed anon sign in");
+                    }
                 }
                 else
 #endif
