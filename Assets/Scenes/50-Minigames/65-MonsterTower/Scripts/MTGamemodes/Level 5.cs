@@ -9,7 +9,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
     public class Level5 : MonoBehaviour, IMTGameMode
     {
 
-        List<char> vowels = LetterManager.GetDanishVowels();
+        List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
 
 
 
@@ -20,17 +20,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
-          
 
-            foreach (var item in vowels)
-            {
-                if (item == str.ToCharArray()[0])
-                {
-                    manager.textOnBrick.text = item.ToString();
-                }
-            }
-            
-        
+
+            manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
+
+
         }
 
         /// <summary>
@@ -39,20 +33,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetWrongAnswer(TowerManager manager,string correctAnswer)
         {
-            var rndVowelWithKey = LetterManager.GetRandomVowel();
+            var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-            while (rndVowelWithKey == correctAnswer.ToCharArray()[0])
+            while (rndImageWithKey.Item2 == correctAnswer)
             {
-                rndVowelWithKey = LetterManager.GetRandomVowel();
+                rndImageWithKey = ImageManager.GetRandomImageWithKey();
             }
 
-            manager.textOnBrick.text = rndVowelWithKey.ToString();
+            manager.soloImage.texture = rndImageWithKey.Item1;
+            manager.imageKey = rndImageWithKey.Item2;
 
-            
 
-            manager.imageKey = rndVowelWithKey.ToString();
-
-          
         }
 
         /// <summary>
@@ -62,9 +53,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void GetDisplayAnswer(string str, TowerManager manager)
         {
-            manager.displayBox.text = str;
 
-            manager.hearLetterButton.SetActive(true);
+            
+
+            AudioClip clip= LetterAudioManager.GetAudioClipFromLetter(str+"1");
+
+            manager.hearLetterButton.GetComponent<AudioSource>().clip = clip;
+
         }
 
         /// <summary>
@@ -74,10 +69,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count)
         {
+
+
             string[] returnedString = new string[count];
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = LetterManager.GetRandomVowel().ToString();
+                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
             }
             
             return returnedString;
@@ -88,9 +85,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the towermanager</param>
         public void SetAnswerPrefab(TowerManager manager)
         {
-            manager.answerHolderPrefab = manager.textHolderPrefab;
-
-            manager.textOnBrick = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            manager.hearLetterButton.SetActive(true);
+            manager.answerHolderPrefab = manager.singleImageHolderPrefab;
+            manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
         }
     }
 

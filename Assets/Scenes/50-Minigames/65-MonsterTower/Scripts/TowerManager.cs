@@ -32,7 +32,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         [SerializeField] GameObject brickPrefab;
         public GameObject hearLetterButton;
 
-        private AudioSource towerAudioSource;
+        public AudioSource towerAudioSource;
+        public AudioSource hearLetterButtonAudioSource;
 
 
         private int towerRadius = 20;
@@ -79,6 +80,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         void Start()
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
+            hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
+            
         }
      
         
@@ -110,9 +113,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             gameMode.SetAnswerPrefab(this);
 
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
-
             currentQuestion = questions[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+
+            if (hearLetterButton.activeSelf == false)
+            {
+
+                displayBox.text = currentQuestion;
+            }
+            else
+            {
+                gameMode.GetDisplayAnswer(currentQuestion,this);
+            }
 
             rowToDelete = 0;
             BuildTower();
@@ -174,6 +185,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             }
 
         }
+
+        
 
         // the lowest tower lane is destroyed by knowing the numberOfBricksInLane and the accessing the 2d tower array that have all the bricks.
         // Lastly the whole tower is lowered the same amount as the height of a brick. 

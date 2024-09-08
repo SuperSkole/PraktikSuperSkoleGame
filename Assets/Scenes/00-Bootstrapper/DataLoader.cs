@@ -130,7 +130,11 @@ namespace Scenes._00_Bootstrapper
         {
             string name = texture.name;
             name = GetName(name);
+            string firstLetterInName = GetName(texture.name.ToCharArray()[0].ToString());
+
             ImageManager.AddImageToSet(name, texture);
+            ImageManager.AddImageToLetterSet(firstLetterInName, texture);
+
             WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }

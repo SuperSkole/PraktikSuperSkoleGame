@@ -30,6 +30,11 @@ namespace Scenes._50_Minigames.Gamemode
 
                     break;
 
+                case "level 5":
+                    modeReturned = new Level5();
+
+                   break;
+
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
                     modeReturned = new SentenceToPictures();

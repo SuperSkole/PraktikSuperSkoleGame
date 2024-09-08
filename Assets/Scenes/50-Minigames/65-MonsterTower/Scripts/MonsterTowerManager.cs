@@ -35,6 +35,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
          [SerializeField] LayerMask TowerLayermask;
         public SpinePlayerMovement mainWorldMovement;
 
+        [SerializeField] GameObject hearLetterButton;
+
         [SerializeField] GameObject noAmmoText;
         public GameObject[,] ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
@@ -154,6 +156,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         {
             if (Input.GetMouseButtonDown(0))
                 CheckWhatWasClickedOn();
+        }
+
+        public void PlaySoundFromHearLetterButton()
+        {
+            hearLetterButton.GetComponent<AudioSource>().Play();
         }
 
         /// <summary>
