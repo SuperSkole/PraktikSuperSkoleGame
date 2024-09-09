@@ -32,8 +32,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private Vector3 spawnposition;
         public int chunksToSpawn = 10;
 
-        [SerializeField]
-        private int chunksToCheckpoint = 5;
+        //[SerializeField]
+        //private int chunksToCheckpoint = 5;
         [SerializeField]
         private int chunksToBillBoard = 10;
         private int chunksPassed = 0;

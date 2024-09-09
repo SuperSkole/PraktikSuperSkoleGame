@@ -2,7 +2,6 @@ using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using Import.LeanTween.Framework;
 using UnityEngine;
-using Import.LeanTween.Framework;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
