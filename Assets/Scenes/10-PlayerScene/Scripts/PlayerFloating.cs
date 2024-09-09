@@ -24,7 +24,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private void Floating()
         {
             bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, rideHeight * 2);
-            if (rayDidHit)
+            if (rayDidHit && !hit.collider.isTrigger)
             {
 
                 //fancy magic vector math that "just works"(tm)  (sofie)

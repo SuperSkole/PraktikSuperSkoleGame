@@ -119,7 +119,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 ammoCount = words.Count;
             }
 
-            SetupPlayerMovementForMonsterTower();
             
            
             if (ammoCount <= 0)
@@ -135,16 +134,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+                spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+                spawnedPlayer.AddComponent<AutoMovePlayer>();
+                spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
+                spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
 
-                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
-
+                SetupPlayerMovementForMonsterTower();
             }
             else
             {
@@ -179,10 +179,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// 
         private void SetupPlayerMovementForMonsterTower()
         {
-
-            PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
-            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-            spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
+            //spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
             spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;          
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
 
