@@ -180,11 +180,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         private void SetupPlayerMovementForMonsterTower()
         {
 
-
+            PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-
-          
+            spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
+            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;          
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+
 
 
             PlayerMovement_MT pMovement = spawnedPlayer.AddComponent<PlayerMovement_MT>();
