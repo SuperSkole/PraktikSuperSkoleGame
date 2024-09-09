@@ -11,11 +11,19 @@ namespace Scenes._50_Minigames.Gamemode
         private List<string> gamemodes = new List<string>()
         {
             "",
+            "",
+            "SymbolEaterLevel3",
+            "",
+            ""
         };
 
 
         private List<string> gamerules = new List<string>()
         {
+            "",
+            "",
+            "GetVowelFromPic",
+            "",
             ""
         };
         /// <summary>
@@ -56,6 +64,10 @@ namespace Scenes._50_Minigames.Gamemode
                 case "spellincorrectword":
                     modeReturned = new SpellIncorrectWord();
                     break;
+                case "SymbolEaterLevel3":
+                    modeReturned = new SymbolEaterLevel3();
+                    break;
+
                 default:
                     Debug.Log("given mode was not among expected options, returning null");
                     modeReturned = null;
@@ -102,9 +114,12 @@ namespace Scenes._50_Minigames.Gamemode
                 case "findconsonants":
                     rulesReturned = new FindConsonant();
                     break;
+                case "GetVowelFromPic":
+                    rulesReturned = new FindLetterInPicture();
+                    break;
                 default:
                     Debug.Log("given ruleset was not among expected options, returning null");
-                    rulesReturned = new SpellWord();
+                    rulesReturned = null;
                     break;
             }
 

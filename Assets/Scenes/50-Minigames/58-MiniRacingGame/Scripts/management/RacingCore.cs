@@ -50,7 +50,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private readonly List<Image> removebillBoard = new();
 
         private bool displayToggle = false;
-        private bool finalStretch = false;
+        //private bool finalStretch = false;
 
         private readonly List<string> spelledWordsList = new(); // Tracks spelled words
         public string targetWord = "";
@@ -239,7 +239,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             raceActive = false;
 
             StopTimer();
-            finalStretch = true;
+            //finalStretch = true;
             levelCreator.GetComponent<LevelLayoutGenerator>().finalStretch = true;
         }
 

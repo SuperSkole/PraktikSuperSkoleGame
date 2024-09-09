@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Scenes._10_PlayerScene.Scripts
@@ -7,7 +5,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
     public class PlayerFloating : MonoBehaviour
     {
-        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Rigidbody rb;
 
         [SerializeField] private float rideHeight = 2f;
         [SerializeField] private float rideSpringStrength = 1f;
@@ -24,11 +22,11 @@ namespace Scenes._10_PlayerScene.Scripts
         private void Floating()
         {
             bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, rideHeight * 2);
-            if (rayDidHit)
+            if (rayDidHit && !hit.collider.isTrigger)
             {
 
                 //fancy magic vector math that "just works"(tm)  (sofie)
-                Vector3 vel = rigidbody.velocity;
+                Vector3 vel = rb.velocity;
                 Vector3 rayDir = Vector3.down;
 
                 Vector3 otherVel = Vector3.zero;
@@ -44,7 +42,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 Debug.DrawLine(transform.position, transform.position + (rayDir * springForce), Color.yellow);
 
-                rigidbody.AddForce(rayDir * springForce);
+                rb.AddForce(rayDir * springForce);
             }
         }
     }

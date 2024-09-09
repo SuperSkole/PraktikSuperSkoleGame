@@ -33,6 +33,7 @@ namespace Scenes._02_LoginScene.Scripts
             }
         }
 
+
         public async Task SignOutAsync()
         {
             // TODO Implement sign out 

@@ -92,6 +92,8 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             if (spawnPoint != null)
             {
+                spawnedPlayer.GetComponent<Rigidbody>().position = spawnPoint.transform.position;
+                spawnedPlayer.GetComponent<Rigidbody>().rotation = spawnPoint.transform.rotation;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
             }
@@ -375,6 +377,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 {
                     // Set the player's position to the last interaction point stored in PlayerData
                     spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
+                    spawnedPlayer.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
                 }
