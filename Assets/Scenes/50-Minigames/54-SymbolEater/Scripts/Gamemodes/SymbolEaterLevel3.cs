@@ -72,6 +72,7 @@ public class SymbolEaterLevel3 : ISEGameMode
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules);
             Texture2D answerImage = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
             boardController.SetImage(Sprite.Create(answerImage, new Rect(0.0f, 0.0f, answerImage.width, answerImage.height), new Vector2(0.5f, 0.5f), 100.0f));
+            boardController.SetAnswerText("");
         }
 
     /// <summary>
