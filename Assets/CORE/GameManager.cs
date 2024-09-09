@@ -1,4 +1,5 @@
 using LoadSave;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace CORE
         // Player and game Data
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
+        private SaveGameController saveGameController; 
 
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
@@ -109,9 +111,18 @@ namespace CORE
         
         public void SaveGame()
         {
+            if (saveGameController != null && PlayerData != null)
+            {
+                saveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+            }
+            else
+            {
+                Debug.LogError("SaveGameController or PlayerData is missing!");
+            }
+            
             
             // save logic, using savemanager
-            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
+            //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
         
         private void InitializeGameManager()
@@ -128,8 +139,10 @@ namespace CORE
         private void InitializeManagers()
         {
             //gameObject.AddComponent<PlayerManager>();
-            SaveManager = new SaveToJsonManager();
+            //SaveManager = new SaveToJsonManager();
             LoadManager = new LoadGameManager();
+            
+            saveGameController = new SaveGameController();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
