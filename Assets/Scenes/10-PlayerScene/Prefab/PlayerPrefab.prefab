@@ -159,7 +159,7 @@ MonoBehaviour:
   animatior: {fileID: 3406586699645998164}
   interactionGO: {fileID: 2615622183424237912}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
-  rigidbody: {fileID: 5874153678614725772}
+  rb: {fileID: 5874153678614725772}
 --- !u!114 &4068373070894527916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1144dc4193d5cef4ca74f4e8547c452f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 5874153678614725772}
+  rb: {fileID: 5874153678614725772}
   rideHeight: 2.3
   rideSpringStrength: 50
   rideSpringDamper: 10

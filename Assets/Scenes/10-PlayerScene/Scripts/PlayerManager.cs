@@ -92,6 +92,7 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             if (spawnPoint != null)
             {
+                spawnedPlayer.GetComponent<Rigidbody>().position = spawnPoint.transform.position;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
             }
