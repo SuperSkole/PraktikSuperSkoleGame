@@ -243,6 +243,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             levelCreator.GetComponent<LevelLayoutGenerator>().finalStretch = true;
         }
 
+        /// <summary>
+        /// Activates the ending ui so the player can see their rewards and return to main world.
+        /// </summary>
         private void FinalEnd()
         {
             racingGameManager = GetComponent<RacingGameManager>();
