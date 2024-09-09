@@ -23,7 +23,7 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private PlayerAnimatior animatior;
         [SerializeField] private GameObject interactionGO;
         [SerializeField] ParticleSystem pointAndClickEffect;
-        [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Rigidbody rb;
 
         /// <summary>
         /// Handles player input for point-and-click movement.
