@@ -8,23 +8,9 @@ using UnityEngine.SceneManagement;
 public class LoadingSceneSetup : MonoBehaviour
 {
     [SerializeField]private int sceneID;
-    private bool active;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void Load()
     {
-        active = true;
         SceneManager.sceneLoaded += OnSceneLoaded;
         SwitchScenes.SwitchToMinigameLoadingScene();
     }

@@ -53,6 +53,7 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
             }
             
+            //Destroys the first button if the player is level 1 or if no game mode exist for it.
             if(playerLevel == 1)
             {
                 Destroy(buttons[0]);
@@ -66,6 +67,7 @@ namespace Scenes._50_Minigames.Gamemode
                     Destroy(buttons[0]);
                 }
             }
+            //Destroys the last button if the player is max level or if no gamemode exist for it.
             if(playerLevel == 5)
             {
                 Destroy(buttons[2]);
@@ -79,6 +81,7 @@ namespace Scenes._50_Minigames.Gamemode
                     Destroy(buttons[2]);
                 }
             }
+            //Destroys the middle button if no gamemode exists for it
             Setgamemode(playerLevel);
             SetGameRules(playerLevel);
             if(gamemode == null && gameRule == null)

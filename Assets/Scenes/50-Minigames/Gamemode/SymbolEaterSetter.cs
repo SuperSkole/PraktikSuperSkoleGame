@@ -57,7 +57,7 @@ namespace Scenes._50_Minigames.Gamemode
                     modeReturned = new SpellIncorrectWord();
                     break;
                 default:
-                    Debug.Log("given mode was not among expected options, setting to default mode");
+                    Debug.Log("given mode was not among expected options, returning null");
                     modeReturned = null;
                     break;
             }
@@ -103,7 +103,7 @@ namespace Scenes._50_Minigames.Gamemode
                     rulesReturned = new FindConsonant();
                     break;
                 default:
-                    Debug.Log("given ruleset was not among expected options, setting to default ruleset");
+                    Debug.Log("given ruleset was not among expected options, returning null");
                     rulesReturned = new SpellWord();
                     break;
             }
