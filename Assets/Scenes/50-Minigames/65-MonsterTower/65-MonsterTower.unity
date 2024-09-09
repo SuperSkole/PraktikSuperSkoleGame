@@ -122,6 +122,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &25235882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 25235883}
+  m_Layer: 0
+  m_Name: DropOffPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &25235883
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25235882}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.5, y: 2.95, z: -47.77}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &43961952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,7 +1497,7 @@ Transform:
   m_GameObject: {fileID: 270849244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01999998, y: 2.95, z: -48.17}
+  m_LocalPosition: {x: -0.019999977, y: 3.21, z: -47.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1935,7 +1966,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.02, y: 0.44, z: -46.6}
   m_LocalScale: {x: 5.8389516, y: 1, z: 1.4385048}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 815966804}
   - {fileID: 1719416367}
@@ -1993,18 +2024,23 @@ MonoBehaviour:
   ammoCount: 0
   mainCamera: {fileID: 1111141038}
   cameraBrain: {fileID: 1044774514}
-  placementLayermask:
+  AmmoLayermask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 512
+  TowerLayermask:
+    serializedVersion: 2
+    m_Bits: 1024
   mainWorldMovement: {fileID: 0}
   noAmmoText: {fileID: 56393955}
   ammoToDisplayPrefab: {fileID: 8399951662530303645, guid: a2de19157700ad740bf5417d7206abe3, type: 3}
   ammoPlatform: {fileID: 469689129}
   catapultAming: {fileID: 525595729}
-  playerSpawnPosition: {fileID: 270849244}
+  playerSpawnPoint: {fileID: 270849244}
+  startPoint: {fileID: 270849244}
   idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
   walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
+  dropOffPoint: {fileID: 25235882}
   pupUp: {fileID: 1269879643}
   towerManager: {fileID: 1490818982}
   difficulty: 0
@@ -2075,6 +2111,9 @@ MonoBehaviour:
   catapultArm: {fileID: 684685746}
   shootPos: {fileID: 174025504}
   hight: 5
+  placementLayermask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &528660897
 GameObject:
   m_ObjectHideFlags: 0
@@ -5802,6 +5841,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98b823ec0654d247b99785470231012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2014929754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2014929755}
+  m_Layer: 0
+  m_Name: StartOffPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2014929755
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014929754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01999998, y: 1, z: -48.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2036501851 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 497450, guid: c87a99b4c24b9ce48bac40727eb1ecb6, type: 3}
@@ -6164,3 +6234,5 @@ SceneRoots:
   - {fileID: 1382253595}
   - {fileID: 1044774515}
   - {fileID: 270849245}
+  - {fileID: 25235883}
+  - {fileID: 2014929755}

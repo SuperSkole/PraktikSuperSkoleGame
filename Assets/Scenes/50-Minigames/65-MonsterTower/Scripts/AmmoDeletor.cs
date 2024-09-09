@@ -18,23 +18,24 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         /// <param name="other"></param>
         private void OnTriggerEnter(Collider other)
         {
+           
+                //Checks if the row to delete on the monsterTower is the last and if it is the explosion gets scaled up. 
+                if (towerManager.rowToDelete == towerManager.towerHeight - 1)
+                {
+                    particals.transform.localScale = new Vector3(3, 3, 3);
+                    Instantiate(particals, transform.position, Quaternion.identity);
+                }
+                else
+                {
 
-            //Checks if the row to delete on the monsterTower is the last and if it is the explosion gets scaled up. 
-            if(towerManager.rowToDelete==towerManager.towerHeight-1)
-            {
-                particals.transform.localScale = new Vector3(3, 3, 3);
-                Instantiate(particals, transform.position, Quaternion.identity);
-            }
-            else
-            {
+                    Instantiate(particals, transform.position, Quaternion.identity);
+                }
 
-                Instantiate(particals, transform.position, Quaternion.identity);
-            }
 
-         
-            targetBrick.checkCollision = true;
+                targetBrick.checkCollision = true;
 
-            Destroy(gameObject);
+                Destroy(gameObject);
+            
         }
 
         public void Hitbox(Brick brick)

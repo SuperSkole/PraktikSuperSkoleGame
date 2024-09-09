@@ -28,6 +28,26 @@ namespace CORE.Scripts
 
         public static AudioClip GetAudioClipFromLetter(string inputLetter)
         {
+            //Remove if sound clip for q gets added
+            if(inputLetter == "q2")
+            {
+                inputLetter = "k2";
+            }
+            //remove if sound clip for w gets added
+            if(inputLetter == "w2")
+            {
+                inputLetter = "v2";
+            }
+            //remove if sound clip for x gets added
+            if(inputLetter == "x2")
+            {
+                inputLetter = "s2";
+            }
+            //remove if sound clip for z gets added
+            if(inputLetter == "z2")
+            {
+                inputLetter = "s2";
+            }
             if (!letterDictionary.TryGetValue(inputLetter.ToLower(), out List<AudioClip> data))
                 data = null;
             AudioClip audioClip;
@@ -43,5 +63,4 @@ namespace CORE.Scripts
             return audioClip;
         }
     }
-
 }
