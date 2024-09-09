@@ -115,7 +115,7 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 default:
                     Debug.Log("given ruleset was not among expected options, returning null");
-                    rulesReturned = new SpellWord();
+                    rulesReturned = null;
                     break;
             }
 
