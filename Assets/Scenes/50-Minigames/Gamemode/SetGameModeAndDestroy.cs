@@ -49,7 +49,7 @@ namespace Scenes._50_Minigames.Gamemode
                 case 2:
                     modeSetter = new LetterGardenSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToLetterGardenScene);
-                    title.text = "Bogstavshave";
+                    title.text = "Bogstavshave"; 
                     break;
             }
             

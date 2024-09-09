@@ -160,7 +160,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// <summary>
         /// Attempts to register a new user with the provided credentials.
         /// </summary>
-        public void TryRegister()
+        public async void TryRegister()
         {
             if (isRegisterButtonInteractable)
             {
@@ -175,7 +175,7 @@ namespace Scenes._02_LoginScene.Scripts
 
                 Debug.Log("Trying User register: " + username);
                 
-                authenticationManager.SignUpWithUsernamePasswordAsync(username, password);
+                await authenticationManager.SignUpWithUsernamePasswordAsync(username, password);
                 
                 userRegistrationManager.ClearInputFields();
             }

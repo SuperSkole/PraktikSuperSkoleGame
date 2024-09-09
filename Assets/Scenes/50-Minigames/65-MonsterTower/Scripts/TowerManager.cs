@@ -70,12 +70,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
        
         public string imageKey;
 
-        private bool isSaveDataLoaded = false;
+        //private bool isSaveDataLoaded = false;
         
         private float yPosGoal;
         private bool falling = false;
-        private bool waitForLastExplosionToFinish = true;
-        private float goToWinScreenTimer = 0;
+        //private bool waitForLastExplosionToFinish = true;
+        //private float goToWinScreenTimer = 0;
 
         void Start()
         {
@@ -599,7 +599,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                     currentQuestionIndex = 0;
                 }
 
-                isSaveDataLoaded = true;
+                //isSaveDataLoaded = true;
 
                 Debug.Log("Data Loaded");
             }
