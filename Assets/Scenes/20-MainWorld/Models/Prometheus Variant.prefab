@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 728522073940133339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.349, y: 0.788, z: 0}
+  m_LocalPosition: {x: 2.349, y: 1.288, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -198,7 +198,7 @@ Transform:
   m_GameObject: {fileID: 6258451846239004588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.349, y: 0.788, z: 0}
+  m_LocalPosition: {x: -2.349, y: 1.288, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -361,6 +361,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: useUI
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: maxSpeed
       value: 160
       objectReference: {fileID: 0}
@@ -386,15 +390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -202.27295
+      value: -201.7345
       objectReference: {fileID: 0}
     - target: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 37.01846
+      value: 36.90676
       objectReference: {fileID: 0}
     - target: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -137.19342
+      value: -137.05447
       objectReference: {fileID: 0}
     - target: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -602,7 +606,6 @@ MonoBehaviour:
   isCar: 1
   isGasSTT: 0
   interactions: {fileID: 0}
-  carEventsMa: {fileID: 0}
 --- !u!114 &2208124547854711839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -663,6 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 3453212339693683068}
+  fuelAmount: 0
   fuelGauge: {fileID: 0}
 --- !u!4 &3192572241180977747 stripped
 Transform:

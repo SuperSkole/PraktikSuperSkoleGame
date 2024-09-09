@@ -145,6 +145,10 @@ namespace Scenes._20_MainWorld.Scripts
             //print($"Here is the saved position: {interactionPoint.position}");
             // set next spawn point, add 1 in height so we dont spawn in ground
             PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
+            var car = GameObject.Find("Prometheus Variant");
+            PlayerManager.Instance.PlayerData.CarPos = car.transform.transform.position;
+            PlayerManager.Instance.PlayerData.CarRo = car.transform.transform.rotation;
+            PlayerManager.Instance.PlayerData.FuelAmount = car.GetComponent<CarFuelMangent>().FuelAmount;
         }
     }
 }

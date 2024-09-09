@@ -2,6 +2,7 @@ using System.Collections;
 using Cinemachine;
 using CORE;
 using LoadSave;
+using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -378,6 +379,13 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
+
+                    var car = GameObject.Find("Prometheus Variant");
+                    car.transform.position = playerData.CarPos;
+                    car.transform.rotation = playerData.CarRo;
+                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+
+
                 }
                 else
                 {
