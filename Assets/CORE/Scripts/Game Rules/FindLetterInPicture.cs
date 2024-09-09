@@ -32,7 +32,7 @@ namespace CORE.Scripts.Game_Rules
         }
 
         /// <summary>
-        /// Sets the vowels and consonants lists if they havent yet. Afterwards it sets up one of them as the correct type randomly
+        /// gets a random image, then checks if it has only one vowel, if it does it is shown as the answer
         /// </summary>
         public void SetCorrectAnswer()
         {
