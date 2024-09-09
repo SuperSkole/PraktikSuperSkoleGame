@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -106,12 +105,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             {   //ask Sofie if you dont know what is happeing here!
                 PlayerManager.Instance.PositionPlayerAt(placePlayerMonster);
                 playerMonster = PlayerManager.Instance.SpawnedPlayer;
+                playerMonster.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 playerOldScale = playerMonster.transform.localScale;
                 playerMonster.transform.parent = placePlayerMonster.transform;
                 playerMonster.transform.localScale = new(0.12f,0.12f,0.12f);
                 playerMonster.transform.localPosition += Vector3.up * 0.8f;
                 skeletonAnimation = playerMonster.GetComponentInChildren<SkeletonAnimation>();
-                SpinePlayerMovement skeletorn = playerMonster.GetComponent<SpinePlayerMovement>();
+                PlayerAnimatior skeletorn = playerMonster.GetComponent<PlayerAnimatior>();
                 walk = skeletorn.walk;
                 idle = skeletorn.idle;
                 SetCharacterState("Idle");
@@ -124,7 +124,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
 
         /// <summary>
-        /// Sets the player's animation state to either idle or walk, with blending between states.
+        /// Sets the player's animation state to either idle or walk, with blending between states..
         /// </summary>
         /// <param name="state">The desired animation state ("Idle" or "Walk").</param>
         public void SetCharacterState(string state)//this was stolen from SpinePlayerMovement to animate the player

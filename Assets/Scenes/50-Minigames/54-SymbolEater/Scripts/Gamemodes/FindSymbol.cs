@@ -73,7 +73,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             activeLetterCubes.Clear();
             incorrectAnswers.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
             //Activates a random lettercube with the correct letter
             GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
             boardController.SetAnswerText(gameRules.GetDisplayAnswer());

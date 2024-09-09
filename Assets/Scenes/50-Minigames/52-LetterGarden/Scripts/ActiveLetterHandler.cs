@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CORE;
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -12,14 +15,22 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
     public class ActiveLetterHandler : MonoBehaviour
     {
-        [SerializeField] SymbolManager symbolManager;
-        [SerializeField] Transform splineHolder;
-        [SerializeField] BeeMovement bee;
-
+        [SerializeField] private SymbolManager symbolManager;
+        [SerializeField] private Transform splineHolder;
+        [SerializeField] private BeeMovement bee;
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private GameObject helperBee;
+        [SerializeField] private GameObject activeHelperBee;
+        
+        public AudioClip letterSound;
+        float defaultBeeSpeed;
+        bool helperBeeActive = true;
         private List<SplineSymbolDataHolder> splines = new();
         public SplineSymbolDataHolder currentSymbol;
         private int currentSymbolIndex = 0;
         [SerializeField] GameObject coinObject;
+
+        private LettergardenGameMode gamemode;
         /// <summary>
         /// used for testing only!!!!
         /// </summary>
@@ -30,15 +41,36 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <summary>
         /// call to start the game
         /// </summary>
-        public void StartGame(LettergardenGameMode gameMode)
+        public void StartGame(LettergardenGameMode gameMode, IGameRules gameRules)
         {
+            this.gamemode = gameMode;
             symbolManager.StartLoad();
-            splines = gameMode.GetSymbols(5);
+            splines = gameMode.GetSymbols(5, gameRules);
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
+            defaultBeeSpeed = bee.speed;
+            //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
+            if(!gameMode.UseBee())
+            {
+                bee.speed = 0;
+                letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                if(helperBeeActive)
+                {
+                    activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
+                    activeHelperBee.GetComponent<BeeMovement>().rotateInPlace = true;
+                }
+            }
+        }
+
+        public void Update()
+        {
+            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(letterSound);
+            }
         }
 
         /// <summary>
@@ -64,7 +96,37 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     currentSymbol = splines[0];
                     splines.RemoveAt(0);
                     bee.NextLetter(currentSymbol.splineContainer);
+                    //Removes the currently active helper bee if it exists
+                    if(activeHelperBee != null)
+                    {
+                        Destroy(activeHelperBee);
+                        activeHelperBee = null;
+                    }
+                    //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
+                    if(!gamemode.UseBee())
+                    {
+                        bee.speed = 0;
+                        letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                        if(helperBeeActive)
+                        {
+                            activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
+                            activeHelperBee.GetComponent<BeeMovement>().rotateInPlace = true;
+                        }
+                    }
+                    else 
+                    {
+                        bee.speed = defaultBeeSpeed;
+                        letterSound = null;
+                    }
                     return true;
+                }   
+                //Removes the currently active helper bee if it exist and replaces it with a new one at the end point of the current spline
+                else if(activeHelperBee != null && helperBeeActive)
+                {
+                    Destroy(activeHelperBee);
+                    activeHelperBee = null;
+                    activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(currentSymbolIndex, 1), Quaternion.identity);
+                    activeHelperBee.GetComponent<BeeMovement>().rotateInPlace = true;
                 }
                 //next Spline in container
                 return true;
