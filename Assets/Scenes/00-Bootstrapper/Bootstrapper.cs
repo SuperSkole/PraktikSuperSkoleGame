@@ -1,7 +1,9 @@
 // inspired by Jason Weimann's Bootstrapper
 // https://www.youtube.com/watch?v=o03NpUdpdrc
 
+using System.Collections;
 using System.Threading.Tasks;
+using CORE;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +19,7 @@ namespace Scenes._00_Bootstrapper
         /// Asynchronously initializes Unity services and loads necessary scenes at start.
         /// Using async Task instead of async void for better error handling and control flow.
         /// </summary>
-        private async Task Start()
+        private async void Start()
         {
             Application.runInBackground = true;
             await UnityServices.InitializeAsync();
@@ -25,6 +27,48 @@ namespace Scenes._00_Bootstrapper
             // Load LoginScene scene additively if only the initial scene is loaded.
             if (SceneManager.loadedSceneCount == 1)
                 SceneManager.LoadScene(SceneConfig.InitialScene, LoadSceneMode.Additive);
+            
+            // Register for the sceneLoaded event
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        
+        private void OnDestroy()
+        {
+            // Unregister the sceneLoaded event when this object is destroyed
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+        
+        /// <summary>
+        /// Handles logic when a new scene is loaded.
+        /// </summary>
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log("Scene Loaded");
+            // Check if the loaded scene is NOT the LoginScene
+            if (this != null && scene.name != SceneNames.Login)
+            {
+                Debug.Log($"Scene loaded: {scene.name}, loading PlayerScene...");
+                StartCoroutine(LoadPlayerScene());
+            }
+        }
+
+        /// <summary>
+        /// Loads the PlayerScene and performs any necessary game setup after it is fully loaded.
+        /// </summary>
+        private IEnumerator LoadPlayerScene()
+        {
+            // Load PlayerScene additively
+            AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+            
+            // Wait until the PlayerScene is fully loaded
+            yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
+
+            // Perform initializations after PlayerScene is loaded
+            GameManager.Instance.IsNewGame = true;
+            GameManager.Instance.IsPlayerBootstrapped = true;
+            GameManager.Instance.CurrentUser = "TEST";
+            GameManager.Instance.CurrentMonsterName = "TESTMonster";
+            GameManager.Instance.PlayerData.MonsterName = "TESTMonster";
         }
 
         /// <summary>

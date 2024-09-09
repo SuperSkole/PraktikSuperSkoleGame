@@ -26,6 +26,7 @@ namespace CORE
         public string CurrentClothMid { get; set; }
         public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
+        public bool IsPlayerBootstrapped { get; set; }
         
         // GameManager Singleton
         private static GameManager instance;
