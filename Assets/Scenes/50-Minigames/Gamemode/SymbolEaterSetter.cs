@@ -2,19 +2,31 @@ using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Scenes._50_Minigames.Gamemode
 {
     public class SymbolEaterSetter: IGameModeSetter
     {
+        private List<string> gamemodes = new List<string>()
+        {
+            "",
+        };
+
+
+        private List<string> gamerules = new List<string>()
+        {
+            ""
+        };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
         /// <param name="mode">The mode we are looking for</param>
         /// <returns></returns>
-        public IGenericGameMode SetMode(string mode)
+        public IGenericGameMode SetMode(int level)
         {
             ISEGameMode modeReturned;
+            string mode = gamemodes[level];
             switch (mode)
             {
                 case "spellword":
@@ -46,7 +58,7 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, setting to default mode");
-                    modeReturned = new FindImageFromSound();
+                    modeReturned = null;
                     break;
             }
             return modeReturned;
@@ -56,9 +68,10 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
         /// <returns></returns>
-        public IGameRules SetRules(string rules)
+        public IGameRules SetRules(int level)
         {
             IGameRules rulesReturned;
+            string rules = gamerules[level];
             switch (rules)
             {
                 case "spellword":
@@ -82,6 +95,12 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "findincorrectwords":
                     rulesReturned = new FindIncorrectWords();
+                    break;
+                case "findvowels":
+                    rulesReturned = new FindVowel();
+                    break;
+                case "findconsonants":
+                    rulesReturned = new FindConsonant();
                     break;
                 default:
                     Debug.Log("given ruleset was not among expected options, setting to default ruleset");

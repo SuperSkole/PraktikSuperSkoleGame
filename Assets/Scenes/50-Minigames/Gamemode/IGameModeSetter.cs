@@ -11,8 +11,8 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="mode">string to represent what gamemode needs to be created and set</param>
         /// <param name="rules">string to represent what gamerules need to be created and set</param>
-        public IGenericGameMode SetMode(string mode);
+        public IGenericGameMode SetMode(int level);
 
-        public IGameRules SetRules(string rules);
+        public IGameRules SetRules(int level);
     }
 }

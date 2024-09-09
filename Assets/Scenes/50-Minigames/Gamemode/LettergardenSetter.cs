@@ -9,14 +9,31 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class LetterGardenSetter: IGameModeSetter
     {
+        private List<string> gamemodes = new List<string>()
+        {
+            "drawwithbee",
+            "drawithoutbee",
+            "drawwithorwithoutbee",
+            "drawwithbee",
+            "drawithoutbee"
+        };
+
+        private List<string> gamerules = new List<string>()
+        {
+            "vowels",
+            "vowels",
+            "vowels",
+            "consonants"
+        };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
         /// <param name="mode">The mode we are looking for</param>
         /// <returns></returns>
-        public IGenericGameMode SetMode(string mode)
+        public IGenericGameMode SetMode(int level)
         {
             LettergardenGameMode modeReturned;
+            string mode = gamemodes[level];
             switch (mode)
             {
                 case "drawcapitalLetters":
@@ -41,8 +58,8 @@ namespace Scenes._50_Minigames.Gamemode
                     modeReturned = new DrawWithOrWithOutBee();
                     break;
                 default:
-                    Debug.Log("given mode was not among expected options, setting to default mode");
-                    modeReturned = new DrawLetters();
+                    Debug.Log("given mode was not among expected options, returning null");
+                    modeReturned = null;
                     break;
             }
             return modeReturned;
@@ -52,10 +69,10 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
         /// <returns></returns>
-        public IGameRules SetRules(string rules)
+        public IGameRules SetRules(int level)
         {
             IGameRules rulesReturned;
-
+            string rules = gamerules[level];
             switch (rules)
             {
                 case "vowels":
@@ -65,7 +82,8 @@ namespace Scenes._50_Minigames.Gamemode
                     rulesReturned = new FindConsonant();
                     break;
                 default:
-                    rulesReturned = new SpellWord();
+                    Debug.Log("given mode was not among expected options, returning null");
+                    rulesReturned = null;
                     break;
             }
 
