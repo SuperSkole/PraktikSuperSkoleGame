@@ -1,4 +1,5 @@
 using LoadSave;
+using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
@@ -12,7 +13,7 @@ namespace CORE
         // Player and game Data
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
-        private SaveGameController saveGameController; 
+        public SaveGameController SaveGameController; 
 
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
@@ -104,16 +105,23 @@ namespace CORE
         public void OnApplicationQuit()
         {
             // Cleanup or save state before exiting
-            SaveGame();
+            Scene currentScene = SceneManager.GetActiveScene();
+            
+            // Save game only if the current scene is not a bootstrapper or a development scene (scenes starting with '0')
+            if (!currentScene.name.StartsWith("0") && !currentScene.name.Equals("Bootstrapper"))
+            {
+                SaveGame();
+            }
+            
             AuthenticationService.Instance.SignOut();
             Application.Quit();
         }
         
         public void SaveGame()
         {
-            if (saveGameController != null && PlayerData != null)
+            if (SaveGameController != null && PlayerData != null && PlayerManager.Instance != null)
             {
-                saveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
             }
             else
             {
@@ -142,14 +150,15 @@ namespace CORE
             //SaveManager = new SaveToJsonManager();
             LoadManager = new LoadGameManager();
             
-            saveGameController = new SaveGameController();
+            SaveGameController = new SaveGameController();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Early out
             if (scene.name.StartsWith("0") ||
-                scene.name.Equals("Bootstrapper"))
+                scene.name.Equals(SceneNames.Player) ||
+                scene.name.Equals(SceneNames.Boot))
             {
                 return;
             }

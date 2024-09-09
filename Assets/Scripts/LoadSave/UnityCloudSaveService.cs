@@ -21,38 +21,32 @@ namespace LoadSave
         }
 
         /// <summary>
-        /// Saves the player data by converting it to a DTO and storing it in the cloud.
+        /// Saves the player data by converting it to a DTO and storing it in the cloud using a custom key.
         /// </summary>
-        /// <param name="playerData">The PlayerData object to be saved.</param>
-        public async Task SavePlayerDataAsync(PlayerData playerData)
+        public async Task SavePlayerDataAsync(PlayerData playerData, string saveKey)
         {
             // Convert the PlayerData to a SaveDataDTO
             SaveDataDTO dto = _converter.ConvertToDTO(playerData);
 
             // Serialize DTO to JSON
-            string jsonData = JsonUtility.ToJson(dto, prettyPrint: true);
+            string jsonData = JsonUtility.ToJson(dto, true);
 
-            // Save the data in the cloud
-            await _saveRepository.SaveAsync(playerData.Username, jsonData);
+            // Save the data in the cloud with a custom key
+            await _saveRepository.SaveAsync(saveKey, jsonData);
         }
 
         /// <summary>
         /// Loads the player data from the cloud and converts it back to a PlayerData object.
         /// </summary>
-        /// <param name="username">Username to load data for.</param>
-        /// <returns>The PlayerData object populated with cloud data.</returns>
-        public async Task<PlayerData> LoadPlayerDataAsync(string username)
+        public async Task<SaveDataDTO> LoadPlayerDataAsync(string saveKey)
         {
-            // Load JSON data from the cloud
-            string jsonData = await _saveRepository.LoadAsync(username);
+            string jsonData = await _saveRepository.LoadAsync(saveKey);
+            if (string.IsNullOrEmpty(jsonData))
+            {
+                return null;
+            }
 
-            if (string.IsNullOrEmpty(jsonData)) return null;
-
-            // Deserialize JSON to SaveDataDTO
-            SaveDataDTO dto = JsonUtility.FromJson<SaveDataDTO>(jsonData);
-
-            // Convert the DTO back to PlayerData
-            return _converter.ConvertToPlayerData(dto);
+            return JsonUtility.FromJson<SaveDataDTO>(jsonData);  // Deserialize and return SaveDataDTO
         }
     }
 }

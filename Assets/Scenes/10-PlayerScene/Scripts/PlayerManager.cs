@@ -204,7 +204,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
-                return;
+                //return;
             }
 
             clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
