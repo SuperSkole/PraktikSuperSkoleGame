@@ -17,6 +17,7 @@ public class ReFuelCar : MonoBehaviour
     private int lettersCount;
 
     [SerializeField] private TextMeshProUGUI letterAmountTxt;
+    [SerializeField] private TextMeshProUGUI WordAmountTxt;
     [SerializeField] private Image imgFillBar;
 
     private void Awake()
@@ -31,36 +32,38 @@ public class ReFuelCar : MonoBehaviour
     private void UpdateValues()
     {
         imgFillBar.fillAmount = carFuelMa.FuelAmount;
-        letterAmountTxt.text = (playerData.CollectedLetters.Count
-            + ReturnAmountOfLettersInWords(playerData.CollectedWords)).ToString();
+        letterAmountTxt.text = (playerData.CollectedLetters.Count).ToString();
+        WordAmountTxt.text = playerData.CollectedWords.Count.ToString();
     }
     public void OneWordRefill()
     {
-        string whereGetLetters;
-        if (playerData.CollectedLetters.Count > 0)
-        {
-            whereGetLetters = "Letters";
-            lettersCount = playerData.CollectedLetters.Count;
-        }
-        else
-        {
-            whereGetLetters = "Words";
-            lettersCount = ReturnAmountOfLettersInWords(playerData.CollectedWords);
-        }
+        //string whereGetLetters;
+        lettersCount = playerData.CollectedLetters.Count;
+        //if (playerData.CollectedLetters.Count > 0)
+        //{
+        //    whereGetLetters = "Letters";
+        //    lettersCount = playerData.CollectedLetters.Count;
+        //}
+        //else
+        //{
+        //    whereGetLetters = "Words";
+        //    lettersCount = ReturnAmountOfLettersInWords(playerData.CollectedWords);
+        //}
 
         if (lettersCount > 0)
         {
             //var howManyIncrements = Mathf.Ceil(missingAmount / incrementIncrease);
             carFuelMa.FuelAmount += incrementIncrease;
-            switch (whereGetLetters)
-            {
-                case "Letters":
-                    playerData.CollectedLetters.RemoveAt(0);
-                    break;
-                case "Words":
-                    playerData.CollectedWords.RemoveAt(0);
-                    break;
-            }
+            playerData.CollectedLetters.RemoveAt(0);
+            //switch (whereGetLetters)
+            //{
+            //    case "Letters":
+            //        playerData.CollectedLetters.RemoveAt(0);
+            //        break;
+            //    case "Words":
+            //        playerData.CollectedWords.RemoveAt(0);
+            //        break;
+            //}
             UpdateValues();
         }
         else
@@ -68,6 +71,25 @@ public class ReFuelCar : MonoBehaviour
             print("Not enough letters to refuel");
         }
     }
+    /// <summary>
+    /// Refills the gas on the car, but only temp we only have two letter words so far
+    /// </summary>
+    public void wordsTankRefuel()
+    {
+        if (playerData.CollectedWords.Count > 0)
+        {
+            carFuelMa.FuelAmount += incrementIncrease * 2;
+
+            playerData.CollectedWords.RemoveAt(0);
+            UpdateValues();
+        }
+        else
+        {
+            print("Not enough letters to refuel");
+        }
+
+    }
+
     /// <summary>
     /// Refules the players car if they have enough words, looks thourgh players collected woreds and letters, to see
     /// exchange rate is 1 letter for 0.2 fuel
