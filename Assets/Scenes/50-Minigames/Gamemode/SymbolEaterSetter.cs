@@ -25,6 +25,11 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
+            //Checks if level is inside the scope of the gamemodes list
+            if (level >= gamemodes.Count)
+            {
+                return null;
+            }
             ISEGameMode modeReturned;
             string mode = gamemodes[level];
             switch (mode)
@@ -70,6 +75,11 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGameRules SetRules(int level)
         {
+            //Checks if level is inside the scope of the gamerules list
+            if (level >= gamerules.Count)
+            {
+                return null;
+            }
             IGameRules rulesReturned;
             string rules = gamerules[level];
             switch (rules)
