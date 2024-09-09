@@ -2026,7 +2026,6 @@ MonoBehaviour:
   spawnOrigin: {x: 0, y: 0, z: 0}
   finalStretch: 0
   chunksToSpawn: 6
-  chunksToCheckpoint: 5
   chunksToBillBoard: 7
 --- !u!1 &1093051305
 GameObject:
@@ -2887,9 +2886,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2058392660}
-        m_TargetAssemblyTypeName: Scenes.Minigames.MiniRacingGame.Scripts.RacingCore,
+        m_TargetAssemblyTypeName: Scenes._50_Minigames._58_MiniRacingGame.Scripts.RacingCore,
           Assembly-CSharp
-        m_MethodName: GamemMode_One_Word
+        m_MethodName: GameMode_Vocal_Image
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4147,6 +4146,7 @@ MonoBehaviour:
   coinEffect: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   levelCreator: {fileID: 1087775996}
   targetWord: 
+  imageWord: 
 --- !u!114 &2509251866092884025 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1190132697592301471, guid: 7d3fdb85b5109644080c3e21901c2102, type: 3}

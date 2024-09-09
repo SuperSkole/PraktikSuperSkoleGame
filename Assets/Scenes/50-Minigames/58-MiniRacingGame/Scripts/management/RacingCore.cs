@@ -1,4 +1,5 @@
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Minigames;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using CORE.Scripts.Game_Rules;
 
 namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
@@ -28,6 +30,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private GameObject coinEffect;
         [SerializeField]
         private GameObject levelCreator;
+        FindLetterInPicture gameRules = new();
 
         private bool imageInitialized = false;
 
@@ -54,6 +57,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
         private readonly List<string> spelledWordsList = new(); // Tracks spelled words
         public string targetWord = "";
+        public string imageWord = "";
         private int currentIndex = 0;
 
         private bool timerRunning = false;
@@ -71,13 +75,17 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// <summary>
         /// Gamemode selection for players.
         /// </summary>
+        public void GamemMode_One_Word()
+        {
+            Setup(GameModes.Mode2);
+        }
         public void GameMode_Three_Words()
         {
             Setup(GameModes.Mode1);
         }
-        public void GamemMode_One_Word()
+        public void GameMode_Vocal_Image()
         {
-            Setup(GameModes.Mode2);
+            Setup(GameModes.Mode3);
         }
 
         /// <summary>
@@ -130,10 +138,31 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             if (!imageInitialized)
                 imageInitialized = true;
             targetWord = rndImageWithKey1.Item2;
+            imageWord = targetWord;
             PlayWordAudio(targetWord);
-            UpdateWordImageDisplay(targetWord);
-
+            UpdateWordImageDisplay();
         }
+
+        private void SelectRandomVocal()
+        {
+            gameRules.SetCorrectAnswer();
+            targetWord = gameRules.GetCorrectAnswer();
+            imageWord = gameRules.GetDisplayAnswer();
+
+            Texture2D image = ImageManager.GetImageFromWord(imageWord);
+            wordsImageMap.Add(imageWord, QuickSprite(image));
+
+            if (!imageInitialized)
+                imageInitialized = true;
+            PlayWordAudio(targetWord);
+            UpdateWordImageDisplay();
+        }
+
+        private Sprite QuickSprite(Texture2D image)
+        {
+            return Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
+        }
+
         #endregion
 
         #region timer
@@ -166,12 +195,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             {
                 timer += Time.deltaTime;
                 UpdateTimerDisplay();
-            }
-
-            if (Input.GetKeyDown(KeyCode.K)) //bare test
-            {
-                PlayWordAudio(targetWord);
-                UpdateWordImageDisplay("Bil");
             }
 
             if (Input.GetKeyDown(KeyCode.F)) //Respawn
@@ -215,6 +238,15 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 if (spelledWordsList.Count < 1)
                 {
                     SelectRandomWord();
+                }
+                else
+                    EndGame();
+            }
+            else if (currentMode == GameModes.Mode3)
+            {
+                if (spelledWordsList.Count < 3)
+                {
+                    SelectRandomVocal();
                 }
                 else
                     EndGame();
@@ -316,7 +348,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     if (!image.IsActive())
                         removebillBoard.Add(image);
                     else
-                        UpdateWordImageDisplay(targetWord);
+                        UpdateWordImageDisplay();
                 }
                 ClearLists();
             }
@@ -357,10 +389,17 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private char RandomWrongLetter(string correctLetter)
         {
             char wrongLetter;
-            do
+            if (currentMode == GameModes.Mode3)
             {
-                wrongLetter = (char)('a' + Random.Range(0, 26));
-            } while (CheckLetter(wrongLetter, correctLetter));
+                wrongLetter = gameRules.GetWrongAnswer().ToCharArray()[0];
+            }
+            else
+            {
+                do
+                {
+                    wrongLetter = (char)('a' + Random.Range(0, 26));
+                } while (CheckLetter(wrongLetter, correctLetter));
+            }
 
             return wrongLetter;
         }
@@ -427,7 +466,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
                 UpdateBillBoard();
-                UpdateWordImageDisplay(targetWord);
+                UpdateWordImageDisplay();
             }
         }
         #endregion
@@ -437,13 +476,13 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// Updates the word display.
         /// </summary>
         /// <param name="word"></param>
-        private void UpdateWordImageDisplay(string word)
+        private void UpdateWordImageDisplay()
         {
             if (imageDisplayActive == true)
             {
                 foreach (Image image in billBoard)
                 {
-                    StartCoroutine(UpdateWordImageDisplay2(word, image));
+                    StartCoroutine(UpdateWordImageDisplay2(image));
                 }
             }
         }
@@ -455,18 +494,18 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         /// <param name="word">The word to use to fetch images</param>
         /// <returns></returns>
-        private IEnumerator UpdateWordImageDisplay2(string word, Image billBoard)
+        private IEnumerator UpdateWordImageDisplay2(Image billBoard)
         {
-            if (word != "End")
+            if (imageWord != "End")
             {
                 yield return new WaitUntil(() => imageInitialized == true);
-                if (wordsImageMap.TryGetValue(word, out Sprite image))
+                if (wordsImageMap.TryGetValue(imageWord, out Sprite image))
                 {
                     billBoard.sprite = image;
                 }
                 else
                 {
-                    Debug.LogWarning($"Failed to update image display for word: {word}");
+                    Debug.LogWarning($"Failed to update image display for word: {imageWord}");
                 }
             }
         }
