@@ -414,7 +414,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         }
                         else
                         {
-                            gameMode.SetWrongAnswer(this);
+                            gameMode.SetWrongAnswer(this, questions[z]);
 
                             // the sentence for the random brick is also inputtet into the data on the particular lane. 
                             // the top and bottom image key is defined in the SetRandomImage
