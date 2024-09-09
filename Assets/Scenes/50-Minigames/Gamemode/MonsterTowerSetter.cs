@@ -29,7 +29,10 @@ namespace Scenes._50_Minigames.Gamemode
                     modeReturned = new ShootVowel();
 
                     break;
+                case "level 4":
+                    modeReturned = new Level4();
 
+                    break;
                 case "level 5":
                     modeReturned = new Level5();
 

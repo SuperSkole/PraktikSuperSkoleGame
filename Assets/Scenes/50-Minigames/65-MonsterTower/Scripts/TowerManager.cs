@@ -80,7 +80,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         void Start()
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
-            hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
+            
             
         }
      
