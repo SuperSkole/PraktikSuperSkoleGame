@@ -12,7 +12,9 @@ namespace Scenes._50_Minigames.Gamemode
         {
             "",
             "",
-            "SymbolEaterLevel3"
+            "SymbolEaterLevel3",
+            "",
+            ""
         };
 
 
@@ -20,7 +22,9 @@ namespace Scenes._50_Minigames.Gamemode
         {
             "",
             "",
-            "GetVowelFromPic"
+            "GetVowelFromPic",
+            "",
+            ""
         };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
