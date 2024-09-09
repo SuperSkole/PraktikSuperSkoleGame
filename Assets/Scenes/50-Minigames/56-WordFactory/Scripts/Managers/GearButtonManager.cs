@@ -73,7 +73,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private void PositionButtons(GameObject buttonGroup)
         {
             // Position the buttons slightly below the gear
-            buttonGroup.transform.localPosition = new Vector3(0, -1, 1);
+            buttonGroup.transform.localPosition = new Vector3(0, 1, 0.9f);
             // Adjust the rotation of the button group
             buttonGroup.transform.localRotation = Quaternion.Euler(-90, 0, 0);
             // Ensure button group is not parented to gear to avoid rotation

@@ -5,7 +5,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
     public class GearLeverManager : MonoBehaviour
     {
         [SerializeField] private GameObject gearLeverPrefab; // Prefab for the lever
-        [SerializeField] private Transform gearLeverParent;
+        //[SerializeField] private Transform gearLeverParent;
 
         private void Start()
         {
@@ -60,19 +60,19 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             counterClockwiseLever.OnLeverPulled += rotationController.RotateCounterClockwise;
 
             // Position the levers relative to the gear
-            PositionLevers(leverGroup);
+            PositionLevers(leverGroup, gear);
         }
 
-        private void PositionLevers(GameObject leverGroup)
+        private void PositionLevers(GameObject leverGroup, GameObject gear)
         {
             // Position the levers slightly below the gear
-            leverGroup.transform.localPosition = new Vector3(0, -1, 0);
+            leverGroup.transform.localPosition += new Vector3(0, 0.5f, 0);
 
             // Adjust the rotation of the lever group if necessary
             leverGroup.transform.localRotation = Quaternion.identity;
 
             // Ensure lever group is not parented to the gear to avoid rotating with it
-            leverGroup.transform.SetParent(gearLeverParent);
+            leverGroup.transform.SetParent(gear.transform);
         }
     }
 }

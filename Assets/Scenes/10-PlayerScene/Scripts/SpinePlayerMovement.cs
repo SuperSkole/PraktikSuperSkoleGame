@@ -2,226 +2,180 @@ using Spine.Unity;
 using System.Collections;
 using UnityEngine;
 
-public class SpinePlayerMovement : MonoBehaviour
+namespace Scenes._10_PlayerScene.Scripts
 {
-    public SkeletonAnimation skeletonAnimation;
-    public AnimationReferenceAsset walk;
-    public AnimationReferenceAsset throwing;
-    public AnimationReferenceAsset idle;
-    public string currentState;
 
-    //Blend paramters
-    public float walkThreshold = 0.1f;
-    public float blendDuration = 0.2f;
-    public float moveSpeed = 5.0f;
-    public bool facingRight = true;
-
-    public Camera sceneCamera;
-    public LayerMask placementLayermask;
-    private Vector3 targetPosition;
-    private bool isMoving;
-    private Coroutine moveCoroutine;
-
-    public bool hoveringOverUI = false;
-    [SerializeField] private GameObject interactionGO;
-    [SerializeField] ParticleSystem pointAndClickEffect;
-    /// <summary>
-    /// Initializes the player's animation state to idle.
-    /// </summary>
-    void Start()
+    public class SpinePlayerMovement : MonoBehaviour
     {
-        SceneStart();
+        
 
-        //When player gets instanced we need to add the sceneCamera or movement is not going to work
-        //skeletonAnimation.Skeleton.SetAttachment("Monster TOP1", "Monster TOP1");
-    }
-    public void SceneStart()
-    {
-        currentState = "idle";
-        SetCharacterState("Idle");
-    }
-    /// <summary>
-    /// Handles player input for both WASD movement and point-and-click movement.
-    /// </summary>
-    void Update()
-    {
-        if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        //Blend paramters
+        public float walkThreshold = 0.1f;
+        public float moveSpeed = 5.0f;
+        public bool facingRight = true;
+
+        public Camera sceneCamera;
+        public LayerMask placementLayermask;
+        private Vector3 targetPosition;
+        private bool isMoving;
+
+        public bool hoveringOverUI = false;
+        [SerializeField] private PlayerAnimatior animatior;
+        [SerializeField] private GameObject interactionGO;
+        [SerializeField] ParticleSystem pointAndClickEffect;
+        [SerializeField] private Rigidbody rb;
+
+        /// <summary>
+        /// Handles player input for point-and-click movement.
+        /// </summary>
+        void Update()
         {
+            if (!hoveringOverUI && Input.GetMouseButtonDown(0))
+            {
+                Vector3 newMoveToPos = GetSelectedMapPosition();
+                if (newMoveToPos != Vector3.zero)
+                {
+                    StartMovement(newMoveToPos);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// im using FixedUpdate becorse this is all physics
+        /// </summary>
+        private void FixedUpdate()
+        {
+            if (!isMoving || Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+            {
+                if (isMoving)
+                {
+                    StopPointAndClickMovement();
+                }
+                PlayerWASDMovement();
+            }
+            if (isMoving && Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0)
+            {
+                MoveToTarget();
+            }
+        }
+
+
+        /// <summary>
+        /// Handles movement of the player using WASD keys.
+        /// </summary>
+        private void PlayerWASDMovement()
+        {
+            //StopCoroutine(MoveToTarget());
+            //Remove Raw to add inertia
+            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float verticalInput = Input.GetAxisRaw("Vertical");
+
+            Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
+
+            // Move the player
+            GetComponent<Rigidbody>().velocity = new(movement.x, GetComponent<Rigidbody>().velocity.y, movement.z);
+
+            //transform.Translate(movement * moveSpeed * Time.deltaTime);
+
+            // Flip the player based on the horizontal input
+            if (GetComponent<Rigidbody>().velocity.x < 0)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+                interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
+            }
+            else if (GetComponent<Rigidbody>().velocity.x > 0)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+                interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
+            }
+
+            if (Input.GetAxisRaw("Horizontal") != 0f || Input.GetAxisRaw("Vertical") != 0f)
+            {
+                animatior.SetCharacterState("Walk");
+            }
+            else
+            {
+                animatior.SetCharacterState("Idle");
+            }
+        }
+        /// <summary>
+        /// Starts the movement of the player towards a target position clicked on the map.
+        /// </summary>
+        /// <param name="newMoveToPos">The target position to move towards.</param>
+        private void StartMovement(Vector3 newMoveToPos)
+        {
+            newMoveToPos += new Vector3(0,2,0);
+            targetPosition = newMoveToPos;
+            isMoving = true;
+            // Stop any ongoing point-and-click movement
             if (isMoving)
             {
-                StopPointAndClickMovement();
+                animatior.SetCharacterState("Idle");
             }
-            PlayerWASDMovement();
-        }
-
-        if (!hoveringOverUI && Input.GetMouseButtonDown(0))
-        {
-            Vector3 newMoveToPos = GetSelectedMapPosition();
-            if (newMoveToPos != Vector3.zero)
+            if (transform.position.x > targetPosition.x)
             {
-                StartMovement(newMoveToPos);
+                // Moving right
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+                interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
+
             }
-        }
-    }
-
-    /// <summary>
-    /// Handles movement of the player using WASD keys.
-    /// </summary>
-    private void PlayerWASDMovement()
-    {
-        StopCoroutine(MoveToTarget());
-        //Remove Raw to add inertia
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
-        // Move the player
-        transform.Translate(movement * moveSpeed * Time.deltaTime);
-
-        // Flip the player based on the horizontal input
-        if (horizontalInput < 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
-            interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
-        }
-        else if (horizontalInput > 0)
-        {
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
-            interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
+            else
+            {
+                // Moving left
+                transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
+                interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
+            }
+            animatior.SetCharacterState("Walk");
+            var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
+            Destroy(effect.gameObject, 0.5f);
         }
 
-        if (Input.GetAxis("Horizontal") != 0f || Input.GetAxis("Vertical") != 0f)
+        /// <summary>
+        /// Coroutine that smoothly moves the player towards the target position.
+        /// </summary>
+        /// <returns></returns>
+        private void MoveToTarget()
         {
-            SetCharacterState("Walk");
-        }
-        else
-        {
-            SetCharacterState("Idle");
-        }
-    }
-    /// <summary>
-    /// Starts the movement of the player towards a target position clicked on the map.
-    /// </summary>
-    /// <param name="newMoveToPos">The target position to move towards.</param>
-    private void StartMovement(Vector3 newMoveToPos)
-    {
-        targetPosition = newMoveToPos;
-        targetPosition.y = transform.position.y; // Keep the player's y position constant
-
-        // Stop any ongoing point-and-click movement
-        if (isMoving && moveCoroutine != null)
-        {
-            SetCharacterState("Idle");
-            StopCoroutine(moveCoroutine);
-
-        }
-        if (transform.position.x > targetPosition.x)
-        {
-            // Moving right
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
-            interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
-
-        }
-        else
-        {
-            // Moving left
-            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
-            interactionGO.transform.localPosition = new Vector3(-3.75f, 2.5f, -2.5f);
-        }
-        SetCharacterState("Walk");
-        var effect = Instantiate(pointAndClickEffect, new Vector3(targetPosition.x, targetPosition.y - 1.892f, targetPosition.z), pointAndClickEffect.transform.rotation);
-        Destroy(effect.gameObject, 0.5f);
-        moveCoroutine = StartCoroutine(MoveToTarget());
-    }
-
-    /// <summary>
-    /// Coroutine that smoothly moves the player towards the target position.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator MoveToTarget()
-    {
-        isMoving = true;
-        while (Vector3.Distance(transform.position, targetPosition) > 0.1f)
-        {
-            // Move towards the target position at the specified speed
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-            yield return null;
-        }
-
-        // Snap to the exact position when very close to avoid overshooting
-        transform.position = targetPosition;
-
-        isMoving = false;
-    }
-
-    /// <summary>
-    /// Stops the point-and-click movement of the player.
-    /// </summary>
-    public void StopPointAndClickMovement()
-    {
-        if (isMoving && moveCoroutine != null)
-        {
-            StopCoroutine(moveCoroutine);
+            if (Vector2.Distance(new Vector2(transform.position.x,transform.position.z), new Vector2(targetPosition.x,targetPosition.z)) > 0.1f)
+            {
+                // Move towards the target position at the specified speed
+                Vector3 moveVel = (targetPosition - transform.position).normalized * moveSpeed;
+                GetComponent<Rigidbody>().velocity = new(moveVel.x, GetComponent<Rigidbody>().velocity.y, moveVel.z);
+                return;
+            }
+            // Snap to the exact position when very close to avoid overshooting
+            transform.position = targetPosition;
             isMoving = false;
         }
-    }
-    /// <summary>
-    /// Gets the position on the map that the player clicked on.
-    /// </summary>
-    /// <returns>The position on the map where the player clicked, or Vector3.zero if no valid position was found.</returns>
-    public Vector3 GetSelectedMapPosition()
-    {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = sceneCamera.nearClipPlane;
-        Ray ray = sceneCamera.ScreenPointToRay(mousePos);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 1000, placementLayermask))
-        {
-            return hit.point;
-        }
-        return Vector3.zero;
-    }
 
-    /// <summary>
-    /// Sets the player's animation based on the specified parameters.
-    /// </summary>
-    /// <param name="animation">The animation to set.</param>
-    /// <param name="loop">Whether the animation should loop.</param>
-    /// <param name="timeScale">The speed at which the animation should play.</param>
-    public void SetAnimation(AnimationReferenceAsset animation, bool loop, float timeScale)
-    {
-        skeletonAnimation.state.SetAnimation(0, animation, loop).TimeScale = timeScale;
-    }
-
-    /// <summary>
-    /// Sets the player's animation state to either idle or walk, with blending between states.
-    /// </summary>
-    /// <param name="state">The desired animation state ("Idle" or "Walk").</param>
-    public void SetCharacterState(string state)
-    {
-        if (state.Equals("Idle") && currentState != "Idle")
+        /// <summary>
+        /// Stops the point-and-click movement of the player.
+        /// </summary>
+        public void StopPointAndClickMovement()
         {
-            //Blending animations walk - idle
-            skeletonAnimation.state.SetAnimation(0, idle, true).MixDuration = blendDuration;
-            currentState = "Idle";
+            isMoving = false;
         }
-        else if (state.Equals("Walk") && currentState != "Walk")
+        /// <summary>
+        /// Gets the position on the map that the player clicked on.
+        /// </summary>
+        /// <returns>The position on the map where the player clicked, or Vector3.zero if no valid position was found.</returns>
+        public Vector3 GetSelectedMapPosition()
         {
-            //Blending animations idle - walk
-            skeletonAnimation.state.SetAnimation(0, walk, true).MixDuration = blendDuration;
-            currentState = "Walk";
-        }
-        else if (state.Equals("Throw") && currentState != "Throw")
-        {
-            //Blending animations idle - walk
-            skeletonAnimation.state.SetAnimation(0, throwing, false).MixDuration = blendDuration;
-            currentState = "Throw";
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = sceneCamera.nearClipPlane;
+            Ray ray = sceneCamera.ScreenPointToRay(mousePos);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 1000, placementLayermask))
+            {
+                if(hit.transform.gameObject.layer != 11)
+                    return hit.point;
+            }
+            return Vector3.zero;
         }
     }
 }

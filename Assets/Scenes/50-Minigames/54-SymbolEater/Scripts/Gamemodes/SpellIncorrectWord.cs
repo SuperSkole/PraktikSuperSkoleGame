@@ -47,9 +47,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void GetSymbols()
         {
             int count = Random.Range(minWrongLetters, maxWrongLetters);
-            GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, false);
+            GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, false, gamerules);
             count = Random.Range(minWrongLetters, maxWrongLetters);
-            GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, true);
+            GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, true, gamerules);
             board.SetAnswerText("Lav "+ (5 - completedWords) +" vrøvleord");
         }
 

@@ -1,7 +1,10 @@
+using CORE.Scripts;
 using Minigames;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +26,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private RacingGameManager racingGameManager;
         [SerializeField]
         private GameObject coinEffect;
+        [SerializeField]
+        private GameObject levelCreator;
 
         private bool imageInitialized = false;
 
@@ -45,10 +50,10 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private readonly List<Image> removebillBoard = new();
 
         private bool displayToggle = false;
-        private readonly List<string> wordsList = new() { "FLY", "BIL" };
+        //private bool finalStretch = false;
 
         private readonly List<string> spelledWordsList = new(); // Tracks spelled words
-        private string targetWord = "";
+        public string targetWord = "";
         private int currentIndex = 0;
 
         private bool timerRunning = false;
@@ -89,7 +94,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private void Setup(string gameMode)
         {
             currentMode = gameMode;
-            playerCar.SetActive(true);
             StartUI.SetActive(false);
             raceActive = true;
 
@@ -102,7 +106,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
 
             DetermineWordToUse(); // Select a random word from the list
-            InitializeWordImageMap();
+            levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;
+            levelCreator.SetActive(true);
+            playerCar.SetActive(true);
 
             UpdateBillBoard();
             InitializeWordAudioMap();
@@ -115,21 +121,18 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         private void SelectRandomWord()
         {
-            List<string> availableWords = new(wordsList); // Copy the original list
-            availableWords.RemoveAll(word => spelledWordsList.Contains(word)); // Remove already spelled words
+            var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
+            while (rndImageWithKey1.Item2.Length != 3)
+            {
+                rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
+            };
+            wordsImageMap.Add(rndImageWithKey1.Item2, Sprite.Create(rndImageWithKey1.Item1, new Rect(0, 0, rndImageWithKey1.Item1.width, rndImageWithKey1.Item1.height), new Vector2(0.5f, 0.5f)));
+            if (!imageInitialized)
+                imageInitialized = true;
+            targetWord = rndImageWithKey1.Item2;
+            PlayWordAudio(targetWord);
+            UpdateWordImageDisplay(targetWord);
 
-            // Check if there are any available words left
-            if (availableWords.Count > 0)
-            {
-                // Randomly select a word from the remaining available words
-                targetWord = availableWords[Random.Range(0, availableWords.Count)];
-                PlayWordAudio(targetWord);
-                UpdateWordImageDisplay(targetWord);
-            }
-            else
-            {
-                EndGame();
-            }
         }
         #endregion
 
@@ -200,7 +203,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         {
             if (currentMode == GameModes.Mode1)
             {
-                if (spelledWordsList.Count < 2) // TODO: Temporary fix, change to 3 later
+                if (spelledWordsList.Count < 3)
                 {
                     SelectRandomWord();
                 }
@@ -236,6 +239,15 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             raceActive = false;
 
             StopTimer();
+            //finalStretch = true;
+            levelCreator.GetComponent<LevelLayoutGenerator>().finalStretch = true;
+        }
+
+        /// <summary>
+        /// Activates the ending ui so the player can see their rewards and return to main world.
+        /// </summary>
+        private void FinalEnd()
+        {
             racingGameManager = GetComponent<RacingGameManager>();
             racingGameManager.EndGame();
             endGameUI = GetComponent<EndGameUI>();
@@ -244,6 +256,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         #endregion
 
         #region letters and branches
+        /// <summary>
+        /// Add various billboards to the list to be updated
+        /// </summary>
         private void AddToList(string listToUse, TextMeshProUGUI newText)
         {
             if (listToUse == "left")
@@ -255,6 +270,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             else
                 Debug.LogWarning("Add to list failed");
         }
+        /// <summary>
+        /// Adds image billboard to the list to be updated
+        /// </summary>
         private void AddToList(Image newBillboard)
         {
             billBoard.Add(newBillboard);
@@ -265,7 +283,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// Updates the billboards with the letters and images
         /// that the player have to spell.
         /// </summary>
-        private void UpdateBillBoard()
+        public void UpdateBillBoard()
         {
             if (targetWord != "")
             {
@@ -297,11 +315,16 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 {
                     if (!image.IsActive())
                         removebillBoard.Add(image);
+                    else
+                        UpdateWordImageDisplay(targetWord);
                 }
                 ClearLists();
             }
         }
 
+        /// <summary>
+        /// Keeps the timer displays updated
+        /// </summary>
         private void UpdateTimerDisplay()
         {
             foreach (TextMeshProUGUI text in timerText)
@@ -336,7 +359,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             char wrongLetter;
             do
             {
-                wrongLetter = (char)('A' + Random.Range(0, 26));
+                wrongLetter = (char)('a' + Random.Range(0, 26));
             } while (CheckLetter(wrongLetter, correctLetter));
 
             return wrongLetter;
@@ -363,6 +386,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 RacingBranch.OnBranchTriggered += BranchTriggered;
                 BranchAwake.OnBranchImageAwaken += AddToList;
                 BranchAwake.OnBranchTextAwaken += AddToList;
+                TriggerExit.OnFinaleExited += FinalEnd;
             }
         }
 
@@ -371,6 +395,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             RacingBranch.OnBranchTriggered -= BranchTriggered;
             BranchAwake.OnBranchImageAwaken -= AddToList;
             BranchAwake.OnBranchTextAwaken -= AddToList;
+            TriggerExit.OnFinaleExited -= FinalEnd;
         }
 
         /// <summary>
@@ -386,6 +411,9 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
                 if (chosenBranch == correctBranch)
                 {
+                    Instantiate(coinEffect);
+                    racingGameManager.xp++;
+                    racingGameManager.gold++;
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
@@ -395,7 +423,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
                         DetermineWordToUse(); // Select a new random word for the next game
                     }
-                    Instantiate(coinEffect);
                 }
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
@@ -406,28 +433,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         #endregion
 
         #region image
-        /// <summary>
-        /// Sets up the image to be used.
-        /// </summary>
-        public void InitializeWordImageMap()
-        {
-            foreach (string word in wordsList)
-            {
-                string imageFileName = word.ToLower() + "_image";
-
-                Sprite image = Resources.Load<Sprite>($"Pictures/{imageFileName}");
-                if (image != null)
-                {
-                    wordsImageMap[word] = image;
-                }
-                else
-                {
-                    Debug.LogWarning($"Image for word '{word}' not found in 'pictures'!");
-                }
-            }
-            imageInitialized = true;
-        }
-
         /// <summary>
         /// Updates the word display.
         /// </summary>
@@ -473,30 +478,30 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void InitializeWordAudioMap()
         {
-            foreach (string word in wordsList)
-            {
-                string audioFileName = word.ToLower() + "_audio";
-                AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
-                if (clip != null)
-                {
-                    wordsAudioMap[word] = clip;
-                }
-                else
-                {
-                    Debug.LogWarning($"Audio clip for word '{word}' not found!");
-                }
-            }
+            //foreach (string word in wordsList)
+            //{
+            //    string audioFileName = word.ToLower() + "_audio";
+            //    AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
+            //    if (clip != null)
+            //    {
+            //        wordsAudioMap[word] = clip;
+            //    }
+            //    else
+            //    {
+            //        Debug.LogWarning($"Audio clip for word '{word}' not found!");
+            //    }
+            //}
         }
 
         /// <summary>
         /// Plays audio files
         /// </summary>
         /// <param name="word"></param>
-        public void PlayWordAudio(string word)
+        public void PlayWordAudio(string word) 
         {
             if (audioActive == true)
             {
-                if (wordsAudioMap.TryGetValue(word, out AudioClip clip))
+                if (wordsAudioMap.TryGetValue(word, out AudioClip clip)) // FIX: Probably broken, needs to be fixed
                 {
                     AudioSource.PlayClipAtPoint(clip, playerCar.transform.position); // Playing at the camera's position for testing
                 }

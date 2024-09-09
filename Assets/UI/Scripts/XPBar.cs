@@ -1,5 +1,7 @@
 using System.Collections;
+using CORE;
 using Import.LeanTween.Framework;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +36,18 @@ namespace UI.Scripts
             }
             originalScale = image.rectTransform.localScale;
 
+
+            currentLevel = GameManager.Instance.PlayerData.CurrentLevel;
+            //currentLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
+
+            for (int i = 0; i < currentLevel; i++)
+            {
+                maxAmount = RaiseAmount(maxAmount);
+            }
+
+            currentXP = GameManager.Instance.PlayerData.CurrentXPAmount;
+            //currentXP = PlayerManager.Instance.PlayerData.CurrentXPAmount;
+
             amount.text = 0 + "/" + maxAmount;
         }
 
@@ -44,13 +58,18 @@ namespace UI.Scripts
             UpdateXPBar();
         }
 
+        private int RaiseAmount(int maxAmount)
+        {
+           return Mathf.FloorToInt(maxAmount * 1.5f);
+        }
+
         private void LevelUp()
         {
 
             currentLevel++;
 
             //exponential raise of maxamount
-            maxAmount = Mathf.FloorToInt(maxAmount * 1.5f);
+            maxAmount = RaiseAmount(maxAmount);
 
 
             //animation
@@ -97,7 +116,7 @@ namespace UI.Scripts
             //goal
             float targetFillAmount = Mathf.Clamp01((float)targetXP / maxAmount);
 
-            //As l�ng as the two values are apart
+            //As long as the two values are apart
             while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
             {
                 currentFillAmount = Mathf.MoveTowards(currentFillAmount, targetFillAmount, fillSpeed * Time.deltaTime);

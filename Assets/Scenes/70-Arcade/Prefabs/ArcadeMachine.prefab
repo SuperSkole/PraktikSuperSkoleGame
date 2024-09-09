@@ -2474,6 +2474,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6162808362371603532}
+  - component: {fileID: 3977915647139977803}
+  - component: {fileID: 5435496046982425420}
+  - component: {fileID: 2802564914159750693}
   m_Layer: 0
   m_Name: ArcadeMachine
   m_TagString: Untagged
@@ -2501,6 +2504,72 @@ Transform:
   - {fileID: 6866126678101348793}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3977915647139977803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137945889635528957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3495ac9d913a624b8cb150d1434684b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  action:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5435496046982425420}
+        m_TargetAssemblyTypeName: Scenes.SwitchScenes, Assembly-CSharp
+        m_MethodName: SwitchToArcadeBalloonScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  door: {fileID: 0}
+  isDoor: 0
+  isNPC: 0
+  isCar: 0
+  interactions: {fileID: 0}
+--- !u!114 &5435496046982425420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137945889635528957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d93b551f48d10843b87435e8323cad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &2802564914159750693
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5137945889635528957}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.57, y: 1.24, z: 1}
+  m_Center: {x: 0, y: 0.76, z: -1.04}
 --- !u!1 &5980356623333073774
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,7 +3038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d01deebfc2ccb04ea42579c510427bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 215571126113932526, guid: 3bec286f9d23cd14fb43497672d0f9e4, type: 3}
 --- !u!1 &7373951739310305374
 GameObject:
   m_ObjectHideFlags: 0

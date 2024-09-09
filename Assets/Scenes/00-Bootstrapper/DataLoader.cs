@@ -232,11 +232,11 @@ namespace Scenes._00_Bootstrapper
         {
             foreach (AudioClip clip in explosionSounds)
             {
-                StartCoroutine(LoadAndSetListExplosionSounds(clip));
+                yield return StartCoroutine(LoadAndSetListExplosionSounds(clip));
             }
 
 
-            yield return null;
+          
         }
 
 
