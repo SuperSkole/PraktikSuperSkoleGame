@@ -22,8 +22,6 @@ namespace Scenes
         public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
         public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
 
-        public static void SwitchToMinigameLoadingScene() => SceneManager.LoadScene(SceneNames.MinigameLoading);
-
 
 
     }

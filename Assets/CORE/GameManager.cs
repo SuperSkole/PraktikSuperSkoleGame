@@ -1,6 +1,5 @@
 using LoadSave;
 using TMPro;
-using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -99,11 +98,10 @@ namespace CORE
             Debug.Log("Loading game");
         }
 
-        public void OnApplicationQuit()
+        public void ExitGame()
         {
             // Cleanup or save state before exiting
             SaveGame();
-            AuthenticationService.Instance.SignOut();
             Application.Quit();
         }
         

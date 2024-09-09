@@ -29,8 +29,8 @@ namespace Scenes._10_PlayerScene.Scripts
         public delegate void PlayerPositionEvent(Vector3 position);
 
         // Actions for sending word, letter and number to playerData
-        public static event Action<string> OnAddWord;
-        public static event Action<char> OnAddLetter;
+        public static event Action<string> OnWordValidated;
+        public static event Action<char> OnLetterValidated;
         public static event Action<char> OnNumberValidated;
 
         public static event Func<List<string>,List<string>> OnPlayerDataWordsExtracted;
@@ -91,8 +91,7 @@ namespace Scenes._10_PlayerScene.Scripts
             }
         }
 
-        public static void RaiseAddWord(string word) => OnAddWord?.Invoke(word);
-        public static void RaiseAddLetter(char letter) => OnAddLetter?.Invoke(letter);
+        public static void RaiseWordValidated(string word) => OnWordValidated?.Invoke(word);
         public static void RaiseWordRemovedValidated(string word) => OnWordRemovedValidated?.Invoke(word);
 
         public static void RaiseWordAdded(string word, DateTime dateTime) => OnWordAdded?.Invoke(word, dateTime);

@@ -13,11 +13,8 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isDoor;
         [SerializeField] private bool isNPC;
         [SerializeField] private bool isCar;
-        [SerializeField] private bool isGasSTT;
         [SerializeField] private NPCInteractions interactions;
         private PlayerEventManager playerEventManager;
-        [SerializeField] private CarEventsManager carEventsMa;
-
         private OpenCloseDoor doorMechanism;
 
         private void Start()
@@ -28,12 +25,6 @@ namespace Scenes._20_MainWorld.Scripts
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
             playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
-            // TODO : Remove Try catch at later date
-            try
-            {
-                carEventsMa = GameObject.Find("Prometheus Variant").GetComponent<CarEventsManager>();
-            }
-            catch { }
         }
 
         /// <summary>
@@ -81,18 +72,6 @@ namespace Scenes._20_MainWorld.Scripts
                         break;
                 }
             }
-            if (collision.gameObject.CompareTag("Car"))
-            {
-                if (isGasSTT)
-                {
-                    try
-                    {
-                        carEventsMa.CarInteraction = action;
-                        carEventsMa.interactionIcon.SetActive(true);
-                    }
-                    catch { }
-                }
-            }
         }
 
         /// <summary>
@@ -105,7 +84,7 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 try
                 {
-                    playerEventManager.PlayerInteraction = new UnityEvent();
+                    playerEventManager.PlayerInteraction = null;
                     playerEventManager.interactionIcon.SetActive(false);
 
                     //parent.action = null;
@@ -116,18 +95,6 @@ namespace Scenes._20_MainWorld.Scripts
                 if (isDoor && doorMechanism != null)
                 {
                     doorMechanism.CloseDoor();
-                }
-            }
-            if (collision.gameObject.CompareTag("Car"))
-            {
-                if (isGasSTT)
-                {
-                    try
-                    {
-                        carEventsMa.CarInteraction = new UnityEvent();
-                        carEventsMa.interactionIcon.SetActive(false);
-                    }
-                    catch { }
                 }
             }
         }

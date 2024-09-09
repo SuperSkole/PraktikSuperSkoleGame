@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Numerics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.Splines;
-using Vector3 = UnityEngine.Vector3;
 
 namespace Scenes.Minigames.LetterGarden.Scripts
 {
@@ -46,11 +44,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             temp = dwaing.GetPosition(dwaing.positionCount-1) + offSet;
             //temp.x = 0;
             //temp.y -= 2.308069f;
-            float distance = Vector3.Distance((Vector3)spline.EvaluatePosition(0), spline.EvaluatePosition(1));
             SplineUtility.GetNearestPoint(spline, temp, out _, out float lastT);
-            if (lastT < 0.8f && distance > 0) 
+
+            if (lastT < 0.8f) 
             {
-                return false;//checks that the end of the drawing is within the last 20% of the spline
+                return false;//checks that the end of the drawing is within the last 5% of the spline
             }
             bool testResult = totalDist <= maxDist;
             if (testResult)

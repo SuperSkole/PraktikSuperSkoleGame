@@ -39,6 +39,21 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         }
 
 
+        /// <summary>
+        /// Sets up various variables and the gamemode
+        /// </summary>
+        /// <param name="gameMode">The gamemode which should be used</param>
+        public void Setup(LettergardenGameMode gameMode)
+        {
+            currentInkAmount = maxInkAmount;
+            inkMeterSlider.maxValue = maxInkAmount;
+            inkMeterSlider.value = currentInkAmount;
+            beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
+            
+            letterHandler.StartGame(gameMode);
+
+        }
+
         private void Update()
         {
             if (isPainting)
@@ -187,20 +202,9 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             SwitchScenes.SwitchToMainWorld();
         }
 
-
-        /// <summary>
-        /// Sets up various variables and the gamemode
-        /// </summary>
-        /// <param name="gameMode">the gamemode to be used</param>
-        /// <param name="gameRules">the gamerules to be used</param>
         public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
         {
-            currentInkAmount = maxInkAmount;
-            inkMeterSlider.maxValue = maxInkAmount;
-            inkMeterSlider.value = currentInkAmount;
-            beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
-            
-            letterHandler.StartGame((LettergardenGameMode)gameMode, gameRules);
+            Setup((LettergardenGameMode)gameMode);
         }
     }
 }

@@ -9,57 +9,31 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class LetterGardenSetter: IGameModeSetter
     {
-        private List<string> gamemodes = new List<string>()
-        {
-            "drawwithbee",
-            "drawithoutbee",
-            "drawwithorwithoutbee",
-            "drawwithbee",
-            "drawithoutbee"
-        };
-
-        private List<string> gamerules = new List<string>()
-        {
-            "vowels",
-            "vowels",
-            "vowels",
-            "consonants"
-        };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
         /// <param name="mode">The mode we are looking for</param>
         /// <returns></returns>
-        public IGenericGameMode SetMode(int level)
+        public IGenericGameMode SetMode(string mode)
         {
             LettergardenGameMode modeReturned;
-            string mode = gamemodes[level];
             switch (mode)
             {
-                case "drawcapitalLetters":
+                case "DrawCapitalLetters":
                     modeReturned = new DrawCapitalLetters();
                     break;
-                case "drawlowercaseLetters":
+                case "DrawLowercaseLetters":
                     modeReturned = new DrawLowercaseLetters();
                     break;
-                case "drawletters":
+                case "DrawLetters":
                     modeReturned = new DrawLetters();
                     break;
-                case "drawnumbers":
+                case "DrawNumbers":
                     modeReturned = new DrawNumbers();
                     break;
-                case "drawwithbee":
-                    modeReturned = new DrawWithBee();
-                    break;
-                case "drawithoutbee":
-                    modeReturned = new DrawWithoutBee();
-                    break;
-                case "drawwithorwithoutbee":
-                    modeReturned = new DrawWithOrWithOutBee();
-                    break;
                 default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    modeReturned = null;
+                    Debug.Log("given mode was not among expected options, setting to default mode");
+                    modeReturned = new DrawLetters();
                     break;
             }
             return modeReturned;
@@ -69,21 +43,14 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
         /// <returns></returns>
-        public IGameRules SetRules(int level)
+        public IGameRules SetRules(string rules)
         {
             IGameRules rulesReturned;
-            string rules = gamerules[level];
+
             switch (rules)
             {
-                case "vowels":
-                    rulesReturned = new FindVowel();
-                    break;
-                case "consonants":
-                    rulesReturned = new FindConsonant();
-                    break;
                 default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    rulesReturned = null;
+                    rulesReturned = new SpellWord();
                     break;
             }
 

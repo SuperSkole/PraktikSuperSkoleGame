@@ -11,7 +11,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
         [SerializeField] PrometeoCarController prometeoCarController;
         private GameObject spawnedPlayer;
         private PlayerEventManager playerEvent;
-        private CarEventsManager carEventsMa;
         private CinemachineVirtualCamera cam;
         [SerializeField] CarSetPlayerPos carSetPlayerPos;
         [SerializeField] GameObject carSpeedGo;
@@ -31,7 +30,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
             }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
             playerEvent = spawnedPlayer.GetComponent<PlayerEventManager>();
-            carEventsMa = GetComponent<CarEventsManager>();
             CarSmoke1.SetActive(false);
             CarSmoke2.SetActive(false);
         }
@@ -47,7 +45,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 prometeoCarController.enabled = true;
                 gameObject.GetComponent<CarFuelMangent>().enabled = true;
                 carSpeedGo.SetActive(true);
-                carEventsMa.enabled = true;
 
             }
 
@@ -59,14 +56,9 @@ namespace Scenes._20_MainWorld.Scripts.Car
             cam.LookAt = gameObject.transform;
             //GetComponent<CarFuel>().gaugeImg.enabled = true;
 
-            carEventsMa.IsInCar = true;
-            carEventsMa.CarInteraction.AddListener(TurnOffCar);
-            carEventsMa.interactionIcon.SetActive(false);
-
-
-            //playerEvent.IsInCar = true;
-            //playerEvent.PlayerInteraction.AddListener(TurnOffCar);
-            //playerEvent.interactionIcon.SetActive(false);
+            playerEvent.IsInCar = true;
+            playerEvent.PlayerInteraction.AddListener(TurnOffCar);
+            playerEvent.interactionIcon.SetActive(false);
 
             DisablePlayer();
             carSetPlayerPos.isDriving = true;
@@ -88,9 +80,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     prometeoCarController.enabled = false;
                     gameObject.GetComponent<CarFuelMangent>().enabled = false;
                     carSpeedGo.SetActive(false);
-                    carEventsMa.enabled = false;
                 }
-
+                
                 CarSmoke1.SetActive(false);
                 CarSmoke2.SetActive(false);
 
@@ -98,11 +89,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 cam.LookAt = spawnedPlayer.transform;
                 //GetComponent<CarFuel>().gaugeImg.enabled = false;
 
-                carEventsMa.IsInCar = false;
-                carEventsMa.CarInteraction.RemoveAllListeners();
-
-                //playerEvent.IsInCar = false;
-                //playerEvent.PlayerInteraction.RemoveAllListeners();
+                playerEvent.IsInCar = false;
+                playerEvent.PlayerInteraction.RemoveAllListeners();
 
                 var pos = carSetPlayerPos.SetTransformOfPlayer().position;
                 pos.y += 1;
@@ -110,9 +98,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
                 EnablePlayer();
                 carSetPlayerPos.isDriving = false;
-
-                carEventsMa.CarInteraction = new UnityEvent();
-                //PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = new UnityEvent();
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = new UnityEvent();
 
             }
 
@@ -123,7 +109,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private void EnablePlayer()
         {
             spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
-            spawnedPlayer.GetComponent<PlayerEventManager>().enabled = true;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
             spawnedPlayer.GetComponentInChildren<MeshRenderer>().enabled = true;
             spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
@@ -135,7 +120,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private void DisablePlayer()
         {
             spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
-            spawnedPlayer.GetComponent<PlayerEventManager>().enabled = false;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
             spawnedPlayer.GetComponentInChildren<MeshRenderer>().enabled = false;
             spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;

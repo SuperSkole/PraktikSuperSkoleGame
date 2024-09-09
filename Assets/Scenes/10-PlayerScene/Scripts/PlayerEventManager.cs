@@ -1,9 +1,6 @@
 using LoadSave;
 using System;
 using System.Collections.Generic;
-
-using Unity.VisualScripting;
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -27,7 +24,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
     {
         [SerializeField] private PlayerData playerData;
-        //public bool IsInCar { get; set; }
+        public bool IsInCar { get; set; }
 
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
@@ -45,8 +42,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private void OnEnable()
         {
-            PlayerEvents.OnAddLetter += AddLetterToPlayerData;
-            PlayerEvents.OnAddWord += AddWordToPlayerData;
+            PlayerEvents.OnWordValidated += AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
             PlayerEvents.OnGoldChanged += ModifyGold;
@@ -55,8 +51,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private void OnDisable()
         {
-            PlayerEvents.OnAddLetter -= AddLetterToPlayerData;
-            PlayerEvents.OnAddWord -= AddWordToPlayerData;
+            PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
             PlayerEvents.OnGoldChanged -= ModifyGold;
@@ -65,8 +60,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private void OnDestroy()
         {
-            PlayerEvents.OnAddLetter -= AddLetterToPlayerData;
-            PlayerEvents.OnAddWord -= AddWordToPlayerData;
+            PlayerEvents.OnWordValidated -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
             PlayerEvents.OnGoldChanged -= ModifyGold;
@@ -87,13 +81,13 @@ namespace Scenes._10_PlayerScene.Scripts
                 interactionIcon.SetActive(false);
                 GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
                 PlayerInteraction.Invoke();
-                PlayerInteraction = new UnityEvent();
-                //if (!IsInCar)
-                //{
-                //}
+                if (!IsInCar)
+                {
+                    PlayerInteraction = new UnityEvent();
+                }
 
             }
-            catch { print("PlayerEventManager/InvokeAction/No playeraction"); }
+            catch { print("PlayerEventManager/Update/No playeraction"); }
         }
 
 
@@ -130,17 +124,7 @@ namespace Scenes._10_PlayerScene.Scripts
             }
         }
 
-        private void AddLetterToPlayerData(char Letter)
-        {
-            try
-            {
-                playerData.CollectedLetters.Add(Letter);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Failed to add word to player data: {ex.Message}");
-            }
-        }
+
 
 
         /// <summary>

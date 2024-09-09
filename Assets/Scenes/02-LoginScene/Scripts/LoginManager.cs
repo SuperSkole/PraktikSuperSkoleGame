@@ -15,18 +15,6 @@ namespace Scenes._02_LoginScene.Scripts
 
         public TMP_InputField UsernameInput => usernameInput;
         public TMP_InputField PasswordInput => passwordInput;
-        
-        private IAuthenticationService authService;
-
-        public void SetAuthenticationMode(bool useAnonymous)
-        {
-            authService = useAnonymous ? new AnonymousAuthenticationService() : new UserPasswordAuthenticationService("user", "pass");
-        }
-        
-        public async void SignIn()
-        {
-            await authService.SignInAsync();
-        }
 
         /// <summary>
         /// Validates the login credentials by comparing the provided username and password against the stored data.
@@ -36,7 +24,6 @@ namespace Scenes._02_LoginScene.Scripts
         /// <returns>Returns true if the login is successful, false otherwise.</returns>
         public bool ValidateLogin(string username, string inputPassword)
         {
-            
             if (username == "test" && inputPassword == "test")
             {
                 return true;
@@ -46,7 +33,7 @@ namespace Scenes._02_LoginScene.Scripts
                 // Define the path to the file containing user data.
                 string userDataPath = Path.Combine(Application.dataPath, "CORE", "UserData");
                 string path = Path.Combine(userDataPath, "users.txt");
-            
+
                 if (File.Exists(path))
                 {
                     // Read all lines in the file.
@@ -55,14 +42,14 @@ namespace Scenes._02_LoginScene.Scripts
                     {
                         // Split each line by ';'.
                         string[] data = line.Split(';');
-            
+
                         // Ensure the line has exactly 3 elements (username, hash, salt).
                         if (data.Length == 3)
                         {
                             string storedUsername = data[0];
                             string storedHash = data[1];
                             string storedSalt = data[2];
-            
+
                             // Validate the username and password.
                             if (username == storedUsername)
                             {
@@ -81,7 +68,7 @@ namespace Scenes._02_LoginScene.Scripts
             {
                 Debug.LogError($"An error occurred while validating login: {ex.Message}");
             }
-            
+
             return false;
         }
     }
