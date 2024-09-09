@@ -68,7 +68,7 @@ public class SymbolEaterLevel3 : ISEGameMode
             //finds new letterboxes to be activated and assigns them a random wrong letter.
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
             //creates a random number of correct letters on the board
-            count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
+            count = 1;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true);
             Texture2D answerImage = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
             boardController.SetImage(Sprite.Create(answerImage, new Rect(0.0f, 0.0f, answerImage.width, answerImage.height), new Vector2(0.5f, 0.5f), 100.0f));

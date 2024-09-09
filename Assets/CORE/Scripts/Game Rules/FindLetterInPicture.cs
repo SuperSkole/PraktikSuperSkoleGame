@@ -41,29 +41,29 @@ namespace CORE.Scripts.Game_Rules
             char vowel = 'b';
             while (true)
             {
-                bool hasOver1Letter = false;
+                bool hasOver1Vowel = false;
                 for (int i = 0; i < answer.Length; i++)
                 {
-                    char letter = answer[i];
+                    char letter = char.ToUpper(answer[i]);
                     if (vowels.Contains(letter) && !vowels.Contains(vowel))
                     {
                         vowel = letter;
                     }
-                    else if (vowels.Contains(letter) && vowel != letter)
+                    else if (vowels.Contains(letter) && vowel != letter && vowels.Contains(vowel))
                     {
-                        hasOver1Letter = true;
+                        hasOver1Vowel = true;
                         break;
                     }
 
                 }
-                if (hasOver1Letter)
+                if (hasOver1Vowel)
                 {
                     answer = WordsForImagesManager.GetRandomWordForImage();
                 }
                 else break;
             }
             displayName = answer;
-            correctLetter = vowel;
+            correctLetter = char.ToLower(vowel);
         }
 
         /// <summary>
