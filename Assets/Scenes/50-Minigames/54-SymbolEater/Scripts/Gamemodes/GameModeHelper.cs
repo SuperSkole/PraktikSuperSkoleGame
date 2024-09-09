@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CORE.Scripts.Game_Rules;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes 
@@ -20,7 +21,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="activeLetterCubes">all currently active lettercubes</param>
         /// <param name="getLetterCubeValue">method which activates the lettercube</param>
         /// <param name="correct">whether the value on the cube should be the correct one</param>
-        public static void ActivateLetterCubes(int amount, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, GetLetterCubeValue getLetterCubeValue, bool correct)
+        public static void ActivateLetterCubes(int amount, List<LetterCube> letterCubes, List<LetterCube>activeLetterCubes, GetLetterCubeValue getLetterCubeValue, bool correct, IGameRules gameRules)
         {
             //Activates the given amount of lettercubes
             for(int i = 0; i < amount; i++)
@@ -33,6 +34,26 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 }
                 activeLetterCubes.Add(potientialCube);
                 getLetterCubeValue(potientialCube, correct);
+            }
+            int foundLetterCubes = 0;
+            foreach(LetterCube letterCube in activeLetterCubes)
+            {
+                if(correct && gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                {
+                    foundLetterCubes++;
+                }
+                else if(!correct && !gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                {
+                    foundLetterCubes++;
+                }
+                if(foundLetterCubes == amount)
+                {
+                    break;
+                }
+            }
+            if(foundLetterCubes < amount)
+            {
+                ActivateLetterCubes(amount - foundLetterCubes, letterCubes, activeLetterCubes, getLetterCubeValue, correct, gameRules);
             }
         }
 
