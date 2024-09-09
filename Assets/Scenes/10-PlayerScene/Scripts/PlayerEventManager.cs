@@ -27,7 +27,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
     {
         [SerializeField] private PlayerData playerData;
-        public bool IsInCar { get; set; }
+        //public bool IsInCar { get; set; }
 
         // Event to trigger visual effects or other responses to leveling up
         public event Action OnLevelUp;
@@ -87,13 +87,13 @@ namespace Scenes._10_PlayerScene.Scripts
                 interactionIcon.SetActive(false);
                 GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
                 PlayerInteraction.Invoke();
-                if (!IsInCar)
-                {
-                    PlayerInteraction = new UnityEvent();
-                }
+                PlayerInteraction = new UnityEvent();
+                //if (!IsInCar)
+                //{
+                //}
 
             }
-            catch { print("PlayerEventManager/Update/No playeraction"); }
+            catch { print("PlayerEventManager/InvokeAction/No playeraction"); }
         }
 
 
