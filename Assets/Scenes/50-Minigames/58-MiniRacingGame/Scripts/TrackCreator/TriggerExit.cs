@@ -9,7 +9,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
         public delegate void ExitAction();
         public static event ExitAction OnChunkExited;
+        public delegate void FinaleAction();
+        public static event FinaleAction OnFinaleExited;
 
+        [SerializeField]
+        private bool isFinale = false;
         private bool exited = false;
 
         /// <summary>
@@ -22,8 +26,13 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 if (!exited)
                 {
                     exited = true;
-                    OnChunkExited();
-                    StartCoroutine(WaitAndDeactivate());
+                    if (!isFinale)
+                    {
+                        OnChunkExited();
+                        StartCoroutine(WaitAndDeactivate());
+                    }
+                    else
+                        OnFinaleExited();
                 }
             }
         }

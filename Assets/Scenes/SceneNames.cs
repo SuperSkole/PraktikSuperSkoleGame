@@ -55,6 +55,7 @@ namespace Scenes
         public const string Breakin = "63-BreakInGame";
         public const string TowerLoading = "64-MonsterTower";
         public const string Tower = "65-MonsterTower";
+        public const string MinigameLoading = "LevelSelect";
 
         //Arcade 70
         public const string Arcade = "70-ArcadeScene";
@@ -65,7 +66,6 @@ namespace Scenes
         public const string MultiplayerLobby = "80-MultiplayerLobby";
         public const string Matchmaking = "81-MatchmakingScene";
         public const string MultiPlayerHighScores = "89-HighScoreScene";
-
-
+        
     }
 }

@@ -2,7 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -124,7 +123,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
 
         /// <summary>
-        /// Sets the player's animation state to either idle or walk, with blending between states.
+        /// Sets the player's animation state to either idle or walk, with blending between states..
         /// </summary>
         /// <param name="state">The desired animation state ("Idle" or "Walk").</param>
         public void SetCharacterState(string state)//this was stolen from SpinePlayerMovement to animate the player

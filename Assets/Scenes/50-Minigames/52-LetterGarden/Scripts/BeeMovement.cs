@@ -6,16 +6,18 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 {
     public class BeeMovement : MonoBehaviour
     {
-        [SerializeField] private float speed = 1;
+        public float speed = 1;
         [SerializeField] private GameObject SplineParent;
 
         public SplineContainer letterSpline;
-
+        private GameObject body;
         private Vector3 currentPos;
         private Vector3 direction;
         private float distancePercentage = 0;
         private float spineLeangth;
         public int splineIndex = 0;
+
+        public bool rotateInPlace = false;
 
 
         /// <summary>
@@ -30,10 +32,14 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         private void Update()
         {
-            if (letterSpline != null)
+            if (letterSpline != null && !rotateInPlace)
             {
                 MoveOnSpline();
                 CheckDistance();
+            }
+            else if(rotateInPlace)
+            {
+                RotateAroundSelf();
             }
         }
 
@@ -80,6 +86,13 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             {
                 transform.rotation = Quaternion.LookRotation(direction, Vector3.back);
             }
+        }
+
+        /// <summary>
+        /// Rotates the bee around itself at a constant speed
+        /// </summary>
+        private void RotateAroundSelf(){
+            transform.Rotate(new Vector3(0.1f, 0, 0));
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
@@ -7,14 +8,33 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {
+        private List<string> gamemodes = new List<string>()
+        {
+            "",
+            "",
+            "",
+            "",
+            "",
+        };
+
+
+        private List<string> gamerules = new List<string>()
+        {
+            "",
+            "",
+            "",
+            "",
+            "",
+        };
         /// <summary>
         /// returns a gamemode of the Monster Tower type
         /// </summary>
         /// <param name="mode">The mode we are looking for</param>
         /// <returns></returns>
-        public IGenericGameMode SetMode(string mode)
+        public IGenericGameMode SetMode(int level)
         {
             IMTGameMode modeReturned;
+            string mode = gamemodes[level];
             switch (mode)
             {
                 case "sentences":
@@ -39,8 +59,8 @@ namespace Scenes._50_Minigames.Gamemode
                    break;
 
                 default:
-                    Debug.Log("given mode was not among expected options, setting to default mode");
-                    modeReturned = new SentenceToPictures();
+                    Debug.Log("given mode was not among expected options, returning null");
+                    modeReturned = null;
                     break;
             }
             return modeReturned;
@@ -51,15 +71,15 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
         /// <returns></returns>
-        public IGameRules SetRules(string rules)
+        public IGameRules SetRules(int level)
         {
             IGameRules rulesReturned;
-            
+            string rules = gamerules[level];
             switch(rules)
             {
                 default:
-                    Debug.Log("given ruleset was not among expected options, setting to default ruleset");
-                    rulesReturned = new SpellWord();
+                    Debug.Log("given ruleset was not among expected options, returning null");
+                    rulesReturned = null;
                     break;
             }
 
