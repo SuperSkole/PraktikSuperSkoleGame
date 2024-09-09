@@ -136,7 +136,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
                 spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
                 spawnedPlayer.AddComponent<AutoMovePlayer>();
-                spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
+                spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
                 spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 spawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
