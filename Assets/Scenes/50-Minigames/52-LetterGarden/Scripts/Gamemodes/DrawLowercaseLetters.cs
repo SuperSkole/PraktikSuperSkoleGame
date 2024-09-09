@@ -4,6 +4,7 @@ using Scenes.Minigames.LetterGarden.Scripts;
 using System.Linq;
 using UnityEngine;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 
 namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
     /// <summary>
@@ -16,7 +17,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         /// </summary>
         /// <param name="amount">How many elements should be in the list</param>
         /// <returns>A list of SplineSymbolDataHolders</returns>
-        public List<SplineSymbolDataHolder> GetSymbols(int amount)
+        public List<SplineSymbolDataHolder> GetSymbols(int amount, IGameRules gameRules)
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
             List<char>usedLetters = new List<char>();
@@ -31,5 +32,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
             }
             return result;
         }
+
+        public bool UseBee()
+        {
+            return true;
+        }
+
     }
 }

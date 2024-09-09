@@ -51,10 +51,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
             //creates a random number of correct letters on the board
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true);
+            numberOfCorrectLettersOnBoard = count;
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules);
 
             boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 
@@ -81,7 +82,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void CurrentLetterSound()
         {
             //Finds sound clip from the Audio Clip Manager.
-            AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower());
+            AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower() + 2);
 
 
 
@@ -111,7 +112,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
-                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og v�lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
@@ -202,7 +203,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="correct"></param>
         public void ActivateCube(LetterCube letterCube, bool correct)
         {
-
+            if (correct)
+            {
+                letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
+            }
+            else
+            {
+                letterCube.Activate(gameRules.GetWrongAnswer());
+            }
         }
 
         /// <summary>
@@ -211,7 +219,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <returns></returns>
         public bool IsGameComplete()
         {
-            return false;
+            if (numberOfCorrectLettersOnBoard == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

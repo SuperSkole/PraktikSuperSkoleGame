@@ -44,7 +44,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (correct)
             {
                 letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
-                numberOfCorrectLettersOnBoard++;
             }
             else
             {
@@ -66,10 +65,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
             //creates a random number of correct letters on the board
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true);
+            numberOfCorrectLettersOnBoard = count;
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules);
             boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
 
