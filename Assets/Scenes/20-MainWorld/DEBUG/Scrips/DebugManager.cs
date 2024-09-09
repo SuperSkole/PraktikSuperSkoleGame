@@ -70,7 +70,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         /// </summary>
         public void NewWord()
         {
-            PlayerEvents.RaiseWordAdded(WordsManager.GetRandomWordsFromCombinationByCount(1).First(),System.DateTime.Now);
+            PlayerEvents.RaiseAddWord(WordsManager.GetRandomWordsFromCombinationByCount(1).First());
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         /// </summary>
         public void NewLetter()
         {
-            PlayerEvents.RaiseLetterAdded(LetterManager.GetRandomLetter().ToString(),System.DateTime.Now);
+            PlayerEvents.RaiseAddLetter(LetterManager.GetRandomLetter());
         }
 
         /// <summary>

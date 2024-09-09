@@ -155,7 +155,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
             
             // Raise the event to send the word to other parts of the game that manage player data
-            PlayerEvents.RaiseWordValidated(word);
+            PlayerEvents.RaiseAddWord(word);
         }
         
         private void AddWordToHighScore(string word)
