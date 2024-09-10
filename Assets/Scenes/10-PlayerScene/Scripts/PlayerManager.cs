@@ -1,7 +1,9 @@
 using System.Collections;
 using Cinemachine;
 using CORE;
+using CORE.Scripts;
 using LoadSave;
+using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -17,8 +19,6 @@ namespace Scenes._10_PlayerScene.Scripts
     {
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private TextMeshProUGUI playerName;        
         [SerializeField] private Vector3 dropOffPoint; 
 
         private PlayerData playerData;
@@ -149,11 +149,17 @@ namespace Scenes._10_PlayerScene.Scripts
                 GameManager.Instance.CurrentMonsterColor,
                 0,
                 0,
-                0,
+                1,
                 spawnedPlayer.transform.position,
                 null,
                 null
             );
+
+            if (GameManager.Instance.IsPlayerBootstrapped)
+            {
+                playerData.CollectedWords.AddRange(WordsManager.GetRandomWordsByLengthAndCount(2, 3));
+                playerData.CollectedLetters.AddRange(LetterManager.GetRandomLetters(3));
+            }
 
             // Call the ColorChange method to recolor the player
             colorChanging.SetSkeleton(skeleton);
@@ -177,8 +183,12 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO: delete at later date when PlayerManger works
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
+
+            GameManager.Instance.IsNewGame = false;
         }
+
         
+
         public void SetupPlayerFromSave(SaveDataDTO saveData)
         {
             // instantiate player object in scene
@@ -201,12 +211,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 return;
             }
 
-            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
             if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
-                return;
+                //return;
             }
 
             clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
@@ -248,7 +258,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
-
             DontDestroyOnLoad(spawnedPlayer);
         }
 
@@ -261,6 +270,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (instance.spawnedPlayer == null) return;
+            
+            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);
@@ -377,8 +388,16 @@ namespace Scenes._10_PlayerScene.Scripts
                 {
                     // Set the player's position to the last interaction point stored in PlayerData
                     spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
+                    spawnedPlayer.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
+
+                    var car = GameObject.Find("Prometheus Variant");
+                    car.transform.position = playerData.CarPos;
+                    car.transform.rotation = playerData.CarRo;
+                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+
+
                 }
                 else
                 {

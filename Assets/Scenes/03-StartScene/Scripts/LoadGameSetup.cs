@@ -17,12 +17,12 @@ namespace Scenes._03_StartScene.Scripts
         
         public void SetupPlayer(SaveDataDTO saveData)
         {
-            // Log for debugging
-            Debug.Log("Player loaded and UI updated with username: " + saveData.Username +
-                      " Player Name: " + saveData.MonsterName +
-                      " Monster Color: " + saveData.MonsterColor +
-                      " XP: " + saveData.XPAmount.ToString() +
-                      " Gold: " + saveData.GoldAmount.ToString());
+            // // Log for debugging
+            // Debug.Log("Player loaded and UI updated with username: " + saveData.Username +
+            //           " Player Name: " + saveData.MonsterName +
+            //           " Monster Color: " + saveData.MonsterColor +
+            //           " XP: " + saveData.XPAmount.ToString() +
+            //           " Gold: " + saveData.GoldAmount.ToString());
             
             // Use PlayerManager to load the player from save data
             PlayerManager.Instance.SetupPlayerFromSave(saveData);

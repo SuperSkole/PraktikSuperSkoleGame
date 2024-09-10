@@ -18,7 +18,7 @@ namespace LoadSave
         public int GoldAmount; 
         public int XPAmount; 
         public int PlayerLevel; 
-        public SavePlayerPosition SavedPlayerStartPostion; 
+        public SerializablePlayerPosition SavedPlayerStartPostion; 
         public List<string> CollectedWords;
         public List<char> CollectedLetters; 
         public List<int> BoughtClothes;

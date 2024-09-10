@@ -8,13 +8,15 @@ namespace Scenes._20_MainWorld.Scripts.Car
         [SerializeField] private PrometeoCarController controller;
         private float speed;
         private float fuelConsumptionRate = 0.001f;
-        public float fuelAmount {  get; set; }
+        [SerializeField] private float fuelAmount;
+        public float FuelAmount { get { return fuelAmount; } 
+                                  set { fuelAmount = value; } }
         public Image fuelGauge;
 
         private void Awake()
         {
             controller = GetComponent<PrometeoCarController>();
-            fuelAmount = 1.0f;
+            FuelAmount = 1.0f;
         }
         private float time;
 
@@ -39,18 +41,18 @@ namespace Scenes._20_MainWorld.Scripts.Car
         {
             speed = controller.carSpeed;
             // Calculate fuel consumption based on speed
-            fuelAmount -= speed * fuelConsumptionRate * Time.deltaTime;
+            FuelAmount -= speed * fuelConsumptionRate * Time.deltaTime;
 
             // Clamp the fuel to ensure it doesn't go below 0
-            fuelAmount = Mathf.Clamp(fuelAmount, 0, 1.0f);
+            FuelAmount = Mathf.Clamp(FuelAmount, 0, 1.0f);
 
-            //fuelGauge.fillAmount = fuelAmount;
+            fuelGauge.fillAmount = fuelAmount;
 
         }
 
         private bool IsThereFuelLeft()
         {
-            if (fuelAmount > 0)
+            if (FuelAmount > 0)
             {
                 return true;
             }

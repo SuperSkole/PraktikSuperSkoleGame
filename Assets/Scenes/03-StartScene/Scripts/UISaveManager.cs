@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using CORE;
+using CORE.Scripts;
 using LoadSave;
 using UnityEngine;
 
@@ -21,20 +23,50 @@ namespace Scenes._03_StartScene.Scripts
             username = GameManager.Instance.CurrentUser;
         }
         
-        public void CheckForSavesAndPopulateSavePanels()
+        public async void CheckForSavesAndPopulateSavePanels()
         {
-            var saveFiles = GameManager.Instance.LoadManager.GetAllSaveFiles();
-            for (int i = 0; i < savePanels.Count; i++)
+            username = GameManager.Instance.CurrentUser;
+    
+            // Get all save keys from the cloud that are related to monster saves
+            List<string> saveKeys = await GameManager.Instance.SaveGameController.GetAllSaveKeysAsync();
+            
+            // Group saves by monster name
+            Dictionary<string, string> savesByMonster = new Dictionary<string, string>();
+            
+            foreach (var key in saveKeys)
             {
-                if (i < saveFiles.Count && saveFiles[i].StartsWith(username) && !saveFiles[i].Contains("house"))
+                var keyParts = key.Split('_');
+                
+                // Extract the monster name
+                string monsterName = keyParts[1];  
+
+                // Add the save to the dictionary
+                savesByMonster[monsterName] = key;
+            }
+
+
+            // Populate the save panels with the newest saves for each monster
+            int i = 0;
+            foreach (var monsterSave in savesByMonster)
+            {
+                if (i < savePanels.Count)
                 {
-                    SaveDataDTO data = GameManager.Instance.LoadManager.LoadGameDataSync(saveFiles[i]);
-                    savePanels[i].SetSaveFileName(saveFiles[i]);
-                    savePanels[i].UpdatePanelWithSaveData(data);
-                }
-                else
-                {
-                    savePanels[i].ClearPanel();
+                    // Load the save data from the cloud for the current key
+                    SaveDataDTO data
+                        = await GameManager.Instance.SaveGameController
+                            .LoadSaveDataAsync(saveKeys[i]);
+
+                    if (data != null)
+                    {
+                        savePanels[i].SetSaveKey(monsterSave.Value);
+                        savePanels[i].UpdatePanelWithSaveData(data);
+                    }
+                    else
+                    {
+                        savePanels[i].ClearPanel();
+                    }
+
+                    i++;
                 }
             }
         }
