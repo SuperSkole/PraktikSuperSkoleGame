@@ -73,7 +73,7 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
 
                 case "Level5_SymbolEater":
-                    modeReturned = new RecogniseFMNSConsonantBySound();
+                    modeReturned = new Level5_SymbolEater();
                     break;
 
                 default:

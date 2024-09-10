@@ -9,7 +9,7 @@ using UnityEngine.Rendering;
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
-    public class RecogniseFMNSConsonantBySound : ISEGameMode
+    public class Level5_SymbolEater : ISEGameMode
     {
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
             int minWrongLetters = 1;
 
-            int maxCorrectLetters = 5;
+            int maxCorrectLetters = 3;
 
             int minCorrectLetters = 1;
 
