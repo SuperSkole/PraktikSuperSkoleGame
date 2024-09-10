@@ -34,7 +34,7 @@ namespace UI.Scripts
 
             textMeshPro.text = 0 + "/" + maxAmount;
 
-            SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
+            SettingValueAfterScene(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
         }
 
         public void SettingValueAfterScene(int amount)
@@ -45,11 +45,6 @@ namespace UI.Scripts
 
         public void ChangeValue(int amount)
         {
-            if (changeValueCoroutine != null)
-            {
-                StopCoroutine(changeValueCoroutine);
-            }
-
             StopAllCoroutines();
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }

@@ -274,9 +274,12 @@ namespace Scenes._10_PlayerScene.Scripts
             
             // Color change if scene is house or main
             UpdatePlayerColorOnSceneChange(scene);
-            
+
+            UpdatePlayerClothOnSceneChange(scene);
+
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
+
 
             
             // TODO : Find a more permnat solution
@@ -298,6 +301,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             }
         }
+
 
         /// <summary>
         /// Configures the Cinemachine camera to follow the player when necessary based on the scene.
@@ -332,7 +336,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// Updates the player's color when entering specific scenes.
         /// </summary>
         /// <param name="scene">The loaded scene.</param>
-        private void UpdatePlayerColorOnSceneChange(Scene scene)
+        public void UpdatePlayerColorOnSceneChange(Scene scene)
         {
             if (scene.name == SceneNames.House ||
                 scene.name == SceneNames.Main ||
@@ -346,6 +350,26 @@ namespace Scenes._10_PlayerScene.Scripts
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
                 }    
+            }
+        }
+
+        public void UpdatePlayerClothOnSceneChange(Scene scene)
+        {
+
+            Debug.Log("we in");
+            if (scene.name == SceneNames.House ||
+               scene.name == SceneNames.Main ||
+               scene.name.StartsWith("5") ||
+               scene.name.StartsWith("6") ||
+               scene.name.StartsWith("7"))
+            {
+               if (clothChanging != null)
+                {
+                    Debug.Log("there is a colorchanging");
+                    // Call the ColorChange method to recolor the player
+                    clothChanging.ChangeClothes(spawnedPlayer.GetComponent<PlayerData>().ClothMid, skeleton);
+                    clothChanging.ChangeClothes(spawnedPlayer.GetComponent<PlayerData>().ClothTop, skeleton);
+                }
             }
         }
         
