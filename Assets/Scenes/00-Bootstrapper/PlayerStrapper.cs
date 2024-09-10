@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using CORE;
 using Scenes._02_LoginScene.Scripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -73,7 +72,7 @@ namespace Scenes._00_Bootstrapper
 
         // Ensure this script only compiles and runs in the Unity Editor
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem("Custom/Load Player Scene for Testing")]
+        [MenuItem("Custom/Load Player Scene for Testing")]
         private static void LoadPlayerSceneForTesting()
         {
             SceneManager.LoadScene(SceneNames.Player, LoadSceneMode.Additive);
