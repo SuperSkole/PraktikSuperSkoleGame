@@ -19,6 +19,11 @@ namespace CORE.Scripts
     {
 
         private static Dictionary<string, List<Texture2D>> imageDictionary = new();
+
+        private static Dictionary<string, List<Texture2D>> letterImageDictionary = new();
+
+        private static List<string> firstLettersForImages=new();
+       
         public static bool IsDataLoaded { get; private set; } = false;
 
 
@@ -39,6 +44,68 @@ namespace CORE.Scripts
             IsDataLoaded = true;
         }
 
+        /// <summary>
+        /// Adds an image to the letterImageDictionary
+        /// </summary>
+        /// <param name="letter"></param>
+        /// <param name="image"></param>
+        public static void AddImageToLetterSet(string letter, Texture2D image)
+        {
+            if (letterImageDictionary.ContainsKey(letter.ToLower()))
+                letterImageDictionary[letter.ToLower()].Add(image);
+            else
+            {
+                letterImageDictionary.Add(letter.ToLower(), new List<Texture2D>());
+                letterImageDictionary[letter.ToLower()].Add(image);
+            }
+            IsDataLoaded = true;
+        }
+
+
+        /// <summary>
+        /// Get an image from the letterImageDictionary 
+        /// </summary>
+        /// <param name="inputLetter"></param>
+        /// <returns></returns>
+        public static Texture2D GetImageFromLetter(string inputLetter)
+        {
+            if (!letterImageDictionary.TryGetValue(inputLetter.ToLower(), out List<Texture2D> data))
+                data = null;
+            Texture2D image;
+            if (data == null)
+                Debug.LogError($"Error getting image for the word: {inputLetter}");
+            if (data.Count > 1)
+                image = data[UnityEngine.Random.Range(0, data.Count)];
+            else
+                image = data[0];
+
+             
+
+            return image;
+        }
+
+
+        public static string GetRandomFirstLetterFromImageDic()
+        {
+            string returnedLetter="";
+
+            int randIndex = UnityEngine.Random.Range(0, letterImageDictionary.Count);
+
+            int currentindex = 0;
+
+            foreach (var item in letterImageDictionary.Keys)
+            {
+                if(currentindex==randIndex)
+                {
+                    returnedLetter = item;
+                }
+                currentindex++;   
+            }
+
+
+            return returnedLetter;
+           
+        }
 
         /// <summary>
         /// takes in a word and reterns an image corrisponting.

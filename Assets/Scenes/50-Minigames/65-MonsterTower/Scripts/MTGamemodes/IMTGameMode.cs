@@ -15,7 +15,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// Will be called by the TowerManager to create a brick with an (usually random) incorrect answer
         /// </summary>
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
-        public void SetWrongAnswer(TowerManager manager);
+        public void SetWrongAnswer(TowerManager manager, string correctAnswer);
 
         /// <summary>
         /// Set's the answer key, which will tell the player which brick is correct. Uses the opposite medium of SetCorrectAnswer

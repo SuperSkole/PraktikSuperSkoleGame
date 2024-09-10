@@ -57,7 +57,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     ChangeMonsterSpeed(0.5f);
                     SpawnMonsters(1);
                     ChangeMinAndMaxWrongLetters(5, 10);
-                    ChangeMinAndMaxCorrectLetters(5, 10);
+                    ChangeMinAndMaxCorrectLetters(1, 5);
                     break;
                 case DiffcultyPreset.MEDIUM:
                     ChangePlayerSpeed(4);
@@ -65,7 +65,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     ChangeMonsterSpeed(1);
                     SpawnMonsters(2);
                     ChangeMinAndMaxWrongLetters(10, 20);
-                    ChangeMinAndMaxCorrectLetters(5, 10);
+                    ChangeMinAndMaxCorrectLetters(1, 5);
                     break;
                 case DiffcultyPreset.HARD:
                     ChangePlayerSpeed(2);
@@ -73,7 +73,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     ChangeMonsterSpeed(2);
                     SpawnMonsters(3);
                     ChangeMinAndMaxWrongLetters(20, 40);
-                    ChangeMinAndMaxCorrectLetters(5, 10);
+                    ChangeMinAndMaxCorrectLetters(1, 5);
                     break;
             }
         }

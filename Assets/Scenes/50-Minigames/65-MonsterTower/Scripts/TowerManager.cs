@@ -30,9 +30,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
 
         [SerializeField] GameObject brickPrefab;
+        public GameObject hearLetterButton;
 
-        private AudioSource towerAudioSource;
+        public AudioSource towerAudioSource;
 
+        public AudioSource hearLetterButtonAudioSource;
 
         private int towerRadius = 20;
         private int numberOfBricksInLane = 30;
@@ -54,6 +56,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         [SerializeField] public TextMeshProUGUI displayBox;
         [SerializeField] public GameObject imageHolderPrefab;
         [SerializeField] public GameObject singleImageHolderPrefab;
+        public GameObject textHolderPrefab;
         [SerializeField] private GameObject coinPrefab;
         public GameObject answerHolderPrefab;
         string[] questions;
@@ -63,6 +66,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         public RawImage topImage;
         public RawImage bottomImage;
         public RawImage soloImage;
+        public TextMeshProUGUI textOnBrick;
        
         public string imageKey;
 
@@ -76,6 +80,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         void Start()
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
+            hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
         }
      
         
@@ -109,7 +114,15 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             brickDimensions = brickPrefab.GetComponent<MeshRenderer>().bounds.size;
 
             currentQuestion = questions[currentQuestionIndex];
-            displayBox.text = currentQuestion;
+
+            if (hearLetterButton.activeSelf == false)
+            {
+                displayBox.text = currentQuestion;
+            }
+            else
+            {
+                gameMode.GetDisplayAnswer(currentQuestion, this);
+            }
 
             rowToDelete = 0;
             BuildTower();
@@ -401,7 +414,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         }
                         else
                         {
-                            gameMode.SetWrongAnswer(this);
+                            gameMode.SetWrongAnswer(this, questions[z]);
 
                             // the sentence for the random brick is also inputtet into the data on the particular lane. 
                             // the top and bottom image key is defined in the SetRandomImage

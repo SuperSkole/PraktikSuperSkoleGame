@@ -31,7 +31,7 @@ namespace Scenes._50_Minigames.Gamemode
             playerLevel = GameManager.Instance.PlayerData.CurrentLevel;
             if (playerLevel == 0)
             {
-                playerLevel = 3;
+                playerLevel = 4;
             }
             switch (sceneID)
             {

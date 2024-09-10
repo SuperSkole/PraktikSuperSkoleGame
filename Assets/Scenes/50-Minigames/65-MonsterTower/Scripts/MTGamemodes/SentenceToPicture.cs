@@ -33,7 +33,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             if (words.Count < 3)
             {
                 Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
-                SetWrongAnswer(manager);
+                SetWrongAnswer(manager,str);
                 return;
             }
 
@@ -57,15 +57,26 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// sets random images from the image manager
         /// </summary>
         /// <param name="manager">a reference back to the manager calling this function so we know where to set the images</param>
-        public void SetWrongAnswer(TowerManager manager)
+        public void SetWrongAnswer(TowerManager manager,string correctAnswer)
         {
+
+            
             var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
             var rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
+
+            while(rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2==correctAnswer)
+            {
+                rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
+                rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
+            }
 
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
             manager.imageKey = rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2;
+
+
+
         }
 
         /// <summary>
