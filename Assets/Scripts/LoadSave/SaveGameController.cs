@@ -30,20 +30,20 @@ namespace LoadSave
         {
             try
             {
-                // Construct the key using the username and monster name
+                // Use the username and monsterName to generate the save key
                 string saveKey = GenerateSaveKey(playerData.Username, playerData.MonsterName);
 
-                // Save player data using the constructed key
+                // Save player data, overwriting the existing save if necessary
                 await cloudSaveService.SavePlayerDataAsync(playerData, saveKey);
-                
-                Debug.Log("Game saved successfully.");
+
+                Debug.Log("Game saved successfully for " + playerData.MonsterName);
             }
             catch (Exception ex)
             {
-                // Log exception details if the save operation fails
                 Debug.LogError($"An error occurred while saving the game: {ex.Message}");
             }
         }
+
 
         /// <summary>
         /// Loads the player's game data when called.
@@ -52,7 +52,9 @@ namespace LoadSave
         {
             try
             {
-                SaveDataDTO data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  // Load save data from the cloud
+                // Load save data from the cloud
+                SaveDataDTO data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  
+                
                 if (data != null)
                 {
                     Debug.Log("Game loaded successfully.");
@@ -81,8 +83,10 @@ namespace LoadSave
         /// </summary>
         private string GenerateSaveKey(string username, string monsterName)
         {
-            string timestamp = DateTime.Now.ToString("MMddHHmm");  
-            return $"{username}_{monsterName}_{timestamp}";
+            // string timestamp = DateTime.Now.ToString("MMddHHmm");  
+            // return $"{username}_{monsterName}_{timestamp}";
+            
+            return $"{username}_{monsterName}";
         }
 
         /// <summary>
