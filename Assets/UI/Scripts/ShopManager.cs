@@ -1,5 +1,6 @@
 using CORE;
 using Scenes._10_PlayerScene.Scripts;
+using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -84,18 +85,16 @@ namespace UI.Scripts
             }
 
             //Money
-
-            meter.SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
-            Debug.Log(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
             if (PlayerManager.Instance == null)
             {
                 Debug.Log("Didn't find playermanager");
             }
             else
             {
-                avaliableMoney = GameManager.Instance.PlayerData.CurrentGoldAmount;
+                avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
+                meter.SettingValueAfterScene(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
+
+                Debug.Log(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
             }
 
             //Build shop
@@ -194,6 +193,11 @@ namespace UI.Scripts
 
             if (ableToBuy)
             {
+                //Get player
+                ISkeletonComponent thisSkeleton = PlayerManager.Instance.SpawnedPlayer.GetComponent<ISkeletonComponent>();
+                ColorChanging thisColorchange = PlayerManager.Instance.SpawnedPlayer.GetComponent<ColorChanging>();
+                ClothChanging thisClothchange = PlayerManager.Instance.SpawnedPlayer.GetComponent<ClothChanging>();
+
                 //add item to list here
                 PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
@@ -201,11 +205,23 @@ namespace UI.Scripts
                 if (currentItem.Contains("HEAD"))
                 {
                     PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                    thisClothchange.ChangeClothes(currentItem, thisSkeleton);
                 }
                 if (currentItem.Contains("MID"))
                 {
                     PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                    thisClothchange.ChangeClothes(currentItem, thisSkeleton);
                 }
+                else
+                {
+                    PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+                    thisColorchange.ColorChange(currentItem);
+                }
+
+
+
+
+                thisClothchange.ChangeClothes(currentItem, thisSkeleton);
 
 
                 //Take away money
@@ -213,6 +229,9 @@ namespace UI.Scripts
                 PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
                 meter.ChangeValue(avaliableMoney);
+
+
+
 
                 //remove bought option
                 Destroy(currentShopOption.gameObject);
