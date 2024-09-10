@@ -21,6 +21,9 @@ public class BankManager : MonoBehaviour
     [SerializeField]private float realCoinPercentage = 80;
 
     [SerializeField]private int playerGuess = -1;
+
+    private int completedGames = 0;
+    private int mistakes = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +78,6 @@ public class BankManager : MonoBehaviour
             if(!validateData.Item1)
             {
                 correct = false;
-                break;
             }
         }
         Debug.Log("currentSum: " + currentSum);
@@ -84,6 +86,11 @@ public class BankManager : MonoBehaviour
             sortedTrayBackground.color = Color.green;
             unsortedTraybackground.color = Color.green;
             StartCoroutine(Restart());
+        }
+        else if(correct || playerGuess == currentSum)
+        {
+            sortedTrayBackground.color = Color.yellow;
+            unsortedTraybackground.color = Color.yellow;
         }
         else 
         {
