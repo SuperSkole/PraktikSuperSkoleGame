@@ -138,10 +138,11 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             
             // Reset the flag to allow block creation for the next word
             canCreateWordBlock = true;
-            
+
+            Instantiate(WordFactoryGameManager.Instance.CoinPrefab);
             PlayerEvents.RaiseGoldChanged(1);
-            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
             PlayerEvents.RaiseXPChanged(1);
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
             
             // Send word to playerdata
             AddWordToPlayerData(word);
