@@ -11,21 +11,37 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class PlayerStrapper : MonoBehaviour
     {
-        // Use this for initialization
         private IEnumerator Start()
         {
-            Debug.Log("Player strapper started");
-            // Check if the current active scene is not the LoginScene
-            if (SceneManager.GetActiveScene().name != SceneNames.Login)
-            {
-                // Load PlayerScene additively
-                AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-            
-                // Wait until the PlayerScene is fully loaded
-                yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
+            Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
+            Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
 
-                // Perform initializations after PlayerScene is loaded
+            // Loop through all loaded scenes to check if LoginScene is active
+            bool loginSceneActive = false;
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name == SceneNames.Login)
+                {
+                    loginSceneActive = true;
+                    break;
+                }
+            }
+
+            // Only proceed to load PlayerScene if LoginScene is not active
+            if (!loginSceneActive)
+            {
                 InitializePlayerSettings();
+         
+                Debug.Log("Loading PlayerScene...");
+                AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+
+                // Wait until the PlayerScene is fully loaded
+                yield return new WaitUntil(() => loadPlayerScene.isDone);
+            }
+            else
+            {
+                Debug.Log("LoginScene is active. Bypassing PlayerScene load.");
             }
         }
 
@@ -39,8 +55,6 @@ namespace Scenes._00_Bootstrapper
             GameManager.Instance.CurrentUser = "TEST";
             GameManager.Instance.CurrentMonsterName = "TESTMonster";
             GameManager.Instance.PlayerData.MonsterName = "TESTMonster";
-
-            // Additional debug or setup code can be added here
             Debug.Log("PlayerScene loaded with test settings.");
         }
 
