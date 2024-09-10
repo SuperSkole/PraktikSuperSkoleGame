@@ -203,7 +203,7 @@ namespace UI.Scripts
                 //add item to list here
                 PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
-                if (currentItem.Contains("HEAD"))
+                     if (currentItem.Contains("HEAD"))
                     {
                         PlayerManager.Instance.PlayerData.ClothTop = currentItem;
                        
