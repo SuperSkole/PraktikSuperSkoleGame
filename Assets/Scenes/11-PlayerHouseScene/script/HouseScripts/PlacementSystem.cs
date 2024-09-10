@@ -32,6 +32,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             StopPlacement();
             floorData = new GridData();
             furnitureData = new GridData();
+
+            // TODO refactor house save
+            return;
         
             if (GameManager.Instance.LoadManager.DoesSaveFileExist(
                     GameManager.Instance.CurrentUser,

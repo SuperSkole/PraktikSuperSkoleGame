@@ -1,6 +1,7 @@
 using System.Collections;
 using Cinemachine;
 using CORE;
+using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
@@ -18,8 +19,6 @@ namespace Scenes._10_PlayerScene.Scripts
     {
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private TextMeshProUGUI playerName;        
         [SerializeField] private Vector3 dropOffPoint; 
 
         private PlayerData playerData;
@@ -156,6 +155,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 null
             );
 
+            if (GameManager.Instance.IsPlayerBootstrapped)
+            {
+                playerData.CollectedWords.AddRange(WordsManager.GetRandomWordsByLengthAndCount(2, 3));
+                playerData.CollectedLetters.AddRange(LetterManager.GetRandomLetters(3));
+            }
+
             // Call the ColorChange method to recolor the player
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
@@ -179,7 +184,9 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
         }
+
         
+
         public void SetupPlayerFromSave(SaveDataDTO saveData)
         {
             // instantiate player object in scene
@@ -202,12 +209,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 return;
             }
 
-            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
             if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
-                return;
+                //return;
             }
 
             clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
@@ -249,7 +256,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
-
             DontDestroyOnLoad(spawnedPlayer);
         }
 
