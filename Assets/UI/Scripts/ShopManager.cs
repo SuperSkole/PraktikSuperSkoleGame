@@ -1,9 +1,11 @@
 using CORE;
 using Scenes._10_PlayerScene.Scripts;
+using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.Scripts
@@ -83,19 +85,16 @@ namespace UI.Scripts
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
 
-            //Money
-
-            meter.SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
-            Debug.Log(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
+            //Moneyy
             if (PlayerManager.Instance == null)
             {
                 Debug.Log("Didn't find playermanager");
             }
             else
             {
-                avaliableMoney = GameManager.Instance.PlayerData.CurrentGoldAmount;
+                avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
+
+                Debug.Log(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
             }
 
             //Build shop
@@ -117,6 +116,9 @@ namespace UI.Scripts
             {
                 skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
             }
+
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
         //Create the shop options
@@ -161,7 +163,6 @@ namespace UI.Scripts
 
             foreach (var color in colors)
             {
-                Debug.Log(itemName);
 
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
@@ -190,29 +191,44 @@ namespace UI.Scripts
         //Buy Button Function
         public void Buying()
         {
+            if (currentItem != null)
+            { 
             Debug.Log(ableToBuy);
 
             if (ableToBuy)
             {
+                //Get player
+
+
                 //add item to list here
                 PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
-                //change clothing
-                if (currentItem.Contains("HEAD"))
-                {
-                    PlayerManager.Instance.PlayerData.ClothMid = currentItem;
-                }
-                if (currentItem.Contains("MID"))
-                {
-                    PlayerManager.Instance.PlayerData.ClothTop = currentItem;
-                }
+                     if (currentItem.Contains("HEAD"))
+                    {
+                        PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                       
+                    }
+                    if (currentItem.Contains("MID"))
+                    {
+                        PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                        
+                    }
+                    if (colors.Contains(currentItem.ToString()))
+                    {
+                        PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                    }
 
 
-                //Take away money
-                avaliableMoney -= currentPrice;
+
+                    //Take away money
+                    avaliableMoney -= currentPrice;
                 PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
-                meter.ChangeValue(avaliableMoney);
+                meter.ChangeValue(-currentPrice);
+
+
+
 
                 //remove bought option
                 Destroy(currentShopOption.gameObject);
@@ -222,8 +238,10 @@ namespace UI.Scripts
 
                 currentPrice = 0;
 
-            }
+                currentItem = null;
 
+            }
+             }
             //you cannot afford it
         }
 
@@ -231,6 +249,9 @@ namespace UI.Scripts
         {
             currentShopOption = null;
             this.gameObject.SetActive(false);
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
+            Debug.Log("lukket");
         }
 
     }

@@ -8,7 +8,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         public void ChangeClothes(string clothName, ISkeletonComponent givenSkeleton)
         {
-            if (givenSkeleton == null && clothName == null)
+            if (givenSkeleton != null && clothName != null)
             { 
                 var skeleton = givenSkeleton.Skeleton;
 
