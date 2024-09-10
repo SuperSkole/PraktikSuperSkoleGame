@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
+using Unity.Mathematics;
 
 namespace LoadSave
 {
@@ -43,7 +44,13 @@ namespace LoadSave
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
         public Vector3 LastInteractionPoint;
-        
+
+        //For the Car
+        public Vector3 CarPos { get; set; } = new Vector3(-201.734497f, 36.9067612f, -137.054474f);
+        public quaternion CarRo { get; set; } = new Quaternion(0, 1, 0, 1.04308114e-07f);
+        public float FuelAmount { get; set; } = 1f;
+
+
         /// <summary>
         /// Initializes the game character with provided attributes.
         /// </summary>

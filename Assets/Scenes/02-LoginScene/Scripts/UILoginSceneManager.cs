@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CORE;
 using UI.Scripts;
 using Unity.Services.Authentication;
@@ -24,7 +25,10 @@ namespace Scenes._02_LoginScene.Scripts
         private bool isLoginButtonInteractable = false;
         private bool isRegisterButtonInteractable = false;
 
-        // References to HoverEffectUI scripts attached to login button
+        // Regex for validating password complexity
+        // (min 8 chars, at least one uppercase, one lowercase, one number, and one special character)
+        private const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$";
+
         private HoverEffectUI loginButtonHoverEffect;
         private BlinkEffectUI panelBlinkEffect;
 
@@ -47,15 +51,12 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private void Start()
         {
-            // if we are in editor we can use toggle
-            // TODO we might want to let cheat activate toogle in build
 #if UNITY_EDITOR
             anonLoginToggle.gameObject.SetActive(true);
             anonLoginToggle.onValueChanged.AddListener(OnAnonLoginToggleChanged);
 #else
             anonLoginToggle.gameObject.SetActive(false);
 #endif
-
             loginManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             loginManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             userRegistrationManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
@@ -67,21 +68,31 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private void ValidateInput()
         {
-            isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text) && !string.IsNullOrEmpty(loginManager.PasswordInput.text);
-            isRegisterButtonInteractable = !string.IsNullOrEmpty(userRegistrationManager.UsernameInput.text) && !string.IsNullOrEmpty(userRegistrationManager.PasswordInput.text);
-
 #if UNITY_EDITOR
-            if (anonLoginToggle.isOn)
-            {
-                ToggleButtonVisibility(loginButton, isLoginButtonInteractable = true);
-            }
-            else
+            // In the Unity editor, the login button is interactable if the toggle is on.
+            isLoginButtonInteractable = anonLoginToggle.isOn;
+#else
+            // In build mode, the login button is interactable when there is a username input.
+            isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text);
 #endif
-            {
-                ToggleButtonVisibility(loginButton, isLoginButtonInteractable);
-            }
-            
+            // Validate password complexity for registration.
+            isRegisterButtonInteractable = IsPasswordValid(userRegistrationManager.PasswordInput.text);
+
+            // Update visibility of login and register buttons based on their interactable states.
+            ToggleButtonVisibility(loginButton, isLoginButtonInteractable);
             ToggleButtonVisibility(registerButton, isRegisterButtonInteractable);
+        }
+
+
+
+        /// <summary>
+        /// Validates the password based on the given complexity rules.
+        /// </summary>
+        /// <param name="password">The password to validate.</param>
+        /// <returns>True if the password meets the criteria, otherwise false.</returns>
+        private bool IsPasswordValid(string password)
+        {
+            return Regex.IsMatch(password, PasswordPattern);
         }
 
         /// <summary>
@@ -115,34 +126,54 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         public async void TryLogin()
         {
+#if UNITY_EDITOR
             if (isLoginButtonInteractable)
             {
-                string username = loginManager.UsernameInput.text;
-                string password = loginManager.PasswordInput.text;
-
-#if UNITY_EDITOR
-                if (anonLoginToggle.isOn)
+                // Retrieve the username from the input if provided, otherwise use 'TEST' as default.
+                string username = string.IsNullOrEmpty(loginManager.UsernameInput.text) ? "TEST" : loginManager.UsernameInput.text;
+        
+                // In editor mode, perform anonymous login using the provided or default username.
+                bool signInSuccessful = await authenticationManager.SignInAnonymouslyAsync();
+                if (signInSuccessful)
                 {
-                    // Anonymous login in editor mode
+                    Debug.Log("Anonymous login successful in editor with username: " + username);
+                    GameManager.Instance.CurrentUser = username;  
+                    SceneManager.LoadScene(SceneNames.Start);
+                }
+                else
+                {
+                    Debug.LogError("Failed anonymous login in editor with username: " + username);
+                    panelBlinkEffect.TriggerBlink(Color.red);
+                }
+            }
+#else
+            // In build mode, check for username and determine login type based on password presence.
+            string username = loginManager.UsernameInput.text;
+            string password = loginManager.PasswordInput.text;
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                if (string.IsNullOrEmpty(password))
+                {
+                    // Perform anonymous login with just a username.
                     bool signInSuccessful = await authenticationManager.SignInAnonymouslyAsync();
                     if (signInSuccessful)
                     {
-                        
-                    GameManager.Instance.CurrentUser = "TEST";
-                    SceneManager.LoadScene(SceneNames.Start);
+                        Debug.Log("Anonymous login successful with username.");
+                        GameManager.Instance.CurrentUser = username;
+                        SceneManager.LoadScene(SceneNames.Start);
                     }
                     else
                     {
-                        Debug.Log("Failed anon sign in");
+                        Debug.LogError("Failed anonymous login with username.");
+                        panelBlinkEffect.TriggerBlink(Color.red);
                     }
                 }
                 else
-#endif
                 {
-                    // Username/password login
+                    // Regular login with username and password.
                     bool signInSuccessful = await authenticationManager.SignInWithUsernamePasswordAsync(username, password);
-
-                    if (signInSuccessful) 
+                    if (signInSuccessful)
                     {
                         Debug.Log("Login successful: " + username);
                         GameManager.Instance.CurrentUser = username;
@@ -150,17 +181,19 @@ namespace Scenes._02_LoginScene.Scripts
                     }
                     else
                     {
-                        panelBlinkEffect.TriggerBlink(Color.red);
                         Debug.LogError("Login failed for: " + username);
+                        panelBlinkEffect.TriggerBlink(Color.red);
                     }
                 }
             }
+#endif
         }
+
 
         /// <summary>
         /// Attempts to register a new user with the provided credentials.
         /// </summary>
-        public void TryRegister()
+        public async void TryRegister()
         {
             if (isRegisterButtonInteractable)
             {
@@ -175,7 +208,7 @@ namespace Scenes._02_LoginScene.Scripts
 
                 Debug.Log("Trying User register: " + username);
                 
-                authenticationManager.SignUpWithUsernamePasswordAsync(username, password);
+                await authenticationManager.SignUpWithUsernamePasswordAsync(username, password);
                 
                 userRegistrationManager.ClearInputFields();
             }

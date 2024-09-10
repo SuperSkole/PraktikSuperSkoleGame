@@ -21,22 +21,33 @@ namespace Scenes._03_StartScene.Scripts
             username = GameManager.Instance.CurrentUser;
         }
         
-        public void CheckForSavesAndPopulateSavePanels()
+        public async void CheckForSavesAndPopulateSavePanels()
         {
-            var saveFiles = GameManager.Instance.LoadManager.GetAllSaveFiles();
+            string username = GameManager.Instance.CurrentUser;
+    
+            // Get all save keys from the cloud that are related to monster saves
+            List<string> saveKeys = await GameManager.Instance.SaveGameController.GetAllSaveKeysAsync();
+
+
             for (int i = 0; i < savePanels.Count; i++)
             {
-                if (i < saveFiles.Count && saveFiles[i].StartsWith(username) && !saveFiles[i].Contains("house"))
+                if (i < saveKeys.Count)
                 {
-                    SaveDataDTO data = GameManager.Instance.LoadManager.LoadGameDataSync(saveFiles[i]);
-                    savePanels[i].SetSaveFileName(saveFiles[i]);
-                    savePanels[i].UpdatePanelWithSaveData(data);
+                    // Load the save data from the cloud for the current key
+                    SaveDataDTO data = await GameManager.Instance.SaveGameController.LoadSaveDataAsync(saveKeys[i]);
+
+                    if (data != null)
+                    {
+                        savePanels[i].SetSaveKey(saveKeys[i]);  
+                        savePanels[i].UpdatePanelWithSaveData(data);  
+                    }
                 }
                 else
                 {
-                    savePanels[i].ClearPanel();
+                    savePanels[i].ClearPanel();  
                 }
             }
         }
+
     }
 }

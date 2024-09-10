@@ -1,7 +1,9 @@
 using System.Collections;
 using Cinemachine;
 using CORE;
+using CORE.Scripts;
 using LoadSave;
+using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
 using TMPro;
 using UnityEngine;
@@ -17,8 +19,6 @@ namespace Scenes._10_PlayerScene.Scripts
     {
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private TMP_InputField nameInput;
-        [SerializeField] private TextMeshProUGUI playerName;        
         [SerializeField] private Vector3 dropOffPoint; 
 
         private PlayerData playerData;
@@ -92,6 +92,8 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             if (spawnPoint != null)
             {
+                spawnedPlayer.GetComponent<Rigidbody>().position = spawnPoint.transform.position;
+                spawnedPlayer.GetComponent<Rigidbody>().rotation = spawnPoint.transform.rotation;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
             }
@@ -153,6 +155,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 null
             );
 
+            if (GameManager.Instance.IsPlayerBootstrapped)
+            {
+                playerData.CollectedWords.AddRange(WordsManager.GetRandomWordsByLengthAndCount(2, 3));
+                playerData.CollectedLetters.AddRange(LetterManager.GetRandomLetters(3));
+            }
+
             // Call the ColorChange method to recolor the player
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
@@ -176,7 +184,9 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
         }
+
         
+
         public void SetupPlayerFromSave(SaveDataDTO saveData)
         {
             // instantiate player object in scene
@@ -199,12 +209,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 return;
             }
 
-            skeleton = spawnedPlayer.GetComponent<ISkeletonComponent>();
+            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
             if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
-                return;
+                //return;
             }
 
             clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
@@ -246,7 +256,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
-
             DontDestroyOnLoad(spawnedPlayer);
         }
 
@@ -258,6 +267,8 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="mode">The loading mode of the scene.</param>
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            if (instance.spawnedPlayer == null) return;
+
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);
             
@@ -267,7 +278,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
 
-            instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().SceneStart();
+            
             // TODO : Find a more permnat solution
             if (SceneManager.GetActiveScene().name.StartsWith("11") || 
                 SceneManager.GetActiveScene().name.StartsWith("20") || 
@@ -276,6 +287,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
 
             }
             else
@@ -354,6 +366,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 if (playerData != null)
                 {
                     // Set the player's position to player house magic number
+                    spawnedPlayer.GetComponent<Rigidbody>().position = new Vector3(0, 2, 0);
                     spawnedPlayer.transform.position = new Vector3(0, 2, 0);
                     Debug.Log("Player spawned in house at 0,2,0");
                 }
@@ -370,9 +383,17 @@ namespace Scenes._10_PlayerScene.Scripts
                 if (playerData != null && playerData.LastInteractionPoint != Vector3.zero)
                 {
                     // Set the player's position to the last interaction point stored in PlayerData
+                    spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
+                    spawnedPlayer.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
-
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
+
+                    var car = GameObject.Find("Prometheus Variant");
+                    car.transform.position = playerData.CarPos;
+                    car.transform.rotation = playerData.CarRo;
+                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+
+
                 }
                 else
                 {

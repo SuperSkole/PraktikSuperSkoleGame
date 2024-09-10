@@ -18,7 +18,7 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private Image blockingImage;
         [SerializeField] private Image startGameButton;
         
-        private string saveFileName;
+        private string saveKey;
 
         private void OnEnable() 
         {
@@ -32,8 +32,15 @@ namespace Scenes._03_StartScene.Scripts
         
         public void OnLoadButtonPressed()
         {
-            Debug.Log("Load game button pressed: " + saveFileName);
-            OnLoadRequested?.Invoke(saveFileName);
+            Debug.Log("Load game button pressed: " + saveKey);
+            OnLoadRequested?.Invoke(saveKey); 
+        }
+
+        public void SetSaveKey(string key)
+        {
+            Debug.Log("Setting save key: " + key);
+            saveKey = key;
+            UpdateButtonVisibility();
         }
         
         public void ClearPanel()
@@ -51,17 +58,10 @@ namespace Scenes._03_StartScene.Scripts
                 blockingImage.enabled = false;
             }
         }
-        
-        public void SetSaveFileName(string fileName) 
-        {
-            Debug.Log("Setting save file name: " + fileName);
-            saveFileName = fileName;
-            UpdateButtonVisibility();
-        }
 
-        private void UpdateButtonVisibility() 
+        private void UpdateButtonVisibility()
         {
-            startGameButton.gameObject.SetActive(!string.IsNullOrEmpty(saveFileName));
+            startGameButton.gameObject.SetActive(!string.IsNullOrEmpty(saveKey));
         }
     }
 }

@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 2102550191519774190}
   - component: {fileID: 2014260511405141757}
   - component: {fileID: 2303528203887376164}
+  - component: {fileID: 4068373070894527916}
   - component: {fileID: 5743102167441662518}
+  - component: {fileID: 3406586699645998164}
   - component: {fileID: 7000402631017721828}
   - component: {fileID: 4370899767886551907}
   m_Layer: 8
@@ -94,9 +96,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &2102550191519774190
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -104,7 +106,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370280089111779063}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7be86173bf5b59e4d8283e7f179cb39f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -116,10 +118,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.83
-  m_Height: 12.4
+  m_Radius: 1.8300003
+  m_Height: 8.069439
   m_Direction: 1
-  m_Center: {x: 0.3, y: -4.35, z: -1.88}
+  m_Center: {x: 0.3, y: -4.187174, z: -1.8800002}
 --- !u!114 &2014260511405141757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,22 +148,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82644e7acc52d5c4884eed9412d34f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonAnimation: {fileID: 6963554171686360834}
-  walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
-  throwing: {fileID: 11400000, guid: d117dc0ac9257a441b5ccc10e4d5621c, type: 2}
-  idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
-  currentState: 
   walkThreshold: 0.1
-  blendDuration: 0.2
-  moveSpeed: 5
+  moveSpeed: 7
   facingRight: 1
   sceneCamera: {fileID: 0}
   placementLayermask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 2056
   hoveringOverUI: 0
+  animatior: {fileID: 3406586699645998164}
   interactionGO: {fileID: 2615622183424237912}
   pointAndClickEffect: {fileID: 1291716513895445356, guid: 1e298ba84882373428d1ae8fe4338d59, type: 3}
+  rb: {fileID: 5874153678614725772}
+--- !u!114 &4068373070894527916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1144dc4193d5cef4ca74f4e8547c452f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5874153678614725772}
+  rideHeight: 2.3
+  rideSpringStrength: 50
+  rideSpringDamper: 10
 --- !u!114 &5743102167441662518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +190,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerData: {fileID: -2984174739293466506}
   interactionIcon: {fileID: 2615622183424237912}
+--- !u!114 &3406586699645998164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31205ac5a792ad54586c9a1bdb71b5eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnimation: {fileID: 6963554171686360834}
+  walk: {fileID: 11400000, guid: ba20663fa273df6498f57f886f0c680b, type: 2}
+  throwing: {fileID: 11400000, guid: d117dc0ac9257a441b5ccc10e4d5621c, type: 2}
+  idle: {fileID: 11400000, guid: 083dacc0fb49b1348bb191a0fe052674, type: 2}
+  currentState: 
+  blendDuration: 0.2
 --- !u!114 &7000402631017721828
 MonoBehaviour:
   m_ObjectHideFlags: 0

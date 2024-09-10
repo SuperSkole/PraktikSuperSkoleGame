@@ -2,19 +2,39 @@ using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Scenes._50_Minigames.Gamemode
 {
     public class SymbolEaterSetter: IGameModeSetter
     {
+        private List<string> gamemodes = new List<string>()
+        {
+            "",
+            "",
+            "SymbolEaterLevel3",
+            "",
+            ""
+        };
+
+
+        private List<string> gamerules = new List<string>()
+        {
+            "",
+            "",
+            "GetVowelFromPic",
+            "",
+            ""
+        };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
         /// <param name="mode">The mode we are looking for</param>
         /// <returns></returns>
-        public IGenericGameMode SetMode(string mode)
+        public IGenericGameMode SetMode(int level)
         {
             ISEGameMode modeReturned;
+            string mode = gamemodes[level];
             switch (mode)
             {
                 case "spellword":
@@ -25,6 +45,9 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "recognizesoundofletter":
                     modeReturned = new RecognizeSoundOfLetter();
+                    break;
+                case "recognizenameofletter":
+                    modeReturned = new RecognizeNameOfLetter();
                     break;
                 case "findnumber":
                     modeReturned = new FindNumber();
@@ -41,9 +64,13 @@ namespace Scenes._50_Minigames.Gamemode
                 case "spellincorrectword":
                     modeReturned = new SpellIncorrectWord();
                     break;
+                case "SymbolEaterLevel3":
+                    modeReturned = new SymbolEaterLevel3();
+                    break;
+
                 default:
-                    Debug.Log("given mode was not among expected options, setting to default mode");
-                    modeReturned = new FindImageFromSound();
+                    Debug.Log("given mode was not among expected options, returning null");
+                    modeReturned = null;
                     break;
             }
             return modeReturned;
@@ -53,9 +80,10 @@ namespace Scenes._50_Minigames.Gamemode
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
         /// <returns></returns>
-        public IGameRules SetRules(string rules)
+        public IGameRules SetRules(int level)
         {
             IGameRules rulesReturned;
+            string rules = gamerules[level];
             switch (rules)
             {
                 case "spellword":
@@ -80,9 +108,18 @@ namespace Scenes._50_Minigames.Gamemode
                 case "findincorrectwords":
                     rulesReturned = new FindIncorrectWords();
                     break;
+                case "findvowels":
+                    rulesReturned = new FindVowel();
+                    break;
+                case "findconsonants":
+                    rulesReturned = new FindConsonant();
+                    break;
+                case "GetVowelFromPic":
+                    rulesReturned = new FindLetterInPicture();
+                    break;
                 default:
-                    Debug.Log("given ruleset was not among expected options, setting to default ruleset");
-                    rulesReturned = new SpellWord();
+                    Debug.Log("given ruleset was not among expected options, returning null");
+                    rulesReturned = null;
                     break;
             }
 

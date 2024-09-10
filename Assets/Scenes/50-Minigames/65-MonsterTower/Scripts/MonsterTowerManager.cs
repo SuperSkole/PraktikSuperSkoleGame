@@ -31,26 +31,30 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
         [SerializeField] Camera mainCamera;
         [SerializeField] Camera cameraBrain;
-        public LayerMask placementLayermask;
+        public LayerMask AmmoLayermask;
+         [SerializeField] LayerMask TowerLayermask;
         public SpinePlayerMovement mainWorldMovement;
 
         [SerializeField] GameObject noAmmoText;
         public GameObject[,] ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
         [SerializeField] GameObject ammoPlatform;
-        [SerializeField] CatapultAming catapultAming;
-        [SerializeField] GameObject playerSpawnPosition;
+        public CatapultAming catapultAming;
+        [SerializeField] GameObject playerSpawnPoint;
+        [SerializeField] GameObject startPoint;
 
         [SerializeField] AnimationReferenceAsset idle;
         [SerializeField] AnimationReferenceAsset walk;
         [SerializeField] ParticleSystem pointAndClickEffect;
+
+        [SerializeField] GameObject dropOffPoint;
         RaycastHit hit;
         Ray ray;
         [SerializeField] AmmoPupUp pupUp;
 
         public TowerManager towerManager;
 
-        
+        public bool ammoLoaded = false;
 
         public Difficulty difficulty;
 
@@ -123,7 +127,30 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 return;
             }
 
-           
+
+
+
+            if (PlayerManager.Instance != null)
+            {
+                PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+
+                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
+
+            }
+            else
+            {
+                Debug.Log("WordFactory GM.Start(): Player Manager is null");
+            }
+
+
+
         }
 
         void Update()
@@ -139,6 +166,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         public void SetupPlayerMovementToDefault()
         {
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
         }
 
 
@@ -162,10 +190,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             pMovement.walk = walk;
             pMovement.pointAndClickEffect = pointAndClickEffect;
             pMovement.sceneCamera = mainCamera;
-            pMovement.placementLayermask = placementLayermask;
+            pMovement.placementLayermask = AmmoLayermask;
             pMovement.skeletonAnimation = spawnedPlayer.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            pMovement.monsterTowerManager = this;
             spawnedPlayer.SetActive(true);
-            spawnedPlayer.transform.position = playerSpawnPosition.transform.position;
+            spawnedPlayer.transform.position = playerSpawnPoint.transform.position;
+            
 
             CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
             virtualCamera.Follow = spawnedPlayer.transform;
@@ -232,9 +262,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                     Vector3 spawnPos = ammoPlatform.transform.GetChild(spawnIndex).transform.position + new Vector3(0, ammoDimensions.y * spawnHeightIndex);
 
 
-
+                    
                     GameObject ammo = Instantiate(ammoToDisplayPrefab, spawnPos, Quaternion.identity);
-                    ammo.transform.parent = ammoPlatform.transform;
+                   
 
                     ammo.name = spawnIndex + "," + spawnHeightIndex;
                     ammoDisplay[spawnIndex,spawnHeightIndex]= ammo;
@@ -260,11 +290,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             if (hit.transform == null) return;
 
             Brick comp = hit.transform.gameObject.GetComponent<Brick>();
+          
          
             
             if (comp == null || comp.isShootable == false) return;
             StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
+
+
 
         /// <summary>
         /// removes ammoCount and updates the wordlist in playerdata and locally for the words List. 
@@ -277,11 +310,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
          
             ammoCount--;
 
-          
-            //if(ammoCount < ammoDisplay.Length)
-            //    ammoDisplay[ammoCount].SetActive(false);
-            //if (ammoCount <= 0)
-            //    noAmmoText.SetActive(true);
+
+           
         }
 
         /// <summary>

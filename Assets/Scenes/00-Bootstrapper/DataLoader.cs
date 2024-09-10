@@ -48,6 +48,7 @@ namespace Scenes._00_Bootstrapper
             yield return StartCoroutine(soundFxCourutine);
 
             Debug.Log("All resources loaded.");
+
         }
 
         private IEnumerator LoadAllCsvFiles()
@@ -122,8 +123,9 @@ namespace Scenes._00_Bootstrapper
             
             foreach (Texture2D fileName in images)
             {
-                yield return StartCoroutine(LoadAndSetDic(fileName));
+                StartCoroutine(LoadAndSetDic(fileName));
             }
+            yield return null;
         }
 
         private IEnumerator LoadAndSetDic(Texture2D texture)
@@ -155,8 +157,9 @@ namespace Scenes._00_Bootstrapper
         {
             foreach (AudioClip fileName in letterSounds)
             {
-                yield return StartCoroutine(LoadAndSetDicLetterSound(fileName));
+                StartCoroutine(LoadAndSetDicLetterSound(fileName));
             }
+            yield return null;
         }
 
         private IEnumerator LoadAndSetDicLetterSound(AudioClip clip)
@@ -234,8 +237,6 @@ namespace Scenes._00_Bootstrapper
             {
                 StartCoroutine(LoadAndSetListExplosionSounds(clip));
             }
-
-
             yield return null;
         }
 
