@@ -438,7 +438,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.02, y: 0.44, z: -48.05}
-  m_LocalScale: {x: 5.8389516, y: 1, z: 1.4385048}
+  m_LocalScale: {x: 5.838952, y: 1, z: 1.4385048}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2031,6 +2031,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   mainWorldMovement: {fileID: 0}
+  hearLetterButton: {fileID: 654140991}
   noAmmoText: {fileID: 56393955}
   ammoToDisplayPrefab: {fileID: 8399951662530303645, guid: a2de19157700ad740bf5417d7206abe3, type: 3}
   ammoPlatform: {fileID: 469689129}
@@ -2043,6 +2044,7 @@ MonoBehaviour:
   dropOffPoint: {fileID: 25235882}
   pupUp: {fileID: 1269879643}
   towerManager: {fileID: 1490818982}
+  ammoLoaded: 0
   difficulty: 0
   words: []
   ammoSpawnPoints: []
@@ -2451,6 +2453,7 @@ RectTransform:
   m_Children:
   - {fileID: 1269879642}
   - {fileID: 528660898}
+  - {fileID: 654140990}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2583,6 +2586,125 @@ Transform:
   - {fileID: 1111141039}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &654140989
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 622865875}
+    m_Modifications:
+    - target: {fileID: 893544307908169895, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_Name
+      value: HearLetter
+      objectReference: {fileID: 0}
+    - target: {fileID: 893544307908169895, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2611935033776685781, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 525595726}
+    - target: {fileID: 2611935033776685781, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlaySoundFromHearLetterButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -160.00012
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 371
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+--- !u!224 &654140990 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+  m_PrefabInstance: {fileID: 654140989}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &654140991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 893544307908169895, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
+  m_PrefabInstance: {fileID: 654140989}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &657885970
 GameObject:
   m_ObjectHideFlags: 0
@@ -4570,10 +4692,14 @@ MonoBehaviour:
   towerHeight: 0
   rowToDelete: 0
   brickPrefab: {fileID: 147310, guid: b1ad8ef6890687249a641abef8e26baf, type: 3}
+  hearLetterButton: {fileID: 654140991}
+  towerAudioSource: {fileID: 0}
+  hearLetterButtonAudioSource: {fileID: 0}
   correctAnswer: 0
   displayBox: {fileID: 1980325502}
   imageHolderPrefab: {fileID: 7509697333050200044, guid: 5dc099e5a21518645a5a4291b6f10034, type: 3}
   singleImageHolderPrefab: {fileID: 7509697333050200044, guid: e81a5d9d4d2afdd41880e5785983da74, type: 3}
+  textHolderPrefab: {fileID: 7509697333050200044, guid: c85d03024c9945a47a4af5c0ad13d75a, type: 3}
   coinPrefab: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   answerHolderPrefab: {fileID: 0}
   OrcPrefab: {fileID: 5370121721513852231, guid: 1d8c7a7f535289049992816aa60825bc, type: 3}
@@ -4581,6 +4707,7 @@ MonoBehaviour:
   topImage: {fileID: 0}
   bottomImage: {fileID: 0}
   soloImage: {fileID: 0}
+  textOnBrick: {fileID: 0}
   imageKey: 
 --- !u!1 &1495100103
 GameObject:
@@ -5733,7 +5860,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "is p\xE5 ko"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
@@ -5760,7 +5887,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 150
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

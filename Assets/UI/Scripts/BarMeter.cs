@@ -17,7 +17,8 @@ namespace UI.Scripts
 
         [SerializeField] private int maxAmount;
 
-        private float fillSpeed = 0.5f;
+        private float fillSpeed = 50f;
+        private int currentAmount = 0;
 
         private Coroutine changeValueCoroutine;
 
@@ -32,38 +33,38 @@ namespace UI.Scripts
             }
             originalScale = image.rectTransform.localScale;
 
-            textMeshPro.text = 0 + "/" + maxAmount;
-
-            SettingValueAfterScene(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
+            textMeshPro.text = "0";
+            currentAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
+            SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
+            ChangeValue(GameManager.Instance.PlayerData.PendingGoldAmount);
         }
 
         public void SettingValueAfterScene(int amount)
         {
-            textMeshPro.text = $"{amount}/{maxAmount}";
-            barFill.fillAmount = Mathf.Clamp01(barFill.fillAmount + (float)amount / maxAmount);
+            textMeshPro.text = amount.ToString();
         }
 
         public void ChangeValue(int amount)
         {
-            StopAllCoroutines();
+            if (changeValueCoroutine != null)
+            {
+                StopCoroutine(changeValueCoroutine);
+            }
+            currentAmount += amount;
+            GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
+            GameManager.Instance.PlayerData.PendingGoldAmount = 0;
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }
 
         private IEnumerator ChangeValueRoutine(int amount)
         {
-            //goal amount
-            float targetFillAmount = Mathf.Clamp01(barFill.fillAmount + (float)amount / maxAmount);
-            //current amount
-            float currentFillAmount = barFill.fillAmount;
-
+            float currentFillAmount = currentAmount-amount;
             //As long as they're apart
-            while (!Mathf.Approximately(currentFillAmount, targetFillAmount))
+            while (Mathf.RoundToInt(currentFillAmount) != currentAmount)
             {
-                currentFillAmount = Mathf.MoveTowards(currentFillAmount, targetFillAmount, fillSpeed * Time.deltaTime);
-                barFill.fillAmount = currentFillAmount;
-
+                currentFillAmount = Mathf.MoveTowards(currentFillAmount, currentAmount, 1);
                 //Text showing progress
-                textMeshPro.text = Mathf.RoundToInt(currentFillAmount * 100).ToString()+"/"+maxAmount;
+                textMeshPro.text = Mathf.RoundToInt(currentFillAmount).ToString();
 
                 // St�rre
                 LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
@@ -71,10 +72,9 @@ namespace UI.Scripts
                 // Jiggle effect
                 LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
 
-                yield return null;
+                yield return new WaitForSeconds(0.1f);
             }
 
-            barFill.fillAmount = targetFillAmount;
             changeValueCoroutine = null;
 
             LeanTween.scale(image.rectTransform, originalScale, 0.1f);

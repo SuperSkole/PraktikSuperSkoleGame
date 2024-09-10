@@ -18,6 +18,8 @@ namespace LoadSave
         [SerializeField] private string monsterColor;
         [SerializeField] private int currentGoldAmount;
         [SerializeField] private int currentXPAmount;
+        [SerializeField] private int pendingGoldAmount;
+        [SerializeField] private int pendingXPAmount;
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
         [SerializeField] private string clothMid;
@@ -27,6 +29,8 @@ namespace LoadSave
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
         public List<char> CollectedNumbers = new List<char>();
+        
+        // Clothing list
         public List<int> BoughtClothes = new List<int>();
 
         public string Username { get => username; set => username = value; }
@@ -36,6 +40,8 @@ namespace LoadSave
         public string MonsterColor { get => monsterColor; set => monsterColor = value; }
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
+        public int PendingGoldAmount { get => pendingGoldAmount; set => pendingGoldAmount = value; }
+        public int PendingXPAmount { get => pendingXPAmount; set => pendingXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
         public string ClothMid { get => clothMid; set => clothMid = value; }
@@ -46,8 +52,8 @@ namespace LoadSave
         public Vector3 LastInteractionPoint;
 
         //For the Car
-        public Vector3 CarPos { get; set; } = new Vector3(-201.734497f, 36.9067612f, -137.054474f);
-        public quaternion CarRo { get; set; } = new Quaternion(0, 1, 0, 1.04308114e-07f);
+        public Vector3 CarPos { get; set; } = new Vector3(-202, 37, -137);
+        public quaternion CarRo { get; set; } = new Quaternion(0, 1, 0, 1);
         public float FuelAmount { get; set; } = 1f;
 
 
@@ -72,19 +78,11 @@ namespace LoadSave
             this.currentPosition = position;
             this.clothMid = midCloth;
             this.clothTop = topCloth;
-
         }
 
         public void SetLastInteractionPoint(Vector3 position)
         {
             LastInteractionPoint = position;
         }
-
-        
-        //// saved for later
-        // public void AddWord(string word) => collectedWords.Add(word);
-        // public void RemoveWord(string word) => collectedWords.Remove(word);
-        // public void AddLetter(char letter) => collectedLetters.Add(letter);
-        // public void RemoveLetter(char letter) => collectedLetters.Remove(letter);
     }
 }

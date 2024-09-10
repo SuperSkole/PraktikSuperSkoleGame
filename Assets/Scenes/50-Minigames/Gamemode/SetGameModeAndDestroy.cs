@@ -29,11 +29,11 @@ namespace Scenes._50_Minigames.Gamemode
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             playerLevel = GameManager.Instance.PlayerData.CurrentLevel;
-            if(playerLevel == 0)
+            if (playerLevel == 0)
             {
-                playerLevel = 3;
+                playerLevel = 4;
             }
-            switch(sceneID)
+            switch (sceneID)
             {
                 case 0:
                     modeSetter = new MonsterTowerSetter();
@@ -49,34 +49,34 @@ namespace Scenes._50_Minigames.Gamemode
                 case 2:
                     modeSetter = new LetterGardenSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToLetterGardenScene);
-                    title.text = "Bogstavshave"; 
+                    title.text = "Bogstavshave";
                     break;
             }
-            
+
             //Destroys the first button if the player is level 1 or if no game mode exist for it.
-            if(playerLevel == 1)
+            if (playerLevel == 1)
             {
                 Destroy(buttons[0]);
             }
-            else 
+            else
             {
                 Setgamemode(playerLevel - 1);
                 SetGameRules(playerLevel - 1);
-                if(gamemode == null && gameRule == null)
+                if (gamemode == null && gameRule == null)
                 {
                     Destroy(buttons[0]);
                 }
             }
             //Destroys the last button if the player is max level or if no gamemode exist for it.
-            if(playerLevel == 5)
+            if (playerLevel == 5)
             {
                 Destroy(buttons[2]);
             }
-            else 
+            else
             {
                 Setgamemode(playerLevel + 1);
                 SetGameRules(playerLevel + 1);
-                if(gamemode == null && gameRule == null)
+                if (gamemode == null && gameRule == null)
                 {
                     Destroy(buttons[2]);
                 }
@@ -84,7 +84,7 @@ namespace Scenes._50_Minigames.Gamemode
             //Destroys the middle button if no gamemode exists for it
             Setgamemode(playerLevel);
             SetGameRules(playerLevel);
-            if(gamemode == null && gameRule == null)
+            if (gamemode == null && gameRule == null)
             {
                 Destroy(buttons[1]);
             }

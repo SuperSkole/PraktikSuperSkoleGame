@@ -19,6 +19,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public int NumberOfGears = 2; // Default to 2 gears
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
+        public GameObject CoinPrefab;
         
         public GameObject PlayerSpawnPoint;
         [SerializeField] private GameObject dropOffPoint;

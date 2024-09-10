@@ -30,29 +30,32 @@ namespace LoadSave
         {
             try
             {
-                // Construct the key using the username and monster name
+                // Use the username and monsterName to generate the save key
                 string saveKey = GenerateSaveKey(playerData.Username, playerData.MonsterName);
 
-                // Save player data using the constructed key
+                // Save player data, overwriting the existing save if necessary
                 await cloudSaveService.SavePlayerDataAsync(playerData, saveKey);
-                
-                Debug.Log("Game saved successfully.");
+
+                Debug.Log("Game saved successfully for " + playerData.MonsterName);
             }
             catch (Exception ex)
             {
-                // Log exception details if the save operation fails
                 Debug.LogError($"An error occurred while saving the game: {ex.Message}");
             }
         }
 
         /// <summary>
-        /// Loads the player's game data when called.
+        /// Asynchronously loads the player's game data from the cloud.
         /// </summary>
+        /// <param name="saveKey">The key of the save to load.</param>
+        /// <param name="onDataLoaded">Callback to pass the loaded data.</param>
         public async void LoadGame(string saveKey, Action<SaveDataDTO> onDataLoaded)
         {
             try
             {
-                SaveDataDTO data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  // Load save data from the cloud
+                // Load save data from the cloud
+                SaveDataDTO data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  
+                
                 if (data != null)
                 {
                     Debug.Log("Game loaded successfully.");
@@ -70,19 +73,42 @@ namespace LoadSave
                 onDataLoaded?.Invoke(null);
             }
         }
-        
+
+        /// <summary>
+        /// Deletes a save file from Unity Cloud Save based on the provided saveKey.
+        /// </summary>
+        /// <param name="saveKey">The key of the save to delete.</param>
+        /// <returns>True if the delete operation was successful, false otherwise.</returns>
+        public async Task<bool> DeleteSave(string saveKey)
+        {
+            try
+            {
+                // Delete the data with the provided key
+                await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
+                Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while deleting the save with key '{saveKey}': {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Loads the save data asynchronously using the save key.
+        /// </summary>
         public async Task<SaveDataDTO> LoadSaveDataAsync(string saveKey)
         {
             return await cloudSaveService.LoadPlayerDataAsync(saveKey);
         }
-        
+
         /// <summary>
         /// Generates a unique key for saving data using username and monster name.
         /// </summary>
         private string GenerateSaveKey(string username, string monsterName)
         {
-            string timestamp = DateTime.Now.ToString("MMddHHmm");  
-            return $"{username}_{monsterName}_{timestamp}";
+            return $"{username}_{monsterName}";
         }
 
         /// <summary>
@@ -96,12 +122,9 @@ namespace LoadSave
 
             foreach (var keyItem in keys)
             {
-                //Debug.Log($"Key: {keyItem.Key}"); 
-
                 // Ensure correct string comparison using the Key property
                 if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser))
                 {
-                    //Debug.Log($"Relevant key found for user {GameManager.Instance.CurrentUser}: {keyItem.Key}");
                     relevantKeys.Add(keyItem.Key);  
                 }
             }

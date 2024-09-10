@@ -51,11 +51,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules, boardController.GetPlayer().transform.position);
             //creates a random number of correct letters on the board
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
             numberOfCorrectLettersOnBoard = count;
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
 
             boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 

@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using CORE;
+using TMPro;
 using UI.Scripts;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -13,14 +14,15 @@ namespace Scenes._02_LoginScene.Scripts
     /// </summary>
     public class UILoginSceneManager : MonoBehaviour
     {
-        [SerializeField] private LoginManager loginManager;
         [SerializeField] private AuthenticationManager authenticationManager;
-        [SerializeField] private UserRegistrationManager userRegistrationManager;
         [SerializeField] private GameObject loginScreen;
         [SerializeField] private Image panel;
         [SerializeField] private Image loginButton;
         [SerializeField] private Image registerButton;
         [SerializeField] private Toggle anonLoginToggle;
+        
+        [SerializeField] private TMP_InputField usernameInput;
+        [SerializeField] private TMP_InputField passwordInput;
 
         private bool isLoginButtonInteractable = false;
         private bool isRegisterButtonInteractable = false;
@@ -57,10 +59,8 @@ namespace Scenes._02_LoginScene.Scripts
 #else
             anonLoginToggle.gameObject.SetActive(false);
 #endif
-            loginManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            loginManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            userRegistrationManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            userRegistrationManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
+            usernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
+            passwordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Scenes._02_LoginScene.Scripts
             isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text);
 #endif
             // Validate password complexity for registration.
-            isRegisterButtonInteractable = IsPasswordValid(userRegistrationManager.PasswordInput.text);
+            isRegisterButtonInteractable = IsPasswordValid(passwordInput.text);
 
             // Update visibility of login and register buttons based on their interactable states.
             ToggleButtonVisibility(loginButton, isLoginButtonInteractable);
@@ -130,7 +130,7 @@ namespace Scenes._02_LoginScene.Scripts
             if (isLoginButtonInteractable)
             {
                 // Retrieve the username from the input if provided, otherwise use 'TEST' as default.
-                string username = string.IsNullOrEmpty(loginManager.UsernameInput.text) ? "TEST" : loginManager.UsernameInput.text;
+                string username = string.IsNullOrEmpty(usernameInput.text) ? "TEST" : usernameInput.text;
         
                 // In editor mode, perform anonymous login using the provided or default username.
                 bool signInSuccessful = await authenticationManager.SignInAnonymouslyAsync();
@@ -197,8 +197,8 @@ namespace Scenes._02_LoginScene.Scripts
         {
             if (isRegisterButtonInteractable)
             {
-                string username = userRegistrationManager.UsernameInput.text.Trim(); 
-                string password = userRegistrationManager.PasswordInput.text;
+                string username = usernameInput.text.Trim(); 
+                string password = passwordInput.text;
 
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
@@ -210,8 +210,14 @@ namespace Scenes._02_LoginScene.Scripts
                 
                 await authenticationManager.SignUpWithUsernamePasswordAsync(username, password);
                 
-                userRegistrationManager.ClearInputFields();
+                ClearInputFields();
             }
+        }
+
+        private void ClearInputFields()
+        {
+            usernameInput.text = "";
+            passwordInput.text = "";
         }
     }
 }

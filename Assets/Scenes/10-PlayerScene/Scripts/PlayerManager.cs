@@ -96,6 +96,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 spawnedPlayer.GetComponent<Rigidbody>().rotation = spawnPoint.transform.rotation;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
+                spawnedPlayer.transform.position = spawnPoint.transform.position;
+
             }
             else
             {
@@ -149,7 +151,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 GameManager.Instance.CurrentMonsterColor,
                 0,
                 0,
-                0,
+                1,
                 spawnedPlayer.transform.position,
                 null,
                 null
@@ -183,6 +185,8 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO: delete at later date when PlayerManger works
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
+
+            GameManager.Instance.IsNewGame = false;
         }
 
         
@@ -268,6 +272,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (instance.spawnedPlayer == null) return;
+            
+            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);

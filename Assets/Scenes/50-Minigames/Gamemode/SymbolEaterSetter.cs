@@ -10,21 +10,21 @@ namespace Scenes._50_Minigames.Gamemode
     {
         private List<string> gamemodes = new List<string>()
         {
-            "",
+            "findsymbols",
             "",
             "SymbolEaterLevel3",
-            "",
-            ""
+            "Level4_SymbolEater",
+            "Level5_SymbolEater"
         };
 
 
         private List<string> gamerules = new List<string>()
         {
-            "",
+            "findvowels",
             "",
             "GetVowelFromPic",
-            "",
-            ""
+            "Level4_SymbolEater",
+            "Level5_SymbolEater"
         };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
@@ -66,6 +66,14 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "SymbolEaterLevel3":
                     modeReturned = new SymbolEaterLevel3();
+                    break;
+
+                case "Level4_SymbolEater":
+                    modeReturned = new Level4_SymbolEater();
+                    break;
+
+                case "Level5_SymbolEater":
+                    modeReturned = new Level5_SymbolEater();
                     break;
 
                 default:
@@ -116,6 +124,13 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "GetVowelFromPic":
                     rulesReturned = new FindLetterInPicture();
+                    break;
+
+                case "Level4_SymbolEater":
+                    rulesReturned = new FindFMNSConsonantBySound();
+                    break;
+                case "Level5_SymbolEater":
+                    rulesReturned = new FindFMNSConsonantBySound();
                     break;
                 default:
                     Debug.Log("given ruleset was not among expected options, returning null");

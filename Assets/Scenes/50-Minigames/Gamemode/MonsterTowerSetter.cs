@@ -13,8 +13,8 @@ namespace Scenes._50_Minigames.Gamemode
             "",
             "",
             "",
-            "",
-            "",
+            "level 4",
+            "level 5",
         };
 
 
@@ -43,6 +43,15 @@ namespace Scenes._50_Minigames.Gamemode
 
                 case "shoot picture":
                     modeReturned = new ShootPicture();
+                    break;
+
+                case "level 4":
+                    modeReturned = new Level4();
+                    
+                    break;
+
+                case "level 5":
+                    modeReturned = new Level5();
                     break;
 
                 default:

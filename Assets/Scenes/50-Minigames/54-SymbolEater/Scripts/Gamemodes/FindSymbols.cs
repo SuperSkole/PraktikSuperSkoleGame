@@ -43,11 +43,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         {
             if (correct)
             {
-                letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
+                string answer = gameRules.GetCorrectAnswer().ToLower();
+                letterCube.Activate(answer, true);
+                
             }
             else
             {
-                letterCube.Activate(gameRules.GetWrongAnswer());
+                string answer = gameRules.GetWrongAnswer();
+                letterCube.Activate(answer);
+                
             }
         }
 
@@ -61,15 +65,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             foreach (LetterCube lC in activeLetterCubes)
             {
                 lC.Deactivate();
+                lC.shouldActivate = false;
             }
             int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
             activeLetterCubes.Clear();
             //finds new letterboxes to be activated and assigns them a random wrong letter.
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules, boardController.GetPlayer().transform.position);
             //creates a random number of correct letters on the board
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
             numberOfCorrectLettersOnBoard = count;
-            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules);
+            GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
             boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
 
