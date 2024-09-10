@@ -152,8 +152,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
-  nameInput: {fileID: 0}
-  playerName: {fileID: 0}
   dropOffPoint: {x: 0, y: 0, z: 0}
 --- !u!4 &4553469
 Transform:
@@ -187,7 +185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &648057390
 MonoBehaviour:
   m_ObjectHideFlags: 0

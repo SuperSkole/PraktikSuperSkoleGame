@@ -98,7 +98,7 @@ namespace CORE
         public void LoadGame()
         {
             // Logic to load game data
-            LoadManager.LoadGame(CurrentUser);
+            //LoadManager.LoadGame(CurrentUser);
                 
             Debug.Log("Loading game");
         }
@@ -149,7 +149,7 @@ namespace CORE
         {
             //gameObject.AddComponent<PlayerManager>();
             //SaveManager = new SaveToJsonManager();
-            LoadManager = new LoadGameManager();
+            //LoadManager = new LoadGameManager();
             
             SaveGameController = new SaveGameController();
         }
