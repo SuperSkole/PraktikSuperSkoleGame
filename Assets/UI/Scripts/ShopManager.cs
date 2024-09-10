@@ -84,7 +84,7 @@ namespace UI.Scripts
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
 
-            //Money
+            //Moneyy
             if (PlayerManager.Instance == null)
             {
                 Debug.Log("Didn't find playermanager");
@@ -160,7 +160,6 @@ namespace UI.Scripts
 
             foreach (var color in colors)
             {
-                Debug.Log(itemName);
 
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
@@ -206,20 +205,20 @@ namespace UI.Scripts
                 {
                     PlayerManager.Instance.PlayerData.ClothMid = currentItem;
                     thisClothchange.ChangeClothes(currentItem, thisSkeleton);
+                    Debug.Log("head");
                 }
                 if (currentItem.Contains("MID"))
                 {
                     PlayerManager.Instance.PlayerData.ClothTop = currentItem;
                     thisClothchange.ChangeClothes(currentItem, thisSkeleton);
+                    Debug.Log("mid");
                 }
-                else
+                if(colors.Contains(currentItem.ToString()))
                 {
                     PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
                     thisColorchange.ColorChange(currentItem);
+                    Debug.Log("color");
                 }
-
-
-
 
                 thisClothchange.ChangeClothes(currentItem, thisSkeleton);
 

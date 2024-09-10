@@ -39,7 +39,7 @@ namespace UI.Scripts
 
         public void SettingValueAfterScene(int amount)
         {
-            textMeshPro.text = amount + "/" + maxAmount;
+            textMeshPro.text = $"{amount}/{maxAmount}";
             barFill.fillAmount = Mathf.Clamp01(barFill.fillAmount + (float)amount / maxAmount);
         }
 
@@ -50,6 +50,7 @@ namespace UI.Scripts
                 StopCoroutine(changeValueCoroutine);
             }
 
+            StopAllCoroutines();
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }
 
