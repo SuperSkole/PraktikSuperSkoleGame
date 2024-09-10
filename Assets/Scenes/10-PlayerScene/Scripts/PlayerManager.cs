@@ -149,7 +149,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 GameManager.Instance.CurrentMonsterColor,
                 0,
                 0,
-                0,
+                1,
                 spawnedPlayer.transform.position,
                 null,
                 null

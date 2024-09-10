@@ -15,6 +15,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private CinemachineVirtualCamera cam;
         [SerializeField] CarSetPlayerPos carSetPlayerPos;
         [SerializeField] GameObject carSpeedGo;
+        [SerializeField] GameObject carFuelBarGo;
+        [SerializeField] GameObject SoundParent;
 
         public GameObject CarSmoke1;
         public GameObject CarSmoke2;
@@ -28,6 +30,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
             {
                 gameObject.GetComponent<PrometeoCarController>().enabled = false;
                 gameObject.GetComponent<CarFuelMangent>().enabled = false;
+                SoundParent.SetActive(false);
             }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
             playerEvent = spawnedPlayer.GetComponent<PlayerEventManager>();
@@ -47,6 +50,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 prometeoCarController.enabled = true;
                 gameObject.GetComponent<CarFuelMangent>().enabled = true;
                 carSpeedGo.SetActive(true);
+                carFuelBarGo.SetActive(true);
+                SoundParent.SetActive(true);
                 carEventsMa.enabled = true;
 
             }
@@ -88,6 +93,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     prometeoCarController.enabled = false;
                     gameObject.GetComponent<CarFuelMangent>().enabled = false;
                     carSpeedGo.SetActive(false);
+                    carFuelBarGo.SetActive(false);
+                    SoundParent.SetActive(false);
                     carEventsMa.enabled = false;
                 }
 
