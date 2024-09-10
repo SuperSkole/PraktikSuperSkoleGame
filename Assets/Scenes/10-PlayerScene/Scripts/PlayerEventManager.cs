@@ -187,7 +187,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="amount">The amount of gold to add (positive) or remove (negative).</param>
         public void ModifyGold(int amount)
         {
-            playerData.CurrentGoldAmount += amount;
+            playerData.PendingGoldAmount += amount;
         }
         
         /// <summary>
@@ -196,7 +196,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="amount">The amount of XP to add (positive) or remove (negative).</param>
         public void ModifyXP(int amount)
         {
-            playerData.CurrentXPAmount += amount;
+            playerData.PendingXPAmount += amount;
             CheckForLevelUp();
         }
         

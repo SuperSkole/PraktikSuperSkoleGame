@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
+using Unity.Mathematics;
 
 namespace LoadSave
 {
@@ -17,6 +18,8 @@ namespace LoadSave
         [SerializeField] private string monsterColor;
         [SerializeField] private int currentGoldAmount;
         [SerializeField] private int currentXPAmount;
+        [SerializeField] private int pendingGoldAmount;
+        [SerializeField] private int pendingXPAmount;
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
         [SerializeField] private string clothMid;
@@ -35,6 +38,8 @@ namespace LoadSave
         public string MonsterColor { get => monsterColor; set => monsterColor = value; }
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
+        public int PendingGoldAmount { get => pendingGoldAmount; set => pendingGoldAmount = value; }
+        public int PendingXPAmount { get => pendingXPAmount; set => pendingXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
         public string ClothMid { get => clothMid; set => clothMid = value; }
@@ -43,7 +48,13 @@ namespace LoadSave
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
 
         public Vector3 LastInteractionPoint;
-        
+
+        //For the Car
+        public Vector3 CarPos { get; set; } = new Vector3(-201.734497f, 36.9067612f, -137.054474f);
+        public quaternion CarRo { get; set; } = new Quaternion(0, 1, 0, 1.04308114e-07f);
+        public float FuelAmount { get; set; } = 1f;
+
+
         /// <summary>
         /// Initializes the game character with provided attributes.
         /// </summary>

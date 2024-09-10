@@ -1,5 +1,6 @@
 using _99_Legacy.Interaction;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._20_MainWorld.Scripts.Car;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,7 +17,8 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isGasSTT;
         [SerializeField] private NPCInteractions interactions;
         private PlayerEventManager playerEventManager;
-        [SerializeField] private CarEventsManager carEventsMa;
+        private CarEventsManager carEventsMa;
+        private CarEvents carEvents;
 
         private OpenCloseDoor doorMechanism;
 
@@ -32,6 +34,7 @@ namespace Scenes._20_MainWorld.Scripts
             try
             {
                 carEventsMa = GameObject.Find("Prometheus Variant").GetComponent<CarEventsManager>();
+                carEvents = GameObject.Find("Prometheus Variant").GetComponent<CarEvents>();
             }
             catch { }
         }
@@ -42,7 +45,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (collision.gameObject.CompareTag("Player") && !isGasSTT)
             {
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
@@ -125,6 +128,7 @@ namespace Scenes._20_MainWorld.Scripts
                     try
                     {
                         carEventsMa.CarInteraction = new UnityEvent();
+                        carEventsMa.CarInteraction.AddListener(carEvents.TurnOffCar);
                         carEventsMa.interactionIcon.SetActive(false);
                     }
                     catch { }
@@ -141,6 +145,10 @@ namespace Scenes._20_MainWorld.Scripts
             //print($"Here is the saved position: {interactionPoint.position}");
             // set next spawn point, add 1 in height so we dont spawn in ground
             PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
+            var car = GameObject.Find("Prometheus Variant");
+            PlayerManager.Instance.PlayerData.CarPos = car.transform.transform.position;
+            PlayerManager.Instance.PlayerData.CarRo = car.transform.transform.rotation;
+            PlayerManager.Instance.PlayerData.FuelAmount = car.GetComponent<CarFuelMangent>().FuelAmount;
         }
     }
 }

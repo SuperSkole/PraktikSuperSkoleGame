@@ -42,7 +42,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>Whether the letter is a vowel</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return LetterManager.GetDanishVowels().Contains(symbol[0]);
+            return LetterManager.GetDanishVowels().Contains(symbol.ToUpper()[0]);
         }
 
         /// <summary>

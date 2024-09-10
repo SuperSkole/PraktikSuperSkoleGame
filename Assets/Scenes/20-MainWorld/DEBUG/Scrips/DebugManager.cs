@@ -2,6 +2,7 @@ using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using System.Linq;
 using TMPro;
+using UI.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,9 +23,12 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
         [SerializeField] private InputAction openMenu;
 
+        private float time = 0;
         private bool isShown = false;
         private GameObject player;
         private Rigidbody playerRigidbody;
+        private XPBar xpbar;
+        private BarMeter barMeter;
 
        /// <summary>
        /// The OnEnable function enables the input system, gets the player, and player's Rigidbody
@@ -33,6 +37,8 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         private void OnEnable()
         {
             openMenu.Enable();
+            xpbar = FindObjectOfType<XPBar>();
+            barMeter = FindObjectOfType<BarMeter>();
             player = PlayerManager.Instance.SpawnedPlayer;
             playerRigidbody = player.GetComponent<Rigidbody>();
         }
@@ -50,10 +56,12 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         /// </summary>
         private void Update()
         {
-            if(openMenu.ReadValue<float>() >= 0.5f)
+            time += Time.deltaTime;
+            if(openMenu.ReadValue<float>() >= 0.1f && time >= 1)
             {
                 menuAnimator.SetBool("ShowDebug", !isShown);
                 isShown = !isShown;
+                time = 0;
             }
         }
 
@@ -87,6 +95,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         public void AddXP()
         {
             PlayerEvents.RaiseXPChanged(int.Parse(xPField.text));
+            xpbar.AddXP(int.Parse(xPField.text));
             xPField.text = "";
         }
 
@@ -95,7 +104,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         /// </summary>
         public void AddGold()
         {
-            PlayerEvents.RaiseGoldChanged(int.Parse(goldField.text));
+            barMeter.ChangeValue(int.Parse(goldField.text));
             goldField.text = "";
         }
 

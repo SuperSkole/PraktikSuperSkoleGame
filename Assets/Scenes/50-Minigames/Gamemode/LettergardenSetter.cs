@@ -23,6 +23,7 @@ namespace Scenes._50_Minigames.Gamemode
             "vowels",
             "vowels",
             "vowels",
+            "consonants",
             "consonants"
         };
         /// <summary>

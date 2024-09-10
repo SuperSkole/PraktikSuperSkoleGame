@@ -14,7 +14,7 @@ namespace UI.Scripts
         [SerializeField] Image image;
         [SerializeField] TextMeshProUGUI amount;
 
-        [SerializeField] int maxAmount;
+        [SerializeField] int maxAmount = 100;
 
         [SerializeField] TextMeshProUGUI level;
 
@@ -38,7 +38,6 @@ namespace UI.Scripts
 
 
             currentLevel = GameManager.Instance.PlayerData.CurrentLevel;
-            //currentLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
 
             for (int i = 0; i < currentLevel; i++)
             {
@@ -46,21 +45,25 @@ namespace UI.Scripts
             }
 
             currentXP = GameManager.Instance.PlayerData.CurrentXPAmount;
-            //currentXP = PlayerManager.Instance.PlayerData.CurrentXPAmount;
+
+            AddXP(GameManager.Instance.PlayerData.PendingXPAmount);
 
             amount.text = 0 + "/" + maxAmount;
         }
 
         public void AddXP(int xp)
         {
-            currentXP += xp;
-
+            //currentXP += xp;
+            if (GameManager.Instance.PlayerData.PendingXPAmount != 0)
+                currentXP = 100;
+            GameManager.Instance.PlayerData.CurrentXPAmount = currentXP;
+            GameManager.Instance.PlayerData.PendingXPAmount = 0;
             UpdateXPBar();
         }
 
         private int RaiseAmount(int maxAmount)
         {
-           return Mathf.FloorToInt(maxAmount * 1.5f);
+           return Mathf.FloorToInt(maxAmount);
         }
 
         private void LevelUp()
@@ -71,7 +74,7 @@ namespace UI.Scripts
             //exponential raise of maxamount
             maxAmount = RaiseAmount(maxAmount);
 
-
+            GameManager.Instance.PlayerData.CurrentLevel = currentLevel;
             //animation
             LeanTween.scale(image.rectTransform, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setEase(LeanTweenType.easeOutBack).setOnComplete(ShakeImage);
 
@@ -110,11 +113,11 @@ namespace UI.Scripts
 
         private IEnumerator ChangeValueCoroutine(float targetXP)
         {
+            //goal
+            float targetFillAmount = Mathf.Clamp01((float)targetXP / maxAmount);
             //current
             float currentFillAmount = barFill.fillAmount;
 
-            //goal
-            float targetFillAmount = Mathf.Clamp01((float)targetXP / maxAmount);
 
             //As long as the two values are apart
             while (!Mathf.Approximately(currentFillAmount, targetFillAmount))

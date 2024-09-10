@@ -15,6 +15,8 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private LoadGameSetup loadGameSetup;
 
         public static LoadGameController Instance;
+        
+        private SaveGameController saveGameController;
 
         public void RegisterPanel(SavePanel panel) 
         {
@@ -24,32 +26,43 @@ namespace Scenes._03_StartScene.Scripts
         private void Awake() 
         {
             Instance = this;
+            saveGameController = new SaveGameController();
         }
         
-        private void HandleLoadRequest(string fileName)
+        private void HandleLoadRequest(string saveKey)
         {
-            Debug.Log("LoadGameController-HandleLoadRequest: Handling load request for file: " + fileName);
-            GameManager.Instance.LoadManager.LoadGameDataAsync(fileName, OnDataLoaded); 
+            Debug.Log("LoadGameController-HandleLoadRequest: Handling load request for save key: " + saveKey);
+            
+            // Use SaveGameController to load the game from Unity Cloud Save and pass OnDataLoaded as the callback
+            saveGameController.LoadGame(saveKey, OnDataLoaded);
         }
 
         private void OnDataLoaded(SaveDataDTO data)
         {
             if (data != null)
             {
-                Debug.Log("Data loaded successfully.");
+                // Define the delegate and subscribe before loading the scenes
+                UnityEngine.Events.UnityAction<Scene, LoadSceneMode> onSceneLoaded = null;
+                onSceneLoaded = (scene, mode) =>
+                {
+                    // Early out; if not player scene
+                    if (scene.name != SceneNames.Player)
+                    {
+                        return;
+                    }
+
+                    loadGameSetup.SetupPlayer(data);
+                        
+                    // Unsubscribe from the event
+                    SceneManager.sceneLoaded -= onSceneLoaded;
+                };
+
+                // Subscribe to the scene loaded event
+                SceneManager.sceneLoaded += onSceneLoaded;
+                
                 SceneManager.LoadScene(SceneNames.House);
                 SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-                
-                // Setup player in the loaded player scene
-                SceneManager.sceneLoaded += (scene, mode) =>
-                {
-                    if (scene.name == SceneNames.Player)
-                    {
-                        loadGameSetup.SetupPlayer(data);
-                        // Unsubscribe after the scene is loaded
-                        SceneManager.sceneLoaded -= null; 
-                    }
-                };
+                Debug.Log("Data loaded successfully.");
             }
             else
             {
