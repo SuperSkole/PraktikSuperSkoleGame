@@ -1,4 +1,6 @@
 using LoadSave;
+using Scenes;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -11,6 +13,7 @@ namespace CORE
         // Player and game Data
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
+        public SaveGameController SaveGameController; 
 
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
@@ -23,6 +26,7 @@ namespace CORE
         public string CurrentClothMid { get; set; }
         public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
+        public bool IsPlayerBootstrapped { get; set; }
         
         // GameManager Singleton
         private static GameManager instance;
@@ -102,16 +106,32 @@ namespace CORE
         public void OnApplicationQuit()
         {
             // Cleanup or save state before exiting
-            SaveGame();
+            Scene currentScene = SceneManager.GetActiveScene();
+            
+            // Save game only if the current scene is not a bootstrapper or a development scene (scenes starting with '0')
+            if (!currentScene.name.StartsWith("0") && !currentScene.name.Equals("Bootstrapper"))
+            {
+                SaveGame();
+            }
+            
             AuthenticationService.Instance.SignOut();
             Application.Quit();
         }
         
         public void SaveGame()
         {
+            if (SaveGameController != null && PlayerData != null && PlayerManager.Instance != null)
+            {
+                SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+            }
+            else
+            {
+                Debug.Log("SaveGameController or PlayerData is missing!");
+            }
+            
             
             // save logic, using savemanager
-            SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
+            //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
         
         private void InitializeGameManager()
@@ -128,15 +148,18 @@ namespace CORE
         private void InitializeManagers()
         {
             //gameObject.AddComponent<PlayerManager>();
-            SaveManager = new SaveToJsonManager();
+            //SaveManager = new SaveToJsonManager();
             LoadManager = new LoadGameManager();
+            
+            SaveGameController = new SaveGameController();
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             // Early out
             if (scene.name.StartsWith("0") ||
-                scene.name.Equals("Bootstrapper"))
+                scene.name.Equals(SceneNames.Player) ||
+                scene.name.Equals(SceneNames.Boot))
             {
                 return;
             }
