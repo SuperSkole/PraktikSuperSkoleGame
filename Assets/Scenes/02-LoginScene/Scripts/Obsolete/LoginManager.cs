@@ -18,16 +18,6 @@ namespace Scenes._02_LoginScene.Scripts
         
         private IAuthenticationService authService;
 
-        public void SetAuthenticationMode(bool useAnonymous)
-        {
-            authService = useAnonymous ? new AnonymousAuthenticationService() : new UserPasswordAuthenticationService("user", "pass");
-        }
-        
-        public async void SignIn()
-        {
-            await authService.SignInAsync();
-        }
-
         /// <summary>
         /// Validates the login credentials by comparing the provided username and password against the stored data.
         /// </summary>
