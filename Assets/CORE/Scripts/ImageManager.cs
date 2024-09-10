@@ -21,6 +21,9 @@ namespace CORE.Scripts
         private static Dictionary<string, List<Texture2D>> imageDictionary = new();
 
         private static Dictionary<string, List<Texture2D>> letterImageDictionary = new();
+
+        private static List<string> firstLettersForImages=new();
+       
         public static bool IsDataLoaded { get; private set; } = false;
 
 
@@ -76,7 +79,32 @@ namespace CORE.Scripts
             else
                 image = data[0];
 
+             
+
             return image;
+        }
+
+
+        public static string GetRandomFirstLetterFromImageDic()
+        {
+            string returnedLetter="";
+
+            int randIndex = UnityEngine.Random.Range(0, letterImageDictionary.Count);
+
+            int currentindex = 0;
+
+            foreach (var item in letterImageDictionary.Keys)
+            {
+                if(currentindex==randIndex)
+                {
+                    returnedLetter = item;
+                }
+                currentindex++;   
+            }
+
+
+            return returnedLetter;
+           
         }
 
         /// <summary>
