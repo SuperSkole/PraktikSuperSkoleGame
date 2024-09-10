@@ -245,6 +245,10 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(playerData.MonsterColor);
 
+            // Call the ColorChange method to recolor the player
+            clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
+            clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
                     ? new Vector3(-184, 39, -144)
@@ -373,8 +377,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 {
                     Debug.Log("there is a colorchanging");
                     // Call the ColorChange method to recolor the player
-                    clothChanging.ChangeClothes(spawnedPlayer.GetComponent<PlayerData>().ClothMid, skeleton);
-                    clothChanging.ChangeClothes(spawnedPlayer.GetComponent<PlayerData>().ClothTop, skeleton);
+                    clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
+                    clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
                 }
             }
         }

@@ -43,8 +43,14 @@ namespace UI.Scripts
             //chnage clothes
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
-
-            List<ClothInfo> theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
+            List<ClothInfo> theWardrobeOptions = new();
+            try
+            {
+                theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
+            }
+            catch
+            {
+            }
             if (theWardrobeOptions.Count != 0)
             {
                 InitializeWardrobeOption(theWardrobeOptions);
