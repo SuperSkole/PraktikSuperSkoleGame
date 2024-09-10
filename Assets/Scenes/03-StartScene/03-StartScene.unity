@@ -2810,6 +2810,18 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Scenes.StartScene.Scripts.SavePanel, Assembly-CSharp
       objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1544592155}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeleteButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Scenes._03_StartScene.Scripts.SavePanel, Assembly-CSharp
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3421,6 +3433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   graphic: {fileID: 0}
+  colors: []
 --- !u!1 &1783508362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3678,6 +3691,18 @@ PrefabInstance:
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Scenes.StartScene.Scripts.SavePanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1846401141}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeleteButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Scenes._03_StartScene.Scripts.SavePanel, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4158,6 +4183,18 @@ PrefabInstance:
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Scenes.StartScene.Scripts.SavePanel, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1868012170}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDeleteButtonPressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781207973032726158, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Scenes._03_StartScene.Scripts.SavePanel, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

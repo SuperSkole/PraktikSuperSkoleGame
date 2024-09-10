@@ -14,9 +14,7 @@ namespace Scenes._02_LoginScene.Scripts
     /// </summary>
     public class UILoginSceneManager : MonoBehaviour
     {
-        //[SerializeField] private LoginManager loginManager;
         [SerializeField] private AuthenticationManager authenticationManager;
-        //[SerializeField] private UserRegistrationManager userRegistrationManager;
         [SerializeField] private GameObject loginScreen;
         [SerializeField] private Image panel;
         [SerializeField] private Image loginButton;
@@ -63,8 +61,6 @@ namespace Scenes._02_LoginScene.Scripts
 #endif
             usernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
             passwordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            // userRegistrationManager.UsernameInput.onValueChanged.AddListener(delegate { ValidateInput(); });
-            // userRegistrationManager.PasswordInput.onValueChanged.AddListener(delegate { ValidateInput(); });
         }
 
         /// <summary>
