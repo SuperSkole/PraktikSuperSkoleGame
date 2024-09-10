@@ -92,7 +92,7 @@ namespace CORE.Scripts.Game_Rules
 
             FMNSConsonants.Add(currentLetter[0]);
 
-            Debug.Log(currentLetter);
+      
 
         }
 

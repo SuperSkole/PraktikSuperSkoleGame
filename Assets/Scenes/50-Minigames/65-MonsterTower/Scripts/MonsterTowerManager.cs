@@ -299,7 +299,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         }
 
 
-
+        /// <summary>
+        /// Plays the sound that has been set onto the hearletter button. 
+        /// </summary>
         public void PlaySoundFromHearLetterButton()
         {
             hearLetterButton.GetComponent<AudioSource>().Play();
