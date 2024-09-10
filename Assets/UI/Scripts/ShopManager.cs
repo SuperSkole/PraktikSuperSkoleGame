@@ -198,9 +198,6 @@ namespace UI.Scripts
             if (ableToBuy)
             {
                 //Get player
-
-
-                //add item to list here
                 PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
                      if (currentItem.Contains("HEAD"))
