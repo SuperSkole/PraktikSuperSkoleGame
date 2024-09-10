@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -91,6 +92,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 {
                     StartCoroutine(CorrectGuess());
                     Instantiate(coinPrefab);
+                    PlayerEvents.RaiseXPChanged(1);
+                    PlayerEvents.RaiseGoldChanged(1);
                 }
             }
         }
