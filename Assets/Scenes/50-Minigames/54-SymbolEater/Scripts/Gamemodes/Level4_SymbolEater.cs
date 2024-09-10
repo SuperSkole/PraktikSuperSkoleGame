@@ -79,7 +79,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 activeLetterCubes.Clear();
                 incorrectAnswers.Clear();
                 //finds new letterboxes to be activated and assigns them a random wrong letter.
-                GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules);
+                GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules,boardController.GetPlayer().transform.position);
                 //Activates a random lettercube with the correct letter
                 GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
             boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord");
@@ -145,6 +145,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 if (IsCorrectSymbol(letter.GetLetter()))
                 {
                     foundLetter = true;
+                    PlayerEvents.RaiseAddLetter(letter.GetLetter()[0]);
                 }
                 //Checks if the current game is over or if it should continue the current game
                 if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))

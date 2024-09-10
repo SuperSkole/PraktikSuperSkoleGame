@@ -12,7 +12,6 @@ namespace Scenes._50_Minigames.Gamemode
         {
             "findsymbols",
             "",
-            "findsymbols",
             "SymbolEaterLevel3",
             "Level4_SymbolEater",
             "Level5_SymbolEater"
@@ -23,7 +22,6 @@ namespace Scenes._50_Minigames.Gamemode
         {
             "findvowels",
             "",
-            "findvowels",
             "GetVowelFromPic",
             "Level4_SymbolEater",
             "Level5_SymbolEater"

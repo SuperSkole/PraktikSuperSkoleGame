@@ -55,7 +55,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             {
                 if (correct)
                 {
-                    letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
+                string letter = gameRules.GetCorrectAnswer().ToLower();
+                    letterCube.ActivateImage(ImageManager.GetImageFromLetter(letter), letter);
                     foundLetter = false;
                 }
                 else
@@ -66,8 +67,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                         temp = gameRules.GetWrongAnswer();
                     }
                     incorrectAnswers.Add(temp);
-                    letterCube.Activate(temp);
-                }
+                
+                    letterCube.ActivateImage(ImageManager.GetImageFromLetter(temp), temp);
+            }
             }
         /// <summary>
         /// Gets the shown image for the current game and the correct and incorrect images are put onto the board by using letters.
@@ -220,11 +222,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 if (IsCorrectSymbol(letter.GetLetter()))
                 {
                     foundLetter = true;
+                    PlayerEvents.RaiseAddLetter(letter.GetLetter()[0]);
                 }
-                //Checks if the current game is over or if it should continue the current game
-                if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
-                {
-                   
+            //Checks if the current game is over or if it should continue the current game
+            if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
+            {
+
+               
                     
                     //Checks if the player has won. If not a new game is started
                     correctLetters++;
