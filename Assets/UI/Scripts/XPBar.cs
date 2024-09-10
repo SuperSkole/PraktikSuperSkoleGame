@@ -14,7 +14,7 @@ namespace UI.Scripts
         [SerializeField] Image image;
         [SerializeField] TextMeshProUGUI amount;
 
-        [SerializeField] int maxAmount;
+        [SerializeField] int maxAmount = 100;
 
         [SerializeField] TextMeshProUGUI level;
 
@@ -53,7 +53,9 @@ namespace UI.Scripts
 
         public void AddXP(int xp)
         {
-            currentXP += xp;
+            //currentXP += xp;
+            if(GameManager.Instance.PlayerData.PendingXPAmount != 0)
+                currentXP = 100;
             GameManager.Instance.PlayerData.CurrentXPAmount = currentXP;
             GameManager.Instance.PlayerData.PendingXPAmount = 0;
             UpdateXPBar();
@@ -61,7 +63,7 @@ namespace UI.Scripts
 
         private int RaiseAmount(int maxAmount)
         {
-           return Mathf.FloorToInt(maxAmount * 1.5f);
+           return Mathf.FloorToInt(maxAmount);
         }
 
         private void LevelUp()
@@ -72,7 +74,7 @@ namespace UI.Scripts
             //exponential raise of maxamount
             maxAmount = RaiseAmount(maxAmount);
 
-
+            GameManager.Instance.PlayerData.CurrentLevel = currentLevel;
             //animation
             LeanTween.scale(image.rectTransform, new Vector3(1.5f, 1.5f, 1.5f), 0.5f).setEase(LeanTweenType.easeOutBack).setOnComplete(ShakeImage);
 
