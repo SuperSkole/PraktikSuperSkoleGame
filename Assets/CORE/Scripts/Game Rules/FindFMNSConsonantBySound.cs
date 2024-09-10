@@ -9,18 +9,10 @@ namespace CORE.Scripts.Game_Rules
     /// </summary>
     public class FindFMNSConsonantBySound : IGameRules
     {
-        private List<char> correctLetterType;
-      
         private List<char> FMNSConsonants=new List<char>();
-        private string displayName;
-
-        private string correctLetter;
-
-
+        
         string currentWord = "";
         string currentLetter;
-
-        List<char> wrongLetters = new List<char>();
 
         int currentIndex;
 

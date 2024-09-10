@@ -69,7 +69,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     letterCube.Activate(temp);
                 }
             }
-
+        /// <summary>
+        /// Gets the shown image for the current game and the correct and incorrect images are put onto the board by using letters.
+        /// </summary>
         public void GetSymbols()
         {
 

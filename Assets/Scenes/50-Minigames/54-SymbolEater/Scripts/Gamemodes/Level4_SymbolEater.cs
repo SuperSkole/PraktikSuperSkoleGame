@@ -1,6 +1,7 @@
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._00_Bootstrapper;
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -148,6 +149,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 //Checks if the current game is over or if it should continue the current game
                 if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
                 {
+                    
+
                     //Checks if the player has won. If not a new game is started
                     correctLetters++;
                     boardController.monsterHivemind.IncreaseMonsterSpeed();
