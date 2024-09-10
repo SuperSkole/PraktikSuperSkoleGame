@@ -75,12 +75,12 @@ namespace UI.Scripts
             wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
             wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
 
-            if (wearingMid != null)
+            if (wearingMid != null && wearingMid != string.Empty)
             {
                 skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
             }
 
-            if (wearingTop != null)
+            if (wearingTop != null && wearingTop != string.Empty)
             {
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
