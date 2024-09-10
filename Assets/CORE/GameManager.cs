@@ -126,7 +126,7 @@ namespace CORE
             }
             else
             {
-                Debug.LogError("SaveGameController or PlayerData is missing!");
+                Debug.Log("SaveGameController or PlayerData is missing!");
             }
             
             
