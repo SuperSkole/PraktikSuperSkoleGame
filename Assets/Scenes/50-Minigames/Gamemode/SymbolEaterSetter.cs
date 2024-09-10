@@ -10,8 +10,9 @@ namespace Scenes._50_Minigames.Gamemode
     {
         private List<string> gamemodes = new List<string>()
         {
+            "findsymbols",
             "",
-            "",
+            "findsymbols",
             "SymbolEaterLevel3",
             "Level4_SymbolEater",
             "Level5_SymbolEater"
@@ -20,8 +21,9 @@ namespace Scenes._50_Minigames.Gamemode
 
         private List<string> gamerules = new List<string>()
         {
+            "findvowels",
             "",
-            "",
+            "findvowels",
             "GetVowelFromPic",
             "Level4_SymbolEater",
             "Level5_SymbolEater"

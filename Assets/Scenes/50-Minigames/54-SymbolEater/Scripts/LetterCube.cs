@@ -100,7 +100,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             if (!readyForDeactivation)
             {
                 //An attempt to check if the player is already colliding with a box, therefore it should not activate
-                if (other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
+                if (other.gameObject.tag == "Player")
                 {
                     shouldActivate = false;
                 }
@@ -115,8 +115,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             if (!shouldActivate)
             {
-                Activate(letter, false);
             }
+                Activate(letter, false);
 
         }
 
@@ -170,8 +170,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="specific">Whether capitilzation should be preserved</param>
         public void Activate(string letter, bool specific)
         {
-            if (!shouldActivate)
-            {
                 //Randomly sets some letters to lower case
                 int lower = Random.Range(0, 2);
                 if (lower == 0 && !specific)
@@ -194,8 +192,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     active = true;
                     transform.Translate(0, 0.2f, 0);
                 }
+            if (!shouldActivate)
+            {
+                
             }
-
+            
         }
 
         /// <summary>
