@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Scenes._00_Bootstrapper
 {
-    public class DisableOnLoad : MonoBehaviour
+    public class DisableLightOnSceneLoad : MonoBehaviour
     {
         void Start()
         {

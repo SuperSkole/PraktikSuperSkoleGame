@@ -89,7 +89,7 @@ namespace LoadSave
                 GoldAmount = gm.CurrentGoldAmount,
                 XPAmount = gm.CurrentXPAmount,
                 PlayerLevel = gm.CurrentLevel,
-                SavedPlayerStartPostion = new SavePlayerPosition(gm.CurrentPosition),
+                SavedPlayerStartPostion = new SerializablePlayerPosition(gm.CurrentPosition),
             };
             return data;
         }
