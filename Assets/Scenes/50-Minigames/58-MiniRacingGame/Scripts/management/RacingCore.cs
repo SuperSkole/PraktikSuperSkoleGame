@@ -77,11 +77,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void GamemMode_One_Word()
         {
-            Setup(GameModes.Mode2);
+            Setup(GameModes.Mode1);
         }
         public void GameMode_Three_Words()
         {
-            Setup(GameModes.Mode1);
+            Setup(GameModes.Mode2);
         }
         public void GameMode_Vocal_Image()
         {
