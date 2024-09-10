@@ -46,10 +46,8 @@ namespace UI.Scripts
 
         public void ChangeValue(int amount)
         {
-            if (changeValueCoroutine != null)
-            {
-                StopCoroutine(changeValueCoroutine);
-            }
+            StopCoroutine(changeValueCoroutine);
+            
             currentAmount += amount;
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
