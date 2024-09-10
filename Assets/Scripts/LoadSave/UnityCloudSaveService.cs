@@ -8,8 +8,8 @@ namespace LoadSave
     /// </summary>
     public class UnityCloudSaveService
     {
-        private readonly ISaveRepository _saveRepository;
-        private readonly DataConverter _converter = new DataConverter();
+        private readonly ISaveRepository saveRepository;
+        private readonly DataConverter converter = new DataConverter();
         
         /// <summary>
         /// Constructor to inject a specific save repository (Unity Cloud Save, Backend Server, etc.).
@@ -17,7 +17,7 @@ namespace LoadSave
         /// <param name="saveRepository">The save repository implementation to use.</param>
         public UnityCloudSaveService(ISaveRepository saveRepository)
         {
-            _saveRepository = saveRepository;
+            this.saveRepository = saveRepository;
         }
 
         /// <summary>
@@ -26,13 +26,13 @@ namespace LoadSave
         public async Task SavePlayerDataAsync(PlayerData playerData, string saveKey)
         {
             // Convert the PlayerData to a SaveDataDTO
-            SaveDataDTO dto = _converter.ConvertToDTO(playerData);
+            SaveDataDTO dto = converter.ConvertToDTO(playerData);
 
             // Serialize DTO to JSON
             string jsonData = JsonUtility.ToJson(dto, true);
 
             // Save the data in the cloud with a custom key
-            await _saveRepository.SaveAsync(saveKey, jsonData);
+            await saveRepository.SaveAsync(saveKey, jsonData);
         }
 
         /// <summary>
@@ -40,13 +40,14 @@ namespace LoadSave
         /// </summary>
         public async Task<SaveDataDTO> LoadPlayerDataAsync(string saveKey)
         {
-            string jsonData = await _saveRepository.LoadAsync(saveKey);
+            string jsonData = await saveRepository.LoadAsync(saveKey);
             if (string.IsNullOrEmpty(jsonData))
             {
                 return null;
             }
 
-            return JsonUtility.FromJson<SaveDataDTO>(jsonData);  // Deserialize and return SaveDataDTO
+            // Deserialize and return SaveDataDTO
+            return JsonUtility.FromJson<SaveDataDTO>(jsonData);  
         }
     }
 }

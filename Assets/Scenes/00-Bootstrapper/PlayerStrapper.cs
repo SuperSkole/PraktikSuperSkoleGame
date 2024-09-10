@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using CORE;
+using Scenes._02_LoginScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,21 +14,47 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class PlayerStrapper : MonoBehaviour
     {
-        // Use this for initialization
+        private AuthenticationManager authenticationManager;
+
+        private void Awake()
+        {
+            authenticationManager = gameObject.AddComponent<AuthenticationManager>();
+        }
+
         private IEnumerator Start()
         {
-            Debug.Log("Player strapper started");
-            // Check if the current active scene is not the LoginScene
-            if (SceneManager.GetActiveScene().name != SceneNames.Login)
+            Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
+            Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
+
+            // Loop through all loaded scenes to check if LoginScene is active
+            bool loginSceneActive = false;
+            for (int i = 0; i < SceneManager.sceneCount; i++)
             {
-                // Load PlayerScene additively
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name == SceneNames.Login)
+                {
+                    loginSceneActive = true;
+                    break;
+                }
+            }
+
+            // Only proceed to load PlayerScene if LoginScene is not active
+            if (!loginSceneActive)
+            {
+                // Asynchronous sign-in
+                yield return authenticationManager.SignInAnonymouslyAsync();
+                
+                InitializePlayerSettings();
+         
+                Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-            
+
                 // Wait until the PlayerScene is fully loaded
                 yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
-
-                // Perform initializations after PlayerScene is loaded
-                InitializePlayerSettings();
+            }
+            else
+            {
+                Debug.Log("LoginScene is active. Bypassing PlayerScene load.");
             }
         }
 
@@ -39,8 +68,6 @@ namespace Scenes._00_Bootstrapper
             GameManager.Instance.CurrentUser = "TEST";
             GameManager.Instance.CurrentMonsterName = "TESTMonster";
             GameManager.Instance.PlayerData.MonsterName = "TESTMonster";
-
-            // Additional debug or setup code can be added here
             Debug.Log("PlayerScene loaded with test settings.");
         }
 

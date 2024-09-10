@@ -45,13 +45,16 @@ namespace Scenes._03_StartScene.Scripts
                 UnityEngine.Events.UnityAction<Scene, LoadSceneMode> onSceneLoaded = null;
                 onSceneLoaded = (scene, mode) =>
                 {
-                    if (scene.name == SceneNames.Player)
+                    // Early out; if not player scene
+                    if (scene.name != SceneNames.Player)
                     {
-                        loadGameSetup.SetupPlayer(data);
-                        
-                        // Unsubscribe from the event
-                        SceneManager.sceneLoaded -= onSceneLoaded;
+                        return;
                     }
+
+                    loadGameSetup.SetupPlayer(data);
+                        
+                    // Unsubscribe from the event
+                    SceneManager.sceneLoaded -= onSceneLoaded;
                 };
 
                 // Subscribe to the scene loaded event

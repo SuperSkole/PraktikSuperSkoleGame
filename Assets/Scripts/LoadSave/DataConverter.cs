@@ -24,7 +24,7 @@ namespace LoadSave
                 GoldAmount = playerData.CurrentGoldAmount,
                 XPAmount = playerData.CurrentXPAmount,
                 PlayerLevel = playerData.CurrentLevel,
-                SavedPlayerStartPostion = new SavePlayerPosition(playerData.CurrentPosition),
+                SavedPlayerStartPostion = new SerializablePlayerPosition(playerData.CurrentPosition),
                 CollectedWords = playerData.CollectedWords,
                 CollectedLetters = playerData.CollectedLetters,
                 BoughtClothes = playerData.BoughtClothes,

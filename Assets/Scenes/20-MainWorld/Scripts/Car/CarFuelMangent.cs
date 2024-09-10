@@ -46,7 +46,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
             // Clamp the fuel to ensure it doesn't go below 0
             FuelAmount = Mathf.Clamp(FuelAmount, 0, 1.0f);
 
-            //fuelGauge.fillAmount = fuelAmount;
+            fuelGauge.fillAmount = fuelAmount;
 
         }
 
