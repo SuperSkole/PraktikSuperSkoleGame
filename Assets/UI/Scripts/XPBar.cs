@@ -38,7 +38,6 @@ namespace UI.Scripts
 
 
             currentLevel = GameManager.Instance.PlayerData.CurrentLevel;
-            //currentLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
 
             for (int i = 0; i < currentLevel; i++)
             {
@@ -46,7 +45,8 @@ namespace UI.Scripts
             }
 
             currentXP = GameManager.Instance.PlayerData.CurrentXPAmount;
-            //currentXP = PlayerManager.Instance.PlayerData.CurrentXPAmount;
+
+            AddXP(GameManager.Instance.PlayerData.PendingXPAmount);
 
             amount.text = 0 + "/" + maxAmount;
         }
@@ -54,7 +54,8 @@ namespace UI.Scripts
         public void AddXP(int xp)
         {
             currentXP += xp;
-
+            GameManager.Instance.PlayerData.CurrentXPAmount = currentXP;
+            GameManager.Instance.PlayerData.PendingXPAmount = 0;
             UpdateXPBar();
         }
 
@@ -110,11 +111,11 @@ namespace UI.Scripts
 
         private IEnumerator ChangeValueCoroutine(float targetXP)
         {
+            //goal
+            float targetFillAmount = Mathf.Clamp01((float)targetXP / maxAmount);
             //current
             float currentFillAmount = barFill.fillAmount;
 
-            //goal
-            float targetFillAmount = Mathf.Clamp01((float)targetXP / maxAmount);
 
             //As long as the two values are apart
             while (!Mathf.Approximately(currentFillAmount, targetFillAmount))

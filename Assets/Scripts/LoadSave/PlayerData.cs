@@ -18,6 +18,8 @@ namespace LoadSave
         [SerializeField] private string monsterColor;
         [SerializeField] private int currentGoldAmount;
         [SerializeField] private int currentXPAmount;
+        [SerializeField] private int pendingGoldAmount;
+        [SerializeField] private int pendingXPAmount;
         [SerializeField] private int currentLevel;
         [SerializeField] private Vector3 currentPosition;
         [SerializeField] private string clothMid;
@@ -36,6 +38,8 @@ namespace LoadSave
         public string MonsterColor { get => monsterColor; set => monsterColor = value; }
         public int CurrentGoldAmount { get => currentGoldAmount; set => currentGoldAmount = value; }
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
+        public int PendingGoldAmount { get => pendingGoldAmount; set => pendingGoldAmount = value; }
+        public int PendingXPAmount { get => pendingXPAmount; set => pendingXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
         public string ClothMid { get => clothMid; set => clothMid = value; }
