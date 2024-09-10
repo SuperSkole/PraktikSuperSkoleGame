@@ -1,3 +1,4 @@
+using CORE;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace UI.Scripts
         //The chosen item
         private string currentItem;
 
+        private string wearingMid = null;
+        private string wearingTop = null;
 
         List<string> colors = new List<string>();
 
@@ -32,17 +35,59 @@ namespace UI.Scripts
         [SerializeField] GameObject shopOptionPrefab;
         [SerializeField] Transform shopOptionsParent;
 
+        //Money bar
+        [SerializeField] BarMeter meter;
+
         private Shopoption currentShopOption;
 
         //Check if they can buy bool
         private bool ableToBuy = false;
 
-        private void Awake()
+        private void Start()
         {
+            if(colors.Count == 0)
+            {
+            colors.AddRange(playerColorChanging.colors);
+            }
+        }
 
-            playerColorChanging = this.GetComponent<ColorChanging>();
+        private void OnEnable()
+        {
+            if (playerColorChanging == null)
+            {
+                playerColorChanging = this.GetComponent<ColorChanging>();
+            }
+            if (clothChanging == null)
+            {
+                clothChanging = this.GetComponent<ClothChanging>();
+            }
 
-            clothChanging = this.GetComponent<ClothChanging>();
+            playerColorChanging.SetSkeleton(skeletonGraphic);
+            playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+
+
+            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
+            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+
+            //Monster clothes they already wear
+            wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
+            wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+
+            if (wearingMid != null)
+            {
+                skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+            }
+
+            if (wearingTop != null)
+            {
+                skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
+            }
+
+            //Money
+
+            meter.SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
+
+            Debug.Log(GameManager.Instance.PlayerData.CurrentGoldAmount);
 
             if (PlayerManager.Instance == null)
             {
@@ -50,20 +95,9 @@ namespace UI.Scripts
             }
             else
             {
-                avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
+                avaliableMoney = GameManager.Instance.PlayerData.CurrentGoldAmount;
             }
 
-            colors.AddRange(playerColorChanging.colors);
-
-        }
-        private void OnEnable()
-        {
-            playerColorChanging.SetSkeleton(skeletonGraphic);
-            playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
-
-
-            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
-            clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
             //Build shop
 
             List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
@@ -77,6 +111,11 @@ namespace UI.Scripts
             for (int i = amountOfChild - 1; i >= 0; i--)
             {
                 Destroy(shopOptionsParent.GetChild(i).gameObject);
+            }
+
+            if(currentItem != null)
+            {
+                skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
             }
         }
 
@@ -110,7 +149,6 @@ namespace UI.Scripts
 
             if (itemName.Contains("HEAD") || itemName.Contains("MID"))
             {
-                Debug.Log(itemName);
 
                 //hvis curren item ikke er tom, 
                 if (currentItem != null)
@@ -123,6 +161,8 @@ namespace UI.Scripts
 
             foreach (var color in colors)
             {
+                Debug.Log(itemName);
+
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
                     playerColorChanging.ColorChange(itemName);
@@ -145,9 +185,13 @@ namespace UI.Scripts
 
         }
 
+
+
         //Buy Button Function
         public void Buying()
         {
+            Debug.Log(ableToBuy);
+
             if (ableToBuy)
             {
                 //add item to list here
@@ -164,10 +208,13 @@ namespace UI.Scripts
                 }
 
 
-                //takes away money
+                //Take away money
                 avaliableMoney -= currentPrice;
                 PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
+                meter.ChangeValue(avaliableMoney);
+
+                //remove bought option
                 Destroy(currentShopOption.gameObject);
 
                 offBuyButton.gameObject.SetActive(true);
@@ -182,8 +229,8 @@ namespace UI.Scripts
 
         public void CloseShop()
         {
+            currentShopOption = null;
             this.gameObject.SetActive(false);
-
         }
 
     }
