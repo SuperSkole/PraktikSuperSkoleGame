@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using CORE;
+using CORE.Scripts;
 using LoadSave;
 using UnityEngine;
 
@@ -23,31 +25,50 @@ namespace Scenes._03_StartScene.Scripts
         
         public async void CheckForSavesAndPopulateSavePanels()
         {
-            string username = GameManager.Instance.CurrentUser;
+            username = GameManager.Instance.CurrentUser;
     
             // Get all save keys from the cloud that are related to monster saves
             List<string> saveKeys = await GameManager.Instance.SaveGameController.GetAllSaveKeysAsync();
-
-
-            for (int i = 0; i < savePanels.Count; i++)
+            
+            // Group saves by monster name
+            Dictionary<string, string> savesByMonster = new Dictionary<string, string>();
+            
+            foreach (var key in saveKeys)
             {
-                if (i < saveKeys.Count)
+                var keyParts = key.Split('_');
+                
+                // Extract the monster name
+                string monsterName = keyParts[1];  
+
+                // Add the save to the dictionary
+                savesByMonster[monsterName] = key;
+            }
+
+
+            // Populate the save panels with the newest saves for each monster
+            int i = 0;
+            foreach (var monsterSave in savesByMonster)
+            {
+                if (i < savePanels.Count)
                 {
                     // Load the save data from the cloud for the current key
-                    SaveDataDTO data = await GameManager.Instance.SaveGameController.LoadSaveDataAsync(saveKeys[i]);
+                    SaveDataDTO data
+                        = await GameManager.Instance.SaveGameController
+                            .LoadSaveDataAsync(saveKeys[i]);
 
                     if (data != null)
                     {
-                        savePanels[i].SetSaveKey(saveKeys[i]);  
-                        savePanels[i].UpdatePanelWithSaveData(data);  
+                        savePanels[i].SetSaveKey(monsterSave.Value);
+                        savePanels[i].UpdatePanelWithSaveData(data);
                     }
-                }
-                else
-                {
-                    savePanels[i].ClearPanel();  
+                    else
+                    {
+                        savePanels[i].ClearPanel();
+                    }
+
+                    i++;
                 }
             }
         }
-
     }
 }

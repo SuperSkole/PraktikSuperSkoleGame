@@ -3,13 +3,13 @@ using UnityEngine;
 namespace LoadSave
 {
     [System.Serializable]
-    public class SavePlayerPosition
+    public class SerializablePlayerPosition
     {
         public float x;
         public float y;
         public float z;
 
-        public SavePlayerPosition(Vector3 position)
+        public SerializablePlayerPosition(Vector3 position)
         {
             x = position.x;
             y = position.y;

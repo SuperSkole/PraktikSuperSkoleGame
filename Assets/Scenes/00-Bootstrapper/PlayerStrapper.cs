@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using CORE;
+using Scenes._02_LoginScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +14,13 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class PlayerStrapper : MonoBehaviour
     {
+        private AuthenticationManager authenticationManager;
+
+        private void Awake()
+        {
+            authenticationManager = gameObject.AddComponent<AuthenticationManager>();
+        }
+
         private IEnumerator Start()
         {
             Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
@@ -31,13 +41,16 @@ namespace Scenes._00_Bootstrapper
             // Only proceed to load PlayerScene if LoginScene is not active
             if (!loginSceneActive)
             {
+                // Asynchronous sign-in
+                yield return authenticationManager.SignInAnonymouslyAsync();
+                
                 InitializePlayerSettings();
          
                 Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
 
                 // Wait until the PlayerScene is fully loaded
-                yield return new WaitUntil(() => loadPlayerScene.isDone);
+                yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
             }
             else
             {
