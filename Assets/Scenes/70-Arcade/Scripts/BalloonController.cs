@@ -26,6 +26,10 @@ public class BalloonController : MonoBehaviour
         this.GetComponentInChildren<TMP_Text>().text = letter;
     }
 
+    /// <summary>
+    /// moves to the target x value
+    /// </summary>
+    /// <param name="target">the x position that the balloon moves to</param>
     public void MoveTo(float target)
     {
         speed = Random.Range(5f, 7f);
