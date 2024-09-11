@@ -54,7 +54,7 @@ namespace UI.Scripts
         public void AddXP(int xp)
         {
             //currentXP += xp;
-            if(GameManager.Instance.PlayerData.PendingXPAmount != 0)
+            if (GameManager.Instance.PlayerData.PendingXPAmount != 0)
                 currentXP = 100;
             GameManager.Instance.PlayerData.CurrentXPAmount = currentXP;
             GameManager.Instance.PlayerData.PendingXPAmount = 0;
