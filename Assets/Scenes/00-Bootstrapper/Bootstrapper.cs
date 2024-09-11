@@ -20,8 +20,7 @@ namespace Scenes._00_Bootstrapper
         private async Task Start()
         {
             Application.runInBackground = true;
-            await UnityServices.InitializeAsync();
-
+            
             // Load LoginScene scene additively if only the initial scene is loaded.
             if (SceneManager.loadedSceneCount == 1)
                 SceneManager.LoadScene(SceneConfig.InitialScene, LoadSceneMode.Additive);
