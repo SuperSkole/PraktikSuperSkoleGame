@@ -3,6 +3,7 @@ using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
