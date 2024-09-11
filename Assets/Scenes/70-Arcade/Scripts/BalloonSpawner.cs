@@ -15,6 +15,8 @@ public class BalloonSpawner : MonoBehaviour
     public int lives;
     public int points;
     TMP_Text text;
+    [SerializeField] private GameObject topRight;
+    [SerializeField] private GameObject topLeft;
 
     /// <summary>
     /// sets some values and starts the balloons
@@ -26,6 +28,7 @@ public class BalloonSpawner : MonoBehaviour
         correctLetter += letters[Random.Range(0, letters.Length)];
         StartCoroutine(BalloonWave());
         text = GetComponentInChildren<TMP_Text>();
+        
     }
 
     /// <summary>
@@ -33,7 +36,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        text.text = $"Click all {correctLetter} \n You have clicked {points} \n you have {lives}/3 lives";
+        text.text = $"Klik på alle {correctLetter} \nDu har poppet {points} \nDu har {lives}/3 liv";
     }
 
     /// <summary>
@@ -41,7 +44,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void SpawnBalloon()
     {
-        spawnpoint.x = Random.Range(0, 1800);
+        spawnpoint.x = Random.Range(topLeft.transform.position.x, topRight.transform.position.x-200);
         GameObject a = Instantiate(balloonPrefab, spawnpoint, this.transform.rotation, this.transform);
         BalloonController balloonSpawned = a.GetComponent<BalloonController>();
         int rnd = Random.Range(0, 2);
@@ -60,6 +63,10 @@ public class BalloonSpawner : MonoBehaviour
             }
             
         }
+
+        float target = Random.Range(topLeft.transform.position.x, topRight.transform.position.x-200);
+        balloonSpawned.targetY = topRight.transform.position.y + 300;
+        balloonSpawned.MoveTo(target);
     }
 
     /// <summary>
