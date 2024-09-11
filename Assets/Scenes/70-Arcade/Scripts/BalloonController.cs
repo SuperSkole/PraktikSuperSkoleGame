@@ -10,7 +10,8 @@ public class BalloonController : MonoBehaviour
 {
     public bool isCorrect;
     public string letter;
-    [SerializeField]private int targetX;
+    [SerializeField]private float targetX;
+    public float targetY;
     [SerializeField]private float speed;
 
     /// <summary>
@@ -18,15 +19,23 @@ public class BalloonController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        targetX = Random.Range(0, 1800);
-        speed = Random.Range(5f, 7f);
+        
         //makes the button only work if the image is clicked
         this.GetComponent<Image>().alphaHitTestMinimumThreshold = 0.1f;
 
         this.GetComponentInChildren<TMP_Text>().text = letter;
-        LeanTween.move(gameObject, new Vector3(targetX, 1450, 0), speed).setOnComplete(DestroyMe);
     }
 
+    /// <summary>
+    /// moves to the target x value
+    /// </summary>
+    /// <param name="target">the x position that the balloon moves to</param>
+    public void MoveTo(float target)
+    {
+        speed = Random.Range(5f, 7f);
+        targetX = target;
+        LeanTween.move(gameObject, new Vector3(target, targetY, 0), speed).setOnComplete(DestroyMe);
+    }
 
     /// <summary>
     /// destroys iteslf and removes a life if the answer was incorrect. If the player has no more lives, returns to the arcade

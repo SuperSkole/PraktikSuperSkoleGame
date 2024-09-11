@@ -196,6 +196,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             pMovement.monsterTowerManager = this;
             spawnedPlayer.SetActive(true);
             spawnedPlayer.transform.position = playerSpawnPoint.transform.position;
+
+           
             
 
             CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
@@ -256,7 +258,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
                  
 
-                    ammoToDisplayPrefab.tag = "ammo";
+                    //ammoToDisplayPrefab.tag = "ammo";
 
                     
 

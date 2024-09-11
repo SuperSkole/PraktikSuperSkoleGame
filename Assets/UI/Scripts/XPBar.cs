@@ -38,7 +38,7 @@ namespace UI.Scripts
 
 
             currentLevel = GameManager.Instance.PlayerData.CurrentLevel;
-
+            level.text = currentLevel.ToString();
             for (int i = 0; i < currentLevel; i++)
             {
                 maxAmount = RaiseAmount(maxAmount);
