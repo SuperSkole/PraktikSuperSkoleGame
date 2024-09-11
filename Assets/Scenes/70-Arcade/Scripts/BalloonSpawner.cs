@@ -11,7 +11,7 @@ public class BalloonSpawner : MonoBehaviour
     [SerializeField] private float spawntimer = 1f;
     private Vector3 spawnpoint;
     string correctLetter;
-    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ∆ÿ≈";
+    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ√Ü√ò√Ö";
     public int lives;
     public int points;
     TMP_Text text;
@@ -36,7 +36,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        text.text = $"Klik pÂ alle {correctLetter} \nDu har poppet {points} \nDu har {lives}/3 liv";
+        text.text = $"Klik p√• alle {correctLetter} \n du har klikket {points} \n du har {lives}/3 liv";
     }
 
     /// <summary>

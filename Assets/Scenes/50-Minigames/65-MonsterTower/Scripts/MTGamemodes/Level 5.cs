@@ -88,6 +88,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.hearLetterButton.SetActive(true);
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+
+            manager.descriptionText.text = "Tryk på din ammunition for at gøre katapulten klar. Tryk På den grønne knap og hør et bogstav. Skyd billedet der starter med det bogstav";
         }
     }
 
