@@ -10,13 +10,14 @@ namespace Scenes._20_MainWorld.Scripts.Car
         [SerializeField] CarMainWorldMovement car;
         [SerializeField] PrometeoCarController prometeoCarController;
         private GameObject spawnedPlayer;
-        private PlayerEventManager playerEvent;
         private CarEventsManager carEventsMa;
         private CinemachineVirtualCamera cam;
         [SerializeField] CarSetPlayerPos carSetPlayerPos;
         [SerializeField] GameObject carSpeedGo;
         [SerializeField] GameObject carFuelBarGo;
         [SerializeField] GameObject SoundParent;
+        [SerializeField] GameObject callCarButton;
+
 
         public GameObject CarSmoke1;
         public GameObject CarSmoke2;
@@ -33,7 +34,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 SoundParent.SetActive(false);
             }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-            playerEvent = spawnedPlayer.GetComponent<PlayerEventManager>();
             carEventsMa = GetComponent<CarEventsManager>();
             CarSmoke1.SetActive(false);
             CarSmoke2.SetActive(false);
@@ -49,9 +49,12 @@ namespace Scenes._20_MainWorld.Scripts.Car
             {
                 prometeoCarController.enabled = true;
                 gameObject.GetComponent<CarFuelMangent>().enabled = true;
+                GetComponent<IsCarFlipped>().enabled = true;
+                GetComponent<CarSaveTPPoint>().enabled = true;
                 carSpeedGo.SetActive(true);
                 carFuelBarGo.SetActive(true);
                 SoundParent.SetActive(true);
+                callCarButton.SetActive(false);
                 carEventsMa.enabled = true;
 
             }
@@ -92,9 +95,12 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 {
                     prometeoCarController.enabled = false;
                     gameObject.GetComponent<CarFuelMangent>().enabled = false;
+                    GetComponent<IsCarFlipped>().enabled = false;
+                    GetComponent<CarSaveTPPoint>().enabled = false;
                     carSpeedGo.SetActive(false);
                     carFuelBarGo.SetActive(false);
                     SoundParent.SetActive(false);
+                    callCarButton.SetActive(true);
                     carEventsMa.enabled = false;
                 }
 
@@ -137,7 +143,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         }
         /// <summary>
         /// Disables certain componets on the player
-        /// If entier player is disabled we will not have any way for an input
+        /// If entire player is disabled we will not have any way for an input
         /// </summary>
         private void DisablePlayer()
         {
