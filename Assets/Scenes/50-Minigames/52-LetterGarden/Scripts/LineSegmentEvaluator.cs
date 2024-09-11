@@ -12,9 +12,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 {
     public static class LineSegmentEvaluator
     {
-        static float maxDist = 5;
-        static float totalMaxDist = 20;
-        static float totalDist = 0;
+        [SerializeField] private static float maxDist = 1;
+
+        [SerializeField] private static float totalCorrectDirectionPrecentageCutoff = 0.8f;
+        [SerializeField] private static float ispointAtEndOfSplineCutoff = 0.8f;
         /// <summary>
         /// evaluates the given drawing compared to the spline
         /// </summary>
@@ -24,10 +25,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         public static bool EvaluateSpline(Spline spline, LineRenderer dwaing)
         {
             float totalDist = 0;
+            float totalCorrectDirectionPrecentage = 0;
             float oldT = -0.1f;
+            bool ispointAtEndOfSpline = false;
             Vector3 temp = dwaing.GetPosition(0);
             
-            SplineUtility.GetNearestPoint(spline, temp, out float3 nearest, out float firstT);
+            SplineUtility.GetNearestPoint(spline, temp, out float3 nearest, out float _);
             Vector3 offSet = new Vector3(temp.x - nearest.x, temp.y - nearest.y, temp.z - nearest.z);
             for (int i = 0; i < dwaing.positionCount; i++)
             {
@@ -36,39 +39,33 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 float distToSpline = SplineUtility.GetNearestPoint(spline,dwaingPoint,out _,out float t);
                 if (oldT > (t + 0.25f))
                 {
-                    return false;//makes sure you are drawing in the correct direction
+                    totalCorrectDirectionPrecentage -= 1f / (float)dwaing.positionCount;
                 }
+                else
+                {
+                    totalCorrectDirectionPrecentage += 1f / (float)dwaing.positionCount;
+                }
+                if(t >= ispointAtEndOfSplineCutoff) ispointAtEndOfSpline = true;
                 oldT = t;
                 distToSpline -= 02f;
                 distToSpline = Mathf.Clamp(distToSpline, 0,5);
                 totalDist += distToSpline;
             }
-            temp = dwaing.GetPosition(dwaing.positionCount-1) + offSet;
-            //temp.x = 0;
-            //temp.y -= 2.308069f;
-            float distance = Vector3.Distance((Vector3)spline.EvaluatePosition(0), spline.EvaluatePosition(1));
-            SplineUtility.GetNearestPoint(spline, temp, out _, out float lastT);
-            if (lastT < 0.8f && distance > 0) 
+
+
+            if (!ispointAtEndOfSpline) 
             {
+                Debug.Log("end of dwaing is not at end of line");
                 return false;//checks that the end of the drawing is within the last 20% of the spline
             }
-            bool testResult = totalDist <= maxDist;
-            if (testResult)
-            {
-                LineSegmentEvaluator.totalDist += totalDist;
-            }
-            return true;
-        }
 
-        /// <summary>
-        /// evaluates the combined accuracy of all accepted slpines since last time this was called. also resets the total distance so restart the current letter after calling this, or go to the next one.
-        /// </summary>
-        /// <returns>true if the letter is good enough. false if not.</returns>
-        public static bool EvaluateLetter()
-        {
-            bool testResult = totalDist <= totalMaxDist;
-            totalDist = 0;
-            return testResult;
+            if(totalCorrectDirectionPrecentage <= totalCorrectDirectionPrecentageCutoff)
+            {
+                Debug.Log("too mutch of the dwaing was in the worng direction");
+                return false;
+            }
+
+            return true;
         }
     }
 }
