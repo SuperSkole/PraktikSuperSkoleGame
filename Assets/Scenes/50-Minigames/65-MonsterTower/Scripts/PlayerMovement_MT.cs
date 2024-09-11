@@ -76,7 +76,7 @@ public class PlayerMovement_MT : MonoBehaviour
                 {
                     monsterTowerManager.ammoLoaded = true;
                     PlayerEvents.RaiseMovePlayerToBlock(newAmmoBoxSelected);
-                    Debug.Log("box:" + newAmmoBoxSelected);
+                  
                 }
 
 
@@ -157,7 +157,7 @@ public class PlayerMovement_MT : MonoBehaviour
     /// <returns>The position on the map where the player clicked, or Vector3.zero if no valid position was found.</returns>
     public GameObject GetSelectedAmmo()
     {
-        Debug.Log(sceneCamera);
+       
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = sceneCamera.nearClipPlane;
         Ray ray = sceneCamera.ScreenPointToRay(mousePos);
