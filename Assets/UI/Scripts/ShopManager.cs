@@ -55,6 +55,9 @@ namespace UI.Scripts
 
         private void OnEnable()
         {
+            avaliableMoney = 0;
+            meter.SettingValueAfterScene(0);
+
             if (playerColorChanging == null)
             {
                 playerColorChanging = this.GetComponent<ColorChanging>();
@@ -94,7 +97,7 @@ namespace UI.Scripts
             {
                 avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
 
-                Debug.Log(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
+                meter.SettingValueAfterScene(avaliableMoney);
             }
 
             //Build shop
@@ -193,7 +196,6 @@ namespace UI.Scripts
         {
             if (currentItem != null)
             { 
-            Debug.Log(ableToBuy);
 
             if (ableToBuy)
             {
@@ -216,14 +218,7 @@ namespace UI.Scripts
 
                     }
 
-
-
-                    //Take away money
-                    Debug.Log(currentPrice);
-
                     avaliableMoney -= currentPrice;
-
-                    Debug.Log(avaliableMoney);
 
                     PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
@@ -244,6 +239,8 @@ namespace UI.Scripts
 
             }
              }
+
+
             //you cannot afford it
         }
 
@@ -253,7 +250,6 @@ namespace UI.Scripts
             this.gameObject.SetActive(false);
             PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
-            Debug.Log("lukket");
         }
 
     }
