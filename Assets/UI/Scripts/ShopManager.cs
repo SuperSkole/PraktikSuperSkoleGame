@@ -219,10 +219,15 @@ namespace UI.Scripts
 
 
                     //Take away money
-                    avaliableMoney -= currentPrice;
-                PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+                    Debug.Log(currentPrice);
 
-                meter.ChangeValue(-currentPrice);
+                    avaliableMoney -= currentPrice;
+
+                    Debug.Log(avaliableMoney);
+
+                    PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+
+                    meter.ChangeValue(-currentPrice);
 
 
 
