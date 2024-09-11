@@ -120,7 +120,6 @@ namespace Scenes._50_Minigames.Gamemode
                     rulesReturned = new FindVowel();
                     break;
             }
-
             return rulesReturned;
         }
     }
