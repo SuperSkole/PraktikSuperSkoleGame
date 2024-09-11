@@ -16,6 +16,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes
         /// <returns>A list of splined symbols the player should draw</returns>
         public List<SplineSymbolDataHolder> GetSymbols(int amount, IGameRules gameRules);
 
+        public void SetUpGameModeDescription(ActiveLetterHandler activeLetterHandler);
+        
+        
+
         public bool UseBee();
 
     }

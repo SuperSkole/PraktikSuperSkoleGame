@@ -33,7 +33,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        text.text = $"Click all {correctLetter} \n You have clicked {points} \n you have {lives}/3 lives";
+        text.text = $"Klik på alle {correctLetter} \n du har klikket {points} \n du har {lives}/3 liv";
     }
 
     /// <summary>
