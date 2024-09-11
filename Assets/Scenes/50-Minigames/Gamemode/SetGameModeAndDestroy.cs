@@ -51,6 +51,11 @@ namespace Scenes._50_Minigames.Gamemode
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToLetterGardenScene);
                     title.text = "Bogstavshave";
                     break;
+                case 3:
+                    modeSetter = new MiniRacingSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToRacerScene);
+                    title.text = "Racing";
+                    break;
             }
 
             //Destroys the first button if the player is level 1 or if no game mode exist for it.
