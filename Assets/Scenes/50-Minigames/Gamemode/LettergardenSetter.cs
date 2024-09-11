@@ -33,37 +33,45 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            LettergardenGameMode modeReturned;
-            string mode = gamemodes[level];
-            switch (mode)
+            
+            if(level >= gamemodes.Count)
             {
-                case "drawcapitalLetters":
-                    modeReturned = new DrawCapitalLetters();
-                    break;
-                case "drawlowercaseLetters":
-                    modeReturned = new DrawLowercaseLetters();
-                    break;
-                case "drawletters":
-                    modeReturned = new DrawLetters();
-                    break;
-                case "drawnumbers":
-                    modeReturned = new DrawNumbers();
-                    break;
-                case "drawwithbee":
-                    modeReturned = new DrawWithBee();
-                    break;
-                case "drawithoutbee":
-                    modeReturned = new DrawWithoutBee();
-                    break;
-                case "drawwithorwithoutbee":
-                    modeReturned = new DrawWithOrWithOutBee();
-                    break;
-                default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    modeReturned = null;
-                    break;
+                return null;
             }
-            return modeReturned;
+            else
+            {
+                LettergardenGameMode modeReturned;
+                string mode = gamemodes[level];
+                switch (mode)
+                {
+                    case "drawcapitalLetters":
+                        modeReturned = new DrawCapitalLetters();
+                        break;
+                    case "drawlowercaseLetters":
+                        modeReturned = new DrawLowercaseLetters();
+                        break;
+                    case "drawletters":
+                        modeReturned = new DrawLetters();
+                        break;
+                    case "drawnumbers":
+                        modeReturned = new DrawNumbers();
+                        break;
+                    case "drawwithbee":
+                        modeReturned = new DrawWithBee();
+                        break;
+                    case "drawithoutbee":
+                        modeReturned = new DrawWithoutBee();
+                        break;
+                    case "drawwithorwithoutbee":
+                        modeReturned = new DrawWithOrWithOutBee();
+                        break;
+                    default:
+                        Debug.Log("given mode was not among expected options, returning null");
+                        modeReturned = null;
+                        break;
+                }
+                return modeReturned;
+            }
         }
         /// <summary>
         /// returns a gamerule set
@@ -72,23 +80,30 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGameRules SetRules(int level)
         {
-            IGameRules rulesReturned;
-            string rules = gamerules[level];
-            switch (rules)
+            if(level >= gamerules.Count)
             {
-                case "vowels":
-                    rulesReturned = new FindVowel();
-                    break;
-                case "consonants":
-                    rulesReturned = new FindConsonant();
-                    break;
-                default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    rulesReturned = null;
-                    break;
+                return null;
             }
+            else
+            {
+                IGameRules rulesReturned;
+                string rules = gamerules[level];
+                switch (rules)
+                {
+                    case "vowels":
+                        rulesReturned = new FindVowel();
+                        break;
+                    case "consonants":
+                        rulesReturned = new FindConsonant();
+                        break;
+                    default:
+                        Debug.Log("given mode was not among expected options, returning null");
+                        rulesReturned = null;
+                        break;
+                }
 
-            return rulesReturned;
+                return rulesReturned;
+            }
         }
     }
 }

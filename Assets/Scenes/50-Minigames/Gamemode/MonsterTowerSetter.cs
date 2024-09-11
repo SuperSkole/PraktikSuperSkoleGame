@@ -33,33 +33,40 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            IMTGameMode modeReturned;
-            string mode = gamemodes[level];
-            switch (mode)
+            if(level >= gamemodes.Count)
             {
-                case "sentences":
-                    modeReturned = new SentenceToPictures();
-                    break;
-
-                case "shoot picture":
-                    modeReturned = new ShootPicture();
-                    break;
-
-                case "level 4":
-                    modeReturned = new Level4();
-                    
-                    break;
-
-                case "level 5":
-                    modeReturned = new Level5();
-                    break;
-
-                default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    modeReturned = null;
-                    break;
+                return null;
             }
-            return modeReturned;
+            else
+            {
+                IMTGameMode modeReturned;
+                string mode = gamemodes[level];
+                switch (mode)
+                {
+                    case "sentences":
+                        modeReturned = new SentenceToPictures();
+                        break;
+
+                    case "shoot picture":
+                        modeReturned = new ShootPicture();
+                        break;
+
+                    case "level 4":
+                        modeReturned = new Level4();
+                        
+                        break;
+
+                    case "level 5":
+                        modeReturned = new Level5();
+                        break;
+
+                    default:
+                        Debug.Log("given mode was not among expected options, returning null");
+                        modeReturned = null;
+                        break;
+                }
+                return modeReturned;
+            }
         }
 
         /// <summary>
@@ -69,17 +76,23 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGameRules SetRules(int level)
         {
-            IGameRules rulesReturned;
-            string rules = gamerules[level];
-            switch(rules)
+            if(level >= gamerules.Count)
             {
-                default:
-                    Debug.Log("given ruleset was not among expected options, returning null");
-                    rulesReturned = null;
-                    break;
+                return null;
             }
-
-            return rulesReturned;
+            else
+            {
+                IGameRules rulesReturned;
+                string rules = gamerules[level];
+                switch(rules)
+                {
+                    default:
+                        Debug.Log("given ruleset was not among expected options, returning null");
+                        rulesReturned = null;
+                        break;
+                }
+                return rulesReturned;
+            }
         }
     }
 }

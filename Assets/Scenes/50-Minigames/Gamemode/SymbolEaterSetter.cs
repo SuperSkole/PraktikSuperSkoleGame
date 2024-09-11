@@ -33,55 +33,62 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            ISEGameMode modeReturned;
-            string mode = gamemodes[level];
-            switch (mode)
+            if(level >= gamemodes.Count)
             {
-                case "spellword":
-                    modeReturned = new SpellWordFromImage();
-                    break;
-                case "imagetosound":
-                    modeReturned = new FindImageFromSound();
-                    break;
-                case "recognizesoundofletter":
-                    modeReturned = new RecognizeSoundOfLetter();
-                    break;
-                case "recognizenameofletter":
-                    modeReturned = new RecognizeNameOfLetter();
-                    break;
-                case "findnumber":
-                    modeReturned = new FindNumber();
-                    break;
-                case "findsymbol":
-                    modeReturned = new FindSymbol();
-                    break;
-                case "findsymbols":
-                    modeReturned = new FindSymbols();
-                    break;
-                case "findfirstletterfromimage":
-                    modeReturned = new FindFirstLetterFromImage();
-                    break;
-                case "spellincorrectword":
-                    modeReturned = new SpellIncorrectWord();
-                    break;
-                case "SymbolEaterLevel3":
-                    modeReturned = new SymbolEaterLevel3();
-                    break;
-
-                case "Level4_SymbolEater":
-                    modeReturned = new Level4_SymbolEater();
-                    break;
-
-                case "Level5_SymbolEater":
-                    modeReturned = new Level5_SymbolEater();
-                    break;
-
-                default:
-                    Debug.Log("given mode was not among expected options, returning null");
-                    modeReturned = null;
-                    break;
+                return null;
             }
-            return modeReturned;
+            else
+            {
+                ISEGameMode modeReturned;
+                string mode = gamemodes[level];
+                switch (mode)
+                {
+                    case "spellword":
+                        modeReturned = new SpellWordFromImage();
+                        break;
+                    case "imagetosound":
+                        modeReturned = new FindImageFromSound();
+                        break;
+                    case "recognizesoundofletter":
+                        modeReturned = new RecognizeSoundOfLetter();
+                        break;
+                    case "recognizenameofletter":
+                        modeReturned = new RecognizeNameOfLetter();
+                        break;
+                    case "findnumber":
+                        modeReturned = new FindNumber();
+                        break;
+                    case "findsymbol":
+                        modeReturned = new FindSymbol();
+                        break;
+                    case "findsymbols":
+                        modeReturned = new FindSymbols();
+                        break;
+                    case "findfirstletterfromimage":
+                        modeReturned = new FindFirstLetterFromImage();
+                        break;
+                    case "spellincorrectword":
+                        modeReturned = new SpellIncorrectWord();
+                        break;
+                    case "SymbolEaterLevel3":
+                        modeReturned = new SymbolEaterLevel3();
+                        break;
+
+                    case "Level4_SymbolEater":
+                        modeReturned = new Level4_SymbolEater();
+                        break;
+
+                    case "Level5_SymbolEater":
+                        modeReturned = new Level5_SymbolEater();
+                        break;
+
+                    default:
+                        Debug.Log("given mode was not among expected options, returning null");
+                        modeReturned = null;
+                        break;
+                }
+                return modeReturned;
+            }
         }
         /// <summary>
         /// returns a gamerule set
@@ -90,55 +97,62 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGameRules SetRules(int level)
         {
-            IGameRules rulesReturned;
-            string rules = gamerules[level];
-            switch (rules)
+            if(level >= gamemodes.Count)
             {
-                case "spellword":
-                    rulesReturned = new SpellWord();
-                    break;
-
-                case "findnumberseries":
-                    rulesReturned = new FindNumberSeries();
-                    break;
-                case "findcorrectletter":
-                    rulesReturned = new FindCorrectLetter();
-                    break;
-                case "findlettertype":
-                    rulesReturned = new FindLetterType();
-                    break;
-                case "findnextletter":
-                    rulesReturned = new FindNextLetter();
-                    break;
-                case "findfirstletter":
-                    rulesReturned = new FindFirstLetter();
-                    break;
-                case "findincorrectwords":
-                    rulesReturned = new FindIncorrectWords();
-                    break;
-                case "findvowels":
-                    rulesReturned = new FindVowel();
-                    break;
-                case "findconsonants":
-                    rulesReturned = new FindConsonant();
-                    break;
-                case "GetVowelFromPic":
-                    rulesReturned = new FindLetterInPicture();
-                    break;
-
-                case "Level4_SymbolEater":
-                    rulesReturned = new FindFMNSConsonantBySound();
-                    break;
-                case "Level5_SymbolEater":
-                    rulesReturned = new FindFMNSConsonantBySound();
-                    break;
-                default:
-                    Debug.Log("given ruleset was not among expected options, returning null");
-                    rulesReturned = null;
-                    break;
+                return null;
             }
+            else
+            {
+                IGameRules rulesReturned;
+                string rules = gamerules[level];
+                switch (rules)
+                {
+                    case "spellword":
+                        rulesReturned = new SpellWord();
+                        break;
 
-            return rulesReturned;
+                    case "findnumberseries":
+                        rulesReturned = new FindNumberSeries();
+                        break;
+                    case "findcorrectletter":
+                        rulesReturned = new FindCorrectLetter();
+                        break;
+                    case "findlettertype":
+                        rulesReturned = new FindLetterType();
+                        break;
+                    case "findnextletter":
+                        rulesReturned = new FindNextLetter();
+                        break;
+                    case "findfirstletter":
+                        rulesReturned = new FindFirstLetter();
+                        break;
+                    case "findincorrectwords":
+                        rulesReturned = new FindIncorrectWords();
+                        break;
+                    case "findvowels":
+                        rulesReturned = new FindVowel();
+                        break;
+                    case "findconsonants":
+                        rulesReturned = new FindConsonant();
+                        break;
+                    case "GetVowelFromPic":
+                        rulesReturned = new FindLetterInPicture();
+                        break;
+
+                    case "Level4_SymbolEater":
+                        rulesReturned = new FindFMNSConsonantBySound();
+                        break;
+                    case "Level5_SymbolEater":
+                        rulesReturned = new FindFMNSConsonantBySound();
+                        break;
+                    default:
+                        Debug.Log("given ruleset was not among expected options, returning null");
+                        rulesReturned = null;
+                        break;
+                }
+
+                return rulesReturned;
+            }
         }
     }
 }
