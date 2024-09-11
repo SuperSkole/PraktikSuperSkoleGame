@@ -63,6 +63,8 @@ MonoBehaviour:
   monsterColor: 
   currentGoldAmount: 0
   currentXPAmount: 0
+  pendingGoldAmount: 0
+  pendingXPAmount: 0
   currentLevel: 0
   currentPosition: {x: 0, y: 0, z: 0}
   clothMid: 
@@ -488,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5bffd71ab0a504e862d690b9e870b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 1
 --- !u!61 &1703509860078464039
 BoxCollider2D:
   m_ObjectHideFlags: 0

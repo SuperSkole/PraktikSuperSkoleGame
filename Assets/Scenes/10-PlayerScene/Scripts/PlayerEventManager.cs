@@ -2,8 +2,6 @@ using LoadSave;
 using System;
 using System.Collections.Generic;
 
-using Unity.VisualScripting;
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -88,14 +86,11 @@ namespace Scenes._10_PlayerScene.Scripts
                 GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
                 PlayerInteraction.Invoke();
                 PlayerInteraction = new UnityEvent();
-                //if (!IsInCar)
-                //{
-                //}
+
 
             }
             catch { print("PlayerEventManager/InvokeAction/No playeraction"); }
         }
-
 
         // /// <summary>
         // /// Initializes the PlayerEventManager with references to player data.
@@ -180,7 +175,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // Returner den opdaterede liste
             return updatedWordList;
         }
-        
+
         /// <summary>
         /// Adds or removes gold from the player's current total.
         /// </summary>
@@ -189,7 +184,7 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             playerData.PendingGoldAmount += amount;
         }
-        
+
         /// <summary>
         /// Adds or removes XP from the player's current total.
         /// </summary>
@@ -199,7 +194,7 @@ namespace Scenes._10_PlayerScene.Scripts
             playerData.PendingXPAmount += amount;
             CheckForLevelUp();
         }
-        
+
         /// <summary>
         /// Checks if the player has reached the XP threshold for leveling up.
         /// </summary>
@@ -221,11 +216,11 @@ namespace Scenes._10_PlayerScene.Scripts
 
         #region ideas
 
-        
 
-        
 
-        
+
+
+
 
         /// <summary>
         /// Updates the player's current position.

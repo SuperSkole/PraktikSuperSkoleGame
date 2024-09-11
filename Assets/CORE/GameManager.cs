@@ -3,6 +3,7 @@ using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -134,10 +135,9 @@ namespace CORE
             //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
         
-        private void InitializeGameManager()
-        {
-            //Debug.Log("GameManager.InitializeGameManager()");
-            // placeholder in case we need to init GM with default or necessary starting values
+        private async void InitializeGameManager()
+        {            
+            await UnityServices.InitializeAsync();
 
             if (instance.GetComponent<PlayerData>() == null)
             {
@@ -146,11 +146,7 @@ namespace CORE
         }
         
         private void InitializeManagers()
-        {
-            //gameObject.AddComponent<PlayerManager>();
-            //SaveManager = new SaveToJsonManager();
-            //LoadManager = new LoadGameManager();
-            
+        {            
             SaveGameController = new SaveGameController();
         }
 

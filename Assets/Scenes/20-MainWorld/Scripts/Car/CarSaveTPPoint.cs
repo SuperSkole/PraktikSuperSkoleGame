@@ -7,7 +7,8 @@ public class CarSaveTPPoint : MonoBehaviour
     public Dictionary<int, RayPoint> RayPointDic = new();
     [SerializeField] private List<GameObject> rays = new();
     public LayerMask terrainLayer;
-    float timer;
+    private Vector3 SavedPos = Vector3.zero;
+   [SerializeField] PrometeoCarController carController;
 
     private void Start()
     {
@@ -21,21 +22,47 @@ public class CarSaveTPPoint : MonoBehaviour
 
     void FixedUpdate()
     {
-        timer += Time.deltaTime;
+        bool allWheelsTouchingGround = true;
+        //timer += Time.deltaTime;
         for (int i = 0; i < RayPointDic.Count; i++)
         {
+            RayPointDic[i].rayPos = rays[i].transform;
             IsWheelTouchingGround(i);
+
+            if (!RayPointDic[i].isWheelTouching)
+            {
+                allWheelsTouchingGround = false;
+            }
         }
-        if (timer > 0.1f)
+        if (allWheelsTouchingGround)
         {
-            timer = 0;
+            SaveCurrentSafePosition();
+        }
+    }
+    private void SaveCurrentSafePosition()
+    {
+        // This method saves the current position of all wheels as the last safe position
+        Vector3 sum = Vector3.zero;
+
+        foreach (var item in RayPointDic)
+        {
+            sum += item.Value.savedPos;
+        }
+
+        // Average position of the four wheels, to act as the safe position
+        //SavedPos = sum / RayPointDic.Count;
+        if (carController.isReversing)
+        {
+            SavedPos = (RayPointDic[0].savedPos + RayPointDic[1].savedPos) / 2;
+        }
+        else
+        {
+            SavedPos = (RayPointDic[2].savedPos + RayPointDic[3].savedPos) / 2;
         }
     }
 
-
     private void IsWheelTouchingGround(int i)
     {
-        RayPointDic[i].rayPos = rays[i].transform;
         Vector3 fwd = RayPointDic[i].rayPos.TransformDirection(Vector3.forward);
 
         RaycastHit hit;
@@ -49,26 +76,12 @@ public class CarSaveTPPoint : MonoBehaviour
         {
             RayPointDic[i].isWheelTouching = false;
         }
-
-
     }
     public Vector3 ReturnLastSafePos()
     {
-        try
-        {
-            Vector3 sum = Vector3.zero;
-            foreach (var item in RayPointDic)
-            {
-                sum += item.Value.savedPos;
-            }
-            Vector3 tmp = sum / RayPointDic.Count;
-            tmp.y += 1;
-            return tmp;
-        }
-        catch
-        {
-            return Vector3.zero;
-        }
+
+        // Return the last known safe position
+        return SavedPos + Vector3.up;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -83,7 +96,6 @@ public class CarSaveTPPoint : MonoBehaviour
             transform.position = ReturnLastSafePos();
         }
     }
-
 }
 
 public class RayPoint

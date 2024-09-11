@@ -45,7 +45,7 @@ public class PrometeoCarController : MonoBehaviour
                                     // in the points x = 0 and z = 0 of your car. You can select the value that you want in the y axis,
                                     // however, you must notice that the higher this value is, the more unstable the car becomes.
                                     // Usually the y value goes from 0 to 1.5.
-
+    public bool isReversing = false;
     //WHEELS
 
       //[Header("WHEELS")]
@@ -497,6 +497,7 @@ public class PrometeoCarController : MonoBehaviour
 
     // This method apply positive torque to the wheels in order to go forward.
     public void GoForward(){
+        isReversing = false;
       //If the forces aplied to the rigidbody in the 'x' asis are greater than
       //3f, it means that the car is losing traction, then the car will start emitting particle systems.
       if(Mathf.Abs(localVelocityX) > 2.5f){
@@ -541,6 +542,7 @@ public class PrometeoCarController : MonoBehaviour
 
     // This method apply negative torque to the wheels in order to go backwards.
     public void GoReverse(){
+        isReversing = true;
       //If the forces aplied to the rigidbody in the 'x' asis are greater than
       //3f, it means that the car is losing traction, then the car will start emitting particle systems.
       if(Mathf.Abs(localVelocityX) > 2.5f){

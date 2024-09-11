@@ -50,6 +50,9 @@ namespace Scenes._00_Bootstrapper
 
                 // Wait until the PlayerScene is fully loaded
                 yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
+                
+                // Find and disable the player UI Canvas
+                DisablePlayerCanvas();
             }
             else
             {
@@ -68,6 +71,25 @@ namespace Scenes._00_Bootstrapper
             GameManager.Instance.CurrentMonsterName = "TESTMonster";
             GameManager.Instance.PlayerData.MonsterName = "TESTMonster";
             Debug.Log("PlayerScene loaded with test settings.");
+        }
+        
+        /// <summary>
+        /// Finds the Canvas in the scene and disables it.
+        /// </summary>
+        private void DisablePlayerCanvas()
+        {
+            // Look for any Canvas object in the PlayerScene
+            Canvas playerCanvas = FindObjectOfType<Canvas>();
+
+            if (playerCanvas != null)
+            {
+                playerCanvas.gameObject.SetActive(false);
+                Debug.Log("Player UI Canvas has been disabled.");
+            }
+            else
+            {
+                Debug.LogWarning("No Player UI Canvas found to disable.");
+            }
         }
 
         // Ensure this script only compiles and runs in the Unity Editor
