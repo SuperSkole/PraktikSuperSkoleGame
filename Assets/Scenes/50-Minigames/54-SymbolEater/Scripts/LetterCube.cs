@@ -207,14 +207,21 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         public void Deactivate()
         {
-            text.text = ".";
-            letter = "";
-
-            if (active)
+            if (rawImage.texture != null)
             {
-                active = false;
-                transform.Translate(0, -0.2f, 0);
-                readyForDeactivation = false;
+                DeactivateImage();
+            }
+            else
+            {
+                text.text = ".";
+                letter = "";
+
+                if (active)
+                {
+                    active = false;
+                    transform.Translate(0, -0.2f, 0);
+                    readyForDeactivation = false;
+                }
             }
         }
 
