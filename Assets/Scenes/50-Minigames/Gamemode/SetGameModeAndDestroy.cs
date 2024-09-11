@@ -21,7 +21,10 @@ namespace Scenes._50_Minigames.Gamemode
 
         [SerializeField] private TextMeshProUGUI title;
 
+        [SerializeField]private bool usePlayerLevel = false;
+
         SceneSwitch sceneSwitcher;
+
         [SerializeField] private int playerLevel = 3;
         //tells the scene manager to call the OnSceneLoaded function whenever a scene is loaded
         private void Start()
@@ -29,7 +32,7 @@ namespace Scenes._50_Minigames.Gamemode
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             playerLevel = GameManager.Instance.PlayerData.CurrentLevel;
-            if (playerLevel == 0)
+            if (playerLevel == 0 && usePlayerLevel)
             {
                 playerLevel = 4;
             }
@@ -38,18 +41,28 @@ namespace Scenes._50_Minigames.Gamemode
                 case 0:
                     modeSetter = new MonsterTowerSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToTowerScene);
-                    title.text = "Monstertårn";
+                    if(usePlayerLevel)
+                    {
+                        title.text = "Monstertårn";
+                    }
                     break;
 
                 case 1:
                     modeSetter = new SymbolEaterSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToSymbolEaterScene);
-                    title.text = "Grovæder";
+                    if(usePlayerLevel)
+                    {
+                        title.text = "Grovæder";
+                    }
+                    
                     break;
                 case 2:
                     modeSetter = new LetterGardenSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToLetterGardenScene);
-                    title.text = "Bogstavshave";
+                    if(usePlayerLevel)
+                    {
+                        title.text = "Bogstavshave";
+                    }
                     break;
                 case 3:
                     modeSetter = new MiniRacingSetter();
@@ -57,42 +70,45 @@ namespace Scenes._50_Minigames.Gamemode
                     title.text = "Racing";
                     break;
             }
-
-            //Destroys the first button if the player is level 1 or if no game mode exist for it.
-            if (playerLevel == 1)
+            if(usePlayerLevel)
             {
-                Destroy(buttons[0]);
-            }
-            else
-            {
-                Setgamemode(playerLevel - 1);
-                SetGameRules(playerLevel - 1);
-                if (gamemode == null && gameRule == null)
+                //Destroys the first button if the player is level 1 or if no game mode exist for it.
+                if (playerLevel == 1)
                 {
                     Destroy(buttons[0]);
                 }
-            }
-            //Destroys the last button if the player is max level or if no gamemode exist for it.
-            if (playerLevel == 5)
-            {
-                Destroy(buttons[2]);
-            }
-            else
-            {
-                Setgamemode(playerLevel + 1);
-                SetGameRules(playerLevel + 1);
-                if (gamemode == null && gameRule == null)
+                else
+                {
+                    Setgamemode(playerLevel - 1);
+                    SetGameRules(playerLevel - 1);
+                    if (gamemode == null && gameRule == null)
+                    {
+                        Destroy(buttons[0]);
+                    }
+                }
+                //Destroys the last button if the player is max level or if no gamemode exist for it.
+                if (playerLevel == 5)
                 {
                     Destroy(buttons[2]);
                 }
+                else
+                {
+                    Setgamemode(playerLevel + 1);
+                    SetGameRules(playerLevel + 1);
+                    if (gamemode == null && gameRule == null)
+                    {
+                        Destroy(buttons[2]);
+                    }
+                }
+                //Destroys the middle button if no gamemode exists for it
+                Setgamemode(playerLevel);
+                SetGameRules(playerLevel);
+                if (gamemode == null && gameRule == null)
+                {
+                    Destroy(buttons[1]);
+                }
             }
-            //Destroys the middle button if no gamemode exists for it
-            Setgamemode(playerLevel);
-            SetGameRules(playerLevel);
-            if (gamemode == null && gameRule == null)
-            {
-                Destroy(buttons[1]);
-            }
+            
         }
 
 
@@ -122,6 +138,11 @@ namespace Scenes._50_Minigames.Gamemode
         {
             gamemode = modeSetter.SetMode(level - 1);
         }
+
+        public void Setgamemode(string mode)
+        {
+            gamemode = modeSetter.SetMode(mode);
+        }
         /// <summary>
         /// sets a gamerule in this object, so that OnSceneLoaded can set the correct GameRule when entering the scene
         /// </summary>
@@ -129,6 +150,11 @@ namespace Scenes._50_Minigames.Gamemode
         public void SetGameRules(int level)
         {
             gameRule = modeSetter.SetRules(level - 1);
+        }
+
+        public void SetGameRules(string gamerules)
+        {
+            gameRule = modeSetter.SetRules(gamerules);
         }
 
         public void SelfDestruct()
