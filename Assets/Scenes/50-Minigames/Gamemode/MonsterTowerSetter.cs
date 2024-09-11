@@ -8,64 +8,85 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {
-        private List<string> gamemodes = new List<string>()
+        private List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
         {
-            "",
-            "",
-            "",
-            "level 4",
-            "level 5",
+            null,
+            null,
+            null,
+            new Level4(),
+            new Level5()
         };
 
 
-        private List<string> gamerules = new List<string>()
+        private List<IGameRules> gamerules = new List<IGameRules>()
         {
-            "",
-            "",
-            "",
-            "",
-            "",
+            null,
+            null,
+            null,
+            null,
+            null,
         };
         /// <summary>
         /// returns a gamemode of the Monster Tower type
         /// </summary>
-        /// <param name="mode">The mode we are looking for</param>
+        /// <param name="level">The playerlevel used as index on the gamemode list</param>
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            if(level >= gamemodes.Count)
+            if(gamemodes.Count > level && level >= 0)
+            {
+                return gamemodes[level];
+            }
+            else 
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Returns a gamemode based on a given string
+        /// </summary>
+        /// <param name="gamemode">the string representation of the given gamemode</param>
+        /// <returns>the desired gamemode or the default one if the desired gamemode could not be found</returns>
+        public IGenericGameMode SetMode(string gamemode)
+        {
+            IMTGameMode modeReturned;
+            switch (gamemode)
+            {
+                case "sentences":
+                    modeReturned = new SentenceToPictures();
+                    break;
+                case "shoot picture":
+                    modeReturned = new ShootPicture();
+                    break;
+                case "level 4":
+                    modeReturned = new Level4();
+                    break;
+                case "level 5":
+                    modeReturned = new Level5();
+                    break;
+                default:
+                    Debug.Log("given mode was not among expected options, returning default gamemode");
+                    modeReturned = new SentenceToPictures();
+                    break;
+            }
+            return modeReturned;
+        }
+
+        /// <summary>
+        /// returns a gamerule set
+        /// </summary>
+        /// <param name="level">The level to use as index for the desired gamerules</param>
+        /// <returns></returns>
+        public IGameRules SetRules(int level)
+        {
+            if(gamerules.Count > level && level >= 0)
+            {
+                return gamerules[level];
+            }
             else
             {
-                IMTGameMode modeReturned;
-                string mode = gamemodes[level];
-                switch (mode)
-                {
-                    case "sentences":
-                        modeReturned = new SentenceToPictures();
-                        break;
-
-                    case "shoot picture":
-                        modeReturned = new ShootPicture();
-                        break;
-
-                    case "level 4":
-                        modeReturned = new Level4();
-                        
-                        break;
-
-                    case "level 5":
-                        modeReturned = new Level5();
-                        break;
-
-                    default:
-                        Debug.Log("given mode was not among expected options, returning null");
-                        modeReturned = null;
-                        break;
-                }
-                return modeReturned;
+                return null;
             }
         }
 
@@ -73,26 +94,18 @@ namespace Scenes._50_Minigames.Gamemode
         /// returns a gamerule set
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
-        /// <returns></returns>
-        public IGameRules SetRules(int level)
+        /// <returns>the desired gamerules. Otherwise returns the default set</returns>
+        public IGameRules SetRules(string gamerules)
         {
-            if(level >= gamerules.Count)
+            IGameRules rulesReturned;
+            switch(gamerules)
             {
-                return null;
+                default:
+                    Debug.Log("given ruleset was not among expected options, returning default gamerules");
+                    rulesReturned = new SpellWord();
+                    break;
             }
-            else
-            {
-                IGameRules rulesReturned;
-                string rules = gamerules[level];
-                switch(rules)
-                {
-                    default:
-                        Debug.Log("given ruleset was not among expected options, returning null");
-                        rulesReturned = null;
-                        break;
-                }
-                return rulesReturned;
-            }
+            return rulesReturned;
         }
     }
 }

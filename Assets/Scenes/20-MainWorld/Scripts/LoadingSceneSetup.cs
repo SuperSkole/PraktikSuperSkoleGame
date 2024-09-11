@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CORE;
 using Scenes;
 using Scenes._50_Minigames.Gamemode;
 using UnityEngine;
@@ -14,8 +15,32 @@ public class LoadingSceneSetup : MonoBehaviour
     /// </summary>
     public void Load()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SwitchScenes.SwitchToMinigameLoadingScene();
+        
+        //loads the general level selector and prepares the setup method if the player level is low enough 
+        if(GameManager.Instance.PlayerData.CurrentLevel < 7)
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SwitchScenes.SwitchToMinigameLoadingScene();
+        }
+        //loads the specific gamemode selector for the given sceneID
+        else 
+        {
+            switch(sceneID)
+            {
+                case 0:
+                    SwitchScenes.SwitchToTowerLoaderScene();
+                    break;
+                case 1:
+                    SwitchScenes.SwitchToSymbolEaterLoaderScene();
+                    break;
+                case 2:
+                    SwitchScenes.SwitchToLetterGardenLoaderScene();
+                    break;
+                default:
+                    Debug.LogError("unknown sceneID");
+                    break;
+            }
+        }
     }
 
     /// <summary>
