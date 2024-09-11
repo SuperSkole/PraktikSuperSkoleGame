@@ -73,7 +73,7 @@ namespace Scenes._02_LoginScene.Scripts
             isLoginButtonInteractable = anonLoginToggle.isOn;
 #else
             // In build mode, the login button is interactable when there is a username input.
-            isLoginButtonInteractable = !string.IsNullOrEmpty(loginManager.UsernameInput.text);
+            isLoginButtonInteractable = !string.IsNullOrEmpty(usernameInput.text);
 #endif
             // Validate password complexity for registration.
             isRegisterButtonInteractable = IsPasswordValid(passwordInput.text);
@@ -148,8 +148,8 @@ namespace Scenes._02_LoginScene.Scripts
             }
 #else
             // In build mode, check for username and determine login type based on password presence.
-            string username = loginManager.UsernameInput.text;
-            string password = loginManager.PasswordInput.text;
+            string username = usernameInput.text;
+            string password = passwordInput.text;
 
             if (!string.IsNullOrEmpty(username))
             {
