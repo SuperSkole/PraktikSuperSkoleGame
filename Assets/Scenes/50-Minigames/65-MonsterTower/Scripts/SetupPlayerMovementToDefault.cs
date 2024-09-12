@@ -8,6 +8,6 @@ public class SetupPlayerMovementToDefault : MonoBehaviour
     public void SetUpDefaultMovement()
     {
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerMovement_MT>());
-        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
+        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer_MT>());
     }
 }
