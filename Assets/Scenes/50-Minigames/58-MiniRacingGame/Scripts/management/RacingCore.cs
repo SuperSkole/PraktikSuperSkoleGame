@@ -81,6 +81,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
             IRacingGameMode mode = (IRacingGameMode)gameMode;
+            
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();

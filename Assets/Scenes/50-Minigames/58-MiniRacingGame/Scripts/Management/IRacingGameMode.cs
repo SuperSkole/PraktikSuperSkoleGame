@@ -7,7 +7,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
     public interface IRacingGameMode : IGenericGameMode
     {
-        public string returnMode();
+        public string returnMode(); 
         public string displayObjective();
     }
 }
