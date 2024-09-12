@@ -20,7 +20,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
-
+        public GameObject coinPrefab;
         private PlayerData playerData;
         private GameObject spawnedPlayer;
         private ColorChanging colorChanging;
@@ -82,6 +82,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
+            GameManager.Instance.playerManager = this;
         }
         
         /// <summary>

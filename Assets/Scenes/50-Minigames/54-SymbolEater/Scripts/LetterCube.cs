@@ -91,9 +91,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 else if (active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
                 {
                     StartCoroutine(CorrectGuess());
-                    Instantiate(coinPrefab);
-                    PlayerEvents.RaiseXPChanged(1);
-                    PlayerEvents.RaiseGoldChanged(1);
+                    
                 }
             }
         }
@@ -297,6 +295,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             readyForDeactivation = true;
             rawImage.color = Color.green;
             meshRenderer.material = correctMaterial;
+            Instantiate(coinPrefab);
+            PlayerEvents.RaiseXPChanged(1);
+            PlayerEvents.RaiseGoldChanged(1);
             yield return new WaitForSeconds(1);
             rawImage.color = Color.white;
             meshRenderer.material = defaultMaterial;

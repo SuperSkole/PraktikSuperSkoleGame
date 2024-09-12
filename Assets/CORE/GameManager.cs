@@ -14,7 +14,7 @@ namespace CORE
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
         public SaveGameController SaveGameController; 
-
+        public PlayerManager playerManager;
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }

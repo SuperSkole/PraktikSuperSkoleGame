@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
   dropOffPoint: {x: 0, y: 0, z: 0}
+  coinPrefab: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
 --- !u!4 &4553469
 Transform:
   m_ObjectHideFlags: 0
@@ -324,6 +325,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8096253028485121006, guid: 6d0eeed81740dae438bc4f739f4fc98e, type: 3}
+      propertyPath: coinPrefab
+      value: 
+      objectReference: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
     - target: {fileID: 8787498307315857506, guid: 6d0eeed81740dae438bc4f739f4fc98e, type: 3}
       propertyPath: m_Name
       value: Bar
