@@ -86,8 +86,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
 
-            carController.GetComponent<CarController>();
-
             //Set map conditions: (To do : make in seperate script)
             imageDisplayActive = true;
             audioActive = true;
@@ -102,7 +100,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             UpdateBillBoard();
             PlayWordAudio(targetWord);
-            carController.Setup();
             StartTimer();
         }
         /// <summary>
