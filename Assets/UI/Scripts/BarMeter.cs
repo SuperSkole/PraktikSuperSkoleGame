@@ -55,8 +55,9 @@ namespace UI.Scripts
             currentAmount += amount;
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
-            if(coinPrefab == null)
+            if(coinPrefab == null && GameManager.Instance.playerManager != null)
             {
+
                 coinPrefab = GameManager.Instance.playerManager.coinPrefab;
             }
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
@@ -68,7 +69,7 @@ namespace UI.Scripts
             //As long as they're apart
             while (Mathf.RoundToInt(currentFillAmount) != currentAmount)
             {
-                if(amount > 0)
+                if(amount > 0 && coinPrefab != null)
                 {
                     Instantiate(coinPrefab);
                 }
