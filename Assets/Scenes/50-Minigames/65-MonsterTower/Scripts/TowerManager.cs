@@ -18,7 +18,7 @@ using Scenes._10_PlayerScene.Scripts;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 {
-    
+
     public class TowerManager : MonoBehaviour, IDataPersistence, IMinigameSetup
     {
 
@@ -67,15 +67,18 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         public RawImage bottomImage;
         public RawImage soloImage;
         public TextMeshProUGUI textOnBrick;
-       
+
         public string imageKey;
 
         //private bool isSaveDataLoaded = false;
-        
+
         private float yPosGoal;
         private bool falling = false;
         //private bool waitForLastExplosionToFinish = true;
         //private float goToWinScreenTimer = 0;
+
+
+        public TextMeshProUGUI descriptionText;
 
         void Start()
         {
