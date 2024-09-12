@@ -48,6 +48,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
             if (prometeoCarController != null)
             {
                 prometeoCarController.enabled = true;
+               // prometeoCarController.SetEnabledValue(true);
                 gameObject.GetComponent<CarFuelMangent>().enabled = true;
                 GetComponent<IsCarFlipped>().enabled = true;
                 GetComponent<CarSaveTPPoint>().enabled = true;
@@ -93,6 +94,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 }
                 if (prometeoCarController != null)
                 {
+                    //GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    //GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                    //prometeoCarController.SetEnabledValue(false);
+                    prometeoCarController.Brakes();
                     prometeoCarController.enabled = false;
                     gameObject.GetComponent<CarFuelMangent>().enabled = false;
                     GetComponent<IsCarFlipped>().enabled = false;
@@ -114,8 +119,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 carEventsMa.IsInCar = false;
                 carEventsMa.CarInteraction.RemoveAllListeners();
 
-                //playerEvent.IsInCar = false;
-                //playerEvent.PlayerInteraction.RemoveAllListeners();
 
                 var pos = carSetPlayerPos.SetTransformOfPlayer().position;
                 pos.y += 1;
@@ -125,7 +128,6 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 carSetPlayerPos.isDriving = false;
 
                 carEventsMa.CarInteraction = new UnityEvent();
-                //PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction = new UnityEvent();
 
             }
 

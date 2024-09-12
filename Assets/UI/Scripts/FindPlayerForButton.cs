@@ -15,7 +15,7 @@ public class FindPlayerForButton : MonoBehaviour
     {
         var carGO = GameObject.FindGameObjectWithTag("Car");
 
-        carGO.transform.position = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(10,0,0);
+        carGO.transform.position = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(5,0,0);
 
     }
 }
