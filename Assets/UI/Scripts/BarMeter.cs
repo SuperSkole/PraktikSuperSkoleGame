@@ -17,6 +17,8 @@ namespace UI.Scripts
 
         [SerializeField] private int maxAmount;
 
+        private GameObject coinPrefab;
+
         private float fillSpeed = 50f;
         private int currentAmount = 0;
 
@@ -53,6 +55,10 @@ namespace UI.Scripts
             currentAmount += amount;
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
+            if(coinPrefab == null)
+            {
+                coinPrefab = GameManager.Instance.playerManager.coinPrefab;
+            }
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }
 
@@ -62,6 +68,10 @@ namespace UI.Scripts
             //As long as they're apart
             while (Mathf.RoundToInt(currentFillAmount) != currentAmount)
             {
+                if(amount > 0)
+                {
+                    Instantiate(coinPrefab);
+                }
                 currentFillAmount = Mathf.MoveTowards(currentFillAmount, currentAmount, 1);
                 //Text showing progress
                 textMeshPro.text = Mathf.RoundToInt(currentFillAmount).ToString();
@@ -71,7 +81,7 @@ namespace UI.Scripts
 
                 // Jiggle effect
                 LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
-
+                
                 yield return new WaitForSeconds(0.1f);
             }
 
