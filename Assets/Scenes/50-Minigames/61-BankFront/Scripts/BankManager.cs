@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class BankManager : MonoBehaviour
     [SerializeField]private Image sortedTrayBackground;
     [SerializeField]private TMP_InputField inputField;
     [SerializeField]private List<Coin> currentCustomersCoins = new List<Coin>();
+    [SerializeField]private GameObject coinPrefab;
 
     [SerializeField]private float realCoinPercentage = 80;
 
@@ -85,6 +87,9 @@ public class BankManager : MonoBehaviour
         {
             sortedTrayBackground.color = Color.green;
             unsortedTraybackground.color = Color.green;
+            PlayerEvents.RaiseGoldChanged(1);
+            PlayerEvents.RaiseXPChanged(1);
+            Instantiate(coinPrefab);
             StartCoroutine(Restart());
         }
         else if(correct || playerGuess == currentSum)
