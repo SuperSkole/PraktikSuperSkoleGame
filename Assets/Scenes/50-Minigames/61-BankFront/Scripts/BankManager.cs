@@ -17,7 +17,7 @@ public class BankManager : MonoBehaviour
     [SerializeField]private GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
     [SerializeField]private TMP_InputField inputField;
-    [SerializeField]private List<Coin> currentCustomersCoins = new List<Coin>();
+    public List<Coin> currentCustomersCoins = new List<Coin>();
     [SerializeField]private GameObject coinPrefab;
 
     [SerializeField]private float realCoinPercentage = 80;
