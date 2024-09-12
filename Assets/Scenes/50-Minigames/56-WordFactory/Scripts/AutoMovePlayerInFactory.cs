@@ -10,7 +10,7 @@ namespace Scenes._10_PlayerScene.Scripts
     /// <summary>
     /// Handles automatic movement of the player character to a specified position or the closest target.
     /// </summary>
-    public class AutoMovePlayer : MonoBehaviour
+    public class AutoMovePlayerInFactory : MonoBehaviour
     {
         public GameObject DropOffPoint;
         public GameObject PlayerSpawnPoint;
