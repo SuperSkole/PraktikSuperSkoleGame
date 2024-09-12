@@ -49,7 +49,7 @@ namespace Scenes
         public const string Factory = "56-WordFactory";
         public const string RacerLoading = "57-RacingGame";
         public const string Racer = "58-RacingGame";
-        public const string BankLoading = "60-BankGame";
+        public const string BankBack = "60-BankBack";
         public const string Bank = "61-BankFront";
         public const string BreakinLoading = "62-BreakInGame";
         public const string Breakin = "63-BreakInGame";
