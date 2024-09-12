@@ -1,18 +1,15 @@
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
-using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
-using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using System.Collections.Generic;
 using UnityEngine;
-using static Cinemachine.DocumentationSortingAttribute;
 
 namespace Scenes._50_Minigames.Gamemode
 {
-    
+
     public class MiniRacingSetter : IGameModeSetter
     {
-        private List<string> gamemodes = new List<string>()
+        private readonly List<string> gamemodes = new()
         {
             "",
             "Listen For Vocal",
@@ -22,7 +19,7 @@ namespace Scenes._50_Minigames.Gamemode
         };
 
 
-        private List<string> gamerules = new List<string>()
+        private readonly List<string> gamerules = new()
         {
             "",
             "",
