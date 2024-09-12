@@ -25,7 +25,7 @@ namespace Scenes
 
 
         // Main gameplay and utilities
-        public const string Main = "20-MainWorld";
+        public const string Main = "20-OldMainWorld";
         public const string Pause = "21-PauseMenu";  //
         public const string Options = "22-OptionScene";  //
         public const string HighScores = "24-HighScoreScene";

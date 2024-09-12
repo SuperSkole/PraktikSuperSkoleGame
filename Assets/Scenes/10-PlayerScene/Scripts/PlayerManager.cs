@@ -1,11 +1,9 @@
-using System.Collections;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
