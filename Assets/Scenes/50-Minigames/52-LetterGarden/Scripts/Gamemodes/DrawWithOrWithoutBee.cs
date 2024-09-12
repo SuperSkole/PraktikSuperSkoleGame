@@ -43,6 +43,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
             return result;
         }
 
+        public void SetUpGameModeDescription(ActiveLetterHandler activeLetterHandler)
+        {
+            activeLetterHandler.descriptionText.text = "Lær at tegne bogstaver. Tryk og hold nede for at tegne. Nogle gange med og uden bien til at hjælpe";
+        }
+
         public bool UseBee()
         {
             return 0 == Random.Range(0, 2);
