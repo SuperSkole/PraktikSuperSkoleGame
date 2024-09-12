@@ -72,20 +72,20 @@ namespace Scenes._10_PlayerScene.Scripts
             float verticalInput = Input.GetAxisRaw("Vertical");
 
             Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
-
+            movement = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * movement;
             // Move the player
             GetComponent<Rigidbody>().velocity = new(movement.x, GetComponent<Rigidbody>().velocity.y, movement.z);
 
             //transform.Translate(movement * moveSpeed * Time.deltaTime);
 
             // Flip the player based on the horizontal input
-            if (GetComponent<Rigidbody>().velocity.x < 0)
+            if (horizontalInput < 0)
             {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                 interactionGO.transform.localScale = new Vector3(Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);
                 interactionGO.transform.localPosition = new Vector3(3.75f, 2.5f, -2.5f);
             }
-            else if (GetComponent<Rigidbody>().velocity.x > 0)
+            else if (horizontalInput > 0)
             {
                 transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
                 interactionGO.transform.localScale = new Vector3(-Mathf.Abs(-interactionGO.transform.localScale.x), interactionGO.transform.localScale.y, interactionGO.transform.localScale.z);

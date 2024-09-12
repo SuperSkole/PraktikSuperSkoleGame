@@ -44,7 +44,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             int maxCorrectLetters = 3;
 
             int minCorrectLetters = 1;
-
+            
             List<string> incorrectAnswers = new List<string>();
             /// <summary>
             /// Activates the given cube
@@ -94,6 +94,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
             if (wordsLoaded)
             {
+                foundLetter = false;
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
@@ -154,7 +155,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
                     
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et bogstav, Find det billede der passer til det bogstav");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et bogstav, Find det billede der passer til det bogstav");
 
 
                 //uses the CurrentWordSound 
@@ -233,7 +234,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     //Checks if the player has won. If not a new game is started
                     correctLetters++;
                     boardController.monsterHivemind.IncreaseMonsterSpeed();
-                    if (correctLetters < 10)
+                    if (correctLetters < 6)
                     {
                         boardController.monsterHivemind.ResetSpeed();
                         GetSymbols();
@@ -259,7 +260,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                                 multiplier = 4;
                                 break;
                         }
-                        boardController.Won("Du vandt. Du fandt det næste bogstav 10 gange", multiplier * 1, multiplier * 1);
+                        boardController.Won("Du vandt. Du fandt det næste bogstav 6 gange", multiplier * 1, multiplier * 1);
                     }
                 }
             }

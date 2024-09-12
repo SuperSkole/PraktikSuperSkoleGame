@@ -17,6 +17,8 @@ namespace UI.Scripts
 
         [SerializeField] private int maxAmount;
 
+        private GameObject coinPrefab;
+
         private int currentAmount = 0;
 
         private Coroutine changeValueCoroutine;
@@ -59,6 +61,11 @@ namespace UI.Scripts
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
 
+            if(coinPrefab == null && GameManager.Instance.playerManager != null)
+            {
+
+                coinPrefab = GameManager.Instance.playerManager.coinPrefab;
+            }
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }
 
@@ -91,8 +98,13 @@ namespace UI.Scripts
                 // Update the text
                 textMeshPro.text = Mathf.RoundToInt(currentFillAmount).ToString();
 
+                if(amount > 0 && coinPrefab != null)
+                {
+                    Instantiate(coinPrefab);
+                }                
                 // Wait until the next frame
                 yield return null;
+                
             }
 
             textMeshPro.text = currentAmount.ToString();

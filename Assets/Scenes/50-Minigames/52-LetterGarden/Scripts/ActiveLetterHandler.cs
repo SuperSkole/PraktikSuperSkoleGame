@@ -7,6 +7,7 @@ using CORE.Scripts.Game_Rules;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -30,6 +31,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         private int currentSymbolIndex = 0;
         [SerializeField] GameObject coinObject;
 
+         public TextMeshProUGUI descriptionText;
+
         private LettergardenGameMode gamemode;
         /// <summary>
         /// used for testing only!!!!
@@ -44,6 +47,9 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         public void StartGame(LettergardenGameMode gameMode, IGameRules gameRules)
         {
             this.gamemode = gameMode;
+
+            gamemode.SetUpGameModeDescription(this);
+
             symbolManager.StartLoad();
             splines = gameMode.GetSymbols(5, gameRules);
             if (splines.Count <= 0) return;//end game
