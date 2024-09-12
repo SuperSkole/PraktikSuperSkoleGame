@@ -22,6 +22,7 @@ namespace UI.Scripts
 
         private int currentXP = 0;
         private int currentLevel = 1;
+        private int maxLevel = 50;
 
         private Coroutine changeValueCoroutine;
 
@@ -68,6 +69,7 @@ namespace UI.Scripts
 
         private void LevelUp()
         {
+            if(currentLevel >= maxLevel) return;
 
             currentLevel++;
 

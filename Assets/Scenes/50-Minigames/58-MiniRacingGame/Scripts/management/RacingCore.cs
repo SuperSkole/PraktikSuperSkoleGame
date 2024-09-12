@@ -81,11 +81,10 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
             IRacingGameMode mode = (IRacingGameMode)gameMode;
+            
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
-
-            carController.GetComponent<CarController>();
 
             //Set map conditions: (To do : make in seperate script)
             imageDisplayActive = true;
@@ -101,7 +100,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             UpdateBillBoard();
             PlayWordAudio(targetWord);
-            carController.Setup();
             StartTimer();
         }
         /// <summary>

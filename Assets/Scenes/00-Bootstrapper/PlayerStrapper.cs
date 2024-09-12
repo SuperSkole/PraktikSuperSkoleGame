@@ -1,8 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using CORE;
 using Scenes._02_LoginScene.Scripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,15 +13,12 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class PlayerStrapper : MonoBehaviour
     {
-        private AuthenticationManager authenticationManager;
-
-        private void Awake()
-        {
-            authenticationManager = gameObject.AddComponent<AuthenticationManager>();
-        }
-
+        private IAuthenticationService authService;
+        
         private IEnumerator Start()
         {
+            authService = new AnonymousAuthenticationService();
+            
             Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
             Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
 
@@ -42,7 +38,7 @@ namespace Scenes._00_Bootstrapper
             if (!loginSceneActive)
             {
                 // Asynchronous sign-in
-                yield return authenticationManager.SignInAnonymouslyAsync();
+                yield return authService.SignInAsync();
                 
                 InitializePlayerSettings();
          
@@ -51,6 +47,9 @@ namespace Scenes._00_Bootstrapper
 
                 // Wait until the PlayerScene is fully loaded
                 yield return new WaitUntil(() => loadPlayerScene is { isDone: true });
+                
+                // Find and disable the player UI Canvas
+                DisablePlayerCanvas();
             }
             else
             {
@@ -70,10 +69,29 @@ namespace Scenes._00_Bootstrapper
             GameManager.Instance.PlayerData.MonsterName = "TESTMonster";
             Debug.Log("PlayerScene loaded with test settings.");
         }
+        
+        /// <summary>
+        /// Finds the Canvas in the scene and disables it.
+        /// </summary>
+        private void DisablePlayerCanvas()
+        {
+            // Look for any Canvas object in the PlayerScene
+            Canvas playerCanvas = FindObjectOfType<Canvas>();
+
+            if (playerCanvas != null)
+            {
+                playerCanvas.gameObject.SetActive(false);
+                Debug.Log("Player UI Canvas has been disabled.");
+            }
+            else
+            {
+                Debug.LogWarning("No Player UI Canvas found to disable.");
+            }
+        }
 
         // Ensure this script only compiles and runs in the Unity Editor
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem("Custom/Load Player Scene for Testing")]
+        [MenuItem("Custom/Load Player Scene for Testing")]
         private static void LoadPlayerSceneForTesting()
         {
             SceneManager.LoadScene(SceneNames.Player, LoadSceneMode.Additive);

@@ -21,6 +21,7 @@ namespace UI.Scripts
         [SerializeField] private Sprite gul;
         [SerializeField] private Sprite hvid;
         [SerializeField] private Sprite bla;
+        [SerializeField] private Sprite pink;
 
         public static ClothingManager Instance;
         [SerializeField] public List<ClothInfo> AvailableClothesList = new List<ClothInfo>();
@@ -55,6 +56,7 @@ namespace UI.Scripts
             AvailableClothesList.Add(new ClothInfo { ID = 9, image = bla, Price = 20, Name = "Blå", SpineName = "blue" });
             AvailableClothesList.Add(new ClothInfo { ID = 10, image = gul, Price = 20, Name = "Gul", SpineName = "orange" });
             AvailableClothesList.Add(new ClothInfo { ID = 11, image = hvid, Price = 20, Name = "Hvid", SpineName = "white" });
+            AvailableClothesList.Add(new ClothInfo { ID = 12, image = pink, Price = 20, Name = "Pink", SpineName = "pink" });
         }
         public List<ClothInfo> CipherList(List<int> checkList)
         {
