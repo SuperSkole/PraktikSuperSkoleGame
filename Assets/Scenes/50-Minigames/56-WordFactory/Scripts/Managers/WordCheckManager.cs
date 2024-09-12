@@ -28,6 +28,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // HashSet to keep track of created words
         private HashSet<string> createdWords = new HashSet<string>();
         private bool isWordValid;
+        
+        // created word queue
+        private Queue<string> wordQueue = new Queue<string>();
+        private bool isProcessingWord = false;
 
         private void Update()
         {
@@ -41,11 +45,13 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private void OnEnable()
         {
             OnValidWord += HandleValidWord;
+            AutoMovePlayer.OnBlockDroppedOff += ProcessNextWord;
         }
 
         private void OnDisable()
         {
             OnValidWord -= HandleValidWord;
+            AutoMovePlayer.OnBlockDroppedOff -= ProcessNextWord;
         }
 
         /// <summary>
@@ -121,33 +127,52 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// <param name="word">The valid word</param>
         private void HandleValidWord(string word)
         {
-            blockCreator.HandleValidWord(word);
+            // add newest word to queue
+            wordQueue.Enqueue(word);
             
-            // Find the newly created block named "WordBlock"
-            GameObject createdBlock = GameObject.Find("WordBlock");
-
-            if (createdBlock != null)
+            blockCreator.HandleValidWord(word);
+        
+            // process the word queue
+            if (!isProcessingWord)
             {
-                // Notify the PlayerEventManager to move the player to the block's position
-                PlayerEvents.RaiseMovePlayerToBlock(createdBlock);
+                ProcessNextWord();
+            }
+        }
+
+        private void ProcessNextWord()
+        {
+            if (wordQueue.Count > 0)
+            {
+                isProcessingWord = true;
+                string word = wordQueue.Dequeue();        
+                
+                GameObject createdBlock = WordBlockUtilities.FindCurrentBlock(word);
+                if (createdBlock != null)
+                {
+                    PlayerEvents.RaiseMovePlayerToBlock(createdBlock);
+                }
+                else
+                {
+                    Debug.LogError("Word block not found.");
+                }
+        
+                Instantiate(WordFactoryGameManager.Instance.CoinPrefab);
+                PlayerEvents.RaiseGoldChanged(1);
+                PlayerEvents.RaiseXPChanged(1);
+                WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
+        
+                AddWordToPlayerData(word);
+                AddWordToHighScore(word);        
+                
+                canCreateWordBlock = true;
             }
             else
             {
-                Debug.LogError("Word block not found.");
+                isProcessingWord = false;
+                
+                // Move player back to the starting position if no more words are to be processed
+                PlayerEvents.RaiseMovePlayerToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
             }
-            
-            // Reset the flag to allow block creation for the next word
-            canCreateWordBlock = true;
-            
-            PlayerEvents.RaiseGoldChanged(1);
-            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
-            PlayerEvents.RaiseXPChanged(1);
-            
-            // Send word to playerdata
-            AddWordToPlayerData(word);
-            
-            // send word to highscore
-            AddWordToHighScore(word);
         }
         
         private void AddWordToPlayerData(string word)

@@ -871,10 +871,10 @@ MonoBehaviour:
       m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
-  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
+  m_SelectionColor: {r: 0.47564307, g: 1, b: 0.3254717, a: 0.7529412}
   m_Text: 
-  m_CaretBlinkRate: 0.85
-  m_CaretWidth: 1
+  m_CaretBlinkRate: 1.5
+  m_CaretWidth: 5
   m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1501,7 +1501,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1936672984}
-          m_TargetAssemblyTypeName: Scenes.LoginScene.Scripts.UILoginSceneManager,
+          m_TargetAssemblyTypeName: Scenes._02_LoginScene.Scripts.UILoginSceneManager,
             Assembly-CSharp
           m_MethodName: TryRegister
           m_Mode: 1
@@ -1982,8 +1982,8 @@ MonoBehaviour:
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
-  m_CaretBlinkRate: 0.85
-  m_CaretWidth: 1
+  m_CaretBlinkRate: 1.5
+  m_CaretWidth: 5
   m_ReadOnly: 0
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2503,7 +2503,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1936672983}
   - component: {fileID: 1936672984}
-  - component: {fileID: 1936672986}
   m_Layer: 0
   m_Name: Login Managers
   m_TagString: Untagged
@@ -2538,7 +2537,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b4d39c4a994c769d0f89ef01cb27bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  authenticationManager: {fileID: 1936672986}
   loginScreen: {fileID: 169673923}
   panel: {fileID: 310178670}
   loginButton: {fileID: 1640864528}
@@ -2546,18 +2544,6 @@ MonoBehaviour:
   anonLoginToggle: {fileID: 1469483310}
   usernameInput: {fileID: 567591773}
   passwordInput: {fileID: 1594511677}
---- !u!114 &1936672986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1936672980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe312dc12e26b8345816cb7d80014270, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2125072183
 GameObject:
   m_ObjectHideFlags: 0

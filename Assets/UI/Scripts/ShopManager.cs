@@ -1,9 +1,11 @@
 using CORE;
 using Scenes._10_PlayerScene.Scripts;
+using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.Scripts
@@ -53,6 +55,9 @@ namespace UI.Scripts
 
         private void OnEnable()
         {
+            avaliableMoney = 0;
+            meter.SettingValueAfterScene(0);
+
             if (playerColorChanging == null)
             {
                 playerColorChanging = this.GetComponent<ColorChanging>();
@@ -73,29 +78,26 @@ namespace UI.Scripts
             wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
             wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
 
-            if (wearingMid != null)
+            if (wearingMid != null && wearingMid != string.Empty)
             {
                 skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
             }
 
-            if (wearingTop != null)
+            if (wearingTop != null && wearingTop != string.Empty)
             {
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
 
-            //Money
-
-            meter.SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
-            Debug.Log(GameManager.Instance.PlayerData.CurrentGoldAmount);
-
+            //Moneyy
             if (PlayerManager.Instance == null)
             {
                 Debug.Log("Didn't find playermanager");
             }
             else
             {
-                avaliableMoney = GameManager.Instance.PlayerData.CurrentGoldAmount;
+                avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
+
+                meter.SettingValueAfterScene(avaliableMoney);
             }
 
             //Build shop
@@ -117,6 +119,9 @@ namespace UI.Scripts
             {
                 skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
             }
+
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
         //Create the shop options
@@ -161,12 +166,12 @@ namespace UI.Scripts
 
             foreach (var color in colors)
             {
-                Debug.Log(itemName);
 
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
                     playerColorChanging.ColorChange(itemName);
                 }
+                currentItem = itemName;
             }
 
 
@@ -190,39 +195,55 @@ namespace UI.Scripts
         //Buy Button Function
         public void Buying()
         {
-            Debug.Log(ableToBuy);
+            if (currentItem != null)
+            { 
 
-            if (ableToBuy)
-            {
-                //add item to list here
-                PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+                    if (ableToBuy)
+                    {
+                    Debug.Log(currentItem);
 
-                //change clothing
-                if (currentItem.Contains("HEAD"))
-                {
-                    PlayerManager.Instance.PlayerData.ClothMid = currentItem;
-                }
-                if (currentItem.Contains("MID"))
-                {
-                    PlayerManager.Instance.PlayerData.ClothTop = currentItem;
-                }
+                        //Get player
+                        PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+                             if (currentItem.Contains("HEAD"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                       
+                            }
+                            if (currentItem.Contains("MID"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                        
+                            }
+                            if (colors.Contains(currentItem.ToString()))
+                            {
+                                Debug.Log(currentItem+" Buy");
+                                PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                            }
+
+                            avaliableMoney -= currentPrice;
+
+                            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+
+                            meter.ChangeValue(-currentPrice);
 
 
-                //Take away money
-                avaliableMoney -= currentPrice;
-                PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
 
-                meter.ChangeValue(avaliableMoney);
 
-                //remove bought option
-                Destroy(currentShopOption.gameObject);
+                        //remove bought option
+                        Destroy(currentShopOption.gameObject);
 
-                offBuyButton.gameObject.SetActive(true);
-                ableToBuy = false;
+                        offBuyButton.gameObject.SetActive(true);
+                        ableToBuy = false;
 
-                currentPrice = 0;
+                        currentPrice = 0;
 
-            }
+                        currentItem = null;
+
+                    }
+             }
+
 
             //you cannot afford it
         }
@@ -231,6 +252,8 @@ namespace UI.Scripts
         {
             currentShopOption = null;
             this.gameObject.SetActive(false);
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
     }

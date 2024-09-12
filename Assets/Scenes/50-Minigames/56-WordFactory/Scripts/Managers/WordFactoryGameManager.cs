@@ -19,6 +19,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public int NumberOfGears = 2; // Default to 2 gears
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
+        public GameObject CoinPrefab;
         
         public GameObject PlayerSpawnPoint;
         [SerializeField] private GameObject dropOffPoint;
@@ -69,12 +70,12 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
                 
                 PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = PlayerSpawnPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
+                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
             }
             else
             {
@@ -136,6 +137,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             if (scene.name == SceneNames.Factory)
             {
                 // remove automove
+                PlayerManager.Instance.SpawnedPlayer
+                    .GetComponent<PlayerFloating>()
+                    .enabled = true;
                 StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().MoveToPositionCoroutine(null));
                 Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>());
         

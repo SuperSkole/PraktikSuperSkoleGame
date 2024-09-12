@@ -44,10 +44,11 @@ namespace LoadSave
             }
         }
 
-
         /// <summary>
-        /// Loads the player's game data when called.
+        /// Asynchronously loads the player's game data from the cloud.
         /// </summary>
+        /// <param name="saveKey">The key of the save to load.</param>
+        /// <param name="onDataLoaded">Callback to pass the loaded data.</param>
         public async void LoadGame(string saveKey, Action<SaveDataDTO> onDataLoaded)
         {
             try
@@ -72,20 +73,41 @@ namespace LoadSave
                 onDataLoaded?.Invoke(null);
             }
         }
-        
+
+        /// <summary>
+        /// Deletes a save file from Unity Cloud Save based on the provided saveKey.
+        /// </summary>
+        /// <param name="saveKey">The key of the save to delete.</param>
+        /// <returns>True if the delete operation was successful, false otherwise.</returns>
+        public async Task<bool> DeleteSave(string saveKey)
+        {
+            try
+            {
+                // Delete the data with the provided key
+                await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
+                Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while deleting the save with key '{saveKey}': {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Loads the save data asynchronously using the save key.
+        /// </summary>
         public async Task<SaveDataDTO> LoadSaveDataAsync(string saveKey)
         {
             return await cloudSaveService.LoadPlayerDataAsync(saveKey);
         }
-        
+
         /// <summary>
         /// Generates a unique key for saving data using username and monster name.
         /// </summary>
         private string GenerateSaveKey(string username, string monsterName)
         {
-            // string timestamp = DateTime.Now.ToString("MMddHHmm");  
-            // return $"{username}_{monsterName}_{timestamp}";
-            
             return $"{username}_{monsterName}";
         }
 
@@ -100,12 +122,9 @@ namespace LoadSave
 
             foreach (var keyItem in keys)
             {
-                //Debug.Log($"Key: {keyItem.Key}"); 
-
                 // Ensure correct string comparison using the Key property
                 if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser))
                 {
-                    //Debug.Log($"Relevant key found for user {GameManager.Instance.CurrentUser}: {keyItem.Key}");
                     relevantKeys.Add(keyItem.Key);  
                 }
             }

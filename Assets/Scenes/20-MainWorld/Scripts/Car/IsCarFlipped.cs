@@ -7,45 +7,43 @@ namespace Scenes._20_MainWorld.Scripts.Car
 {
     public class IsCarFlipped : MonoBehaviour
     {
-        [SerializeField] private List<Transform> rayPos = new List<Transform>();
-        [SerializeField] private List<bool> wheelTouchingGround = new List<bool>();
         CarEvents carEvents;
+        CarEventsManager carMa;
         bool eventSet;
         float timer;
+        [SerializeField] private CarSaveTPPoint carSaveTPPoint;
+
         private void Awake()
         {
             carEvents = gameObject.GetComponent<CarEvents>();
-
+            carMa = GetComponent<CarEventsManager>();  
         }
         // Update is called once per frame
         void FixedUpdate()
         {
             timer += Time.deltaTime;
-            for (int i = 0; i < rayPos.Count; i++)
+            
+            if (timer > 2f && !eventSet && carSaveTPPoint.RayPointDic.All(b => b.Value.isWheelTouching == false))
             {
-                wheelTouchingGround[i] = IsWheelTouchingGround(rayPos[i]);
-            }
-            if (timer > 2f && !eventSet && wheelTouchingGround.All(b => b == false))
-            {
-                if (PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction != null)
+                if (carMa.CarInteraction != null)
                 {
-                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
+                    carMa.CarInteraction.RemoveAllListeners();
                 }
 
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(FlipCarEvent);
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(true);
+                carMa.CarInteraction.AddListener(FlipCarEvent);
+                carMa.interactionIcon.SetActive(true);
 
                 eventSet = true;
 
             }
-            if (timer > 2f && eventSet && wheelTouchingGround.All(b => b == true))
+            if (timer > 2f && eventSet && carSaveTPPoint.RayPointDic.All(b => b.Value.isWheelTouching == true))
             {
-                if (PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction != null)
+                if (carMa.CarInteraction != null)
                 {
-                    PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
+                    carMa.CarInteraction.RemoveAllListeners();
                 }
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().interactionIcon.SetActive(false);
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(carEvents.TurnOffCar);
+                carMa.interactionIcon.SetActive(false);
+                carMa.CarInteraction.AddListener(carEvents.TurnOffCar);
             }
         }
         public void FlipCarEvent()
@@ -53,23 +51,13 @@ namespace Scenes._20_MainWorld.Scripts.Car
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 2, gameObject.transform.position.z);
             gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
-            if (PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction != null)
+            if (carMa.CarInteraction != null)
             {
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.RemoveAllListeners();
+                carMa.CarInteraction.RemoveAllListeners();
             }
-            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>().PlayerInteraction.AddListener(carEvents.TurnOffCar);
+            carMa.CarInteraction.AddListener(carEvents.TurnOffCar);
             eventSet = false;
             timer = 0;
-        }
-        private bool IsWheelTouchingGround(Transform rayPos)
-        {
-            Vector3 fwd = rayPos.TransformDirection(Vector3.forward);
-            if (Physics.Raycast(rayPos.position, fwd, 1))
-            {
-                return true;
-            }
-            else
-                return false;
         }
     }
 }
