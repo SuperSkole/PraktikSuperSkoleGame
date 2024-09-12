@@ -82,8 +82,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
             IRacingGameMode mode = (IRacingGameMode)gameMode;
-            currentMode = mode.returnMode();
-            objectiveText.text = mode.displayObjective();
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
@@ -94,6 +92,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             imageDisplayActive = true;
             audioActive = true;
 
+            currentMode = mode.returnMode();
+            objectiveText.text = mode.displayObjective();
 
             DetermineWordToUse(); // Select a random word from the list
             levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;

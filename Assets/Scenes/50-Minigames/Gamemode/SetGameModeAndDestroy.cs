@@ -67,7 +67,10 @@ namespace Scenes._50_Minigames.Gamemode
                 case 3:
                     modeSetter = new MiniRacingSetter();
                     sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToRacerScene);
-                    title.text = "Racing";
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Racing";
+                    }
                     break;
             }
             if(usePlayerLevel)
