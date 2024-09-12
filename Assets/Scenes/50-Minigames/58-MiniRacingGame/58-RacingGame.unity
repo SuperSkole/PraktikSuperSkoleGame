@@ -1576,21 +1576,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1721700732}
   m_SourcePrefab: {fileID: 100100000, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
---- !u!4 &673172665
+--- !u!4 &673172665 stripped
 Transform:
-  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 7758274906757788104, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
   m_PrefabInstance: {fileID: 673172664}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721700725}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1249226944}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &701514890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2768,78 +2758,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222600521}
   m_CullTransparentMesh: 1
---- !u!1 &1249226942
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 5595101026973200172, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
-  m_PrefabInstance: {fileID: 673172664}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1249226944}
-  - component: {fileID: 1249226943}
-  m_Layer: 0
-  m_Name: Virtual Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1249226943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 5027828538950314161, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
-  m_PrefabInstance: {fileID: 673172664}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249226942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ExcludedPropertiesInInspector:
-  - m_Script
-  m_LockStageInInspector: 
-  m_StreamingVersion: 20170927
-  m_Priority: 10
-  m_StandbyUpdate: 2
-  m_LookAt: {fileID: 438268934}
-  m_Follow: {fileID: 438268934}
-  m_Lens:
-    FieldOfView: 60
-    OrthographicSize: 5
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
-    Dutch: 0
-    ModeOverride: 0
-    LensShift: {x: 0, y: 0}
-    GateFit: 2
-    FocusDistance: 10
-    m_SensorSize: {x: 1, y: 1}
-  m_Transitions:
-    m_BlendHint: 0
-    m_InheritPosition: 0
-    m_OnCameraLive:
-      m_PersistentCalls:
-        m_Calls: []
-  m_LegacyBlendHint: 0
-  m_ComponentOwner: {fileID: 673172665}
---- !u!4 &1249226944
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 5735286393980430655, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
-  m_PrefabInstance: {fileID: 673172664}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1249226942}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.1716072, y: 0.043442536, z: -0.007574901, w: 0.98417807}
-  m_LocalPosition: {x: -0.046595663, y: 4.515978, z: -10.011655}
-  m_LocalScale: {x: 3.134441, y: 3.13444, z: 3.1344404}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 673172665}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 30, y: 90, z: 0}
 --- !u!1 &1288981492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3715,6 +3633,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 120764370259199834, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 477628535345694894, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
       propertyPath: m_Name
       value: RacingcarPrometheus
@@ -4035,25 +3957,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1564260375}
   m_CullTransparentMesh: 1
---- !u!1 &1721700725
+--- !u!1 &1721700725 stripped
 GameObject:
-  m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 1654549176050088965, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
   m_PrefabInstance: {fileID: 673172664}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 673172665}
-  - component: {fileID: 1721700733}
-  - component: {fileID: 1721700731}
-  - component: {fileID: 1721700732}
-  m_Layer: 0
-  m_Name: cm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!114 &1721700731
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -4105,18 +4013,6 @@ MonoBehaviour:
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
---- !u!114 &1721700733
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 636014792959901790, guid: fc7322cde192cca4e82d0ce6dab6f2c6, type: 3}
-  m_PrefabInstance: {fileID: 673172664}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721700725}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1800570352
 GameObject:
   m_ObjectHideFlags: 0
