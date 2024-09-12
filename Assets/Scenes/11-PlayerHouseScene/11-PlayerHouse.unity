@@ -2281,6 +2281,7 @@ MonoBehaviour:
   isDoor: 0
   isNPC: 0
   isCar: 0
+  isGasSTT: 0
   interactions: {fileID: 0}
 --- !u!65 &660345172
 BoxCollider:
@@ -3751,6 +3752,7 @@ MonoBehaviour:
   isDoor: 0
   isNPC: 0
   isCar: 0
+  isGasSTT: 0
   interactions: {fileID: 0}
 --- !u!4 &904008593
 Transform:
@@ -6104,7 +6106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1559582518
 RectTransform:
   m_ObjectHideFlags: 0

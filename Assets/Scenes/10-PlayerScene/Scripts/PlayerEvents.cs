@@ -70,6 +70,7 @@ namespace Scenes._10_PlayerScene.Scripts
         
         // Event for moving player
         public static event Action<GameObject> OnMovePlayerToBlock;
+        public static event Action<GameObject> OnMovePlayerToPosition;
 
         // Methods to trigger each event and actions.
         // Utilizing the null-conditional operator to prevent invoking events with no subscribers.
@@ -112,6 +113,11 @@ namespace Scenes._10_PlayerScene.Scripts
         public static void RaiseMovePlayerToBlock(GameObject position)
         {
             OnMovePlayerToBlock?.Invoke(position);
+        }
+        
+        public static void RaiseMovePlayerToPosition(GameObject position)
+        {
+            OnMovePlayerToPosition?.Invoke(position);
         }
     }
 }

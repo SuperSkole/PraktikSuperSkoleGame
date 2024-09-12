@@ -1,6 +1,5 @@
-using Scenes._10_PlayerScene.Scripts;
-using System.Collections;
 using Import.LeanTween.Framework;
+using System.Collections;
 using UnityEngine;
 
 namespace Scenes._10_PlayerScene.Scripts
@@ -8,6 +7,7 @@ namespace Scenes._10_PlayerScene.Scripts
     public class IconInteraction : MonoBehaviour
     {
         private Vector3 orginalScale;
+        [SerializeField] private bool isPlayer;
 
         private void Awake()
         {
@@ -16,17 +16,38 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             orginalScale = transform.localScale;
             StartCoroutine(JiggleAndLightUp());
-            GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = true;
+            if (isPlayer)
+            {
+                GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = true;
+            }
+            else
+            {
 
+            }
         }
         private void OnMouseExit()
         {
-            GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = false;
+            if (isPlayer)
+            {
+                GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = false;
+            }
+            else
+            {
+
+            }
             ResetScale();
         }
         private void OnMouseDown()
         {
-            GetComponentInParent<PlayerEventManager>().InvokeAction();
+            if (isPlayer)
+            {
+                GetComponentInParent<PlayerEventManager>().InvokeAction();
+            }
+            else
+            {
+                GetComponentInParent<CarEventsManager>().InvokeAction();
+
+            }
         }
         private IEnumerator JiggleAndLightUp()
         {

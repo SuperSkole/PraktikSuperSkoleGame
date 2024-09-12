@@ -20,7 +20,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
-
+        public GameObject coinPrefab;
         private PlayerData playerData;
         private GameObject spawnedPlayer;
         private ColorChanging colorChanging;
@@ -82,6 +82,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
+            GameManager.Instance.playerManager = this;
         }
         
         /// <summary>
@@ -96,6 +97,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 spawnedPlayer.GetComponent<Rigidbody>().rotation = spawnPoint.transform.rotation;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
+                spawnedPlayer.transform.position = spawnPoint.transform.position;
+
             }
             else
             {
@@ -243,6 +246,10 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(playerData.MonsterColor);
 
+            // Call the ColorChange method to recolor the player
+            clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
+            clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
                     ? new Vector3(-184, 39, -144)
@@ -278,9 +285,12 @@ namespace Scenes._10_PlayerScene.Scripts
             
             // Color change if scene is house or main
             UpdatePlayerColorOnSceneChange(scene);
-            
+
+            UpdatePlayerClothOnSceneChange(scene);
+
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
+
 
             
             // TODO : Find a more permnat solution
@@ -291,6 +301,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                instance.spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
 
             }
@@ -302,6 +313,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             }
         }
+
 
         /// <summary>
         /// Configures the Cinemachine camera to follow the player when necessary based on the scene.
@@ -336,7 +348,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// Updates the player's color when entering specific scenes.
         /// </summary>
         /// <param name="scene">The loaded scene.</param>
-        private void UpdatePlayerColorOnSceneChange(Scene scene)
+        public void UpdatePlayerColorOnSceneChange(Scene scene)
         {
             if (scene.name == SceneNames.House ||
                 scene.name == SceneNames.Main ||
@@ -350,6 +362,24 @@ namespace Scenes._10_PlayerScene.Scripts
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
                 }    
+            }
+        }
+
+        public void UpdatePlayerClothOnSceneChange(Scene scene)
+        {
+
+            if (scene.name == SceneNames.House ||
+               scene.name == SceneNames.Main ||
+               scene.name.StartsWith("5") ||
+               scene.name.StartsWith("6") ||
+               scene.name.StartsWith("7"))
+            {
+               if (clothChanging != null)
+                {
+                    // Call the ColorChange method to recolor the player
+                    clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
+                    clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+                }
             }
         }
         

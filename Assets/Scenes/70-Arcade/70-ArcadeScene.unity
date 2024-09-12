@@ -643,6 +643,7 @@ MonoBehaviour:
   isDoor: 0
   isNPC: 0
   isCar: 0
+  isGasSTT: 0
   interactions: {fileID: 0}
 --- !u!65 &251555838
 BoxCollider:
@@ -728,7 +729,7 @@ GameObject:
   - component: {fileID: 444817958}
   - component: {fileID: 444817957}
   - component: {fileID: 444817961}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

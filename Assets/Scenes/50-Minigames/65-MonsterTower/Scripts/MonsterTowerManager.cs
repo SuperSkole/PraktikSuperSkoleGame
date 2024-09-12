@@ -35,6 +35,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
          [SerializeField] LayerMask TowerLayermask;
         public SpinePlayerMovement mainWorldMovement;
 
+        [SerializeField] GameObject hearLetterButton;
+
         [SerializeField] GameObject noAmmoText;
         public GameObject[,] ammoDisplay;
         [SerializeField] GameObject ammoToDisplayPrefab;
@@ -117,7 +119,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
                 ammoCount = words.Count;
             }
 
-            SetupPlayerMovementForMonsterTower();
             
            
             if (ammoCount <= 0)
@@ -133,16 +134,18 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+                spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+                spawnedPlayer.AddComponent<AutoMovePlayer>();
+                spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
+                spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
+                spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+                spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
+                spawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
+                spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
 
-                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayer>();
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().DropOffPoint = dropOffPoint;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().PlayerSpawnPoint = startPoint;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayer>().monsterTowerManager = this;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
-
+                SetupPlayerMovementForMonsterTower();
             }
             else
             {
@@ -177,12 +180,10 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// 
         private void SetupPlayerMovementForMonsterTower()
         {
-
-
-            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-
-          
+            //spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
+            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;          
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+
 
 
             PlayerMovement_MT pMovement = spawnedPlayer.AddComponent<PlayerMovement_MT>();
@@ -195,6 +196,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             pMovement.monsterTowerManager = this;
             spawnedPlayer.SetActive(true);
             spawnedPlayer.transform.position = playerSpawnPoint.transform.position;
+
+           
             
 
             CinemachineVirtualCamera virtualCamera = mainCamera.GetComponent<CinemachineVirtualCamera>();
@@ -255,7 +258,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
                  
 
-                    ammoToDisplayPrefab.tag = "ammo";
+                    //ammoToDisplayPrefab.tag = "ammo";
 
                     
 
@@ -297,6 +300,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             StartCoroutine(catapultAming.Shoot(hit.point, comp, this));
         }
 
+
+        /// <summary>
+        /// Plays the sound that has been set onto the hearletter button. 
+        /// </summary>
+        public void PlaySoundFromHearLetterButton()
+        {
+            hearLetterButton.GetComponent<AudioSource>().Play();
+        }
 
 
         /// <summary>

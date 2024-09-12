@@ -1,6 +1,7 @@
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Minigames;
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 {
-    public class RacingCore : MonoBehaviour
+    public class RacingCore : MonoBehaviour, IMinigameSetup
     {
         #region variables
         private readonly AudioSource gameManagerAudioSource;
@@ -47,6 +48,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private readonly List<TextMeshProUGUI> rightText = new();
         private readonly List<TextMeshProUGUI> timerText = new();
         private readonly List<Image> billBoard = new();
+        [SerializeField]
+        private Text objectiveText;
 
         private readonly List<TextMeshProUGUI> removeText = new();
         private readonly List<Image> removebillBoard = new();
@@ -73,43 +76,12 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
         #region setup
         /// <summary>
-        /// Gamemode selection for players.
-        /// </summary>
-        public void GamemMode_One_Word()
-        {
-            Setup(GameModes.Mode1);
-        }
-        public void GameMode_Three_Words()
-        {
-            Setup(GameModes.Mode2);
-        }
-        public void GameMode_Vocal_Image()
-        {
-            Setup(GameModes.Mode3);
-        }
-        public void GameMode_Vocal_Sound()
-        {
-            Setup(GameModes.Mode4);
-        }
-        public void GameMode_Consonant_Sound()
-        {
-            Setup(GameModes.Mode5);
-        }
-
-        /// <summary>
-        /// Ensures the player car is not active until setup is done
-        /// </summary>
-        private void Start()
-        {
-            playerCar.SetActive(false);
-        }
-
-        /// <summary>
         /// Sets up everything to race once the player picks a gamemode.
         /// </summary>
-        private void Setup(string gameMode)
+        public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
-            currentMode = gameMode;
+            IRacingGameMode mode = (IRacingGameMode)gameMode;
+            
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
@@ -120,6 +92,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             imageDisplayActive = true;
             audioActive = true;
 
+            currentMode = mode.returnMode();
+            objectiveText.text = mode.displayObjective();
 
             DetermineWordToUse(); // Select a random word from the list
             levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;
@@ -159,7 +133,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 gameRuleVocal.SetCorrectAnswer();
                 targetWord = gameRuleVocal.GetCorrectAnswer();
             } while (spelledWordsList.Contains(targetWord));
-            if (currentMode != GameModes.Mode4)
+            if (currentMode != GameModes.Mode2)
             {
                 imageWord = gameRuleVocal.GetDisplayAnswer();
                 Texture2D image = ImageManager.GetImageFromWord(imageWord);
@@ -259,7 +233,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// <param name="gameMode">The gamemode the racing game is using</param>
         private void DetermineWordToUse()
         {
-            if (currentMode == GameModes.Mode1)
+            if (currentMode == GameModes.ModeTemp1)
             {
                 if (spelledWordsList.Count < 3)
                 {
@@ -268,7 +242,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 else
                     EndGame();
             }
-            else if (currentMode == GameModes.Mode2)
+            else if (currentMode == GameModes.ModeTemp2)
             {
                 if (spelledWordsList.Count < 1)
                 {
@@ -277,7 +251,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 else
                     EndGame();
             }
-            else if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode4)
+            else if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode2)
             {
                 if (spelledWordsList.Count < 3)
                 {
@@ -435,7 +409,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private char RandomWrongLetter(string correctLetter)
         {
             char wrongLetter;
-            if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode4)
+            if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode2)
             {
                 wrongLetter = gameRuleVocal.GetWrongAnswer().ToCharArray()[0];
             }
@@ -478,6 +452,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 BranchAwake.OnBranchImageAwaken += AddToList;
                 BranchAwake.OnBranchTextAwaken += AddToList;
                 TriggerExit.OnFinaleExited += FinalEnd;
+                SayWordAgain.OnWordTriggered += RepeatWord;
             }
         }
         /// <summary>
@@ -489,6 +464,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             BranchAwake.OnBranchImageAwaken -= AddToList;
             BranchAwake.OnBranchTextAwaken -= AddToList;
             TriggerExit.OnFinaleExited -= FinalEnd;
+            SayWordAgain.OnWordTriggered -= RepeatWord;
         }
 
         /// <summary>
@@ -507,6 +483,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     Instantiate(coinEffect);
                     racingGameManager.xp++;
                     racingGameManager.gold++;
+                    PlayerEvents.RaiseGoldChanged(1);
+                    PlayerEvents.RaiseXPChanged(1);
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
@@ -565,18 +543,27 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             else if (imageWord == "")
             {
                 billBoard.sprite = null;
+                billBoard.gameObject.SetActive(false);
             }
         }
         #endregion
 
         #region audio
         /// <summary>
+        /// A simple trigger to be used for repeating the current word
+        /// </summary>
+        private void RepeatWord()
+        {
+            PlayWordAudio(targetWord);
+        }
+
+        /// <summary>
         /// Plays audio files
         /// </summary>
         /// <param name="word"></param>
         public void PlayWordAudio(string word)
         {
-            if (audioActive == true && (currentMode == GameModes.Mode4 || currentMode == GameModes.Mode5))
+            if (audioActive == true && (currentMode == GameModes.Mode2 || currentMode == GameModes.Mode5))
             {
                 AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(word + 1);
                 if (clip && audio.isActiveAndEnabled)
