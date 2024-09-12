@@ -366,7 +366,6 @@ namespace Scenes._10_PlayerScene.Scripts
         public void UpdatePlayerClothOnSceneChange(Scene scene)
         {
 
-            Debug.Log("we in");
             if (scene.name == SceneNames.House ||
                scene.name == SceneNames.Main ||
                scene.name.StartsWith("5") ||
@@ -375,7 +374,6 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                if (clothChanging != null)
                 {
-                    Debug.Log("there is a colorchanging");
                     // Call the ColorChange method to recolor the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
                     clothChanging.ChangeClothes(playerData.ClothTop, skeleton);

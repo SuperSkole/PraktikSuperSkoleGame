@@ -171,6 +171,7 @@ namespace UI.Scripts
                 {
                     playerColorChanging.ColorChange(itemName);
                 }
+                currentItem = itemName;
             }
 
 
@@ -197,47 +198,50 @@ namespace UI.Scripts
             if (currentItem != null)
             { 
 
-            if (ableToBuy)
-            {
-                //Get player
-                PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
-
-                     if (currentItem.Contains("HEAD"))
+                    if (ableToBuy)
                     {
-                        PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                    Debug.Log(currentItem);
+
+                        //Get player
+                        PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+                             if (currentItem.Contains("HEAD"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
                        
-                    }
-                    if (currentItem.Contains("MID"))
-                    {
-                        PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                            }
+                            if (currentItem.Contains("MID"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
                         
-                    }
-                    if (colors.Contains(currentItem.ToString()))
-                    {
-                        PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+                            }
+                            if (colors.Contains(currentItem.ToString()))
+                            {
+                                Debug.Log(currentItem+" Buy");
+                                PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                            }
+
+                            avaliableMoney -= currentPrice;
+
+                            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+
+                            meter.ChangeValue(-currentPrice);
+
+
+
+
+                        //remove bought option
+                        Destroy(currentShopOption.gameObject);
+
+                        offBuyButton.gameObject.SetActive(true);
+                        ableToBuy = false;
+
+                        currentPrice = 0;
+
+                        currentItem = null;
 
                     }
-
-                    avaliableMoney -= currentPrice;
-
-                    PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
-
-                    meter.ChangeValue(-currentPrice);
-
-
-
-
-                //remove bought option
-                Destroy(currentShopOption.gameObject);
-
-                offBuyButton.gameObject.SetActive(true);
-                ableToBuy = false;
-
-                currentPrice = 0;
-
-                currentItem = null;
-
-            }
              }
 
 
