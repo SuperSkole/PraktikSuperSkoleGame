@@ -13,15 +13,12 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class PlayerStrapper : MonoBehaviour
     {
-        private AuthenticationManager authenticationManager;
-
-        private void Awake()
-        {
-            authenticationManager = gameObject.AddComponent<AuthenticationManager>();
-        }
-
+        private IAuthenticationService authService;
+        
         private IEnumerator Start()
         {
+            authService = new AnonymousAuthenticationService();
+            
             Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
             Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
 
@@ -41,7 +38,7 @@ namespace Scenes._00_Bootstrapper
             if (!loginSceneActive)
             {
                 // Asynchronous sign-in
-                yield return authenticationManager.SignInAnonymouslyAsync();
+                yield return authService.SignInAsync();
                 
                 InitializePlayerSettings();
          

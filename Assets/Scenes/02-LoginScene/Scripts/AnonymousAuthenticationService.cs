@@ -7,24 +7,25 @@ namespace Scenes._02_LoginScene.Scripts
 {
     // Service for anonymous authentication
     public class AnonymousAuthenticationService : IAuthenticationService
-    {
+    { 
         public async Task SignInAsync()
         {
             try
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Anonymous Sign-in successful");
-                Debug.Log("Player Id:" + AuthenticationService.Instance.PlayerId);
+                Debug.Log("Sign-in successful. Player ID: " + AuthenticationService.Instance.PlayerId);
+                Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
             }
-            catch (Exception ex)
+            catch (AuthenticationException ex)
             {
-                Debug.LogError($"Anonymous Sign-in failed: {ex.Message}");
+                Debug.Log("Sign-in failed!");
+                Debug.LogException(ex);
             }
         }
 
         public async Task SignOutAsync()
         {
-            // TODO Implement sign out 
+            AuthenticationService.Instance.SignOut();
         }
     }
 }

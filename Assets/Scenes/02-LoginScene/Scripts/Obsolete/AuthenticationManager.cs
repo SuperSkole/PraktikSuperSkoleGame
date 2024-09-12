@@ -3,55 +3,17 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 
-namespace Scenes._02_LoginScene.Scripts
+namespace Scenes._02_LoginScene.Scripts.Obsolete
 {
     /// <summary>
-    /// Manages the authentication of the player in the Unity game.
+    /// Manages the authentication of the player in the game.
     /// </summary>
     public class AuthenticationManager : MonoBehaviour
     {
-        private bool useAnonymousLogin = false; // Default to false in builds
-        public bool IsSignedIn { get; private set; } = false;
-
-        /// <summary>
-        /// Sets whether anonymous login should be used. Only valid in the editor.
-        /// </summary>
-        public void SetUseAnonymousLogin(bool isAnonLogin)
+        private async void Awake()
         {
-            useAnonymousLogin = isAnonLogin;
-        }
-    
-        /// <summary>
-        /// Initializes Unity services on start and signs the user in anonymously.
-        /// </summary>
-        private async void Start()
-        {
-            
-
-#if UNITY_EDITOR
-            if (useAnonymousLogin)
-            {
-                await SignInAnonymouslyAsync();
-            }
-            else
-            {
-               // await SignInWithUsernamePasswordAsync(, );
-            }
-#else
-            // In build, always use username/password login
-            await SignInWithUsernamePasswordAsync("testuser", "testpassword");
-#endif
-        }
-
-        
-        
-
-        /// <summary>
-        /// Signs in the user anonymously.
-        /// </summary>
-        public async Task SignInAsync()
-        {
-            await SignInAnonymouslyAsync();
+            Debug.Log("Initializing Unity services");
+            await UnityServices.InitializeAsync();
         }
 
         /// <summary>
@@ -71,6 +33,7 @@ namespace Scenes._02_LoginScene.Scripts
                 Debug.Log("Sign-in failed!");
                 Debug.LogException(ex);
             }
+            
             return false;
         }
 
@@ -111,7 +74,6 @@ namespace Scenes._02_LoginScene.Scripts
                 Debug.Log($"Signed in: Username: {username} Password: {password}");
                 Debug.Log($"PlayerID: {AuthenticationService.Instance.PlayerId}");
                 Debug.Log($"Access Token: {AuthenticationService.Instance.AccessToken}");
-                IsSignedIn = true;
                 return true;
             }
             catch (AuthenticationException ex)
@@ -122,8 +84,7 @@ namespace Scenes._02_LoginScene.Scripts
             {
                 Debug.LogException(ex);
             }
-            
-            IsSignedIn = false;
+
             return false;
         }
 

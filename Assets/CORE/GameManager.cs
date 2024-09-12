@@ -136,9 +136,7 @@ namespace CORE
         }
         
         private async void InitializeGameManager()
-        {            
-            await UnityServices.InitializeAsync();
-
+        {  
             if (instance.GetComponent<PlayerData>() == null)
             {
                 PlayerData = instance.gameObject.AddComponent<PlayerData>();
