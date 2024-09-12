@@ -17,7 +17,8 @@ namespace Scenes._10_PlayerScene.Scripts
             { "blue", "19daf9" },
             { "red", "cf5b5d" },
             { "green", "6aa85c" },
-            {"white", "FFFFFF" }
+            {"white", "FFFFFF" },
+            {"pink","f888eb" }
         };
 
         public List<string> colors = new List<string>();

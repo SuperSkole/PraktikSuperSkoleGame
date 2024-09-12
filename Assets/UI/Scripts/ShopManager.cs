@@ -55,6 +55,9 @@ namespace UI.Scripts
 
         private void OnEnable()
         {
+            avaliableMoney = 0;
+            meter.SettingValueAfterScene(0);
+
             if (playerColorChanging == null)
             {
                 playerColorChanging = this.GetComponent<ColorChanging>();
@@ -94,7 +97,7 @@ namespace UI.Scripts
             {
                 avaliableMoney = PlayerManager.Instance.PlayerData.CurrentGoldAmount;
 
-                Debug.Log(PlayerManager.Instance.PlayerData.CurrentGoldAmount);
+                meter.SettingValueAfterScene(avaliableMoney);
             }
 
             //Build shop
@@ -168,6 +171,7 @@ namespace UI.Scripts
                 {
                     playerColorChanging.ColorChange(itemName);
                 }
+                currentItem = itemName;
             }
 
 
@@ -193,55 +197,54 @@ namespace UI.Scripts
         {
             if (currentItem != null)
             { 
-            Debug.Log(ableToBuy);
 
-            if (ableToBuy)
-            {
-                //Get player
-
-
-                //add item to list here
-                PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
-
-                     if (currentItem.Contains("HEAD"))
+                    if (ableToBuy)
                     {
-                        PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                    Debug.Log(currentItem);
+
+                        //Get player
+                        PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
+
+                             if (currentItem.Contains("HEAD"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
                        
-                    }
-                    if (currentItem.Contains("MID"))
-                    {
-                        PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                            }
+                            if (currentItem.Contains("MID"))
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
                         
-                    }
-                    if (colors.Contains(currentItem.ToString()))
-                    {
-                        PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+                            }
+                            if (colors.Contains(currentItem.ToString()))
+                            {
+                                Debug.Log(currentItem+" Buy");
+                                PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                            }
+
+                            avaliableMoney -= currentPrice;
+
+                            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+
+                            meter.ChangeValue(-currentPrice);
+
+
+
+
+                        //remove bought option
+                        Destroy(currentShopOption.gameObject);
+
+                        offBuyButton.gameObject.SetActive(true);
+                        ableToBuy = false;
+
+                        currentPrice = 0;
+
+                        currentItem = null;
 
                     }
-
-
-
-                    //Take away money
-                    avaliableMoney -= currentPrice;
-                PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
-
-                meter.ChangeValue(-currentPrice);
-
-
-
-
-                //remove bought option
-                Destroy(currentShopOption.gameObject);
-
-                offBuyButton.gameObject.SetActive(true);
-                ableToBuy = false;
-
-                currentPrice = 0;
-
-                currentItem = null;
-
-            }
              }
+
+
             //you cannot afford it
         }
 
@@ -251,7 +254,6 @@ namespace UI.Scripts
             this.gameObject.SetActive(false);
             PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
-            Debug.Log("lukket");
         }
 
     }

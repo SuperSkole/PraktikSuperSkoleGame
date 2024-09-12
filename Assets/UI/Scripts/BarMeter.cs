@@ -17,7 +17,6 @@ namespace UI.Scripts
 
         [SerializeField] private int maxAmount;
 
-        private float fillSpeed = 50f;
         private int currentAmount = 0;
 
         private Coroutine changeValueCoroutine;
@@ -33,15 +32,19 @@ namespace UI.Scripts
             }
             originalScale = image.rectTransform.localScale;
 
-            textMeshPro.text = "0";
             currentAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
-            SettingValueAfterScene(GameManager.Instance.PlayerData.CurrentGoldAmount);
+
+            textMeshPro.text = currentAmount.ToString();
+            barFill.fillAmount = Mathf.Clamp01((float)currentAmount / maxAmount);
+
             ChangeValue(GameManager.Instance.PlayerData.PendingGoldAmount);
         }
 
         public void SettingValueAfterScene(int amount)
         {
             textMeshPro.text = amount.ToString();
+            barFill.fillAmount = Mathf.Clamp01((float)amount / maxAmount);
+            currentAmount = amount;
         }
 
         public void ChangeValue(int amount)
@@ -50,35 +53,54 @@ namespace UI.Scripts
             {
                 StopCoroutine(changeValueCoroutine);
             }
+
             currentAmount += amount;
+
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
+
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }
 
         private IEnumerator ChangeValueRoutine(int amount)
         {
-            float currentFillAmount = currentAmount-amount;
+            float startingAmount = currentAmount-amount;
+            float targetAmount = currentAmount;
+
+            float duration = 1.5f; 
+            float elapsed = 0f;
+
+            //bigger
+            LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
+
+            // Jiggle effect
+            LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
+
             //As long as they're apart
-            while (Mathf.RoundToInt(currentFillAmount) != currentAmount)
+            while (elapsed < duration)
             {
-                currentFillAmount = Mathf.MoveTowards(currentFillAmount, currentAmount, 1);
-                //Text showing progress
+                elapsed += Time.deltaTime;
+
+                // Calculate interpolation factor (0 to 1 over the duration)
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                // Interpolate the current fill amount
+                float currentFillAmount = Mathf.Lerp(startingAmount, targetAmount, t);
+
+                barFill.fillAmount = Mathf.Clamp01(currentFillAmount/ maxAmount);
+                // Update the text
                 textMeshPro.text = Mathf.RoundToInt(currentFillAmount).ToString();
 
-                // St�rre
-                LeanTween.scale(image.rectTransform, originalScale * 1.2f, 0.1f);
-
-                // Jiggle effect
-                LeanTween.rotateZ(image.gameObject, 10f, 0.1f).setLoopPingPong(2);
-
-                yield return new WaitForSeconds(0.1f);
+                // Wait until the next frame
+                yield return null;
             }
 
-            changeValueCoroutine = null;
+            textMeshPro.text = currentAmount.ToString();
 
             LeanTween.scale(image.rectTransform, originalScale, 0.1f);
             LeanTween.rotateZ(image.gameObject, 0f, 0f);
+
+            changeValueCoroutine = null;
         }
     }
 }
