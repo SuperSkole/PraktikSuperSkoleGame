@@ -64,6 +64,14 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Bogstavshave";
                     }
                     break;
+                case 3:
+                    modeSetter = new MiniRacingSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToRacerScene);
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Racing";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {
