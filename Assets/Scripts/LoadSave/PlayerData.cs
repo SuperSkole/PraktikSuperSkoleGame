@@ -85,6 +85,18 @@ namespace LoadSave
         {
             LastInteractionPoint = position;
         }
+        public string ReturnActiveCarName()
+        {
+
+            //foreach (var item in listOfCars)
+            //{
+            //    if (item.IsActive)
+            //    {
+            //        return item.Name;
+            //    }
+            //}
+            return GameObject.FindGameObjectWithTag("Car").name;
+        }
     }
 }
 
