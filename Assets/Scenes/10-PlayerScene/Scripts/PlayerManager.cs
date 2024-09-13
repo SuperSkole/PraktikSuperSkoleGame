@@ -172,6 +172,8 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
 
+            //playerData.listOfCars.Add(new CarInfo("Mustang","Red",true));
+
             // Log for debugging
             // Debug.Log(
             //     $"PlayerManager.SetupPlayer(): " +
@@ -420,10 +422,10 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
 
-                    var car = GameObject.Find("Prometheus Variant");
-                    car.transform.position = playerData.CarPos;
-                    car.transform.rotation = playerData.CarRo;
-                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+                    //var car = GameObject.Find("Prometheus Variant");
+                    //car.transform.position = playerData.CarPos;
+                    //car.transform.rotation = playerData.CarRo;
+                    //car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
 
 
                 }

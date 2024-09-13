@@ -144,8 +144,8 @@ namespace Scenes._03_StartScene.Scripts
             cancelDeleteButton.gameObject.SetActive(false);
 
             // Clear the text and image data for the panel
-            monsterNameText.text = string.Empty;      
-            playerInfo.text = string.Empty;           
+            monsterNameText.text = string.Empty;
+            playerInfo.text = string.Empty;
             chosenCharacter.sprite = null;           
 
             // Set SaveKey to null to indicate no save is associated with the panel

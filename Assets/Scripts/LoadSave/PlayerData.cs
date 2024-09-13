@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
-using Spine.Unity;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace LoadSave
 {
@@ -29,9 +28,11 @@ namespace LoadSave
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
         public List<char> CollectedNumbers = new List<char>();
-        
+
         // Clothing list
         public List<int> BoughtClothes = new List<int>();
+
+        public List<CarInfo> listOfCars;
 
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
@@ -86,3 +87,4 @@ namespace LoadSave
         }
     }
 }
+
