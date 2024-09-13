@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Spine.Unity;
+using Scenes._10_PlayerScene.Scripts;
 
 namespace Scenes._03_StartScene.Scripts
 {
@@ -27,6 +29,12 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private Image confirmDeleteButton;
         [SerializeField] private Image cancelDeleteButton;
 
+
+        [SerializeField] private SkeletonGraphic skeletonGraphic;
+        private ClothChanging clothChanging;
+        private ColorChanging colorChanging;
+
+
         /// <summary>
         /// The key associated with the current save slot.
         /// </summary>
@@ -38,6 +46,15 @@ namespace Scenes._03_StartScene.Scripts
         private void OnEnable() 
         {
             LoadGameController.Instance.RegisterPanel(this);
+
+            if (colorChanging == null)
+            {
+                colorChanging = this.GetComponent<ColorChanging>();
+            }
+            if (clothChanging == null)
+            {
+                clothChanging = this.GetComponent<ClothChanging>();
+            }
         }
         
         /// <summary>
@@ -171,6 +188,12 @@ namespace Scenes._03_StartScene.Scripts
             startGameButton.gameObject.SetActive(true);
             deleteSaveButton.gameObject.SetActive(true);
             blockingImage.enabled = false;
+
+            colorChanging.SetSkeleton(skeletonGraphic);
+            colorChanging.ColorChange(saveData.MonsterColor);
+
+            clothChanging.ChangeClothes(saveData.clothMid, skeletonGraphic);
+            clothChanging.ChangeClothes(saveData.clothTop, skeletonGraphic);
         }
 
         /// <summary>
