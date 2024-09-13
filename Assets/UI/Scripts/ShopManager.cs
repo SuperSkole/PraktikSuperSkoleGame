@@ -278,8 +278,6 @@ namespace UI.Scripts
 
                         currentPrice = 0;
 
-                        currentItem = null;
-
                     }
              }
 
