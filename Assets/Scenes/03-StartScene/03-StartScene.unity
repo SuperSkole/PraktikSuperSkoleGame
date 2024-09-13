@@ -2809,6 +2809,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1267921223}
     m_Modifications:
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 146.28954
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 438.8686
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
     - target: {fileID: 2220619379114650937, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Name
       value: SavePanel (2)
@@ -2900,7 +2932,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: monsterNameText
       value: 
-      objectReference: {fileID: 1544592156}
+      objectReference: {fileID: 0}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -2952,17 +2984,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6d078bd01829ac48acbd55c29fdfd08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1544592156 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
-  m_PrefabInstance: {fileID: 1544592153}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1547460873
@@ -3699,6 +3720,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1267921223}
     m_Modifications:
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 146.28954
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 438.8686
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
     - target: {fileID: 2220619379114650937, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Name
       value: SavePanel (1)
@@ -3790,7 +3843,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: monsterNameText
       value: 
-      objectReference: {fileID: 1846401140}
+      objectReference: {fileID: 0}
     - target: {fileID: 2570829984570505270, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -3824,17 +3877,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42061419fb7773745957c50d029fc045, type: 3}
---- !u!114 &1846401140 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
-  m_PrefabInstance: {fileID: 1846401139}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1846401141 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
@@ -4024,17 +4066,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1983644868}
---- !u!114 &2096074235 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 500611976007204861, guid: 42061419fb7773745957c50d029fc045, type: 3}
-  m_PrefabInstance: {fileID: 261057928258791024}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2104515683
 GameObject:
   m_ObjectHideFlags: 0
@@ -4179,6 +4210,38 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1267921223}
     m_Modifications:
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 146.28954
+      objectReference: {fileID: 0}
+    - target: {fileID: 617280716789791950, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 438.8686
+      objectReference: {fileID: 0}
+    - target: {fileID: 736118418546472143, guid: 42061419fb7773745957c50d029fc045, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -41.956947
+      objectReference: {fileID: 0}
     - target: {fileID: 2220619379114650937, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: m_Name
       value: SavePanel
@@ -4266,7 +4329,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: playerName
       value: 
-      objectReference: {fileID: 2096074235}
+      objectReference: {fileID: 0}
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: playerText
       value: 
@@ -4294,7 +4357,7 @@ PrefabInstance:
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: monsterNameText
       value: 
-      objectReference: {fileID: 2096074235}
+      objectReference: {fileID: 0}
     - target: {fileID: 2521523000025193102, guid: 42061419fb7773745957c50d029fc045, type: 3}
       propertyPath: playerNameDrawing
       value: 

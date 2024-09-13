@@ -40,6 +40,8 @@ namespace UI.Scripts
 
         //Money bar
         [SerializeField] BarMeter meter;
+        //UI bar
+        
 
         private Shopoption currentShopOption;
 

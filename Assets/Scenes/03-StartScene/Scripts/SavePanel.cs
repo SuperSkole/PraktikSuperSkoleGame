@@ -21,8 +21,10 @@ namespace Scenes._03_StartScene.Scripts
         
         [SerializeField] private Image chosenCharacter;
         [SerializeField] private Image playerNameDrawing;
-        [SerializeField] private TextMeshProUGUI monsterNameText;
-        [SerializeField] private TextMeshProUGUI playerInfo; // TODO maybe level or xp or gold
+        [SerializeField] private TextMeshProUGUI MonsterName;
+        [SerializeField] private TextMeshProUGUI GoldAmount;
+        [SerializeField] private TextMeshProUGUI XPAmount;
+        [SerializeField] private TextMeshProUGUI LevelAmount;
         [SerializeField] private Image blockingImage;
         [SerializeField] private Image startGameButton;
         [SerializeField] private Image deleteSaveButton;
@@ -161,8 +163,10 @@ namespace Scenes._03_StartScene.Scripts
             cancelDeleteButton.gameObject.SetActive(false);
 
             // Clear the text and image data for the panel
-            monsterNameText.text = string.Empty;      
-            playerInfo.text = string.Empty;           
+            GoldAmount.text = string.Empty;
+            XPAmount.text = string.Empty;    
+            LevelAmount.text = string.Empty;
+
             chosenCharacter.sprite = null;           
 
             // Set SaveKey to null to indicate no save is associated with the panel
@@ -184,10 +188,13 @@ namespace Scenes._03_StartScene.Scripts
             }
 
             // Update UI with player details
-            monsterNameText.text = saveData.MonsterName;
+            MonsterName.text = saveData.MonsterName;
             startGameButton.gameObject.SetActive(true);
             deleteSaveButton.gameObject.SetActive(true);
             blockingImage.enabled = false;
+            GoldAmount.text = saveData.GoldAmount.ToString();
+            XPAmount.text = saveData.XPAmount.ToString();
+            LevelAmount.text = saveData.PlayerLevel.ToString();
 
             colorChanging.SetSkeleton(skeletonGraphic);
             colorChanging.ColorChange(saveData.MonsterColor);
