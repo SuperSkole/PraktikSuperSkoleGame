@@ -37,7 +37,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 }
                 
                 getLetterCubeValue(potientialCube, correct);
-                Debug.Log(potientialCube.GetLetter());
             }
             int foundLetterCubes = 0;
             foreach(LetterCube letterCube in letterCubes)
