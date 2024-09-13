@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class VaultManager : MonoBehaviour
 {
@@ -11,11 +13,15 @@ public class VaultManager : MonoBehaviour
     [SerializeField] TextMeshPro hintField;
     [SerializeField] GameObject modObject;
     [SerializeField] private TMP_InputField playerGuessField;
-    [SerializeField] private TMP_InputField modifierGuessField;
+    private List<TMP_InputField> modifierGuessFields = new List<TMP_InputField>();
     [SerializeField] private GameObject modifierContainer;
 
-    private int modifier;
-    private int modifierGuess;
+    [SerializeField] private List<int> modifiers = new List<int>();
+    private List<char> possibleOperators = new List<char>(){
+        '+', '-'
+    };
+    private List<char> operators = new List<char>();
+    private List<int> modifierGuesses = new List<int>();
     private int playerGuess;
     // Start is called before the first frame update
     void Start()
@@ -25,14 +31,17 @@ public class VaultManager : MonoBehaviour
 
     public void StartGame()
     {
-        while(modifierContainer.transform.childCount > 0)
-        {
-            Destroy(modifierContainer.transform.GetChild(0).gameObject);
-        }
         for(int i = 0; i < numOfModifiers; i++)
         {
             GameObject modifierObject = Instantiate(modObject);
             modifierObject.transform.SetParent(modifierContainer.transform);
+            char op = possibleOperators[Random.Range(0, possibleOperators.Count)];
+            modifierObject.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = op.ToString();
+            operators.Add(op);
+            modifiers.Add(Random.Range(1, 10));
+            modifierGuessFields.Add(modifierObject.transform.GetChild(1).GetComponent<TMP_InputField>());
+            modifierGuessFields[i].onValueChanged.AddListener(delegate{UpdateModifierGuess();});
+            modifierGuesses.Add(0);
         }
     }
 
@@ -54,11 +63,53 @@ public class VaultManager : MonoBehaviour
 
     public void UpdateModifierGuess()
     {
-        int number;
-        bool res = Int32.TryParse(modifierGuessField.text, out number);
-        if(res)
+        for(int i = 0; i < modifierGuessFields.Count; i++)
         {
-            modifierGuess = number;
+            int number;
+            bool res = Int32.TryParse(modifierGuessFields[i].text, out number);
+            if(res)
+            {
+                modifierGuesses[i] = number;
+            }
+        }
+    }
+
+    public void ValidateGuess()
+    {
+        bool correctModifierGuesses = true;
+        bool partialCorrect = false;
+        for(int i = 0; i < modifierGuesses.Count; i++)
+        {
+            if(modifierGuesses[i] != modifiers[i])
+            {
+                correctModifierGuesses = false;
+                break;
+            }
+            else
+            {
+                partialCorrect = true;
+            }
+        }
+        if(correctModifierGuesses)
+        {
+            foreach(TMP_InputField modifierGuessField in modifierGuessFields)
+            {
+                modifierGuessField.gameObject.GetComponent<Image>().color = Color.green;
+            }
+        }
+        else if (partialCorrect)
+        {
+            foreach(TMP_InputField modifierGuessField in modifierGuessFields)
+            {
+                modifierGuessField.gameObject.GetComponent<Image>().color = Color.yellow;
+            }
+        }
+        else
+        {
+            foreach(TMP_InputField modifierGuessField in modifierGuessFields)
+            {
+                modifierGuessField.gameObject.GetComponent<Image>().color = Color.red;
+            }
         }
     }
 }

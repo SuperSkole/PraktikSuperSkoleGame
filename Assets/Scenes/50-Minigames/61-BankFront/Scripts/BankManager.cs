@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
@@ -107,6 +108,7 @@ public class BankManager : MonoBehaviour
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(5);
+        completedGames++;
         for(int i = 0; i < currentCustomersCoins.Count; i++)
         {
             Destroy(currentCustomersCoins[i].gameObject);
@@ -114,6 +116,10 @@ public class BankManager : MonoBehaviour
         currentCustomersCoins.Clear();
         sortedTrayBackground.color = Color.white;
         unsortedTraybackground.color = Color.white;
+        if(completedGames >= 5)
+        {
+            SwitchScenes.SwitchToMainWorld();
+        }
     }
 
     public void UpdateGuess()
