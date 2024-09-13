@@ -45,13 +45,13 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private void OnEnable()
         {
             OnValidWord += HandleValidWord;
-            AutoMovePlayer.OnBlockDroppedOff += ProcessNextWord;
+            AutoMovePlayerInFactory.OnBlockDroppedOff += ProcessNextWord;
         }
 
         private void OnDisable()
         {
             OnValidWord -= HandleValidWord;
-            AutoMovePlayer.OnBlockDroppedOff -= ProcessNextWord;
+            AutoMovePlayerInFactory.OnBlockDroppedOff -= ProcessNextWord;
         }
 
         /// <summary>

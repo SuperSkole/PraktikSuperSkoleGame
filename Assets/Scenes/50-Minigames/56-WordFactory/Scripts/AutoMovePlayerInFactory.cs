@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
@@ -10,11 +9,10 @@ namespace Scenes._10_PlayerScene.Scripts
     /// <summary>
     /// Handles automatic movement of the player character to a specified position or the closest target.
     /// </summary>
-    public class AutoMovePlayer : MonoBehaviour
+    public class AutoMovePlayerInFactory : MonoBehaviour
     {
         public GameObject DropOffPoint;
         public GameObject PlayerSpawnPoint;
-        public MonsterTowerManager monsterTowerManager;
         
         [SerializeField] private float moveSpeed = 15.0f;
         private Coroutine currentMoveCoroutine;
@@ -237,15 +235,6 @@ namespace Scenes._10_PlayerScene.Scripts
             else
             {
                 Debug.LogError("Rigidbody not found on the block.");
-            }
-
-            if(monsterTowerManager)
-            {
-                monsterTowerManager.catapultAming.SetAmmo(chosenBlock);
-            }
-            else
-            {
-                Debug.LogError("MonsterTowerManager not set.");
             }
 
             Destroy(chosenBlock);
