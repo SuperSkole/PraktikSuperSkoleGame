@@ -172,7 +172,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
 
-            //playerData.listOfCars.Add(new CarInfo("Mustang","Red",true));
+            //playerData.listOfCars.Add("Mustang","Red",true);
 
             // Log for debugging
             // Debug.Log(

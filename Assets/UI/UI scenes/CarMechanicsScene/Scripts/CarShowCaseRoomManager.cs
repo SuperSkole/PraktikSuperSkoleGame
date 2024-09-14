@@ -1,33 +1,61 @@
+using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class CarShowCaseRoomManager : MonoBehaviour
 {
 
     [SerializeField] private List<GameObject> ShowcasedCar = new List<GameObject>();
+    [SerializeField] private List<CarMaterialInfo> CarListMaterials;
     [SerializeField] private Transform ShowcasedSpawnPoint;
     private GameObject spawnedCar;
     [SerializeField] private float rotationSpeed = 20f;  // Adjust speed here
+    string clickedMaterialName = string.Empty;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //Check for car name thingy
-        //switch (PlayerManager.Instance.SpawnedPlayer.ActiveCar)
-        //{
-        //    case"RedCar":
-        //      SpawnCar(ShowcasedCar[0]);
-        //      StartCoroutine(StartRotationOfCar(ShowcasedCar[0]));
-        //      break;
-        //}
+        foreach (var item in PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars)
+        {
+            if (item.IsActive)
+            {   
+                SpawnCar(ReturnThePlayerCar(item.Name));
+                PreviewColorOfCar(ReturnTheRightMaterial(item.MaterialName));
+                StartCoroutine(StartRotationOfCar());
+                break;
+            }
+        }
 
-        SpawnCar(ShowcasedCar[0]);
-        StartCoroutine(StartRotationOfCar());
+
+        //SpawnCar(ShowcasedCar[0]);
+        //StartCoroutine(StartRotationOfCar());
     }
-
+    private GameObject ReturnThePlayerCar(string value)
+    {
+        foreach (var item in ShowcasedCar)
+        {
+            if (value == item.name)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+    private Material ReturnTheRightMaterial(string value)
+    {
+        foreach (var item in CarListMaterials)
+        {
+            if (value == item.CarName)
+            {
+                return item.CarMaterial;
+            }
+        }
+        return null;
+    }
     /// <summary>
     /// This methode changes the material of the spawnedPlayerCar, mostly used by buttons´.
     /// </summary>
@@ -56,10 +84,15 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
     }
 
+    public void SetStringNameOfMaterial(string materialName) => clickedMaterialName = materialName;
+
+
+    public void SaveMaterialName() => PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars[0].MaterialName = clickedMaterialName;
+
 
     private void SpawnCar(GameObject ActiveCar)
     {
-        spawnedCar = Instantiate(ActiveCar,ShowcasedSpawnPoint);
+        spawnedCar = Instantiate(ActiveCar, ShowcasedSpawnPoint);
     }
     private IEnumerator StartRotationOfCar()
     {
@@ -67,7 +100,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
         {
             // Rotate smoothly at a constant speed around the Y-axis
             ShowcasedSpawnPoint.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
-            print("JustMovedCar");
             yield return null;  // Yield until the next frame
         }
     }

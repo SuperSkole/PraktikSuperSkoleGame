@@ -27,8 +27,9 @@ public class SetUpPlayerCar : MonoBehaviour
         {
             if (item.IsActive)
             {
+                // TODO : Change "Quaternion.identity" to the actual saved rotation
                 spawnedCar = Instantiate(ReturnThePlayerCar(item.Name), CarSpawnPos, Quaternion.identity);
-                PreviewColorOfCar(item.Name);
+                PreviewColorOfCar(item.MaterialName);
                 break;
             }
         }

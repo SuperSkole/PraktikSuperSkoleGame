@@ -28,6 +28,7 @@ namespace Scenes
         public const string Main = "20-OldMainWorld";
         public const string Pause = "21-PauseMenu";  //
         public const string Options = "22-OptionScene";  //
+        public const string CarShowCaseRoom = "23-CarMechanicsScene";  //
         public const string HighScores = "24-HighScoreScene";
         public const string Help = "25-HelpScene";  //
         public const string Story = "26-Cutscene";  //
