@@ -8,34 +8,50 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class SymbolEaterSetter: IGameModeSetter
     {
-        private List<string> gamemodes = new List<string>()
+        private List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
         {
-            "findsymbols",
-            "",
-            "SymbolEaterLevel3",
-            "Level4_SymbolEater",
-            "Level5_SymbolEater"
+            new FindSymbols(),
+            null,
+            new SymbolEaterLevel3(),
+            new Level4_SymbolEater(),
+            new Level5_SymbolEater()
         };
 
 
-        private List<string> gamerules = new List<string>()
+        private List<IGameRules> gamerules = new List<IGameRules>()
         {
-            "findvowels",
-            "",
-            "GetVowelFromPic",
-            "Level4_SymbolEater",
-            "Level5_SymbolEater"
+            new FindVowel(),
+            null,
+            new FindLetterInPicture(),
+            new FindFMNSConsonantBySound(),
+            new FindFMNSConsonantBySound()
         };
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
-        /// <param name="mode">The mode we are looking for</param>
-        /// <returns></returns>
+        /// <param name="level">The level to be used as index</param>
+        /// <returns>the gamemode of the level given or null if it is outside the indexes of the list</returns>
         public IGenericGameMode SetMode(int level)
         {
+            if(gamemodes.Count > level && level >= 0)
+            {
+                return gamemodes[level];
+            }
+            else 
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a gamemode based on a given string
+        /// </summary>
+        /// <param name="gamemode">the string representation of the given gamemode</param>
+        /// <returns>the desired gamemode or the default one if the desired gamemode could not be found</returns>
+        public IGenericGameMode SetMode(string gamemode)
+        {
             ISEGameMode modeReturned;
-            string mode = gamemodes[level];
-            switch (mode)
+            switch (gamemode)
             {
                 case "spellword":
                     modeReturned = new SpellWordFromImage();
@@ -67,15 +83,12 @@ namespace Scenes._50_Minigames.Gamemode
                 case "SymbolEaterLevel3":
                     modeReturned = new SymbolEaterLevel3();
                     break;
-
                 case "Level4_SymbolEater":
                     modeReturned = new Level4_SymbolEater();
                     break;
-
                 case "Level5_SymbolEater":
                     modeReturned = new Level5_SymbolEater();
                     break;
-
                 default:
                     Debug.Log("given mode was not among expected options, returning null");
                     modeReturned = null;
@@ -83,21 +96,37 @@ namespace Scenes._50_Minigames.Gamemode
             }
             return modeReturned;
         }
+
+        /// <summary>
+        /// returns a gamerule set
+        /// </summary>
+        /// <param name="level">The level to use as index for the desired gamerules</param>
+        /// <returns></returns>
+        public IGameRules SetRules(int level)
+        {
+            if(gamerules.Count > level && level >= 0)
+            {
+                return gamerules[level];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// returns a gamerule set
         /// </summary>
         /// <param name="rules">The rules we are looking for</param>
-        /// <returns></returns>
-        public IGameRules SetRules(int level)
+        /// <returns>the desired gamerules. Otherwise returns the default set</returns>
+        public IGameRules SetRules(string gamerules)
         {
             IGameRules rulesReturned;
-            string rules = gamerules[level];
-            switch (rules)
+            switch (gamerules)
             {
                 case "spellword":
                     rulesReturned = new SpellWord();
                     break;
-
                 case "findnumberseries":
                     rulesReturned = new FindNumberSeries();
                     break;
@@ -125,7 +154,6 @@ namespace Scenes._50_Minigames.Gamemode
                 case "GetVowelFromPic":
                     rulesReturned = new FindLetterInPicture();
                     break;
-
                 case "Level4_SymbolEater":
                     rulesReturned = new FindFMNSConsonantBySound();
                     break;
@@ -137,8 +165,7 @@ namespace Scenes._50_Minigames.Gamemode
                     rulesReturned = null;
                     break;
             }
-
-            return rulesReturned;
+           return rulesReturned;
         }
     }
 }

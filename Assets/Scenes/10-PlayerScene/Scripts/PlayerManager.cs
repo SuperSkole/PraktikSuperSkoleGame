@@ -1,11 +1,9 @@
-using System.Collections;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Spine.Unity;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +18,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
-
+        public GameObject coinPrefab;
         private PlayerData playerData;
         private GameObject spawnedPlayer;
         private ColorChanging colorChanging;
@@ -82,6 +80,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
+            GameManager.Instance.playerManager = this;
         }
         
         /// <summary>
@@ -300,6 +299,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                instance.spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
 
             }

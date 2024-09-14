@@ -9,18 +9,19 @@ namespace Scenes._10_PlayerScene.Scripts
         [SerializeField] private bool cameraMoveWithDrag;
 
         [SerializeField] private float turnSpeed;
+        private Rigidbody rb;
         // Start is called before the first frame update
         void Start()
         {
             //Cursor.visible = false;
             //Cursor.lockState = CursorLockMode.Locked;
-
+            rb = GetComponent<Rigidbody>();
 
 
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             float y = Input.GetAxis("Mouse X") * turnSpeed;
             if (cameraMoveWithMouse)
@@ -32,7 +33,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (Input.GetMouseButton(1))
                 {
-                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + y, 0);
+                    rb.rotation = Quaternion.Euler(0, transform.eulerAngles.y + y, 0);
                 }
             }
         }

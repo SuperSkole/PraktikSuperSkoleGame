@@ -169,6 +169,21 @@ namespace Scenes._03_StartScene.Scripts
 
             chosenCharacter.sprite = null;           
 
+            if (monsterNameText != null)
+            {
+                monsterNameText.text = string.Empty;
+            }
+
+            if (playerInfo != null)
+            {
+                playerInfo.text = string.Empty;
+            }
+
+            if (chosenCharacter != null)
+            {
+                chosenCharacter.sprite = null;
+            }
+
             // Set SaveKey to null to indicate no save is associated with the panel
             SaveKey = null;
     

@@ -31,7 +31,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 Vector3 pos = new Vector3(playerPos.x, potientialCube.transform.position.y, playerPos.z);
 
                 //Check to ensure it does not try to activate an already active lettercube
-                while(activeLetterCubes.Contains(potientialCube) || pos == potientialCube.transform.position)
+                while(activeLetterCubes.Contains(potientialCube) || pos == potientialCube.transform.position && potientialCube.active)
                 {
                     potientialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
@@ -96,7 +96,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             
             LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             //Ensures that the new cube is not one which is already activated
-            while(activeLetterCubes.Contains(potentialCube))
+            while(activeLetterCubes.Contains(potentialCube) && potentialCube.active)
             {
                 potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
             }

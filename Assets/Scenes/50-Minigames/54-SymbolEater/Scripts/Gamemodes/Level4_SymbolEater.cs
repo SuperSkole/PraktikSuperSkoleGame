@@ -82,7 +82,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules,boardController.GetPlayer().transform.position);
                 //Activates a random lettercube with the correct letter
                 GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-            boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord");
+            boardController.SetAnswerText("Tryk [Mellemrum] for at hï¿½re et bogstav, Find det bogstav der passer med lydklippet");
 
             CurrentWordSound();
 
@@ -155,7 +155,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     //Checks if the player has won. If not a new game is started
                     correctLetters++;
                     boardController.monsterHivemind.IncreaseMonsterSpeed();
-                    if (correctLetters < 5)
+                    if (correctLetters < 6)
                     {
                         boardController.monsterHivemind.ResetSpeed();
                         GetSymbols();
@@ -181,7 +181,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                                 multiplier = 4;
                                 break;
                         }
-                        boardController.Won("Du vandt. Du fandt det næste bogstav fem gange", multiplier * 1, multiplier * 1);
+                        boardController.Won("Du vandt. Du fandt det nï¿½ste bogstav seks gange", multiplier * 1, multiplier * 1);
                     }
                 }
             }
