@@ -169,14 +169,24 @@ namespace Scenes._03_StartScene.Scripts
 
             chosenCharacter.sprite = null;           
 
-            if (monsterNameText != null)
+            if (MonsterName != null)
             {
-                monsterNameText.text = string.Empty;
+                MonsterName.text = string.Empty;
             }
 
-            if (playerInfo != null)
+            if (GoldAmount != null)
             {
-                playerInfo.text = string.Empty;
+                GoldAmount.text = string.Empty;
+            }
+
+            if (XPAmount != null)
+            {
+                XPAmount.text = string.Empty;
+            }
+
+            if (LevelAmount != null)
+            {
+                LevelAmount.text = string.Empty;
             }
 
             if (chosenCharacter != null)
