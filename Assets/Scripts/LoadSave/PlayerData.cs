@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using UnityEngine;
-using Spine.Unity;
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace LoadSave
 {
@@ -29,9 +28,12 @@ namespace LoadSave
         public List<string> CollectedWords = new List<string>();
         public List<char> CollectedLetters = new List<char>();
         public List<char> CollectedNumbers = new List<char>();
-        
+
         // Clothing list
         public List<int> BoughtClothes = new List<int>();
+
+        public List<CarInfo> listOfCars = new List<CarInfo>() { new CarInfo("Mustang", "Red", true) };
+
 
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
@@ -67,7 +69,16 @@ namespace LoadSave
         /// <param name="xpAmount">Initial experience points.</param>
         /// <param name="level">Starting level of the character.</param>
         /// <param name="position">Initial position of the character in the game world.</param>
-        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position, string midCloth, string topCloth)
+        public void Initialize(string username,
+                               string monsterName,
+                               string monsterColor,
+                               int goldAmount,
+                               int xpAmount,
+                               int level,
+                               Vector3 position,
+                               string midCloth,
+                               string topCloth,
+                               List<CarInfo> listOfCars)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -78,11 +89,25 @@ namespace LoadSave
             this.currentPosition = position;
             this.clothMid = midCloth;
             this.clothTop = topCloth;
+            this.listOfCars = listOfCars;
         }
 
         public void SetLastInteractionPoint(Vector3 position)
         {
             LastInteractionPoint = position;
         }
+        public string ReturnActiveCarName()
+        {
+
+            //foreach (var item in listOfCars)
+            //{
+            //    if (item.IsActive)
+            //    {
+            //        return item.Name;
+            //    }
+            //}
+            return GameObject.FindGameObjectWithTag("Car").name;
+        }
     }
 }
+

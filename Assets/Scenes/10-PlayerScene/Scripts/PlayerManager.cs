@@ -153,7 +153,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 1,
                 spawnedPlayer.transform.position,
                 null,
-                null
+                null,
+                GameManager.Instance.PlayerData.listOfCars
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -171,6 +172,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
+
+            //playerData.listOfCars.Add("Mustang","Red",true);
 
             // Log for debugging
             // Debug.Log(
@@ -237,7 +240,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.PlayerLevel,
                 saveData.SavedPlayerStartPostion.GetVector3(),
                 saveData.clothMid,
-                saveData.clothTop
+                saveData.clothTop,
+                saveData.listOfCars
             );
 
             // Call the ColorChange method to recolor the player
@@ -359,6 +363,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
+
                 }    
             }
         }
@@ -420,10 +425,10 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
 
-                    var car = GameObject.Find("Prometheus Variant");
-                    car.transform.position = playerData.CarPos;
-                    car.transform.rotation = playerData.CarRo;
-                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+                    //var car = GameObject.Find("Prometheus Variant");
+                    //car.transform.position = playerData.CarPos;
+                    //car.transform.rotation = playerData.CarRo;
+                    //car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
 
 
                 }
