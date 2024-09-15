@@ -153,7 +153,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 1,
                 spawnedPlayer.transform.position,
                 null,
-                null
+                null,
+                GameManager.Instance.PlayerData.listOfCars
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -239,7 +240,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.PlayerLevel,
                 saveData.SavedPlayerStartPostion.GetVector3(),
                 saveData.clothMid,
-                saveData.clothTop
+                saveData.clothTop,
+                saveData.listOfCars
             );
 
             // Call the ColorChange method to recolor the player

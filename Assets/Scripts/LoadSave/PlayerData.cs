@@ -32,7 +32,8 @@ namespace LoadSave
         // Clothing list
         public List<int> BoughtClothes = new List<int>();
 
-        public List<CarInfo> listOfCars;
+        public List<CarInfo> listOfCars = new List<CarInfo>() { new CarInfo("Mustang", "Red", true) };
+
 
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
@@ -68,7 +69,16 @@ namespace LoadSave
         /// <param name="xpAmount">Initial experience points.</param>
         /// <param name="level">Starting level of the character.</param>
         /// <param name="position">Initial position of the character in the game world.</param>
-        public void Initialize(string username, string monsterName, string monsterColor, int goldAmount, int xpAmount, int level, Vector3 position, string midCloth, string topCloth)
+        public void Initialize(string username,
+                               string monsterName,
+                               string monsterColor,
+                               int goldAmount,
+                               int xpAmount,
+                               int level,
+                               Vector3 position,
+                               string midCloth,
+                               string topCloth,
+                               List<CarInfo> listOfCars)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -79,6 +89,7 @@ namespace LoadSave
             this.currentPosition = position;
             this.clothMid = midCloth;
             this.clothTop = topCloth;
+            this.listOfCars = listOfCars;
         }
 
         public void SetLastInteractionPoint(Vector3 position)
