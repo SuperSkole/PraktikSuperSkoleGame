@@ -1,17 +1,15 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UI.Scripts
 {
     public class Wardrop : MonoBehaviour
     {
         public SkeletonGraphic skeletonGraphic;
-
-        //The item names
-        private string currentTopItem;
-        private string currentMidItem;
 
         //changing color
         private ColorChanging playerColorChanging;
@@ -21,6 +19,12 @@ namespace UI.Scripts
         [SerializeField] GameObject WardrobePrefab;
         [SerializeField] Transform WardrobeParent;
 
+        private WardrobeOption currentOption;
+
+        private string wearingMid = null;
+        private string wearingTop = null;
+        private string wearingColor = null;
+        
         //colors
         List<string> colors = new List<string>();
 
@@ -43,19 +47,25 @@ namespace UI.Scripts
             //chnage clothes
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+
             List<ClothInfo> theWardrobeOptions = new();
+
             try
             {
                 theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
+                if (theWardrobeOptions.Count != 0)
+                {
+                    InitializeWardrobeOption(theWardrobeOptions);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-            }
-            if (theWardrobeOptions.Count != 0)
-            {
-                InitializeWardrobeOption(theWardrobeOptions);
+                Debug.LogError($"Error fetching wardrobe options: {ex.Message}");
             }
 
+            wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
+            wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+            wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
         }
 
         private void OnDisable()
@@ -66,6 +76,9 @@ namespace UI.Scripts
             {
                 Destroy(WardrobeParent.GetChild(i).gameObject);
             }
+
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
 
@@ -84,28 +97,54 @@ namespace UI.Scripts
 
         public void Click(string itemName, WardrobeOption wardrobeShopOption)
         {
-            if (itemName.Contains("TOP"))
-            {
-                if (currentTopItem != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(currentTopItem, null);
-                }
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                currentTopItem = itemName;
 
-                PlayerManager.Instance.PlayerData.ClothMid = currentTopItem;
+            if (currentOption != null)
+            {
+                currentOption.UnSelect();
+            }
+
+            currentOption = wardrobeShopOption;
+
+            if (itemName.Contains("HEAD"))
+            {
+                if (wearingTop != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+                }
+                if (wearingMid != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+                }
+                if (wearingColor != null)
+                {
+                    playerColorChanging.ColorChange(wearingColor);
+                }
+
+                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                wearingTop = itemName;
+
+                PlayerManager.Instance.PlayerData.ClothTop = itemName;
             }
 
             if (itemName.Contains("MID"))
             {
-                if (currentMidItem != null)
+                if (wearingMid != null)
                 {
-                    skeletonGraphic.Skeleton.SetAttachment(currentMidItem, null);
+                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
                 }
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                currentMidItem = itemName;
+                if (wearingTop != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
+                }
+                if (wearingColor != null)
+                {
+                    playerColorChanging.ColorChange(wearingColor);
+                }
 
-                PlayerManager.Instance.PlayerData.ClothMid = currentMidItem;
+                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                wearingMid = itemName;
+
+                PlayerManager.Instance.PlayerData.ClothMid = itemName;
             }
 
             foreach (var color in colors)
@@ -113,14 +152,32 @@ namespace UI.Scripts
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
                     playerColorChanging.ColorChange(itemName);
+
+                    if (wearingMid != null)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+                    }
+                    if (wearingTop != null)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
+                    }
+
+                    wearingColor = itemName;
+
+                    PlayerManager.Instance.PlayerData.MonsterColor = itemName;
                 }
             }
         }
 
         public void CloseShop()
         {
+            currentOption = null;
             this.gameObject.SetActive(false);
+            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
+
+       
     }
 
 }

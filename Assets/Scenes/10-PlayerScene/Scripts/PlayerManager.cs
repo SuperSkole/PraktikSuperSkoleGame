@@ -361,6 +361,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
+
                 }    
             }
         }
