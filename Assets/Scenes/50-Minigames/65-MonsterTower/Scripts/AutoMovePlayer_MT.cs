@@ -94,9 +94,16 @@ namespace Scenes._10_PlayerScene.Scripts
             StartCoroutine(MoveToPositionCoroutine(block, onReachedTarget));
         }
 
+
+        /// <summary>
+        /// Moves the player to a gameobjects position
+        /// </summary>
+        /// <param name="block"></param>
+        /// <param name="onReachedTarget"></param>
+        /// <returns></returns>
         public IEnumerator MoveToPositionCoroutine(GameObject block, Action onReachedTarget = null)
         {
-            Debug.Log("moving");
+            //Debug.Log("moving");
             spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Walk");
             while (Vector3.Distance(spawnedPlayer.transform.position, block.transform.position) > 1.5f)
             {
@@ -130,7 +137,7 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Throw");
             
-            Debug.Log("Picked up block");
+            //Debug.Log("Picked up block");
             //GameObject block = GameObject.Find("WordBlock");
             GameObject block = chosenBlock;
             if (block != null)
@@ -170,7 +177,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void DropOffBlock()
         {
-            Debug.Log("dropped off block");
+            //Debug.Log("dropped off block");
             //GameObject block = GameObject.Find("WordBlock");
             GameObject block = chosenBlock;
             if (block != null)
@@ -235,6 +242,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Invoke the callback action
             onComplete?.Invoke();
+
         }
 
     }

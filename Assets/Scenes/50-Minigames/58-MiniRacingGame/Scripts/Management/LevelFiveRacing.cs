@@ -20,7 +20,7 @@ public class LevelFiveRacing : IRacingGameMode
         return "Kør igennem den halvdel der lyder som konsonanten der bliver sagt.";
     }
     /// <summary>
-    /// Sets the words needed for the gamemode. 
+    /// Sets what the correct word/image is for the current gameMode.
     /// </summary>
     /// <exception cref="System.NotImplementedException"></exception>
     public void DetermineWordToUse(RacingCore core)

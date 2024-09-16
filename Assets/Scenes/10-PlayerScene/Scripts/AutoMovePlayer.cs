@@ -92,7 +92,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="block">The position of the block to move to.</param>
         private void MovePlayerToBlockAndPickUpBlock(GameObject block)
         {
-            Debug.Log(block);
+           
             chosenBlock = block;
             MoveToPosition(block, PickUpBlock);
         }
