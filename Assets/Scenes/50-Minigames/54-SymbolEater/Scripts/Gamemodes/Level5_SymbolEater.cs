@@ -234,7 +234,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     //Checks if the player has won. If not a new game is started
                     correctLetters++;
                     boardController.monsterHivemind.IncreaseMonsterSpeed();
-                    if (correctLetters < 6)
+                    if (correctLetters < 4)
                     {
                         boardController.monsterHivemind.ResetSpeed();
                         GetSymbols();
@@ -260,7 +260,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                                 multiplier = 4;
                                 break;
                         }
-                        boardController.Won("Du vandt. Du fandt det næste bogstav 6 gange", multiplier * 1, multiplier * 1);
+                        boardController.Won("Du vandt. Du fandt det næste bogstav 4 gange", multiplier * 1, multiplier * 1);
                     }
                 }
             }
