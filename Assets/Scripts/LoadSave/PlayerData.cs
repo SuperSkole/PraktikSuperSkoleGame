@@ -108,6 +108,8 @@ namespace LoadSave
             //}
             return GameObject.FindGameObjectWithTag("Car").name;
         }
+
+        public void Initialize(string dtoUsername, string dtoMonsterName, string dtoMonsterColor, int dtoGoldAmount, int dtoXPAmount, int dtoPlayerLevel, Vector3 getVector3, string dtoClothMid, string dtoClothTop) { throw new System.NotImplementedException(); }
     }
 }
 

@@ -167,7 +167,10 @@ namespace Scenes._03_StartScene.Scripts
             XPAmount.text = string.Empty;    
             LevelAmount.text = string.Empty;
 
-            chosenCharacter.sprite = null;           
+            if (chosenCharacter != null)
+            {
+                chosenCharacter.sprite = null;
+            }
 
             if (MonsterName != null)
             {
@@ -193,6 +196,7 @@ namespace Scenes._03_StartScene.Scripts
             {
                 chosenCharacter.sprite = null;
             }
+            
 
             // Set SaveKey to null to indicate no save is associated with the panel
             SaveKey = null;
