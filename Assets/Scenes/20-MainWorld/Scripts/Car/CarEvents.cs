@@ -2,6 +2,7 @@ using Cinemachine;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Scenes._20_MainWorld.Scripts.Car
 {
@@ -29,8 +30,19 @@ namespace Scenes._20_MainWorld.Scripts.Car
             }
             if (prometeoCarController != null)
             {
-                gameObject.GetComponent<PrometeoCarController>().enabled = false;
-                gameObject.GetComponent<CarFuelMangent>().enabled = false;
+                GetComponent<PrometeoCarController>().carSpeedText = GameObject.Find("CarSpeedTxt").GetComponent<Text>();
+                GetComponent<PrometeoCarController>().enabled = false;
+                GetComponent<CarFuelMangent>().fuelGauge = GameObject.Find("FuelBar").transform.Find("background").GetComponentInChildren<Image>();
+                GetComponent<CarFuelMangent>().enabled = false;
+                GetComponent<CarSaveTPPoint>().enabled = false;
+                GetComponent<IsCarFlipped>().enabled = false;
+                carSpeedGo = GameObject.Find("CarSpeedTxt");
+                carFuelBarGo = GameObject.Find("FuelBar");
+                callCarButton = GameObject.Find("CallCarButton");
+
+                carSpeedGo.SetActive(false);
+                carFuelBarGo.SetActive(false);
+
                 SoundParent.SetActive(false);
             }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
@@ -99,7 +111,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     //prometeoCarController.SetEnabledValue(false);
                     prometeoCarController.Brakes();
                     prometeoCarController.enabled = false;
-                    gameObject.GetComponent<CarFuelMangent>().enabled = false;
+                    GetComponent<CarFuelMangent>().enabled = false;
                     GetComponent<IsCarFlipped>().enabled = false;
                     GetComponent<CarSaveTPPoint>().enabled = false;
                     carSpeedGo.SetActive(false);

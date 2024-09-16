@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: PCC_Col_Mat
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 2100000, guid: 975b4d94cd15da34d833f64957a8479a, type: 2}
+  m_Parent: {fileID: 2100000, guid: 6c7e85d89b2e5e34a93e7f83facefcaa, type: 2}
   m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _ENVIRONMENTREFLECTIONS_OFF
@@ -37,6 +37,8 @@ Material:
     - _GlossyReflections: 0
     - _SpecularHighlights: 0
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &889482792349623556

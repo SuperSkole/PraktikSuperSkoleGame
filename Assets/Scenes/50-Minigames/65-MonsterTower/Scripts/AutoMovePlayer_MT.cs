@@ -242,7 +242,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Invoke the callback action
             onComplete?.Invoke();
-
         }
 
     }

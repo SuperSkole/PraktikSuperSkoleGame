@@ -31,33 +31,37 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 Vector3 pos = new Vector3(playerPos.x, potientialCube.transform.position.y, playerPos.z);
 
                 //Check to ensure it does not try to activate an already active lettercube
-                while(activeLetterCubes.Contains(potientialCube) || pos == potientialCube.transform.position && potientialCube.active)
+                while(pos == potientialCube.transform.position || potientialCube.active)
                 {
                     potientialCube = letterCubes[Random.Range(0, letterCubes.Count)];
                 }
-                activeLetterCubes.Add(potientialCube);
                 
                 getLetterCubeValue(potientialCube, correct);
             }
             int foundLetterCubes = 0;
-            foreach(LetterCube letterCube in activeLetterCubes)
+            foreach(LetterCube letterCube in letterCubes)
             {
-                if(correct && gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                if (letterCube.active)
                 {
-                    foundLetterCubes++;
-                }
-                else if(!correct && !gameRules.IsCorrectSymbol(letterCube.GetLetter()))
-                {
-                    foundLetterCubes++;
-                }
-                if(foundLetterCubes == amount)
-                {
-                    break;
+                    if (correct && gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                    {
+                        foundLetterCubes++;
+                        activeLetterCubes.Add(letterCube);
+                    }
+                    else if (!correct && !gameRules.IsCorrectSymbol(letterCube.GetLetter()))
+                    {
+                        foundLetterCubes++;
+                        activeLetterCubes.Add(letterCube);
+                    }
+                    if (foundLetterCubes == amount)
+                    {
+                        break;
+                    }
                 }
             }
             if(foundLetterCubes < amount)
             {
-                ActivateLetterCubes(amount - foundLetterCubes, letterCubes, activeLetterCubes, getLetterCubeValue, correct, gameRules, playerPos);
+                //ActivateLetterCubes(amount - foundLetterCubes, letterCubes, activeLetterCubes, getLetterCubeValue, correct, gameRules, playerPos);
             }
         }
 

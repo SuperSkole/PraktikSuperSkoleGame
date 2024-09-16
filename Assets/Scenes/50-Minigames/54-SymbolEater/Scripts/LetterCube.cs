@@ -171,6 +171,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="specific">Whether capitilzation should be preserved</param>
         public void Activate(string letter, bool specific)
         {
+            if(letter == null || letter == "")
+            {
+                Debug.Log("you fucked up");
+            }
                 //Randomly sets some letters to lower case
                 int lower = Random.Range(0, 2);
                 if (lower == 0 && !specific)

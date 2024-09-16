@@ -3723,7 +3723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3815090322609529763, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
       propertyPath: m_Volume
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5263160093492653069, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
       propertyPath: m_Interpolate
@@ -5145,9 +5145,11 @@ MonoBehaviour:
   racingGameManager: {fileID: 2058392656}
   coinEffect: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   levelCreator: {fileID: 1087775996}
+  imageInitialized: 0
   objectiveText: {fileID: 2986998205466991338}
   targetWord: 
   imageWord: 
+  currentMode: 
 --- !u!222 &664682909551195383
 CanvasRenderer:
   m_ObjectHideFlags: 0
