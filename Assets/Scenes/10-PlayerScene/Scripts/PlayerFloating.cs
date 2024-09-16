@@ -21,7 +21,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         private void Floating()
         {
-            bool rayDidHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, rideHeight * 2);
+            bool rayDidHit = Physics.Raycast(transform.GetChild(0).position, Vector3.down, out RaycastHit hit, rideHeight * 2);
             if (rayDidHit)
             {
 
@@ -40,7 +40,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 float springForce = (x * rideSpringStrength) - (relVel * rideSpringDamper);
 
-                Debug.DrawLine(transform.position, transform.position + (rayDir * springForce), Color.yellow);
+                Debug.DrawLine(transform.GetChild(0).position, transform.GetChild(0).position + (rayDir * springForce), Color.yellow);
 
                 rb.AddForce(rayDir * springForce);
             }

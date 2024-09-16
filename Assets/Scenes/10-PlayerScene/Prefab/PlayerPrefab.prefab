@@ -39,6 +39,7 @@ Transform:
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1056490983143172613}
   - {fileID: 7954909943777536845}
   - {fileID: 5553046305399648821}
   - {fileID: 1359369177252859840}
@@ -73,6 +74,7 @@ MonoBehaviour:
   CollectedLetters: 
   CollectedNumbers: 
   BoughtClothes: 
+  listOfCars: []
   LastInteractionPoint: {x: 0, y: 0, z: 0}
 --- !u!54 &5874153678614725772
 Rigidbody:
@@ -123,7 +125,7 @@ CapsuleCollider:
   m_Radius: 1.8300003
   m_Height: 8.069439
   m_Direction: 1
-  m_Center: {x: 0.3, y: -4.187174, z: -1.8800002}
+  m_Center: {x: 0.3, y: -4.187174, z: -2}
 --- !u!114 &2014260511405141757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5874153678614725772}
-  rideHeight: 2.3
+  rideHeight: 1.4
   rideSpringStrength: 50
   rideSpringDamper: 10
 --- !u!114 &5743102167441662518
@@ -536,3 +538,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.32, y: 0.35}
   m_EdgeRadius: 0
+--- !u!1 &5004530963322175363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056490983143172613}
+  m_Layer: 8
+  m_Name: PlayerCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1056490983143172613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5004530963322175363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.3, y: -4.187174, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3403437169497779405}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

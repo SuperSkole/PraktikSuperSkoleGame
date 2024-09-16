@@ -13,7 +13,6 @@ namespace UI.Scripts
         //private Image profilImage;
         private string SpineName;
 
-        Image imageComponent;
         Outline outlineComponent;
 
         private Wardrop wardrop;
@@ -21,7 +20,6 @@ namespace UI.Scripts
         private void Awake()
         {
             wardrop = FindObjectOfType<Wardrop>();
-            imageComponent = GetComponent<Image>();
             outlineComponent = GetComponent<Outline>();
         }
 
@@ -34,14 +32,13 @@ namespace UI.Scripts
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            Debug.Log("click");
             wardrop.Click(SpineName,this);
-            imageComponent.enabled = true;
             outlineComponent.enabled = true;
         }
 
         public void UnSelect()
         {
-            imageComponent.enabled = false;
             outlineComponent.enabled = false;
         }
     }

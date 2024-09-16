@@ -96,7 +96,7 @@ namespace Scenes._02_LoginScene.Scripts
 #endif
 
             // Validate password complexity for registration.
-            isRegisterButtonInteractable = IsPasswordValid(password);
+            isRegisterButtonInteractable = (IsUsernameValid(username) && IsPasswordValid(password));
 
             // Update visibility of login and register buttons based on their interactable states.
             ToggleButtonVisibility(loginButton, isLoginButtonInteractable);
