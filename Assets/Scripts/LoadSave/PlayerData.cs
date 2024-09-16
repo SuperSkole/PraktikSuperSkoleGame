@@ -54,8 +54,8 @@ namespace LoadSave
         public Vector3 LastInteractionPoint;
 
         //For the Car
-        public Vector3 CarPos { get; set; } = new Vector3(-202, 37, -137);
-        public quaternion CarRo { get; set; } = new Quaternion(0, 1, 0, 1);
+        public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
+        public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
         public float FuelAmount { get; set; } = 1f;
 
 

@@ -28,11 +28,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private GameObject coinEffect;
         [SerializeField]
         private GameObject levelCreator;
-        private readonly FindLetterInPicture gameRuleVocal = new();
+        public readonly FindLetterInPicture gameRuleVocal = new();
         private readonly FindConsonant gameRuleConsonant = new();
         private new AudioSource audio;
 
-        private bool imageInitialized = false;
+        public bool imageInitialized = false;
 
         private static bool raceActive = true;
 
@@ -57,11 +57,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private bool displayToggle = false;
         //private bool finalStretch = false;
 
-        private readonly List<string> spelledWordsList = new(); // Tracks spelled words
+        public readonly List<string> spelledWordsList = new(); // Tracks spelled words
         public string targetWord = "";
         public string imageWord = "";
         private int currentIndex = 0;
-        private readonly string[] level5Consonants = { "f", "m", "n", "s" };
+        public readonly string[] level5Consonants = { "f", "m", "n", "s" };
 
         private bool timerRunning = false;
         private float timer = 0f;
@@ -69,7 +69,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public Dictionary<string, AudioClip> wordsAudioMap = new();
         public Dictionary<string, Sprite> wordsImageMap = new(); //sprite? Or texture2D?
 
-        private string currentMode;
+        public string currentMode;
+
+        public IRacingGameMode racingGameMode;
+
+
 
         public float Timer { get => timer; set => timer = value; }
         #endregion
@@ -80,29 +84,26 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
-            IRacingGameMode mode = (IRacingGameMode)gameMode;
+           racingGameMode = (IRacingGameMode)gameMode;
             
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
 
-            carController.GetComponent<CarController>();
-
             //Set map conditions: (To do : make in seperate script)
             imageDisplayActive = true;
             audioActive = true;
 
-            currentMode = mode.returnMode();
-            objectiveText.text = mode.displayObjective();
+            currentMode = racingGameMode.returnMode();
+            objectiveText.text = racingGameMode.displayObjective();
 
-            DetermineWordToUse(); // Select a random word from the list
+            racingGameMode.DetermineWordToUse(this); // Select a random word from the list
             levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;
             levelCreator.SetActive(true);
             playerCar.SetActive(true);
 
             UpdateBillBoard();
             PlayWordAudio(targetWord);
-            carController.Setup();
             StartTimer();
         }
         /// <summary>
@@ -167,7 +168,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// <summary>
         /// Called to set up sprites for the billboards
         /// </summary>
-        private Sprite QuickSprite(Texture2D image)
+        public Sprite QuickSprite(Texture2D image)
         {
             return Sprite.Create(image, new Rect(0, 0, image.width, image.height), new Vector2(0.5f, 0.5f));
         }
@@ -227,54 +228,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         #endregion
 
         #region other
-        /// <summary>
-        /// Checks which game mode is in use
-        /// </summary>
-        /// <param name="gameMode">The gamemode the racing game is using</param>
-        private void DetermineWordToUse()
-        {
-            if (currentMode == GameModes.ModeTemp1)
-            {
-                if (spelledWordsList.Count < 3)
-                {
-                    SelectRandomWord();
-                }
-                else
-                    EndGame();
-            }
-            else if (currentMode == GameModes.ModeTemp2)
-            {
-                if (spelledWordsList.Count < 1)
-                {
-                    SelectRandomWord();
-                }
-                else
-                    EndGame();
-            }
-            else if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode2)
-            {
-                if (spelledWordsList.Count < 3)
-                {
-                    SelectRandomVocal();
-                }
-                else
-                    EndGame();
-            }
-            else if (currentMode == GameModes.Mode5)
-            {
-                if (spelledWordsList.Count < 3)
-                {
-                    SelectRandomConsonant();
-                }
-                else
-                    EndGame();
-            }
-        }
 
         /// <summary>
         /// Ends the game and give players their reward
         /// </summary>
-        private void EndGame()
+        public void EndGame()
         {
             targetWord = "End";
 
@@ -492,7 +450,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                         currentIndex = 0; // Reset for the next game or end game
                         spelledWordsList.Add(targetWord); // Add the spelled word to the list
 
-                        DetermineWordToUse(); // Select a new random word for the next game
+                        racingGameMode.DetermineWordToUse(this); // Select a new random word for the next game
                     }
                 }
                 displayToggle = !displayToggle;
@@ -508,7 +466,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// Updates the word display.
         /// </summary>
         /// <param name="word"></param>
-        private void UpdateWordImageDisplay()
+        public void UpdateWordImageDisplay()
         {
             if (imageDisplayActive == true)
             {
