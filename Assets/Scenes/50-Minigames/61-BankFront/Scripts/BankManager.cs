@@ -42,8 +42,6 @@ public class BankManager : MonoBehaviour
             for(int i = 0; i < amount; i++)
             {
                 int coinRoll = Random.Range(0, 100);
-                Debug.Log("coinroll: " + coinRoll);
-                Debug.Log("chancePerCoin:" + chancePerCoin);
                 bool realCoin = false;
                 for(int j = 0; j < validCoins.Count; j++)
                 {
@@ -83,7 +81,6 @@ public class BankManager : MonoBehaviour
                 correct = false;
             }
         }
-        Debug.Log("currentSum: " + currentSum);
         if(correct && playerGuess == currentSum)
         {
             sortedTrayBackground.color = Color.green;
@@ -124,9 +121,8 @@ public class BankManager : MonoBehaviour
 
     public void UpdateGuess()
     {
-        int number;
-        bool res = Int32.TryParse(inputField.text, out number);
-        if(res)
+        bool res = Int32.TryParse(inputField.text, out int number);
+        if (res)
         {
             playerGuess = number;
         }
