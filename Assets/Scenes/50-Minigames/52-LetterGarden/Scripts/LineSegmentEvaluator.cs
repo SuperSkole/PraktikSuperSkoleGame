@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using Unity.Mathematics;
 using Unity.VisualScripting;
-
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.Splines;
@@ -62,6 +61,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             if(totalCorrectDirectionPrecentage <= totalCorrectDirectionPrecentageCutoff)
             {
                 Debug.Log("too mutch of the dwaing was in the worng direction");
+                return false;
+            }
+
+            if(totalDist >= maxDist)
+            {
+                Debug.Log("You were to inacriate");
                 return false;
             }
 
