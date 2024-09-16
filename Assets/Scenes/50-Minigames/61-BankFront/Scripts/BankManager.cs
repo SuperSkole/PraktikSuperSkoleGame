@@ -9,6 +9,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Manager class for the bank main entrance minigame
+/// </summary>
 public class BankManager : MonoBehaviour
 {
     [SerializeField]private List<GameObject>validCoins;
@@ -27,22 +30,22 @@ public class BankManager : MonoBehaviour
 
     private int completedGames = 0;
     private int mistakes = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Starts up the game if it is currently not going
+    /// </summary>
     void Update()
     {
         if(currentCustomersCoins.Count == 0)
         {
+            //finds out how many coins the customer have and then generates them
             int amount = Random.Range(1, 20);
             float chancePerCoin = realCoinPercentage / validCoins.Count;
             for(int i = 0; i < amount; i++)
             {
                 int coinRoll = Random.Range(0, 100);
                 bool realCoin = false;
+                //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
                 for(int j = 0; j < validCoins.Count; j++)
                 {
                     if(coinRoll < (j + 1) * chancePerCoin)
@@ -56,6 +59,7 @@ public class BankManager : MonoBehaviour
                         break;
                     }
                 }
+                //Does the same but for fake coins
                 if(!realCoin)
                 {
                     coinRoll = Random.Range(0, fakeCoins.Count);
@@ -68,8 +72,12 @@ public class BankManager : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Checks if the player has sorted the coins correctly and if their total for the correct ones is correct
+    /// </summary>
     public void Validate()
     {
+        //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
         bool correct = true;
         int currentSum = 0;
         foreach(Coin coin in currentCustomersCoins)
@@ -81,6 +89,7 @@ public class BankManager : MonoBehaviour
                 correct = false;
             }
         }
+        //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
         if(correct && playerGuess == currentSum)
         {
             sortedTrayBackground.color = Color.green;
@@ -90,11 +99,13 @@ public class BankManager : MonoBehaviour
             Instantiate(coinPrefab);
             StartCoroutine(Restart());
         }
+        //Changes the background color of the trays to yellow if either the guess or the sorting is correct
         else if(correct || playerGuess == currentSum)
         {
             sortedTrayBackground.color = Color.yellow;
             unsortedTraybackground.color = Color.yellow;
         }
+        //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
             sortedTrayBackground.color = Color.red;
@@ -102,6 +113,10 @@ public class BankManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Waits a bit and then prepares for a restart of the game. If enough games have been completed the game ends
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Restart()
     {
         yield return new WaitForSeconds(5);
@@ -119,6 +134,9 @@ public class BankManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the playerguess then the player types an integer into the player guess field
+    /// </summary>
     public void UpdateGuess()
     {
         bool res = Int32.TryParse(inputField.text, out int number);

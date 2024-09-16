@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Class to handle the coin info window in the bank main entrance minigame
+/// </summary>
 public class CoinInfoToggle : MonoBehaviour
 {
     [SerializeField] private GameObject coinWindow;
@@ -15,7 +18,9 @@ public class CoinInfoToggle : MonoBehaviour
     private Vector2 startPos;
     private Vector2 shownPos;
     
-    // Start is called before the first frame update
+    /// <summary>
+    /// Sets up various variables
+    /// </summary>
     void Start()
     {
         rectTransform = coinWindow.GetComponent<RectTransform>();
@@ -23,7 +28,9 @@ public class CoinInfoToggle : MonoBehaviour
         shownPos = new Vector2(startPos.x, -50);
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Moves the window up and down as needed
+    /// </summary>
     void Update()
     {
         if(shown && rectTransform.anchoredPosition != shownPos)
@@ -36,6 +43,9 @@ public class CoinInfoToggle : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes whether the window is shown or hidden. Also hides the coins and disables the validatebutton and the inputfield when it is shown and enables them again when it is hidden
+    /// </summary>
     public void OnClick()
     {
         shown = !shown;
@@ -44,18 +54,18 @@ public class CoinInfoToggle : MonoBehaviour
             foreach(Coin coin in bankManager.currentCustomersCoins)
             {
                 coin.gameObject.SetActive(false);
-                validateButton.interactable = false;
-                inputField.interactable = false;
             }
+            validateButton.interactable = false;
+            inputField.interactable = false;
         }
         else
         {
             foreach(Coin coin in bankManager.currentCustomersCoins)
             {
                 coin.gameObject.SetActive(true);
-                validateButton.interactable = true;
-                inputField.interactable = true;
             }
+            validateButton.interactable = true;
+            inputField.interactable = true;
         }
     }
 }
