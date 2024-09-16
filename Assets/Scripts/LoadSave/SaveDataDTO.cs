@@ -9,7 +9,6 @@ namespace LoadSave
     [System.Serializable]
     public class SaveDataDTO 
     {
-        // Change properties to fields by removing { get; set; }
         public string Username;
         public string Savefile;
         public string MonsterName;
