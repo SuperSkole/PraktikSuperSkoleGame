@@ -6,7 +6,7 @@ using UnityEngine;
 namespace LoadSave
 {
     /// <summary>
-    /// Responsible for converting between PlayerData and SaveDataDTO using reflection to minimize manual field mapping.
+    /// Responsible for converting between PlayerData and SaveDataDTO using reflection to minimize manual mapping.
     /// </summary>
     public class DataConverter
     {
