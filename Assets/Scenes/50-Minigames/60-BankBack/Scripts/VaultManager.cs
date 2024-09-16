@@ -33,6 +33,12 @@ public class VaultManager : MonoBehaviour
     {
         for(int i = 0; i < numOfModifiers; i++)
         {
+            string hint = Random.Range(0, 10000).ToString();
+            while(hint.Length < 4)
+            {
+                hint = "0" + hint;
+            }
+            hintField.text = hint;
             GameObject modifierObject = Instantiate(modObject);
             modifierObject.transform.SetParent(modifierContainer.transform);
             char op = possibleOperators[Random.Range(0, possibleOperators.Count)];
