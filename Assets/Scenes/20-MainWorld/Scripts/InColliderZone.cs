@@ -33,10 +33,11 @@ namespace Scenes._20_MainWorld.Scripts
             // TODO : Remove Try catch at later date
             try
             {
-                carEventsMa = GameObject.Find("Prometheus Variant").GetComponent<CarEventsManager>();
-                carEvents = GameObject.Find("Prometheus Variant").GetComponent<CarEvents>();
+                carEventsMa = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEventsManager>();
+                carEvents = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEvents>();
+                print("Car Found");
             }
-            catch { }
+            catch { print("No Tag with Car Found"); }
         }
 
         /// <summary>
@@ -84,17 +85,14 @@ namespace Scenes._20_MainWorld.Scripts
                         break;
                 }
             }
-            if (collision.gameObject.CompareTag("Car"))
+            if (collision.gameObject.CompareTag("Car") && isGasSTT)
             {
-                if (isGasSTT)
+                try
                 {
-                    try
-                    {
-                        carEventsMa.CarInteraction = action;
-                        carEventsMa.interactionIcon.SetActive(true);
-                    }
-                    catch { }
+                    carEventsMa.CarInteraction = action;
+                    carEventsMa.interactionIcon.SetActive(true);
                 }
+                catch { }
             }
         }
 
