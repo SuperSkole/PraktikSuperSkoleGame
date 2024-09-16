@@ -25,6 +25,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private ClothChanging clothChanging;
         private ISkeletonComponent skeleton;
 
+        private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
+
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
 
@@ -57,6 +59,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         // Player Manager Singleton
         private static PlayerManager instance;
+
         public static PlayerManager Instance => instance;
 
         /// <summary>
@@ -171,7 +174,7 @@ namespace Scenes._10_PlayerScene.Scripts
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothTop, skeleton);
 
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
-            playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
+            playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
 
             //playerData.listOfCars.Add("Mustang","Red",true);
 

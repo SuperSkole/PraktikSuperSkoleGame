@@ -26,7 +26,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
         [SerializeField] private InputAction openMenu;
 
-        [SerializeField] TextMeshProUGUI playerDataText;
+       // [SerializeField] TextMeshProUGUI playerDataText;
 
         [SerializeField] PlayerData playerData;
 
@@ -75,7 +75,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
 
 
-            playerDataText.text = "WordsCollected:" + playerData.CollectedWords.Count + "\nLettersCollected:"+playerData.CollectedLetters.Count+ "\nGoldAmount:"+playerData.CurrentGoldAmount+ "\nXPAmount:"+playerData.CurrentXPAmount;
+            //playerDataText.text = "WordsCollected:" + playerData.CollectedWords.Count + "\nLettersCollected:"+playerData.CollectedLetters.Count+ "\nGoldAmount:"+playerData.CurrentGoldAmount+ "\nXPAmount:"+playerData.CurrentXPAmount;
         }
 
         /// <summary>
