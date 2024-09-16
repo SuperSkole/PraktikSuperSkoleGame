@@ -18,9 +18,14 @@ public class LevelThreeRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør igennem den halvdel der har en vokal som er i billedets ord.";
+        return "Kï¿½r igennem den halvdel der har en vokal som er i billedets ord.";
     }
 
+
+    /// <summary>
+    /// Funtion that determins the what the correct word/image is in the current gameMode. 
+    /// </summary>
+    /// <param name="core"></param>
     public void DetermineWordToUse(RacingCore core)
     {
 
