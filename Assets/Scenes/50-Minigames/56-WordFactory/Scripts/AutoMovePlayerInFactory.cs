@@ -222,11 +222,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts
 
             // Assuming we have a valid block if we reach here.
             boxOn = false;
-            Rigidbody blockRigidbody = chosenBlock.GetComponent<Rigidbody>();
-            if (blockRigidbody)
+            if (savedBlockRigidbody)
             {
-                blockRigidbody.useGravity = true;  
-                blockRigidbody.isKinematic = false;
+                savedBlockRigidbody.useGravity = true;  
+                savedBlockRigidbody.isKinematic = false;
             }
             else
             {
