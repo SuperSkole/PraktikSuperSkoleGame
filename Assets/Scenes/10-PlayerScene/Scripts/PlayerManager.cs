@@ -257,7 +257,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
-                    ? new Vector3(-184, 39, -144)
+                    ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
 
             // Log for debugging

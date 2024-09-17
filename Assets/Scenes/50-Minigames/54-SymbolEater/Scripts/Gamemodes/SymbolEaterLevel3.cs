@@ -118,7 +118,7 @@ public class SymbolEaterLevel3 : ISEGameMode
                 //Checks if the player has won. If not a new game is started
                 correctLetters++;
                 boardController.monsterHivemind.IncreaseMonsterSpeed();
-                if (correctLetters < 5)
+                if (correctLetters < 4)
                 {
                     boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
@@ -144,7 +144,7 @@ public class SymbolEaterLevel3 : ISEGameMode
                             multiplier = 4;
                             break;
                     }
-                    boardController.Won("Du vandt. Du fandt den rigtige vokal fem gange", multiplier * 1, multiplier * 1);
+                    boardController.Won("Du vandt. Du fandt den rigtige vokal 4 gange", multiplier * 1, multiplier * 1);
                 }
             }
         }

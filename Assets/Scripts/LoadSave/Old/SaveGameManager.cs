@@ -24,6 +24,11 @@ namespace LoadSave
             return $"{username}_{monsterName}_{timestamp}{fileNameSuffix}.json";
         }
         
+        /// <summary>
+        /// Saves the house Data
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="fileName"></param>
         public void SaveJson(string json, string fileName)
         {
             EnsureDirectoryExists();
@@ -81,7 +86,7 @@ namespace LoadSave
         private SaveDataDTO CreateSaveData()
         {
             var gm = GameManager.Instance.PlayerData;
-            SaveDataDTO data = new SaveDataDTO
+                SaveDataDTO data = new SaveDataDTO
             {
                 Username = gm.Username,
                 MonsterName = gm.MonsterName,
