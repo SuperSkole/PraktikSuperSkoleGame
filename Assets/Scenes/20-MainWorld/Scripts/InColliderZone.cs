@@ -1,4 +1,5 @@
 using _99_Legacy.Interaction;
+using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._20_MainWorld.Scripts.Car;
 using UnityEngine;
@@ -16,11 +17,14 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isCar;
         [SerializeField] private bool isGasSTT;
         [SerializeField] private NPCInteractions interactions;
+        [SerializeField] private int neededLvlToEnter;
         private PlayerEventManager playerEventManager;
         private CarEventsManager carEventsMa;
         private CarEvents carEvents;
 
         private OpenCloseDoor doorMechanism;
+
+        private int playerLvl;
 
         private void Start()
         {
@@ -30,6 +34,7 @@ namespace Scenes._20_MainWorld.Scripts
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
             playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
+            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
             // TODO : Remove Try catch at later date
             try
             {
@@ -46,7 +51,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
         {
-            if (collision.gameObject.CompareTag("Player") && !isGasSTT)
+            if (collision.gameObject.CompareTag("Player") && !isGasSTT && playerLvl >= neededLvlToEnter)
             {
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
@@ -67,17 +72,17 @@ namespace Scenes._20_MainWorld.Scripts
                     }
                     catch { }
                 }
-                else if (isNPC)
+                if (isNPC)
                 {
                     interactions.StartScaling();
                 }
-
+                //If the player walksinto a collider with this name active the event
                 switch (gameObject.name)
                 {
                     case "WalkInto":
                         playerEventManager.InvokeAction();
                         break;
-                    case "PlayerCar":
+                    case "PlayerCar"://Doesnt Work, Rename to new car if we want it to work
                         playerEventManager.InvokeAction();
                         break;
                     default:
