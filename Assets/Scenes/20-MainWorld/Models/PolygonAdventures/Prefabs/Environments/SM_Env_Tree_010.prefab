@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 460534}
   - component: {fileID: 3348760}
   - component: {fileID: 2311056}
-  - component: {fileID: 64385034151766354}
-  - component: {fileID: 64280466605184040}
-  - component: {fileID: 64030966237057568}
+  - component: {fileID: 3779967989027187899}
   m_Layer: 0
   m_Name: SM_Env_Tree_010
   m_TagString: Untagged
@@ -86,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64385034151766354
-MeshCollider:
+--- !u!65 &3779967989027187899
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -104,51 +102,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43358083842272176, guid: df3805a1206a7db4cb66662229b46653, type: 2}
---- !u!64 &64280466605184040
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135026}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43797437312427710, guid: df3805a1206a7db4cb66662229b46653, type: 2}
---- !u!64 &64030966237057568
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135026}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43346934699242394, guid: df3805a1206a7db4cb66662229b46653, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 0.7264515, y: 3.3141365, z: 0.7140652}
+  m_Center: {x: -0.28396687, y: 1.6570683, z: 0.119472444}

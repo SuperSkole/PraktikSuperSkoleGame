@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 433960}
   - component: {fileID: 3314980}
   - component: {fileID: 2355712}
-  - component: {fileID: 64165964504875046}
-  - component: {fileID: 64413145000293610}
+  - component: {fileID: 2025383871326727336}
   m_Layer: 0
   m_Name: SM_Env_TreePine_02
   m_TagString: Untagged
@@ -85,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64165964504875046
-MeshCollider:
+--- !u!65 &2025383871326727336
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,29 +102,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43216881157859626, guid: af94666421a2afa41ae0855e644eca4c, type: 2}
---- !u!64 &64413145000293610
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105616}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43710828315814456, guid: af94666421a2afa41ae0855e644eca4c, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 0.55509925, y: 2.4448717, z: 0.5729615}
+  m_Center: {x: -0.09692378, y: 1.2224358, z: -0.19959345}
