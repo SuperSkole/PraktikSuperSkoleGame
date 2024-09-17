@@ -38,7 +38,7 @@ public class PlayerMovement_MT : MonoBehaviour
     /// </summary>
     void Start()
     {
-        currentState = "idle";
+        currentState = "Idle";
         SetCharacterState("Idle");
 
         //When player gets instanced we need to add the sceneCamera or movement is not going to work
