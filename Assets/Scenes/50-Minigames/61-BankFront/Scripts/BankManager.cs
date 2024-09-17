@@ -21,6 +21,7 @@ public class BankManager : MonoBehaviour
     [SerializeField]private GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
     [SerializeField]private TMP_InputField inputField;
+    [SerializeField]private GameObject playerPrison;
     public List<Coin> currentCustomersCoins = new List<Coin>();
     [SerializeField]private GameObject coinPrefab;
 
@@ -30,6 +31,14 @@ public class BankManager : MonoBehaviour
 
     private int completedGames = 0;
     private int mistakes = 0;
+
+    void Start()
+    {
+        if(PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.PositionPlayerAt(playerPrison);
+        }
+    }
 
     /// <summary>
     /// Starts up the game if it is currently not going
