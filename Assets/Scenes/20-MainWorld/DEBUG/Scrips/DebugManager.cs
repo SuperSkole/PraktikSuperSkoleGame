@@ -1,8 +1,11 @@
 using CORE.Scripts;
+using JetBrains.Annotations;
+using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using System.Linq;
 using TMPro;
 using UI.Scripts;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +26,11 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
         [SerializeField] private InputAction openMenu;
 
+       // [SerializeField] TextMeshProUGUI playerDataText;
+
+        [SerializeField] PlayerData playerData;
+
+        
         private float time = 0;
         private bool isShown = false;
         private GameObject player;
@@ -41,6 +49,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
             barMeter = FindObjectOfType<BarMeter>();
             player = PlayerManager.Instance.SpawnedPlayer;
             playerRigidbody = player.GetComponent<Rigidbody>();
+            playerData = PlayerManager.Instance.PlayerData;
         }
 
         /// <summary>
@@ -63,6 +72,10 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
                 isShown = !isShown;
                 time = 0;
             }
+
+
+
+            //playerDataText.text = "WordsCollected:" + playerData.CollectedWords.Count + "\nLettersCollected:"+playerData.CollectedLetters.Count+ "\nGoldAmount:"+playerData.CurrentGoldAmount+ "\nXPAmount:"+playerData.CurrentXPAmount;
         }
 
         /// <summary>
@@ -134,6 +147,11 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
         {
             debugDoorsParrentObject.SetActive(!debugDoorsParrentObject.activeInHierarchy);
         }
+
+      
+        
+
+
     }
 
 }

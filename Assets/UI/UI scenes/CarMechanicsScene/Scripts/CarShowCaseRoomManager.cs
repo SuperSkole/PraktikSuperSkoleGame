@@ -2,7 +2,6 @@ using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class CarShowCaseRoomManager : MonoBehaviour
@@ -22,7 +21,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
         foreach (var item in PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars)
         {
             if (item.IsActive)
-            {   
+            {
                 SpawnCar(ReturnThePlayerCar(item.Name));
                 PreviewColorOfCar(ReturnTheRightMaterial(item.MaterialName));
                 StartCoroutine(StartRotationOfCar());

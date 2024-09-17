@@ -9,5 +9,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
     {
         public string returnMode(); 
         public string displayObjective();
+
+        public void DetermineWordToUse(RacingCore core);
     }
 }
