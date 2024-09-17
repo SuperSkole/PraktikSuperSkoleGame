@@ -983,6 +983,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5135156708204615449, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135156708204615449, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6204759407096980703, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1121,6 +1129,7 @@ MonoBehaviour:
   isCar: 1
   isGasSTT: 0
   interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!114 &2208124547854711839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1207,6 +1216,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   carController: {fileID: 3453212339693683068}
+  allWheelsTouchingGround: 1
 --- !u!114 &2308219277328596765
 MonoBehaviour:
   m_ObjectHideFlags: 0
