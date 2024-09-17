@@ -191,10 +191,6 @@ public class PlayerMovement_MT : MonoBehaviour
         if (state.Equals("Idle") && currentState != "Idle")
         {
             //Blending animations walk - idle
-            Debug.Log(skeletonAnimation);
-            Debug.Log(idle);
-            Debug.Log(skeletonAnimation.state);
-            Debug.Log(state);
             skeletonAnimation.state.SetAnimation(0, idle, true).MixDuration = blendDuration;
             currentState = "Idle";
         }
