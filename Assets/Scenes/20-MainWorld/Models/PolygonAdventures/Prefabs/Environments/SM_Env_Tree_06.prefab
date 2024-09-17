@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 499190}
   - component: {fileID: 3388232}
   - component: {fileID: 2336098}
-  - component: {fileID: 64226245540104712}
-  - component: {fileID: 64951208892118782}
+  - component: {fileID: 7430436872569636651}
   m_Layer: 0
   m_Name: SM_Env_Tree_06
   m_TagString: Untagged
@@ -85,8 +84,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64226245540104712
-MeshCollider:
+--- !u!65 &7430436872569636651
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,29 +102,6 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43604682004789606, guid: cb7d06755cc3ac44eb76514fbe92d9e5, type: 2}
---- !u!64 &64951208892118782
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 143756}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43246047317103864, guid: cb7d06755cc3ac44eb76514fbe92d9e5, type: 2}
+  serializedVersion: 3
+  m_Size: {x: 0.72466767, y: 2.898105, z: 0.75032806}
+  m_Center: {x: 0.15302414, y: 1.4490525, z: 0.38991243}
