@@ -21,7 +21,7 @@ namespace Scenes._20_MainWorld.Scripts
         private PlayerEventManager playerEventManager;
         private CarEventsManager carEventsMa;
         private CarEvents carEvents;
-
+        
         private OpenCloseDoor doorMechanism;
 
         private int playerLvl;

@@ -19,6 +19,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         {
             if (isDriving)
             {
+                spawnedPlayer.GetComponent<Rigidbody>().position = PlacementPoints[0].transform.position;
                 spawnedPlayer.transform.position = PlacementPoints[0].transform.position;
             }
         }
