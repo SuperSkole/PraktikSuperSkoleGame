@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 2401373767785213073}
   - component: {fileID: 433930781916027626}
   - component: {fileID: 8933594444928899290}
-  - component: {fileID: 7656278864860178360}
   m_Layer: 0
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &2401373767785213073
 Transform:
@@ -85,27 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7656278864860178360
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2883983944763334426}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3131059045780306537
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,13 +95,13 @@ GameObject:
   - component: {fileID: 8368996097861606805}
   - component: {fileID: 459795273155327626}
   - component: {fileID: 3786111018361471896}
-  - component: {fileID: 6008345732409357724}
+  - component: {fileID: 632082740201163352}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &8368996097861606805
 Transform:
@@ -190,8 +168,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6008345732409357724
-MeshCollider:
+--- !u!65 &632082740201163352
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -208,10 +186,9 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3576581209336757837
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +205,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4767202062150215219
 Transform:
@@ -283,6 +260,42 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   door: {fileID: 0}
   isDoor: 0
   isNPC: 0
@@ -321,13 +334,12 @@ GameObject:
   - component: {fileID: 566881251025764250}
   - component: {fileID: 3981716396857925996}
   - component: {fileID: 8043095744394491505}
-  - component: {fileID: 1999811237446748268}
   m_Layer: 0
   m_Name: RoofSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &566881251025764250
 Transform:
@@ -394,27 +406,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1999811237446748268
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3927587763204600640}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &578039110579592111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -426,6 +417,10 @@ PrefabInstance:
     - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_Name
       value: SM_Prop_SidewalkPoles_02 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 412974, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_LocalScale.x
@@ -535,6 +530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Sign_Attachment_03 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 131138, guid: 99ec98a713e68684cbfb382167732238, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: 479112, guid: 99ec98a713e68684cbfb382167732238, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5038
@@ -639,6 +638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Sign_Attachment_03
       objectReference: {fileID: 0}
+    - target: {fileID: 131138, guid: 99ec98a713e68684cbfb382167732238, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: 479112, guid: 99ec98a713e68684cbfb382167732238, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5038
@@ -742,6 +745,10 @@ PrefabInstance:
     - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_Name
       value: SM_Prop_SidewalkPoles_02 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 412974, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_LocalScale.x
@@ -851,6 +858,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_SidewalkPoles_02 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
     - target: {fileID: 412974, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -955,9 +966,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4767202062150215219}
     m_Modifications:
+    - target: {fileID: 1328731249232616168, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1335566686338025089, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 5742575398038681865, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7117034815808417400, guid: 986c3d0d840c193499421d18558ecada, type: 3}
       propertyPath: m_Name
       value: Fuel Pump 3D
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117034815808417400, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7606326717747655874, guid: 986c3d0d840c193499421d18558ecada, type: 3}
       propertyPath: m_LocalPosition.x
@@ -999,6 +1026,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7637023708695582098, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7927919349423412011, guid: 986c3d0d840c193499421d18558ecada, type: 3}
     m_RemovedGameObjects: []
@@ -1021,6 +1052,10 @@ PrefabInstance:
     - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_Name
       value: SM_Prop_SidewalkPoles_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 182912, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
       objectReference: {fileID: 0}
     - target: {fileID: 412974, guid: e6ccfb8197490404a970f0ff1b00c564, type: 3}
       propertyPath: m_LocalScale.x
@@ -1126,9 +1161,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4767202062150215219}
     m_Modifications:
+    - target: {fileID: 1328731249232616168, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 1335566686338025089, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 5742575398038681865, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 7117034815808417400, guid: 986c3d0d840c193499421d18558ecada, type: 3}
       propertyPath: m_Name
       value: Fuel Pump 3D (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117034815808417400, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 7606326717747655874, guid: 986c3d0d840c193499421d18558ecada, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1169,6 +1220,10 @@ PrefabInstance:
     - target: {fileID: 7606326717747655874, guid: 986c3d0d840c193499421d18558ecada, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637023708695582098, guid: 986c3d0d840c193499421d18558ecada, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7927919349423412011, guid: 986c3d0d840c193499421d18558ecada, type: 3}
