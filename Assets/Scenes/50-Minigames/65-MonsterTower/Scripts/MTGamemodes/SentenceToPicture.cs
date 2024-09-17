@@ -64,7 +64,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             var rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
             var rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
 
-            while(rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2==correctAnswer)
+            while(rndImageWithKey2.Item2 + " p\u00e5 " + rndImageWithKey1.Item2==correctAnswer)
             {
                 rndImageWithKey1 = ImageManager.GetRandomImageWithKey();
                 rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
@@ -73,7 +73,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
-            manager.imageKey = rndImageWithKey2.Item2 + " på " + rndImageWithKey1.Item2;
+            manager.imageKey = rndImageWithKey2.Item2 + " \u00e5 " + rndImageWithKey1.Item2;
 
 
 
@@ -107,7 +107,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                 switch (rnd)
                 {
                     case 0:
-                        sentence = words[0] + " på " + words[1];
+                        sentence = words[0] + " p\u00e5 " + words[1];
                         break;
 
                     case 1:
