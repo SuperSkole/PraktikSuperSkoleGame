@@ -260,7 +260,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                                 multiplier = 4;
                                 break;
                         }
-                        boardController.Won("Du vandt. Du fandt det n�ste bogstav 4 gange", multiplier * 1, multiplier * 1);
+                        boardController.Won("Du vandt. Du fandt det n\u0056ste bogstav 4 gange", multiplier * 1, multiplier * 1);
                     }
                 }
             }
