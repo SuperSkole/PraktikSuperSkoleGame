@@ -21,7 +21,6 @@ namespace CORE.Scripts
         //     var words = WordsManager.GetWordsFromSet(setName);
         //     return words.Contains(word.ToUpper());
         // }
-        
         public bool IsValidWord(string word, int wordLength)
         {
             string setName1 = $"Words_Danish_{wordLength}L";
