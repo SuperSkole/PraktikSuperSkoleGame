@@ -146,9 +146,9 @@ namespace Scenes._00_Bootstrapper
             int space = output.ToString().IndexOf(" ");
             if (space != -1)
                 output.Remove(space, output.Length - space);
-            output.Replace("(aa)", "å");
-            output.Replace("(ae)", "æ");
-            output.Replace("(oe)", "ø");
+            output.Replace("(aa)", "\u00e5");
+            output.Replace("(ae)", "\u00e6");
+            output.Replace("(oe)", "\u00f8");
             return output.ToString();
         }
 
@@ -176,9 +176,9 @@ namespace Scenes._00_Bootstrapper
         private string GetNameLetterSound(string name)
         {
             StringBuilder output = new StringBuilder(name);
-            output.Replace("(aa)", "å");
-            output.Replace("(ae)", "æ");
-            output.Replace("(oe)", "ø");
+            output.Replace("(aa)", "\u00e5");
+            output.Replace("(ae)", "\u00e6");
+            output.Replace("(oe)", "\u00f8");
             return output.ToString();
         }
 

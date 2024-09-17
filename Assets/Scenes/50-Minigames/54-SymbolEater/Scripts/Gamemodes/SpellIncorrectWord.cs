@@ -50,7 +50,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, false, gamerules, board.GetPlayer().transform.position);
             count = Random.Range(minWrongLetters, maxWrongLetters);
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, true, gamerules, board.GetPlayer().transform.position);
-            board.SetAnswerText("Lav "+ (5 - completedWords) +" vrøvleord");
+            board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord");
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(currentWord.Length == 2 && gamerules.IsCorrectSymbol(currentWord))
             {
                 completedWords++;
-                board.SetAnswerText("Lav "+ (5 - completedWords) +" vrøvleord");
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord");
             }
             //Resets the word if it is two letters long
             if(currentWord.Length == 2){
