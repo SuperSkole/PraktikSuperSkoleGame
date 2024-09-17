@@ -21,23 +21,21 @@ public class FindPlayerForButton : MonoBehaviour
         // Check if the area is clear
         if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
         {
-            // The area is clear, spawn the car
             carGO.transform.position = spawnPosition;
-            Debug.Log("Car spawned at a safe location.");
+            //Debug.Log("Car spawned at a safe location.");
         }
         else
         {
             spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(-5, 0, 0);
             if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
             {
-                // The area is clear, spawn the car
                 carGO.transform.position = spawnPosition;
-                Debug.Log("Car spawned at a safe location.");
+                //Debug.Log("Car spawned at a safe location.");
             }
             else
             {
                 // The area is obstructed
-                Debug.Log("Cannot spawn car, area is obstructed.");
+                //Debug.Log("Cannot spawn car, area is obstructed.");
             }
         }
     }

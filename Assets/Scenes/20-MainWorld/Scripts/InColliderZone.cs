@@ -40,9 +40,8 @@ namespace Scenes._20_MainWorld.Scripts
             {
                 carEventsMa = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEventsManager>();
                 carEvents = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEvents>();
-                print("Car Found");
             }
-            catch { print("No Tag with Car Found"); }
+            catch {  }
         }
 
         /// <summary>
