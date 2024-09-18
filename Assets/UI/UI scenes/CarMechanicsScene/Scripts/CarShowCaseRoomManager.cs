@@ -29,6 +29,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     private CarShowCaseButtons buttonInstance;
     private string clickedButtonName;
+    private string carNameFromList;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +39,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
         {
             if (item.IsActive)
             {
+                carNameFromList = item.Name;
                 SpawnCar(ReturnThePlayerCar(item.Name));
                 PreviewColorOfCar(new CarShowCaseButtons(ReturnTheRightMaterial(item.MaterialName), item.MaterialName));
                 StartCoroutine(StartRotationOfCar());
@@ -53,6 +55,33 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         lettersCount = playerData.CollectedLetters.Count;
         LettersTxt.text = lettersCount.ToString();
+
+        List<CarShowCaseButtons> colorButtons = new();
+        for (int i = 0; i < 6; i++)
+        {
+            CarShowCaseButtons button = GameObject.Find($"ColorButton ({i})").GetComponent<CarShowCaseButtons>();
+            if (button != null)
+            {
+                colorButtons.Add(button);
+            }
+        }
+        foreach (CarInfo car in playerData.listOfCars)
+        {
+            // Loop through each car's materials
+            foreach (MaterialInfo material in car.materialList)
+            {
+                // Find the corresponding button for this material
+                foreach (CarShowCaseButtons button in colorButtons)
+                {
+                    if (button.nameOfMaterial == material.nameOfMaterial)
+                    {
+                        // Set the 'Bought' status of the button
+                        button.Bought = material.Bought;
+                    }
+                }
+            }
+        }
+
     }
     private GameObject ReturnThePlayerCar(string value)
     {
@@ -126,7 +155,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         if (buttonInstance.Bought)
         {
-            PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars[0].MaterialName = clickedMaterialName;
+            SaveCarMaterialNameData(FindIndexInCarMaList());
         }
         else
         {
@@ -136,7 +165,8 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 RemoveLetters(buttonInstance.price);
                 var tmp = GameObject.Find(clickedButtonName);
                 tmp.GetComponent<CarShowCaseButtons>().Bought = true;
-                PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars[0].MaterialName = clickedMaterialName;
+                SaveCarMaterialNameData(FindIndexInCarMaList());
+                AddNewMaterialToCarList(FindIndexInCarMaList());
 
                 priceHolder.enabled = false;
                 price.enabled = false;
@@ -149,6 +179,28 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 print("Can't afford the color");
             }
         }
+    }
+    private int FindIndexInCarMaList()
+    {
+        int savedIndex = 0;
+        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        {
+            if (carNameFromList == playerData.listOfCars[i].Name)
+            {
+                savedIndex = i;
+                break;
+            }
+        }
+
+        return savedIndex;
+    }
+    private void SaveCarMaterialNameData(int indexer)
+    {
+        playerData.listOfCars[indexer].MaterialName = clickedMaterialName;
+    }
+    private void AddNewMaterialToCarList(int indexer)
+    {
+        playerData.listOfCars[indexer].materialList.Add(new MaterialInfo(buttonInstance.Bought, buttonInstance.nameOfMaterial));
     }
     public void SetButtonName(GameObject gO) => clickedButtonName = gO.name;
     private void RemoveLetters(int amountTimes)
@@ -163,6 +215,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         spawnedCar = Instantiate(ActiveCar, ShowcasedSpawnPoint);
     }
+
     private IEnumerator StartRotationOfCar()
     {
         while (true)
