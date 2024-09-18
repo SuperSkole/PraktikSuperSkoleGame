@@ -70,10 +70,20 @@ public class BalloonController : MonoBehaviour
         {
             BalloonSpawner mother = GetComponentInParent<BalloonSpawner>();
             mother.points++;
+
+            if (mother.points >= 25)
+            {
+                SwitchScenes.SwitchToArcadeScene();
+            }
         }
         if(!isCorrect)
         {
-
+            BalloonSpawner mother = GetComponentInParent<BalloonSpawner>();
+            mother.lives--;
+            if (mother.lives <= 0)
+            {
+                SwitchScenes.SwitchToArcadeScene();
+            }
         }
         Destroy(gameObject);
     }
