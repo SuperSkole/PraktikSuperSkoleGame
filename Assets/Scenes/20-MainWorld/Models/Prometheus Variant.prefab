@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 728522073940133339}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.349, y: 1.288, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2, y: 0.996, z: 0}
+  m_LocalScale: {x: 1.6223, y: 1.3455, z: 2.4016}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3192572241180977747}
@@ -43,7 +43,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3711
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -207,7 +207,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.05
   m_Pitch: 0.75
   Loop: 1
   Mute: 0
@@ -493,8 +493,8 @@ Transform:
   m_GameObject: {fileID: 6258451846239004588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.349, y: 1.288, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -2, y: 0.996, z: -0}
+  m_LocalScale: {x: 1.6223, y: 1.3455, z: 2.4016}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3192572241180977747}
@@ -509,7 +509,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 3711
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 256
@@ -576,7 +576,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.4
+  m_Volume: 0.1
   m_Pitch: 0.5
   Loop: 1
   Mute: 0
@@ -766,7 +766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911089284829685396, guid: 9c91ffb82627c15448fd811813d4bff7, type: 3}
       propertyPath: CollisionModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2911089284829685396, guid: 9c91ffb82627c15448fd811813d4bff7, type: 3}
       propertyPath: CollisionModule.m_Bounce.scalar
@@ -983,6 +983,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5135156708204615449, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5135156708204615449, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6204759407096980703, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -1121,6 +1129,7 @@ MonoBehaviour:
   isCar: 1
   isGasSTT: 0
   interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!114 &2208124547854711839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,6 +1161,7 @@ MonoBehaviour:
   carSpeedGo: {fileID: 0}
   carFuelBarGo: {fileID: 0}
   SoundParent: {fileID: 9159763472722663830}
+  callCarButton: {fileID: 0}
   CarSmoke1: {fileID: 4951991328332435066}
   CarSmoke2: {fileID: 202036561757176157}
 --- !u!114 &7348556707812757953
@@ -1206,6 +1216,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   carController: {fileID: 3453212339693683068}
+  allWheelsTouchingGround: 1
 --- !u!114 &2308219277328596765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1277,7 +1288,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2911089284829685396, guid: 9c91ffb82627c15448fd811813d4bff7, type: 3}
       propertyPath: CollisionModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2911089284829685396, guid: 9c91ffb82627c15448fd811813d4bff7, type: 3}
       propertyPath: CollisionModule.m_Bounce.scalar

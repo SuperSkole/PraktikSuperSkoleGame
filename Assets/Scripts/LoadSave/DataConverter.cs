@@ -28,6 +28,7 @@ namespace LoadSave
                 CollectedWords = playerData.CollectedWords,
                 CollectedLetters = playerData.CollectedLetters,
                 BoughtClothes = playerData.BoughtClothes,
+                listOfCars = playerData.listOfCars,
                 clothMid = playerData.ClothMid,
                 clothTop = playerData.ClothTop
             };
@@ -50,11 +51,13 @@ namespace LoadSave
                 dto.PlayerLevel,
                 dto.SavedPlayerStartPostion.GetVector3(),
                 dto.clothMid,
-                dto.clothTop);
+                dto.clothTop,
+                dto.listOfCars);
 
             playerData.CollectedWords = dto.CollectedWords;
             playerData.CollectedLetters = dto.CollectedLetters;
             playerData.BoughtClothes = dto.BoughtClothes;
+            playerData.listOfCars = dto.listOfCars;
 
             return playerData;
         }

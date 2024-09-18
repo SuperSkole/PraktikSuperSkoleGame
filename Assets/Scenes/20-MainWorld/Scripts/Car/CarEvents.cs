@@ -134,6 +134,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
                 var pos = carSetPlayerPos.SetTransformOfPlayer().position;
                 pos.y += 1;
+                spawnedPlayer.GetComponent<Rigidbody>().position = pos;
                 spawnedPlayer.transform.position = pos;
 
                 EnablePlayer();
