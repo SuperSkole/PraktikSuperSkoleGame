@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 7028844120019686940}
   - component: {fileID: 5683748649061901838}
   - component: {fileID: 7566676932916083358}
+  - component: {fileID: 8107652926396774981}
   m_Layer: 5
   m_Name: ModifierGuessField
   m_TagString: Untagged
@@ -593,7 +594,20 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8107652926396774981}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.NumberOnlyInputFeeld,
+          Assembly-CSharp
+        m_MethodName: OnChangeValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -612,6 +626,19 @@ MonoBehaviour:
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
   m_InputValidator: {fileID: 0}
+--- !u!114 &8107652926396774981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257214057713919567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b67cd57d00db24c939ff9b19da4b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshPro: {fileID: 7566676932916083358}
 --- !u!1 &6315123787578023860
 GameObject:
   m_ObjectHideFlags: 0

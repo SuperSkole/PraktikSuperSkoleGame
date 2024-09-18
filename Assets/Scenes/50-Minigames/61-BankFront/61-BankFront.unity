@@ -4716,7 +4716,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 970603924229642776, guid: dac82e3f2d99d3841a455dfee59370a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1851810790}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7777018556471037488, guid: dac82e3f2d99d3841a455dfee59370a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: dac82e3f2d99d3841a455dfee59370a3, type: 3}
 --- !u!4 &493145777 stripped
 Transform:
@@ -24633,7 +24636,7 @@ MonoBehaviour:
   - {x: -113.43457, y: 0, z: 19}
   - {x: -114.43457, y: 0, z: 19}
   - {x: -129.63931, y: 0, z: 19}
-  - {x: -132.48, y: 0, z: 28.754469}
+  - {x: -132.48, y: 0, z: 28.75445}
   - {x: -132.48, y: 0, z: 50.2}
   normals:
   - {x: 0, y: 1, z: 0}
@@ -25033,7 +25036,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7896485549650300721, guid: 4cae597bdb502654d869c8dc6e400319, type: 3}
       insertIndex: -1
       addedObject: {fileID: 852507677}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5107016156509414760, guid: 4cae597bdb502654d869c8dc6e400319, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 4cae597bdb502654d869c8dc6e400319, type: 3}
 --- !u!4 &1363749814 stripped
 Transform:
@@ -25616,6 +25622,7 @@ GameObject:
   - component: {fileID: 1493574076}
   - component: {fileID: 1493574075}
   - component: {fileID: 1493574074}
+  - component: {fileID: 1493574077}
   m_Layer: 5
   m_Name: PlayerGuessField
   m_TagString: Untagged
@@ -25735,6 +25742,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1493574077}
+        m_TargetAssemblyTypeName: Scenes._20_MainWorld.DEBUG.Scrips.NumberOnlyInputFeeld,
+          Assembly-CSharp
+        m_MethodName: OnChangeValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -25791,6 +25811,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493574072}
   m_CullTransparentMesh: 1
+--- !u!114 &1493574077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1493574072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b67cd57d00db24c939ff9b19da4b2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshPro: {fileID: 1493574074}
 --- !u!1 &1525733739
 GameObject:
   m_ObjectHideFlags: 0
