@@ -1062,8 +1062,8 @@ Transform:
   m_GameObject: {fileID: 626305822}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.4155, y: 0.627, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.3, z: 1}
+  m_LocalPosition: {x: -0.42, y: 0.627, z: 0}
+  m_LocalScale: {x: 0.16, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 973021805}
@@ -1283,8 +1283,8 @@ Transform:
   m_GameObject: {fileID: 904865519}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2096, y: 0.627, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.3, z: 1}
+  m_LocalPosition: {x: -0.2073, y: 0.627, z: 0}
+  m_LocalScale: {x: 0.16, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 973021805}
@@ -1864,10 +1864,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Find tallene du skal bruge ved at lytte hvor mange gange lyden kommer.
-    L\xE6g dem s\xE5 til eller tr\xE6k dem fra tallene p\xE5 sedlen som vist og hvis
-    resultatet er over 10 s\xE5 tr\xE6k 10 fra indtil du ikke l\xE6ngere kan. Du
-    kan nu bruge disse tal til at g\xE6tte koden."
+  m_text: "Lyt ved at klikke p\xE5 lydknapperne og t\xE6l hvor mange gange lyden
+    bliver afspillet. Drej derefter hjulet nedenunder indtil tallet svarer til det
+    du talte til. Klik derefter p\xE5 knappen i bunden for at se om det var korrekt."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
@@ -2283,8 +2282,8 @@ Transform:
   m_GameObject: {fileID: 1658748299}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.218, y: 0.627, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.2204, y: 0.627, z: 0}
+  m_LocalScale: {x: 0.16, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 973021805}
