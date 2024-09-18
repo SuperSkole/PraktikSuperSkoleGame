@@ -14,9 +14,14 @@ public class AsteroidSpawner : MonoBehaviour
 
     [SerializeField] GameObject triangle;
 
+    [SerializeField] float minXForce;
+    [SerializeField] float maxXForce;
+    [SerializeField] float minYForce;
+    [SerializeField] float maxYForce;
+    [SerializeField] float speed;
     float timer=0;
 
-    float spawnFrequency = 5;
+    float spawnFrequency = 10;
 
     int polygonIndex;
 
@@ -29,30 +34,39 @@ public class AsteroidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         timer += Time.deltaTime;
 
         if(timer>=spawnFrequency)
         {
-             polygonIndex=Random.Range(0, 4);
+            timer = 0;
+            polygonIndex =Random.Range(0, 4);
+            Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
 
+            
             switch (polygonIndex)
             {
                 case 0:
-                    Instantiate(triangle, spawnPosition, Quaternion.identity, gameObject.transform);
+                   
+                   var spawnedTriangle= Instantiate(triangle, spawnPosition, Quaternion.identity, gameObject.transform);
+                    spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
                     break;
                 case 1:
-                    Instantiate(square, spawnPosition, Quaternion.identity, gameObject.transform);
+                    var spawnedSquare=Instantiate(square, spawnPosition, Quaternion.identity, gameObject.transform);
+                    spawnedSquare.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
                     break;
 
                 case 2:
-                    Instantiate(pentagon, spawnPosition, Quaternion.identity, gameObject.transform);
+                    var spawnedPentagon=Instantiate(pentagon, spawnPosition, Quaternion.identity, gameObject.transform);
+                    spawnedPentagon.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
                     break;
                 case 3:
-                    Instantiate(hexagon,spawnPosition,Quaternion.identity, gameObject.transform);
+                    var spawnedHexagon=Instantiate(hexagon,spawnPosition,Quaternion.identity, gameObject.transform);
+                    spawnedHexagon.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
                     break;
 
             }
-            timer = 0;
+            
         }
         
     }
