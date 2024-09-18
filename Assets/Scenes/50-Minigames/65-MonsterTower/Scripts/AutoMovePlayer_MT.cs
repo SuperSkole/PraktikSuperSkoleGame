@@ -157,7 +157,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     ? new Vector3(Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z)
                     : new Vector3(-Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z);
 
-                Debug.Log("moving");
+                //Debug.Log("moving");
                 playerAnimator.SetCharacterState("Walk");
 
                 // Check if player has reached the block within a threshold distance
