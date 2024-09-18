@@ -214,7 +214,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         
 
-        public void SetupPlayerFromSave(SaveDataDTO saveData)
+        public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
@@ -256,12 +256,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.Username,
                 saveData.MonsterName,
                 saveData.MonsterColor,
-                saveData.GoldAmount,
-                saveData.XPAmount,
-                saveData.PlayerLevel,
-                saveData.SavedPlayerStartPostion.GetVector3(),
-                saveData.clothMid,
-                saveData.clothTop,
+                saveData.CurrentGoldAmount,
+                saveData.CurrentXPAmount,
+                saveData.CurrentLevel,
+                saveData.CurrentPosition,
+                saveData.ClothMid,
+                saveData.ClothTop,
                 saveData.listOfCars
             );
 
