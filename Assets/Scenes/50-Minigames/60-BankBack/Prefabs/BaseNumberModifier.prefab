@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 5683748649061901838}
   - component: {fileID: 7566676932916083358}
   - component: {fileID: 8107652926396774981}
+  - component: {fileID: 7473522999490468165}
   m_Layer: 5
   m_Name: ModifierGuessField
   m_TagString: Untagged
@@ -608,6 +609,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7473522999490468165}
+        m_TargetAssemblyTypeName: InputLengthLimit, Assembly-CSharp
+        m_MethodName: OnChangeValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -639,6 +652,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 7566676932916083358}
+--- !u!114 &7473522999490468165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6257214057713919567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7cc24afd9c5174e8a0a1cda9a6a8ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  input: {fileID: 7566676932916083358}
+  maxLength: 1
 --- !u!1 &6315123787578023860
 GameObject:
   m_ObjectHideFlags: 0
