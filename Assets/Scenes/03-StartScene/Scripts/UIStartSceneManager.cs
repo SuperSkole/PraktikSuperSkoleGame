@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -29,7 +30,15 @@ namespace Scenes._03_StartScene.Scripts
             startScreen.SetActive(true);
             currentActiveScreen = startScreen;
         }
-        
+
+        private void Start()
+        {
+            // load controller look for saves connected to username
+            // if no saves show only create new char()
+            // if 3 or more saves, do not show create new char
+            // if they press back from a screen we reload/restart and reset save panel
+        }
+
         private void ValidateUIReferences()
         {
             if (startScreen == null ||
