@@ -49,5 +49,23 @@ namespace LoadSave
             // Deserialize and return SaveDataDTO
             return JsonUtility.FromJson<SaveDataDTO>(jsonData);  
         }
+        
+        // public async Task<PlayerData> LoadPlayerDataAsync(string saveKey)
+        // {
+        //     string jsonData = await saveRepository.LoadAsync(saveKey);
+        //     if (string.IsNullOrEmpty(jsonData))
+        //     {
+        //         return null;
+        //     }
+        //
+        //     // Deserialize to SaveDataDTO
+        //     SaveDataDTO dto = JsonUtility.FromJson<SaveDataDTO>(jsonData);
+        //
+        //     // Convert back to PlayerData
+        //     PlayerData playerData = converter.ConvertToPlayerData(dto);
+        //
+        //     return playerData;
+        // }
+
     }
 }
