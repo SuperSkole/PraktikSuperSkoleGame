@@ -29,7 +29,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts
         private Vector3 offset = new Vector3(0, 1, 0);
         private PlayerAnimatior playerAnimator;
         private Rigidbody savedBlockRigidbody;
-        private float minDistanceSqr = 1.5f * 1.5f;
+        private float minDistance = 1.5f * 1.5f;
+        private float minDistanceSqr;
         private Vector3 targetPosition;
         private Vector3 scale;
 
@@ -38,6 +39,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts
 
         private void Awake()
         {
+            minDistanceSqr = minDistance * minDistance;
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
         }
         

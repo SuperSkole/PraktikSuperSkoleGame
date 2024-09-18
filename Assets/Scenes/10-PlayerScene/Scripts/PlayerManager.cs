@@ -3,6 +3,7 @@ using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
+using Scenes._24_HighScoreScene.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,8 @@ namespace Scenes._10_PlayerScene.Scripts
     /// </summary>
     public class PlayerManager : MonoBehaviour
     {
+        [SerializeField] private HighScore highScore;
+        
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
@@ -27,6 +30,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
 
+    
+        
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
 
@@ -54,6 +59,19 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
                 
                 return playerData;
+            }
+        }
+        
+        public HighScore HighScore 
+        {
+            get 
+            {
+                if (highScore == null) 
+                {
+                    Debug.LogError("highScore accessed before being initialized.");
+                }
+                
+                return highScore;
             }
         }
 

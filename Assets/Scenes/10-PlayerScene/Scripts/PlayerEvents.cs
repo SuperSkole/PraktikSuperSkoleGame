@@ -31,7 +31,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Actions for sending word, letter and number to playerData
         public static event Action<string> OnAddWord;
         public static event Action<char> OnAddLetter;
-        public static event Action<char> OnNumberValidated;
+        public static event Action<char> OnAddNumber;
 
         public static event Func<List<string>,List<string>> OnPlayerDataWordsExtracted;
 
