@@ -121,19 +121,58 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <returns></returns>
         public IEnumerator MoveToPositionCoroutine(GameObject target, Action onReachedTarget = null)
         {
-            //Debug.Log("moving");
-            playerAnimator.SetCharacterState("Walk");
-            while ((spawnedPlayer.transform.position - target.transform.position).sqrMagnitude > minDistanceSqr)
+            ////Debug.Log("moving");
+            //playerAnimator.SetCharacterState("Walk");
+            //while ((spawnedPlayer.transform.position - target.transform.position).sqrMagnitude > minDistanceSqr)
+            //{
+            //    spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+            //    yield return null;
+            //}
+
+            //playerAnimator.SetCharacterState("Idle");
+            //if (onReachedTarget != null)
+            //{
+            //    onReachedTarget?.Invoke();
+            //}
+
+
+
+            // Lock Z position
+            float fixedZ = -48f;
+
+            //Lock Y position
+            float fixedY = 3.21f;
+
+            // Continue updating target position in real-time to handle moving blocks
+            while (Vector3.Distance(transform.position, target.transform.position) > minDistanceSqr)
             {
-                spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, target.transform.position, moveSpeed * Time.deltaTime);
+                // Ensure the target still exists
+                if (!target)
+                {
+                    yield break;
+                }
+
+                Vector3 targetPosition = new Vector3(target.transform.position.x, fixedY, fixedZ);
+                spawnedPlayer.transform.localScale = spawnedPlayer.transform.position.x > targetPosition.x
+                    ? new Vector3(Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z)
+                    : new Vector3(-Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z);
+
+                Debug.Log("moving");
+                playerAnimator.SetCharacterState("Walk");
+
+                // Check if player has reached the block within a threshold distance
+                if (Vector3.Distance(spawnedPlayer.transform.position, targetPosition) <= 1.5f)
+                {
+                    // Exit loop when close enough to the block
+                    break;
+                }
+
+                // Move towards the block
+                spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, targetPosition, moveSpeed * Time.deltaTime);
                 yield return null;
             }
-
             playerAnimator.SetCharacterState("Idle");
-            if (onReachedTarget != null)
-            {
-                onReachedTarget?.Invoke();
-            }
+            onReachedTarget?.Invoke();
         }
 
         private void Update()

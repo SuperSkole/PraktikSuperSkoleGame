@@ -18,9 +18,10 @@ public class ShootLaser : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Transform spawnPos = transform.GetChild(0).transform;
+            Vector3 spawnPos = transform.GetChild(0).transform.position;
+            Debug.Log(spawnPos);
 
-            Instantiate(laserPrefab, spawnPos);
+            Instantiate(laserPrefab, spawnPos, transform.rotation);
         }
 
         
