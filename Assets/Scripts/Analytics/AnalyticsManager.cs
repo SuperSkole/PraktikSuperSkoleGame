@@ -1,11 +1,16 @@
+using System.Collections.Generic;
+using UnityEngine;
 using System;
 using Scenes._10_PlayerScene.Scripts;
-using UnityEngine;
 
 namespace Analytics
 {
     public class AnalyticsManager : MonoBehaviour
     {
+        // Lists to store analytics data
+        private List<(string word, DateTime time)> wordLog = new List<(string, DateTime)>();
+        private List<(string letter, DateTime time)> letterLog = new List<(string, DateTime)>();
+
         private void OnEnable()
         {
             PlayerEvents.OnWordAdded += LogWordAdded;
@@ -18,18 +23,34 @@ namespace Analytics
             PlayerEvents.OnLetterAdded -= LogLetterAdded;
         }
 
+        /// <summary>
+        /// Logs the word added along with the timestamp and stores it for later analysis.
+        /// </summary>
         private void LogWordAdded(string word, DateTime time)
         {
-            // Log or store the word and time
             Debug.Log($"Word Added: {word} at {time}");
-            
+            wordLog.Add((word, time)); // Store word and time in the list
         }
 
+        /// <summary>
+        /// Logs the letter added along with the timestamp and stores it for later analysis.
+        /// </summary>
         private void LogLetterAdded(string letter, DateTime time)
         {
-            // Log or store the letter and time
             Debug.Log($"Letter Added: {letter} at {time}");
+            letterLog.Add((letter, time)); // Store letter and time in the list
         }
 
+        /// <summary>
+        /// Method to analyze the stored data for patterns, averages, or other insights.
+        /// </summary>
+        public void AnalyzeData()
+        {
+            // Example: Print the total number of logged words and letters
+            Debug.Log($"Total Words Logged: {wordLog.Count}");
+            Debug.Log($"Total Letters Logged: {letterLog.Count}");
+            
+            // Additional analysis can go here (e.g., time between word additions)
+        }
     }
 }
