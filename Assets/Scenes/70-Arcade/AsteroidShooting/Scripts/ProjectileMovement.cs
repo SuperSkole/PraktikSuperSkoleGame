@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class ProjectileMovement : MonoBehaviour
 {
-    Rigidbody rigidbody;
+    Rigidbody2D rigidbody;
     [SerializeField] int projectileSpeed;
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        projectileSpeed = 100;
-    }
+        rigidbody = GetComponent<Rigidbody2D>();
+        projectileSpeed = 10000;
 
+        rigidbody.AddForce(new Vector2(transform.up.x, transform.up.y) * projectileSpeed);
+    }
+    
     private void FixedUpdate()
     {
-        rigidbody.AddForce(transform.up * projectileSpeed);
+     
     }
 
     // Update is called once per frame

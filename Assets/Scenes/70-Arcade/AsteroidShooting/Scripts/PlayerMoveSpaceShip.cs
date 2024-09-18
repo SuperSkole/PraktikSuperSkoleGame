@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,7 +8,7 @@ using UnityEngine.UIElements;
 public class PlayerMoveSpaceShip : MonoBehaviour
 {
     [SerializeField] int speed;
-    [SerializeField] Rigidbody rigidBody;
+    [SerializeField] Rigidbody2D rigidBody;
     [SerializeField] int shipAcelleration;
 
     // Start is called before the first frame update
@@ -20,8 +21,8 @@ public class PlayerMoveSpaceShip : MonoBehaviour
     {
         if (Input.GetAxis("Vertical") > 0f)
         {
-            rigidBody.AddForce(transform.up * shipAcelleration);
-            rigidBody.velocity = Vector3.ClampMagnitude(rigidBody.velocity, 100);
+            rigidBody.AddForce(new Vector2(transform.up.x,transform.up.y) * shipAcelleration);
+            rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, 100);
         }
 
 

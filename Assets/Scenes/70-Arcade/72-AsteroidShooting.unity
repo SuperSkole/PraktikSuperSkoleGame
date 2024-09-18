@@ -623,13 +623,13 @@ PrefabInstance:
       addedObject: {fileID: 1516327443}
     - targetCorrespondingSourceObject: {fileID: 7803608107502781055, guid: a2c399efcd19525428267452209bdb65, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1516327444}
-    - targetCorrespondingSourceObject: {fileID: 7803608107502781055, guid: a2c399efcd19525428267452209bdb65, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1516327447}
     - targetCorrespondingSourceObject: {fileID: 7803608107502781055, guid: a2c399efcd19525428267452209bdb65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1516327448}
+    - targetCorrespondingSourceObject: {fileID: 7803608107502781055, guid: a2c399efcd19525428267452209bdb65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1516327449}
   m_SourcePrefab: {fileID: 100100000, guid: a2c399efcd19525428267452209bdb65, type: 3}
 --- !u!1 &1516327442 stripped
 GameObject:
@@ -649,35 +649,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  rigidBody: {fileID: 1516327444}
+  rigidBody: {fileID: 1516327449}
   shipAcelleration: 0
---- !u!54 &1516327444
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1516327442}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 8
-  m_CollisionDetection: 0
 --- !u!114 &1516327447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,6 +676,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 7279774338537561661, guid: 2359d311c2e2c6a45ab8166f5fd87248, type: 3}
+--- !u!50 &1516327449
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516327442}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0.3
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1521474331
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,6 +840,54 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1823834008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823834010}
+  - component: {fileID: 1823834009}
+  m_Layer: 0
+  m_Name: AsteroidSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1823834009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823834008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f80c33d076cc9294bad8feec8b991871, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hexagon: {fileID: 2751652395579419692, guid: 9ba5f6ef028a9504d9f75d9f29535ed4, type: 3}
+  pentagon: {fileID: 1785157377222665468, guid: 0e2125feb986d684b89daec962c83645, type: 3}
+  square: {fileID: 1756759536645759299, guid: 8ead8994d65a3fb46916d291dc309208, type: 3}
+  triangle: {fileID: 9210619780406281247, guid: 954b57852f6ef7244a7a7794d51235cf, type: 3}
+--- !u!4 &1823834010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823834008}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 800, y: 446, z: -300}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1832447471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,3 +1150,4 @@ SceneRoots:
   - {fileID: 1832447475}
   - {fileID: 653201920}
   - {fileID: 1475039143}
+  - {fileID: 1823834010}
