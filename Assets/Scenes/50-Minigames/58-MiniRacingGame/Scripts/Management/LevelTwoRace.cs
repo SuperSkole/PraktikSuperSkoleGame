@@ -18,7 +18,7 @@ public class LevelTwoRace : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "K�r igennem den halvdel der lyder som vokalen der bliver sagt.";
+        return "K\u00f8r igennem den halvdel der lyder som vokalen der bliver sagt.";
     }
 
     /// <summary>

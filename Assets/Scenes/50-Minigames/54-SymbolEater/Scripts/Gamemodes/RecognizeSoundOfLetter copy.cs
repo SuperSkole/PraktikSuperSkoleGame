@@ -57,7 +57,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             numberOfCorrectLettersOnBoard = count;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
 
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og v\u00e6lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
 
             /// <summary>
             /// Uses the Lettersound.
@@ -112,7 +112,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
-                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og vælg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+                boardController.SetAnswerText("Tryk[Mellemrum]s tasten for at lytte til Lyden af bogstavet og v\u00e6lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))

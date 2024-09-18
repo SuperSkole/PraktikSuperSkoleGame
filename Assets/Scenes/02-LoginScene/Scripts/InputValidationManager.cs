@@ -52,7 +52,7 @@ namespace Scenes._02_LoginScene.Scripts
             bool isPatternValid = Regex.IsMatch(input, UsernamePattern, RegexOptions.IgnoreCase);
             bool isValid = isLengthValid && isPatternValid;
 
-            usernameFeedback.text = isValid ? "<color=green>✔ Gyldigt Brugernavn</color>" : "<color=red>Brugernavn skal være 3-20 tegn og kun indeholde bogstaver, tal eller .-_@</color>";
+            usernameFeedback.text = isValid ? "<color=green>✔ Gyldigt Brugernavn</color>" : "<color=red>Brugernavn skal v\u00e6re 3-20 tegn og kun indeholde bogstaver, tal eller .-_@</color>";
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Scenes._02_LoginScene.Scripts
         /// <param name="input">The password input from the user.</param>
         private void ValidatePassword(string input)
         {
-            passwordTooShortFeedback.text = input.Length >= MinPasswordLength ? "<color=green>✔ Længde over 8</color>" : "<color=red>✘ Længde minimum 8</color>";
-            passwordTooLongFeedback.text = input.Length <= MaxPasswordLength ? "<color=green>✔ Længde under 30</color>" : "<color=red>✘ Længde Maximum 30</color>";
+            passwordTooShortFeedback.text = input.Length >= MinPasswordLength ? "<color=green>✔ L\u00e6ngde over 8</color>" : "<color=red>✘ L\u00e6ngde minimum 8</color>";
+            passwordTooLongFeedback.text = input.Length <= MaxPasswordLength ? "<color=green>✔ L\u00e6ngde under 30</color>" : "<color=red>✘ L\u00e6ngde Maximum 30</color>";
             passwordUppercaseFeedback.text = Regex.IsMatch(input, UppercasePattern) ? "<color=green>✔ Stort bogstav</color>" : "<color=red>✘ Stort bogstav Mangler</color>";
             passwordLowercaseFeedback.text = Regex.IsMatch(input, LowercasePattern) ? "<color=green>✔ Lille bogstav</color>" : "<color=red>✘ Lille bogstav Mangler</color>";
             passwordNumberFeedback.text = Regex.IsMatch(input, NumberPattern) ? "<color=green>✔ Tal</color>" : "<color=red>✘ Tal mangler</color>";

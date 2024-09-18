@@ -155,7 +155,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
                     
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at høre et bogstav, Find det billede der passer til det bogstav");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at h\u00f8re et bogstav, Find det billede der passer til det bogstav");
 
 
                 //uses the CurrentWordSound 
@@ -260,7 +260,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                                 multiplier = 4;
                                 break;
                         }
-                        boardController.Won("Du vandt. Du fandt det næste bogstav 4 gange", multiplier * 1, multiplier * 1);
+                        boardController.Won("Du vandt. Du fandt det n\u0056ste bogstav 4 gange", multiplier * 1, multiplier * 1);
                     }
                 }
             }
