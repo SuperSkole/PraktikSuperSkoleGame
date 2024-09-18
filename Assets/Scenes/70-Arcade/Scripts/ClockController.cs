@@ -1,5 +1,6 @@
 using Scenes;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ClockController : MonoBehaviour
@@ -13,8 +14,10 @@ public class ClockController : MonoBehaviour
 
     [SerializeField] private float minuteTime = 10;
 
+    [SerializeField]
     private WatchSpawner watch;
 
+    [SerializeField]
     private float score = 0;
 
     private bool youWin = false;
@@ -30,6 +33,7 @@ public class ClockController : MonoBehaviour
     private void Start()
     {
         initialRotation = submitAnswerLever.transform.rotation;
+        
     }
 
 
@@ -50,25 +54,23 @@ public class ClockController : MonoBehaviour
         {
             watch.GetRandoText();
 
-
+            if (score >= 5)
+            {
+                youWin = true;
+            }
         }
+
+        SwitchScenes.SwitchToArcadeScene();
     }
 
+    // When you press Spacebar you submit answer.
     private void SubmitAnswer()
     {
         StartCoroutine(RotateLever());
 
-
-
-
-        if (hourTime == int.Parse(watch.hourText.text) && minuteTime == int.Parse(watch.minuteText.text))
+        if (hourTime == watch.randoHour && minuteTime == watch.randoMinute)
         {
             score++;
-        }
-
-        if (score >= 5)
-        {
-            SwitchScenes.SwitchToArcadeScene();
         }
     }
 

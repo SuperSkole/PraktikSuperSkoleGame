@@ -226,20 +226,7 @@ MonoBehaviour:
   minuteTextObject: {fileID: 866658296}
   hourText: {fileID: 2000796928}
   minuteText: {fileID: 866658298}
-  minuteList:
-  - 05
-  - 10
-  - 15
-  - 20
-  - 25
-  - 30
-  - 35
-  - 40
-  - 45
-  - 50
-  - 55
-  - 60
-  randoMinute: 
+  randoMinute: 0
   randoHour: 0
 --- !u!1 &866658296
 GameObject:
@@ -737,6 +724,8 @@ MonoBehaviour:
   submitAnswerLever: {fileID: 1681363576}
   hourTime: 10
   minuteTime: 10
+  watch: {fileID: 287165522}
+  score: 0
   rotationAngle: 35
   rotationSpeed: 100
 --- !u!4 &1279562589 stripped
