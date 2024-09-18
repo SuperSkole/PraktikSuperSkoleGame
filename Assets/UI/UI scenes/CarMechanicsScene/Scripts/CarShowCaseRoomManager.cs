@@ -10,7 +10,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
 {
 
     [SerializeField] private List<GameObject> ShowcasedCar = new List<GameObject>();
-    [SerializeField] private List<CarMaterialInfo> CarListMaterials;
+    [SerializeField] private List<SpeceficCarMaterialnfo> CarListMaterials;
     [SerializeField] private Transform ShowcasedSpawnPoint;
     private GameObject spawnedCar;
     [SerializeField] private float rotationSpeed = 20f;  // Adjust speed here
@@ -29,27 +29,48 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     private CarShowCaseButtons buttonInstance;
     private string clickedButtonName;
+
+    [SerializeField] GameObject colorOptionsPrefab;
+    [SerializeField] Transform colorOptionsParent;
     private string carNameFromList;
+
+
     // Start is called before the first frame update
     void Start()
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
-        UpdateValues();
-        foreach (var item in PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().listOfCars)
+        
+        foreach (var item in playerData.listOfCars)
         {
             if (item.IsActive)
             {
                 carNameFromList = item.Name;
+
+                var tmp = CarListMaterials.Find(car => car.CarName == item.Name);
+                for (int i = 0; i < tmp.materialInfo.Count; i++)
+                {
+                    InstantiateColorBoxes(tmp.materialInfo[i]);
+                }
+
                 SpawnCar(ReturnThePlayerCar(item.Name));
                 PreviewColorOfCar(new CarShowCaseButtons(ReturnTheRightMaterial(item.MaterialName), item.MaterialName));
                 StartCoroutine(StartRotationOfCar());
                 break;
             }
         }
+        UpdateValues();
 
 
         //SpawnCar(ShowcasedCar[0]);
         //StartCoroutine(StartRotationOfCar());
+    }
+
+    private void InstantiateColorBoxes(CarMaterialnfo info)
+    {
+        var spawnedObj = Instantiate(colorOptionsPrefab, colorOptionsParent).GetComponent<CarShowCaseButtons>();
+        spawnedObj.material = info.CarMaterial;
+        spawnedObj.nameOfMaterial = info.MaterialName;
+        spawnedObj.GetComponentInChildren<TextMeshProUGUI>().text = info.MaterialName;
     }
     private void UpdateValues()
     {
@@ -83,6 +104,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
 
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value">Car from list name</param>
+    /// <returns></returns>
     private GameObject ReturnThePlayerCar(string value)
     {
         foreach (var item in ShowcasedCar)
@@ -94,13 +120,21 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         return null;
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="value">Material Name</param>
+    /// <returns></returns>
     private Material ReturnTheRightMaterial(string value)
     {
-        foreach (var item in CarListMaterials)
+        foreach (var item in CarListMaterials )
         {
-            if (value == item.CarName)
+            foreach (var info in item.materialInfo)
             {
-                return item.CarMaterial;
+                if (value == info.MaterialName)
+                {
+                    return info.CarMaterial;
+                }
             }
         }
         return null;
@@ -144,11 +178,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
         else if (!button.Bought)
         {
             priceHolder.enabled = true;
+            price.enabled = true;
             imgHolder.sprite = buyImg;
             price.text = button.price.ToString();
         }
     }
-    //public void SetStringNameOfMaterial(string materialName) => clickedMaterialName = materialName;
 
 
     public void SaveMaterialName()

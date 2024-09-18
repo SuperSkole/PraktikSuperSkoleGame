@@ -1162,8 +1162,9 @@ MonoBehaviour:
   carFuelBarGo: {fileID: 0}
   SoundParent: {fileID: 9159763472722663830}
   callCarButton: {fileID: 0}
-  CarSmoke1: {fileID: 4951991328332435066}
-  CarSmoke2: {fileID: 202036561757176157}
+  Exhaustsmoke:
+  - {fileID: 4951991328332435066}
+  - {fileID: 202036561757176157}
 --- !u!114 &7348556707812757953
 MonoBehaviour:
   m_ObjectHideFlags: 0
