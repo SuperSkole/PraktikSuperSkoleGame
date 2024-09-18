@@ -60,7 +60,7 @@ namespace Scenes._02_LoginScene.Scripts
             }
             else if (containsWhitespace)
             {
-                usernameFeedback.text = "<color=red>Brugernavn må ikke indeholde mellemrum eller hvide tegn.</color>";
+                usernameFeedback.text = "<color=red>Brugernavn må ikke indeholde mellemrum.</color>";
             }
             else if (!isPatternValid)
             {
@@ -71,8 +71,6 @@ namespace Scenes._02_LoginScene.Scripts
                 usernameFeedback.text = "<color=green>✔ Gyldigt Brugernavn</color>";
             }
         }
-
-
 
         /// <summary>
         /// Validates the password input against multiple complexity rules.
