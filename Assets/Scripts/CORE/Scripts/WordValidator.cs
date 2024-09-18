@@ -15,12 +15,25 @@ namespace CORE.Scripts
         /// <param name="word">The word that is needs verification</param>
         /// <param name="wordLength">The length of the word, to get the correct hashset</param>
         /// <returns>True if the word is found in specific hashset; otherwise, false.</returns>
+        // public bool IsValidWord(string word, int wordLength)
+        // {
+        //     string setName = $"Words_Danish_{wordLength}L";
+        //     var words = WordsManager.GetWordsFromSet(setName);
+        //     return words.Contains(word.ToUpper());
+        // }
         public bool IsValidWord(string word, int wordLength)
         {
-            string setName = $"Words_Danish_{wordLength}L";
-            var words = WordsManager.GetWordsFromSet(setName);
-            return words.Contains(word.ToUpper());
+            string setName1 = $"Words_Danish_{wordLength}L";
+            string setName2 = $"Words_Danish_{wordLength}L_ALL";
+
+            var words1 = WordsManager.GetWordsFromSet(setName1);
+            var words2 = WordsManager.GetWordsFromSet(setName2);
+
+            string wordUpper = word.ToUpper();
+
+            return words1.Contains(wordUpper) || words2.Contains(wordUpper);
         }
+
         
         /// <summary>
         /// Checks if a word is valid in any of the available hashsets.

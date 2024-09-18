@@ -1,3 +1,4 @@
+using CORE.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,41 @@ public class LevelTwoRace : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør igennem den halvdel der lyder som vokalen der bliver sagt.";
+        return "K\u00f8r igennem den halvdel der lyder som vokalen der bliver sagt.";
+    }
+
+    /// <summary>
+    /// Funtion that determins the what the correct word/image is in the current gameMode. 
+    /// </summary>
+    /// <param name="core"></param>
+    public void DetermineWordToUse(RacingCore core)
+    {
+        if (core.spelledWordsList.Count < 3)
+        {
+
+            //Selects a random vocal letter
+            do
+            {
+                core.gameRuleVocal.SetCorrectAnswer();
+                core.targetWord = core.gameRuleVocal.GetCorrectAnswer();
+            } while (core.spelledWordsList.Contains(core.targetWord));
+            if (core.currentMode != GameModes.Mode2)
+            {
+                core.imageWord = core.gameRuleVocal.GetDisplayAnswer();
+                Texture2D image = ImageManager.GetImageFromWord(core.imageWord);
+                core.wordsImageMap.Add(core.imageWord, core.QuickSprite(image));
+            }
+            else
+                core.imageWord = "";
+
+
+            if (!core.imageInitialized)
+                core.imageInitialized = true;
+            core.PlayWordAudio(core.targetWord);
+            core.UpdateWordImageDisplay();
+
+        }
+        else
+            core.EndGame();
     }
 }

@@ -23,6 +23,8 @@ namespace Scenes
         public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
 
         public static void SwitchToMinigameLoadingScene() => SceneManager.LoadScene(SceneNames.MinigameLoading);
+        public static void SwitchToMechnicView() => SceneManager.LoadScene(SceneNames.CarShowCaseRoom);
+        public static void SwitchToHighscore() => SceneManager.LoadScene(SceneNames.HighScores);
 
 
 

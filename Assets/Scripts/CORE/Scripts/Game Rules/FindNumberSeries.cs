@@ -32,11 +32,11 @@ namespace CORE.Scripts.Game_Rules
             {
                 if(currentNumber == mminNumber && !foundFirstNumber)
                 {
-                    return "Find tallene fra " + mminNumber + " til " + maxNumber + " i rækkefølge. Du har foreløbigt ikke fundet nogen";
+                    return "Find tallene fra " + mminNumber + " til " + maxNumber + " i r\u00e6kkefølge. Du har foreløbigt ikke fundet nogen";
                 }
                 else
                 {
-                    return "Find tallene fra " + mminNumber + " til " + maxNumber + " i rækkefølge. Du har foreløbigt fundet tallene op til " + currentNumber;
+                    return "Find tallene fra " + mminNumber + " til " + maxNumber + " i r"+"\u00e6" + "kkefølge. Du har foreløbigt fundet tallene op til " + currentNumber;
                 }
             }
 

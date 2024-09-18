@@ -1,6 +1,7 @@
 using LoadSave;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._24_HighScoreScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -118,11 +119,11 @@ namespace CORE
             Application.Quit();
         }
         
-        public void SaveGame()
+        public async void SaveGame()
         {
             if (SaveGameController != null && PlayerData != null && PlayerManager.Instance != null)
             {
-                SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
             }
             else
             {
@@ -134,7 +135,7 @@ namespace CORE
             //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
         
-        private async void InitializeGameManager()
+        private void InitializeGameManager()
         {  
             if (instance.GetComponent<PlayerData>() == null)
             {

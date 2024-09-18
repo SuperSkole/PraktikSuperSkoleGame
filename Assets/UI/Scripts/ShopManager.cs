@@ -23,6 +23,7 @@ namespace UI.Scripts
 
         private string wearingMid = null;
         private string wearingTop = null;
+        private string wearingColor = null;
 
         List<string> colors = new List<string>();
 
@@ -39,6 +40,8 @@ namespace UI.Scripts
 
         //Money bar
         [SerializeField] BarMeter meter;
+        //UI bar
+        
 
         private Shopoption currentShopOption;
 
@@ -67,6 +70,7 @@ namespace UI.Scripts
                 clothChanging = this.GetComponent<ClothChanging>();
             }
 
+            //Change grahic skeleton to what player is wearing
             playerColorChanging.SetSkeleton(skeletonGraphic);
             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
 
@@ -77,6 +81,7 @@ namespace UI.Scripts
             //Monster clothes they already wear
             wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
             wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+            wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
 
             if (wearingMid != null && wearingMid != string.Empty)
             {
@@ -152,13 +157,40 @@ namespace UI.Scripts
             currentPrice = thisprice;
             currentShopOption = shopOption;
 
-            if (itemName.Contains("HEAD") || itemName.Contains("MID"))
+            if (itemName.Contains("HEAD"))
             {
 
                 //hvis curren item ikke er tom, 
                 if (currentItem != null)
                 {
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
+                }
+                if (wearingMid != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+                }
+                if (wearingColor != null)
+                {
+                    playerColorChanging.ColorChange(wearingColor);
+                }
+                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                currentItem = itemName;
+            }
+
+            if(itemName.Contains("MID"))
+            {
+                //hvis curren item ikke er tom, 
+                if (currentItem != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
+                }
+                if(wearingTop != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop,wearingTop);
+                }
+                if(wearingColor != null)
+                {
+                    playerColorChanging.ColorChange(wearingColor);
                 }
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
@@ -170,8 +202,18 @@ namespace UI.Scripts
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
                     playerColorChanging.ColorChange(itemName);
+
+                    currentItem = itemName;
+
+                    if (wearingMid != null)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+                    }
+                    if (wearingTop != null)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
+                    }
                 }
-                currentItem = itemName;
             }
 
 
@@ -197,29 +239,28 @@ namespace UI.Scripts
         {
             if (currentItem != null)
             { 
-
                     if (ableToBuy)
                     {
-                    Debug.Log(currentItem);
-
+               
                         //Get player
                         PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
                              if (currentItem.Contains("HEAD"))
                             {
                                 PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                                 wearingTop = currentItem;
                        
                             }
                             if (currentItem.Contains("MID"))
                             {
                                 PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                                wearingMid = currentItem;
                         
                             }
                             if (colors.Contains(currentItem.ToString()))
                             {
-                                Debug.Log(currentItem+" Buy");
                                 PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
-
+                                wearingColor = currentItem;
                             }
 
                             avaliableMoney -= currentPrice;
@@ -238,8 +279,6 @@ namespace UI.Scripts
                         ableToBuy = false;
 
                         currentPrice = 0;
-
-                        currentItem = null;
 
                     }
              }

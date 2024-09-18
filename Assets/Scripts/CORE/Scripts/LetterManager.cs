@@ -9,16 +9,17 @@ namespace CORE.Scripts
     /// </summary>
     public class LetterManager
     {
+        // \u00c6, \u00d8 and \u00c5 are the unicode codes for the three danish vowels which can sometimes go missing when typed directly in scripts
         private static readonly HashSet<char> AllDanishLetters = new HashSet<char>
         {
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-            'Æ', 'Ø', 'Å'
+            '\u00c6', '\u00d8', '\u00c5'
         };
 
         private static readonly HashSet<char> DanishVowels = new HashSet<char>
         {
-            'A', 'E', 'I', 'O', 'U', 'Y', 'Æ', 'Ø', 'Å'
+            'A', 'E', 'I', 'O', 'U', 'Y', '\u00c6', '\u00d8', '\u00c5'
         };
 
         private static readonly HashSet<char> Consonants = new HashSet<char>
@@ -39,7 +40,7 @@ namespace CORE.Scripts
             {'K', 5}, {'L', 1}, {'M', 3}, {'N', 1}, {'O', 1},
             {'P', 3}, {'Q', 10}, {'R', 1}, {'S', 1}, {'T', 1},
             {'U', 1}, {'V', 4}, {'W', 4}, {'X', 8}, {'Y', 4},
-            {'Z', 10}, {'Æ', 6}, {'Ø', 7}, {'Å', 6}
+            {'Z', 10}, {'\u00c6', 6}, {'\u00d8', 7}, {'\u00c5', 6}
         };
 
         public static List<char> GetRandomLetters(int count)
