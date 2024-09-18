@@ -96,9 +96,19 @@ namespace Scenes._10_PlayerScene.Scripts
         public static void RaiseAddLetter(char letter) => OnAddLetter?.Invoke(letter);
         public static void RaiseWordRemovedValidated(string word) => OnWordRemovedValidated?.Invoke(word);
 
-        public static void RaiseWordAdded(string word, DateTime dateTime) => OnWordAdded?.Invoke(word, dateTime);
+        public static void RaiseWordAdded(string word)
+        {
+            DateTime eventTime = DateTime.Now;
+            OnWordAdded?.Invoke(word, eventTime); // Fire event with current DateTime
+        }
+
+        public static void RaiseLetterAdded(char letter)
+        {
+            DateTime eventTime = DateTime.Now;
+            OnLetterAdded?.Invoke(letter.ToString(), eventTime); // Fire event with current DateTime
+        }
+
         public static void RaiseWordRemoved(string word, DateTime dateTime) => OnWordRemoved?.Invoke(word, dateTime);
-        public static void RaiseLetterAdded(string letter, DateTime dateTime) => OnLetterAdded?.Invoke(letter, dateTime);
         public static void RaiseLetterRemoved(string letter, DateTime dateTime) => OnLetterRemoved?.Invoke(letter, dateTime);
         public static void RaiseNumberAdded(string number, DateTime dateTime) => OnNumberAdded?.Invoke(number, dateTime);
         public static void RaiseNumberRemoved(string number, DateTime dateTime) => OnNumberRemoved?.Invoke(number, dateTime);
