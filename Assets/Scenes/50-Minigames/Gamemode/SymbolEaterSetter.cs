@@ -8,7 +8,7 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class SymbolEaterSetter: IGameModeSetter
     {
-        private List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
+        public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
         {
             new FindSymbols(),
             null,

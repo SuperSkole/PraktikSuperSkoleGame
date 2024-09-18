@@ -9,7 +9,7 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class LetterGardenSetter: IGameModeSetter
     {
-        private List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
+        public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
         {
             new DrawWithBee(),
             new DrawWithoutBee(),

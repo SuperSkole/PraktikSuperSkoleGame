@@ -17,7 +17,7 @@ public class LevelFiveRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "K�r igennem den halvdel der lyder som konsonanten der bliver sagt.";
+        return "K\u00f8r igennem den halvdel der lyder som konsonanten der bliver sagt.";
     }
     /// <summary>
     /// Sets what the correct word/image is for the current gameMode.

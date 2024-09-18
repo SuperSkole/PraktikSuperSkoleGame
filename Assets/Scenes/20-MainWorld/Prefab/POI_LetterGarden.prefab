@@ -297,6 +297,7 @@ MonoBehaviour:
   isCar: 0
   isGasSTT: 0
   interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!114 &6596015176885696434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +692,7 @@ MonoBehaviour:
   isCar: 0
   isGasSTT: 0
   interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!1001 &1324956210098636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1691,8 +1693,37 @@ PrefabInstance:
     - {fileID: 4321831606256176198, guid: 04ee1fd97d6ff404cb5e8486bb384a3d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6475891740879922798, guid: 04ee1fd97d6ff404cb5e8486bb384a3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 474275726899034995}
   m_SourcePrefab: {fileID: 100100000, guid: 04ee1fd97d6ff404cb5e8486bb384a3d, type: 3}
+--- !u!1 &1103586439674398264 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6475891740879922798, guid: 04ee1fd97d6ff404cb5e8486bb384a3d, type: 3}
+  m_PrefabInstance: {fileID: 6237000871217176662}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &474275726899034995
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1103586439674398264}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 9.459948, y: 9.797486, z: 9.73337}
+  m_Center: {x: -1.6889169, y: 4.398742, z: -0.53363377}
 --- !u!4 &1881572454483419772 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5517744154326024746, guid: 04ee1fd97d6ff404cb5e8486bb384a3d, type: 3}
