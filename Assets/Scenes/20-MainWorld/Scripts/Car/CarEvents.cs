@@ -1,5 +1,6 @@
 using Cinemachine;
 using Scenes._10_PlayerScene.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -19,9 +20,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         [SerializeField] GameObject SoundParent;
         [SerializeField] GameObject callCarButton;
 
-
-        public GameObject CarSmoke1;
-        public GameObject CarSmoke2;
+        public List<GameObject> Exhaustsmoke;
         private void Start()
         {
             if (car != null)
@@ -47,8 +46,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
             }
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
             carEventsMa = GetComponent<CarEventsManager>();
-            CarSmoke1.SetActive(false);
-            CarSmoke2.SetActive(false);
+            foreach (GameObject item in Exhaustsmoke)
+            {
+                item.SetActive(false);
+            }
         }
         public void TurnOnCar()
         {
@@ -71,9 +72,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 carEventsMa.enabled = true;
 
             }
-
-            CarSmoke1.SetActive(true);
-            CarSmoke2.SetActive(true);
+            foreach (GameObject item in Exhaustsmoke)
+            {
+                item.SetActive(true);
+            }
             cam = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
 
             cam.Follow = gameObject.transform;
@@ -120,9 +122,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
                     callCarButton.SetActive(true);
                     carEventsMa.enabled = false;
                 }
-
-                CarSmoke1.SetActive(false);
-                CarSmoke2.SetActive(false);
+                foreach (GameObject item in Exhaustsmoke)
+                {
+                    item.SetActive(false);
+                }
 
                 cam.Follow = spawnedPlayer.transform;
                 cam.LookAt = spawnedPlayer.transform;
@@ -134,6 +137,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
                 var pos = carSetPlayerPos.SetTransformOfPlayer().position;
                 pos.y += 1;
+                spawnedPlayer.GetComponent<Rigidbody>().position = pos;
                 spawnedPlayer.transform.position = pos;
 
                 EnablePlayer();

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace Scenes._02_LoginScene.Scripts
         
         private const int MinUsernameLength = 3;
         private const int MaxUsernameLength = 20;
-        private const string UsernamePattern = @"^[a-z\d.\-@_]+$";
+        private const string UsernamePattern = @"^[a-zA-Z\d.\-@_]+$";
         
         // Define password requirements as const
         private const int MinPasswordLength = 8;
@@ -49,10 +50,26 @@ namespace Scenes._02_LoginScene.Scripts
         private void ValidateUsername(string input)
         {
             bool isLengthValid = input.Length is >= MinUsernameLength and <= MaxUsernameLength;
-            bool isPatternValid = Regex.IsMatch(input, UsernamePattern, RegexOptions.IgnoreCase);
-            bool isValid = isLengthValid && isPatternValid;
+            bool containsWhitespace = input.Any(char.IsWhiteSpace);
+            bool isPatternValid = Regex.IsMatch(input, UsernamePattern);
+            bool isValid = isLengthValid && isPatternValid && !containsWhitespace;
 
-            usernameFeedback.text = isValid ? "<color=green>✔ Gyldigt Brugernavn</color>" : "<color=red>Brugernavn skal v\u00e6re 3-20 tegn og kun indeholde bogstaver, tal eller .-_@</color>";
+            if (!isLengthValid)
+            {
+                usernameFeedback.text = "<color=red>Brugernavn skal være mellem 3 og 20 tegn.</color>";
+            }
+            else if (containsWhitespace)
+            {
+                usernameFeedback.text = "<color=red>Brugernavn må ikke indeholde mellemrum.</color>";
+            }
+            else if (!isPatternValid)
+            {
+                usernameFeedback.text = "<color=red>Brugernavn må kun indeholde bogstaver, tal eller . - _ @</color>";
+            }
+            else
+            {
+                usernameFeedback.text = "<color=green>✔ Gyldigt Brugernavn</color>";
+            }
         }
 
         /// <summary>

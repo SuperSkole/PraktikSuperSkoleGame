@@ -52,7 +52,7 @@ namespace Scenes._03_StartScene.Scripts
                 if (i < savePanels.Count)
                 {
                     // Load the save data from the cloud for the current key
-                    SaveDataDTO data
+                    PlayerData data
                         = await GameManager.Instance.SaveGameController
                             .LoadSaveDataAsync(saveKeys[i]);
 

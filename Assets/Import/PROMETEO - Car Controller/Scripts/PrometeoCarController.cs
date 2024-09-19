@@ -157,9 +157,13 @@ public class PrometeoCarController : MonoBehaviour
     WheelFrictionCurve RRwheelFriction;
     float RRWextremumSlip;
 
+    private CarSaveTPPoint carSaveTPPoint;
+
     // Start is called before the first frame update
     void Start()
     {
+        carSaveTPPoint = GetComponent<CarSaveTPPoint>();
+
         //In this part, we set the 'carRigidbody' value with the Rigidbody attached to this
         //gameObject. Also, we define the center of mass of the car with the Vector3 given
         //in the inspector.
@@ -281,8 +285,7 @@ public class PrometeoCarController : MonoBehaviour
         }
 
     }
-
-    // Update is called once per frame
+    //Breaks if using FixedUpdate wont stop drifting 
     void Update()
     {
 
@@ -408,7 +411,16 @@ public class PrometeoCarController : MonoBehaviour
 
         }
 
-
+        //Stops the car from drifting when driving over an edge while drifting.
+        if (!carSaveTPPoint.allWheelsTouchingGround)
+        {
+            isDrifting = false;
+            tireScreechSound.Stop();
+            RLWParticleSystem.Stop();
+            RRWParticleSystem.Stop();
+            RLWTireSkid.emitting = false;
+            RRWTireSkid.emitting = false;
+        }
         // We call the method AnimateWheelMeshes() in order to match the wheel collider movements with the 3D meshes of the wheels.
         AnimateWheelMeshes();
 
@@ -453,9 +465,12 @@ public class PrometeoCarController : MonoBehaviour
                 }
                 if ((isDrifting) || (isTractionLocked && Mathf.Abs(carSpeed) > 12f))
                 {
-                    if (!tireScreechSound.isPlaying)
+                    if (carSaveTPPoint.allWheelsTouchingGround)
                     {
-                        tireScreechSound.Play();
+                        if (!tireScreechSound.isPlaying)
+                        {
+                            tireScreechSound.Play();
+                        }
                     }
                 }
                 else if ((!isDrifting) && (!isTractionLocked || Mathf.Abs(carSpeed) < 12f))
@@ -812,7 +827,7 @@ public class PrometeoCarController : MonoBehaviour
         {
             try
             {
-                if (isDrifting)
+                if (isDrifting && carSaveTPPoint.allWheelsTouchingGround)
                 {
                     RLWParticleSystem.Play();
                     RRWParticleSystem.Play();
@@ -832,8 +847,11 @@ public class PrometeoCarController : MonoBehaviour
             {
                 if ((isTractionLocked || Mathf.Abs(localVelocityX) > 5f) && Mathf.Abs(carSpeed) > 12f)
                 {
-                    RLWTireSkid.emitting = true;
-                    RRWTireSkid.emitting = true;
+                    if (carSaveTPPoint.allWheelsTouchingGround)
+                    {
+                        RLWTireSkid.emitting = true;
+                        RRWTireSkid.emitting = true;
+                    }
                 }
                 else
                 {

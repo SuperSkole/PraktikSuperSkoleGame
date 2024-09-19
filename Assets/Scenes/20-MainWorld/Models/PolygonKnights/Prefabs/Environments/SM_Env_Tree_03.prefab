@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3375508}
   - component: {fileID: 2355198}
   - component: {fileID: 2761036528666448227}
+  - component: {fileID: -1389586004257820917}
   m_Layer: 0
   m_Name: SM_Env_Tree_03
   m_TagString: Untagged
@@ -105,3 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5146911, y: 1.4473857, z: 0.50217795}
   m_Center: {x: -0.009356017, y: 0.72369283, z: 0.011545176}
+--- !u!205 &-1389586004257820917
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160654}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2355198}
+  m_Enabled: 1

@@ -1,3 +1,4 @@
+using CORE;
 using Scenes._10_PlayerScene.Scripts;
 
 namespace LoadSave
@@ -28,6 +29,7 @@ namespace LoadSave
                 CollectedWords = playerData.CollectedWords,
                 CollectedLetters = playerData.CollectedLetters,
                 BoughtClothes = playerData.BoughtClothes,
+                listOfCars = playerData.listOfCars,
                 clothMid = playerData.ClothMid,
                 clothTop = playerData.ClothTop
             };
@@ -40,7 +42,7 @@ namespace LoadSave
         /// <returns>A PlayerData object populated with the data from the DTO.</returns>
         public PlayerData ConvertToPlayerData(SaveDataDTO dto)
         {
-            PlayerData playerData = PlayerManager.Instance.SpawnedPlayer.AddComponent<PlayerData>();
+            PlayerData playerData = GameManager.Instance.PlayerData;
             playerData.Initialize(
                 dto.Username,
                 dto.MonsterName,
@@ -50,11 +52,13 @@ namespace LoadSave
                 dto.PlayerLevel,
                 dto.SavedPlayerStartPostion.GetVector3(),
                 dto.clothMid,
-                dto.clothTop);
+                dto.clothTop,
+                dto.listOfCars);
 
             playerData.CollectedWords = dto.CollectedWords;
             playerData.CollectedLetters = dto.CollectedLetters;
             playerData.BoughtClothes = dto.BoughtClothes;
+            playerData.listOfCars = dto.listOfCars;
 
             return playerData;
         }
@@ -63,6 +67,7 @@ namespace LoadSave
 
 // using System;
 // using System.Reflection;
+// using CORE;
 // using Scenes._10_PlayerScene.Scripts;
 // using UnityEngine;
 //
@@ -97,7 +102,7 @@ namespace LoadSave
 //         public PlayerData ConvertToPlayerData(SaveDataDTO dto)
 //         {
 //             // Create and initialize the PlayerData component
-//             PlayerData playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
+//             PlayerData playerData = GameManager.Instance.PlayerData;
 //             
 //             // Use reflection to copy matching fields
 //             CopyFields(dto, playerData);
