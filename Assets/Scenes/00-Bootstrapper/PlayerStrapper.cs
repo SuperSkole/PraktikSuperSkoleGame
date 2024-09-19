@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using CORE;
 using Scenes._02_LoginScene.Scripts;
@@ -14,6 +15,8 @@ namespace Scenes._00_Bootstrapper
     public class PlayerStrapper : MonoBehaviour
     {
         private IAuthenticationService authService;
+        
+        public static event Action OnPlayerAuthenticated;
         
         private IEnumerator Start()
         {
@@ -41,6 +44,8 @@ namespace Scenes._00_Bootstrapper
                 yield return authService.SignInAsync();
                 
                 InitializePlayerSettings();
+                
+                OnPlayerAuthenticated?.Invoke();
          
                 Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
@@ -75,8 +80,8 @@ namespace Scenes._00_Bootstrapper
         /// </summary>
         private void DisablePlayerCanvas()
         {
-            // Look for any Canvas object in the PlayerScene
-            Canvas playerCanvas = FindObjectOfType<Canvas>();
+            // Look for a Canvas object specifically named "PlayerCanvas"
+            Canvas playerCanvas = GameObject.Find("PlayerCanvas")?.GetComponent<Canvas>();
 
             if (playerCanvas != null)
             {

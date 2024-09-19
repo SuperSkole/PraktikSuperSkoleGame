@@ -66,7 +66,7 @@ namespace Scenes
         // Multiplayer features
         public const string MultiplayerLobby = "80-MultiplayerLobby";
         public const string Matchmaking = "81-MatchmakingScene";
-        public const string MultiPlayerHighScores = "89-HighScoreScene";
+        public const string MultiPlayerHighScores = "89-MultiPlayerHighScoreScene";
         
     }
 }
