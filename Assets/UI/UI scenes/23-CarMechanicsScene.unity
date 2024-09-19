@@ -1364,6 +1364,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 2002071333}
+          m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+          m_MethodName: ClickOnCarTab
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 1099943111}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
@@ -2087,6 +2099,30 @@ MonoBehaviour:
           m_StringArgument: Van
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2002071333}
+        m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+        m_MethodName: SetButtonName
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1129800341}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2002071333}
+        m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+        m_MethodName: SettingCarButtonsUp
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1129800346}
+          m_ObjectArgumentAssemblyTypeName: CarShowCaseButton, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1129800344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2139,7 +2175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2811824126819119337, guid: 3ccae25d48a43364a96bbf5396a79943, type: 3}
   nameOfCar: Van
-  price: 100
+  price: 5
   Bought: 0
 --- !u!1 &1218385633
 GameObject:
@@ -2582,6 +2618,18 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
+        - m_Target: {fileID: 2002071333}
+          m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+          m_MethodName: ClickOnColorTab
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
         - m_Target: {fileID: 1526844838}
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
@@ -3432,6 +3480,30 @@ MonoBehaviour:
           m_StringArgument: Mustang
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2002071333}
+        m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+        m_MethodName: SetButtonName
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1767710069}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2002071333}
+        m_TargetAssemblyTypeName: CarShowCaseRoomManager, Assembly-CSharp
+        m_MethodName: SettingCarButtonsUp
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1767710074}
+          m_ObjectArgumentAssemblyTypeName: CarShowCaseButton, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1767710072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3484,8 +3556,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   car: {fileID: 2734318771135695855, guid: ece2382e8863884478477db540a8b9ad, type: 3}
   nameOfCar: Mustang
-  price: 100
-  Bought: 0
+  price: 5
+  Bought: 1
 --- !u!1 &1790704960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3789,7 +3861,7 @@ MonoBehaviour:
       CarMaterial: {fileID: 2100000, guid: 6f1b4b8d7debd314ba9d70da904b5c16, type: 2}
     - MaterialName: Green
       CarMaterial: {fileID: 2100000, guid: a8baadc9d5f2b714b8ce785e9c93e586, type: 2}
-    - MaterialName: Brown
+    - MaterialName: Orange
       CarMaterial: {fileID: 2100000, guid: f822395ba23d88b4eaa68a7520f58367, type: 2}
     - MaterialName: Blue
       CarMaterial: {fileID: 2100000, guid: 808f9db45fc635e4faa248781a9970f8, type: 2}

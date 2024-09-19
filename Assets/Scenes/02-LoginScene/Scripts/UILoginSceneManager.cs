@@ -49,8 +49,8 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private async void Awake()
         {
-            Debug.Log("Initializing Unity services");
-            await UnityServices.InitializeAsync();
+            //Debug.Log("Initializing Unity services");
+            //await UnityServices.InitializeAsync();
             
             loginScreen.SetActive(true);
 
