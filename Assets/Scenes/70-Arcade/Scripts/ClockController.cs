@@ -1,6 +1,6 @@
 using Scenes;
 using System.Collections;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class ClockController : MonoBehaviour
@@ -20,7 +20,12 @@ public class ClockController : MonoBehaviour
     [SerializeField]
     private float score = 0;
 
-    private bool keydown = false;
+    [SerializeField]
+    private GameObject scoreTextObject;
+
+    public TextMeshProUGUI scoreText;
+
+    private bool guessing = false;
 
     //used to rotate the cat tail
     public float rotationAngle = 35f;
@@ -30,31 +35,30 @@ public class ClockController : MonoBehaviour
 
     private void Start()
     {
+        guessing = false;
         initialRotation = submitAnswerLever.transform.rotation;
-        
+        scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
+
+
     }
 
 
-    /// <summary>
-    /// Where everything plays out.
-    /// </summary>
- 
-
     // When you press Spacebar you submit answer.
-    private void SubmitAnswer()
+    public void SubmitAnswer()
     {
+        guessing = true;
         StartCoroutine(RotateLever());
 
         if (hourTime == watch.randoHour && minuteTime == int.Parse(watch.randoMinute))
         {
             score++;
-
+            scoreText.text = $"Point: {score}";
 
             watch.GetRandoText();
-            
+
             if (score >= 5)
             {
-               
+
                 SwitchScenes.SwitchToArcadeScene();
             }
         }
@@ -63,60 +67,83 @@ public class ClockController : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Move the Clockneedles on the cat clock
-    /// </summary>
-    private void OnMouseOver()
+    public void MinuteArrowRight()
     {
+
+        minuteGameObject.Rotate(Vector3.back, -30);
+
+        minuteTime += 5;
 
         if (minuteTime >= 60)
         {
             minuteTime = 0;
         }
+    }
+
+    public void MinuteArrowLeft()
+    {
+
+        minuteGameObject.Rotate(Vector3.back, 30);
+
+        minuteTime -= 5;
+
+        if (minuteTime <= -5)
+        {
+            minuteTime = 55;
+        }
+    }
+
+    public void HourArrowRight()
+    {
+
+        hourGameObject.Rotate(Vector3.back, -30);
+
+        hourTime += 1;
 
         if (hourTime >= 13)
         {
             hourTime = 1;
         }
+    }
 
-        if (Input.GetMouseButtonDown(1))
+    public void HourArrowLeft()
+    {
+
+        hourGameObject.Rotate(Vector3.back, 30);
+
+        hourTime -= 1;
+
+        if (hourTime <= 0)
         {
-            minuteGameObject.Rotate(Vector3.back, -30);
-
-            minuteTime += 5;
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            hourGameObject.Rotate(Vector3.back, -30f);
-
-            hourTime += 1;
-        }
-
-        //plays the audioLetterSource once by pressing space
-        if (Input.GetKeyDown(KeyCode.Space) && keydown == false)
-        {
-            SubmitAnswer();
-            keydown = true;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space) && keydown == true)
-        {
-            keydown = false;
+            hourTime = 12;
         }
     }
+
+
+    /// <summary>
+    /// Move the Clockneedles on the cat clock
+    /// </summary>
+
 
     //The RotateLever coroutine handles the sequence of rotations:
     IEnumerator RotateLever()
     {
-        // Rotate to the left by rotationAngle
-        yield return RotateOverTime(-rotationAngle);
+        
+        if (guessing == true)
+        {
 
-        // Rotate to the right by 2x the rotationAngle (to go in the opposite direction)
-        yield return RotateOverTime(rotationAngle * 2);
 
-        // Rotate back to the initial position
-        yield return RotateOverTime(-rotationAngle);
+            // Rotate to the left by rotationAngle
+            yield return RotateOverTime(-rotationAngle);
+
+            // Rotate to the right by 2x the rotationAngle (to go in the opposite direction)
+            yield return RotateOverTime(rotationAngle * 2);
+
+            // Rotate back to the initial position
+            yield return RotateOverTime(-rotationAngle);
+
+        }
+        guessing = false;
     }
 
     //The RotateOverTime coroutine gradually rotates the lever towards the desired angle
