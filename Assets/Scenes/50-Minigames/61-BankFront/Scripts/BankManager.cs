@@ -24,14 +24,19 @@ public class BankManager : MonoBehaviour
     [SerializeField]private GameObject playerPrison;
     public List<Coin> currentCustomersCoins = new List<Coin>();
     [SerializeField]private GameObject coinPrefab;
+    [SerializeField]private TextMeshProUGUI lives;
+    [SerializeField]private TextMeshProUGUI gameOverText;
 
     [SerializeField]private float realCoinPercentage = 80;
 
     [SerializeField]private int playerGuess = -1;
 
     private int completedGames = 0;
-    private int mistakes = 0;
+    private float mistakes = 0;
 
+    /// <summary>
+    /// Moves the player avatar out of sight
+    /// </summary>
     void Start()
     {
         if(PlayerManager.Instance != null)
@@ -47,6 +52,8 @@ public class BankManager : MonoBehaviour
     {
         if(currentCustomersCoins.Count == 0)
         {
+            lives.text = "3/3 liv tilbage";
+            gameOverText.text = "";
             //finds out how many coins the customer have and then generates them
             int amount = Random.Range(1, 20);
             float chancePerCoin = realCoinPercentage / validCoins.Count;
@@ -111,14 +118,22 @@ public class BankManager : MonoBehaviour
         //Changes the background color of the trays to yellow if either the guess or the sorting is correct
         else if(correct || playerGuess == currentSum)
         {
+            mistakes += 0.5f;
+            UpdateLivesDisplay();
             sortedTrayBackground.color = Color.yellow;
             unsortedTraybackground.color = Color.yellow;
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
+            mistakes++;
+            UpdateLivesDisplay();
             sortedTrayBackground.color = Color.red;
             unsortedTraybackground.color = Color.red;
+        }
+        if(mistakes >= 3)
+        {
+            StartCoroutine(LostGame());
         }
     }
 
@@ -128,8 +143,13 @@ public class BankManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(5);
         completedGames++;
+        if(completedGames >= 5)
+        {
+            gameOverText.text = "Du vandt du sorterede mønterne korrekt og udregnede deres værdi 5 gange";
+        }
+        yield return new WaitForSeconds(5);
+        
         for(int i = 0; i < currentCustomersCoins.Count; i++)
         {
             Destroy(currentCustomersCoins[i].gameObject);
@@ -144,6 +164,17 @@ public class BankManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Sets the gameover text and then waits a bit before ending the game
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LostGame()
+    {
+        gameOverText.text = "Du tabte. Du lavede for mange fejl";
+        yield return new WaitForSeconds(5);
+        SwitchScenes.SwitchToMainWorld();
+    }
+
+    /// <summary>
     /// Updates the playerguess then the player types an integer into the player guess field
     /// </summary>
     public void UpdateGuess()
@@ -152,6 +183,21 @@ public class BankManager : MonoBehaviour
         if (res)
         {
             playerGuess = number;
+        }
+    }
+
+    /// <summary>
+    /// Updates the display of the players remaining lives
+    /// </summary>
+    private void UpdateLivesDisplay()
+    {
+        if(mistakes <= 3)
+        {
+            lives.text = 3 - mistakes + "/3 liv tilbage";
+        }
+        else
+        {
+            lives.text = "0/3 liv tilbage";
         }
     }
 }
