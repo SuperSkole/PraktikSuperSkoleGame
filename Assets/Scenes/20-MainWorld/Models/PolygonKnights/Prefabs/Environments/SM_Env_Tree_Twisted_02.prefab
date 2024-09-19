@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3377058}
   - component: {fileID: 2323172}
   - component: {fileID: 3152554200664399813}
+  - component: {fileID: 3319823829406370079}
   m_Layer: 0
   m_Name: SM_Env_Tree_Twisted_02
   m_TagString: Untagged
@@ -105,3 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.82390743, y: 3.49023, z: 0.9104313}
   m_Center: {x: -0.0024480808, y: 1.745115, z: 0.033342168}
+--- !u!205 &3319823829406370079
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141078}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.005
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2323172}
+  m_Enabled: 1
