@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 2619170819135863344}
   - component: {fileID: 8139147498103960056}
   - component: {fileID: -7640420895713324528}
-  - component: {fileID: 4071149782912515122}
   - component: {fileID: 1413151831484121209}
   - component: {fileID: 4351576364442005630}
+  - component: {fileID: 1961789649671636703}
   m_Layer: 0
   m_Name: Hexagon
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1072, y: 413, z: -25}
-  m_LocalScale: {x: 150, y: 150, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -115,7 +115,39 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &4071149782912515122
+--- !u!114 &1413151831484121209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751652395579419692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe782f4426e18a49b198965a018cec7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pentagon: {fileID: 1785157377222665468, guid: 0e2125feb986d684b89daec962c83645, type: 3}
+  explosionPrefab: {fileID: 1265720855497889114, guid: b0787843777c9cf45a66cca4cfc5efb8, type: 3}
+  asteroidSpawner: {fileID: 0}
+  minXForce: 0
+  maxXForce: 0
+  minYForce: 0
+  maxYForce: 0
+  speed: 0
+--- !u!114 &4351576364442005630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2751652395579419692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e88fcde6da75cbc46891c4c251ca4e5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!60 &1961789649671636703
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -166,29 +198,3 @@ PolygonCollider2D:
       - {x: 0.43359375, y: 0.25}
       - {x: 0, y: 0.5}
   m_UseDelaunayMesh: 0
---- !u!114 &1413151831484121209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2751652395579419692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fe782f4426e18a49b198965a018cec7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pentagon: {fileID: 1785157377222665468, guid: 0e2125feb986d684b89daec962c83645, type: 3}
-  explosionPrefab: {fileID: 1265720855497889114, guid: b0787843777c9cf45a66cca4cfc5efb8, type: 3}
---- !u!114 &4351576364442005630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2751652395579419692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e88fcde6da75cbc46891c4c251ca4e5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

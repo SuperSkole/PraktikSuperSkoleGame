@@ -22,7 +22,7 @@ public class PlayerMoveSpaceShip : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0f)
         {
             rigidBody.AddForce(new Vector2(transform.up.x,transform.up.y) * shipAcelleration);
-            rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, 100);
+            rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, 200);
         }
 
 
@@ -36,12 +36,12 @@ public class PlayerMoveSpaceShip : MonoBehaviour
 
         if (Input.GetAxis("Horizontal") < 0f)
         {
-            transform.Rotate(0, 0, -1);
+            transform.Rotate(0, 0, -2);
         }
 
         if (Input.GetAxis("Horizontal") > 0f)
         {
-            transform.Rotate(0, 0, 1);
+            transform.Rotate(0, 0, 2);
         }
 
 

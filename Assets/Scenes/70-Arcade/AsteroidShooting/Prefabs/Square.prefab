@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2441817676863692195}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 150, y: 150, z: 1}
+  m_LocalScale: {x: 65, y: 65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -178,6 +178,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triangle: {fileID: 9210619780406281247, guid: 954b57852f6ef7244a7a7794d51235cf, type: 3}
   explosionPrefab: {fileID: 1265720855497889114, guid: b0787843777c9cf45a66cca4cfc5efb8, type: 3}
+  asteroidSpawner: {fileID: 0}
+  minXForce: 0
+  maxXForce: 0
+  minYForce: 0
+  maxYForce: 0
+  speed: 0
 --- !u!114 &-2441817676863692195
 MonoBehaviour:
   m_ObjectHideFlags: 0
