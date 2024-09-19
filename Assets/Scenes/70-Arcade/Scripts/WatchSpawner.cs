@@ -14,9 +14,9 @@ public class WatchSpawner : MonoBehaviour
 
 
 
-    private int[] minuteList = { 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 00 };
+    private string[] minuteList = { "05", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "00" };
 
-    public int randoMinute;
+    public string randoMinute;
     public int randoHour;
 
     private void Start()
@@ -31,7 +31,7 @@ public class WatchSpawner : MonoBehaviour
     public void GetRandoText()
     {
         randoMinute = minuteList[Random.Range(0, minuteList.Length)];
-        minuteText.text = randoMinute.ToString();
+        minuteText.text = randoMinute;
         randoHour = Random.Range(1, 12);
         if (randoHour < 10)
         {

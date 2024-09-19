@@ -20,8 +20,6 @@ public class ClockController : MonoBehaviour
     [SerializeField]
     private float score = 0;
 
-    private bool youWin = false;
-
     private bool keydown = false;
 
     //used to rotate the cat tail
@@ -38,40 +36,30 @@ public class ClockController : MonoBehaviour
 
 
     /// <summary>
-    /// Update each frame
-    /// </summary>
-    private void Update()
-    {
-        ClockGame();
-    }
-
-    /// <summary>
     /// Where everything plays out.
     /// </summary>
-    private void ClockGame()
-    {
-        while (!youWin)
-        {
-            watch.GetRandoText();
-
-            if (score >= 5)
-            {
-                youWin = true;
-            }
-        }
-
-        SwitchScenes.SwitchToArcadeScene();
-    }
+ 
 
     // When you press Spacebar you submit answer.
     private void SubmitAnswer()
     {
         StartCoroutine(RotateLever());
 
-        if (hourTime == watch.randoHour && minuteTime == watch.randoMinute)
+        if (hourTime == watch.randoHour && minuteTime == int.Parse(watch.randoMinute))
         {
             score++;
+
+
+            watch.GetRandoText();
+            
+            if (score >= 5)
+            {
+               
+                SwitchScenes.SwitchToArcadeScene();
+            }
         }
+
+
     }
 
 
@@ -81,9 +69,9 @@ public class ClockController : MonoBehaviour
     private void OnMouseOver()
     {
 
-        if (minuteTime >= 65)
+        if (minuteTime >= 60)
         {
-            minuteTime = 5;
+            minuteTime = 0;
         }
 
         if (hourTime >= 13)
