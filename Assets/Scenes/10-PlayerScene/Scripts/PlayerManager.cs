@@ -3,6 +3,7 @@ using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
+using Scenes._24_HighScoreScene.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,8 @@ namespace Scenes._10_PlayerScene.Scripts
     /// </summary>
     public class PlayerManager : MonoBehaviour
     {
+        [SerializeField] private HighScore highScore;
+        
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
@@ -27,6 +30,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
 
+    
+        
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
 
@@ -54,6 +59,19 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
                 
                 return playerData;
+            }
+        }
+        
+        public HighScore HighScore 
+        {
+            get 
+            {
+                if (highScore == null) 
+                {
+                    Debug.LogError("highScore accessed before being initialized.");
+                }
+                
+                return highScore;
             }
         }
 
@@ -196,7 +214,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         
 
-        public void SetupPlayerFromSave(SaveDataDTO saveData)
+        public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
@@ -238,12 +256,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.Username,
                 saveData.MonsterName,
                 saveData.MonsterColor,
-                saveData.GoldAmount,
-                saveData.XPAmount,
-                saveData.PlayerLevel,
-                saveData.SavedPlayerStartPostion.GetVector3(),
-                saveData.clothMid,
-                saveData.clothTop,
+                saveData.CurrentGoldAmount,
+                saveData.CurrentXPAmount,
+                saveData.CurrentLevel,
+                saveData.CurrentPosition,
+                saveData.ClothMid,
+                saveData.ClothTop,
                 saveData.listOfCars
             );
 
@@ -257,7 +275,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
-                    ? new Vector3(-184, 39, -144)
+                    ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
 
             // Log for debugging

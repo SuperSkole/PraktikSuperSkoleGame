@@ -19,8 +19,8 @@ namespace Scenes._00_Bootstrapper
         {
             authService = new AnonymousAuthenticationService();
             
-            Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
-            Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
+            // Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
+            // Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
 
             // Loop through all loaded scenes to check if LoginScene is active
             bool loginSceneActive = false;

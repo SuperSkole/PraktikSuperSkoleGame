@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CarSaveTPPoint : MonoBehaviour
@@ -8,8 +9,8 @@ public class CarSaveTPPoint : MonoBehaviour
     [SerializeField] private List<GameObject> rays = new();
     public LayerMask terrainLayer;
     private Vector3 SavedPos = Vector3.zero;
-   [SerializeField] PrometeoCarController carController;
-
+    [SerializeField] PrometeoCarController carController;
+    public bool allWheelsTouchingGround = true;
     private void Start()
     {
         //FrontWheels
@@ -22,7 +23,7 @@ public class CarSaveTPPoint : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool allWheelsTouchingGround = true;
+        allWheelsTouchingGround = true;
         //timer += Time.deltaTime;
         for (int i = 0; i < RayPointDic.Count; i++)
         {
@@ -38,6 +39,10 @@ public class CarSaveTPPoint : MonoBehaviour
         {
             SaveCurrentSafePosition();
         }
+    }
+    public bool ReturnWheelOnGroundCondition()
+    {
+        return allWheelsTouchingGround;
     }
     private void SaveCurrentSafePosition()
     {
