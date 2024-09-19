@@ -202,23 +202,7 @@ public class PlayerMovement_MT : MonoBehaviour
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "ammo")
-        {
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                string[] displayPosition = other.name.Split(",");
-
-
-            }
-
-            
-            
-
-        }
-    }
+   
 
 }
 
