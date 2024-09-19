@@ -1,4 +1,3 @@
-using _99_Legacy;
 using Minigames;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -50,7 +49,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             EndGameUI.Instance.DisplayRewards(xp, gold, completionTime, layout.mapSeedText.text);
 
-            StateNameController.SetXPandGoldandCheck(xp, gold);
+            //StateNameController.SetXPandGoldandCheck(xp, gold);
         }
     }
 }
