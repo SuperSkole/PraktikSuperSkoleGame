@@ -120,7 +120,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                             break;
                     }
                     gameRules.SetCorrectAnswer();
-                    boardController.Won("Du vandt. Du fandt det første bogstav 5 gange", multiplier * 1, multiplier * 1);
+                    boardController.Won("Du vandt. Du fandt det f\u00f8rste bogstav 5 gange", multiplier * 1, multiplier * 1);
                 }
                 else
                 {

@@ -18,7 +18,7 @@ public class LevelThreeRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "K�r igennem den halvdel der har en vokal som er i billedets ord.";
+        return "K\u00f8r igennem den halvdel der har en vokal som er i billedets ord.";
     }
 
 

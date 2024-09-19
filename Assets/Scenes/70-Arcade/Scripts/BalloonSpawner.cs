@@ -11,7 +11,7 @@ public class BalloonSpawner : MonoBehaviour
     [SerializeField] private float spawntimer = 1f;
     private Vector3 spawnpoint;
     string correctLetter;
-    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ";
+    string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00e6\u00f8\u00e5";
     public int lives;
     public int points;
     TMP_Text text;
