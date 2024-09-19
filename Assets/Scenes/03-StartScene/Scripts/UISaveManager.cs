@@ -28,7 +28,7 @@ namespace Scenes._03_StartScene.Scripts
             username = GameManager.Instance.CurrentUser;
     
             // Get all save keys from the cloud that are related to monster saves
-            List<string> saveKeys = await GameManager.Instance.SaveGameController.GetAllSaveKeysAsync();
+            List<string> saveKeys = await GameManager.Instance.SaveGameController.GetAllSaveKeysFromUserAsync();
             
             // Group saves by monster name
             Dictionary<string, string> savesByMonster = new Dictionary<string, string>();
