@@ -144,6 +144,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9137720826198805296, guid: edb2fe96cb622e346ae4da0869e491f7, type: 3}
+      propertyPath: m_Color.a
+      value: 0.5019608
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -167,6 +171,14 @@ PrefabInstance:
       value: 'Text
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.54509807
+      objectReference: {fileID: 0}
+    - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 2332033024
       objectReference: {fileID: 0}
     - target: {fileID: 3515930834363695604, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
       propertyPath: m_Pivot.x

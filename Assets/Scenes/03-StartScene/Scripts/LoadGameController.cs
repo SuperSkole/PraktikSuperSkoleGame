@@ -97,7 +97,7 @@ namespace Scenes._03_StartScene.Scripts
         /// Sets up the game state with the loaded data and transitions to the appropriate scenes.
         /// </summary>
         /// <param name="data">The data transfer object containing the loaded game data.</param>
-        private void OnDataLoaded(SaveDataDTO data)
+        private void OnDataLoaded(PlayerData data)
         {
             if (data != null)
             {
