@@ -18,20 +18,29 @@ public class BankManager : MonoBehaviour, IMinigameSetup
 {
     [SerializeField]private List<GameObject>validCoins;
     [SerializeField]private List<GameObject>fakeCoins;
+    [SerializeField]private List<GameObject>animals;
+    public List<string> multipleImagesAnimals = new List<string>()
+    {
+        "cow", "mouse", "cat"
+    };
     public GameObject unsortedTray;
     [SerializeField]private Image unsortedTraybackground;
     public GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
-    [SerializeField]private TMP_InputField inputField;
+    public TMP_InputField inputField;
     [SerializeField]private GameObject playerPrison;
     [SerializeField]private GameObject coinPrefab;
     [SerializeField]private TextMeshProUGUI lives;
     [SerializeField]private TextMeshProUGUI gameOverText;
+    [SerializeField]private TextMeshProUGUI hintText;
+    public GameObject validCoinsField;
+    [SerializeField]private GameObject validCoinsContainer;
     public GameObject unifiedField;
+    [SerializeField]private Image unifiedFieldBackground;
 
     public IBankFrontGamemode gamemode;
 
-    [SerializeField]private int playerGuess = -1;
+    private int playerGuess = -1;
 
     private int completedGames = 0;
     private float mistakes = 0;
@@ -85,6 +94,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             sortedTrayBackground.color = Color.green;
             unsortedTraybackground.color = Color.green;
+            unifiedFieldBackground.color = Color.green;
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
             Instantiate(coinPrefab);
@@ -97,6 +107,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             UpdateLivesDisplay();
             sortedTrayBackground.color = Color.yellow;
             unsortedTraybackground.color = Color.yellow;
+            unifiedFieldBackground.color = Color.yellow;
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
@@ -105,6 +116,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             UpdateLivesDisplay();
             sortedTrayBackground.color = Color.red;
             unsortedTraybackground.color = Color.red;
+            unifiedFieldBackground.color = Color.red;
         }
         if(mistakes >= 3)
         {
@@ -177,6 +189,10 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     /// <returns>Returns the validCoins list and the fakeCoins list</returns>
     public (List<GameObject>, List<GameObject>) GetCoins()
     {
+        for(int i = 0; i < validCoins.Count; i++)
+        {
+            Instantiate(validCoins[i]).transform.SetParent(validCoinsContainer.transform);
+        }
         return (validCoins, fakeCoins);
     }
 
@@ -194,6 +210,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         gamemode = (IBankFrontGamemode)gameMode;
         gamemode.RequestGameObjectsToBeUsed(this);
         gamemode.HandleUIElements();
+        hintText.text = gamemode.GetHintText();
     }
 
     /// <summary>
@@ -213,5 +230,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     public void DestroyObject(GameObject objectToBeDestroyed)
     {
         Destroy(objectToBeDestroyed);
+    }
+    public void DestroyComponent(MonoBehaviour component)
+    {
+        Destroy(component);
+    }
+
+    public List<GameObject> GetAnimalCoins()
+    {
+        return animals;
     }
 }

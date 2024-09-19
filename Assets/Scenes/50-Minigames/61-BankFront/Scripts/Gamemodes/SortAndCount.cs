@@ -70,6 +70,11 @@ public class SortAndCount : IBankFrontGamemode
         return currentCustomersCoins;
     }
 
+    public string GetHintText()
+    {
+        return "Find alle de ægte mønter og udregn deres værdi";
+    }
+
     /// <summary>
     /// Returns how many types of valid coins there are
     /// </summary>

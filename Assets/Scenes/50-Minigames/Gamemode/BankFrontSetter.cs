@@ -4,6 +4,7 @@ using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using Scenes._50_Minigames.Gamemode;
+using UnityEditor;
 using UnityEngine;
 
 public class BankFrontSetter : IGameModeSetter
@@ -15,7 +16,27 @@ public class BankFrontSetter : IGameModeSetter
 
     public IGenericGameMode SetMode(string gamemode)
     {
-        return new SortAndCount();
+        IGenericGameMode modeToBeUsed;
+        switch(gamemode)
+        {
+            case "sortandcount":
+                modeToBeUsed = new SortAndCount();
+                break;
+            case "sort":
+                modeToBeUsed = new Sort();
+                break;
+            case "count":
+                modeToBeUsed = new Count();
+                break;
+            case "sortanimals":
+                modeToBeUsed = new SortAnimals();
+                break;
+            default:
+                Debug.Log("unknown gamemode. Returning the default gamemode");
+                modeToBeUsed = new SortAndCount();
+                break;
+        }
+        return modeToBeUsed;
     }
 
     public IGameRules SetRules(int level)

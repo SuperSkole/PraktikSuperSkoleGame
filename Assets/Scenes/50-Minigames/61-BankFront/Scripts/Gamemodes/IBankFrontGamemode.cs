@@ -51,4 +51,6 @@ public interface IBankFrontGamemode:IGenericGameMode
     /// <param name="playerGuess">The latest data from the playerGuess field</param>
     /// <returns>How correct the player is on a scale from 0-2 where 0 = completely wrong 1 = partially correct and 2 = completely correct</returns>
     int Validate(int playerGuess);
+
+    string GetHintText();
 }
