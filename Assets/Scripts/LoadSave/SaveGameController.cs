@@ -115,7 +115,7 @@ namespace LoadSave
         /// Gets all save keys for the current user from Unity Cloud Save.
         /// </summary>
         /// <returns>A list of save keys.</returns>
-        public async Task<List<string>> GetAllSaveKeysAsync()
+        public async Task<List<string>> GetAllSaveKeysFromUserAsync()
         {
             var keys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
             List<string> relevantKeys = new List<string>();
