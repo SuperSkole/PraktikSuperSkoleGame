@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
@@ -12,65 +14,52 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Manager class for the bank main entrance minigame
 /// </summary>
-public class BankManager : MonoBehaviour
+public class BankManager : MonoBehaviour, IMinigameSetup
 {
     [SerializeField]private List<GameObject>validCoins;
     [SerializeField]private List<GameObject>fakeCoins;
-    [SerializeField]private GameObject unsortedTray;
+    public GameObject unsortedTray;
     [SerializeField]private Image unsortedTraybackground;
-    [SerializeField]private GameObject sortedTray;
+    public GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
     [SerializeField]private TMP_InputField inputField;
     [SerializeField]private GameObject playerPrison;
-    public List<Coin> currentCustomersCoins = new List<Coin>();
     [SerializeField]private GameObject coinPrefab;
     [SerializeField]private TextMeshProUGUI lives;
     [SerializeField]private TextMeshProUGUI gameOverText;
+    public GameObject unifiedField;
 
-    [SerializeField]private float realCoinPercentage = 80;
+    public IBankFrontGamemode gamemode;
 
     [SerializeField]private int playerGuess = -1;
 
     private int completedGames = 0;
     private float mistakes = 0;
 
-    /// <summary>
-    /// Moves the player avatar out of sight
-    /// </summary>
-    void Start()
-    {
-        if(PlayerManager.Instance != null)
-        {
-            PlayerManager.Instance.PositionPlayerAt(playerPrison);
-        }
-    }
 
     /// <summary>
     /// Starts up the game if it is currently not going
     /// </summary>
     void Update()
     {
-        if(currentCustomersCoins.Count == 0)
+        if(gamemode.GetCurrentCustomersCoins().Count == 0)
         {
+            
             lives.text = "3/3 liv tilbage";
             gameOverText.text = "";
             //finds out how many coins the customer have and then generates them
             int amount = Random.Range(1, 20);
-            float chancePerCoin = realCoinPercentage / validCoins.Count;
+            float chancePerCoin = gamemode.GetChance();
             for(int i = 0; i < amount; i++)
             {
                 int coinRoll = Random.Range(0, 100);
                 bool realCoin = false;
                 //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
-                for(int j = 0; j < validCoins.Count; j++)
+                for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
                 {
                     if(coinRoll < (j + 1) * chancePerCoin)
                     {
-                        GameObject coin = Instantiate(validCoins[j]);
-                        coin.transform.SetParent(unsortedTray.transform);
-                        Coin c = coin.GetComponent<Coin>();
-                        c.SetTrays(unsortedTray, sortedTray);
-                        currentCustomersCoins.Add(c);
+                        gamemode.CreateRealCoin(j);
                         realCoin = true;
                         break;
                     }
@@ -78,12 +67,7 @@ public class BankManager : MonoBehaviour
                 //Does the same but for fake coins
                 if(!realCoin)
                 {
-                    coinRoll = Random.Range(0, fakeCoins.Count);
-                    GameObject coin = Instantiate(fakeCoins[coinRoll]);
-                    coin.transform.SetParent(unsortedTray.transform);
-                    Coin c = coin.GetComponent<Coin>();
-                    c.SetTrays(unsortedTray, sortedTray);
-                    currentCustomersCoins.Add(c);
+                    gamemode.CreateFakeCoin();
                 }
             }
         }
@@ -93,20 +77,11 @@ public class BankManager : MonoBehaviour
     /// </summary>
     public void Validate()
     {
+        
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
-        bool correct = true;
-        int currentSum = 0;
-        foreach(Coin coin in currentCustomersCoins)
-        {
-            (bool, int) validateData = coin.placedCorrectly();
-            currentSum += validateData.Item2;
-            if(!validateData.Item1)
-            {
-                correct = false;
-            }
-        }
+        int result = gamemode.Validate(playerGuess);
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
-        if(correct && playerGuess == currentSum)
+        if(result == 2)
         {
             sortedTrayBackground.color = Color.green;
             unsortedTraybackground.color = Color.green;
@@ -116,7 +91,7 @@ public class BankManager : MonoBehaviour
             StartCoroutine(Restart());
         }
         //Changes the background color of the trays to yellow if either the guess or the sorting is correct
-        else if(correct || playerGuess == currentSum)
+        else if(result == 1)
         {
             mistakes += 0.5f;
             UpdateLivesDisplay();
@@ -149,12 +124,7 @@ public class BankManager : MonoBehaviour
             gameOverText.text = "Du vandt du sorterede mønterne korrekt og udregnede deres værdi 5 gange";
         }
         yield return new WaitForSeconds(5);
-        
-        for(int i = 0; i < currentCustomersCoins.Count; i++)
-        {
-            Destroy(currentCustomersCoins[i].gameObject);
-        }
-        currentCustomersCoins.Clear();
+        gamemode.ClearCurrentCustomersCoins();
         sortedTrayBackground.color = Color.white;
         unsortedTraybackground.color = Color.white;
         if(completedGames >= 5)
@@ -199,5 +169,49 @@ public class BankManager : MonoBehaviour
         {
             lives.text = "0/3 liv tilbage";
         }
+    }
+
+    /// <summary>
+    /// Returns the two coin lists
+    /// </summary>
+    /// <returns>Returns the validCoins list and the fakeCoins list</returns>
+    public (List<GameObject>, List<GameObject>) GetCoins()
+    {
+        return (validCoins, fakeCoins);
+    }
+
+    /// <summary>
+    /// Moves the player out of the screen and sets up the given gamemode
+    /// </summary>
+    /// <param name="gameMode">The gamemode to be used</param>
+    /// <param name="gameRules">currently not used</param>
+    public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+    {
+        if(PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.PositionPlayerAt(playerPrison);
+        }
+        gamemode = (IBankFrontGamemode)gameMode;
+        gamemode.RequestGameObjectsToBeUsed(this);
+        gamemode.HandleUIElements();
+    }
+
+    /// <summary>
+    /// Instantiates the given object
+    /// </summary>
+    /// <param name="objectToBeInstantiated">the object which should be instantiated</param>
+    /// <returns>the instantiated object</returns>
+    public GameObject InstantiateObject(GameObject objectToBeInstantiated)
+    {
+        return Instantiate(objectToBeInstantiated);
+    }
+
+    /// <summary>
+    /// Destroys the given object
+    /// </summary>
+    /// <param name="objectToBeDestroyed">The object which should be destroyed</param>
+    public void DestroyObject(GameObject objectToBeDestroyed)
+    {
+        Destroy(objectToBeDestroyed);
     }
 }

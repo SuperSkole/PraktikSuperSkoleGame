@@ -26,6 +26,7 @@ namespace Scenes
         public static void SwitchToMinigameLoadingScene() => SceneManager.LoadScene(SceneNames.MinigameLoading);
         public static void SwitchToMechnicView() => SceneManager.LoadScene(SceneNames.CarShowCaseRoom);
         public static void SwitchToHighscore() => SceneManager.LoadScene(SceneNames.HighScores);
+        public static void SwitchToBankFrontLoadingScene() => SceneManager.LoadScene(SceneNames.BankFrontLoading);
 
 
 

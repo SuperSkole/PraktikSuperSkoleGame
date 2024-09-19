@@ -51,7 +51,7 @@ public class CoinInfoToggle : MonoBehaviour
         shown = !shown;
         if(shown)
         {
-            foreach(Coin coin in bankManager.currentCustomersCoins)
+            foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(false);
             }
@@ -60,7 +60,7 @@ public class CoinInfoToggle : MonoBehaviour
         }
         else
         {
-            foreach(Coin coin in bankManager.currentCustomersCoins)
+            foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(true);
             }
