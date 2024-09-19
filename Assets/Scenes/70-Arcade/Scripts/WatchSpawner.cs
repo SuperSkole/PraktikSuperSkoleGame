@@ -27,7 +27,9 @@ public class WatchSpawner : MonoBehaviour
         GetRandoText();
     }
 
-
+    /// <summary>
+    /// Gets random text for the digiclock.
+    /// </summary>
     public void GetRandoText()
     {
         randoMinute = minuteList[Random.Range(0, minuteList.Length)];

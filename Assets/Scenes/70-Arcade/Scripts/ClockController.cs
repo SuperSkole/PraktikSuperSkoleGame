@@ -66,7 +66,9 @@ public class ClockController : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// code for controlling the Clocks Minut needle
+    /// </summary>
     public void MinuteArrowRight()
     {
 
@@ -80,6 +82,9 @@ public class ClockController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// code for controlling the Clocks Minut needle
+    /// </summary>
     public void MinuteArrowLeft()
     {
 
@@ -93,6 +98,9 @@ public class ClockController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// code for controlling the Clocks hour needle
+    /// </summary>
     public void HourArrowRight()
     {
 
@@ -106,6 +114,9 @@ public class ClockController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// code for controlling the Clocks hour needle
+    /// </summary>
     public void HourArrowLeft()
     {
 
@@ -118,11 +129,6 @@ public class ClockController : MonoBehaviour
             hourTime = 12;
         }
     }
-
-
-    /// <summary>
-    /// Move the Clockneedles on the cat clock
-    /// </summary>
 
 
     //The RotateLever coroutine handles the sequence of rotations:
