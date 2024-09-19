@@ -14,7 +14,8 @@ public class ButtonsStartUp : MonoBehaviour
         GetComponent<Button>().onClick.AddListener(()
             => manager.SettingButtonsUp(self));
         GetComponent<Button>().onClick.AddListener(()
-            => manager.SaveMaterialName());
+            => manager.SetButtonName(gameObject));
+        //SaveMaterialName());
 
     }
 }

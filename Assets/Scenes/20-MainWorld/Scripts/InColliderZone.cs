@@ -1,4 +1,3 @@
-using _99_Legacy.Interaction;
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._20_MainWorld.Scripts.Car;
@@ -16,7 +15,7 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isNPC;
         [SerializeField] private bool isCar;
         [SerializeField] private bool isGasSTT;
-        [SerializeField] private NPCInteractions interactions;
+        //[SerializeField] private NPCInteractions interactions;
         [SerializeField] private int neededLvlToEnter;
         private PlayerEventManager playerEventManager;
         private CarEventsManager carEventsMa;
@@ -73,7 +72,7 @@ namespace Scenes._20_MainWorld.Scripts
                 }
                 if (isNPC)
                 {
-                    interactions.StartScaling();
+                    //interactions.StartScaling();
                 }
                 //If the player walksinto a collider with this name active the event
                 switch (gameObject.name)
