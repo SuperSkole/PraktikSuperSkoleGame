@@ -83,7 +83,7 @@ namespace Scenes._00_Bootstrapper
             // Look for a Canvas object specifically named "PlayerCanvas"
             Canvas playerCanvas = GameObject.Find("PlayerCanvas")?.GetComponent<Canvas>();
 
-            if (playerCanvas != null)
+            if (playerCanvas)
             {
                 playerCanvas.gameObject.SetActive(false);
                 Debug.Log("Player UI Canvas has been disabled.");
