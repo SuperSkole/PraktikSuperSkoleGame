@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using CORE;
 using Scenes._02_LoginScene.Scripts;
@@ -15,12 +16,14 @@ namespace Scenes._00_Bootstrapper
     {
         private IAuthenticationService authService;
         
+        public static event Action OnPlayerAuthenticated;
+        
         private IEnumerator Start()
         {
             authService = new AnonymousAuthenticationService();
             
-            Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
-            Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
+            // Debug.Log("Active scene at start: " + SceneManager.GetActiveScene().name);
+            // Debug.Log("Total loaded scenes: " + SceneManager.sceneCount);
 
             // Loop through all loaded scenes to check if LoginScene is active
             bool loginSceneActive = false;
@@ -41,6 +44,8 @@ namespace Scenes._00_Bootstrapper
                 yield return authService.SignInAsync();
                 
                 InitializePlayerSettings();
+                
+                OnPlayerAuthenticated?.Invoke();
          
                 Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
@@ -75,10 +80,10 @@ namespace Scenes._00_Bootstrapper
         /// </summary>
         private void DisablePlayerCanvas()
         {
-            // Look for any Canvas object in the PlayerScene
-            Canvas playerCanvas = FindObjectOfType<Canvas>();
+            // Look for a Canvas object specifically named "PlayerCanvas"
+            Canvas playerCanvas = GameObject.Find("PlayerCanvas")?.GetComponent<Canvas>();
 
-            if (playerCanvas != null)
+            if (playerCanvas)
             {
                 playerCanvas.gameObject.SetActive(false);
                 Debug.Log("Player UI Canvas has been disabled.");

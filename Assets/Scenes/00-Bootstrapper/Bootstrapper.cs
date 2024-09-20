@@ -1,7 +1,7 @@
 // inspired by Jason Weimann's Bootstrapper
 // https://www.youtube.com/watch?v=o03NpUdpdrc
 
-using System.Threading.Tasks;
+using System;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,17 +13,36 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class Bootstrapper : MonoBehaviour
     {
+        private async void Awake()
+        {
+            Debug.Log("Initializing Unity services");
+
+            await UnityServices.InitializeAsync();
+
+            if (UnityServices.State == ServicesInitializationState.Initialized)
+            {
+                Debug.Log("Unity services initialized successfully.");
+            }
+            else
+            {
+                Debug.LogError("Failed to initialize Unity services.");
+            }
+        }
+
+
         /// <summary>
         /// Asynchronously initializes Unity services and loads necessary scenes at start.
         /// Using async Task instead of async void for better error handling and control flow.
         /// </summary>
-        private async Task Start()
+        private void Start()
         {
             Application.runInBackground = true;
             
             // Load LoginScene scene additively if only the initial scene is loaded.
             if (SceneManager.loadedSceneCount == 1)
+            {
                 SceneManager.LoadScene(SceneConfig.InitialScene, LoadSceneMode.Additive);
+            }
         }
 
         /// <summary>
@@ -34,7 +53,9 @@ namespace Scenes._00_Bootstrapper
         {
             // Load Bootstrapper scene if it's not already loaded.
             if (!SceneManager.GetSceneByName("00-"+nameof(Bootstrapper)).isLoaded)
+            {
                 SceneManager.LoadScene("00-" + nameof(Bootstrapper));
+            }
 
             // Manage scenes specifically in the Unity editor.
 #if UNITY_EDITOR
@@ -43,7 +64,9 @@ namespace Scenes._00_Bootstrapper
             
             // If the current scene is valid, load it asynchronously in additive mode, so we can test during dev fase
             if (currentlyLoadedEditorScene.IsValid())
+            {
                 SceneManager.LoadSceneAsync(currentlyLoadedEditorScene.name, LoadSceneMode.Additive);
+            }
 #else
         // In the final build, load splash scene additively,
         // ensuring that it's ready for player interaction without replacing the current scene setup.

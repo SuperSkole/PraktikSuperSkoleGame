@@ -21,8 +21,8 @@ namespace LoadSave
         public List<string> CollectedWords;
         public List<char> CollectedLetters; 
         public List<int> BoughtClothes;
-        public List<CarInfo> listOfCars;
         public string clothMid;
         public string clothTop;
+        public List<CarInfo> listOfCars;
     }
 }

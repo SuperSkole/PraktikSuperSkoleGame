@@ -21,11 +21,11 @@ namespace Scenes
         public static void SwitchToArcadeBalloonScene() => SceneManager.LoadScene(SceneNames.ArcadeBalloon);
         public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
         public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
-
+        public static void SwitchToBankFrontScene() => SceneManager.LoadScene(SceneNames.Bank);
+        public static void SwitchToBankBackScene() => SceneManager.LoadScene(SceneNames.BankBack);
         public static void SwitchToMinigameLoadingScene() => SceneManager.LoadScene(SceneNames.MinigameLoading);
         public static void SwitchToMechnicView() => SceneManager.LoadScene(SceneNames.CarShowCaseRoom);
-
-
-
+        public static void SwitchToHighscore() => SceneManager.LoadScene(SceneNames.HighScores);
+        public static void SwitchToAllTimeHighscore() => SceneManager.LoadScene(SceneNames.MultiPlayerHighScores);
     }
 }
