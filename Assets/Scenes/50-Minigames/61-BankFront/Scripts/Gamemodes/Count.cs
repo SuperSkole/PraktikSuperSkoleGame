@@ -40,6 +40,7 @@ public class Count : IBankFrontGamemode
     {
         GameObject coin = bankManager.InstantiateObject(validCoins[prefabIndex]);
         coin.transform.SetParent(bankManager.unifiedField.transform);
+        coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
         c.SetTrays(bankManager.unifiedField, bankManager.unifiedField);
         bankManager.DestroyComponent(c.button);

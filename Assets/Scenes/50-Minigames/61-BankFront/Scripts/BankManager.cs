@@ -17,6 +17,7 @@ using Random = UnityEngine.Random;
 public class BankManager : MonoBehaviour, IMinigameSetup
 {
     [SerializeField]private List<GameObject>validCoins;
+    
     [SerializeField]private List<GameObject>fakeCoins;
     [SerializeField]private List<GameObject>animals;
     public List<string> multipleImagesAnimals = new List<string>()
@@ -27,12 +28,13 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private Image unsortedTraybackground;
     public GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
-    public TMP_InputField inputField;
     [SerializeField]private GameObject playerPrison;
     [SerializeField]private GameObject coinPrefab;
     [SerializeField]private TextMeshProUGUI lives;
     [SerializeField]private TextMeshProUGUI gameOverText;
     [SerializeField]private TextMeshProUGUI hintText;
+    [SerializeField]private NumberDisplay numberDisplay;
+    [SerializeField]private ErrorDisplay errorDisplay;
     public GameObject validCoinsField;
     [SerializeField]private GameObject validCoinsContainer;
     public GameObject unifiedField;
@@ -46,11 +48,17 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     private float mistakes = 0;
 
 
+
+
     /// <summary>
     /// Starts up the game if it is currently not going
     /// </summary>
     void Update()
     {
+        if(gamemode == null)
+        {
+            SetupGame(new SortAndCount(), null);
+        }
         if(gamemode.GetCurrentCustomersCoins().Count == 0)
         {
             
@@ -88,13 +96,11 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     {
         
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
-        int result = gamemode.Validate(playerGuess);
+        int result = gamemode.Validate(numberDisplay.GetNumber());
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
         if(result == 2)
         {
-            sortedTrayBackground.color = Color.green;
-            unsortedTraybackground.color = Color.green;
-            unifiedFieldBackground.color = Color.green;
+            errorDisplay.Correct();
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
             Instantiate(coinPrefab);
@@ -105,18 +111,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             mistakes += 0.5f;
             UpdateLivesDisplay();
-            sortedTrayBackground.color = Color.yellow;
-            unsortedTraybackground.color = Color.yellow;
-            unifiedFieldBackground.color = Color.yellow;
+            errorDisplay.PartialCorrect();
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
             mistakes++;
             UpdateLivesDisplay();
-            sortedTrayBackground.color = Color.red;
-            unsortedTraybackground.color = Color.red;
-            unifiedFieldBackground.color = Color.red;
+            errorDisplay.Incorrect();
         }
         if(mistakes >= 3)
         {
@@ -137,8 +139,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         }
         yield return new WaitForSeconds(5);
         gamemode.ClearCurrentCustomersCoins();
-        sortedTrayBackground.color = Color.white;
-        unsortedTraybackground.color = Color.white;
+        errorDisplay.Reset();
         if(completedGames >= 5)
         {
             SwitchScenes.SwitchToMainWorld();
@@ -154,18 +155,6 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         gameOverText.text = "Du tabte. Du lavede for mange fejl";
         yield return new WaitForSeconds(5);
         SwitchScenes.SwitchToMainWorld();
-    }
-
-    /// <summary>
-    /// Updates the playerguess then the player types an integer into the player guess field
-    /// </summary>
-    public void UpdateGuess()
-    {
-        bool res = Int32.TryParse(inputField.text, out int number);
-        if (res)
-        {
-            playerGuess = number;
-        }
     }
 
     /// <summary>
@@ -191,7 +180,9 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     {
         for(int i = 0; i < validCoins.Count; i++)
         {
-            Instantiate(validCoins[i]).transform.SetParent(validCoinsContainer.transform);
+            GameObject validCoin = Instantiate(validCoins[i]);
+            validCoin.transform.SetParent(validCoinsContainer.transform);
+            validCoin.transform.localScale = new Vector3(1, 1, 1);
         }
         return (validCoins, fakeCoins);
     }
@@ -210,6 +201,11 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         gamemode = (IBankFrontGamemode)gameMode;
         gamemode.RequestGameObjectsToBeUsed(this);
         gamemode.HandleUIElements();
+        var tempColor = unsortedTraybackground.color;
+        tempColor.a = 0;
+        unsortedTraybackground.color = tempColor;
+        sortedTrayBackground.color = tempColor;
+        unifiedFieldBackground.color = tempColor;
         hintText.text = gamemode.GetHintText();
     }
 

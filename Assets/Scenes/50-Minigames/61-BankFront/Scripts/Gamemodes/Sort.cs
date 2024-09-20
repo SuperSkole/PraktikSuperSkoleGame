@@ -34,6 +34,7 @@ public class Sort : IBankFrontGamemode
         int coinRoll = Random.Range(0, fakeCoins.Count);
         GameObject coin = bankManager.InstantiateObject(fakeCoins[coinRoll]);
         coin.transform.SetParent(bankManager.unsortedTray.transform);
+        coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
         c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray);
         currentCustomersCoins.Add(c);
@@ -47,6 +48,7 @@ public class Sort : IBankFrontGamemode
     {
         GameObject coin = bankManager.InstantiateObject(validCoins[prefabIndex]);
         coin.transform.SetParent(bankManager.unsortedTray.transform);
+        coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
         c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray);
         currentCustomersCoins.Add(c);
@@ -90,7 +92,6 @@ public class Sort : IBankFrontGamemode
     public void HandleUIElements()
     {
         bankManager.unifiedField.SetActive(false);
-        bankManager.inputField.gameObject.SetActive(false);
     }
 
     /// <summary>
