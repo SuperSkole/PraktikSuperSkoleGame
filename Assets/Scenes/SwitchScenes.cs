@@ -21,6 +21,7 @@ namespace Scenes
         public static void SwitchToArcadeBalloonScene() => SceneManager.LoadScene(SceneNames.ArcadeBalloon);
         public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
         public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
+        public static void SwitchToMultiplayerScene() => SceneManager.LoadScene(SceneNames.Multiplayer);
 
         public static void SwitchToMinigameLoadingScene() => SceneManager.LoadScene(SceneNames.MinigameLoading);
 
