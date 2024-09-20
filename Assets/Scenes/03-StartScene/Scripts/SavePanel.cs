@@ -208,7 +208,7 @@ namespace Scenes._03_StartScene.Scripts
         /// Updates the UI panel with save data, enabling the relevant UI elements.
         /// </summary>
         /// <param name="saveData">The save data to display in the panel.</param>
-        public void UpdatePanelWithSaveData(SaveDataDTO saveData)
+        public void UpdatePanelWithSaveData(PlayerData saveData)
         {
             // EO; no savedata
             if (saveData == null)
@@ -221,15 +221,15 @@ namespace Scenes._03_StartScene.Scripts
             startGameButton.gameObject.SetActive(true);
             deleteSaveButton.gameObject.SetActive(true);
             blockingImage.enabled = false;
-            GoldAmount.text = saveData.GoldAmount.ToString();
-            XPAmount.text = saveData.XPAmount.ToString();
-            LevelAmount.text = saveData.PlayerLevel.ToString();
+            GoldAmount.text = saveData.CurrentGoldAmount.ToString();
+            XPAmount.text = saveData.CurrentXPAmount.ToString();
+            LevelAmount.text = saveData.CurrentLevel.ToString();
 
             colorChanging.SetSkeleton(skeletonGraphic);
             colorChanging.ColorChange(saveData.MonsterColor);
 
-            clothChanging.ChangeClothes(saveData.clothMid, skeletonGraphic);
-            clothChanging.ChangeClothes(saveData.clothTop, skeletonGraphic);
+            clothChanging.ChangeClothes(saveData.ClothMid, skeletonGraphic);
+            clothChanging.ChangeClothes(saveData.ClothTop, skeletonGraphic);
         }
 
         /// <summary>

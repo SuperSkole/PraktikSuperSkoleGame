@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4553469}
   - component: {fileID: 4553468}
+  - component: {fileID: 4553470}
   m_Layer: 0
   m_Name: Player Manager
   m_TagString: Untagged
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58e6626daaa14d53a4284823ce25c0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highScore: {fileID: 4553470}
   playerPrefab: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
   dropOffPoint: {x: 0, y: 0, z: 0}
   coinPrefab: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
@@ -169,6 +171,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4553470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79884376edd5ce742b98a7009a999d38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectedWordsList: []
+  collectedLettersList: []
+  collectedNumbersList: []
 --- !u!1 &648057389
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,7 +476,7 @@ GameObject:
   - component: {fileID: 1862201333}
   - component: {fileID: 1862201332}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: PlayerCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

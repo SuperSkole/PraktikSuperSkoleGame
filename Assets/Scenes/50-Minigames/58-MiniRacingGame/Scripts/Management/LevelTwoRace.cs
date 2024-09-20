@@ -18,9 +18,13 @@ public class LevelTwoRace : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør igennem den halvdel der lyder som vokalen der bliver sagt.";
+        return "K\u00f8r igennem den halvdel der lyder som vokalen der bliver sagt.";
     }
 
+    /// <summary>
+    /// Funtion that determins the what the correct word/image is in the current gameMode. 
+    /// </summary>
+    /// <param name="core"></param>
     public void DetermineWordToUse(RacingCore core)
     {
         if (core.spelledWordsList.Count < 3)

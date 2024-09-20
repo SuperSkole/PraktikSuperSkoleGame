@@ -26,7 +26,7 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
         [SerializeField] private InputAction openMenu;
 
-       // [SerializeField] TextMeshProUGUI playerDataText;
+        [SerializeField] TextMeshProUGUI playerDataText;
 
         [SerializeField] PlayerData playerData;
 
@@ -75,7 +75,10 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
 
 
 
-            //playerDataText.text = "WordsCollected:" + playerData.CollectedWords.Count + "\nLettersCollected:"+playerData.CollectedLetters.Count+ "\nGoldAmount:"+playerData.CurrentGoldAmount+ "\nXPAmount:"+playerData.CurrentXPAmount;
+            //playerDataText.text = "WordsCollected:" + playerData.CollectedWords.Count + "\n" +
+            //                      "LettersCollected:"+playerData.CollectedLetters.Count+ "\n" +
+            //                      "GoldAmount:"+playerData.CurrentGoldAmount+ "\n" +
+            //                      "XPAmount:"+playerData.CurrentXPAmount;
         }
 
         /// <summary>
@@ -133,6 +136,38 @@ namespace Scenes._20_MainWorld.DEBUG.Scrips
                 case "EXAMPLE": //this is an example of how to tp the player to a location with the new Rigidbody movement system
                     playerRigidbody.position  = new Vector3(0,0,0);
                     player.transform.position = new Vector3(0, 0, 0);
+                    break;
+                case "Hjem":
+                    playerRigidbody.position = new Vector3(0f, 3f, 28f);
+                    player.transform.position = new Vector3(0f, 3f, 28f);
+                    break;
+                case "Grov\u00e6deren":
+                    playerRigidbody.position = new Vector3(0.87f, 2f, -1.25f);
+                    player.transform.position = new Vector3(0.87f, 2f, -1.25f);
+                    break;
+                case "Bogstavshaven":
+                    playerRigidbody.position = new Vector3(9.25f, 2f, 19.72f);
+                    player.transform.position = new Vector3(9.25f, 2f, 19.72f);
+                    break;
+                case "Arkaden":
+                    playerRigidbody.position = new Vector3(29.69f, 2f, 36.7f);
+                    player.transform.position = new Vector3(29.69f, 2f, 36.7f);
+                    break;
+                case "butikken":
+                    playerRigidbody.position = new Vector3(40.45f, 2f, 37.86f);
+                    player.transform.position = new Vector3(40.45f, 2f, 37.86f);
+                    break;
+                case "mornstert\u00e5rnet":
+                    playerRigidbody.position = new Vector3(-15.23f, 2f, 82.97f);
+                    player.transform.position = new Vector3(-15.23f, 2f, 82.97f);
+                    break;
+                case "racerbanen":
+                    playerRigidbody.position = new Vector3(48.50f, 2f, -15.93f);
+                    player.transform.position = new Vector3(48.50f, 2f, -15.93f);
+                    break;
+                case "forbriken":
+                    playerRigidbody.position = new Vector3(-48.29f, 2f, 59.15f);
+                    player.transform.position = new Vector3(-48.29f, 2f, 59.15f);
                     break;
                 default:
                     Debug.Log($"DEBUG MENU: cant find {location} in switch for locations. Script: DebugManager");

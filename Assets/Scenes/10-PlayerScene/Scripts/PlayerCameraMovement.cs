@@ -36,6 +36,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     rb.rotation = Quaternion.Euler(0, transform.eulerAngles.y + y, 0);
                 }
             }
+            rb.angularVelocity = Vector3.zero;
         }
 
     }

@@ -153,9 +153,9 @@ namespace Scenes._00_Bootstrapper
                 output.Remove(space, output.Length - space);
             else if (index != -1)
                 output.Remove(index, output.Length - index);
-            output.Replace("(aa)", "�");
-            output.Replace("(ae)", "�");
-            output.Replace("(oe)", "�");
+            output.Replace("(aa)", "\u00e5");
+            output.Replace("(ae)", "\u00e6");
+            output.Replace("(oe)", "\u00f8");
             return output.ToString();
         }
 
@@ -304,9 +304,9 @@ namespace Scenes._00_Bootstrapper
             int index = output.ToString().LastIndexOf('.');
             if (index != -1)
                 output.Remove(index - 1, output.Length - index - 1);
-            output.Replace("(aa)", "�");
-            output.Replace("(ae)", "�");
-            output.Replace("(oe)", "�");
+            output.Replace("(aa)", "\u00e5");
+            output.Replace("(ae)", "\u00e6");
+            output.Replace("(oe)", "\u00f8");
             return output.ToString();
         }
 
