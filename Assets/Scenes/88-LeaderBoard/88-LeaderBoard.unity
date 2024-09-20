@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 564600946}
   - component: {fileID: 564600947}
   m_Layer: 0
-  m_Name: All Time Highscore Manager
+  m_Name: Leaderboard Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -523,7 +523,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 564600945}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700c8988123d8c741a5068d9d794337e, type: 3}
+  m_Script: {fileID: 11500000, guid: 50c20a0e43dba2c44827b12e8d8c7e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mostWordsText: {fileID: 543910921}
@@ -870,7 +870,7 @@ GameObject:
   - component: {fileID: 1353540945}
   - component: {fileID: 1353540944}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Leaderboard Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

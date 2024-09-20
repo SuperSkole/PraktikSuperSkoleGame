@@ -4,6 +4,7 @@ using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Scenes._24_HighScoreScene.Scripts;
+using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -29,8 +30,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private ISkeletonComponent skeleton;
 
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
-
-    
+       
         
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
@@ -101,7 +101,11 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
-            GameManager.Instance.playerManager = this;
+            
+            GameManager.Instance.PlayerManager = this;
+            
+            // Initialize LeaderboardManager
+            LeaderboardManager.Initialize();
         }
         
         /// <summary>

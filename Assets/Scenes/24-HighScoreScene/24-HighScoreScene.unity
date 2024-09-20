@@ -157,7 +157,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 246.33334, y: 389.04004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &396890856
 MonoBehaviour:
@@ -310,12 +310,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 25
+    m_Right: 25
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 1
-  m_Spacing: 0
+  m_Spacing: 25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -396,7 +396,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 246.33334, y: 389.04004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &696698565
 MonoBehaviour:
@@ -917,10 +917,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7cb2d98ccd0f248a48994d18cf4def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highScore: {fileID: 1248323002}
   wordsText: {fileID: 1534323553}
   lettersText: {fileID: 396890856}
   numbersText: {fileID: 696698565}
+  exitImageButton: {fileID: 0}
 --- !u!1 &1534323551
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +956,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 246.33334, y: 389.04004}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1534323553
 MonoBehaviour:

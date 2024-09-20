@@ -53,6 +53,7 @@ namespace Scenes._03_StartScene.Scripts
             {
                 colorChanging = this.GetComponent<ColorChanging>();
             }
+            
             if (clothChanging == null)
             {
                 clothChanging = this.GetComponent<ClothChanging>();
@@ -167,32 +168,32 @@ namespace Scenes._03_StartScene.Scripts
             XPAmount.text = string.Empty;    
             LevelAmount.text = string.Empty;
 
-            if (chosenCharacter != null)
+            if (chosenCharacter)
             {
                 chosenCharacter.sprite = null;
             }
 
-            if (MonsterName != null)
+            if (MonsterName)
             {
                 MonsterName.text = string.Empty;
             }
 
-            if (GoldAmount != null)
+            if (GoldAmount)
             {
                 GoldAmount.text = string.Empty;
             }
 
-            if (XPAmount != null)
+            if (XPAmount)
             {
                 XPAmount.text = string.Empty;
             }
 
-            if (LevelAmount != null)
+            if (LevelAmount)
             {
                 LevelAmount.text = string.Empty;
             }
 
-            if (chosenCharacter != null)
+            if (chosenCharacter)
             {
                 chosenCharacter.sprite = null;
             }
@@ -217,10 +218,10 @@ namespace Scenes._03_StartScene.Scripts
             }
 
             // Update UI with player details
-            MonsterName.text = saveData.MonsterName;
             startGameButton.gameObject.SetActive(true);
             deleteSaveButton.gameObject.SetActive(true);
             blockingImage.enabled = false;
+            MonsterName.text = saveData.MonsterName;
             GoldAmount.text = saveData.CurrentGoldAmount.ToString();
             XPAmount.text = saveData.CurrentXPAmount.ToString();
             LevelAmount.text = saveData.CurrentLevel.ToString();
