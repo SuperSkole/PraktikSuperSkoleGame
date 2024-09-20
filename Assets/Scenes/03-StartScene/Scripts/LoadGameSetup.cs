@@ -15,7 +15,7 @@ namespace Scenes._03_StartScene.Scripts
 
         public string ChosenMonsterColor;
         
-        public void SetupPlayer(SaveDataDTO saveData)
+        public void SetupPlayer(PlayerData saveData)
         {
             // // Log for debugging
             // Debug.Log("Player loaded and UI updated with username: " + saveData.Username +

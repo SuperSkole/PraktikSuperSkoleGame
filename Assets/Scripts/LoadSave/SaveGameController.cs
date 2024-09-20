@@ -49,12 +49,12 @@ namespace LoadSave
         /// </summary>
         /// <param name="saveKey">The key of the save to load.</param>
         /// <param name="onDataLoaded">Callback to pass the loaded data.</param>
-        public async void LoadGame(string saveKey, Action<SaveDataDTO> onDataLoaded)
+        public async void LoadGame(string saveKey, Action<PlayerData> onDataLoaded)
         {
             try
             {
                 // Load save data from the cloud
-                SaveDataDTO data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  
+                PlayerData data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  
                 
                 if (data != null)
                 {
@@ -98,7 +98,7 @@ namespace LoadSave
         /// <summary>
         /// Loads the save data asynchronously using the save key.
         /// </summary>
-        public async Task<SaveDataDTO> LoadSaveDataAsync(string saveKey)
+        public async Task<PlayerData> LoadSaveDataAsync(string saveKey)
         {
             return await cloudSaveService.LoadPlayerDataAsync(saveKey);
         }
@@ -115,7 +115,7 @@ namespace LoadSave
         /// Gets all save keys for the current user from Unity Cloud Save.
         /// </summary>
         /// <returns>A list of save keys.</returns>
-        public async Task<List<string>> GetAllSaveKeysAsync()
+        public async Task<List<string>> GetAllSaveKeysFromUserAsync()
         {
             var keys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
             List<string> relevantKeys = new List<string>();

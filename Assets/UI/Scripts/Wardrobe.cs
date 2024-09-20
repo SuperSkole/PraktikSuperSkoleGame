@@ -60,7 +60,7 @@ namespace UI.Scripts
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error fetching wardrobe options: {ex.Message}");
+                Debug.Log($"Error fetching wardrobe options: {ex.Message}");
             }
 
             wearingMid = PlayerManager.Instance.PlayerData.ClothMid;

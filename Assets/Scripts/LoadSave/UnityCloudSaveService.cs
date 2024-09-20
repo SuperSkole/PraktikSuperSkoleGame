@@ -38,16 +38,33 @@ namespace LoadSave
         /// <summary>
         /// Loads the player data from the cloud and converts it back to a PlayerData object.
         /// </summary>
-        public async Task<SaveDataDTO> LoadPlayerDataAsync(string saveKey)
+        // public async Task<SaveDataDTO> LoadPlayerDataAsync(string saveKey)
+        // {
+        //     string jsonData = await saveRepository.LoadAsync(saveKey);
+        //     if (string.IsNullOrEmpty(jsonData))
+        //     {
+        //         return null;
+        //     }
+        //
+        //     // Deserialize and return SaveDataDTO
+        //     return JsonUtility.FromJson<SaveDataDTO>(jsonData);  
+        // }
+        
+        public async Task<PlayerData> LoadPlayerDataAsync(string saveKey)
         {
             string jsonData = await saveRepository.LoadAsync(saveKey);
             if (string.IsNullOrEmpty(jsonData))
             {
                 return null;
             }
-
-            // Deserialize and return SaveDataDTO
-            return JsonUtility.FromJson<SaveDataDTO>(jsonData);  
+        
+            // Deserialize to SaveDataDTO
+            SaveDataDTO dto = JsonUtility.FromJson<SaveDataDTO>(jsonData);
+        
+            // Convert back to PlayerData
+            PlayerData playerData = converter.ConvertToPlayerData(dto);
+        
+            return playerData;
         }
     }
 }

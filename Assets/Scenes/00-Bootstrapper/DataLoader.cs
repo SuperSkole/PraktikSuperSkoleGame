@@ -57,10 +57,11 @@ namespace Scenes._00_Bootstrapper
             string directoryPath = Application.streamingAssetsPath + "/WordData/";
             string configFilePath = directoryPath + "files.txt"; 
 
-            // List your CSV files here
+            // List CSV FILES
             string[] csvFiles = new string[]
             {
                 "Words_Danish_2L.csv",
+                "Words_Danish_2L_ALL.csv",
                 "Words_Danish_3L_Combination.csv",
                 "Words_Danish_3L_Easy.csv",
                 "Words_Danish_3L_Hard.csv",

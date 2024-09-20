@@ -49,8 +49,8 @@ namespace Scenes._02_LoginScene.Scripts
         /// </summary>
         private async void Awake()
         {
-            Debug.Log("Initializing Unity services");
-            await UnityServices.InitializeAsync();
+            //Debug.Log("Initializing Unity services");
+            //await UnityServices.InitializeAsync();
             
             loginScreen.SetActive(true);
 
@@ -87,7 +87,7 @@ namespace Scenes._02_LoginScene.Scripts
 #if UNITY_EDITOR
             // In the Unity editor, the login button should be interactable if the anonymous toggle is on
             // OR if both username and password are valid for Username/Password login
-            isLoginButtonInteractable = anonLoginToggle.isOn || (IsUsernameValid(username) && IsPasswordValid(password));
+            isLoginButtonInteractable = anonLoginToggle.isOn || IsUsernameValid(username);
 #else
     // In build mode, the login button is interactable if either:
     // 1. There is a valid username (for anonymous login), or

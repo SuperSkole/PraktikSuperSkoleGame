@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using Scenes._10_PlayerScene.Scripts;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 
-namespace Scenes._10_PlayerScene.Scripts
+namespace Scenes._50_Minigames._56_WordFactory.Scripts
 {
     /// <summary>
     /// Handles automatic movement of the player character to a specified position or the closest target.
@@ -21,25 +22,34 @@ namespace Scenes._10_PlayerScene.Scripts
         private GameObject chosenBlock;
         private GameObject savedBlock;
 
-        private bool boxOn = false;
+        private bool boxOn;
 
         private SkeletonAnimation skeletonAnimation;
         private Bone bone;
         private Vector3 offset = new Vector3(0, 1, 0);
-        private PlayerAnimatior playerAnimatior;
+        private PlayerAnimatior playerAnimator;
+        private Rigidbody savedBlockRigidbody;
+        private float minDistance = 1.5f * 1.5f;
+        private float minDistanceSqr;
+        private Vector3 targetPosition;
+        private Vector3 scale;
 
 
         public static event Action OnBlockDroppedOff;
 
         private void Awake()
         {
+            minDistanceSqr = minDistance * minDistance;
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
         }
         
         private void Start()
         {
-            playerAnimatior = spawnedPlayer.GetComponent<PlayerAnimatior>();
+            playerAnimator = spawnedPlayer.GetComponent<PlayerAnimatior>();
+            skeletonAnimation = playerAnimator.skeletonAnimation;
+            bone = skeletonAnimation.skeleton.FindBone("Head");
         }
+
 
         private void OnEnable()
         {
@@ -63,7 +73,7 @@ namespace Scenes._10_PlayerScene.Scripts
         // Correctly defined event handler
         private void OnMovePlayerToPositionHandler(GameObject targetPosition)
         {
-            Debug.Log("moving back");
+            //Debug.Log("moving back");
             MoveToPosition(targetPosition);
         }
 
@@ -90,7 +100,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="block">The position of the block to move to.</param>
         private void MovePlayerToBlockAndPickUpBlock(GameObject block)
         {
-            Debug.Log(block);
+            //Debug.Log(block);
             chosenBlock = block;
             MoveToPosition(block, PickUpBlock);
         }
@@ -100,7 +110,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         /// <param name="target">The position to move to.</param>
         /// <param name="onReachedTarget">Action to perform once the target is reached.</param>
-        public void MoveToPosition(GameObject target, Action onReachedTarget = null)
+        private void MoveToPosition(GameObject target, Action onReachedTarget = null)
         {
             if (currentMoveCoroutine != null)
             {
@@ -115,43 +125,35 @@ namespace Scenes._10_PlayerScene.Scripts
             // Lock Z position
             float fixedZ = 0f; 
 
+            // Set character to "Walk" state once before the loop
+            playerAnimator.SetCharacterState("Walk");
+
             // Continue updating target position in real-time to handle moving blocks
-            while (Vector3.Distance(transform.position, target.transform.position) > 1.5f)
+            while ((spawnedPlayer.transform.position - target.transform.position).sqrMagnitude > minDistanceSqr)
             {
                 // Ensure the target still exists
                 if (!target)
                 {
                     yield break; 
                 }
-                
-                Vector3 targetPosition = new Vector3(target.transform.position.x, spawnedPlayer.transform.position.y, fixedZ);
-                spawnedPlayer.transform.localScale = spawnedPlayer.transform.position.x > targetPosition.x 
-                    ? new Vector3(Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z)
-                    : new Vector3(-Mathf.Abs(spawnedPlayer.transform.localScale.x), spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z);
-        
-                Debug.Log("moving");
-                playerAnimatior.SetCharacterState("Walk");
 
-                // Check if player has reached the block within a threshold distance
-                if (Vector3.Distance(spawnedPlayer.transform.position, targetPosition) <= 1.5f)
-                {
-                    // Exit loop when close enough to the block
-                    break; 
-                }
+                targetPosition.Set(target.transform.position.x, spawnedPlayer.transform.position.y, fixedZ);
+                float scaleX = spawnedPlayer.transform.position.x > targetPosition.x ? Mathf.Abs(spawnedPlayer.transform.localScale.x) : -Mathf.Abs(spawnedPlayer.transform.localScale.x);
+                scale.Set(scaleX, spawnedPlayer.transform.localScale.y, spawnedPlayer.transform.localScale.z);
+                spawnedPlayer.transform.localScale = scale;
 
                 // Move towards the block
                 spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, targetPosition, moveSpeed * Time.deltaTime);
                 yield return null;
             }
 
-            playerAnimatior.SetCharacterState("Idle");
+            // Set character back to "Idle" state after movement is complete
+            playerAnimator.SetCharacterState("Idle");
             onReachedTarget?.Invoke();
         }
 
-
-        private void Update()
+        private void LateUpdate()
         {
-            // Check if savedBlock is not null before accessing
             if (!boxOn || !savedBlock)
             {
                 return;
@@ -160,10 +162,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // Double-check in case the block was destroyed since the last frame
             if (!savedBlock)  
             {
-                Debug.Log("Attempted to access a destroyed block.");
                 boxOn = false;
-                    
-                // Skip the rest of the update for this frame
                 return; 
             }
 
@@ -171,23 +170,21 @@ namespace Scenes._10_PlayerScene.Scripts
             savedBlock.transform.position = boneWorldPos + offset;
         }
 
-
         /// <summary>
         /// Picks up the block after reaching its position.
         /// </summary>
         private void PickUpBlock()
         {
-            playerAnimatior.SetCharacterState("Throw");
+            playerAnimator.SetCharacterState("Throw");
             
-            Debug.Log("Picked up block");
-            //GameObject block = GameObject.Find("WordBlock");
+            //Debug.Log("Picked up block");
+            
             GameObject block = chosenBlock;
             if (block)
             {
                 savedBlock = block;
-
-                skeletonAnimation = playerAnimatior.skeletonAnimation;
-                bone = skeletonAnimation.skeleton.FindBone("Head");
+                savedBlockRigidbody = savedBlock.GetComponent<Rigidbody>();
+                
                 boxOn = true;
 
 
@@ -217,7 +214,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private void DropOffBlock()
         {
             // EO; if there is no block to drop off.
-            Debug.Log("Attempting to drop off the block...");
+            //Debug.Log("Attempting to drop off the block...");
             if (!chosenBlock)
             {
                 Debug.LogError("Block not found for drop-off. It may have been destroyed or not set correctly.");
@@ -227,11 +224,10 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Assuming we have a valid block if we reach here.
             boxOn = false;
-            Rigidbody blockRigidbody = chosenBlock.GetComponent<Rigidbody>();
-            if (blockRigidbody)
+            if (savedBlockRigidbody)
             {
-                blockRigidbody.useGravity = true;  
-                blockRigidbody.isKinematic = false;
+                savedBlockRigidbody.useGravity = true;  
+                savedBlockRigidbody.isKinematic = false;
             }
             else
             {
@@ -255,7 +251,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="onComplete">The callback action to invoke after the animation completes.</param>
         private IEnumerator WaitForAnimation(string animationName, Action onComplete)
         {
-            var state = playerAnimatior.skeletonAnimation.state;
+            var state = playerAnimator.skeletonAnimation.state;
 
             // Wait until the animation completes
             while (state.GetCurrent(0) != null &&

@@ -56,6 +56,7 @@ namespace Scenes._20_MainWorld.Scripts
         public void DisablePlayerMovement()
         {
             PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
         public void EnablePlayerMovement()
         {
