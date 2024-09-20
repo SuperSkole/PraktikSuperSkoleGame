@@ -13,7 +13,7 @@ public class SetUpPlayerCar : MonoBehaviour
 
     private Vector3 CarSpawnPos;
     PlayerData playerData;
-    GameObject spawnedCar;
+    public GameObject spawnedCar;
     private string nameOfSpawnedCar;
 
     // Start is called before the first frame update
@@ -51,6 +51,11 @@ public class SetUpPlayerCar : MonoBehaviour
             {
                 // Set the new material
                 carRenderer.material = previewMaterial.CarMaterial;
+                if (spawnedCar.name == "VanCar(Clone)")
+                {
+                    spawnedCar.transform.Find("BackDoor (0)").GetComponent<Renderer>().material = previewMaterial.CarMaterial;
+                    spawnedCar.transform.Find("BackDoor (1)").GetComponent<Renderer>().material = previewMaterial.CarMaterial;
+                }
             }
             else
             {
