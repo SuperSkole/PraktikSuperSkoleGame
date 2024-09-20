@@ -189,11 +189,20 @@ namespace Scenes._88_LeaderBoard.Scripts
             try
             {
                 var metadata = new Dictionary<string, string>() { {"Navn", $"{GameManager.Instance.CurrentUser}"} };
-                var playerEntry = await LeaderboardsService.Instance
-                    .AddPlayerScoreAsync(
+                var playerEntry
+                    = await LeaderboardsService.Instance.AddPlayerScoreAsync(
                         LEADERBOARD_ID_WORDS,
                         wordCount,
-                        new AddPlayerScoreOptions { Metadata = new Dictionary<string, string>() {{"Navn", $"{GameManager.Instance.CurrentUser}"}}});
+                        new AddPlayerScoreOptions
+                        {
+                            Metadata = new Dictionary<string, string>()
+                            {
+                                {
+                                    "Navn",
+                                    $"{GameManager.Instance.CurrentUser}"
+                                }
+                            }
+                        });
                 
                 Debug.Log("Most Words submitted successfully: " +JsonConvert.SerializeObject(playerEntry));
             }
