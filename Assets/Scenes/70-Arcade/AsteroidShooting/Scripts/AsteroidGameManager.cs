@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class AsteroidSpawner : MonoBehaviour
+public class AsteroidGameManager : MonoBehaviour
 {
     // Start is called before the first frame update
 
@@ -19,6 +19,7 @@ public class AsteroidSpawner : MonoBehaviour
 
     [SerializeField] GameObject HealthUI;
 
+    [SerializeField] GameObject GuideUI;
     public int score=0;
 
     [SerializeField] TextMeshProUGUI textMesh;
@@ -47,25 +48,16 @@ public class AsteroidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(destroyOnAsteroidContact.lifePoints)
-        {
-            case 2:
-                HealthUI.transform.GetChild(2).gameObject.SetActive(false);
-                break;
+        UpdateHealthUI();
+      
 
-            case 1:
-                HealthUI.transform.GetChild(1).gameObject.SetActive(false);
-                break;
-
-            case 0:
-                HealthUI.transform.GetChild(0).gameObject.SetActive(false);
-                break;
-        }
-
+        //updates the score text
         textMesh.text = "Score:" + score;
 
+        //updates timer for spawning. 
         timer += Time.deltaTime;
 
+        // sets a longer spawnfrequency when 5 asteroids have been spawned. 
         if(spawnedAsteroids==5)
         {
             spawnFrequency = spawnCoolDown;
@@ -73,8 +65,12 @@ public class AsteroidSpawner : MonoBehaviour
         }
 
 
+        //When the timer is over the spawnfrequency the guide ui is deactivated and a random asteroid is spawned with a random force added to its rigidbody2D. 
+        // The speed is chosen based on the kind of asteroid is spawned.
+        // The AsteroidGamemanager is also added so the public score can be updated when an asteroid is destroyed. 
         if(timer>=spawnFrequency)
         {
+            GuideUI.SetActive(false);
             if(timer>=spawnCoolDown)
             {
                 spawnFrequency = 10;
@@ -95,32 +91,54 @@ public class AsteroidSpawner : MonoBehaviour
                     speed = 7000;
                    var spawnedTriangle= Instantiate(triangle, spawnPosition, Quaternion.identity, gameObject.transform);
                     spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
-                    spawnedTriangle.GetComponent<TriangleManager>().asteroidSpawner = this;
+                    spawnedTriangle.GetComponent<TriangleManager>().gameManager = this;
 
                     break;
                 case 1:
                     speed = 5000;
                     var spawnedSquare=Instantiate(square, spawnPosition, Quaternion.identity, gameObject.transform);
                     spawnedSquare.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
-                    spawnedSquare.GetComponent<SquareManager>().asteroidSpawner = this;
+                    spawnedSquare.GetComponent<SquareManager>().gameManager = this;
                     break;
 
                 case 2:
                     speed = 3000;
                     var spawnedPentagon=Instantiate(pentagon, spawnPosition, Quaternion.identity, gameObject.transform);
                     spawnedPentagon.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
-                    spawnedPentagon.GetComponent<PentagonManager>().asteroidSpawner = this;
+                    spawnedPentagon.GetComponent<PentagonManager>().gameManager = this;
                     break;
                 case 3:
                     speed = 2000;
                     var spawnedHexagon=Instantiate(hexagon,spawnPosition,Quaternion.identity, gameObject.transform);
                     spawnedHexagon.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
-                    spawnedHexagon.GetComponent<HexagonManager>().asteroidSpawner = this;
+                    spawnedHexagon.GetComponent<HexagonManager>().gameManager = this;
                     break;
 
             }
             
         }
         
+    }
+
+
+    /// <summary>
+    /// Updates the healthUI component based on lifepoints and deactivating one by one the small spaceships that are indicating the number of lifepoints left. 
+    /// </summary>
+    private void UpdateHealthUI()
+    {
+        switch (destroyOnAsteroidContact.lifePoints)
+        {
+            case 2:
+                HealthUI.transform.GetChild(2).gameObject.SetActive(false);
+                break;
+
+            case 1:
+                HealthUI.transform.GetChild(1).gameObject.SetActive(false);
+                break;
+
+            case 0:
+                HealthUI.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+        }
     }
 }

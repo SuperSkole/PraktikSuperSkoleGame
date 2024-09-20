@@ -13,6 +13,12 @@ public class ScreenWarp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Makes sure that the gameobject the component is attached to warps back into view from the opposite end of the screen. 
+
+        // Gets a WorldToViewportPoint based on the players position.
+        // A WorldToViewportPoint is a vector describing points within the camera view.
+        // viewportPosition.x=1 is the furthest to the right and -1 is the furthest to the left.
+        // Then based on the players WorldToViewportPoint an adjustment can be made so the player ends up in the oposite end of the screen. 
         Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
 
         Vector3 moveadjustment = Vector3.zero;

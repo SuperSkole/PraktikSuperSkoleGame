@@ -8,7 +8,7 @@ public class SquareManager : MonoBehaviour
 
     [SerializeField] GameObject triangle;
     [SerializeField] GameObject explosionPrefab;
-    public AsteroidSpawner asteroidSpawner;
+    public AsteroidGameManager gameManager;
     [SerializeField] float minXForce;
     [SerializeField] float maxXForce;
     [SerializeField] float minYForce;
@@ -32,21 +32,26 @@ public class SquareManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// When colliding with a projectile two new asteroids with one less angle than the current are spawned.
+    /// The score is also updated and the old asteroid and the projectile that hit it is destroyed
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag=="PlayerProjectile")
         {
-            asteroidSpawner.score += 75;
+            gameManager.score += 75;
             Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
             var spawnedTriangle= Instantiate(triangle,gameObject.transform.position, transform.rotation,transform.parent);
             Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
             spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce*speed);
-            spawnedTriangle.GetComponent<TriangleManager>().asteroidSpawner = asteroidSpawner;
+            spawnedTriangle.GetComponent<TriangleManager>().gameManager = gameManager;
 
             var spawnedTriangle2 = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
             Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
             spawnedTriangle2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
-            spawnedTriangle2.GetComponent<TriangleManager>().asteroidSpawner = asteroidSpawner;
+            spawnedTriangle2.GetComponent<TriangleManager>().gameManager = gameManager;
 
             Destroy(gameObject);
             Destroy(collision.gameObject);

@@ -7,7 +7,7 @@ public class TriangleManager : MonoBehaviour
 
   
     [SerializeField] GameObject explosionPrefab;
-    public AsteroidSpawner asteroidSpawner;
+    public AsteroidGameManager gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +22,15 @@ public class TriangleManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// When a player projectile hits the triangle it updates the score, instantiates an explosion and destroys itself and the projectile. 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag=="PlayerProjectile")
         {
-            asteroidSpawner.score += 100;
+            gameManager.score += 100;
             Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
 
             Destroy(gameObject);
