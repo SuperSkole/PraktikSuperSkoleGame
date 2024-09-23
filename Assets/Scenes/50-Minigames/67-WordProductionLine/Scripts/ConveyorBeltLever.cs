@@ -8,6 +8,9 @@ public class ConveyorBeltLever : MonoBehaviour
 
     [SerializeField] private GameObject stopBeltLever;
 
+    [SerializeField]
+    private CreateProductionLineBoxes createProductionLineBoxes;    
+
     private ProductionLine[] productionLine;
 
     public float rotationAngle = 45f;
@@ -19,6 +22,9 @@ public class ConveyorBeltLever : MonoBehaviour
         productionLine = FindObjectsOfType<ProductionLine>();
     }
 
+    /// <summary>
+    /// If the mouse is over can interact with object.
+    /// </summary>
     private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(0))
@@ -28,12 +34,16 @@ public class ConveyorBeltLever : MonoBehaviour
                 item.conveyerBeltOn = !item.conveyerBeltOn;
             }
 
+            createProductionLineBoxes.isOn = !createProductionLineBoxes.isOn;
+
             RotateLever();
         }
     }
 
-
-    void RotateLever()
+    /// <summary>
+    /// Rotates the lever on the z angle depending on whether its on or off.
+    /// </summary>
+    private void RotateLever()
     {
         if (stopBeltLever != null)
         {

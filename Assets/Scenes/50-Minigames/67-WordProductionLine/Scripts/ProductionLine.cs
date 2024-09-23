@@ -1,15 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProductionLine : MonoBehaviour
 {
-
     public float speed;
     Rigidbody rBody;
 
     public bool conveyerBeltOn = true;
-    
+
     private void Start()
     {
         rBody = GetComponent<Rigidbody>();
@@ -20,11 +18,13 @@ public class ProductionLine : MonoBehaviour
     {
         if (conveyerBeltOn)
         {
-           MoveConveyerBelt(); 
+            MoveConveyerBelt();
         }
-        
-    }
 
+    }
+    /// <summary>
+    /// Shakes the Belt. making it look like it moves the object straight.
+    /// </summary>
     private void MoveConveyerBelt()
     {
         Vector3 pos = rBody.position;
@@ -32,3 +32,5 @@ public class ProductionLine : MonoBehaviour
         rBody.MovePosition(pos);
     }
 }
+
+
