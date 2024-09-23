@@ -3,6 +3,7 @@ using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
+using Scenes._24_HighScoreScene.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,8 @@ namespace Scenes._10_PlayerScene.Scripts
     /// </summary>
     public class PlayerManager : MonoBehaviour
     {
+        [SerializeField] private HighScore highScore;
+        
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
         [SerializeField] private Vector3 dropOffPoint; 
@@ -25,6 +28,10 @@ namespace Scenes._10_PlayerScene.Scripts
         private ClothChanging clothChanging;
         private ISkeletonComponent skeleton;
 
+        private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
+
+    
+        
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
 
@@ -54,9 +61,23 @@ namespace Scenes._10_PlayerScene.Scripts
                 return playerData;
             }
         }
+        
+        public HighScore HighScore 
+        {
+            get 
+            {
+                if (highScore == null) 
+                {
+                    Debug.LogError("highScore accessed before being initialized.");
+                }
+                
+                return highScore;
+            }
+        }
 
         // Player Manager Singleton
         private static PlayerManager instance;
+
         public static PlayerManager Instance => instance;
 
         /// <summary>
@@ -153,7 +174,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 1,
                 spawnedPlayer.transform.position,
                 null,
-                null
+                null,
+                GameManager.Instance.PlayerData.listOfCars
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -170,7 +192,9 @@ namespace Scenes._10_PlayerScene.Scripts
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothTop, skeleton);
 
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
-            playerData.SetLastInteractionPoint(new Vector3(-184, 39, -144));
+            playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
+
+            //playerData.listOfCars.Add("Mustang","Red",true);
 
             // Log for debugging
             // Debug.Log(
@@ -190,7 +214,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         
 
-        public void SetupPlayerFromSave(SaveDataDTO saveData)
+        public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
@@ -232,12 +256,13 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.Username,
                 saveData.MonsterName,
                 saveData.MonsterColor,
-                saveData.GoldAmount,
-                saveData.XPAmount,
-                saveData.PlayerLevel,
-                saveData.SavedPlayerStartPostion.GetVector3(),
-                saveData.clothMid,
-                saveData.clothTop
+                saveData.CurrentGoldAmount,
+                saveData.CurrentXPAmount,
+                saveData.CurrentLevel,
+                saveData.CurrentPosition,
+                saveData.ClothMid,
+                saveData.ClothTop,
+                saveData.listOfCars
             );
 
             // Call the ColorChange method to recolor the player
@@ -250,7 +275,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
-                    ? new Vector3(-184, 39, -144)
+                    ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
 
             // Log for debugging
@@ -359,6 +384,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
+
                 }    
             }
         }
@@ -420,10 +446,10 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
                     //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
 
-                    var car = GameObject.Find("Prometheus Variant");
-                    car.transform.position = playerData.CarPos;
-                    car.transform.rotation = playerData.CarRo;
-                    car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
+                    //var car = GameObject.Find("Prometheus Variant");
+                    //car.transform.position = playerData.CarPos;
+                    //car.transform.rotation = playerData.CarRo;
+                    //car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
 
 
                 }

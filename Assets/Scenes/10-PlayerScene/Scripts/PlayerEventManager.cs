@@ -1,7 +1,6 @@
 using LoadSave;
 using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -86,8 +85,6 @@ namespace Scenes._10_PlayerScene.Scripts
                 GetComponent<SpinePlayerMovement>().StopPointAndClickMovement();
                 PlayerInteraction.Invoke();
                 PlayerInteraction = new UnityEvent();
-
-
             }
             catch { print("PlayerEventManager/InvokeAction/No playeraction"); }
         }

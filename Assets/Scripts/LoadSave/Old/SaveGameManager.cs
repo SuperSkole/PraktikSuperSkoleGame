@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using CORE;
+using System.Collections.Generic;
 
 namespace LoadSave
 {
@@ -23,6 +24,11 @@ namespace LoadSave
             return $"{username}_{monsterName}_{timestamp}{fileNameSuffix}.json";
         }
         
+        /// <summary>
+        /// Saves the house Data
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="fileName"></param>
         public void SaveJson(string json, string fileName)
         {
             EnsureDirectoryExists();
@@ -80,9 +86,9 @@ namespace LoadSave
         private SaveDataDTO CreateSaveData()
         {
             var gm = GameManager.Instance.PlayerData;
-            SaveDataDTO data = new SaveDataDTO
+                SaveDataDTO data = new SaveDataDTO
             {
-                Username = gm.Username, 
+                Username = gm.Username,
                 MonsterName = gm.MonsterName,
                 MonsterTypeID = gm.MonsterTypeID,
                 MonsterColor = gm.MonsterColor,
@@ -90,6 +96,7 @@ namespace LoadSave
                 XPAmount = gm.CurrentXPAmount,
                 PlayerLevel = gm.CurrentLevel,
                 SavedPlayerStartPostion = new SerializablePlayerPosition(gm.CurrentPosition),
+                listOfCars  = gm.listOfCars
             };
             return data;
         }

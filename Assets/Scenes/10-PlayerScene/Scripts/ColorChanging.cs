@@ -31,7 +31,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (graphic == null)
                 {
-                    Debug.Log("Ingen grafik");
+                    Debug.Log("No graphic");
                 }
             }
 

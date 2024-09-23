@@ -1,6 +1,7 @@
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
+using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,13 +10,14 @@ namespace Scenes._50_Minigames.Gamemode
 
     public class MiniRacingSetter : IGameModeSetter
     {
-        private readonly List<string> gamemodes = new()
+       
+        public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
         {
-            "",
-            "Listen For Vocal",
-            "Find Vocal In Image",
-            "",
-            "Listen For Consonant",
+            null,
+            new LevelTwoRace(),
+            new LevelThreeRacing(),
+            null,
+            new LevelFiveRacing()
         };
 
 
@@ -66,34 +68,13 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            if (level >= gamemodes.Count)
+            if (gamemodes.Count > level && level >= 0)
             {
-                return null;
+                return gamemodes[level];
             }
             else
             {
-                IRacingGameMode modeReturned;
-                string mode = gamemodes[level];
-                switch (mode)
-                {
-                    case "Listen For Vocal":
-                        modeReturned = new LevelTwoRace();
-                        break;
-
-                    case "Find Vocal In Image":
-                        modeReturned = new LevelThreeRacing();
-                        break;
-
-                    case "Listen For Consonant":
-                        modeReturned = new LevelFiveRacing();
-
-                        break;
-                    default:
-                        Debug.Log("given mode was not among expected options, returning null");
-                        modeReturned = null;
-                        break;
-                }
-                return modeReturned;
+                return null;
             }
         }
 

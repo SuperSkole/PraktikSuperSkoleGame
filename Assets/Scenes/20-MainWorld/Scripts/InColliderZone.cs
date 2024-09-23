@@ -1,4 +1,4 @@
-using _99_Legacy.Interaction;
+using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._20_MainWorld.Scripts.Car;
 using UnityEngine;
@@ -15,12 +15,15 @@ namespace Scenes._20_MainWorld.Scripts
         [SerializeField] private bool isNPC;
         [SerializeField] private bool isCar;
         [SerializeField] private bool isGasSTT;
-        [SerializeField] private NPCInteractions interactions;
+        //[SerializeField] private NPCInteractions interactions;
+        [SerializeField] private int neededLvlToEnter;
         private PlayerEventManager playerEventManager;
         private CarEventsManager carEventsMa;
         private CarEvents carEvents;
-
+        
         private OpenCloseDoor doorMechanism;
+
+        private int playerLvl;
 
         private void Start()
         {
@@ -30,13 +33,14 @@ namespace Scenes._20_MainWorld.Scripts
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
             playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
+            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
             // TODO : Remove Try catch at later date
             try
             {
-                carEventsMa = GameObject.Find("Prometheus Variant").GetComponent<CarEventsManager>();
-                carEvents = GameObject.Find("Prometheus Variant").GetComponent<CarEvents>();
+                carEventsMa = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEventsManager>();
+                carEvents = GameObject.FindGameObjectWithTag("Car").GetComponent<CarEvents>();
             }
-            catch { }
+            catch {  }
         }
 
         /// <summary>
@@ -45,7 +49,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
         {
-            if (collision.gameObject.CompareTag("Player") && !isGasSTT)
+            if (collision.gameObject.CompareTag("Player") && !isGasSTT && playerLvl >= neededLvlToEnter)
             {
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
@@ -66,17 +70,17 @@ namespace Scenes._20_MainWorld.Scripts
                     }
                     catch { }
                 }
-                else if (isNPC)
+                if (isNPC)
                 {
-                    interactions.StartScaling();
+                    //interactions.StartScaling();
                 }
-
+                //If the player walksinto a collider with this name active the event
                 switch (gameObject.name)
                 {
                     case "WalkInto":
                         playerEventManager.InvokeAction();
                         break;
-                    case "PlayerCar":
+                    case "PlayerCar"://Doesnt Work, Rename to new car if we want it to work
                         playerEventManager.InvokeAction();
                         break;
                     default:
@@ -84,17 +88,14 @@ namespace Scenes._20_MainWorld.Scripts
                         break;
                 }
             }
-            if (collision.gameObject.CompareTag("Car"))
+            if (collision.gameObject.CompareTag("Car") && isGasSTT)
             {
-                if (isGasSTT)
+                try
                 {
-                    try
-                    {
-                        carEventsMa.CarInteraction = action;
-                        carEventsMa.interactionIcon.SetActive(true);
-                    }
-                    catch { }
+                    carEventsMa.CarInteraction = action;
+                    carEventsMa.interactionIcon.SetActive(true);
                 }
+                catch { }
             }
         }
 
@@ -145,7 +146,7 @@ namespace Scenes._20_MainWorld.Scripts
             //print($"Here is the saved position: {interactionPoint.position}");
             // set next spawn point, add 1 in height so we dont spawn in ground
             PlayerManager.Instance.PlayerData.SetLastInteractionPoint(interactionPoint.position + new Vector3(0, 1, 0));
-            var car = GameObject.Find("Prometheus Variant");
+            var car = GameObject.Find(PlayerManager.Instance.PlayerData.ReturnActiveCarName());
             PlayerManager.Instance.PlayerData.CarPos = car.transform.transform.position;
             PlayerManager.Instance.PlayerData.CarRo = car.transform.transform.rotation;
             PlayerManager.Instance.PlayerData.FuelAmount = car.GetComponent<CarFuelMangent>().FuelAmount;

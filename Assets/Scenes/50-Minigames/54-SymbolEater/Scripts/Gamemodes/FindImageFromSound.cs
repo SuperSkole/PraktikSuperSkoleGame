@@ -211,7 +211,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(image.GetLetter()))
             {
                 correctLetterCount--;
-                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [Mellemrum] for at h\u00f8re et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
             }
             image.DeactivateImage();
             activeLetterCubes.Remove(image);
