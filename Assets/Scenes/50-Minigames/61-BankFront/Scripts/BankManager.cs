@@ -137,11 +137,11 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             gameOverText.text = "Du vandt du sorterede mønterne korrekt og udregnede deres værdi 5 gange";
         }
-        yield return new WaitForSeconds(5);
         gamemode.ClearCurrentCustomersCoins();
         errorDisplay.Reset();
         if(completedGames >= 5)
         {
+            yield return new WaitForSeconds(5);
             SwitchScenes.SwitchToMainWorld();
         }
     }

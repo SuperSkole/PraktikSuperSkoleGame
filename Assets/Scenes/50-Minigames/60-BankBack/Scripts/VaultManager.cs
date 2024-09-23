@@ -24,7 +24,7 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private Material incorrectMaterial;
     [SerializeField] private TextMeshProUGUI lives;
     [SerializeField] private TextMeshProUGUI gameOverText;
-
+    private bool foundCode = false;
     private float  mistakes;
 
     private int[] answer = new int[4];
@@ -55,44 +55,49 @@ public class VaultManager : MonoBehaviour
     /// </summary>
     public void ValidateGuess()
     {
-        bool correct = true;
-        bool partialCorrect = false;
-        //Runs through the gears and checks if there are correct and incorrect numbers
-        for(int i = 0; i < 4; i++)
+        if(!foundCode)
         {
-            if(correct && answer[i] != gearScripts[i].currentNumber)
+            bool correct = true;
+            bool partialCorrect = false;
+            //Runs through the gears and checks if there are correct and incorrect numbers
+            for(int i = 0; i < 4; i++)
             {
-                correct = false;
+                if(correct && answer[i] != gearScripts[i].currentNumber)
+                {
+                    correct = false;
+                }
+                else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+                {
+                    partialCorrect = true;
+                }
             }
-            else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+            //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
+            if(correct)
             {
-                partialCorrect = true;
+                foundCode = true;
+                ChangeMaterial(correctMaterial);
+                Won();
+            }
+            //Changes the color to yellow if one or more numbers were correct
+            else if(partialCorrect)
+            {
+                ChangeMaterial(partialCorrectMaterial);
+                mistakes += 0.5f;
+                UpdateLivesDisplay();
+            }
+            //Changes the color to red if none of the numbers were correct
+            else
+            {
+                ChangeMaterial(incorrectMaterial);
+                mistakes++;
+                UpdateLivesDisplay();
+            }
+            if(mistakes >= 3)
+            {
+                Lost();
             }
         }
-        //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
-        if(correct)
-        {
-            ChangeMaterial(correctMaterial);
-            Won();
-        }
-        //Changes the color to yellow if one or more numbers were correct
-        else if(partialCorrect)
-        {
-            ChangeMaterial(partialCorrectMaterial);
-            mistakes += 0.5f;
-            UpdateLivesDisplay();
-        }
-        //Changes the color to red if none of the numbers were correct
-        else
-        {
-            ChangeMaterial(incorrectMaterial);
-            mistakes++;
-            UpdateLivesDisplay();
-        }
-        if(mistakes >= 3)
-        {
-            Lost();
-        }
+        
     }
 
     /// <summary>
