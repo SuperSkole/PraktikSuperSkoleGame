@@ -121,6 +121,11 @@ public class AsteroidGameManager : MonoBehaviour
         
     }
 
+
+    /// <summary>
+    /// Gets a random spawn point on the edge of the screen
+    /// </summary>
+    /// <returns></returns>
     private Vector3 GetRandomSpawnPoint()
     {
         //How far along the edge of the camera
