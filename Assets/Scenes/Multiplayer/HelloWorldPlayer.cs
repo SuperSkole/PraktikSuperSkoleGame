@@ -10,7 +10,7 @@ using static UnityEngine.CullingGroup;
 
 namespace HelloWorld
 {
-    public class HelloWorldPlayer : NetworkBehaviour // TODO: Change color by sending an int value to the manager
+    public class HelloWorldPlayer : NetworkBehaviour
     {
         private Dictionary<string, int> colorMap = new Dictionary<string, int>
         {
@@ -24,8 +24,8 @@ namespace HelloWorld
 
         List<Color> colorList = new() { Color.red, Color.blue, Color.cyan, Color.green, Color.grey, Color.yellow, Color.magenta };
 
-        //ColorChanging colorChange;
         Color color = Color.red;
+        Color baseColor = new Color();
         SpriteRenderer sprite;
 
         public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
@@ -33,39 +33,44 @@ namespace HelloWorld
         public NetworkVariable<Color> colorUsed = new NetworkVariable<Color>();
         public override void OnNetworkSpawn()
         {
-            //colorPick.OnValueChanged += OnStateChanged;
             sprite = GetComponent<SpriteRenderer>();
-            if (IsOwner)
+            colorUsed.OnValueChanged += ColorChanged;
+            if (IsServer)
             {
-                Move();
-                #region Set up color
-                //ISkeletonComponent skeleton = GetComponentInChildren<ISkeletonComponent>();
-                //if (skeleton == null)
-                //{
-                //    Debug.LogError("PlayerManager.SetupPlayer(): " +
-                //                   "ISkeleton component not found on spawned player.");
-                //    return;
-                //}
-                //colorChange = GetComponent<ColorChanging>();
-                //colorChange.SetSkeleton(skeleton);
-                
-                //GameObject originPlayer = GameObject.Find("PlayerMonster");
-                //color = originPlayer.GetComponent<PlayerData>().MonsterColor;
-                //color = "pink";
-                //colorChange.ColorChange(color);
-                Debug.Log("test 1");
-                //ToggleServerRpc(color);
-                //colorPick.Value = color;
-                //colorChange.ColorChange(colorPick.Value.ToString());
-                Debug.Log("test 2");
-                //GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-                colorUsed.OnValueChanged += OnStateChanged;
-                color = colorList[Random.Range(0, colorList.Count)];
-                colorUsed.Value = color;
-                //ServerUpdateColor(color);
-                #endregion
+                if (colorUsed.Value == null || colorUsed.Value == Color.white || colorUsed.Value == baseColor)
+                {
+                    color = colorList[Random.Range(0, colorList.Count)];
+                    colorUsed.Value = color;
+                }
+                sprite.color = colorUsed.Value;
+            }
+
+            if (IsClient)
+            {
+                if(!(colorUsed.Value == null || colorUsed.Value == Color.white || colorUsed.Value == baseColor))
+                {
+                    sprite.color = colorUsed.Value;
+                }
             }
         }
+
+        public override void OnNetworkDespawn()
+        {
+            colorUsed.OnValueChanged -= ColorChanged;
+        }
+
+        public void ColorChanged(Color previousColor, Color currentColor)
+        {
+            if(previousColor != currentColor)
+            {
+                sprite.color = currentColor;
+            }
+        }
+
+
+
+
+
 
         [ServerRpc(RequireOwnership = false)]
         public void ServerUpdateColorServerRPC(Color newColor)
@@ -84,12 +89,8 @@ namespace HelloWorld
 
         public void OnStateChanged(Color previous, Color current)
         {
-            ServerUpdateColorServerRPC(current);
-        }
-
-        public override void OnNetworkDespawn()
-        {
-            //colorPick.OnValueChanged -= OnStateChanged;
+            if(current != previous)
+                ServerUpdateColorServerRPC(current);
         }
 
         public void Move()
@@ -114,21 +115,5 @@ namespace HelloWorld
         {
             transform.position = Position.Value;
         }
-
-        //public void OnStateChanged(FixedString32Bytes previous, FixedString32Bytes current)
-        //{
-        //    color = current.ToString();
-        //    if (color == null)
-        //        color = "green";
-        //    colorChange.ColorChange(color);
-        //}
-
-        //[Rpc(SendTo.Server)]
-        //public void ToggleServerRpc(string input)
-        //{
-        //    colorPick.Value = input;
-        //}
-
-
     }
 }
