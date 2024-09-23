@@ -2,32 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexagonManager : MonoBehaviour
+public class PentagonManager : MonoBehaviour
 {
 
 
-    [SerializeField] GameObject pentagon;
-
+    [SerializeField] GameObject square;
     [SerializeField] GameObject explosionPrefab;
 
     public AsteroidGameManager gameManager;
-
     [SerializeField] float minXForce;
     [SerializeField] float maxXForce;
     [SerializeField] float minYForce;
     [SerializeField] float maxYForce;
     [SerializeField] float speed;
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
 
-        //setting som standard values for the random ranges of forces on the X and Y axes.
         minXForce = 0.5f;
         maxXForce = 1;
         minYForce = -1;
         maxYForce = 1;
-        speed = 3000;
-        
+        speed = 5000;
+
     }
 
     // Update is called once per frame
@@ -44,25 +45,22 @@ public class HexagonManager : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
         if(collision.gameObject.tag=="PlayerProjectile")
         {
-            gameManager.score += 25;
+            gameManager.score += 50;
             Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
-           var spawnedPentagon= Instantiate(pentagon,gameObject.transform.position, transform.rotation,transform.parent);
+            var spawnedSquare = Instantiate(square,gameObject.transform.position, transform.rotation,transform.parent);
             Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
-            spawnedPentagon.GetComponent<Rigidbody2D>().AddForce(randomForce*speed);
-            spawnedPentagon.GetComponent<PentagonManager>().gameManager = gameManager;
+            spawnedSquare.GetComponent<Rigidbody2D>().AddForce(randomForce*speed);
+            spawnedSquare.GetComponent<SquareManager>().gameManager = gameManager;
 
-            var spawnedPentagon2 = Instantiate(pentagon, gameObject.transform.position, transform.rotation, transform.parent);
+
+            var spawnedSquare2 = Instantiate(square, gameObject.transform.position, transform.rotation, transform.parent);
             Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
-            spawnedPentagon2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
-            spawnedPentagon2.GetComponent<PentagonManager>().gameManager = gameManager;
-
+            spawnedSquare2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
+            spawnedSquare2.GetComponent<SquareManager>().gameManager = gameManager;
             Destroy(gameObject);
-
             Destroy(collision.gameObject);
-            
         }
     }
 }

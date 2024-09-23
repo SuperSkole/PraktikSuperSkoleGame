@@ -9,20 +9,27 @@ public class PlayerMoveSpaceShip : MonoBehaviour
 {
     [SerializeField] int speed;
     [SerializeField] Rigidbody2D rigidBody;
-    [SerializeField] int shipAcelleration;
+    [SerializeField] int shipAccelleration;
+    [SerializeField] GameObject engineFX;
 
     // Start is called before the first frame update
     void Start()
     {
-        shipAcelleration = 100;
+        shipAccelleration = 200;
     }
 
     private void FixedUpdate()
     {
+        // Adds a force based on the transform.up vector and the shipaccelleration when the up input is used on the used device. 
         if (Input.GetAxis("Vertical") > 0f)
         {
-            rigidBody.AddForce(new Vector2(transform.up.x,transform.up.y) * shipAcelleration);
-            rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, 100);
+            engineFX.SetActive(true);
+            rigidBody.AddForce(new Vector2(transform.up.x,transform.up.y) * shipAccelleration);
+            rigidBody.velocity = Vector2.ClampMagnitude(rigidBody.velocity, 200);
+        }
+        else
+        {
+            engineFX.SetActive(false);
         }
 
 
@@ -33,15 +40,15 @@ public class PlayerMoveSpaceShip : MonoBehaviour
     {
 
    
-
+        //Rotates the PlayerSpaceShip based on the left and right input of the used device. 
         if (Input.GetAxis("Horizontal") < 0f)
         {
-            transform.Rotate(0, 0, -1);
+            transform.Rotate(0, 0, 1.5f);
         }
 
         if (Input.GetAxis("Horizontal") > 0f)
         {
-            transform.Rotate(0, 0, 1);
+            transform.Rotate(0, 0, -1.5f);
         }
 
 
