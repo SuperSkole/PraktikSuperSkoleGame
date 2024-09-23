@@ -219,6 +219,10 @@ public class VaultManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Resets the material of the gears after 2 seconds to the default material
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ResetMaterial()
     {
         yield return new WaitForSeconds(2);
