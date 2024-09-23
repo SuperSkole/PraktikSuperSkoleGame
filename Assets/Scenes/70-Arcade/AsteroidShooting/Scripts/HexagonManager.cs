@@ -8,21 +8,25 @@ public class HexagonManager : MonoBehaviour
 
     [SerializeField] GameObject pentagon;
 
-    [SerializeField] GameObject square;
+    [SerializeField] GameObject explosionPrefab;
 
-    [SerializeField] GameObject triangle;
+    public AsteroidGameManager gameManager;
 
-    int projectileHitAmount=0;
-
-    SpriteRenderer spriteRenderer;
-
-
-
-
+    [SerializeField] float minXForce;
+    [SerializeField] float maxXForce;
+    [SerializeField] float minYForce;
+    [SerializeField] float maxYForce;
+    [SerializeField] float speed;
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        //setting som standard values for the random ranges of forces on the X and Y axes.
+        minXForce = 0.5f;
+        maxXForce = 1;
+        minYForce = -1;
+        maxYForce = 1;
+        speed = 3000;
         
     }
 
@@ -33,20 +37,32 @@ public class HexagonManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// When colliding with a projectile two new asteroids with one less angle than the current are spawned.
+    /// The score is also updated and the old asteroid and the projectile that hit it is destroyed
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if(collision.gameObject.tag=="PlayerProjectile")
         {
-            switch(projectileHitAmount)
-            {
-                case 0:
-                    
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-            }
+            gameManager.score += 25;
+            Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
+           var spawnedPentagon= Instantiate(pentagon,gameObject.transform.position, transform.rotation,transform.parent);
+            Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
+            spawnedPentagon.GetComponent<Rigidbody2D>().AddForce(randomForce*speed);
+            spawnedPentagon.GetComponent<PentagonManager>().gameManager = gameManager;
+
+            var spawnedPentagon2 = Instantiate(pentagon, gameObject.transform.position, transform.rotation, transform.parent);
+            Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
+            spawnedPentagon2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
+            spawnedPentagon2.GetComponent<PentagonManager>().gameManager = gameManager;
+
+            Destroy(gameObject);
+
+            Destroy(collision.gameObject);
+            
         }
     }
 }
