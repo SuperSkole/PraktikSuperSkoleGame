@@ -315,10 +315,10 @@ namespace Scenes._10_PlayerScene.Scripts
             SetPlayerPositionOnSceneChange(scene);
 
 
-            
+
             // TODO : Find a more permnat solution
-            if (SceneManager.GetActiveScene().name.StartsWith("11") || 
-                SceneManager.GetActiveScene().name.StartsWith("20") || 
+            if (SceneManager.GetActiveScene().name.StartsWith("11") ||
+                SceneManager.GetActiveScene().name.StartsWith("20") ||
                 SceneManager.GetActiveScene().name.StartsWith("70"))
             {
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
@@ -326,7 +326,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
-
+              
             }
             else
             {
