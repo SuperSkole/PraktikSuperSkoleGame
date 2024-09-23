@@ -25,7 +25,7 @@ public class ClockController : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
 
-    private bool guessing = false;
+    private Coroutine courtine;
 
     //used to rotate the cat tail
     public float rotationAngle = 35f;
@@ -35,7 +35,7 @@ public class ClockController : MonoBehaviour
 
     private void Start()
     {
-        guessing = false;
+
         initialRotation = submitAnswerLever.transform.rotation;
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
 
@@ -46,25 +46,31 @@ public class ClockController : MonoBehaviour
     // When you press Spacebar you submit answer.
     public void SubmitAnswer()
     {
-        guessing = true;
-        StartCoroutine(RotateLever());
 
-        if (hourTime == watch.randoHour && minuteTime == int.Parse(watch.randoMinute))
+        if (courtine == null)
         {
-            score++;
-            scoreText.text = $"Point: {score}";
 
-            watch.GetRandoText();
 
-            if (score >= 5)
+            courtine = StartCoroutine(RotateLever());
+
+            if (hourTime == watch.randoHour && minuteTime == int.Parse(watch.randoMinute))
             {
+                score++;
+                scoreText.text = $"Point: {score}";
 
-                SwitchScenes.SwitchToArcadeScene();
+                watch.GetRandoText();
+
+                if (score >= 5)
+                {
+
+                    SwitchScenes.SwitchToArcadeScene();
+                }
             }
+
         }
 
-
     }
+
 
     /// <summary>
     /// code for controlling the Clocks Minut needle
@@ -134,22 +140,18 @@ public class ClockController : MonoBehaviour
     //The RotateLever coroutine handles the sequence of rotations:
     IEnumerator RotateLever()
     {
-        
-        if (guessing == true)
-        {
 
 
-            // Rotate to the left by rotationAngle
-            yield return RotateOverTime(-rotationAngle);
+        // Rotate to the left by rotationAngle
+        yield return RotateOverTime(-rotationAngle);
 
-            // Rotate to the right by 2x the rotationAngle (to go in the opposite direction)
-            yield return RotateOverTime(rotationAngle * 2);
+        // Rotate to the right by 2x the rotationAngle (to go in the opposite direction)
+        yield return RotateOverTime(rotationAngle * 2);
 
-            // Rotate back to the initial position
-            yield return RotateOverTime(-rotationAngle);
+        // Rotate back to the initial position
+        yield return RotateOverTime(-rotationAngle);
 
-        }
-        guessing = false;
+        courtine = null;
     }
 
     //The RotateOverTime coroutine gradually rotates the lever towards the desired angle
