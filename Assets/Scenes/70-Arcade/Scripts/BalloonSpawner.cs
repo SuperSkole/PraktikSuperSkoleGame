@@ -14,7 +14,7 @@ public class BalloonSpawner : MonoBehaviour
     string letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\u00e6\u00f8\u00e5";
     public int lives;
     public int points;
-    TMP_Text text;
+    [SerializeField] TMP_Text text;
     [SerializeField] private GameObject topRight;
     [SerializeField] private GameObject topLeft;
 
@@ -23,12 +23,10 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     void Start()
     {
-        spawnpoint.z = 0;
-        spawnpoint.y = -200;
+        spawnpoint.z = this.transform.position.z;
+        spawnpoint.y = this.transform.position.y;
         correctLetter += letters[Random.Range(0, letters.Length)];
         StartCoroutine(BalloonWave());
-        text = GetComponentInChildren<TMP_Text>();
-        
     }
 
     /// <summary>
@@ -44,7 +42,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void SpawnBalloon()
     {
-        spawnpoint.x = Random.Range(topLeft.transform.position.x, topRight.transform.position.x-200);
+        spawnpoint.x = Random.Range(topLeft.transform.position.x, topRight.transform.position.x);
         GameObject a = Instantiate(balloonPrefab, spawnpoint, this.transform.rotation, this.transform);
         BalloonController balloonSpawned = a.GetComponent<BalloonController>();
         int rnd = Random.Range(0, 2);
@@ -65,7 +63,7 @@ public class BalloonSpawner : MonoBehaviour
         }
 
         float target = Random.Range(topLeft.transform.position.x, topRight.transform.position.x-200);
-        balloonSpawned.targetY = topRight.transform.position.y + 300;
+        balloonSpawned.targetY = topRight.transform.position.y;
         balloonSpawned.MoveTo(target);
     }
 
