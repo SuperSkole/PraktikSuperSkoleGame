@@ -22,6 +22,10 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private Material correctMaterial;
     [SerializeField] private Material partialCorrectMaterial;
     [SerializeField] private Material incorrectMaterial;
+    [SerializeField] private TextMeshProUGUI lives;
+    [SerializeField] private TextMeshProUGUI gameOverText;
+    private bool foundCode = false;
+    private float  mistakes;
 
     private int[] answer = new int[4];
     /// <summary>
@@ -37,6 +41,8 @@ public class VaultManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
+        gameOverText.text = "";
+        lives.text = "3/3 liv tilbage";
         for(int i = 0; i < 4; i++)
         {
             answer[i] = Random.Range(1, 10);
@@ -49,36 +55,49 @@ public class VaultManager : MonoBehaviour
     /// </summary>
     public void ValidateGuess()
     {
-        bool correct = true;
-        bool partialCorrect = false;
-        //Runs through the gears and checks if there are correct and incorrect numbers
-        for(int i = 0; i < 4; i++)
+        if(!foundCode)
         {
-            if(correct && answer[i] != gearScripts[i].currentNumber)
+            bool correct = true;
+            bool partialCorrect = false;
+            //Runs through the gears and checks if there are correct and incorrect numbers
+            for(int i = 0; i < 4; i++)
             {
-                correct = false;
+                if(correct && answer[i] != gearScripts[i].currentNumber)
+                {
+                    correct = false;
+                }
+                else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+                {
+                    partialCorrect = true;
+                }
             }
-            else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+            //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
+            if(correct)
             {
-                partialCorrect = true;
+                foundCode = true;
+                ChangeMaterial(correctMaterial);
+                Won();
+            }
+            //Changes the color to yellow if one or more numbers were correct
+            else if(partialCorrect)
+            {
+                ChangeMaterial(partialCorrectMaterial);
+                mistakes += 0.5f;
+                UpdateLivesDisplay();
+            }
+            //Changes the color to red if none of the numbers were correct
+            else
+            {
+                ChangeMaterial(incorrectMaterial);
+                mistakes++;
+                UpdateLivesDisplay();
+            }
+            if(mistakes >= 3)
+            {
+                Lost();
             }
         }
-        //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
-        if(correct)
-        {
-            ChangeMaterial(correctMaterial);
-            StartCoroutine(WaitBeforeEnd());
-        }
-        //Changes the color to yellow if one or more numbers were correct
-        else if(partialCorrect)
-        {
-            ChangeMaterial(partialCorrectMaterial);
-        }
-        //Changes the color to red if none of the numbers were correct
-        else
-        {
-            ChangeMaterial(incorrectMaterial);
-        }
+        
     }
 
     /// <summary>
@@ -94,15 +113,49 @@ public class VaultManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gives the player xp and gold, waits a bit and then returns to main world
+    /// Gives the player xp and gold, Sets the gameover text and then starts a coroutine with WaitEeforeEnd
     /// </summary>
-    /// <returns></returns>
-    private IEnumerator WaitBeforeEnd()
+    private void Won()
     {
         Instantiate(coinPrefab);
         PlayerEvents.RaiseXPChanged(1);
         PlayerEvents.RaiseGoldChanged(1);
-        yield return new WaitForSeconds(2);
+        gameOverText.text = "Du vandt. Du fandt koden til bankboksen";
+        StartCoroutine(WaitBeforeEnd());
+    }
+
+    /// <summary>
+    /// Sets the gameover text and then starts a coroutine with WaitBeforeEnd
+    /// </summary>
+    private void Lost()
+    {
+        gameOverText.text = "Du tabte du gættede forkert for mange gange";
+        StartCoroutine(WaitBeforeEnd());
+    }
+
+    /// <summary>
+    /// Waits a bit before returning to mainworld
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitBeforeEnd()
+    {
+        
+        yield return new WaitForSeconds(5);
         SwitchScenes.SwitchToMainWorld();
+    }
+
+    /// <summary>
+    /// Updates the display of the players remaining lives
+    /// </summary>
+    private void UpdateLivesDisplay()
+    {
+        if(mistakes <= 3)
+        {
+            lives.text = 3 - mistakes + "/3 liv tilbage";
+        }
+        else
+        {
+            lives.text = "0/3 liv tilbage";
+        }
     }
 }

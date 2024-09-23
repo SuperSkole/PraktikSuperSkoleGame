@@ -72,6 +72,14 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Racing";
                     }
                     break;
+                case 4:
+                    modeSetter = new BankFrontSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToBankFrontScene);
+                    if(usePlayerLevel)
+                    {
+                        title.text = "Bank Hovedindgang";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {
