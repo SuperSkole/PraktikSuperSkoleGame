@@ -11,11 +11,17 @@ public class NumberButton : MonoBehaviour
     [SerializeField]private int number;
     [SerializeField]private KeyPress keyPress;
 
+    /// <summary>
+    /// Sets the keypress onclick method to onclick
+    /// </summary>
     void Start ()
     {
         keyPress.onClickMethod = OnClick;
     }
 
+    /// <summary>
+    /// Adds the number to the end of the current number in numberdisplay
+    /// </summary>
     public void OnClick()
     {
         numberDisplay.AddNumber(number.ToString());

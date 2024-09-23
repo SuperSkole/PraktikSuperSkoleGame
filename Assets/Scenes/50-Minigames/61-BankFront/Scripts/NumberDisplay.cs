@@ -19,18 +19,18 @@ public class NumberDisplay : MonoBehaviour
         numberDisplay.text = number;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Adds a number to the end of the displaynumber
+    /// </summary>
+    /// <param name="number">the number to be added</param>
     public void AddNumber(string number)
     {
+        //Ensures that the highest number cant be 0
         if (this.number == "0")
         {
             this.number = number;
         }
+        //Adds the number otherwise to display number as long as the length is below 8 to ensure it can fit on the display
         else if(this.number.Length < 8)
         {
             this.number += number;
@@ -38,12 +38,19 @@ public class NumberDisplay : MonoBehaviour
         numberDisplay.text = this.number;
     }
 
+    /// <summary>
+    /// Resets the current number to 0
+    /// </summary>
     public void ClearNumber()
     {
         number = "0";
         numberDisplay.text = number;
     }
 
+    /// <summary>
+    /// Returns the number displays number as an int
+    /// </summary>
+    /// <returns>the number displays number as an int</returns>
     public int GetNumber()
     {
         bool res = Int32.TryParse(this.number, out int number);
