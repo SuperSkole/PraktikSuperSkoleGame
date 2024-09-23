@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class ProductionLine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public float speed;
+    Rigidbody rBody;
+
+    public bool conveyerBeltOn = true;
+    
+    private void Start()
     {
+        rBody = GetComponent<Rigidbody>();
+    }
+
+
+    private void FixedUpdate()
+    {
+        if (conveyerBeltOn)
+        {
+           MoveConveyerBelt(); 
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void MoveConveyerBelt()
     {
-        
+        Vector3 pos = rBody.position;
+        rBody.position += Vector3.right * speed * Time.fixedDeltaTime;
+        rBody.MovePosition(pos);
     }
 }
