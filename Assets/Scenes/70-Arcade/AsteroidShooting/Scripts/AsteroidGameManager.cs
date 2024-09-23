@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AsteroidGameManager : MonoBehaviour
@@ -42,7 +43,7 @@ public class AsteroidGameManager : MonoBehaviour
     Vector3 spawnPosition;
     void Start()
     {
-        spawnPosition = gameObject.transform.position;
+        
     }
 
     // Update is called once per frame
@@ -84,7 +85,8 @@ public class AsteroidGameManager : MonoBehaviour
             polygonIndex =Random.Range(0, 4);
             Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
 
-            
+            spawnPosition = GetRandomSpawnPosition();
+
             switch (polygonIndex)
             {
                 case 0:
@@ -118,6 +120,42 @@ public class AsteroidGameManager : MonoBehaviour
             
         }
         
+    }
+
+    /// <summary>
+    /// Gets a random position along the camera edges.
+    /// </summary>
+    /// <returns></returns>
+    Vector3 GetRandomSpawnPosition()
+    {
+        //how far along the edge.
+        float offset = Random.Range(0f, 1f);
+        Vector2 viewportSpawnPosition = Vector2.zero;
+
+        //which edge.
+        int edge = Random.Range(0, 4);
+        if(edge==0)
+        {
+            viewportSpawnPosition = new Vector2(offset, 0);
+        }
+        else if(edge == 1){
+            viewportSpawnPosition= new Vector2(offset, 1);
+        }
+        else if (edge == 2)
+        {
+            viewportSpawnPosition = new Vector2(0, offset);
+        }
+        else if (edge == 3)
+        {
+            viewportSpawnPosition = new Vector2(1, offset);
+        }
+
+        Vector3 worldSpawnPosition = Camera.main.ViewportToWorldPoint(viewportSpawnPosition);
+
+        worldSpawnPosition.z = -1;
+
+        return worldSpawnPosition;
+
     }
 
 

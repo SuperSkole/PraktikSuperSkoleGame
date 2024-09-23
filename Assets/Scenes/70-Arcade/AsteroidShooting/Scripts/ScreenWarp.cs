@@ -22,25 +22,27 @@ public class ScreenWarp : MonoBehaviour
         Vector3 viewportPosition = Camera.main.WorldToViewportPoint(transform.position);
 
         Vector3 moveadjustment = Vector3.zero;
+      
+          
+                if (viewportPosition.x < 0)
+                {
+                    moveadjustment.x += 1;
+                }
+                else if (viewportPosition.x > 1)
+                {
+                    moveadjustment.x -= 1;
+                }
+                else if (viewportPosition.y < 0)
+                {
+                    moveadjustment.y += 1;
+                }
+                else if (viewportPosition.y > 1)
+                {
+                    moveadjustment.y -= 1;
+                }
 
-        if(viewportPosition.x<0)
-        {
-            moveadjustment.x += 1;
-        }
-        else if(viewportPosition.x>1)
-        {
-            moveadjustment.x -= 1;
-        }
-        else if(viewportPosition.y<0)
-        {
-            moveadjustment.y += 1;
-        }
-        else if(viewportPosition.y>1)
-        {
-            moveadjustment.y -= 1;
-        }
-
-        transform.position = Camera.main.ViewportToWorldPoint(viewportPosition + moveadjustment);
+                transform.position = Camera.main.ViewportToWorldPoint(viewportPosition + moveadjustment);
+            
         
     }
 }

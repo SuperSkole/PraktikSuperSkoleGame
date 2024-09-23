@@ -4967,7 +4967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   rigidBody: {fileID: -6535659073564017626}
-  shipAcelleration: 0
+  shipAccelleration: 0
   engineFX: {fileID: 162386570158813583}
 --- !u!50 &-6535659073564017626
 Rigidbody2D:
@@ -4984,7 +4984,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0.5
   m_AngularDrag: 0.5
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
