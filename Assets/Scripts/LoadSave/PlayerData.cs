@@ -32,8 +32,9 @@ namespace LoadSave
         // Clothing list
         public List<int> BoughtClothes = new List<int>();
 
-        public List<CarInfo> listOfCars = new List<CarInfo>() 
-        { new CarInfo("Mustang", "Red", true, new List<MaterialInfo> { new MaterialInfo(true, "Red") }) };
+        //If the list is empty and there is no car, Player interaction breaks :(
+        public List<CarInfo> listOfCars = new List<CarInfo>()
+        { new CarInfo("Van", "Gray", true, new List<MaterialInfo> { new MaterialInfo(true, "Gray") }) };
 
 
         public string Username { get => username; set => username = value; }

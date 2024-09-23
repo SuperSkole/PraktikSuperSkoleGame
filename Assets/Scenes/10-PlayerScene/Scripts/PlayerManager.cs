@@ -194,8 +194,6 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
 
-            //playerData.listOfCars.Add("Mustang","Red",true);
-
             // Log for debugging
             // Debug.Log(
             //     $"PlayerManager.SetupPlayer(): " +
