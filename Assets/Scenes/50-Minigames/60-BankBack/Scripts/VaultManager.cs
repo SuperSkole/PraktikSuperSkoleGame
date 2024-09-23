@@ -24,6 +24,7 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private Material incorrectMaterial;
     [SerializeField] private TextMeshProUGUI lives;
     [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private AlarmScript alarmScript;
     private bool foundCode = false;
     private float  mistakes;
 
@@ -83,6 +84,7 @@ public class VaultManager : MonoBehaviour
             {
                 ChangeMaterial(partialCorrectMaterial);
                 mistakes += 0.5f;
+                alarmScript.DetermineAlarm(mistakes);
                 UpdateLivesDisplay();
             }
             //Changes the color to red if none of the numbers were correct
@@ -90,6 +92,7 @@ public class VaultManager : MonoBehaviour
             {
                 ChangeMaterial(incorrectMaterial);
                 mistakes++;
+                alarmScript.DetermineAlarm(mistakes);
                 UpdateLivesDisplay();
             }
             if(mistakes >= 3)

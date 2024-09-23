@@ -2986,8 +2986,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinWindow: {fileID: 1060714982}
   bankManager: {fileID: 725819976}
-  validateButton: {fileID: 0}
-  inputField: {fileID: 0}
 --- !u!114 &1060714985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5923,8 +5921,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinWindow: {fileID: 1749531751}
   bankManager: {fileID: 725819976}
-  validateButton: {fileID: 0}
-  inputField: {fileID: 0}
 --- !u!114 &1749531754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7755,6 +7751,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1767992005}
     - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
       propertyPath: unifiedFieldBackground
       value: 
       objectReference: {fileID: 1285438184}
@@ -7762,6 +7766,118 @@ PrefabInstance:
       propertyPath: unsortedTraybackground
       value: 
       objectReference: {fileID: 635114004}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.data[0]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: b85fe52a0485fef459cfb88f02fd06b6, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.data[1]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 0a29f04f78aff7242909d4f904dd2b72, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.data[2]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 9fceaa707e161f04db30ee0ccf21e7c6, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.data[3]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: ad88791276658fa47bb3d5dc2d5482e1, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: roundCoins.Array.data[4]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: db25f935b55649e4cbc85c6f01ea3cad, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.data[0]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 27647cf99b0d46e409da20c4becc8ce9, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.data[1]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 2fb01a6776ab1244eba842238050f010, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.data[2]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: af22e9f518efa47479608aa6c6eacfb2, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.data[3]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: f133bc553ee43b34fb9ee3086b331671, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: squareCoins.Array.data[4]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 146d8f5c877a28b4d82068dd428ed2cc, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.data[0]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: e027f8fd859bb214cb971c2832142f7e, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.data[1]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: c5f965c14a976a24b9d03daa17a84385, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.data[2]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: bfeae5589dc89744e9cf3d8d9eed5242, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.data[3]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: ca19e7b6a474ad74b8b8e9293fd50113, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: hexagonCoins.Array.data[4]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: c9f21d8400ac4c748b14098bc951c1dd, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.data[0]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 052e0a1e9723ecd49b6ec4920eeba3b5, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.data[1]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 75119100246f06e4cb01e0f082887fa1, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.data[2]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: e73d36602ac952940a2c8ad2be24e5ae, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.data[3]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: d51eb0e49afe6764eb0c7ebc7d5e07df, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: pentagonCoins.Array.data[4]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: abf43f124649f4243a09464d34fa10a0, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.data[0]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 530fbf9c90c3dae449ebbb5674165939, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.data[1]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 6a5630567d8269f40a85f856f9350de1, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.data[2]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 9f2bd736417cb954ea2f11f1f5f4393e, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.data[3]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 70d973aee07ba344994cbbecca116360, type: 3}
+    - target: {fileID: 6310776405635263029, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
+      propertyPath: triangleCoins.Array.data[4]
+      value: 
+      objectReference: {fileID: 3924281108881893311, guid: 59adc38e21160bd4189185f3ef55c9c4, type: 3}
     - target: {fileID: 7712664529619637413, guid: 31a6c18059692b84590183b5f6f849b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 31.59

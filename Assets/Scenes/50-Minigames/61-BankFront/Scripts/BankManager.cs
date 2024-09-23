@@ -35,14 +35,17 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private TextMeshProUGUI hintText;
     [SerializeField]private NumberDisplay numberDisplay;
     [SerializeField]private ErrorDisplay errorDisplay;
+    [SerializeField]private List<GameObject>triangleCoins;
+    [SerializeField]private List<GameObject>squareCoins;
+    [SerializeField]private List<GameObject>roundCoins;
+    [SerializeField]private List<GameObject>pentagonCoins;
+    [SerializeField]private List<GameObject>hexagonCoins;
     public GameObject validCoinsField;
     [SerializeField]private GameObject validCoinsContainer;
     public GameObject unifiedField;
     [SerializeField]private Image unifiedFieldBackground;
 
     public IBankFrontGamemode gamemode;
-
-    private int playerGuess = -1;
 
     private int completedGames = 0;
     private float mistakes = 0;
@@ -178,6 +181,34 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     /// <returns>Returns the validCoins list and the fakeCoins list</returns>
     public (List<GameObject>, List<GameObject>) GetCoins()
     {
+        validCoins.Clear();
+        fakeCoins.Clear();
+        List<List<GameObject>> coinTypes = new List<List<GameObject>>()
+        {
+            triangleCoins,
+            squareCoins,
+            roundCoins,
+            pentagonCoins,
+            hexagonCoins
+        };
+        for (int i = 0; i < triangleCoins.Count; i++)
+        {
+            int coinList = Random.Range(0, coinTypes.Count);
+            GameObject validCoin = coinTypes[coinList][i];
+            validCoin.GetComponent<Coin>().validCoin = true;
+            foreach(GameObject coin in coinTypes[coinList])
+            {
+                if(coin == validCoin)
+                {
+                    validCoins.Add(coin);
+                }
+                else
+                {
+                    fakeCoins.Add(coin);
+                }
+            }
+            coinTypes.RemoveAt(coinList);
+        }
         for(int i = 0; i < validCoins.Count; i++)
         {
             GameObject validCoin = Instantiate(validCoins[i]);
