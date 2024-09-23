@@ -2266,8 +2266,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1466559731}
-        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
-        m_MethodName: SwitchToMainWorld
+        m_TargetAssemblyTypeName: Scenes.SwitchScenes, Assembly-CSharp
+        m_MethodName: SwitchToMultiplayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2282,7 +2282,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!65 &660345172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3741,7 +3741,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!4 &904008593
 Transform:
   m_ObjectHideFlags: 0
