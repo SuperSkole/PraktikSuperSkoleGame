@@ -9,12 +9,6 @@ public class AlarmScript : MonoBehaviour
     [SerializeField]private AudioClip policeSiren;
     private Quaternion startRotation;
     bool rotate = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
