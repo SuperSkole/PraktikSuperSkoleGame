@@ -57,7 +57,8 @@ namespace LoadSave
                 dto.clothTop,
                 dto.listOfCars,
                 dto.LifetimeTotalWords,
-                dto.LifetimeTotalLetters);
+                dto.LifetimeTotalLetters
+            );
 
             playerData.CollectedWords = dto.CollectedWords;
             playerData.CollectedLetters = dto.CollectedLetters;
