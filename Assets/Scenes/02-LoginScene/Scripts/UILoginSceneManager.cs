@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using CORE;
 using TMPro;
 using UI.Scripts;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -226,6 +227,8 @@ namespace Scenes._02_LoginScene.Scripts
                     await authService.SignInAsync();
                     Debug.Log("Login successful.");
                     GameManager.Instance.CurrentUser = string.IsNullOrEmpty(username) ? "TEST" : username;
+                    await AuthenticationService.Instance.UpdatePlayerNameAsync(
+                        GameManager.Instance.CurrentUser);
                     SceneManager.LoadScene(SceneNames.Start); 
                 }
                 catch (Exception ex)

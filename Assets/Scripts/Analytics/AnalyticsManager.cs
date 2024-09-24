@@ -29,7 +29,7 @@ namespace Analytics
         private void LogWordAdded(string word, DateTime time)
         {
             Debug.Log($"Word Added: {word} at {time}");
-            wordLog.Add((word, time)); // Store word and time in the list
+            wordLog.Add((word, time)); 
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Analytics
         private void LogLetterAdded(string letter, DateTime time)
         {
             Debug.Log($"Letter Added: {letter} at {time}");
-            letterLog.Add((letter, time)); // Store letter and time in the list
+            letterLog.Add((letter, time));
         }
 
         /// <summary>
