@@ -10,6 +10,8 @@ namespace Scenes
         public static void SwitchToWordFactoryLoadingScene() => SceneManager.LoadScene(SceneNames.FactoryLoading);
         public static void SwitchToArcadeAsteroidScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroid);
         public static void SwitchToArcadeAsteroidLoseScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroidLoseScreen);
+
+        public static void SwitchToPathOfDanger() => SceneManager.LoadScene(SceneNames.PathOfDanger);
         public static void SwitchToWordFactory() => SceneManager.LoadScene(SceneNames.Factory);
         // TODO : Change this when we have a racing scene
         public static void SwitchToRacingScene() => SceneManager.LoadScene(SceneNames.House);    
