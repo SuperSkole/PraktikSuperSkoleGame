@@ -115,6 +115,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
 
                 playerData.CollectedWords.Add(word);
+                playerData.LifetimeTotalWords++;
             }
             catch (Exception ex)
             {
@@ -127,6 +128,7 @@ namespace Scenes._10_PlayerScene.Scripts
             try
             {
                 playerData.CollectedLetters.Add(Letter);
+                playerData.LifetimeTotalLetters++;
             }
             catch (Exception ex)
             {
