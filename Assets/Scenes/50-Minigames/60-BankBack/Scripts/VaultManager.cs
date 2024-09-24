@@ -22,8 +22,23 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private Material correctMaterial;
     [SerializeField] private Material partialCorrectMaterial;
     [SerializeField] private Material incorrectMaterial;
+    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private TextMeshProUGUI lives;
+    [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private AlarmScript alarmScript;
+    [SerializeField] private TextMeshProUGUI codeText;
+    [SerializeField] private TextMeshProUGUI desiredInput;
+    private int desiredInputIndex;
+
+    private List<string> desiredInputNames = new List<string>()
+    {
+        "hundrederne", "tierne", "enerne"
+    };
+    private bool foundCode = false;
+    private float  mistakes;
 
     private int[] answer = new int[4];
+    private List<int> usedDesiredInputIndices = new List<int>();
     /// <summary>
     /// Currently just calls startgame
     /// </summary>
@@ -37,11 +52,17 @@ public class VaultManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        for(int i = 0; i < 4; i++)
+        gameOverText.text = "";
+        lives.text = "3/3 liv tilbage";
+        for(int i = 1; i < 4; i++)
         {
             answer[i] = Random.Range(1, 10);
             soundButtons[i].amount = answer[i];
         }
+        codeText.text = "Koden er " + answer[0] + answer[1] + answer[2] + answer[3];
+        desiredInputIndex = Random.Range(0, desiredInputNames.Count);
+        desiredInput.text = "Du skal indsætte " + desiredInputNames[desiredInputIndex];
+        usedDesiredInputIndices.Add(desiredInputIndex);
     }
 
     /// <summary>
@@ -49,37 +70,95 @@ public class VaultManager : MonoBehaviour
     /// </summary>
     public void ValidateGuess()
     {
-        bool correct = true;
-        bool partialCorrect = false;
-        //Runs through the gears and checks if there are correct and incorrect numbers
-        for(int i = 0; i < 4; i++)
+        if(!foundCode)
         {
-            if(correct && answer[i] != gearScripts[i].currentNumber)
+            //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
+            if(answer[desiredInputIndex + 1] == gearScripts[desiredInputIndex + 1].currentNumber)
             {
-                correct = false;
+                ChangeMaterial(correctMaterial);
+                if(usedDesiredInputIndices.Count == 3)
+                {
+                    Won();
+                    foundCode = true;
+                }
+                else
+                {
+                    StartCoroutine(ResetMaterial());
+                    desiredInputIndex = Random.Range(0, desiredInputNames.Count);
+                    while(usedDesiredInputIndices.Contains(desiredInputIndex))
+                    {
+                        desiredInputIndex = Random.Range(0, desiredInputNames.Count);
+                    }
+                    usedDesiredInputIndices.Add(desiredInputIndex);
+                    desiredInput.text = "Du skal indsætte " + desiredInputNames[desiredInputIndex];
+                }
             }
-            else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+            //Changes the color to red if none of the numbers were correct
+            else
             {
-                partialCorrect = true;
+                ChangeMaterial(incorrectMaterial);
+                mistakes++;
+                alarmScript.DetermineAlarm(mistakes);
+                UpdateLivesDisplay();
             }
-        }
-        //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
-        if(correct)
-        {
-            ChangeMaterial(correctMaterial);
-            StartCoroutine(WaitBeforeEnd());
-        }
-        //Changes the color to yellow if one or more numbers were correct
-        else if(partialCorrect)
-        {
-            ChangeMaterial(partialCorrectMaterial);
-        }
-        //Changes the color to red if none of the numbers were correct
-        else
-        {
-            ChangeMaterial(incorrectMaterial);
+            if(mistakes >= 3)
+            {
+                Lost();
+            }
         }
     }
+
+    /// <summary>
+    /// Old Validate Guess. Saved as comment in case the original gamemode gets reimplemented
+    /// Checks if the numbers are all correct, some of them are correct or if none of them are correct. It then colors the teeth of the gears accordingly 
+    /// </summary>
+    /*public void ValidateGuessOld()
+    {
+        if(!foundCode)
+        {
+            bool correct = true;
+            bool partialCorrect = false;
+            //Runs through the gears and checks if there are correct and incorrect numbers
+            for(int i = 0; i < 4; i++)
+            {
+                if(correct && answer[i] != gearScripts[i].currentNumber)
+                {
+                    correct = false;
+                }
+                else if(!partialCorrect && answer[i] == gearScripts[i].currentNumber)
+                {
+                    partialCorrect = true;
+                }
+            }
+            //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
+            if(correct)
+            {
+                foundCode = true;
+                ChangeMaterial(correctMaterial);
+                Won();
+            }
+            //Changes the color to yellow if one or more numbers were correct
+            else if(partialCorrect)
+            {
+                ChangeMaterial(partialCorrectMaterial);
+                mistakes += 0.5f;
+                alarmScript.DetermineAlarm(mistakes);
+                UpdateLivesDisplay();
+            }
+            //Changes the color to red if none of the numbers were correct
+            else
+            {
+                ChangeMaterial(incorrectMaterial);
+                mistakes++;
+                alarmScript.DetermineAlarm(mistakes);
+                UpdateLivesDisplay();
+            }
+            if(mistakes >= 3)
+            {
+                Lost();
+            }
+        }
+    }*/
 
     /// <summary>
     /// runs through the gears and calls their changematerial method
@@ -94,15 +173,62 @@ public class VaultManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Gives the player xp and gold, waits a bit and then returns to main world
+    /// Gives the player xp and gold, Sets the gameover text and then starts a coroutine with WaitEeforeEnd
     /// </summary>
-    /// <returns></returns>
-    private IEnumerator WaitBeforeEnd()
+    private void Won()
     {
         Instantiate(coinPrefab);
         PlayerEvents.RaiseXPChanged(1);
         PlayerEvents.RaiseGoldChanged(1);
-        yield return new WaitForSeconds(2);
+        gameOverText.text = "Du vandt. Du fandt koden til bankboksen";
+        StartCoroutine(WaitBeforeEnd());
+    }
+
+    /// <summary>
+    /// Sets the gameover text and then starts a coroutine with WaitBeforeEnd
+    /// </summary>
+    private void Lost()
+    {
+        gameOverText.text = "Du tabte du gættede forkert for mange gange";
+        StartCoroutine(WaitBeforeEnd());
+    }
+
+    /// <summary>
+    /// Waits a bit before returning to mainworld
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitBeforeEnd()
+    {
+        
+        yield return new WaitForSeconds(5);
         SwitchScenes.SwitchToMainWorld();
+    }
+
+    /// <summary>
+    /// Updates the display of the players remaining lives
+    /// </summary>
+    private void UpdateLivesDisplay()
+    {
+        if(mistakes <= 3)
+        {
+            lives.text = 3 - mistakes + "/3 liv tilbage";
+        }
+        else
+        {
+            lives.text = "0/3 liv tilbage";
+        }
+    }
+
+    /// <summary>
+    /// Resets the material of the gears after 2 seconds to the default material
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ResetMaterial()
+    {
+        yield return new WaitForSeconds(2);
+        foreach(GearScript gearScript in gearScripts)
+        {
+            gearScript.ChangeMaterial(defaultMaterial);
+        }
     }
 }
