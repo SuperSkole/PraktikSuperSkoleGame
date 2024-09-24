@@ -1,56 +1,59 @@
 using System.Collections;
 using UnityEngine;
 
-public class CreateProductionLineBoxes : MonoBehaviour
+namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
-
-    [SerializeField]
-    private GameObject botSpawnPoint;
-
-    public bool isOn = true;
-
-    [SerializeField]
-    private ProductionLineObjectPool objectBoxPool;
-
-    
-
-
-    private void Start()
+    public class CreateProductionLineBoxes : MonoBehaviour
     {
-        StartCoroutine(WaitForFourSeconds());
-    }
+
+        [SerializeField]
+        private GameObject botSpawnPoint;
+
+        public bool isOn = true;
+
+        [SerializeField]
+        private ProductionLineObjectPool objectBoxPool;
 
 
-    /// <summary>
-    /// creates letterboxes.
-    /// </summary>
-    private void CreateProductionLineLetterBox()
-    {
-        
-        GameObject letterBox = objectBoxPool.GetPooledObject();
 
-        if (letterBox != null)
+
+        private void Start()
         {
-            letterBox.transform.position = botSpawnPoint.transform.position;
-            letterBox.SetActive(true);
+            StartCoroutine(WaitForFourSeconds());
         }
-    }
 
-    /// <summary>
-    /// waits 4 seconds...
-    /// </summary>
-    IEnumerator WaitForFourSeconds()
-    {
-        while (true)
+
+        /// <summary>
+        /// creates letterboxes.
+        /// </summary>
+        private void CreateProductionLineLetterBox()
         {
 
+            GameObject letterBox = objectBoxPool.GetPooledObject();
 
-            // Wait for 4 seconds
-            yield return new WaitForSeconds(4);
-
-            if (isOn)
+            if (letterBox != null)
             {
-                CreateProductionLineLetterBox();
+                letterBox.transform.position = botSpawnPoint.transform.position;
+                letterBox.SetActive(true);
+            }
+        }
+
+        /// <summary>
+        /// waits 4 seconds...
+        /// </summary>
+        IEnumerator WaitForFourSeconds()
+        {
+            while (true)
+            {
+
+
+                // Wait for 4 seconds
+                yield return new WaitForSeconds(4);
+
+                if (isOn)
+                {
+                    CreateProductionLineLetterBox();
+                }
             }
         }
     }

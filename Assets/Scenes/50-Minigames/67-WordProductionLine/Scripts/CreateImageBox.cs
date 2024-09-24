@@ -1,55 +1,58 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateImageBox : MonoBehaviour
+namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
-    [SerializeField]
-    private GameObject topSpawnPoint;
 
-    public bool isOn = true;
-
-    [SerializeField]
-    private ProductionLineObjectPool objectBoxPool;
-
-
-
-
-    private void Start()
+    public class CreateImageBox : MonoBehaviour
     {
-        StartCoroutine(WaitForFourSeconds());
-    }
+        [SerializeField]
+        private GameObject topSpawnPoint;
 
-    /// <summary>
-    /// Creates ImageBoxes
-    /// </summary>
-    private void CreateProductionLineImageBox()
-    {
+        public bool isOn = true;
 
-        GameObject imageBox = objectBoxPool.GetPooledObject();
+        [SerializeField]
+        private ProductionLineObjectPool objectBoxPool;
 
-        if (imageBox != null)
+
+
+
+        private void Start()
         {
-            imageBox.transform.position = topSpawnPoint.transform.position;
-            imageBox.SetActive(true);
+            StartCoroutine(WaitForFourSeconds());
         }
-    }
 
-    /// <summary>
-    /// waits 4 seconds...
-    /// </summary>
-    IEnumerator WaitForFourSeconds()
-    {
-        while (true)
+        /// <summary>
+        /// Creates ImageBoxes
+        /// </summary>
+        private void CreateProductionLineImageBox()
         {
 
+            GameObject imageBox = objectBoxPool.GetPooledObject();
 
-            // Wait for 4 seconds
-            yield return new WaitForSeconds(4);
-
-            if (isOn)
+            if (imageBox != null)
             {
-                CreateProductionLineImageBox();
+                imageBox.transform.position = topSpawnPoint.transform.position;
+                imageBox.SetActive(true);
+            }
+        }
+
+        /// <summary>
+        /// waits 4 seconds...
+        /// </summary>
+        IEnumerator WaitForFourSeconds()
+        {
+            while (true)
+            {
+
+
+                // Wait for 4 seconds
+                yield return new WaitForSeconds(4);
+
+                if (isOn)
+                {
+                    CreateProductionLineImageBox();
+                }
             }
         }
     }

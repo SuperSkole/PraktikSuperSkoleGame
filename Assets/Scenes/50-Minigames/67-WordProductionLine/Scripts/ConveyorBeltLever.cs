@@ -2,94 +2,99 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConveyorBeltLever : MonoBehaviour
+
+namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
 
-
-    [SerializeField] private GameObject stopBeltLever;
-
-    [SerializeField]
-    private CreateProductionLineBoxes createProductionLineBoxes;
-
-    [SerializeField]
-    private CreateImageBox createImageBox;
-
-    [SerializeField]
-    private int leverId;
-
-    private ProductionLine[] productionLine;
-
-    public float rotationAngle = 45f;
-    private bool isRotated = false;
-
-
-    private void Start()
+    public class ConveyorBeltLever : MonoBehaviour
     {
-        productionLine = FindObjectsOfType<ProductionLine>();
-    }
 
-    /// <summary>
-    /// If the mouse is over can interact with object.
-    /// </summary>
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonDown(0) && leverId == 1)
+
+        [SerializeField] private GameObject stopBeltLever;
+
+        [SerializeField]
+        private CreateProductionLineBoxes createProductionLineBoxes;
+
+        [SerializeField]
+        private CreateImageBox createImageBox;
+
+        [SerializeField]
+        private int leverId;
+
+        private ProductionLine[] productionLine;
+
+        public float rotationAngle = 45f;
+        private bool isRotated = false;
+
+
+        private void Start()
         {
-            foreach (var item in productionLine)
-            {
-                if (item.converyerBeltId == 1)
-                {
-                    item.conveyerBeltOn = !item.conveyerBeltOn;
-                }
-                
-            }
-            createImageBox.isOn = !createImageBox.isOn;
-
-
-            RotateLever();
+            productionLine = FindObjectsOfType<ProductionLine>();
         }
 
-        if (Input.GetMouseButtonDown(0) && leverId == 2)
+        /// <summary>
+        /// If the mouse is over can interact with object.
+        /// </summary>
+        private void OnMouseOver()
         {
-            foreach (var item in productionLine)
+            if (Input.GetMouseButtonDown(0) && leverId == 1)
             {
-                if (item.converyerBeltId == 2)
+                foreach (var item in productionLine)
                 {
-                    item.conveyerBeltOn = !item.conveyerBeltOn;
+                    if (item.converyerBeltId == 1)
+                    {
+                        item.conveyerBeltOn = !item.conveyerBeltOn;
+                    }
+
+                }
+                createImageBox.isOn = !createImageBox.isOn;
+
+
+                RotateLever();
+            }
+
+            if (Input.GetMouseButtonDown(0) && leverId == 2)
+            {
+                foreach (var item in productionLine)
+                {
+                    if (item.converyerBeltId == 2)
+                    {
+                        item.conveyerBeltOn = !item.conveyerBeltOn;
+                    }
+
+                }
+                createProductionLineBoxes.isOn = !createProductionLineBoxes.isOn;
+
+                RotateLever();
+            }
+        }
+
+        /// <summary>
+        /// Rotates the lever on the z angle depending on whether its on or off.
+        /// </summary>
+        private void RotateLever()
+        {
+            if (stopBeltLever != null)
+            {
+                // Rotate the lever based on its current state
+                if (isRotated)
+                {
+                    // Rotate back to the original position (reset)
+                    stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, 135);
+                }
+                else
+                {
+                    // Rotate to the desired angle on the Z-axis
+                    stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, rotationAngle);
                 }
 
-            }
-            createProductionLineBoxes.isOn = !createProductionLineBoxes.isOn;
-
-            RotateLever();
-        }
-    }
-
-    /// <summary>
-    /// Rotates the lever on the z angle depending on whether its on or off.
-    /// </summary>
-    private void RotateLever()
-    {
-        if (stopBeltLever != null)
-        {
-            // Rotate the lever based on its current state
-            if (isRotated)
-            {
-                // Rotate back to the original position (reset)
-                stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, 135);
+                // Toggle the rotation state
+                isRotated = !isRotated;
             }
             else
             {
-                // Rotate to the desired angle on the Z-axis
-                stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, rotationAngle);
+                Debug.LogError("Lever GameObject is not assigned!");
             }
-
-            // Toggle the rotation state
-            isRotated = !isRotated;
-        }
-        else
-        {
-            Debug.LogError("Lever GameObject is not assigned!");
         }
     }
 }

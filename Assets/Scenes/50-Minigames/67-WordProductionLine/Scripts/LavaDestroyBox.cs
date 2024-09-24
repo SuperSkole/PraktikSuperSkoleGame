@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LavaDestroyBox : MonoBehaviour
-{
-    [SerializeField]
-    private ProductionLineObjectPool objectPool;
 
-    /// <summary>
-    /// Lava pool that deactivate boxes when the collide with the lava.
-    /// </summary>
-    /// <param name="other"></param>
-    private void OnCollisionEnter(Collision other)
+namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
+{
+
+    public class LavaDestroyBox : MonoBehaviour
     {
-        if (other.gameObject.tag == "ProductionCube")
+        [SerializeField]
+        private ProductionLineObjectPool objectPool;
+
+        /// <summary>
+        /// Lava pool that deactivate boxes when the collide with the lava.
+        /// </summary>
+        /// <param name="other"></param>
+        private void OnCollisionEnter(Collision other)
         {
-            objectPool.ResetCube(other.gameObject);
+            if (other.gameObject.tag == "ProductionCube")
+            {
+                objectPool.ResetCube(other.gameObject);
+            }
         }
     }
 }
