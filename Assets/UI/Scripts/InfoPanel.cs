@@ -43,8 +43,6 @@ public class InfoPanel : MonoBehaviour
             StopCoroutine(resetCoroutine);
         }
 
-        resetCoroutine = StartCoroutine(ResetTimer());
-
         canvasCenter = GetCanvasCenter();
         contentText.text = info;
 
@@ -54,18 +52,7 @@ public class InfoPanel : MonoBehaviour
         infoPanelRect.sizeDelta = newSize;
     }
 
-    private IEnumerator ResetTimer()
-    {
-        gameObject.SetActive(false);
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < 1f)
-        {
-            if()
-            { }
-        }
-    }
+    
     private void Update()
     {
         // Set the panel position to the mouse position
