@@ -98,10 +98,6 @@ public class InfoPanel : MonoBehaviour
             lastFlipped = flipped;
             lastFlopped = flopped;
 
-            Vector3 oldPosition = contentText.rectTransform.position;
-
-            Vector2 newPivot = contentText.rectTransform.pivot;
-
             //Right
             if (flipped)
             {
@@ -113,7 +109,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.x = -Mathf.Abs(scaleText.x);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.x = 1f;
             }
 
             //Left
@@ -127,7 +122,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.x = Mathf.Abs(scaleText.x);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.x = 0f;
             }
 
             //Bottom
@@ -141,7 +135,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.y = -Mathf.Abs(scaleText.y);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.y = 0f;
             }
             //Top
             if (!flopped)
@@ -154,28 +147,14 @@ public class InfoPanel : MonoBehaviour
                 scaleText.y = Mathf.Abs(scaleText.y);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.y = 1f;
             }
 
-            contentText.rectTransform.pivot = newPivot;
-            AlignToPivot(contentText.rectTransform, pivot, oldPosition);
+            contentText.rectTransform.position = infoPanelRect.position;
 
-            float panelHeight = infoPanelRect.rect.height;
-            float panelWidth = infoPanelRect.rect.width;
-
-            contentText.margin = new Vector4(
-                panelWidth * 0.05f + marginOffsets.x,
-                panelHeight * 0.05f + marginOffsets.y,
-                panelWidth * 0.05f + marginOffsets.z,
-                panelHeight * 0.05f + marginOffsets.w);
+           
         }
 
     }
-    private void AlignToPivot(RectTransform content, RectTransform targetPivot, Vector3 oldPosition)
-    {
-        Vector3 pivotDelta = content.position - oldPosition;
-
-        content.position = targetPivot.position - pivotDelta;
-    }
+ 
 
 }
