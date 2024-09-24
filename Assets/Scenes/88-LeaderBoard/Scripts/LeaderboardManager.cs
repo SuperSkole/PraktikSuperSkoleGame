@@ -19,7 +19,7 @@ namespace Scenes._88_LeaderBoard.Scripts
         [SerializeField] private TextMeshProUGUI mostLettersText;
         [SerializeField] private Image exitImageButton;
         
-        private const int TOPX_ENTRIES = 3;
+        private const int TOPX_ENTRIES = 10;
         private const string LEADERBOARD_ID_WORDS = "Most_Words_Leaderboard";
         private const string LEADERBOARD_ID_LETTERS = "Most_Letters_Leaderboard";
 
