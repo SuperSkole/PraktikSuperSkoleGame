@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ProductionLine : MonoBehaviour
 {
+
+    public int converyerBeltId;
     public float speed;
     Rigidbody rBody;
 

@@ -12,27 +12,14 @@ public class ProductionLineObjectPool : MonoBehaviour
     private int amountToPool = 10;
 
     [SerializeField]
-    private GameObject letterBoxPrefab;
-
-    [SerializeField]
-    private GameObject imageBoxPrefab;
-
-    public static ProductionLineObjectPool instance;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
+    private GameObject BoxPrefab;
 
     // tells the list what kinda objects we want to pool. 
     void Start()
     {
         for (int i = 0; i < amountToPool; i++)
         {
-            GameObject obj = Instantiate(letterBoxPrefab);
+            GameObject obj = Instantiate(BoxPrefab, transform);
             obj.SetActive(false);
             pooledObjects.Add(obj); 
         }
@@ -50,8 +37,28 @@ public class ProductionLineObjectPool : MonoBehaviour
             }
         }
 
-        return null;
+        GameObject obj = Instantiate(BoxPrefab, transform);
+        obj.SetActive(false);
+        pooledObjects.Add(obj);
+        return obj;
     }
 
-    
+    /// <summary>
+    /// resets the Cube, so the momentum dosnt stay.
+    /// </summary>
+    /// <param name="cube"></param>
+    public void ResetCube(GameObject cube)
+    {
+        cube.SetActive(false);
+        Rigidbody rb = cube.GetComponent<Rigidbody>();
+
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+
+        rb.rotation = Quaternion.Euler(0, 0 ,0);
+       
+    }
+
+
 }

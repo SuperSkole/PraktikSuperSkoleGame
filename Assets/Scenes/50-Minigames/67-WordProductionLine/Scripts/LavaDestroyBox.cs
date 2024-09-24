@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LavaDestroyBox : MonoBehaviour
 {
+    [SerializeField]
+    private ProductionLineObjectPool objectPool;
+
     /// <summary>
     /// Lava pool that deactivate boxes when the collide with the lava.
     /// </summary>
@@ -12,7 +15,7 @@ public class LavaDestroyBox : MonoBehaviour
     {
         if (other.gameObject.tag == "ProductionCube")
         {
-            other.gameObject.SetActive(false);
+            objectPool.ResetCube(other.gameObject);
         }
     }
 }

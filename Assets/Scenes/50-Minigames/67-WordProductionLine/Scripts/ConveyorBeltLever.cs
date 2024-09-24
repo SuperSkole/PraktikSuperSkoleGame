@@ -9,7 +9,13 @@ public class ConveyorBeltLever : MonoBehaviour
     [SerializeField] private GameObject stopBeltLever;
 
     [SerializeField]
-    private CreateProductionLineBoxes createProductionLineBoxes;    
+    private CreateProductionLineBoxes createProductionLineBoxes;
+
+    [SerializeField]
+    private CreateImageBox createImageBox;
+
+    [SerializeField]
+    private int leverId;
 
     private ProductionLine[] productionLine;
 
@@ -27,13 +33,32 @@ public class ConveyorBeltLever : MonoBehaviour
     /// </summary>
     private void OnMouseOver()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && leverId == 1)
         {
             foreach (var item in productionLine)
             {
-                item.conveyerBeltOn = !item.conveyerBeltOn;
+                if (item.converyerBeltId == 1)
+                {
+                    item.conveyerBeltOn = !item.conveyerBeltOn;
+                }
+                
             }
+            createImageBox.isOn = !createImageBox.isOn;
 
+
+            RotateLever();
+        }
+
+        if (Input.GetMouseButtonDown(0) && leverId == 2)
+        {
+            foreach (var item in productionLine)
+            {
+                if (item.converyerBeltId == 2)
+                {
+                    item.conveyerBeltOn = !item.conveyerBeltOn;
+                }
+
+            }
             createProductionLineBoxes.isOn = !createProductionLineBoxes.isOn;
 
             RotateLever();

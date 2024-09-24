@@ -1,18 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateProductionLineBoxes : MonoBehaviour
+public class CreateImageBox : MonoBehaviour
 {
-
     [SerializeField]
-    private GameObject botSpawnPoint;
+    private GameObject topSpawnPoint;
 
     public bool isOn = true;
 
     [SerializeField]
     private ProductionLineObjectPool objectBoxPool;
 
-    
+
 
 
     private void Start()
@@ -20,19 +20,18 @@ public class CreateProductionLineBoxes : MonoBehaviour
         StartCoroutine(WaitForFourSeconds());
     }
 
-
     /// <summary>
-    /// creates letterboxes.
+    /// Creates ImageBoxes
     /// </summary>
-    private void CreateProductionLineLetterBox()
+    private void CreateProductionLineImageBox()
     {
-        
-        GameObject letterBox = objectBoxPool.GetPooledObject();
 
-        if (letterBox != null)
+        GameObject imageBox = objectBoxPool.GetPooledObject();
+
+        if (imageBox != null)
         {
-            letterBox.transform.position = botSpawnPoint.transform.position;
-            letterBox.SetActive(true);
+            imageBox.transform.position = topSpawnPoint.transform.position;
+            imageBox.SetActive(true);
         }
     }
 
@@ -50,7 +49,7 @@ public class CreateProductionLineBoxes : MonoBehaviour
 
             if (isOn)
             {
-                CreateProductionLineLetterBox();
+                CreateProductionLineImageBox();
             }
         }
     }
