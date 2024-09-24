@@ -30,7 +30,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private ISkeletonComponent skeleton;
 
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
-       
+
+        private ILeaderboardSubmissionService leaderboardSubmissionService;
         
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
@@ -103,6 +104,44 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             
             GameManager.Instance.PlayerManager = this;
+            leaderboardSubmissionService = new LeaderboardSubmissionService();
+        }
+        
+        private void OnEnable()
+        {
+            PlayerEvents.OnAddWord += OnAddWordHandler;
+            PlayerEvents.OnAddLetter += OnAddLetterHandler;
+        }
+
+        private void OnDisable()
+        {
+            PlayerEvents.OnAddWord -= OnAddWordHandler;
+            PlayerEvents.OnAddLetter -= OnAddLetterHandler;
+        }
+
+        private void OnAddWordHandler(string word)
+        {
+            SubmitWordCountToLeaderboard();
+        }
+
+        private void OnAddLetterHandler(char letter)
+        {
+            SubmitLetterCountToLeaderboard();
+        }
+
+        
+        public async void SubmitWordCountToLeaderboard()
+        {
+            await leaderboardSubmissionService.EnsureSignedIn();
+            int totalWords = PlayerData.CollectedWords.Count;
+            await leaderboardSubmissionService.SubmitMostWords(totalWords, PlayerData.MonsterName);
+        }
+        
+        public async void SubmitLetterCountToLeaderboard()
+        {
+            await leaderboardSubmissionService.EnsureSignedIn();
+            int totalLetters = PlayerData.CollectedLetters.Count;
+            await leaderboardSubmissionService.SubmitMostLetters(totalLetters, PlayerData.MonsterName);
         }
         
         /// <summary>

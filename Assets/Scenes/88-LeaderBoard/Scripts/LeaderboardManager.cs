@@ -13,7 +13,7 @@ using UnityEngine.UI;
 
 namespace Scenes._88_LeaderBoard.Scripts
 {
-    public class LeaderboardManager : MonoBehaviour, ILeaderboardService
+    public class LeaderboardManager : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI mostWordsText;
         [SerializeField] private TextMeshProUGUI mostLettersText;
@@ -22,11 +22,6 @@ namespace Scenes._88_LeaderBoard.Scripts
         private const int TOPX_ENTRIES = 3;
         private const string LEADERBOARD_ID_WORDS = "Most_Words_Leaderboard";
         private const string LEADERBOARD_ID_LETTERS = "Most_Letters_Leaderboard";
-
-        // Player Manager Singleton
-        private static LeaderboardManager _instance;
-
-        public static LeaderboardManager Instance => _instance;
 
         private async void Start()
         {
@@ -48,17 +43,11 @@ namespace Scenes._88_LeaderBoard.Scripts
         
         private void OnEnable()
         {
-            PlayerEvents.OnAddWord += OnAddWordHandler;
-            PlayerEvents.OnAddLetter += OnAddLetterHandler;
-      
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         private void OnDisable()
         {
-            PlayerEvents.OnAddWord -= OnAddWordHandler;
-            PlayerEvents.OnAddLetter -= OnAddLetterHandler;
-        
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
         
@@ -83,18 +72,6 @@ namespace Scenes._88_LeaderBoard.Scripts
                 await Task.Delay(500);
                 await DisplayLeaderboards();
             }
-        }
-        
-        private async void OnAddWordHandler(string word)
-        {
-            int totalWords = PlayerManager.Instance.PlayerData.CollectedWords.Count;
-            await SubmitMostWords(totalWords);
-        }
-        
-        private async void OnAddLetterHandler(char letter)
-        {
-            int totalLetters = PlayerManager.Instance.PlayerData.CollectedLetters.Count;
-            await SubmitMostLetters(totalLetters);
         }
 
         private async Task DisplayLeaderboards()
@@ -190,56 +167,56 @@ namespace Scenes._88_LeaderBoard.Scripts
                     });
         }
         
-        public async Task SubmitMostWords(int wordCount)
-        {
-            try
-            {
-                var playerEntry
-                    = await LeaderboardsService.Instance.AddPlayerScoreAsync(
-                        LEADERBOARD_ID_WORDS,
-                        wordCount,
-                        new AddPlayerScoreOptions
-                        {
-                            Metadata = new Dictionary<string, string>()
-                            {
-                                {
-                                    "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
-                                }
-                            }
-                        });
-                
-                Debug.Log("Most Words submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error submitting Most Words: {e.Message}");
-            }
-        }
-
-        public async Task SubmitMostLetters(int letterCount)
-        {
-            try
-            {
-                var playerEntry
-                    = await LeaderboardsService.Instance.AddPlayerScoreAsync(
-                        LEADERBOARD_ID_LETTERS,
-                        letterCount,
-                        new AddPlayerScoreOptions
-                        {
-                            Metadata = new Dictionary<string, string>()
-                            {
-                                {
-                                    "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
-                                }
-                            }
-                        });
-                
-                Debug.Log("Most Letters submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Error submitting Most Letters: {e.Message}");
-            }
-        }
+        // public async Task SubmitMostWords(int wordCount)
+        // {
+        //     try
+        //     {
+        //         var playerEntry
+        //             = await LeaderboardsService.Instance.AddPlayerScoreAsync(
+        //                 LEADERBOARD_ID_WORDS,
+        //                 wordCount,
+        //                 new AddPlayerScoreOptions
+        //                 {
+        //                     Metadata = new Dictionary<string, string>()
+        //                     {
+        //                         {
+        //                             "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
+        //                         }
+        //                     }
+        //                 });
+        //         
+        //         Debug.Log("Most Words submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Debug.LogError($"Error submitting Most Words: {e.Message}");
+        //     }
+        // }
+        //
+        // public async Task SubmitMostLetters(int letterCount)
+        // {
+        //     try
+        //     {
+        //         var playerEntry
+        //             = await LeaderboardsService.Instance.AddPlayerScoreAsync(
+        //                 LEADERBOARD_ID_LETTERS,
+        //                 letterCount,
+        //                 new AddPlayerScoreOptions
+        //                 {
+        //                     Metadata = new Dictionary<string, string>()
+        //                     {
+        //                         {
+        //                             "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
+        //                         }
+        //                     }
+        //                 });
+        //         
+        //         Debug.Log("Most Letters submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Debug.LogError($"Error submitting Most Letters: {e.Message}");
+        //     }
+        // }
     }
 }
