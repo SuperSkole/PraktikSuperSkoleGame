@@ -73,8 +73,36 @@ MonoBehaviour:
       CarMaterial: {fileID: 2100000, guid: a53cfd3407a62f649b35d974bfc1703c, type: 2}
     - MaterialName: Blue
       CarMaterial: {fileID: 2100000, guid: d9e1a266f68cdd540b4d524d7324fb13, type: 2}
+  - CarName: Cap
+    materialInfo:
+    - MaterialName: Yellow
+      CarMaterial: {fileID: 2100000, guid: 2c37416999807f04191e622209151edb, type: 2}
+    - MaterialName: White
+      CarMaterial: {fileID: 2100000, guid: 0860a1b4c4f458a40a5d52eea6fa3156, type: 2}
+    - MaterialName: Red
+      CarMaterial: {fileID: 2100000, guid: 2e38faa697369f74cb4dac4e9b6ecccf, type: 2}
+    - MaterialName: Purple
+      CarMaterial: {fileID: 2100000, guid: cb2907f39624d5844a559e93a16ca702, type: 2}
+    - MaterialName: Pink
+      CarMaterial: {fileID: 2100000, guid: c8d15ce4e07243f48af3aeabbc299ff8, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: 56e5eccd4469d9b458b289fb8999e9e4, type: 2}
+  - CarName: Police
+    materialInfo:
+    - MaterialName: White
+      CarMaterial: {fileID: 2100000, guid: 07bdf3b1744382349a66cc9db90694a8, type: 2}
+    - MaterialName: Black
+      CarMaterial: {fileID: 2100000, guid: ae0cf56d8eb7f2643a6a9ad9fabca67a, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: 6a1872e7df091154f98728e6f7a3d386, type: 2}
+    - MaterialName: Orange
+      CarMaterial: {fileID: 2100000, guid: 4ddbe0c5b6b9b66408286b7372217ef8, type: 2}
   CarListGameObjects:
   - CarName: Mustang
     CarGameObject: {fileID: 2811824126819119337, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
   - CarName: Van
     CarGameObject: {fileID: 2811824126819119337, guid: e741d57a132a5e84dbd1c53853e13c72, type: 3}
+  - CarName: Police
+    CarGameObject: {fileID: 2811824126819119337, guid: a7e03953e260a2044b1e3bb262b8e317, type: 3}
+  - CarName: Cap
+    CarGameObject: {fileID: 2811824126819119337, guid: ac7473b9625d7784cbbd889925eca9ea, type: 3}
