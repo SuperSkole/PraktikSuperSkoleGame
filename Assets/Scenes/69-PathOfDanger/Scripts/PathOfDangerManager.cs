@@ -16,20 +16,20 @@ public class PathOfDangerManager : MonoBehaviour
         if (PlayerManager.Instance != null)
         {
             PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
-            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-            spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
-            spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
-            spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-            spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
-            spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
+            //spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+            //spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
+            //spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
+            //spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+            //spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
+            
            
-            PlayerMovement_POD playerMovement = PlayerManager.Instance.SpawnedPlayer.AddComponent<PlayerMovement_POD>();
-             
-            playerMovement.sceneCamera = Camera.main;
+            //PlayerMovement_POD playerMovement = PlayerManager.Instance.SpawnedPlayer.AddComponent<PlayerMovement_POD>();
 
-            virtualCamera.Follow = spawnedPlayer.transform;
-            virtualCamera.LookAt = spawnedPlayer.transform;
-           
+            //playerMovement.sceneCamera = Camera.main;
+
+            //virtualCamera.Follow = spawnedPlayer.transform;
+            //virtualCamera.LookAt = spawnedPlayer.transform;
+
 
             //spawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");
             //spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
