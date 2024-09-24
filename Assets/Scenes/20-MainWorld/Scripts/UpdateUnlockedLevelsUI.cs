@@ -41,11 +41,11 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         //Debug.Log("SymbolMinLevel:"+symbolEaterMinLevelRequired);
         //Debug.Log("LetterMinLevel:"+letterGardenMinLevelRequired);
         //Debug.Log("RacingMinLevel:"+racingMinLevelRequired);
-        //currentPlayerLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
-        //if (currentPlayerLevel != towerMinLevelRequired) towerLight.SetActive(false);
-        //if (currentPlayerLevel != symbolEaterMinLevelRequired) symbolEaterLight.SetActive(false);
-        //if (currentPlayerLevel != letterGardenMinLevelRequired) letterGardenLight.SetActive(false);
-        //if (currentPlayerLevel != racingMinLevelRequired) racingLight.SetActive(false);
+        currentPlayerLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
+        if (currentPlayerLevel != towerMinLevelRequired) towerLight.SetActive(false);
+        if (currentPlayerLevel != symbolEaterMinLevelRequired) symbolEaterLight.SetActive(false);
+        if (currentPlayerLevel != letterGardenMinLevelRequired) letterGardenLight.SetActive(false);
+        if (currentPlayerLevel != racingMinLevelRequired) racingLight.SetActive(false);
         arrow = PlayerManager.Instance.SpawnedPlayer.GetComponentInChildren<ArrowPoint>(true);
     }
 
