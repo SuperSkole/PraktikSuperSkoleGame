@@ -24,5 +24,7 @@ namespace LoadSave
         public string clothMid;
         public string clothTop;
         public List<CarInfo> listOfCars;
+        public int LifetimeTotalWords;
+        public int LifetimeTotalLetters;
     }
 }

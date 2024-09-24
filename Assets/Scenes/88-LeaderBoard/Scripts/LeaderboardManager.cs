@@ -19,7 +19,7 @@ namespace Scenes._88_LeaderBoard.Scripts
         [SerializeField] private TextMeshProUGUI mostLettersText;
         [SerializeField] private Image exitImageButton;
         
-        private const int TOPX_ENTRIES = 3;
+        private const int TOPX_ENTRIES = 10;
         private const string LEADERBOARD_ID_WORDS = "Most_Words_Leaderboard";
         private const string LEADERBOARD_ID_LETTERS = "Most_Letters_Leaderboard";
 
@@ -126,7 +126,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
                     
                     //Debug.Log(entry.Metadata);
-                    leaderboardContent += $"{entry.Rank}: {playerName} - {monsterName} - Score: {entry.Score}\n";
+                    leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Score: {entry.Score}\n";
                 }
 
                 // Check if the player is outside the top 5

@@ -36,7 +36,10 @@ namespace LoadSave
         public List<CarInfo> listOfCars = new List<CarInfo>()
         { new CarInfo("Van", "Gray", true, new List<MaterialInfo> { new MaterialInfo(true, "Gray") }) };
 
-
+        public int LifetimeTotalWords;
+        public int LifetimeTotalLetters;
+        
+        
         public string Username { get => username; set => username = value; }
         public string Savefile { get => savefile; set => savefile = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
@@ -80,7 +83,9 @@ namespace LoadSave
                                Vector3 position,
                                string midCloth,
                                string topCloth,
-                               List<CarInfo> listOfCars)
+                               List<CarInfo> listOfCars,
+                               int totalWords,
+                               int totalLetters)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -92,6 +97,8 @@ namespace LoadSave
             this.clothMid = midCloth;
             this.clothTop = topCloth;
             this.listOfCars = listOfCars;
+            this.LifetimeTotalWords = LifetimeTotalWords;
+            this.LifetimeTotalLetters = LifetimeTotalLetters;
         }
 
         public void SetLastInteractionPoint(Vector3 position)
@@ -111,7 +118,7 @@ namespace LoadSave
             return GameObject.FindGameObjectWithTag("Car").name;
         }
 
-        public void Initialize(string dtoUsername, string dtoMonsterName, string dtoMonsterColor, int dtoGoldAmount, int dtoXPAmount, int dtoPlayerLevel, Vector3 getVector3, string dtoClothMid, string dtoClothTop) { throw new System.NotImplementedException(); }
+       // public void Initialize(string dtoUsername, string dtoMonsterName, string dtoMonsterColor, int dtoGoldAmount, int dtoXPAmount, int dtoPlayerLevel, Vector3 getVector3, string dtoClothMid, string dtoClothTop) { throw new System.NotImplementedException(); }
     }
 }
 

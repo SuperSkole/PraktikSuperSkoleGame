@@ -133,14 +133,14 @@ namespace Scenes._10_PlayerScene.Scripts
         public async void SubmitWordCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
-            int totalWords = PlayerData.CollectedWords.Count;
+            int totalWords = PlayerData.LifetimeTotalWords;
             await leaderboardSubmissionService.SubmitMostWords(totalWords, PlayerData.MonsterName);
         }
         
         public async void SubmitLetterCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
-            int totalLetters = PlayerData.CollectedLetters.Count;
+            int totalLetters = PlayerData.LifetimeTotalLetters;
             await leaderboardSubmissionService.SubmitMostLetters(totalLetters, PlayerData.MonsterName);
         }
         
@@ -215,7 +215,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 spawnedPlayer.transform.position,
                 null,
                 null,
-                GameManager.Instance.PlayerData.listOfCars
+                GameManager.Instance.PlayerData.listOfCars,
+                0,
+                0
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -300,7 +302,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentPosition,
                 saveData.ClothMid,
                 saveData.ClothTop,
-                saveData.listOfCars
+                saveData.listOfCars,
+                saveData.LifetimeTotalWords,
+                saveData.LifetimeTotalLetters
             );
 
             // Call the ColorChange method to recolor the player
