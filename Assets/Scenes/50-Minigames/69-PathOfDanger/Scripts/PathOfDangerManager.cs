@@ -13,6 +13,7 @@ public class PathOfDangerManager : MonoBehaviour
 
     [SerializeField] LayerMask playerPlacementLayerMask;
 
+    public int playerLifePoints=3;
     void Start()
     {
         if (PlayerManager.Instance != null)
@@ -29,7 +30,8 @@ public class PathOfDangerManager : MonoBehaviour
             playerRigidBody.useGravity = true;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
             spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
-            
+
+         
 
            
             //PlayerMovement_POD playerMovement = PlayerManager.Instance.SpawnedPlayer.AddComponent<PlayerMovement_POD>();
@@ -51,6 +53,10 @@ public class PathOfDangerManager : MonoBehaviour
 
             Jump jumpComp=spawnedPlayer.AddComponent<Jump>();
             jumpComp.rigidbody = playerRigidBody;
+
+            OutOfBounce outOfBouncePComp= spawnedPlayer.AddComponent<OutOfBounce>();
+            outOfBouncePComp.startPosition = playerSpawnPoint.transform.position;
+            outOfBouncePComp.manager = this;
 
             ////  SetupPlayerMovementForMonsterTower();
         }
