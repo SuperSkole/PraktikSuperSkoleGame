@@ -31,7 +31,9 @@ namespace LoadSave
                 BoughtClothes = playerData.BoughtClothes,
                 listOfCars = playerData.listOfCars,
                 clothMid = playerData.ClothMid,
-                clothTop = playerData.ClothTop
+                clothTop = playerData.ClothTop,
+                LifetimeTotalWords = playerData.LifetimeTotalWords,
+                LifetimeTotalLetters = playerData.LifetimeTotalLetters,
             };
         }
 
