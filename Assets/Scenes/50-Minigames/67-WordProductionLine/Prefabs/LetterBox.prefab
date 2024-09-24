@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7162931000077125959}
   - component: {fileID: 407557618765913969}
   - component: {fileID: 7606473891146679027}
+  - component: {fileID: 509933548284230363}
   - component: {fileID: 4175401938384888296}
   m_Layer: 0
   m_Name: LetterBox
@@ -85,6 +86,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &509933548284230363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2356195372880207254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fb9ba7f64ea65499d8e15b546fc903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterBoxText: {fileID: 3031825459711045379}
+  letterText: {fileID: 4015030058653025606}
 --- !u!65 &4175401938384888296
 BoxCollider:
   m_ObjectHideFlags: 0

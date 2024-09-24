@@ -9,8 +9,14 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
     {
 
 
-        private List<GameObject> pooledObjects = new List<GameObject>();
-        private int amountToPool = 10;
+        public List<GameObject> pooledObjects = new List<GameObject>();
+
+        public int amountToPool = 10;
+
+        public int amountSpawned;
+
+        [SerializeField]
+        private ProductionLineManager productionManager;
 
         [SerializeField]
         private GameObject BoxPrefab;
@@ -34,10 +40,10 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             {
                 if (!pooledObjects[i].activeInHierarchy)
                 {
+                    amountSpawned++;
                     return pooledObjects[i];
                 }
             }
-
             GameObject obj = Instantiate(BoxPrefab, transform);
             obj.SetActive(false);
             pooledObjects.Add(obj);
@@ -50,6 +56,14 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         /// <param name="cube"></param>
         public void ResetCube(GameObject cube)
         {
+
+            LetterBox letterBox = cube.transform.GetChild(0).gameObject.GetComponent<LetterBox>();
+            if (letterBox != null)
+            {
+               productionManager.WasCorrect(letterBox.letterText.text); 
+            }
+            
+
             cube.SetActive(false);
             Rigidbody rb = cube.GetComponent<Rigidbody>();
 

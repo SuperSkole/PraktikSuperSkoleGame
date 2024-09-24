@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00bc981bc0d44a47994da680bcd39a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pooledObjects: []
+  amountToPool: 10
   BoxPrefab: {fileID: 6623479340320266743, guid: 95e671b640f7e894495140303a24cf0c, type: 3}
 --- !u!4 &114825695
 Transform:
@@ -538,6 +540,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1128747527}
     m_Modifications:
+    - target: {fileID: 1112705792513278399, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4299781513889357167, guid: 7c6b876728969994abd529eadb40c9be, type: 3}
     - target: {fileID: 5418863613350949036, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
       propertyPath: m_Name
       value: ConveyorBeltLever
@@ -1007,6 +1013,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6101605866571024525, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b20c7538fcd894d8a7c18e943303dc, type: 2}
     - target: {fileID: 6822966094076282064, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
       propertyPath: m_Name
       value: ProductionLine (4)
@@ -1015,6 +1025,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: ProductionLine
       objectReference: {fileID: 0}
+    - target: {fileID: 6857589296771153508, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b20c7538fcd894d8a7c18e943303dc, type: 2}
     - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
       propertyPath: converyerBeltId
       value: 1
@@ -1360,6 +1374,7 @@ GameObject:
   - component: {fileID: 1022190380}
   - component: {fileID: 1022190381}
   - component: {fileID: 1022190382}
+  - component: {fileID: 1022190383}
   m_Layer: 0
   m_Name: ProductionLineMaster
   m_TagString: Untagged
@@ -1401,6 +1416,7 @@ MonoBehaviour:
   botSpawnPoint: {fileID: 1940302197}
   isOn: 1
   objectBoxPool: {fileID: 114825694}
+  productionManager: {fileID: 1022190383}
 --- !u!114 &1022190382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1416,6 +1432,19 @@ MonoBehaviour:
   topSpawnPoint: {fileID: 1435126605}
   isOn: 1
   objectBoxPool: {fileID: 2142794411}
+--- !u!114 &1022190383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022190379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02795b25e6318ac4ba47eaf61ade364b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPool: {fileID: 114825694}
 --- !u!1 &1128747526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2111,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6101605866571024525, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b20c7538fcd894d8a7c18e943303dc, type: 2}
     - target: {fileID: 6822966094076282064, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
       propertyPath: m_Name
       value: MainProductionLine (1)
@@ -2090,6 +2123,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: ProductionLine
       objectReference: {fileID: 0}
+    - target: {fileID: 6857589296771153508, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 14b20c7538fcd894d8a7c18e943303dc, type: 2}
     - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
       propertyPath: converyerBeltId
       value: 1
@@ -2270,7 +2307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7258869011404300279, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.77
+      value: 5.46
       objectReference: {fileID: 0}
     - target: {fileID: 7258869011404300279, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2355,6 +2392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00bc981bc0d44a47994da680bcd39a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pooledObjects: []
+  amountToPool: 10
   BoxPrefab: {fileID: 5323300840861755305, guid: 3064d8a4ab92367459379fb9627fc74d, type: 3}
 --- !u!4 &2142794412
 Transform:

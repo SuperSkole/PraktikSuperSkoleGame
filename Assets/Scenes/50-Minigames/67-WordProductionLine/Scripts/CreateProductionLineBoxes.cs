@@ -1,3 +1,4 @@
+using CORE.Scripts;
 using System.Collections;
 using UnityEngine;
 
@@ -15,12 +16,17 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         private ProductionLineObjectPool objectBoxPool;
 
 
+        [SerializeField]
+        private ProductionLineManager productionManager;
+
 
 
         private void Start()
         {
             StartCoroutine(WaitForFourSeconds());
         }
+
+
 
 
         /// <summary>
@@ -33,6 +39,8 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
             if (letterBox != null)
             {
+                
+                letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetter());
                 letterBox.transform.position = botSpawnPoint.transform.position;
                 letterBox.SetActive(true);
             }
@@ -56,5 +64,14 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
                 }
             }
         }
+
+
+
+        private void AssignLetters()
+        {
+
+        }
+
+
     }
 }
