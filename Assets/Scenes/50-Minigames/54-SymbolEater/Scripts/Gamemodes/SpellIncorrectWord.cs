@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
         int completedWords = 0;
 
+        int vowelCount = 0;
+
         /// <summary>
         /// Activates a cube as either a vowel or a consonant
         /// </summary>
@@ -33,6 +36,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(correct)
             {
                 letterCube.Activate(gamerules.GetCorrectAnswer());
+                vowelCount++;
+            }
+            else if(vowelCount < 3)
+            {
+                letterCube.Activate(gamerules.GetCorrectAnswer());
+                vowelCount++;
             }
             else
             {
@@ -50,7 +59,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, false, gamerules, board.GetPlayer().transform.position);
             count = Random.Range(minWrongLetters, maxWrongLetters);
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, true, gamerules, board.GetPlayer().transform.position);
-            board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord");
+            board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal");
         }
 
         /// <summary>
@@ -64,13 +73,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(currentWord.Length == 0)
             {
                 currentWord = symbol;
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal. \n" + currentWord);
                 return true;
             }
             //Checks whether the letters form an incorrect word if it is the second letter to be added
             else if(currentWord.Length == 1)
             {
                 currentWord += symbol;
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal.");
                 return gamerules.IsCorrectSymbol(currentWord);
+                
             }
             //Backup in case the player walks over a lettercube before replacesymbol have been run a second time
             else 
@@ -98,11 +110,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(currentWord.Length == 2 && gamerules.IsCorrectSymbol(currentWord))
             {
                 completedWords++;
-                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord");
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal");
             }
             //Resets the word if it is two letters long
-            if(currentWord.Length == 2){
+            if(currentWord.Length == 2)
+            {
                 currentWord = "";
+            }
+            if(LetterManager.GetDanishVowels().Contains(symbol.GetLetter().ToUpper()[0]))
+            {
+                vowelCount --;
             }
             //Checks if the game should end or a new letter should be placed on the board
             if(!GameModeHelper.ReplaceOrVictory(symbol, lettercubes, activeLettercubes, false, ActivateCube, IsGameComplete))
@@ -121,7 +138,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                         multiplier = 4;
                         break;
                 }
-                board.Won("Du vandt. Du lavede 5 nye ord", 1 * multiplier, 1 * multiplier);
+                board.Won("Du vandt. Du fik lavet 5 nye ord", 1 * multiplier, 1 * multiplier);
             }
         }
 
