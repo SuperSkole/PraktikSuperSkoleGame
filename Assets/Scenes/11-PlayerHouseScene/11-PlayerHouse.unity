@@ -381,7 +381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &63499714
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2282,7 +2282,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!65 &660345172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2860,7 +2860,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3741,7 +3741,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!4 &904008593
 Transform:
   m_ObjectHideFlags: 0
@@ -6094,7 +6094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1559582518
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6223,7 +6223,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1577317846
 Transform:
   m_ObjectHideFlags: 0

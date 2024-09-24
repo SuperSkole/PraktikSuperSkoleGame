@@ -124,16 +124,19 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         foreach (CarInfo car in playerData.listOfCars)
         {
-            // Loop through each car's materials
-            foreach (MaterialInfo material in car.materialList)
+            if (car.IsActive)
             {
-                // Find the corresponding button for this material
-                foreach (CarColorShowCaseButtons button in colorButtons)
+                // Loop through each car's materials
+                foreach (MaterialInfo material in car.materialList)
                 {
-                    if (button.nameOfMaterial == material.nameOfMaterial)
+                    // Find the corresponding button for this material
+                    foreach (CarColorShowCaseButtons button in colorButtons)
                     {
-                        // Set the 'Bought' status of the button
-                        button.Bought = material.Bought;
+                        if (button.nameOfMaterial == material.nameOfMaterial)
+                        {
+                            // Set the 'Bought' status of the button
+                            button.Bought = material.Bought;
+                        }
                     }
                 }
             }
@@ -310,8 +313,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         if (carButtonInstance.Bought)
         {
-            //FindActiveCar();
-            //SaveActiveCar(FindIndexInCarMaList());
             SaveActiveCar();
         }
         else//This Buys the car
@@ -344,6 +345,16 @@ public class CarShowCaseRoomManager : MonoBehaviour
                         carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
                         "Yellow", true,
                         new List<MaterialInfo> { new MaterialInfo(true, "Yellow") });
+                        break;
+                    case "TopHatCar":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Black", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Black") });
+                        break;
+                    case "GoKart":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Blue", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Blue") });
                         break;
 
                 }
