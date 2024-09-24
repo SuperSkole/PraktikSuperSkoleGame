@@ -103,9 +103,6 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             
             GameManager.Instance.PlayerManager = this;
-            
-            // Initialize LeaderboardManager
-            LeaderboardManager.Initialize();
         }
         
         /// <summary>
