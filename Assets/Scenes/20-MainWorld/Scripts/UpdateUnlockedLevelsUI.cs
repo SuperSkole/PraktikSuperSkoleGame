@@ -9,10 +9,10 @@ using UnityEngine;
 public class UpdateUnlockedLevelsUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textMesh;
-    private MonsterTowerSetter towerSetter= new MonsterTowerSetter();
-    private SymbolEaterSetter symbolEaterSetter= new SymbolEaterSetter();
-    private LetterGardenSetter letterGardenSetter= new LetterGardenSetter();
-    private MiniRacingSetter racingSetter=new MiniRacingSetter();
+    private MonsterTowerSetter towerSetter = new MonsterTowerSetter();
+    private SymbolEaterSetter symbolEaterSetter = new SymbolEaterSetter();
+    private LetterGardenSetter letterGardenSetter = new LetterGardenSetter();
+    private MiniRacingSetter racingSetter =new MiniRacingSetter();
 
     
 
@@ -24,7 +24,7 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
     private bool firstItemFound;
 
     public int currentPlayerLevel;
-
+    private ArrowPoint arrow;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +38,7 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         //Debug.Log("SymbolMinLevel:"+symbolEaterMinLevelRequired);
         //Debug.Log("LetterMinLevel:"+letterGardenMinLevelRequired);
         //Debug.Log("RacingMinLevel:"+racingMinLevelRequired);
-
+        arrow = PlayerManager.Instance.SpawnedPlayer.GetComponentInChildren<ArrowPoint>(true);
     }
 
     // Update is called once per frame
@@ -47,25 +47,31 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         currentPlayerLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
         string level1Text="Du kan Spille:";
 
-        if(towerMinLevelRequired<=currentPlayerLevel)
+        if (symbolEaterMinLevelRequired <= currentPlayerLevel)
         {
-            level1Text += "\nMonsterTårnet";
+            level1Text += "\nGrovæder";
+            arrow.SetTarget(new(2.71f, 0.415f, -2.54f));
         }
 
         if (letterGardenMinLevelRequired <= currentPlayerLevel)
         {
             level1Text += "\nBogstavsHaven";
-        }
-
-        if (symbolEaterMinLevelRequired <= currentPlayerLevel)
-        {
-            level1Text += "\nGrovæder";
+            arrow.SetTarget(new(8.31f, 0.415f, 19.61f));
         }
 
         if (racingMinLevelRequired <= currentPlayerLevel)
         {
             level1Text += "\nRacerSpillet";
+            arrow.SetTarget(new(49.71f, 0.415f, -16.13f));
         }
+
+        if(towerMinLevelRequired<=currentPlayerLevel)
+        {
+            level1Text += "\nMonsterTårnet";
+            arrow.SetTarget(new(-13.226f, 0.415f, 85.681f));
+        }
+
+
 
         textMesh.text = level1Text;
                
