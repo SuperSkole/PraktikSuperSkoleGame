@@ -1,8 +1,5 @@
-using Import.LeanTween.Framework;
 using System.Collections;
-using System.Security.Cryptography;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +10,7 @@ public class InfoPanel : MonoBehaviour
 
     public RectTransform pivot; 
 
-    private Canvas canvas;
+    public Canvas canvas;
     private RectTransform canvasRectTransform;
     private Vector2 canvasCenter;
 
@@ -21,27 +18,23 @@ public class InfoPanel : MonoBehaviour
     private bool lastFlopped = false;
 
     private Vector2 padding = new Vector2(50f, 50f);
-    public Vector4 marginOffsets = new Vector4(10f, 10f, 10f, 10f);
 
     private Coroutine resetCoroutine;
 
-    private void Start()
-    {
-        canvas = FindAnyObjectByType<Canvas>();
 
-        if (canvas != null )
-        {
-            canvasRectTransform = canvas.GetComponent<RectTransform>();
-        }
-        setInfo("Tilbage");
-    }
-
-    private void setInfo(string info)
+    public void setInfo(string info)
     {
         if(resetCoroutine != null)
         {
             StopCoroutine(resetCoroutine);
         }
+
+        if (resetCoroutine == null)
+        {
+            resetCoroutine = StartCoroutine(CheckMouseIdle());
+        }
+
+        canvasRectTransform = canvas.GetComponent<RectTransform>();
 
         canvasCenter = GetCanvasCenter();
         contentText.text = info;
@@ -50,8 +43,53 @@ public class InfoPanel : MonoBehaviour
 
         Vector2 newSize = new Vector2(preferredSize.x + padding.x, preferredSize.y + padding.y);
         infoPanelRect.sizeDelta = newSize;
+
+        Debug.Log("This");
+
     }
 
+    public void StopInfo()
+    {
+        if (resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+            resetCoroutine = null;
+        }
+
+        infoPanelRect.gameObject.SetActive(false);
+    }
+
+    private IEnumerator CheckMouseIdle()
+    {
+        Vector3 lastMousePosition = Input.mousePosition;
+        float timer = 0f;
+
+        while (true)
+        {
+            if (Input.mousePosition != lastMousePosition)
+            { 
+               lastMousePosition = Input.mousePosition;
+                timer = 0f;
+                infoPanelRect.gameObject.SetActive(false);
+                Debug.Log("mouse moved");
+            
+            }
+            else
+            {
+                Debug.Log("mouse not moving");
+                timer += Time.deltaTime;
+
+                if (timer > 1f)
+                {
+                    Debug.Log("Open");
+                    infoPanelRect.gameObject.SetActive(true);
+                }
+            }
+            yield return null;
+        }
+        
+    }
+    
     
     private void Update()
     {
