@@ -23,6 +23,8 @@ public class InfoPanel : MonoBehaviour
     private Vector2 padding = new Vector2(50f, 50f);
     public Vector4 marginOffsets = new Vector4(10f, 10f, 10f, 10f);
 
+    private Coroutine resetCoroutine;
+
     private void Start()
     {
         canvas = FindAnyObjectByType<Canvas>();
@@ -36,6 +38,13 @@ public class InfoPanel : MonoBehaviour
 
     private void setInfo(string info)
     {
+        if(resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
+
+        resetCoroutine = StartCoroutine(ResetTimer());
+
         canvasCenter = GetCanvasCenter();
         contentText.text = info;
 
@@ -43,9 +52,20 @@ public class InfoPanel : MonoBehaviour
 
         Vector2 newSize = new Vector2(preferredSize.x + padding.x, preferredSize.y + padding.y);
         infoPanelRect.sizeDelta = newSize;
-
     }
 
+    private IEnumerator ResetTimer()
+    {
+        gameObject.SetActive(false);
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 1f)
+        {
+            if()
+            { }
+        }
+    }
     private void Update()
     {
         // Set the panel position to the mouse position
