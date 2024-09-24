@@ -126,7 +126,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
                     
                     //Debug.Log(entry.Metadata);
-                    leaderboardContent += $"{entry.Rank}: {playerName} - {monsterName} - Score: {entry.Score}\n";
+                    leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Score: {entry.Score}\n";
                 }
 
                 // Check if the player is outside the top 5
