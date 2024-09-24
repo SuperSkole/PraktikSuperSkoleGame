@@ -14,6 +14,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private GameObject gridVisualization;
 
         public GameObject GridVisualization { get { return gridVisualization; } private set { } }
+        
         private GridData floorData, furnitureData;
 
         public GridData FloorData { get => floorData; set => floorData = value; }
@@ -186,7 +187,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Convert the world position of the mouse to a grid position.
             Vector3Int gridPos = grid.WorldToCell(mousePos);
-
             // If the mouse has moved to a new grid position, update the building state.
             if (lastDetectedPosition != gridPos)
             {

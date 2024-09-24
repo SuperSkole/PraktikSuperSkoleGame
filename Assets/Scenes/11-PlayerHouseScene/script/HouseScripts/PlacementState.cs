@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -67,9 +68,25 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database.objectData[selectedObjectIndex].Prefab,
                 grid.CellToWorld(gridPos));
 
+            //// Determine whether the object is floor data or furniture data. has to fit with the Database
+            //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
+            //    furnitureData : floorData;
+
             // Determine whether the object is floor data or furniture data. has to fit with the Database
-            GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-                furnitureData : floorData;
+            GridData selectedData = new();
+            switch(database.objectData[selectedObjectIndex].ID)
+            {
+                case 0:
+                    selectedData = furnitureData;
+                    break;
+                case 1:
+                    selectedData = floorData;
+                    break;
+                case 2:
+                    selectedData = furnitureData;
+                    break;
+
+            }
 
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
@@ -88,9 +105,25 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database.objectData[ID].Prefab,
                 grid.CellToWorld(gridPos));
 
+            //// Determine whether the object is floor data or furniture data. has to fit with the Database
+            //GridData selectedData = database.objectData[ID].ID == 0 ?
+            //    furnitureData : floorData;
+
             // Determine whether the object is floor data or furniture data. has to fit with the Database
-            GridData selectedData = database.objectData[ID].ID == 0 ?
-                furnitureData : floorData;
+            GridData selectedData = new();
+            switch (database.objectData[selectedObjectIndex].ID)
+            {
+                case 0:
+                    selectedData = furnitureData;
+                    break;
+                case 1:
+                    selectedData = floorData;
+                    break;
+                case 2:
+                    selectedData = furnitureData;
+                    break;
+
+            }
 
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
@@ -120,9 +153,25 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         // Checks if the object can be placed at the specified grid position.
         private bool CheckPlacementValidity(Vector3Int gridPos, int selectedObjectIndex)
         {
+            //// Determine whether the object is floor data or furniture data.
+            //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
+            //    furnitureData : floorData;
+            
             // Determine whether the object is floor data or furniture data.
-            GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-                furnitureData : floorData;
+            GridData selectedData = new();
+            switch (database.objectData[selectedObjectIndex].ID)
+            {
+                case 0:
+                    selectedData = furnitureData;
+                    break;
+                case 1:
+                    selectedData = floorData;
+                    break;
+                case 2:
+                    selectedData = furnitureData;
+                    break;
+
+            }
 
             // Check if the object can be placed at the given grid position based on its size.
             return selectedData.CanPlaceObjectAt(gridPos, database.objectData[selectedObjectIndex].Size);
