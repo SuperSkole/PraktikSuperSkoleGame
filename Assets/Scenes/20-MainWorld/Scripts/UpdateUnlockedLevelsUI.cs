@@ -14,7 +14,10 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
     private LetterGardenSetter letterGardenSetter= new LetterGardenSetter();
     private MiniRacingSetter racingSetter=new MiniRacingSetter();
 
-    
+    [SerializeField] private GameObject towerLight;
+    [SerializeField] private GameObject symbolEaterLight;
+    [SerializeField] private GameObject letterGardenLight;
+    [SerializeField] private GameObject racingLight;
 
     private int towerMinLevelRequired=1;
     private int symbolEaterMinLevelRequired=1;
@@ -38,7 +41,11 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         //Debug.Log("SymbolMinLevel:"+symbolEaterMinLevelRequired);
         //Debug.Log("LetterMinLevel:"+letterGardenMinLevelRequired);
         //Debug.Log("RacingMinLevel:"+racingMinLevelRequired);
-
+        currentPlayerLevel = PlayerManager.Instance.PlayerData.CurrentLevel;
+        if (currentPlayerLevel != towerMinLevelRequired) towerLight.SetActive(false);
+        if (currentPlayerLevel != symbolEaterMinLevelRequired) symbolEaterLight.SetActive(false);
+        if (currentPlayerLevel != letterGardenMinLevelRequired) letterGardenLight.SetActive(false);
+        if (currentPlayerLevel != racingMinLevelRequired) racingLight.SetActive(false);
     }
 
     // Update is called once per frame
