@@ -15,10 +15,7 @@ namespace LoadSave
             y = position.y;
             z = position.z;
         }
-        public Vector3 GetVector3()
-        {
-            return new Vector3(x, y, z);
-        }
-    
+        
+        public Vector3 GetVector3() => new(x, y, z);
     }
 }

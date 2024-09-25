@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Scenes._10_PlayerScene.Scripts;
+using Spine.Unity;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -15,11 +16,13 @@ namespace Scenes._88_LeaderBoard.Scripts
 {
     public class LeaderboardManager : MonoBehaviour
     {
+        public GameObject PlayerSpawnPoint;
         [SerializeField] private TextMeshProUGUI mostWordsText;
         [SerializeField] private TextMeshProUGUI mostLettersText;
         [SerializeField] private Image exitImageButton;
         
-        private const int TOPX_ENTRIES = 10;
+        private const int TOPX_ENTRIES = 3;
+        private const int LIMIT_ENTRY_RANGE = 1;
         private const string LEADERBOARD_ID_WORDS = "Most_Words_Leaderboard";
         private const string LEADERBOARD_ID_LETTERS = "Most_Letters_Leaderboard";
 
@@ -38,6 +41,8 @@ namespace Scenes._88_LeaderBoard.Scripts
         
         public void OnExitButton()
         {
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
+            
             SceneManager.LoadScene(SceneNames.Main); 
         }
         
@@ -53,6 +58,9 @@ namespace Scenes._88_LeaderBoard.Scripts
         
         private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+            
             if (scene.name == SceneNames.LeaderBoard)
             {
                 if (UnityServices.State != ServicesInitializationState.Initialized)
@@ -82,8 +90,8 @@ namespace Scenes._88_LeaderBoard.Scripts
                 return;
             }
             
-            await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Most Words");
-            await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Most Letters");
+            await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Flest Ord");
+            await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Flest Bogstaver");
         }
         
         private async Task DisplayLeaderboard(string leaderboardId, TMP_Text displayText, string title)
@@ -97,17 +105,17 @@ namespace Scenes._88_LeaderBoard.Scripts
                     new GetScoresOptions
                     {
                         IncludeMetadata = true,
-                        Limit = 5, // Fetch top 5 players
+                        Limit = TOPX_ENTRIES, // Fetch top x players
                     });
 
                 //Debug.Log("Fethincg player");
-                // Fetch the player's rank if they are not in the top 5
+                // Fetch the player's rank if they are not in the top x
                 var playerScoreResponse = await LeaderboardsService.Instance.GetPlayerRangeAsync(
                     leaderboardId,
                     new GetPlayerRangeOptions
                     {
                         IncludeMetadata = true,
-                        RangeLimit = 1
+                        RangeLimit = LIMIT_ENTRY_RANGE
                     });
 
                 string leaderboardContent = $"<u><b>{title}</b></u>\n";
@@ -121,24 +129,25 @@ namespace Scenes._88_LeaderBoard.Scripts
                         ? entry.PlayerName.Split('#')[0] 
                         : entry.PlayerName;
 
-                    // Check if the key "Navn" exists and retrieve the value
+                    // Check if the key "Monstewr" exists and retrieve the value
                     var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(entry.Metadata);
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
                     
                     //Debug.Log(entry.Metadata);
-                    leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Score: {entry.Score}\n";
+                    leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Antal: {entry.Score}\n";
                 }
 
                 // Check if the player is outside the top 5
-                if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[0].Rank > TOPX_ENTRIES)
+                if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[LIMIT_ENTRY_RANGE].Rank + 1 > TOPX_ENTRIES) // +1 because 0-index
                 {
-                    var playerEntry = playerScoreResponse.Results[0];
+                    var playerEntry = playerScoreResponse.Results[LIMIT_ENTRY_RANGE];
                     string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
-                    string monsterName = playerEntry.Metadata;
+                    var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
+                    string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
             
-                    // Add a separator and the player's rank if they are outside the top 5
+                    // Add a separator and the player's rank if they are outside the top x
                     leaderboardContent += "\n------------------------\n";
-                    leaderboardContent += $"{playerEntry.Rank}: {playerName} - {monsterName} - Score: {playerEntry.Score}\n";
+                    leaderboardContent += $"{playerEntry.Rank + 1}: {playerName} - {monsterName} - Antal: {playerEntry.Score}\n";
                 }
 
                 // Set the final content
@@ -166,57 +175,5 @@ namespace Scenes._88_LeaderBoard.Scripts
                         RangeLimit = rangeLimit
                     });
         }
-        
-        // public async Task SubmitMostWords(int wordCount)
-        // {
-        //     try
-        //     {
-        //         var playerEntry
-        //             = await LeaderboardsService.Instance.AddPlayerScoreAsync(
-        //                 LEADERBOARD_ID_WORDS,
-        //                 wordCount,
-        //                 new AddPlayerScoreOptions
-        //                 {
-        //                     Metadata = new Dictionary<string, string>()
-        //                     {
-        //                         {
-        //                             "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
-        //                         }
-        //                     }
-        //                 });
-        //         
-        //         Debug.Log("Most Words submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Debug.LogError($"Error submitting Most Words: {e.Message}");
-        //     }
-        // }
-        //
-        // public async Task SubmitMostLetters(int letterCount)
-        // {
-        //     try
-        //     {
-        //         var playerEntry
-        //             = await LeaderboardsService.Instance.AddPlayerScoreAsync(
-        //                 LEADERBOARD_ID_LETTERS,
-        //                 letterCount,
-        //                 new AddPlayerScoreOptions
-        //                 {
-        //                     Metadata = new Dictionary<string, string>()
-        //                     {
-        //                         {
-        //                             "Monster", $"{PlayerManager.Instance.PlayerData.MonsterName}"
-        //                         }
-        //                     }
-        //                 });
-        //         
-        //         Debug.Log("Most Letters submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         Debug.LogError($"Error submitting Most Letters: {e.Message}");
-        //     }
-        // }
     }
 }
