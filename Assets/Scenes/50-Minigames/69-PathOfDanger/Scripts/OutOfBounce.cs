@@ -1,3 +1,4 @@
+using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,11 +27,16 @@ public class OutOfBounce : MonoBehaviour
             StartCoroutine(manager.WaitUntillDataIsLoaded());
           
         }
-        else
+        else if(manager.playerLifePoints<=0)
         {
-            //To do: Make scene switch to lose screen. 
+            manager.StartGoToLoseScreenCoroutine();
+
+          
         }
     }
+
+
+  
 
    
 }

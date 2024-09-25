@@ -1,6 +1,7 @@
 using Cinemachine;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using System.Collections;
@@ -9,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
+public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 {
     // Start is called before the first frame update
     [SerializeField] GameObject playerSpawnPoint;
@@ -21,7 +22,7 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
 
     [SerializeField] LayerMask playerPlacementLayerMask;
 
-    public int playerLifePoints=3;
+    public int playerLifePoints = 3;
 
     [SerializeField] int z_AmountOfPlatforms;
 
@@ -55,12 +56,18 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
 
     private IPODGameMode gameMode;
     private string[] questions;
-    private int currentQuestionIndex=0;
+    private int currentQuestionIndex = 0;
     private string currentQuestion;
     private int amountOfOptions;
 
     [SerializeField] private GameObject coinPrefab;
-    public bool correctAnswer=false;
+    public bool correctAnswer = false;
+
+    [SerializeField] GameObject winUI;
+
+    [SerializeField] GameObject endPlane;
+
+    
 
     void Start()
     {
@@ -127,7 +134,18 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
 
     }
 
-    
+    /// <summary>
+    /// Destroys the added Components so it it isn't used outside of pathOfdanger. 
+    /// Is used on the back to MainWorld button and restart gamebuttons. 
+    /// </summary>
+    public void SetupPlayerToDefaultComponents()
+    {
+        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<Jump>());
+        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<OutOfBounce>());
+     
+
+    }
+
 
 
     public void BuildPlatforms()
@@ -164,14 +182,31 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
                 Vector3 offset = new Vector3(0, 0.6f, 0);
                 GameObject imageholder = Instantiate(answerHolderPrefab,pos+offset,answerHolderPrefab.transform.rotation, spawnedPlatforms[x, z].transform);
                
-
-
-
             }
+          
         }
+        Vector3 endGoalPos = new Vector3(0 * x_distanceBetweenPlatforms, 0, z_AmountOfPlatforms * z_distanceBetweenPlatforms) + DeathPlatforms.transform.position;
+        spawnedPlatforms[0, z_AmountOfPlatforms] = Instantiate(endPlane, endGoalPos, Quaternion.identity);
+
+        spawnedPlatforms[0, z_AmountOfPlatforms].GetComponent<ShowYouWinUI>().WinUI = winUI;
+        spawnedPlatforms[0, z_AmountOfPlatforms].GetComponent<ShowYouWinUI>().manager = this;
 
 
 
+
+    }
+
+    public void StartGoToLoseScreenCoroutine()
+    {
+        SetupPlayerToDefaultComponents();
+        StartCoroutine(GoToLoseScreen());
+    }
+
+    private IEnumerator GoToLoseScreen()
+    {
+        yield return new WaitForSeconds(1);
+        SwitchScenes.SwitchToPathOfDangerLoseScene();
+        
     }
 
     public void DestroyAllPanels()
@@ -184,7 +219,7 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
                 Destroy(item);
 
             }
-            spawnedPlatforms = new GameObject[x_AmountOfPlatforms,z_AmountOfPlatforms];
+            spawnedPlatforms = new GameObject[x_AmountOfPlatforms,z_AmountOfPlatforms+1];
 
         }
     }
@@ -223,7 +258,7 @@ public class PathOfDangerManager : MonoBehaviour,IMinigameSetup
 
 
 
-        spawnedPlatforms = new GameObject[x_AmountOfPlatforms, z_AmountOfPlatforms];
+        spawnedPlatforms = new GameObject[x_AmountOfPlatforms, z_AmountOfPlatforms+1];
 
         BuildPlatforms();
 
