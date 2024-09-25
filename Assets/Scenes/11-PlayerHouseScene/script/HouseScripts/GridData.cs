@@ -30,6 +30,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             int placedObjectIndex,
             EnumFloorDataType floorType)
         {
+            //CalculatePositions does not like being fed for example objectSize 1,2 instead of 2,1 Cant fix the problem but put in a patch that should fix it
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, ObjectSize);
             PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, floorType);
             foreach (var pos in positionToOccupy)
@@ -55,7 +56,14 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 for (int y = 0; y < objectSize.y; y++)
                 {
-                    returnVal.Add(gridPostion + new Vector3Int(x, 0, y));
+                    //Patch work so its doesnt break if its fed 1,2 instead of 2,1
+                    var tmp = gridPostion + new Vector3Int(x, 0, y);
+                    if (tmp.z > 0)
+                    {
+                        tmp.y += tmp.z;
+                        tmp.z = 0;
+                    }
+                    returnVal.Add(tmp);
                 }
             }
             return returnVal;
@@ -72,6 +80,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
             foreach (var pos in positionToOccupy)
             {
+                //Debug.Log($"Checking These pos:{pos}");
                 if (placedObjects.ContainsKey(pos))
                 {
                     return false;

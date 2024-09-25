@@ -38,7 +38,7 @@ namespace LoadSave
 
         // Cars
         public List<CarInfo> listOfCars = new List<CarInfo>() 
-            { new CarInfo("Mustang", "Red", true, new List<MaterialInfo> { new MaterialInfo(true, "Red") }) };
+            { new CarInfo("Van", "Gray", true, new List<MaterialInfo> { new MaterialInfo(true, "Gray") }) };
 
         
         public string Username { get => username; set => username = value; }

@@ -44,6 +44,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Show the cell indicator.
             cellIndicator.SetActive(true);
         }
+        //Fix the rotation of the items, find a better way, table right now is FUCKED when rotation
         public Vector3 ReturnLocationOfGameObject(string name)
         {
             switch (name)
@@ -51,6 +52,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case "SquareRugParent(Clone)":
                     return new Vector3(0.5f, 0f, 0.5f);
                 case "TableParent 1(Clone)":
+                    return Vector3.zero;
                     return new Vector3(1, 0f, 0.5f);
                 case "ChairParent(Clone)":
                     return new Vector3(0.5f, 0f, 0.5f);
@@ -58,7 +60,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     return Vector3.zero;
             }
         }
-        public void RotateItem(int degree)
+        public void RotateItem(int degree,PlacementState state)
         {
             //var rotation = previewObject.transform.rotation.eulerAngles;
             //rotation.y += degree;
@@ -67,6 +69,16 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Rotate the object around the Y-axis by the specified degree
             //*= applies this rotation relative to the current orientation, ensuring consistent and smooth rotations.
             previewObject.transform.rotation *= Quaternion.Euler(0, degree, 0);
+
+            //x,y
+
+            var xtmp = state.SizeCopy.x;
+            var ytmp = state.SizeCopy.y;
+            var tmp = xtmp;
+            xtmp = ytmp;
+            ytmp = tmp;
+            state.SizeCopy = new Vector2Int(xtmp, ytmp);
+            PrepareCursor(state.SizeCopy);
         }
         public quaternion ReturnItemRotation()
         {

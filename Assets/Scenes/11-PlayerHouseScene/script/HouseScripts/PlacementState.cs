@@ -15,6 +15,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
 
+        private Vector2Int sizeCopy;
+        public Vector2Int SizeCopy { get { return sizeCopy; } set { sizeCopy = value; } }
         // Constructor for initializing the PlacementState with required dependencies.
         public PlacementState(int iD,
             Grid grid,
@@ -37,13 +39,13 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Find the index of the selected object in the database using its ID.
             selectedObjectIndex = database.objectData.FindIndex(data => data.ID == ID);
-
+            SizeCopy = database.objectData[selectedObjectIndex].Size;
             // If the object is found, start showing the placement preview.
             if (selectedObjectIndex > -1)
             {
                 previewSystem.StartShowingPlacementPreview(
                     database.objectData[selectedObjectIndex].Prefab,
-                    database.objectData[selectedObjectIndex].Size);
+                    SizeCopy);
             }
             else
             {
@@ -92,10 +94,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     //    break;
 
             }
-
+            //database.objectData[selectedObjectIndex].Size
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
-                database.objectData[selectedObjectIndex].Size,
+                SizeCopy,
                 database.objectData[selectedObjectIndex].ID,
                 index,
                 floorType);
@@ -105,7 +107,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         }
         public void RotateItem(int degree)
         {
-            previewSystem.RotateItem(degree);
+
+            previewSystem.RotateItem(degree,this);
         }
 
         public void OnLoadStartUp(Vector3Int gridPos, int ID)
@@ -136,9 +139,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     //    break;
             }
 
+            //database.objectData[ID].Size
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
-                database.objectData[ID].Size,
+                SizeCopy,
                 database.objectData[ID].ID,
                 index,
                 floorType);
@@ -186,9 +190,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     //    break;
 
             }
-
+            //database.objectData[selectedObjectIndex].Size
             // Check if the object can be placed at the given grid position based on its size.
-            return selectedData.CanPlaceObjectAt(gridPos, database.objectData[selectedObjectIndex].Size);
+            return selectedData.CanPlaceObjectAt(gridPos,SizeCopy);
         }
     }
 }
