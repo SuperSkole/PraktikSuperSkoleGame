@@ -155,7 +155,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
                     
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at h\u00f8re et bogstav, Find det billede der passer til det bogstav");
+                boardController.SetAnswerText("Tryk [Mellemrum] find billede med passende forlyd.");
 
 
                 //uses the CurrentWordSound 

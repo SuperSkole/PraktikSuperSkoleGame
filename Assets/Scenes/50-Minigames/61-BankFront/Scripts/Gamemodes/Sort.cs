@@ -74,7 +74,7 @@ public class Sort : IBankFrontGamemode
 
     public string GetHintText()
     {
-        return "Find alle de ægte mønter";
+        return "Find alle ægte mønter";
     }
 
     /// <summary>

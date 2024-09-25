@@ -65,7 +65,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         if(gamemode.GetCurrentCustomersCoins().Count == 0)
         {
             
-            lives.text = "3/3 liv tilbage";
+            lives.text = "3/3 liv";
             gameOverText.text = "";
             //finds out how many coins the customer have and then generates them
             int amount = Random.Range(1, 20);
@@ -167,11 +167,11 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     {
         if(mistakes <= 3)
         {
-            lives.text = 3 - mistakes + "/3 liv tilbage";
+            lives.text = 3 - mistakes + "/3 liv";
         }
         else
         {
-            lives.text = "0/3 liv tilbage";
+            lives.text = "0/3 liv";
         }
     }
 
