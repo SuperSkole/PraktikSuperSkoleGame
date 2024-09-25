@@ -357,8 +357,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
-
-
             
             // TODO : Find a more permnat solution
             if (SceneManager.GetActiveScene().name.StartsWith("11") || 
@@ -370,14 +368,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
-
             }
             else
             {
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
-
             }
         }
 
@@ -428,21 +424,19 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
-
                 }    
             }
         }
 
         public void UpdatePlayerClothOnSceneChange(Scene scene)
         {
-
             if (scene.name == SceneNames.House ||
-               scene.name == SceneNames.Main ||
-               scene.name.StartsWith("5") ||
-               scene.name.StartsWith("6") ||
-               scene.name.StartsWith("7"))
+                scene.name == SceneNames.Main ||
+                scene.name.StartsWith("5") ||
+                scene.name.StartsWith("6") ||
+                scene.name.StartsWith("7"))
             {
-               if (clothChanging != null)
+                if (clothChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
@@ -457,10 +451,6 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void SetPlayerPositionOnSceneChange(Scene scene)
         {
-            // Debug.Log($"PlayerManager.SetPlayerPositionOnSceneChange():" +
-            //           $"Loaded Scene: {scene.name}, " +
-            //           $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
-
             // Player House sat spawn to 0,2,0
             if (scene.name == SceneNames.House)
             {
@@ -488,14 +478,6 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
                     spawnedPlayer.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
-                    //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
-
-                    //var car = GameObject.Find("Prometheus Variant");
-                    //car.transform.position = playerData.CarPos;
-                    //car.transform.rotation = playerData.CarRo;
-                    //car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
-
-
                 }
                 else
                 {
