@@ -27,10 +27,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void AddObjectAt(Vector3Int gridPostion,
             Vector2Int ObjectSize,
             int ID,
-            int placedObjectIndex)
+            int placedObjectIndex,
+            EnumFloorDataType floorType)
         {
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, ObjectSize);
-            PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex);
+            PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, floorType);
             foreach (var pos in positionToOccupy)
             {
                 if (placedObjects.ContainsKey(pos))
@@ -127,17 +128,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// </summary>
         public int PlacedObjectIndex { get; private set; }
 
+        public EnumFloorDataType FloorType { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlacementData"/> class.
         /// </summary>
         /// <param name="occupiedPositions">The grid positions occupied by the object.</param>
         /// <param name="iD">The identifier of the object.</param>
         /// <param name="placedObjectIndex">The index representing the placed object.</param>
-        public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
+        public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
         {
             this.occupiedPositions = occupiedPositions;
             ID = iD;
             PlacedObjectIndex = placedObjectIndex;
+            FloorType = floorType;
         }
     }
 }

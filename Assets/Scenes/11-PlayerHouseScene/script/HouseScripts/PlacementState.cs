@@ -1,4 +1,4 @@
-using UnityEditor;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -13,6 +13,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private GridData floorData;
         private GridData furnitureData;
         private ObjectPlacer objectPlacer;
+        private EnumFloorDataType floorType;
 
         // Constructor for initializing the PlacementState with required dependencies.
         public PlacementState(int iD,
@@ -21,7 +22,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
-            ObjectPlacer objectPlacer)
+            ObjectPlacer objectPlacer,
+            EnumFloorDataType floorType)
         {
             // Initialize fields with provided parameters.
             ID = iD;
@@ -31,6 +33,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.objectPlacer = objectPlacer;
+            this.floorType = floorType;
 
             // Find the index of the selected object in the database using its ID.
             selectedObjectIndex = database.objectData.FindIndex(data => data.ID == ID);
@@ -66,7 +69,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Place the object in the world using the object placer.
             int index = objectPlacer.PlaceObject(
                 database.objectData[selectedObjectIndex].Prefab,
-                grid.CellToWorld(gridPos));
+                grid.CellToWorld(gridPos),
+                previewSystem.ReturnItemRotation());
 
             //// Determine whether the object is floor data or furniture data. has to fit with the Database
             //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
@@ -74,17 +78,18 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Determine whether the object is floor data or furniture data. has to fit with the Database
             GridData selectedData = new();
-            switch(database.objectData[selectedObjectIndex].ID)
+
+            switch (floorType)
             {
-                case 0:
-                    selectedData = furnitureData;
-                    break;
-                case 1:
+                case EnumFloorDataType.Rug:
                     selectedData = floorData;
                     break;
-                case 2:
+                case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
+                    //case EnumFloorDataType.Wall:
+                    //    selectedData = furnitureData;
+                    //    break;
 
             }
 
@@ -92,10 +97,15 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             selectedData.AddObjectAt(gridPos,
                 database.objectData[selectedObjectIndex].Size,
                 database.objectData[selectedObjectIndex].ID,
-                index);
+                index,
+                floorType);
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
+        }
+        public void RotateItem(int degree)
+        {
+            previewSystem.RotateItem(degree);
         }
 
         public void OnLoadStartUp(Vector3Int gridPos, int ID)
@@ -103,7 +113,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Place the object in the world using the object placer.
             int index = objectPlacer.PlaceObject(
                 database.objectData[ID].Prefab,
-                grid.CellToWorld(gridPos));
+                grid.CellToWorld(gridPos),
+                quaternion.identity);
 
             //// Determine whether the object is floor data or furniture data. has to fit with the Database
             //GridData selectedData = database.objectData[ID].ID == 0 ?
@@ -111,25 +122,26 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Determine whether the object is floor data or furniture data. has to fit with the Database
             GridData selectedData = new();
-            switch (database.objectData[selectedObjectIndex].ID)
+
+            switch (floorType)
             {
-                case 0:
-                    selectedData = furnitureData;
-                    break;
-                case 1:
+                case EnumFloorDataType.Rug:
                     selectedData = floorData;
                     break;
-                case 2:
+                case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
-
+                    //case EnumFloorDataType.Wall:
+                    //    selectedData = furnitureData;
+                    //    break;
             }
 
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
                 database.objectData[ID].Size,
                 database.objectData[ID].ID,
-                index);
+                index,
+                floorType);
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
@@ -139,6 +151,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             objectPlacer.PlacedGameObjects.Sort();
         }
+
 
         // Updates the placement state as the player moves the cursor on the grid.
         public void UpdateState(Vector3Int gridPos)
@@ -156,20 +169,21 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             //// Determine whether the object is floor data or furniture data.
             //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
             //    furnitureData : floorData;
-            
+
             // Determine whether the object is floor data or furniture data.
             GridData selectedData = new();
-            switch (database.objectData[selectedObjectIndex].ID)
+
+            switch (floorType)
             {
-                case 0:
-                    selectedData = furnitureData;
-                    break;
-                case 1:
+                case EnumFloorDataType.Rug:
                     selectedData = floorData;
                     break;
-                case 2:
+                case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
+                    //case EnumFloorDataType.Wall:
+                    //    selectedData = furnitureData;
+                    //    break;
 
             }
 

@@ -1,4 +1,3 @@
-using CORE;
 using Scenes._11_PlayerHouseScene.script.SaveData;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private GameObject gridVisualization;
 
         public GameObject GridVisualization { get { return gridVisualization; } private set { } }
-        
+
         private GridData floorData, furnitureData;
 
         public GridData FloorData { get => floorData; set => floorData = value; }
@@ -36,27 +35,27 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // TODO refactor house save
             return;
-        
-            if (GameManager.Instance.LoadManager.DoesSaveFileExist(
-                    GameManager.Instance.CurrentUser,
-                    GameManager.Instance.PlayerData.MonsterName,
-                    "house"))
-            {
-                saveManager.LoadGridData();
-                foreach (var item in saveManager.container.floorData.placedObjectsList)
-                {
-                    PlaceItemsStartLoading(item.Key, item.ID);
-                }
-            
-                foreach (var item in saveManager.container.furnitureData.placedObjectsList)
-                {
-                    PlaceItemsStartLoading(item.Key, item.ID);
-                }
-            }
+
+            //if (GameManager.Instance.LoadManager.DoesSaveFileExist(
+            //        GameManager.Instance.CurrentUser,
+            //        GameManager.Instance.PlayerData.MonsterName,
+            //        "house"))
+            //{
+            //    saveManager.LoadGridData();
+            //    foreach (var item in saveManager.container.floorData.placedObjectsList)
+            //    {
+            //        PlaceItemsStartLoading(item.Key, item.ID);
+            //    }
+
+            //    foreach (var item in saveManager.container.furnitureData.placedObjectsList)
+            //    {
+            //        PlaceItemsStartLoading(item.Key, item.ID);
+            //    }
+            //}
         }
 
         private Vector3Int previousKey = new();
-        private void PlaceItemsStartLoading(Vector3Int key, int ID)
+        private void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType)
         {
             //if Obj is placed on 0,0,0 this doesnt work like it should
 
@@ -81,12 +80,16 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
-                objectPlacer);
+                objectPlacer,
+                floorType);
             buildingState.OnLoadStartUp(key, ID);
         }
         // Starts the placement process for an object with the specified ID.
-        public void StartPlacement(int ID)
+        // public void StartPlacement(int ID, EnumFloorDataType floorType)
+        public void StartPlacement(PlaceableButtons info)
         {
+            var ID = info.ID;
+            var floorType = info.FloorType;
             // Stop any ongoing placement process.
             StopPlacement();
 
@@ -100,11 +103,14 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
-                objectPlacer);
+                objectPlacer,
+                floorType);
 
             // Subscribe to input events for clicking and exiting the placement mode.
             inputManager.OnClicked += PlaceStructure;
             inputManager.OnExit += StopPlacement;
+            inputManager.RotateMinus += RotateMinusGameObject;
+            inputManager.RotatePlus += RotatePlusGameObject;
         }
 
         // Starts the process for removing an object.
@@ -165,12 +171,22 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Unsubscribe from input events to prevent further actions.
             inputManager.OnClicked -= PlaceStructure;
             inputManager.OnExit -= StopPlacement;
+            inputManager.RotateMinus -= RotateMinusGameObject;
+            inputManager.RotatePlus -= RotatePlusGameObject;
 
             // Reset the last detected grid position.
             lastDetectedPosition = Vector3Int.zero;
 
             // Clear the current building state.
             buildingState = null;
+        }
+        private void RotateMinusGameObject()
+        {
+            buildingState.RotateItem(-90);
+        }
+        private void RotatePlusGameObject()
+        {
+            buildingState.RotateItem(90);
         }
 
         // Updates the placement system each frame.
