@@ -1,5 +1,6 @@
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,10 @@ public class SetUpPlayerCar : MonoBehaviour
     PlayerData playerData;
     public GameObject spawnedCar;
     private string nameOfSpawnedCar;
+
+    [SerializeField] private GameObject carFuelMeterUI;
+    [SerializeField] private GameObject carSpeedTextUI;
+
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +38,8 @@ public class SetUpPlayerCar : MonoBehaviour
                 break;
             }
         }
+        //carFuelMeterUI.SetActive(false);
+        //carSpeedTextUI.SetActive(false);
     }
     /// <summary>
     /// 

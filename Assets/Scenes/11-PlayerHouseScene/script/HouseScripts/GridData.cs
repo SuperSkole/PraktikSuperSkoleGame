@@ -27,10 +27,12 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void AddObjectAt(Vector3Int gridPostion,
             Vector2Int ObjectSize,
             int ID,
-            int placedObjectIndex)
+            int placedObjectIndex,
+            EnumFloorDataType floorType)
         {
+            //CalculatePositions does not like being fed for example objectSize 1,2 instead of 2,1 Cant fix the problem but put in a patch that should fix it
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, ObjectSize);
-            PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex);
+            PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, floorType);
             foreach (var pos in positionToOccupy)
             {
                 if (placedObjects.ContainsKey(pos))
@@ -54,7 +56,14 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 for (int y = 0; y < objectSize.y; y++)
                 {
-                    returnVal.Add(gridPostion + new Vector3Int(x, 0, y));
+                    //Patch work so its doesnt break if its fed 1,2 instead of 2,1
+                    var tmp = gridPostion + new Vector3Int(x, 0, y);
+                    if (tmp.z > 0)
+                    {
+                        tmp.y += tmp.z;
+                        tmp.z = 0;
+                    }
+                    returnVal.Add(tmp);
                 }
             }
             return returnVal;
@@ -71,6 +80,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
             foreach (var pos in positionToOccupy)
             {
+                //Debug.Log($"Checking These pos:{pos}");
                 if (placedObjects.ContainsKey(pos))
                 {
                     return false;
@@ -127,17 +137,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// </summary>
         public int PlacedObjectIndex { get; private set; }
 
+        public EnumFloorDataType FloorType { get; private set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlacementData"/> class.
         /// </summary>
         /// <param name="occupiedPositions">The grid positions occupied by the object.</param>
         /// <param name="iD">The identifier of the object.</param>
         /// <param name="placedObjectIndex">The index representing the placed object.</param>
-        public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
+        public PlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
         {
             this.occupiedPositions = occupiedPositions;
             ID = iD;
             PlacedObjectIndex = placedObjectIndex;
+            FloorType = floorType;
         }
     }
 }

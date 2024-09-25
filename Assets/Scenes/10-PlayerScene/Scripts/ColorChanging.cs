@@ -73,10 +73,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 ApplyColorToSlots(skeletonGraphic, selectedColor, skeletonGraphic.skeletonDataAsset.name);
             }
 
-            if(GameManager.Instance.CurrentMonsterColor != "" && colorName != GameManager.Instance.CurrentMonsterColor)
+            if (GameManager.Instance.CurrentMonsterColor != "" && colorName != GameManager.Instance.CurrentMonsterColor)
             {
                 GameManager.Instance.CurrentMonsterColor = colorName;
-
             }
             else
             {

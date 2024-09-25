@@ -19,10 +19,10 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.E))
-                SaveGridData();
-            if (Input.GetKeyDown(KeyCode.L))
-                LoadGridData();
+            //if (Input.GetKeyDown(KeyCode.E))
+            //    SaveGridData();
+            //if (Input.GetKeyDown(KeyCode.L))
+            //    LoadGridData();
         }
     
         public void SaveGridData()
