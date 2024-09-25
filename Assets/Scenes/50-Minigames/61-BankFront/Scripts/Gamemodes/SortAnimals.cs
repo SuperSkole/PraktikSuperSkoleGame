@@ -76,7 +76,7 @@ public class SortAnimals : IBankFrontGamemode
 
     public string GetHintText()
     {
-        return "Find alle billeder hvor der er en " + correctAnimal + " på det";
+        return "Find alle " + correctAnimal;
     }
 
     /// <summary>

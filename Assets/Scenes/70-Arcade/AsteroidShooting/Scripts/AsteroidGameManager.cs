@@ -52,7 +52,7 @@ public class AsteroidGameManager : MonoBehaviour
       
 
         //updates the score text
-        textMesh.text = "Score:" + score;
+        textMesh.text = "Score: " + score;
 
         //updates timer for spawning. 
         timer += Time.deltaTime;

@@ -89,7 +89,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-            manager.descriptionText.text = "Tryk p\u00e5 din ammunition for at g\u00f8re katapulten klar. Tryk P\u00e5 den gr\u00f8nne knap og h\u00f8r et bogstav. Skyd billedet der starter med det bogstav";
+            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd billedet der har ens forlyd";
         }
     }
 

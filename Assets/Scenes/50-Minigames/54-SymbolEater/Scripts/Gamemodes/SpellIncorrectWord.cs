@@ -59,7 +59,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, false, gamerules, board.GetPlayer().transform.position);
             count = Random.Range(minWrongLetters, maxWrongLetters);
             GameModeHelper.ActivateLetterCubes(count, lettercubes, activeLettercubes, ActivateCube, true, gamerules, board.GetPlayer().transform.position);
-            board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal");
+            board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord");
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(currentWord.Length == 0)
             {
                 currentWord = symbol;
-                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal. \n" + currentWord);
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord.\n" + currentWord);
                 return true;
             }
             //Checks whether the letters form an incorrect word if it is the second letter to be added
             else if(currentWord.Length == 1)
             {
                 currentWord += symbol;
-                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord med mindst en vokal.");
+                board.SetAnswerText("Lav "+ (5 - completedWords) +" vr\u00f8vleord.");
                 return gamerules.IsCorrectSymbol(currentWord);
                 
             }

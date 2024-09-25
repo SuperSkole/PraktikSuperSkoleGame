@@ -49,6 +49,7 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
         {
+            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
             if (collision.gameObject.CompareTag("Player") && !isGasSTT && playerLvl >= neededLvlToEnter)
             {
                 //Some Obj dont need a parent to work, a quick failsafe
