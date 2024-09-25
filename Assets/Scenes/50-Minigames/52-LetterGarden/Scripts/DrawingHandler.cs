@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
+using TMPro;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 namespace Scenes.Minigames.LetterGarden.Scripts
@@ -31,6 +33,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         [SerializeField] public GameObject bee;
         BeeMovement beeMovement;
+
+        [SerializeField] private RectTransform screenShotBounds;
+        [SerializeField] private GameObject correctLetterBox;
+        [SerializeField] private TMP_FontAsset altFont;
 
 
         private void Start()
@@ -156,7 +162,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     if(currentSymbol != letterHandler.currentSymbol)
                     {
                         currentSymbol = letterHandler.currentSymbol;
-                        ClearDrawnSegments();
+                        StartCoroutine(TakeScreenShot());
+                        
                     }
                     if(letterHandler.GameOver())
                     {
@@ -172,6 +179,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// </summary>
         public void ClearDrawnSegments()
         {
+
             foreach (var brushInstance in drawnBrushInstances)
             {
                 Destroy(brushInstance);
@@ -201,6 +209,33 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             beeMovement = bee.gameObject.GetComponentInChildren<BeeMovement>();
             
             letterHandler.StartGame((LettergardenGameMode)gameMode, gameRules);
+        }
+
+        public IEnumerator TakeScreenShot()
+        {
+            yield return new WaitForEndOfFrame (); // it must be a coroutine 
+
+            float width = 400;
+            float height = 600;
+            Vector3 worldStart = new Vector3(screenShotBounds.transform.position.x, -34 - height/2, 400 - width/2);
+            Vector3 worldEnd = new Vector3(screenShotBounds.transform.position.x, -34 + height/2, 400 + width/2);
+            Vector2 screenStart = Camera.main.WorldToScreenPoint(worldStart);
+            Vector2 screenEnd = Camera.main.WorldToScreenPoint(worldEnd);
+            width = screenStart.x - screenEnd.x;
+            height = screenEnd.y - screenStart.y;
+            var tex = new Texture2D ((int)System.MathF.Round(width), (int)System.MathF.Round(height), TextureFormat.RGB24, false);
+            tex.ReadPixels (new Rect(screenStart.x, screenStart.y, width, height), 0, 0);
+            tex.Apply();
+            GameObject correctLetter = Instantiate(correctLetterBox);
+            correctLetter.transform.position = new Vector3(correctLetter.transform.position.x - 0.5f,correctLetter.transform.position.y, correctLetter.transform.position.z);
+            CorrectLetterHandler correctLetterHandler = correctLetter.GetComponent<CorrectLetterHandler>();
+            correctLetterHandler.image.texture = tex;
+            if(letterHandler.oldLetter == "a" || letterHandler.oldLetter == "\u00E5")
+            {
+                correctLetterHandler.exampleLetter.font = altFont;
+            }
+            correctLetterHandler.exampleLetter.text = letterHandler.oldLetter;
+            ClearDrawnSegments();
         }
     }
 }
