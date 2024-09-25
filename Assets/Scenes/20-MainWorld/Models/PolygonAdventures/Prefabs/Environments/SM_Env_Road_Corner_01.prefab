@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3349182}
   - component: {fileID: 2373034}
   - component: {fileID: 65640386116888804}
+  - component: {fileID: 2619480718337617143}
   m_Layer: 0
   m_Name: SM_Env_Road_Corner_01
   m_TagString: Untagged
@@ -105,3 +106,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 6.0834837, y: 0.052398443, z: 6.2430034}
   m_Center: {x: -2.9620633, y: -0.026199222, z: 3.1167018}
+--- !u!114 &2619480718337617143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 155188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 3
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
