@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using CORE;
@@ -57,19 +58,20 @@ namespace LoadSave
 
             // Get all the public instance properties of the destination object
             PropertyInfo[] destProperties = destType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            //FieldInfo[] destFields = destType.GetFields(BindingFlags.Public | BindingFlags.Instance);
 
             foreach (var destProperty in destProperties)
             {
-                // Skip properties that are part of Unity base classes (like MonoBehaviour)
+                // EO; Skip properties that are part of Unity base classes (like MonoBehaviour)
                 if (destProperty.DeclaringType != destType)
                 {
-                    continue; // Skip inherited properties from base classes
+                    continue; 
                 }
 
-                // Skip properties marked with the ExcludeFromSave attribute
+                // EO; Skip properties marked with the ExcludeFromSave attribute
                 if (destProperty.IsDefined(typeof(ExcludeFromSaveAttribute), false))
                 {
-                    continue; // Skip this property
+                    continue; 
                 }
 
                 // Try to find a property with the same name in the source object
@@ -88,28 +90,35 @@ namespace LoadSave
                         if (sourceProperty.PropertyType == destProperty.PropertyType)
                         {
                             // Check if the property is a list (handle lists specifically)
-                            if (sourceProperty.PropertyType.IsGenericType && 
-                                sourceProperty.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                            if (typeof(IList).IsAssignableFrom(sourceProperty.PropertyType))
                             {
-                                // Copy list data
+                                // Log to ensure lists are detected
+                                //Debug.Log($"Copying list property: {destProperty.Name}");
+
+                                // Copy the list
                                 destProperty.SetValue(destination, value);
+
+                                // Log the number of items being copied
+                                IList sourceList = (IList)value;
+                                //Debug.Log($"List {destProperty.Name} copied with {sourceList.Count} items.");
                             }
+
                             else
                             {
                                 // Set the value to the corresponding destination property
                                 destProperty.SetValue(destination, value);
                             }
                         }
+                        // Handle conversion from SerializablePlayerPosition to Vector3
                         else if (sourceProperty.PropertyType == typeof(SerializablePlayerPosition) && destProperty.PropertyType == typeof(Vector3))
                         {
-                            // Handle conversion from SerializablePlayerPosition to Vector3
                             SerializablePlayerPosition serializablePosition = (SerializablePlayerPosition)value;
                             var vector = serializablePosition.GetVector3();
                             destProperty.SetValue(destination, vector);
                         }
+                        // Handle conversion from Vector3 to SerializablePlayerPosition
                         else if (sourceProperty.PropertyType == typeof(Vector3) && destProperty.PropertyType == typeof(SerializablePlayerPosition))
                         {
-                            // Handle conversion from Vector3 to SerializablePlayerPosition
                             Vector3 vector = (Vector3)value;
                             var serializablePosition = new SerializablePlayerPosition(vector);
                             destProperty.SetValue(destination, serializablePosition);

@@ -58,7 +58,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                         }
                     });
 
-                Debug.Log("Most Letters submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
+                //Debug.Log("Most Letters submitted successfully: " + JsonConvert.SerializeObject(playerEntry));
             }
             catch (Exception e)
             {

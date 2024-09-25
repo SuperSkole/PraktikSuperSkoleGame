@@ -20,18 +20,18 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
-        public List<string> CollectedWords;
-        public List<char> CollectedLetters;
+        public List<string> CollectedWords = new List<string>();
+        public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
         private int lifetimeTotalLetters;
 
         // Clothing
         private string clothMid;
         private string clothTop;
-        private List<int> boughtClothes;
+        public List<int> BoughtClothes = new List<int>();
 
         // Cars
-        private List<CarInfo> listOfCars;
+        public List<CarInfo> ListOfCars = new List<CarInfo>();
 
         // Properties for encapsulation
         public string Username { get => username; set => username = value; }
@@ -42,13 +42,19 @@ namespace LoadSave
         public int CurrentXPAmount { get => currentXPAmount; set => currentXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public SerializablePlayerPosition CurrentPosition { get => currentPosition; set => currentPosition = value; }
+        
+        // Words and letters
+        public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
+        public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
         public int LifetimeTotalLetters { get => lifetimeTotalLetters; set => lifetimeTotalLetters = value; }
 
+        // Clothing
         public string ClothMid { get => clothMid; set => clothMid = value; }
         public string ClothTop { get => clothTop; set => clothTop = value; }
-        public List<int> BoughtClothes { get => boughtClothes; set => boughtClothes = value; }
-
-        public List<CarInfo> ListOfCars { get => listOfCars; set => listOfCars = value; }
+        public List<int> BoughtClothesProperty { get => BoughtClothes; set => BoughtClothes = value; }
+        
+        // cars
+        public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
     }
 }

@@ -10,6 +10,7 @@ namespace LoadSave
     /// </summary>
     public class PlayerData : MonoBehaviour
     {
+        public Vector3 LastInteractionPoint;
         // We serialize so we can see values in inspector
         
         // player Stats
@@ -33,12 +34,14 @@ namespace LoadSave
         // Clothing
         [SerializeField] private string clothMid;
         [SerializeField] private string clothTop;
-        public List<int> BoughtClothes { get; set; } = new List<int>();
+        public List<int> BoughtClothes = new List<int>();
 
 
-        // Cars
-        public List<CarInfo> listOfCars = new List<CarInfo>() 
-            { new CarInfo("Van", "Gray", true, new List<MaterialInfo> { new MaterialInfo(true, "Gray") }) };
+        //For the Car
+        public List<CarInfo> ListOfCars = new List<CarInfo>();
+        public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
+        public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
+        public float FuelAmount { get; set; } = 1f;
 
         
         public string Username { get => username; set => username = value; }
@@ -51,60 +54,86 @@ namespace LoadSave
         [ExcludeFromSave] public int PendingXPAmount { get => pendingXPAmount; set => pendingXPAmount = value; }
         public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
+        
+        // Words and letters
+        public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
+        public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
-
         public int LifetimeTotalLetters { get => lifetimeTotalLetters; set => lifetimeTotalLetters = value; }
 
+        // Clothing
         public string ClothMid { get => clothMid; set => clothMid = value; }
         public string ClothTop { get => clothTop; set => clothTop = value; }
+        public List<int> BoughtClothesProperty { get => BoughtClothes; set => BoughtClothes = value; }
 
-
-        public Vector3 LastInteractionPoint;
-
-        //For the Car
-        public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
-        public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
-        public float FuelAmount { get; set; } = 1f;
-
-
-
+        // cars
+        public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
 
         /// <summary>
         /// Initializes the game character with provided attributes.
         /// </summary>
         /// <param name="username">The name of the user.</param>
         /// <param name="monsterName">The name of the monster associated with the user.</param>
+        /// <param name="monsterTypeID">The ID of the monster type.</param>
         /// <param name="monsterColor">The color of the monster.</param>
         /// <param name="goldAmount">Initial amount of gold.</param>
         /// <param name="xpAmount">Initial experience points.</param>
         /// <param name="level">Starting level of the character.</param>
         /// <param name="position">Initial position of the character in the game world.</param>
+        /// <param name="collectedWords">The list of collected words.</param>
+        /// <param name="collectedLetters">The list of collected letters.</param>
+        /// <param name="totalWords">Total number of words collected.</param>
+        /// <param name="totalLetters">Total number of letters collected.</param>
+        /// <param name="midCloth">The middle clothing of the character.</param>
+        /// <param name="topCloth">The top clothing of the character.</param>
+        /// <param name="boughtClothes">The list of bought clothes.</param>
+        /// <param name="listOfCars">The list of cars associated with the character.</param>
         public void Initialize(string username,
             string monsterName,
+            //int monsterTypeID,
             string monsterColor,
             int goldAmount,
             int xpAmount,
             int level,
             Vector3 position,
+            List<string> collectedWords,
+            List<char> collectedLetters,
+            int totalWords,
+            int totalLetters,
             string midCloth,
             string topCloth,
-            List<CarInfo> listOfCars,
-            int totalWords,
-            int totalLetters)
+            List<int> boughtClothes,
+            List<CarInfo> listOfCars)
         {
             this.username = username;
             this.monsterName = monsterName;
+            this.monsterTypeID = monsterTypeID;
             this.monsterColor = monsterColor;
             this.currentGoldAmount = goldAmount;
             this.currentXPAmount = xpAmount;
             this.currentLevel = level;
             this.currentPosition = position;
-            this.clothMid = midCloth;
-            this.clothTop = topCloth;
-            this.listOfCars = listOfCars;
+            
+            // words and letters
+            this.CollectedWords.Clear();
+            this.CollectedWords.AddRange(collectedWords);
+            this.CollectedLetters.Clear();
+            this.CollectedLetters.AddRange(collectedLetters);
             this.LifetimeTotalWords = totalWords;
             this.LifetimeTotalLetters = totalLetters;
+            
+            // cloth
+            this.clothMid = midCloth;
+            this.clothTop = topCloth;
+            this.BoughtClothes.Clear();
+            this.BoughtClothes.AddRange(boughtClothes);
+            
+            // cars
+            this.ListOfCars.Clear();
+            this.ListOfCars.AddRange(listOfCars);
         }
+
+
 
         public void SetLastInteractionPoint(Vector3 position)
         {

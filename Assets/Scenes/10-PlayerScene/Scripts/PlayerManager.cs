@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
@@ -213,14 +214,25 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 1,
                 spawnedPlayer.transform.position,
-                null,
-                null,
-                GameManager.Instance.PlayerData.listOfCars,
+                new List<string>(),
+                new List<char>(),
                 0,
-                0
+                0,
+                "",
+                "",
+                new List<int>(),
+                new List<CarInfo>()
+                {
+                    new CarInfo("Mustang",
+                        "Red",
+                        true,
+                        new List<MaterialInfo>
+                        {
+                            new MaterialInfo(true,
+                                "Red")
+                        })
+                }
             );
-            
-            
 
             if (GameManager.Instance.IsPlayerBootstrapped)
             {
@@ -302,11 +314,14 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
+                saveData.CollectedWords,
+                saveData.CollectedLetters,
+                saveData.LifetimeTotalWords,
+                saveData.LifetimeTotalLetters,
                 saveData.ClothMid,
                 saveData.ClothTop,
-                saveData.listOfCars,
-                saveData.LifetimeTotalWords,
-                saveData.LifetimeTotalLetters
+                saveData.BoughtClothes,
+                saveData.ListOfCars
             );
 
             // Call the ColorChange method to recolor the player
@@ -322,13 +337,13 @@ namespace Scenes._10_PlayerScene.Scripts
                     ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
 
-            // Log for debugging
-            Debug.Log($"Player loaded from save: " +
-                      $"username: {playerData.Username} " +
-                      $"Player Name: {playerData.MonsterName} " +
-                      $"Monster Color: {playerData.MonsterColor} " +
-                      $"XP: {playerData.CurrentXPAmount} " +
-                      $"Gold: {playerData.CurrentGoldAmount}");
+            // // Log for debugging
+            // Debug.Log($"Player loaded from save: " +
+            //           $"username: {playerData.Username} " +
+            //           $"Player Name: {playerData.MonsterName} " +
+            //           $"Monster Color: {playerData.MonsterColor} " +
+            //           $"XP: {playerData.CurrentXPAmount} " +
+            //           $"Gold: {playerData.CurrentGoldAmount}");
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
