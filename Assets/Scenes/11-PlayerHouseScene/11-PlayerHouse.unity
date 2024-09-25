@@ -1512,8 +1512,8 @@ GameObject:
   m_Component:
   - component: {fileID: 476973862}
   - component: {fileID: 476973865}
-  - component: {fileID: 476973864}
   - component: {fileID: 476973863}
+  - component: {fileID: 476973866}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -1558,33 +1558,6 @@ MonoBehaviour:
   m_YawDamping: 0
   m_RollDamping: 0
   m_AngularDamping: 0
---- !u!114 &476973864
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476973861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
-  m_LookaheadTime: 0
-  m_LookaheadSmoothing: 0
-  m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 1
-  m_VerticalDamping: 1
-  m_ScreenX: 0.5
-  m_ScreenY: 0.5
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.2
-  m_SoftZoneHeight: 0.2
-  m_BiasX: 0
-  m_BiasY: 0
-  m_CenterOnActivate: 1
 --- !u!114 &476973865
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1595,6 +1568,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &476973866
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476973861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &532379925 stripped
@@ -2282,7 +2267,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!65 &660345172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3741,7 +3726,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 0
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!4 &904008593
 Transform:
   m_ObjectHideFlags: 0
