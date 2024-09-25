@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -32,6 +33,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Instantiate the preview object from the provided prefab.
             previewObject = Instantiate(prefab);
 
+            previewObject.transform.position += ReturnLocationOfGameObject(previewObject.name);
+
             // Prepare the preview object by applying the preview material.
             PreparePreview(previewObject);
 
@@ -41,7 +44,46 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Show the cell indicator.
             cellIndicator.SetActive(true);
         }
+        //Fix the rotation of the items, find a better way, table right now is FUCKED when rotation
+        public Vector3 ReturnLocationOfGameObject(string name)
+        {
+            switch (name)
+            {
+                case "SquareRugParent(Clone)":
+                    return new Vector3(0.5f, 0f, 0.5f);
+                case "TableParent 1(Clone)":
+                    return Vector3.zero;
+                    return new Vector3(1, 0f, 0.5f);
+                case "ChairParent(Clone)":
+                    return new Vector3(0.5f, 0f, 0.5f);
+                default:
+                    return Vector3.zero;
+            }
+        }
+        public void RotateItem(int degree,PlacementState state)
+        {
+            //var rotation = previewObject.transform.rotation.eulerAngles;
+            //rotation.y += degree;
+            //previewObject.transform.rotation = quaternion.Euler(rotation);
+            
+            // Rotate the object around the Y-axis by the specified degree
+            //*= applies this rotation relative to the current orientation, ensuring consistent and smooth rotations.
+            previewObject.transform.rotation *= Quaternion.Euler(0, degree, 0);
 
+            //x,y
+
+            var xtmp = state.SizeCopy.x;
+            var ytmp = state.SizeCopy.y;
+            var tmp = xtmp;
+            xtmp = ytmp;
+            ytmp = tmp;
+            state.SizeCopy = new Vector2Int(xtmp, ytmp);
+            PrepareCursor(state.SizeCopy);
+        }
+        public quaternion ReturnItemRotation()
+        {
+            return previewObject.transform.rotation;
+        }
         // Prepares the cursor's visual appearance based on the size of the object to be placed.
         private void PrepareCursor(Vector2Int size)
         {
@@ -94,9 +136,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void EnableBuildingSystem()
         {
             if (!isbuildingSystemEnabled)
-                isbuildingSystemEnabled=true;
-            else isbuildingSystemEnabled=false;
-     
+                isbuildingSystemEnabled = true;
+            else isbuildingSystemEnabled = false;
+
             uiBuilding.SetActive(isbuildingSystemEnabled);
 
         }
@@ -148,6 +190,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private void MovePreview(Vector3 position)
         {
             previewObject.transform.position = new Vector3(position.x, position.y + previewYOffset, position.z);
+            previewObject.transform.position += ReturnLocationOfGameObject(previewObject.name);
+
         }
 
         // Starts showing a removal preview, highlighting the grid cell in red.

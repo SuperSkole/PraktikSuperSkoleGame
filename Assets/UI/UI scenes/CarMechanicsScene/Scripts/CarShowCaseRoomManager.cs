@@ -3,7 +3,6 @@ using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,6 +40,13 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     [SerializeField] private GameObject colorsTab;
     [SerializeField] private GameObject carsTabs;
+
+    [Header("Car Info")]
+    [SerializeField] private Slider speedSlider;
+    [SerializeField] private Slider accSlider;
+    [SerializeField] private Slider driftSlider;
+    [SerializeField] private Slider fuelSlider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,16 +124,19 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         foreach (CarInfo car in playerData.ListOfCars)
         {
-            // Loop through each car's materials
-            foreach (MaterialInfo material in car.materialList)
+            if (car.IsActive)
             {
-                // Find the corresponding button for this material
-                foreach (CarColorShowCaseButtons button in colorButtons)
+                // Loop through each car's materials
+                foreach (MaterialInfo material in car.materialList)
                 {
-                    if (button.nameOfMaterial == material.nameOfMaterial)
+                    // Find the corresponding button for this material
+                    foreach (CarColorShowCaseButtons button in colorButtons)
                     {
-                        // Set the 'Bought' status of the button
-                        button.Bought = material.Bought;
+                        if (button.nameOfMaterial == material.nameOfMaterial)
+                        {
+                            // Set the 'Bought' status of the button
+                            button.Bought = material.Bought;
+                        }
                     }
                 }
             }
@@ -252,6 +261,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
             imgHolder.sprite = buyImg;
             price.text = button.price.ToString();
         }
+        //spawnedCar.GetComponent<CarShowCaseButton>().
+        speedSlider.value = carButtonInstance.MaxSpeed;
+        accSlider.value = carButtonInstance.Acacceleration;
+        driftSlider.value = carButtonInstance.DriftStats;
+        fuelSlider.value = carButtonInstance.FuelUsageMultiplier;
     }
 
 
@@ -299,8 +313,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         if (carButtonInstance.Bought)
         {
-            //FindActiveCar();
-            //SaveActiveCar(FindIndexInCarMaList());
             SaveActiveCar();
         }
         else//This Buys the car
@@ -314,6 +326,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 //Add to this for each car thats avaiable for purchase 
                 switch (tmp.GetComponent<CarShowCaseButton>().nameOfCar)
                 {
+                    case "Mustang":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Red", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Red") });
+                        break;
                     case "Van":
                         carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
                         "Gray", true,
@@ -328,6 +345,16 @@ public class CarShowCaseRoomManager : MonoBehaviour
                         carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
                         "Yellow", true,
                         new List<MaterialInfo> { new MaterialInfo(true, "Yellow") });
+                        break;
+                    case "TopHatCar":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Black", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Black") });
+                        break;
+                    case "GoKart":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Blue", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Blue") });
                         break;
 
                 }
@@ -389,8 +416,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
             playerData.CollectedLetters.RemoveAt(0);
         }
     }
-
-        
     private void SpawnCar(GameObject ActiveCar) => spawnedCar = Instantiate(ActiveCar, ShowcasedSpawnPoint);
 
     public void ClickOnCarTab()
@@ -410,22 +435,31 @@ public class CarShowCaseRoomManager : MonoBehaviour
     private void UpdateCarButtonInfo()
     {
         List<CarShowCaseButton> carButtons = new List<CarShowCaseButton>();
+        for (int i = 0; i < ShowcasedCar.Count; i++)
+        {
+            carButtons.Add(GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>());
+        }
 
         for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
+            //foreach (var item in carButtons)
             carButtons.Add(GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>());
 
             // TODO : Find at better solution for this
             //If we switch the buttons around os Van is the first instead of Mustang this wont work
             if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
             {
-                carButtons[i].Bought = true;
+                if (playerData.listOfCars[i].Name == item.nameOfCar)
+                {
+                    item.Bought = true;
+                }
             }
         }
     }
+
     private bool isOnColorTab = true;
     public void ClickOnColorTab()
-    {      
+    {
         if (ReturnIsCarActive())
         {
             colorsTab.SetActive(true);
