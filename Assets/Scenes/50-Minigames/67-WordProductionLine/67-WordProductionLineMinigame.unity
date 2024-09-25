@@ -153,6 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pooledObjects: []
   amountToPool: 10
+  amountSpawned: 0
+  productionManager: {fileID: 1022190383}
   BoxPrefab: {fileID: 6623479340320266743, guid: 95e671b640f7e894495140303a24cf0c, type: 3}
 --- !u!4 &114825695
 Transform:
@@ -1445,6 +1447,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPool: {fileID: 114825694}
+  correctWord: 
+  correctLetter: 
 --- !u!1 &1128747526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2394,6 +2398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pooledObjects: []
   amountToPool: 10
+  amountSpawned: 0
+  productionManager: {fileID: 1022190383}
   BoxPrefab: {fileID: 5323300840861755305, guid: 3064d8a4ab92367459379fb9627fc74d, type: 3}
 --- !u!4 &2142794412
 Transform:
