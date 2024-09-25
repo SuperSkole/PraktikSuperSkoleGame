@@ -1,6 +1,8 @@
 using CORE;
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._20_MainWorld.Scripts;
+using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,15 +13,20 @@ using UnityEngine;
 
 public class MP_Movement : NetworkBehaviour
 {
-    ColorChanging colorChange;
+    [SerializeField] ColorChanging colorChange;
+    public float moveSpeed = 5f;
+    private Vector3 movementInput;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private PlayerAnimatior animator;
+    [SerializeField] private Transform spriteTransform;
 
     public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
     public NetworkVariable<FixedString32Bytes> colorPick = new NetworkVariable<FixedString32Bytes>();
     public override void OnNetworkSpawn()
     {
         ISkeletonComponent skeleton = GetComponentInChildren<ISkeletonComponent>();
-        colorChange = GetComponent<ColorChanging>();
         colorChange.SetSkeleton(skeleton);
+        colorPick.OnValueChanged += UpdateColor;
         if (skeleton == null)
         {
             Debug.LogError("PlayerManager.SetupPlayer(): " +
@@ -28,88 +35,175 @@ public class MP_Movement : NetworkBehaviour
         }
         if (IsServer)
         {
-            if (MonsterColorIsSet())
-            {
-                colorChange.ColorChange(colorPick.Value.ToString());
-            }
+            rb.position = GameObject.Find("SpawnPoint").transform.position;
         }
-
         if (IsClient)
         {
             if (IsOwner)
             {
                 GameObject originPlayer = GameObject.Find("PlayerMonster");
-                colorPick.Value = originPlayer.GetComponent<PlayerData>().MonsterColor;
+                string monsterColor = originPlayer.GetComponent<PlayerData>().MonsterColor;
+                RequestColorPickServerRpc(monsterColor);
+                Debug.Log("color sent as " + monsterColor);
             }
-            if (MonsterColorIsSet())
-            {
-                colorChange.ColorChange(colorPick.Value.ToString());
-            }
+        }
+        if (MonsterColorIsSet(colorPick.Value.ToString()))
+        {
+            colorChange.ColorChange(colorPick.Value.ToString());
         }
     }
 
-    bool MonsterColorIsSet()
+    private void Update()
     {
-        string color = colorPick.Value.ToString();
+        // Only process input and movement for the local player
+        if (IsOwner)
+        {
+            HandleInput();
+            HandleAnimation(); // Handle the animation for walking/idle states
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // Only the owner requests the movement, but the server executes it
+        if (IsOwner)
+        {
+            RequestMovePlayerServerRpc(movementInput);
+        }
+    }
+
+    bool MonsterColorIsSet(string color)
+    {
         if (color != "white" && color != "" && color != null)
             return true;
         return false;
     }
 
-    public override void OnNetworkDespawn()
+    // ServerRpc to allow the client to request a color update
+    [ServerRpc]
+    private void RequestColorPickServerRpc(string color)
     {
-        //colorUsed.OnValueChanged -= ColorChanged;
+        Debug.Log("setting color");
+        colorPick.Value = new FixedString32Bytes(color);
+        Debug.Log(color);
     }
 
-    //public void ColorChanged(Color previousColor, Color currentColor)
-    //{
-    //    //if (previousColor != currentColor)
-    //    //{
-    //    //    sprite.color = currentColor;
-    //    //}
-    //}
-
-    //[ServerRpc(RequireOwnership = false)]
-    //public void ServerUpdateColorServerRPC(Color newColor)
-    //{
-    //    //sprite.color = newColor;
-    //    //colorChange.ColorChange(newColor);
-    //    UpdateColorClientRPC(newColor);
-    //}
-
-    //[ClientRpc]
-    //void UpdateColorClientRPC(Color newColor)
-    //{
-    //    //colorChange.ColorChange(newColor);
-    //    //sprite.color = newColor;
-    //}
-
-    //public void OnStateChanged(Color previous, Color current)
-    //{
-    //    if (current != previous)
-    //        ServerUpdateColorServerRPC(current);
-    //}
-
-    public void Move()
+    void UpdateColor(FixedString32Bytes past, FixedString32Bytes current)
     {
-        SubmitPositionRequestRpc();
+        colorChange.ColorChange(current.ToString());
+        UpdateColorClientRpc(past, current);
     }
 
-    [Rpc(SendTo.Server)]
-    void SubmitPositionRequestRpc(RpcParams rpcParams = default)
+    [ClientRpc]
+    private void UpdateColorClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        var randomPosition = GetRandomPositionOnPlane();
-        transform.position = randomPosition;
-        Position.Value = randomPosition;
+        if (MonsterColorIsSet(current.ToString()))
+        {
+            colorChange.ColorChange(current.ToString());
+        }
     }
 
-    static Vector3 GetRandomPositionOnPlane()
+    // Handle WASD input
+    private void HandleInput()
     {
-        return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
+        float moveX = Input.GetAxis("Horizontal"); // A/D or Left/Right arrow
+        float moveZ = Input.GetAxis("Vertical");   // W/S or Up/Down arrow
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        movementInput = new Vector3(horizontalInput, 0f, verticalInput).normalized * moveSpeed;
+        movementInput = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0) * movementInput;
     }
 
-    void Update()
+    // Handle animation based on movement input
+    private void HandleAnimation()
     {
-        transform.position = Position.Value;
+        if (Input.GetAxisRaw("Horizontal") != 0f || Input.GetAxisRaw("Vertical") != 0f)
+        {
+            // Walking animation
+            UpdateAnimationStateServerRpc("Walk"); // Send animation state to server
+        }
+        else
+        {
+            // Idle animation
+            UpdateAnimationStateServerRpc("Idle"); // Send animation state to server
+        }
+    }
+
+    // Server-side method to handle the movement
+    [ServerRpc]
+    private void RequestMovePlayerServerRpc(Vector3 movement)
+    {
+        // Apply the movement on the server-side for the Rigidbody
+        rb.velocity = new(movement.x, rb.velocity.y, movement.z);
+        // Handle sprite flip based on the movement direction
+        if (movement.x != 0)
+        {
+            Debug.Log("Flip!");
+            bool isMovingRight = movement.x < 0; // Corrected logic for determining right movement
+                                                 // Flip the sprite based on the direction the server detected
+            if (isMovingRight)
+            {
+                // Moving right: set sprite's X scale to positive
+                rb.transform.localScale = new Vector3(Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
+                Debug.Log("Moving right!");
+            }
+            else
+            {
+                // Moving left: set sprite's X scale to negative
+                rb.transform.localScale = new Vector3(-Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
+                Debug.Log("Moving left!");
+            }
+            UpdateSpriteFlipClientRpc(isMovingRight); // Send flip state to all clients
+        }
+
+        // Notify all clients about the position update
+        SyncPlayerPositionClientRpc(rb.position);
+    }
+
+    // Synchronize the position across all clients
+    [ClientRpc]
+    private void SyncPlayerPositionClientRpc(Vector3 newPosition)
+    {
+        if (!IsOwner)
+        {
+            // Update the position for all other clients
+            rb.position = newPosition;
+        }
+    }
+
+    // ServerRpc to handle animation state updates sent by the client
+    [ServerRpc]
+    private void UpdateAnimationStateServerRpc(string animationState)
+    {
+        // Tell all clients to update their animation state based on the owner's input
+        UpdateAnimationStateClientRpc(animationState);
+        animator.SetCharacterState(animationState);
+    }
+
+    // ClientRpc to broadcast the animation state to all clients
+    [ClientRpc]
+    private void UpdateAnimationStateClientRpc(string animationState)
+    {
+        animator.SetCharacterState(animationState);
+    }
+
+    // ClientRpc to handle sprite flip, broadcasted by the server
+    [ClientRpc]
+    private void UpdateSpriteFlipClientRpc(bool isMovingRight)
+    {
+        // Flip the sprite based on the direction the server detected
+        if (isMovingRight)
+        {
+            // Moving right: set sprite's X scale to positive
+            rb.transform.localScale = new Vector3(Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
+            Debug.Log("Moving right!");
+        }
+        else
+        {
+            // Moving left: set sprite's X scale to negative
+            rb.transform.localScale = new Vector3(-Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
+            Debug.Log("Moving left!");
+        }
     }
 }
