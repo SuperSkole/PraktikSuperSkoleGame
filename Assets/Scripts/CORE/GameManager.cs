@@ -121,19 +121,35 @@ namespace CORE
         
         public async void SaveGame()
         {
-            if (SaveGameController != null && PlayerData != null && PlayerManager.Instance != null)
+            // Early exit if PlayerManager is missing
+            // ReSharper disable once EnforceIfStatementBraces
+            if (!PlayerManager.Instance) return;
+
+            // Early exit if SaveGameController or PlayerData is missing
+            if (SaveGameController == null)
             {
+                Debug.LogWarning("SaveGameController is missing! Cannot save the game.");
+                return;
+            }
+
+            if (!PlayerData)
+            {
+                Debug.LogWarning("PlayerData is missing! Cannot save the game.");
+                return;
+            }
+
+            // Proceed to save if all conditions are met
+            if (PlayerManager.Instance.SpawnedPlayer != null)
+            {
+                Debug.Log("Saving game...");
                 await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
             }
             else
             {
-                Debug.Log("SaveGameController or PlayerData is missing!");
+                Debug.LogWarning("Cannot save the game.");
             }
-            
-            
-            // save logic, using savemanager
-            //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
+
         
         private void InitializeGameManager()
         {  
