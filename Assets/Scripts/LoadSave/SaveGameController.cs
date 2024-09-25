@@ -54,7 +54,7 @@ namespace LoadSave
             try
             {
                 // Load save data from the cloud
-                PlayerData data = await cloudSaveService.LoadPlayerDataAsync(saveKey);  
+                PlayerData data = await LoadSaveDataAsync(saveKey);  
                 
                 if (data != null)
                 {
