@@ -53,7 +53,7 @@ public class VaultManager : MonoBehaviour
     public void StartGame()
     {
         gameOverText.text = "";
-        lives.text = "3/3 liv tilbage";
+        lives.text = "3/3 liv";
         for(int i = 1; i < 4; i++)
         {
             answer[i] = Random.Range(1, 10);
@@ -61,7 +61,7 @@ public class VaultManager : MonoBehaviour
         }
         codeText.text = "Koden er " + answer[0] + answer[1] + answer[2] + answer[3];
         desiredInputIndex = Random.Range(0, desiredInputNames.Count);
-        desiredInput.text = "Du skal indsætte " + desiredInputNames[desiredInputIndex];
+        desiredInput.text = "Indsæt " + desiredInputNames[desiredInputIndex];
         usedDesiredInputIndices.Add(desiredInputIndex);
     }
 
@@ -90,7 +90,7 @@ public class VaultManager : MonoBehaviour
                         desiredInputIndex = Random.Range(0, desiredInputNames.Count);
                     }
                     usedDesiredInputIndices.Add(desiredInputIndex);
-                    desiredInput.text = "Du skal indsætte " + desiredInputNames[desiredInputIndex];
+                    desiredInput.text = "Indsæt " + desiredInputNames[desiredInputIndex];
                 }
             }
             //Changes the color to red if none of the numbers were correct
