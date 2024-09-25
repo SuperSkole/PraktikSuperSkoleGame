@@ -46,7 +46,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
 
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             if (item.IsActive)
             {
@@ -116,7 +116,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 colorButtons.Add(button);
             }
         }
-        foreach (CarInfo car in playerData.listOfCars)
+        foreach (CarInfo car in playerData.ListOfCars)
         {
             // Loop through each car's materials
             foreach (MaterialInfo material in car.materialList)
@@ -352,9 +352,9 @@ public class CarShowCaseRoomManager : MonoBehaviour
     private int FindIndexInCarMaList()
     {
         int savedIndex = 0;
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
-            if (carNameFromList == playerData.listOfCars[i].Name)
+            if (carNameFromList == playerData.ListOfCars[i].Name)
             {
                 savedIndex = i;
                 break;
@@ -363,24 +363,24 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
         return savedIndex;
     }
-    private void SaveCarMaterialNameData(int indexer) => playerData.listOfCars[indexer].MaterialName = clickedMaterialName;
+    private void SaveCarMaterialNameData(int indexer) => playerData.ListOfCars[indexer].MaterialName = clickedMaterialName;
     private void SaveActiveCar()
     {
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             item.IsActive = false;
         }
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
-            if (playerData.listOfCars[i].Name == carButtonInstance.nameOfCar)
+            if (playerData.ListOfCars[i].Name == carButtonInstance.nameOfCar)
             {
-                playerData.listOfCars[i].IsActive = true;
-                carNameFromList = playerData.listOfCars[i].Name;
+                playerData.ListOfCars[i].IsActive = true;
+                carNameFromList = playerData.ListOfCars[i].Name;
             }
         }
     }
-    private void AddNewMaterialToCarList(int indexer) => playerData.listOfCars[indexer].materialList.Add(new MaterialInfo(colorButtonInstance.Bought, colorButtonInstance.nameOfMaterial));
-    private void AddNewCarToCarList(CarInfo car) => playerData.listOfCars.Add(car);
+    private void AddNewMaterialToCarList(int indexer) => playerData.ListOfCars[indexer].materialList.Add(new MaterialInfo(colorButtonInstance.Bought, colorButtonInstance.nameOfMaterial));
+    private void AddNewCarToCarList(CarInfo car) => playerData.ListOfCars.Add(car);
     public void SetButtonName(GameObject gO) => clickedButtonName = gO.name;
     private void RemoveLetters(int amountTimes)
     {
@@ -411,13 +411,13 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         List<CarShowCaseButton> carButtons = new List<CarShowCaseButton>();
 
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
             carButtons.Add(GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>());
 
             // TODO : Find at better solution for this
             //If we switch the buttons around os Van is the first instead of Mustang this wont work
-            if (playerData.listOfCars[i].Name == carButtons[i].nameOfCar)
+            if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
             {
                 carButtons[i].Bought = true;
             }
@@ -430,7 +430,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
         {
             colorsTab.SetActive(true);
             carsTabs.SetActive(false);
-            foreach (var item in playerData.listOfCars)
+            foreach (var item in playerData.ListOfCars)
             {
                 if (item.IsActive)
                 {
@@ -457,7 +457,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     /// <returns></returns>
     private bool ReturnIsCarActive()
     {
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             if (carButtonInstance.nameOfCar == item.Name)
             {
