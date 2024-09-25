@@ -1,31 +1,54 @@
-using CORE.Scripts;
-using CORE.Scripts.Game_Rules;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using TMPro;
 using UnityEngine;
 
-public class LetterBox : MonoBehaviour
+
+namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
 
-    [SerializeField]
-    private GameObject letterBoxText;
-
-    public TextMeshProUGUI letterText;
-
-    
-
-    // Start is called before the first frame update
-    void Start()
+    public class LetterBox : MonoBehaviour, IBox
     {
-        letterText = letterBoxText.GetComponent<TextMeshProUGUI>();
+
+        [SerializeField]
+        private GameObject letterBoxText;
+
+        public TextMeshProUGUI letterText;
+
+        public bool isSelected = false;
+
+        void Start()
+        {
+            letterText = letterBoxText.GetComponent<TextMeshProUGUI>();
+        }
+
+        /// <summary>
+        /// gets letter and displays on box
+        /// </summary>
+        /// <param name="letter"></param>
+        public void GetLetter(string letter)
+        {
+            letterText.text = letter;
+        }
+
+
+
+        /// <summary>
+        /// resets the Cube, so the momentum dosnt stay.
+        /// </summary>
+        /// <param name="cube"></param>
+        public void ResetCube()
+        {
+            gameObject.transform.parent.gameObject.SetActive(false);
+            Rigidbody rb = gameObject.GetComponentInParent<Rigidbody>(true);
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+
+            rb.rotation = Quaternion.Euler(0, 0, 0);
+            gameObject.transform.parent.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+
     }
-
- 
-    public void GetLetter(string letter)
-    {
-        letterText.text = letter;
-    }
-
-
 }

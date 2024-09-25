@@ -1377,6 +1377,7 @@ GameObject:
   - component: {fileID: 1022190381}
   - component: {fileID: 1022190382}
   - component: {fileID: 1022190383}
+  - component: {fileID: 1022190384}
   m_Layer: 0
   m_Name: ProductionLineMaster
   m_TagString: Untagged
@@ -1434,6 +1435,7 @@ MonoBehaviour:
   topSpawnPoint: {fileID: 1435126605}
   isOn: 1
   objectBoxPool: {fileID: 2142794411}
+  productionManager: {fileID: 1022190383}
 --- !u!114 &1022190383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,8 +1449,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPool: {fileID: 114825694}
-  correctWord: 
-  correctLetter: 
+  points: 0
+--- !u!114 &1022190384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022190379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01576bfa2b854046b77120d5f892dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedMaterial: {fileID: 2100000, guid: f99f5b04cfeeee5469b8b298bc6990d6, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: e41d24a8288a62b4e90f6bf4818c5ea3, type: 2}
+  mainCamera: {fileID: 547239265}
 --- !u!1 &1128747526
 GameObject:
   m_ObjectHideFlags: 0

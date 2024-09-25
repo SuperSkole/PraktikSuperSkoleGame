@@ -50,31 +50,6 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             return obj;
         }
 
-        /// <summary>
-        /// resets the Cube, so the momentum dosnt stay.
-        /// </summary>
-        /// <param name="cube"></param>
-        public void ResetCube(GameObject cube)
-        {
-
-            LetterBox letterBox = cube.transform.GetChild(0).gameObject.GetComponent<LetterBox>();
-            if (letterBox != null)
-            {
-               productionManager.WasCorrect(letterBox.letterText.text); 
-            }
-            
-
-            cube.SetActive(false);
-            Rigidbody rb = cube.GetComponent<Rigidbody>();
-
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-
-            rb.rotation = Quaternion.Euler(0, 0, 0);
-
-        }
-
 
     }
 

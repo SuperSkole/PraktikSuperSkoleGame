@@ -1,3 +1,4 @@
+using CORE.Scripts;
 using System.Collections;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         [SerializeField]
         private ProductionLineObjectPool objectBoxPool;
+
+        [SerializeField]
+        private ProductionLineManager productionManager;
 
 
 
@@ -32,6 +36,9 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
             if (imageBox != null)
             {
+                string randoWord = productionManager.GetImages();
+                Texture2D randoImg = ImageManager.GetImageFromWord(randoWord);
+                imageBox.transform.GetChild(0).gameObject.GetComponent<ImageBox>().GetImage(randoImg);
                 imageBox.transform.position = topSpawnPoint.transform.position;
                 imageBox.SetActive(true);
             }

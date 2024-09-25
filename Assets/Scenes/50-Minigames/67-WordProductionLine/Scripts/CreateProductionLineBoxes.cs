@@ -40,7 +40,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             if (letterBox != null)
             {
                 
-                letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetter());
+                letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetters());
                 letterBox.transform.position = botSpawnPoint.transform.position;
                 letterBox.SetActive(true);
             }
@@ -63,13 +63,6 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
                     CreateProductionLineLetterBox();
                 }
             }
-        }
-
-
-
-        private void AssignLetters()
-        {
-
         }
 
 
