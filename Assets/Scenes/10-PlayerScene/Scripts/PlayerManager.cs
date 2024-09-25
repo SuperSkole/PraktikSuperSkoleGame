@@ -219,6 +219,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 0
             );
+            
+            
 
             if (GameManager.Instance.IsPlayerBootstrapped)
             {
