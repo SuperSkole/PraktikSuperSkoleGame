@@ -82,7 +82,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules,boardController.GetPlayer().transform.position);
                 //Activates a random lettercube with the correct letter
                 GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-            boardController.SetAnswerText("Tryk [Mellemrum] for at h\u00f8re et bogstav, Find det bogstav der passer med lydklippet");
+            boardController.SetAnswerText("Tryk [Mellemrum] og find bogstavet.");
 
             CurrentWordSound();
 
