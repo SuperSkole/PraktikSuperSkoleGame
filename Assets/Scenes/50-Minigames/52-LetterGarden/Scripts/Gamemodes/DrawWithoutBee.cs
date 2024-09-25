@@ -45,7 +45,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
 
         public void SetUpGameModeDescription(ActiveLetterHandler activeLetterHandler)
         {
-            activeLetterHandler.descriptionText.text = "\u00f8v at tegne bogstaver. Tryk og hold nede for at tegne. Lav streger mellem bierne";
+            activeLetterHandler.descriptionText.text = "Tegn bogstaver. Bien viser start/slut";
         }
 
         public bool UseBee()

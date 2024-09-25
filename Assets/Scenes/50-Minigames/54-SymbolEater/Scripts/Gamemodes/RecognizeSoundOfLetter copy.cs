@@ -57,7 +57,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             numberOfCorrectLettersOnBoard = count;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
 
-            boardController.SetAnswerText("Tryk [Mellemrum]s tasten for at lytte til Lyden af bogstavet og v\u00e6lg det rigtige. " + " Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Tryk [Mellemrum] og find bogstavet. " + numberOfCorrectLettersOnBoard + " tilbage.");
 
             /// <summary>
             /// Uses the Lettersound.

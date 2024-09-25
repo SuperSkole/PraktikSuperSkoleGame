@@ -74,7 +74,7 @@ public class SortAndCount : IBankFrontGamemode
 
     public string GetHintText()
     {
-        return "Find alle de ægte mønter og udregn deres værdi";
+        return "Udregn værdien af ægte mønter";
     }
 
     /// <summary>

@@ -99,7 +99,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             manager.textOnBrick = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            manager.descriptionText.text = "Tryk p\u00e5 din ammunition for at g\u00f8re katapulten klar. Tryk P\u00e5 den gr\u00f8nne knap og h\u00f8r et bogstav. Skyd det bogstav som du h\u00f8rte";
+            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd det bogstav du hørte";
         }
     }
 
