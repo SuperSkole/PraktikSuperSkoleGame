@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class OutOfBounce : MonoBehaviour
 {
    
-    public Vector3 startPosition;
+    public GameObject startPosition;
     public PathOfDangerManager manager;
     // Start is called before the first frame update
     void Start()
@@ -18,12 +19,18 @@ public class OutOfBounce : MonoBehaviour
     {
         if(gameObject.transform.position.y<=-5 && manager.playerLifePoints>0)
         {
+            Debug.Log("Out of Bounce");
             manager.playerLifePoints -= 1;
-            gameObject.transform.position = startPosition;
+            manager.DestroyAllPanels();
+            PlayerManager.Instance.PositionPlayerAt(startPosition);
+            StartCoroutine(manager.WaitUntillDataIsLoaded());
+          
         }
         else
         {
             //To do: Make scene switch to lose screen. 
         }
     }
+
+   
 }

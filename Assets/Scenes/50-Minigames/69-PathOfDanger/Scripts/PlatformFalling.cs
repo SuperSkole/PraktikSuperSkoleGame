@@ -6,7 +6,9 @@ public class PlatformFalling : MonoBehaviour
 {
 
     [SerializeField] Rigidbody rb;
+    public PathOfDangerManager manager;
     public bool isCorrectAnswer = false;
+    private bool enteredBefore = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +23,20 @@ public class PlatformFalling : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (isCorrectAnswer == false)
+        if (isCorrectAnswer == false && enteredBefore == false)
         {
+            rb.isKinematic = false;
             rb.constraints = RigidbodyConstraints.None;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            enteredBefore = true;
+        }
+
+        if(isCorrectAnswer==true && enteredBefore==false)
+        {
+
+            manager.correctAnswer = true;
+            enteredBefore = true;
         }
     }
 }
