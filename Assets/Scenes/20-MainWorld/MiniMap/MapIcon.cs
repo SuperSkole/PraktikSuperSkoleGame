@@ -15,17 +15,15 @@ public class MapIcon : MonoBehaviour
     [SerializeField] Sprite home;
 
     private Image thisImage;
-    void Start()
-    {
-        thisImage = GetComponent<Image>();
 
-        if (thisImage == null)
-        {
-            Debug.LogError("No Image component on map Icon.");
-        }
-    }
     public void ChangeImage(string imageName)
     {
+        thisImage = this.GetComponent<Image>();
+        if (thisImage == null)
+        {
+            Debug.Log("No Image component on map Icon.");
+        }
+
         switch (imageName.ToLower())
         {
             case "grov":
@@ -56,6 +54,7 @@ public class MapIcon : MonoBehaviour
                 Debug.LogError("Invalid image name: " + imageName);
                 break;
         }
+        Debug.Log("Checked");
     }
 
     public void HighLight()

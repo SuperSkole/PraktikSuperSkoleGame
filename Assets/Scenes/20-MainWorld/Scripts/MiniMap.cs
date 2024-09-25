@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.UI;
 using UnityEngine.UI;
 
 public class MiniMap : MonoBehaviour
@@ -16,7 +15,7 @@ public class MiniMap : MonoBehaviour
     private List<GameObject> icons = new List<GameObject>();
     private string[] tagsToCheck = {"mark","Player" };
 
-
+    private Dictionary<string, List<GameObject>> cachedTargets = new Dictionary<string, List<GameObject>>();
 
     private void Start()
     {
@@ -34,35 +33,43 @@ public class MiniMap : MonoBehaviour
 
     private void CreateIcons()
     {
+        //check tag list
         foreach (string tag in tagsToCheck)
         {
-            
-            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
-
-                foreach (GameObject target in targets)
+            //find all gameobjects with the tag
+            cachedTargets[tag] = new List<GameObject>(GameObject.FindGameObjectsWithTag(tag));
+                
+                //Creating icon for each gameobject found
+                foreach (GameObject target in cachedTargets[tag])
                 {
-                Debug.Log("found one");
+                        //create icon as a child of miniMap
                         GameObject icon = Instantiate(iconPrefab, miniMapUI);
                         icons.Add(icon);
+
+                        //Get map info from tagged gameobject
                         MapInfo mapInfo = target.GetComponent<MapInfo>();
+
 
                     if (mapInfo != null)
                     {
-                    MapIcon mapIcon = icon.GetComponent<MapIcon>();
+                        //get script from icon prefab
+                        MapIcon mapIcon = icon.GetComponent<MapIcon>();
 
                         if(mapIcon != null)
                         {
+                        //change image
+
                             mapIcon.ChangeImage(mapInfo.iconImageName);
                         }
                         else
                         {
-                            Debug.LogError("No mapIcon found on icon prefab");
+                            Debug.Log("No mapIcon found on icon prefab");
                         }
 
                     }
                     else
                     {
-                    Debug.LogError("No Mapinfo found on target");
+                    Debug.Log("No Mapinfo found on target");
                     }
                 } 
 
@@ -70,28 +77,37 @@ public class MiniMap : MonoBehaviour
     }
     private void UpdateIcons()
     {
+        //keeping track of icon
         int iconIndex = 0;
 
         foreach (string tag in tagsToCheck)
         {
-            GameObject[] targets = GameObject.FindGameObjectsWithTag(tag);
+            if (!cachedTargets.ContainsKey(tag)) continue;
 
-            foreach (GameObject target in targets)
+            foreach (GameObject target in cachedTargets[tag])
             {
-                Vector3 viewportPos = MiniMapCamera.WorldToViewportPoint(target.transform.position);
-
-                if (viewportPos.z > 0)
+                if (iconIndex < icons.Count)
                 {
-                    icons[iconIndex].SetActive(true);
-                    Vector2 iconPos = new Vector2( (viewportPos.x - 0.5f) * miniMapUI.rect.width, (viewportPos.y - 0.5f) * miniMapUI.rect.height );
-                    icons[iconIndex].GetComponent<RectTransform>().anchoredPosition = iconPos;
+                    Vector3 viewportPos = MiniMapCamera.WorldToViewportPoint(target.transform.position);
+
+                    if (viewportPos.z > 0)
+                    {
+                        icons[iconIndex].SetActive(true);
+                        Vector2 iconPos = new Vector2((viewportPos.x - 0.5f) * miniMapUI.rect.width, (viewportPos.y - 0.5f) * miniMapUI.rect.height);
+                        icons[iconIndex].GetComponent<RectTransform>().anchoredPosition = iconPos;
+                    }
+                    else
+                    {
+                        icons[iconIndex].SetActive(false);
+                    }
+                    iconIndex++;
                 }
                 else
                 {
-                    icons[iconIndex].SetActive(false);
+                    Debug.LogWarning("More targets than icons.");
                 }
-                iconIndex++;
             }
+
         }
     }
 
