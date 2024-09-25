@@ -13,7 +13,7 @@ public class MiniMap : MonoBehaviour
     [SerializeField] RectTransform miniMapUI;
 
     private List<GameObject> icons = new List<GameObject>();
-    private string[] tagsToCheck = {"mark","Player" };
+    private string[] tagsToCheck = {"mark","Player"};
 
     private Dictionary<string, List<GameObject>> cachedTargets = new Dictionary<string, List<GameObject>>();
 
@@ -80,19 +80,26 @@ public class MiniMap : MonoBehaviour
         //keeping track of icon
         int iconIndex = 0;
 
+        //Iteration through taglist
         foreach (string tag in tagsToCheck)
         {
+            //if not in the cachedTarget list, from CreateIcons, skip it.
             if (!cachedTargets.ContainsKey(tag)) continue;
 
+            //go through alle gameobjects in the cachedTarget list
             foreach (GameObject target in cachedTargets[tag])
             {
+                //make sure we don't go above the registrede icon amount
                 if (iconIndex < icons.Count)
                 {
+                    //find out the target's relative position to the camera
                     Vector3 viewportPos = MiniMapCamera.WorldToViewportPoint(target.transform.position);
 
+                    //target needs to be in front the camera's view
                     if (viewportPos.z > 0)
                     {
                         icons[iconIndex].SetActive(true);
+                        //konvert camera koordinates to minimap koordinates.
                         Vector2 iconPos = new Vector2((viewportPos.x - 0.5f) * miniMapUI.rect.width, (viewportPos.y - 0.5f) * miniMapUI.rect.height);
                         icons[iconIndex].GetComponent<RectTransform>().anchoredPosition = iconPos;
                     }
@@ -108,6 +115,19 @@ public class MiniMap : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    public void ShakeIcon (string typedName)
+    {
+        foreach (GameObject target in icons)
+        {
+              MapIcon gottenIcon = target.GetComponent<MapIcon>();
+
+                if (gottenIcon != null && gottenIcon.IconName == typedName)
+                {
+                    gottenIcon.Highlight();
+                }
         }
     }
 
