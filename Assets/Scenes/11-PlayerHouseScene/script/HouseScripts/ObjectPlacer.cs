@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -13,25 +14,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         // Method to place an object at the specified position.
         // Takes a prefab and a position in the world as arguments.
         // Returns the index of the placed object in the list.
-        public int PlaceObject(GameObject prefab, Vector3 pos)
+        public int PlaceObject(GameObject prefab, Vector3 pos, quaternion rotation)
         {
             // Instantiate a new object from the provided prefab.
             GameObject newObject = Instantiate(prefab,parent.transform);
 
             // Set the position of the new object to the specified position.
             newObject.transform.position = pos;
+            newObject.transform.rotation = rotation;
 
             //This nudges the placed GO to the middle of the click gridplace,
             //If new models are used or the grid is smaller change this accordingly.
-            switch (newObject.name)
-            {
-                case "TableParent 1(Clone)":
-                    newObject.transform.position += new Vector3(0.25f,0f,0.1f);
-                    break;
-                case "SquareRugParent(Clone)":
-                    newObject.transform.position += new Vector3(0.05f,0f,0.04f);
-                    break;
-            }
+            PreviewSystem previewSystem = new();
+
+            newObject.transform.position += previewSystem.ReturnLocationOfGameObject(newObject.name);
 
             // Add the newly placed object to the list of placed objects.
             placedGameObjects.Add(newObject);
@@ -57,6 +53,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Set the reference in the list to null to indicate the object has been removed.
             placedGameObjects[gameObjectIndex] = null;
         }
+        
     }
 }
 

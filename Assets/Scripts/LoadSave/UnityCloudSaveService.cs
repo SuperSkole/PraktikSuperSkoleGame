@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace LoadSave
@@ -29,7 +30,7 @@ namespace LoadSave
             SaveDataDTO dto = converter.ConvertToDTO(playerData);
 
             // Serialize DTO to JSON
-            string jsonData = JsonUtility.ToJson(dto, true);
+            string jsonData = JsonConvert.SerializeObject(dto, Formatting.Indented);
 
             // Save the data in the cloud with a custom key
             await saveRepository.SaveAsync(saveKey, jsonData);
@@ -59,7 +60,7 @@ namespace LoadSave
             }
         
             // Deserialize to SaveDataDTO
-            SaveDataDTO dto = JsonUtility.FromJson<SaveDataDTO>(jsonData);
+            SaveDataDTO dto = JsonConvert.DeserializeObject<SaveDataDTO>(jsonData);
         
             // Convert back to PlayerData
             PlayerData playerData = converter.ConvertToPlayerData(dto);

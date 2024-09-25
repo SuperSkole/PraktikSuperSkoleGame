@@ -76,5 +76,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             throw new NotImplementedException();
         }
+        //No need to be able to rotate obj during deletion 
+        public void RotateItem(int degree)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +17,17 @@ public class SetUpPlayerCar : MonoBehaviour
     public GameObject spawnedCar;
     private string nameOfSpawnedCar;
 
+    [SerializeField] private GameObject carFuelMeterUI;
+    [SerializeField] private GameObject carSpeedTextUI;
+
+
     // Start is called before the first frame update
     void Start()
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
         populateDics();
         CarSpawnPos = playerData.CarPos;
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             if (item.IsActive)
             {
@@ -33,6 +38,8 @@ public class SetUpPlayerCar : MonoBehaviour
                 break;
             }
         }
+        //carFuelMeterUI.SetActive(false);
+        //carSpeedTextUI.SetActive(false);
     }
     /// <summary>
     /// 
@@ -91,7 +98,7 @@ public class SetUpPlayerCar : MonoBehaviour
         {
             foreach (var item in materialInfo)
             {
-                if (playerData.listOfCars[ReturnsIndexOfCar(value)].MaterialName == item.MaterialName)
+                if (playerData.ListOfCars[ReturnsIndexOfCar(value)].MaterialName == item.MaterialName)
                 {
                     return item;
                 }
@@ -115,9 +122,9 @@ public class SetUpPlayerCar : MonoBehaviour
     }
     private int ReturnsIndexOfCar(string name)
     {
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
-            if (playerData.listOfCars[i].Name == name)
+            if (playerData.ListOfCars[i].Name == name)
             {
                 return i;
             }
