@@ -10,6 +10,8 @@ public class MiniMap : MonoBehaviour
 
     [SerializeField] Image closePanel;
 
+
+
     private void Start()
     {
         isActive = gameObject.activeSelf;
