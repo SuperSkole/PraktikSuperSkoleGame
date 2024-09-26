@@ -37,7 +37,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
                 }
                 else
                 {
-                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter[0]));
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter.ToLower()[0]));
                 }
             }
             return result;

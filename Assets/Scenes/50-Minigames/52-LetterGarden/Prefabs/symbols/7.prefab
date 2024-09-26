@@ -61,9 +61,9 @@ MonoBehaviour:
   - m_EditModeType: 1
     m_Knots:
     - Position:
-        x: -0.0000009536743
-        y: 2.2402878
-        z: 1.3756151
+        x: 0
+        y: 1.4
+        z: 1.2
       TangentIn:
         x: 0
         y: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
           w: -0.013783884
     - Position:
         x: 0
-        y: 2.2423584
-        z: -1.432715
+        y: 1.4
+        z: -1.2
       TangentIn:
         x: 0
         y: 0
@@ -98,64 +98,44 @@ MonoBehaviour:
           w: 0.70710665
     - Position:
         x: 0
-        y: 0.6925098
-        z: -0.5801632
+        y: -1.1
+        z: 0.2
       TangentIn:
         x: -0
         y: -0
-        z: -0.60388577
+        z: -0.7370616
       TangentOut:
         x: 0
         y: 0
-        z: 0.6358855
+        z: 0.47849146
       Rotation:
         value:
-          x: 0.37681904
-          y: -0.376819
-          z: 0.5983372
-          w: 0.5983372
+          x: 0.41645613
+          y: -0.41645622
+          z: 0.57145804
+          w: 0.5714581
     - Position:
         x: 0
-        y: -1.1210791
-        z: 0.16653866
+        y: -2.3
+        z: 0.335
       TangentIn:
         x: -0
         y: -0
-        z: -0.565069
+        z: -0.120756984
       TangentOut:
         x: 0
         y: 0
-        z: 0.43722382
+        z: 0.120756984
       Rotation:
         value:
-          x: 0.43262413
-          y: -0.43262392
-          z: 0.5593179
-          w: 0.5593178
-    - Position:
-        x: 0.00000047683716
-        y: -2.2871869
-        z: 0.30426973
-      TangentIn:
-        x: -0
-        y: -0
-        z: -0.117421344
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0.117421344
-      Rotation:
-        value:
-          x: 0.46976164
-          y: -0.46976146
-          z: 0.52851135
-          w: 0.52851117
+          x: 0.47122324
+          y: -0.47122324
+          z: 0.52720845
+          w: 0.52720845
     m_MetaData:
     - Mode: 1
       Tension: 0.5
     - Mode: 4
-      Tension: 0.5
-    - Mode: 0
       Tension: 0.5
     - Mode: 0
       Tension: 0.5
