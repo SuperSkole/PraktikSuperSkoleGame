@@ -1,20 +1,19 @@
 using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
+using Scenes;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Analytics;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
-using static UnityEditor.Rendering.CameraUI;
 
 public class ProductionLineController : MonoBehaviour
 {
-    
+
     private static GameObject selectedLetterBox, selectedImageBox;
 
 
-    [SerializeField] private Material selectedMaterial, defaultMaterial, wrongMaterial;
+    [SerializeField] private Material selectedMaterial, defaultMaterial, wrongMaterial, correctMaterial;
 
     private static Material staticDefaultMaterial;
 
@@ -24,6 +23,11 @@ public class ProductionLineController : MonoBehaviour
     [SerializeField]
     private int points = 0;
 
+    [SerializeField]
+    private GameObject scoreTextObject;
+
+    public TextMeshProUGUI scoreText;
+
 
     RaycastHit hit;
     Ray ray;
@@ -32,6 +36,7 @@ public class ProductionLineController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
         staticDefaultMaterial = defaultMaterial;
     }
 
@@ -45,6 +50,9 @@ public class ProductionLineController : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// If you click a ProductionCube it registeres.
+    /// </summary>
     private void ClickHit()
     {
         ray = mainCamera.ScreenPointToRay(Input.mousePosition);
@@ -67,7 +75,10 @@ public class ProductionLineController : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// Checks what you've clicked.
+    /// </summary>
+    /// <param name="hitObject"></param>
     private void ClickLetterCubes(GameObject hitObject)
     {
         if (hitObject.GetComponentInChildren<LetterBox>())
@@ -141,30 +152,67 @@ public class ProductionLineController : MonoBehaviour
 
             if (letter == imageFirstLetter)
             {
-                selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
-                selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
-                ResetCubes(selectedImageBox);
-                ResetCubes(selectedLetterBox);
-                points++;
+                StartCoroutine(WaitForRightXSeconds());
+
+                if (points >= 5)
+                {
+
+                    SwitchScenes.SwitchToMainWorld();
+                }
             }
 
             else
             {
-                selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
-                selectedImageBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
-                StartCoroutine(WaitForXSeconds());
-                selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
-                selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
-                ResetCubes(selectedImageBox);
-                ResetCubes(selectedLetterBox);
+                CheckIfWrong();
             }
         }
     }
 
 
-    IEnumerator WaitForXSeconds()
+    /// <summary>
+    /// checks if the chosen are wrong.
+    /// </summary>
+    private void CheckIfWrong()
     {
-            // Wait for x seconds
-            yield return new WaitForSeconds(2); 
+        // Start koroutinen
+        StartCoroutine(WaitForWrongXSeconds());
+    }
+
+
+    /// <summary>
+    /// changes the color of the cube to green to indiacte Success and increases the Score
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator WaitForRightXSeconds()
+    {
+        selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
+        selectedImageBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
+        points++;
+        scoreText.text = $"Score: {points}";
+
+        yield return new WaitForSeconds(1);
+
+        selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
+        selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
+        ResetCubes(selectedImageBox);
+        ResetCubes(selectedLetterBox);
+    }
+
+    /// <summary>
+    /// changes the color of the cube to red to indiacte error
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator WaitForWrongXSeconds()
+    {
+        selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
+        selectedImageBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
+
+
+        yield return new WaitForSeconds(1);
+
+        selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
+        selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
+        ResetCubes(selectedImageBox);
+        ResetCubes(selectedLetterBox);
     }
 }
