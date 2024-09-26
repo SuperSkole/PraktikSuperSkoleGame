@@ -71,7 +71,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     void Start()
     {
-        Debug.Log(playerLifePoints);
+        
         hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
 
         if (PlayerManager.Instance != null)
@@ -84,7 +84,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         }
         else
         {
-            Debug.Log("WordFactory GM.Start(): Player Manager is null");
+            Debug.Log("Player Manager is null");
         }
 
 
@@ -181,7 +181,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
                     gameMode.SetCorrectAnswer(questions[z], this);
 
-                    Debug.Log(questions[z]);
+                   
 
                     platformPrefabFallingScript.isCorrectAnswer = true;
                 }
@@ -277,7 +277,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// <returns></returns>
    public IEnumerator WaitUntillDataIsLoaded()
     {
-        Debug.Log("Wait untilDatais loaded");
+        
         //Both the images needds loaded before the platforms are built 
         //reinsert: || !IsSaveDataLoaded
         while (!ImageManager.IsDataLoaded)
