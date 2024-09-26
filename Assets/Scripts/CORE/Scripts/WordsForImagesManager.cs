@@ -55,8 +55,29 @@ namespace CORE.Scripts
 
         public static string GetRandomSoundCorrectWordForImage()
         {
-            string word = soundCorrectWords[Random.Range(0, soundCorrectWords.Count)];
-            return word;
+            int attempts = 0;
+            string word;
+            while (true)
+            {
+                word = soundCorrectWords[Random.Range(0, soundCorrectWords.Count)];
+                word.Replace("æ", "(ae)");
+                word.Replace("ø", "(oe)");
+                word.Replace("å", "(aa)");
+                if (imageWords.Contains(word))
+                {
+                    return word;
+                }
+                else
+                {
+                    attempts++;
+                    if(attempts > 50)
+                    {
+                        Debug.Log("could not find a word in the list that fit an image, using GetRandomWordForImage() instead");
+                        word = GetRandomWordForImage();
+                        return word;
+                    }
+                }
+            }
         }
     }
 
