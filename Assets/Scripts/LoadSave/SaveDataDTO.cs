@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace LoadSave
 {
@@ -20,18 +21,18 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
-        public List<string> CollectedWords = new List<string>();
-        public List<char> CollectedLetters = new List<char>();
+        [JsonIgnore] public List<string> CollectedWords = new List<string>();
+        [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
         private int lifetimeTotalLetters;
 
         // Clothing
         private string clothMid;
         private string clothTop;
-        public List<int> BoughtClothes = new List<int>();
+        [JsonIgnore] public List<int> BoughtClothes = new List<int>();
 
         // Cars
-        public List<CarInfo> ListOfCars = new List<CarInfo>();
+        [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
 
         // Properties for encapsulation
         public string Username { get => username; set => username = value; }

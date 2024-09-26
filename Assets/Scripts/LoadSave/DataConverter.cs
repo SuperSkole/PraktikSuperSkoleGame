@@ -92,6 +92,13 @@ namespace LoadSave
                             // Check if the property is a list (handle lists specifically)
                             if (typeof(IList).IsAssignableFrom(sourceProperty.PropertyType))
                             {
+                                // Clear the destination list before copying to avoid duplication
+                                IList destList = (IList)destProperty.GetValue(destination);
+                                if (destList != null)
+                                {
+                                    destList.Clear();
+                                }
+                                
                                 // Log to ensure lists are detected
                                 //Debug.Log($"Copying list property: {destProperty.Name}");
 

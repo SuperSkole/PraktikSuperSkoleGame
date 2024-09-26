@@ -266,8 +266,6 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.IsNewGame = false;
         }
 
-        
-
         public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
