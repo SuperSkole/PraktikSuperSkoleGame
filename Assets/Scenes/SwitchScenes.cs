@@ -21,6 +21,7 @@ namespace Scenes
         public static void SwitchToRacerScene() => SceneManager.LoadScene(SceneNames.Racer);
         public static void SwitchToArcadeScene() => SceneManager.LoadScene(SceneNames.Arcade);
         public static void SwitchToArcadeBalloonScene() => SceneManager.LoadScene(SceneNames.ArcadeBalloon);
+        public static void SwitchToArcadeCatClock() => SceneManager.LoadScene(SceneNames.ArcadeCatClock);
         public static void SwitchToLetterGardenLoaderScene() => SceneManager.LoadScene(SceneNames.LetterLoading);
         public static void SwitchToLetterGardenScene() => SceneManager.LoadScene(SceneNames.Letter);
         public static void SwitchToBankFrontScene() => SceneManager.LoadScene(SceneNames.Bank);
