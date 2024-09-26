@@ -179,7 +179,10 @@ public class ProductionLineController : MonoBehaviour
         StartCoroutine(WaitForWrongXSeconds());
     }
 
-
+    /// <summary>
+    /// Sets winscreen active and after a few seconds switches to GameWorld
+    /// </summary>
+    /// <returns></returns>
     IEnumerator CheckIfYouWin()
     {
         
