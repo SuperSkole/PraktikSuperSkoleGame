@@ -36,6 +36,9 @@ public class LoadingSceneSetup : MonoBehaviour
                 case 2:
                     SwitchScenes.SwitchToLetterGardenLoaderScene();
                     break;
+                case 3:
+                    SwitchScenes.SwitchToPathOfDanger();
+                    break;
                 default:
                     Debug.LogError("unknown sceneID");
                     break;

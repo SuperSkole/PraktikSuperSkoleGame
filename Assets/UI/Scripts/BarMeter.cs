@@ -61,10 +61,10 @@ namespace UI.Scripts
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
             GameManager.Instance.PlayerData.PendingGoldAmount = 0;
 
-            if(coinPrefab == null && GameManager.Instance.playerManager != null)
+            if(coinPrefab == null && GameManager.Instance.PlayerManager != null)
             {
 
-                coinPrefab = GameManager.Instance.playerManager.coinPrefab;
+                coinPrefab = GameManager.Instance.PlayerManager.coinPrefab;
             }
             changeValueCoroutine = StartCoroutine(ChangeValueRoutine(amount));
         }

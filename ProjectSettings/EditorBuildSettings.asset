@@ -69,6 +69,12 @@ EditorBuildSettings:
     path: Assets/Scenes/70-Arcade/71-BalloonPopper.unity
     guid: a99655565fe93564ab3c2fa45e2f4824
   - enabled: 1
+    path: Assets/Scenes/70-Arcade/72-AsteroidShooting.unity
+    guid: fe432d6548f4bee41b9b96b9b0b5c8b8
+  - enabled: 1
+    path: Assets/Scenes/70-Arcade/73-CatClockMinigame.unity
+    guid: 66cb1bb084d0b6749aecc7192fab31f5
+  - enabled: 0
     path: Assets/Scenes/20-MainWorld/20-MainWorld-Doorlights.unity
     guid: 013831339508e8645ae3b2c1b08ad394
   - enabled: 1
@@ -79,14 +85,20 @@ EditorBuildSettings:
     guid: d1d6f7b540f0a9d469026f9fd3c9bf88
   - enabled: 1
     path: Assets/Scenes/20-MainWorld/20-MainWorld.unity
-    guid: 4ef88f34d60f2d4428604eb32b37f660
+    guid: c0f96a123c7f3d04f9ab13b54354f89d
   - enabled: 1
     path: Assets/Scenes/70-Arcade/AsteroidShooting/AsteroidLoseScreen.unity
     guid: 70d0550760428d94198cc09f1786cc31
   - enabled: 1
-    path: Assets/Scenes/69-PathOfDanger/69-PathOfDanger.unity
+    path: Assets/Scenes/50-Minigames/69-PathOfDanger/69-PathOfDanger.unity
     guid: 10103333f64169d4884ab42b6d056d50
   - enabled: 1
     path: Assets/Scenes/50-Minigames/61-BankFront/61-BankFront.unity
     guid: 77e6b7babfcd2a141a53de23ee898b3b
+    enabled: 1
+    path: Assets/Scenes/50-Minigames/69-PathOfDanger/PathOfDangerLoseScreen.unity
+    guid: 492733360f9b9c342bcdb7ca7d82e228
+  - enabled: 1
+    path: Assets/Scenes/88-LeaderBoard/88-LeaderBoard.unity
+    guid: fa521aa7bf7349e4493681a6508aef30
   m_configObjects: {}

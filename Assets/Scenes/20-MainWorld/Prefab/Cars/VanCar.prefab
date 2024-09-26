@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 3406965060714020339}
   - component: {fileID: 1824092531296578026}
   m_Layer: 0
-  m_Name: SM_Veh_Car_Van_Door_r
+  m_Name: BackDoor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,13 +272,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3589110901360545888}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.80626863, y: 1.0849798, z: -2.2893221}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.80627394, y: 1.08498, z: -2.2893221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7262567919396227329}
-  m_Father: {fileID: 7600620704936572266}
+  m_Father: {fileID: 3192572241180977747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3406965060714020339
 MeshFilter:
@@ -442,8 +442,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5310123904339997243}
-  - {fileID: 2736017194313534690}
   - {fileID: 652257713310988349}
   - {fileID: 5592675403152759914}
   m_Father: {fileID: 3192572241180977747}
@@ -912,7 +910,7 @@ GameObject:
   - component: {fileID: 7993264183177497276}
   - component: {fileID: 7573800441067361133}
   m_Layer: 0
-  m_Name: SM_Veh_Car_Van_Door_l
+  m_Name: BackDoor (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,13 +924,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7404453692011189393}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.806267, y: 1.0849798, z: -2.2893221}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.80625963, y: 1.08498, z: -2.2893217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2905465738795317486}
-  m_Father: {fileID: 7600620704936572266}
+  m_Father: {fileID: 3192572241180977747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7993264183177497276
 MeshFilter:
@@ -1301,7 +1299,11 @@ PrefabInstance:
       objectReference: {fileID: 2893603825632004143}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: accelerationMultiplier
-      value: 7
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: handbrakeDriftMultiplier
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 901333271, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
@@ -1420,9 +1422,13 @@ PrefabInstance:
       value: 1.8529913
       objectReference: {fileID: 0}
     - target: {fileID: 2847525949359012301, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2847525949359012301, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a1829ada767859a46a5fd32962c5195f, type: 2}
+      objectReference: {fileID: 2100000, guid: c1d48912bfca1d54e96b41fea12cd010, type: 2}
     - target: {fileID: 2847525949359012301, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
@@ -1551,6 +1557,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7600620704936572266}
+    - targetCorrespondingSourceObject: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5310123904339997243}
+    - targetCorrespondingSourceObject: {fileID: 261786959625234688, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2736017194313534690}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 642287924342879162, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       insertIndex: -1
@@ -1636,7 +1648,6 @@ MonoBehaviour:
   isNPC: 0
   isCar: 1
   isGasSTT: 0
-  interactions: {fileID: 0}
   neededLvlToEnter: 0
 --- !u!114 &2208124547854711839
 MonoBehaviour:
@@ -1702,6 +1713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 3453212339693683068}
   fuelAmount: 0
+  FuelUsageMultiplier: 1.5
   fuelGauge: {fileID: 0}
 --- !u!114 &4707417479300227861
 MonoBehaviour:

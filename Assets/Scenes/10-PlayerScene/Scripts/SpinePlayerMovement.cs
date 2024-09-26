@@ -1,6 +1,7 @@
 using Spine.Unity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -30,7 +31,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         void Update()
         {
-            if (!hoveringOverUI && Input.GetMouseButtonDown(0))
+            if (!hoveringOverUI  && !IsPointerOverUI() && Input.GetMouseButtonDown(0))
             {
                 Vector3 newMoveToPos = GetSelectedMapPosition();
                 if (newMoveToPos != Vector3.zero)
@@ -160,6 +161,8 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             isMoving = false;
         }
+        public bool IsPointerOverUI()
+            => EventSystem.current.IsPointerOverGameObject();
         /// <summary>
         /// Gets the position on the map that the player clicked on.
         /// </summary>
