@@ -8,7 +8,7 @@ namespace LoadSave
     /// It contains fields that represent the state to be saved.
     /// </summary>
     [System.Serializable]
-    public class SaveDataDTO 
+    public class SaveDataDTO : IDataTransferObject
     {
         // player Stats
         private string username;
