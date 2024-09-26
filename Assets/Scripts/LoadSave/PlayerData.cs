@@ -40,9 +40,9 @@ namespace LoadSave
 
         //For the Car
         [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
-        public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
-        public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
-        public float FuelAmount { get; set; } = 1f;
+        [ExcludeFromSave] public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
+        [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
+        [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
 
         
         public string Username { get => username; set => username = value; }
