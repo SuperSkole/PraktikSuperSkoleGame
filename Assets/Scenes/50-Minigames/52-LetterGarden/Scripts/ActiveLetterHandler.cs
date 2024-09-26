@@ -61,11 +61,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
             defaultBeeSpeed = bee.speed;
+            letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
             //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
             if(!gameMode.UseBee())
             {
                 bee.speed = 0;
-                letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                
                 if(helperBeeActive)
                 {
                     activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
@@ -112,11 +113,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                         Destroy(activeHelperBee);
                         activeHelperBee = null;
                     }
+                    letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
                     //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
                     if(!gamemode.UseBee())
                     {
                         bee.speed = 0;
-                        letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                        
                         if(helperBeeActive)
                         {
                             activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
