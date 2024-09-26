@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CORE;
+using Scenes._10_PlayerScene.Scripts;
 using Unity.Services.CloudSave;
 using UnityEngine;
 
@@ -20,58 +21,65 @@ namespace LoadSave
             ISaveRepository repository = new CloudSaveRepository();
             cloudSaveService = new UnityCloudSaveService(repository);
         }
-
-        /// <summary>
-        /// Asynchronously saves player data to the cloud.
-        /// </summary>
-        /// <param name="playerData">The player data to save.</param>
-        /// <returns>A task representing the asynchronous save operation.</returns>
-        public async Task SaveGameAsync(PlayerData playerData)
+        
+        public async Task SaveDataAsync(IDataTransferObject DTO, string dataType)
         {
+            var username = PlayerManager.Instance.PlayerData.Username;
+            var monsterName = PlayerManager.Instance.PlayerData.MonsterName;
+            
             try
             {
                 // Use the username and monsterName to generate the save key
-                string saveKey = GenerateSaveKey(playerData.Username, playerData.MonsterName);
+                string saveKey = GenerateSaveKey(username, monsterName, dataType);
 
                 // Save player data, overwriting the existing save if necessary
-                await cloudSaveService.SavePlayerDataAsync(playerData, saveKey);
+                await cloudSaveService.SaveAsync(DTO, saveKey);
 
-                Debug.Log("Game saved successfully for " + playerData.MonsterName);
+                Debug.Log("Game saved successfully for " + monsterName);
             }
             catch (Exception ex)
             {
                 Debug.LogError($"An error occurred while saving the game: {ex.Message}");
             }
         }
-
+        
         /// <summary>
-        /// Asynchronously loads the player's game data from the cloud.
+        /// Loads the game data of the specified type.
         /// </summary>
-        /// <param name="saveKey">The key of the save to load.</param>
-        /// <param name="onDataLoaded">Callback to pass the loaded data.</param>
-        public async void LoadGame(string saveKey, Action<PlayerData> onDataLoaded)
+        /// <typeparam name="T">The type of the DTO to load.</typeparam>
+        /// <param name="saveKey">The save key associated with the data.</param>
+        /// <param name="onDataLoaded">Callback to handle the loaded data.</param>
+        public async void LoadGame<T>(string saveKey, Action<T> onDataLoaded) where T : IDataTransferObject
         {
             try
             {
-                // Load save data from the cloud
-                PlayerData data = await LoadSaveDataAsync(saveKey);  
-                
+                // Load the data as a generic IDataTransferObject
+                T data = await LoadSaveDataAsync<T>(saveKey);
+
                 if (data != null)
                 {
                     Debug.Log("Game loaded successfully.");
-                    onDataLoaded?.Invoke(data);  // Callback to LoadGameController
+                    onDataLoaded?.Invoke(data);
                 }
                 else
                 {
                     Debug.LogError("Failed to load game data.");
-                    onDataLoaded?.Invoke(null);
+                    onDataLoaded?.Invoke(default);
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogError($"An error occurred while loading the game: {ex.Message}");
-                onDataLoaded?.Invoke(null);
+                onDataLoaded?.Invoke(default);
             }
+        }
+        
+        /// <summary>
+        /// Asynchronously loads the save data of the specified type from the cloud.
+        /// </summary>
+        public async Task<T> LoadSaveDataAsync<T>(string saveKey) where T : IDataTransferObject
+        {
+            return await cloudSaveService.LoadDataAsync<T>(saveKey);
         }
 
         /// <summary>
@@ -96,20 +104,20 @@ namespace LoadSave
         }
 
         /// <summary>
-        /// Loads the save data asynchronously using the save key.
+        /// Generates a unique key for saving data using username, monster name, and dataType.
         /// </summary>
-        public async Task<PlayerData> LoadSaveDataAsync(string saveKey)
+        /// <param name="username">The username related to the save data.</param>
+        /// <param name="monsterName">The monster name related to the save data.</param>
+        /// <param name="dataType">The type of data being saved.</param>
+        /// <returns>A string representing the generated save key.</returns>
+        public string GenerateSaveKey(
+            string username,
+            string monsterName,
+            string dataType)
         {
-            return await cloudSaveService.LoadPlayerDataAsync(saveKey);
+            return $"{username}_{monsterName}_{dataType}";
         }
 
-        /// <summary>
-        /// Generates a unique key for saving data using username and monster name.
-        /// </summary>
-        private string GenerateSaveKey(string username, string monsterName)
-        {
-            return $"{username}_{monsterName}";
-        }
 
         /// <summary>
         /// Gets all save keys for the current user from Unity Cloud Save.

@@ -16,6 +16,8 @@ namespace CORE
         public LoadGameManager LoadManager;
         public SaveGameController SaveGameController; 
         public PlayerManager PlayerManager;
+
+        public DataConverter Converter { get; } = new DataConverter();
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }
@@ -142,7 +144,12 @@ namespace CORE
             if (PlayerManager.Instance.SpawnedPlayer != null)
             {
                 Debug.Log("Saving game...");
-                await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                //await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                
+                // Convert the PlayerData to a SaveDataDTO
+                SaveDataDTO dto = Converter.ConvertToDTO(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                
+                await SaveGameController.SaveDataAsync(dto, "PlayerData");
             }
             else
             {
