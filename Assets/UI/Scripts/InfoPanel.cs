@@ -1,8 +1,5 @@
-using Import.LeanTween.Framework;
 using System.Collections;
-using System.Security.Cryptography;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +10,7 @@ public class InfoPanel : MonoBehaviour
 
     public RectTransform pivot; 
 
-    private Canvas canvas;
+    public Canvas canvas;
     private RectTransform canvasRectTransform;
     private Vector2 canvasCenter;
 
@@ -21,21 +18,24 @@ public class InfoPanel : MonoBehaviour
     private bool lastFlopped = false;
 
     private Vector2 padding = new Vector2(50f, 50f);
-    public Vector4 marginOffsets = new Vector4(10f, 10f, 10f, 10f);
 
-    private void Start()
+    private Coroutine resetCoroutine;
+
+
+    public void setInfo(string info)
     {
-        canvas = FindAnyObjectByType<Canvas>();
-
-        if (canvas != null )
+        if(resetCoroutine != null)
         {
-            canvasRectTransform = canvas.GetComponent<RectTransform>();
+            StopCoroutine(resetCoroutine);
         }
-        setInfo("Tilbage");
-    }
 
-    private void setInfo(string info)
-    {
+        if (resetCoroutine == null)
+        {
+            resetCoroutine = StartCoroutine(CheckMouseIdle());
+        }
+
+        canvasRectTransform = canvas.GetComponent<RectTransform>();
+
         canvasCenter = GetCanvasCenter();
         contentText.text = info;
 
@@ -44,8 +44,53 @@ public class InfoPanel : MonoBehaviour
         Vector2 newSize = new Vector2(preferredSize.x + padding.x, preferredSize.y + padding.y);
         infoPanelRect.sizeDelta = newSize;
 
+        Debug.Log("This");
+
     }
 
+    public void StopInfo()
+    {
+        if (resetCoroutine != null)
+        {
+            StopCoroutine(resetCoroutine);
+            resetCoroutine = null;
+        }
+
+        infoPanelRect.gameObject.SetActive(false);
+    }
+
+    private IEnumerator CheckMouseIdle()
+    {
+        Vector3 lastMousePosition = Input.mousePosition;
+        float timer = 0f;
+
+        while (true)
+        {
+            if (Input.mousePosition != lastMousePosition)
+            { 
+               lastMousePosition = Input.mousePosition;
+                timer = 0f;
+                infoPanelRect.gameObject.SetActive(false);
+                Debug.Log("mouse moved");
+            
+            }
+            else
+            {
+                Debug.Log("mouse not moving");
+                timer += Time.deltaTime;
+
+                if (timer > 1f)
+                {
+                    Debug.Log("Open");
+                    infoPanelRect.gameObject.SetActive(true);
+                }
+            }
+            yield return null;
+        }
+        
+    }
+    
+    
     private void Update()
     {
         // Set the panel position to the mouse position
@@ -91,10 +136,6 @@ public class InfoPanel : MonoBehaviour
             lastFlipped = flipped;
             lastFlopped = flopped;
 
-            Vector3 oldPosition = contentText.rectTransform.position;
-
-            Vector2 newPivot = contentText.rectTransform.pivot;
-
             //Right
             if (flipped)
             {
@@ -106,7 +147,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.x = -Mathf.Abs(scaleText.x);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.x = 1f;
             }
 
             //Left
@@ -120,7 +160,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.x = Mathf.Abs(scaleText.x);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.x = 0f;
             }
 
             //Bottom
@@ -134,7 +173,6 @@ public class InfoPanel : MonoBehaviour
                 scaleText.y = -Mathf.Abs(scaleText.y);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.y = 0f;
             }
             //Top
             if (!flopped)
@@ -147,28 +185,14 @@ public class InfoPanel : MonoBehaviour
                 scaleText.y = Mathf.Abs(scaleText.y);
                 contentText.rectTransform.localScale = scaleText;
 
-                newPivot.y = 1f;
             }
 
-            contentText.rectTransform.pivot = newPivot;
-            AlignToPivot(contentText.rectTransform, pivot, oldPosition);
+            contentText.rectTransform.position = infoPanelRect.position;
 
-            float panelHeight = infoPanelRect.rect.height;
-            float panelWidth = infoPanelRect.rect.width;
-
-            contentText.margin = new Vector4(
-                panelWidth * 0.05f + marginOffsets.x,
-                panelHeight * 0.05f + marginOffsets.y,
-                panelWidth * 0.05f + marginOffsets.z,
-                panelHeight * 0.05f + marginOffsets.w);
+           
         }
 
     }
-    private void AlignToPivot(RectTransform content, RectTransform targetPivot, Vector3 oldPosition)
-    {
-        Vector3 pivotDelta = content.position - oldPosition;
-
-        content.position = targetPivot.position - pivotDelta;
-    }
+ 
 
 }
