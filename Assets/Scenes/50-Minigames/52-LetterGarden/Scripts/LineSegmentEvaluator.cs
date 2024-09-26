@@ -54,19 +54,16 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
             if (!ispointAtEndOfSpline) 
             {
-                Debug.Log("end of dwaing is not at end of line");
                 return false;//checks that the end of the drawing is within the last 20% of the spline
             }
 
             if(totalCorrectDirectionPrecentage <= totalCorrectDirectionPrecentageCutoff)
             {
-                Debug.Log("too mutch of the dwaing was in the worng direction");
                 return false;
             }
 
             if(totalDist >= maxDist)
             {
-                Debug.Log("You were to inacriate");
                 return false;
             }
 

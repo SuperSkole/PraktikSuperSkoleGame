@@ -62,8 +62,8 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: -2
-        z: 0.1
+        y: -2.4
+        z: 0.3
       TangentIn:
         x: 0
         y: 0
@@ -80,60 +80,8 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 0
-        z: 0.1
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
-    m_MetaData:
-    - Mode: 1
-      Tension: 0.5
-    - Mode: 1
-      Tension: 0.5
-    m_Closed: 0
-    m_IntData:
-      m_Data: []
-    m_FloatData:
-      m_Data: []
-    m_Float4Data:
-      m_Data: []
-    m_ObjectData:
-      m_Data: []
-  - m_EditModeType: 1
-    m_Knots:
-    - Position:
-        x: 0
-        y: 0
-        z: 0.1
-      TangentIn:
-        x: 0
-        y: 0
-        z: 0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: 0
-          y: 0
-          z: 0
-          w: 1
-    - Position:
-        x: 0
-        y: 2.4
-        z: 1.8
+        y: -0.6
+        z: 0.3
       TangentIn:
         x: 0
         y: 0
@@ -166,8 +114,8 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: 0
-        z: 0.1
+        y: -0.6
+        z: 0.3
       TangentIn:
         x: 0
         y: 0
@@ -184,8 +132,60 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 2.4
-        z: -1.5
+        y: 1.1
+        z: 1.5
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    m_MetaData:
+    - Mode: 1
+      Tension: 0.5
+    - Mode: 1
+      Tension: 0.5
+    m_Closed: 0
+    m_IntData:
+      m_Data: []
+    m_FloatData:
+      m_Data: []
+    m_Float4Data:
+      m_Data: []
+    m_ObjectData:
+      m_Data: []
+  - m_EditModeType: 1
+    m_Knots:
+    - Position:
+        x: 0
+        y: -0.6
+        z: 0.3
+      TangentIn:
+        x: 0
+        y: 0
+        z: 0
+      TangentOut:
+        x: 0
+        y: 0
+        z: 0
+      Rotation:
+        value:
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+    - Position:
+        x: 0
+        y: 1.1
+        z: -0.9
       TangentIn:
         x: 0
         y: 0
