@@ -11,8 +11,6 @@ public class CoinInfoToggle : MonoBehaviour
 {
     [SerializeField] private GameObject coinWindow;
     [SerializeField] private BankManager bankManager;
-    [SerializeField] private Button validateButton;
-    [SerializeField] TMP_InputField inputField;
     private RectTransform rectTransform;
     private bool shown = false;
     private Vector2 startPos;
@@ -51,21 +49,17 @@ public class CoinInfoToggle : MonoBehaviour
         shown = !shown;
         if(shown)
         {
-            foreach(Coin coin in bankManager.currentCustomersCoins)
+            foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(false);
             }
-            validateButton.interactable = false;
-            inputField.interactable = false;
         }
         else
         {
-            foreach(Coin coin in bankManager.currentCustomersCoins)
+            foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(true);
             }
-            validateButton.interactable = true;
-            inputField.interactable = true;
         }
     }
 }

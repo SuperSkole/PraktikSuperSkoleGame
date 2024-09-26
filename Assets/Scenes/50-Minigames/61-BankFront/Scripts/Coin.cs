@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// class to handle coins in the bank main entrance minigame
 /// </summary>
 public class Coin : MonoBehaviour
 {
-    [SerializeField]private bool validCoin;
+    public bool validCoin;
     [SerializeField]private int value;
+
+    public Button button;
 
     public GameObject sortedTray;
     public GameObject unsortedTray;
