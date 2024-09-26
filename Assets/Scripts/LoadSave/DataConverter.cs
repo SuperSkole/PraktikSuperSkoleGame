@@ -145,7 +145,8 @@ namespace LoadSave
                 else
                 {
                     // Log missing source property or no write access
-                    Debug.LogWarning($"No matching source property found or destination property is not writable: {destProperty.Name}");
+                    Debug.LogWarning($"DataConverter: No matching source property found or destination property is not writable: {destProperty.Name}");
+                    Debug.Log($"DataConverter: Trying to copy {destProperty.Name} from {source}. Did you forget private field, public property in playerdata or savedata?");
                 }
             }
         }
