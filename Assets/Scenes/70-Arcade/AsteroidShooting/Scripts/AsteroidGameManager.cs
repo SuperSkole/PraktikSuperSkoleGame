@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AsteroidGameManager : MonoBehaviour
@@ -42,7 +43,6 @@ public class AsteroidGameManager : MonoBehaviour
     Vector3 spawnPosition;
     void Start()
     {
-        spawnPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -52,7 +52,7 @@ public class AsteroidGameManager : MonoBehaviour
       
 
         //updates the score text
-        textMesh.text = "Score:" + score;
+        textMesh.text = "Score: " + score;
 
         //updates timer for spawning. 
         timer += Time.deltaTime;
@@ -83,8 +83,9 @@ public class AsteroidGameManager : MonoBehaviour
             spawnedAsteroids++;
             polygonIndex =Random.Range(0, 4);
             Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
+            spawnPosition= GetRandomSpawnPoint();
 
-            
+
             switch (polygonIndex)
             {
                 case 0:
@@ -119,6 +120,49 @@ public class AsteroidGameManager : MonoBehaviour
         }
         
     }
+
+
+    /// <summary>
+    /// Gets a random spawn point on the edge of the screen
+    /// </summary>
+    /// <returns></returns>
+    private Vector3 GetRandomSpawnPoint()
+    {
+        //How far along the edge of the camera
+        float offSet = Random.Range(0f, 1f);
+
+        Vector2 viewportSpawnPosition = Vector2.zero;
+
+        //Which edge.
+        int edge = Random.Range(0, 4);
+
+        switch (edge)
+        {
+            case 0:
+                viewportSpawnPosition =new Vector3(offSet, 0,0);
+                break;
+            case 1:
+                viewportSpawnPosition = new Vector3(offSet, 1, 0);
+                break;
+            case 2:
+                viewportSpawnPosition = new Vector3(0, offSet, 0);
+                break;
+            case 3:
+                viewportSpawnPosition = new Vector3(1, offSet, 0);
+                break;
+            default:
+                break;
+        }
+
+        //Turns viewportposition to Worldposition
+        Vector3 worldSpawnPosition = Camera.main.ViewportToWorldPoint(viewportSpawnPosition);
+
+        worldSpawnPosition.z = -1;
+
+        return worldSpawnPosition;
+
+    }
+
 
 
     /// <summary>

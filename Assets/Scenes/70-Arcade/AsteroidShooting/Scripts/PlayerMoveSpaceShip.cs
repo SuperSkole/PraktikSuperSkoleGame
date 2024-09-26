@@ -41,12 +41,12 @@ public class PlayerMoveSpaceShip : MonoBehaviour
 
    
         //Rotates the PlayerSpaceShip based on the left and right input of the used device. 
-        if (Input.GetAxis("Horizontal") < 0f)
+        if (Input.GetAxisRaw("Horizontal") < 0f)
         {
             transform.Rotate(0, 0, 1.5f);
         }
 
-        if (Input.GetAxis("Horizontal") > 0f)
+        if (Input.GetAxisRaw("Horizontal") > 0f)
         {
             transform.Rotate(0, 0, -1.5f);
         }

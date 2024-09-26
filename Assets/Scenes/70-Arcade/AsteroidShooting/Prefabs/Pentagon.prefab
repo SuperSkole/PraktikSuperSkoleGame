@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1785157377222665468}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 839, y: 504, z: -121}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 80, y: 80, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 1756759536645759299, guid: 8ead8994d65a3fb46916d291dc309208, type: 3}
   explosionPrefab: {fileID: 1265720855497889114, guid: b0787843777c9cf45a66cca4cfc5efb8, type: 3}
-  asteroidSpawner: {fileID: 0}
+  gameManager: {fileID: 0}
   minXForce: 0
   maxXForce: 0
   minYForce: 0
