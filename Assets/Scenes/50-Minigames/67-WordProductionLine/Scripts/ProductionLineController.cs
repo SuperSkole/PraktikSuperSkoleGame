@@ -4,7 +4,6 @@ using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ProductionLineController : MonoBehaviour
@@ -18,6 +17,9 @@ public class ProductionLineController : MonoBehaviour
     private static Material staticDefaultMaterial;
 
     [SerializeField] Camera mainCamera;
+
+    [SerializeField]
+    private GameObject winScreen;
 
 
     [SerializeField]
@@ -156,8 +158,7 @@ public class ProductionLineController : MonoBehaviour
 
                 if (points >= 5)
                 {
-
-                    SwitchScenes.SwitchToMainWorld();
+                    StartCoroutine(CheckIfYouWin());
                 }
             }
 
@@ -176,6 +177,16 @@ public class ProductionLineController : MonoBehaviour
     {
         // Start koroutinen
         StartCoroutine(WaitForWrongXSeconds());
+    }
+
+
+    IEnumerator CheckIfYouWin()
+    {
+        
+            winScreen.SetActive(true);
+            yield return new WaitForSeconds(2);
+
+            SwitchScenes.SwitchToMainWorld();
     }
 
 
