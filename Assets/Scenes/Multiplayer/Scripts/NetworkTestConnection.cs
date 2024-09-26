@@ -3,15 +3,21 @@ using UnityEngine;
 
 namespace HelloWorld
 {
-    public class HelloWorldManager : MonoBehaviour
+    public class NetworkTestConnection : MonoBehaviour
     {
         static private NetworkManager m_NetworkManager;
 
+        /// <summary>
+        /// Fetches the networkmanager component when waking up
+        /// </summary>
         void Awake()
         {
             m_NetworkManager = GetComponent<NetworkManager>();
         }
 
+        /// <summary>
+        /// Sets up a gui to connect to the server or host one
+        /// </summary>
         void OnGUI()
         {
             GUILayout.BeginArea(new Rect(10, 10, 300, 300));
@@ -27,6 +33,9 @@ namespace HelloWorld
             GUILayout.EndArea();
         }
 
+        /// <summary>
+        /// Sets what the buttons do
+        /// </summary>
         static void StartButtons()
         {
             if (GUILayout.Button("Host")) m_NetworkManager.StartHost();
@@ -34,6 +43,9 @@ namespace HelloWorld
             if (GUILayout.Button("Server")) m_NetworkManager.StartServer();
         }
 
+        /// <summary>
+        /// Sets the statue label based on which button is pressed
+        /// </summary>
         static void StatusLabels()
         {
             var mode = m_NetworkManager.IsHost ?

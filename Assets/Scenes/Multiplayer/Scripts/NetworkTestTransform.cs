@@ -2,8 +2,11 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-public class NetworkTransformTest : NetworkBehaviour
+public class NetworkTestTransform : NetworkBehaviour
 {
+    /// <summary>
+    /// If is server, spin the player a bunch to see they work
+    /// </summary>
     void Update()
     {
         if (IsServer)
