@@ -18,9 +18,9 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             ID = iD;
         }
 
-        public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
+        public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
         {
-            return new PlacementData(occupiedPositions, iD, placedObjectIndex);
+            return new PlacementData(occupiedPositions, iD, placedObjectIndex, floorType);
         }  
         //public int PlacedObjectIndex;
         //public List<Vector3Int> occupiedPositions;

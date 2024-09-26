@@ -15,7 +15,9 @@ namespace CORE
         public SaveToJsonManager SaveManager;
         public LoadGameManager LoadManager;
         public SaveGameController SaveGameController; 
-        public PlayerManager playerManager;
+        public PlayerManager PlayerManager;
+
+        public DataConverter Converter { get; } = new DataConverter();
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }
@@ -121,19 +123,40 @@ namespace CORE
         
         public async void SaveGame()
         {
-            if (SaveGameController != null && PlayerData != null && PlayerManager.Instance != null)
+            // Early exit if PlayerManager is missing
+            // ReSharper disable once EnforceIfStatementBraces
+            if (!PlayerManager.Instance) return;
+
+            // Early exit if SaveGameController or PlayerData is missing
+            if (SaveGameController == null)
             {
-                await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                Debug.LogWarning("SaveGameController is missing! Cannot save the game.");
+                return;
+            }
+
+            if (!PlayerData)
+            {
+                Debug.LogWarning("PlayerData is missing! Cannot save the game.");
+                return;
+            }
+
+            // Proceed to save if all conditions are met
+            if (PlayerManager.Instance.SpawnedPlayer != null)
+            {
+                Debug.Log("Saving game...");
+                //await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                
+                // Convert the PlayerData to a SaveDataDTO
+                SaveDataDTO dto = Converter.ConvertToDTO(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
+                
+                await SaveGameController.SaveDataAsync(dto, "PlayerData");
             }
             else
             {
-                Debug.Log("SaveGameController or PlayerData is missing!");
+                Debug.LogWarning("Cannot save the game.");
             }
-            
-            
-            // save logic, using savemanager
-            //SaveManager.SaveGame(CurrentUser, CurrentMonsterName);
         }
+
         
         private void InitializeGameManager()
         {  

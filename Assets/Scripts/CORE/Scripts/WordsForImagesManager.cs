@@ -9,6 +9,16 @@ namespace CORE.Scripts
     {
         private static List<string> imageWords = new();
 
+        private static List<string> soundCorrectWords = new List<string>
+        {
+            "alf", "and", "en", "et", "ild", "is", "os", "orm", "ur", "ulv", "ugle",
+            "æg", "øl", "ål", "bad", "hval", "spand", "tand", "hat", "kat", "mel", "pil",
+            "lim", "slim", "skib", "ris", "sort", "sut", "lus", "mus", "hus", "jul",
+            "syl", "lys", "nys", "læs", "sæl", "hæl", "pæl", "knus", "spa", "ske", "sne",
+            "ble", "fri", "ski", "bi", "sko", "klo", "bro", "ko", "kno", "sky", "fly",
+            "klø", "knæ", "blå", "grå", "små", "ti", "to", "ve", "te", "tå", "hø", "gå",
+            "du", "fe", "bæ"
+        };
         /// <summary>
         /// adds a word to the list of all words, eatch word can only aprear once.
         /// </summary>
@@ -41,6 +51,33 @@ namespace CORE.Scripts
                 words[i] = GetRandomWordForImage();
             }
             return words;
+        }
+
+        public static string GetRandomSoundCorrectWordForImage()
+        {
+            int attempts = 0;
+            string word;
+            while (true)
+            {
+                word = soundCorrectWords[Random.Range(0, soundCorrectWords.Count)];
+                word.Replace("æ", "(ae)");
+                word.Replace("ø", "(oe)");
+                word.Replace("å", "(aa)");
+                if (imageWords.Contains(word))
+                {
+                    return word;
+                }
+                else
+                {
+                    attempts++;
+                    if(attempts > 50)
+                    {
+                        Debug.Log("could not find a word in the list that fit an image, using GetRandomWordForImage() instead");
+                        word = GetRandomWordForImage();
+                        return word;
+                    }
+                }
+            }
         }
     }
 

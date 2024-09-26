@@ -66,11 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6c7e85d89b2e5e34a93e7f83facefcaa, type: 2}
     - target: {fileID: 919132149155446097, guid: 2c403376ef1fe604d8de45d141d39b07, type: 3}
       propertyPath: m_Name
-      value: Prometheus
+      value: Mustang
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2c403376ef1fe604d8de45d141d39b07, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2c403376ef1fe604d8de45d141d39b07, type: 3}
+      propertyPath: m_TagString
+      value: Car
       objectReference: {fileID: 0}
     - target: {fileID: 3974313851768207858, guid: 2c403376ef1fe604d8de45d141d39b07, type: 3}
       propertyPath: m_Materials.Array.data[0]
