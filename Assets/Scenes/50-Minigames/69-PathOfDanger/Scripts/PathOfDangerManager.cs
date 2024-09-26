@@ -48,7 +48,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     public string imageKey;
 
-    public GameObject hearLetterButton;
+  
 
     public AudioSource hearLetterButtonAudioSource;
 
@@ -71,44 +71,16 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     void Start()
     {
-        hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
+        Debug.Log(playerLifePoints);
+        hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
 
         if (PlayerManager.Instance != null)
         {
             platformPrefabFallingScript = platformPrefab.transform.GetChild(0).GetComponent<PlatformFalling>();
 
-            PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
-            spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+            platformPrefabFallingScript.manager = this;
 
-            SpinePlayerMovement playerSpinePlayerMovement = spawnedPlayer.GetComponent<SpinePlayerMovement>();
-
-            playerSpinePlayerMovement.enabled = true;
-            playerSpinePlayerMovement.sceneCamera = Camera.main;
-
-            Rigidbody playerRigidBody = spawnedPlayer.GetComponent<Rigidbody>();
-            playerRigidBody.useGravity = true;
-            spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-            spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
-
-            PlayerAnimatior playerAnimator = spawnedPlayer.GetComponent<PlayerAnimatior>();
-
-            virtualCamera.Follow = spawnedPlayer.transform;
-            virtualCamera.LookAt = spawnedPlayer.transform;
-
-            playerAnimator.SetCharacterState("Idle");
-
-            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-            Jump jumpComp=spawnedPlayer.AddComponent<Jump>();
-            jumpComp.rigidbody = playerRigidBody;
-
-            OutOfBounce outOfBouncePComp= spawnedPlayer.AddComponent<OutOfBounce>();
-            outOfBouncePComp.startPosition = playerSpawnPoint;
-            outOfBouncePComp.manager = this;
-
-            platformPrefab.transform.GetChild(0).GetComponent<PlatformFalling>().manager = this;
-
-
+            SetUpPlayerForPathOfDanger();
         }
         else
         {
@@ -116,9 +88,48 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         }
 
 
+        //Starting a coroutine that is gonna build and setup the planes the player will be jumping on. 
         StartCoroutine(WaitUntillDataIsLoaded());
 
 
+    }
+
+
+    /// <summary>
+    /// Sets up all the neccessary components on the playercharacter that are needed for this minigame. 
+    /// </summary>
+    private void SetUpPlayerForPathOfDanger()
+    {
+        PlayerManager.Instance.PositionPlayerAt(playerSpawnPoint);
+        spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
+
+        SpinePlayerMovement playerSpinePlayerMovement = spawnedPlayer.GetComponent<SpinePlayerMovement>();
+
+        playerSpinePlayerMovement.enabled = true;
+        playerSpinePlayerMovement.sceneCamera = Camera.main;
+
+        Rigidbody playerRigidBody = spawnedPlayer.GetComponent<Rigidbody>();
+        playerRigidBody.useGravity = true;
+        spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+        spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
+
+
+        PlayerAnimatior playerAnimator = spawnedPlayer.GetComponent<PlayerAnimatior>();
+
+        virtualCamera.Follow = spawnedPlayer.transform;
+        virtualCamera.LookAt = spawnedPlayer.transform;
+
+        playerAnimator.SetCharacterState("Idle");
+
+        spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        Jump jumpComp = spawnedPlayer.AddComponent<Jump>();
+        jumpComp.rigidbody = playerRigidBody;
+        jumpComp.manager = this;
+
+        OutOfBounds outOfBouncePComp = spawnedPlayer.AddComponent<OutOfBounds>();
+        outOfBouncePComp.startPosition = playerSpawnPoint;
+        outOfBouncePComp.manager = this;
     }
 
     // Update is called once per frame
@@ -141,13 +152,19 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public void SetupPlayerToDefaultComponents()
     {
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<Jump>());
-        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<OutOfBounce>());
+        Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<OutOfBounds>());
      
 
     }
 
 
 
+    /// <summary>
+    /// Builds the platforms based on the fields x_AmountOfPlatforms and z_AmountOfPlatforms.
+    /// Also uses fields that define the distance between the platforms in the x and z axes. 
+    /// The correct and incorrect text/image is set and instantiated on the plane based on the gamemode
+    /// Then at the end there is a final platform for the endgoal which shows the winUI when colliding with it. 
+    /// </summary>
     public void BuildPlatforms()
     {
         
@@ -158,7 +175,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
             int correctImageIndex = Random.Range(0, x_AmountOfPlatforms);
             for (int x = 0; x < x_AmountOfPlatforms; x++)
             {
-
+                //setting the correct and incorrect answer
                 if (x == correctImageIndex)
                 {
 
@@ -174,6 +191,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     platformPrefabFallingScript.isCorrectAnswer = false;
                 }
 
+               // instantiating the platform and the answerholder. 
                 Vector3 pos = new Vector3(x*x_distanceBetweenPlatforms, 0, z*z_distanceBetweenPlatforms)+DeathPlatforms.transform.position;
 
                 spawnedPlatforms[x,z]= Instantiate(platformPrefab, pos, Quaternion.identity);
@@ -185,6 +203,8 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
             }
           
         }
+
+        // Spawning the end platform
         Vector3 endGoalPos = new Vector3(0 * x_distanceBetweenPlatforms, 0, z_AmountOfPlatforms * z_distanceBetweenPlatforms) + DeathPlatforms.transform.position;
         spawnedPlatforms[0, z_AmountOfPlatforms] = Instantiate(endPlane, endGoalPos, Quaternion.identity);
 
@@ -196,19 +216,29 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     }
 
+    /// <summary>
+    /// Setups the player to defaultComponents and starts a coroutine for switching the scene to the lose screen. 
+    /// </summary>
     public void StartGoToLoseScreenCoroutine()
     {
         SetupPlayerToDefaultComponents();
         StartCoroutine(GoToLoseScreen());
     }
 
+    /// <summary>
+    /// WaitsForFixedUpdate is used because the setupPlayerToDefaultComponents need to execute before switching scene. 
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator GoToLoseScreen()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForFixedUpdate();
         SwitchScenes.SwitchToPathOfDangerLoseScene();
         
     }
 
+    /// <summary>
+    /// Destroys all the panels.
+    /// </summary>
     public void DestroyAllPanels()
     {
         if (spawnedPlatforms != null)
@@ -219,6 +249,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                 Destroy(item);
 
             }
+            //Adding +1 to z_AmountOfPlatforms because there is need for space for the last endgoal platform. 
             spawnedPlatforms = new GameObject[x_AmountOfPlatforms,z_AmountOfPlatforms+1];
 
         }
@@ -236,6 +267,14 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     }
 
+
+    /// <summary>
+    /// Waits until the imagemanager has loaded its data.
+    /// Then generates answers and sets the answerprefab based on the gamemode.
+    /// Then also sets the display answer based on the gamemode.
+    /// And finally setsup 2D array of platforms and builds the platforms. 
+    /// </summary>
+    /// <returns></returns>
    public IEnumerator WaitUntillDataIsLoaded()
     {
         Debug.Log("Wait untilDatais loaded");
@@ -265,7 +304,11 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     }
 
 
-
+    /// <summary>
+    /// Sets the gameMode for the game. 
+    /// </summary>
+    /// <param name="gameMode"></param>
+    /// <param name="gameRules"></param>
     public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
     {
         this.gameMode = (IPODGameMode)gameMode;
@@ -279,6 +322,6 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     public void PlaySoundFromHearLetterButton()
     {
-        hearLetterButton.GetComponent<AudioSource>().Play();
+        hearLetterButtonAudioSource.GetComponent<AudioSource>().Play();
     }
 }

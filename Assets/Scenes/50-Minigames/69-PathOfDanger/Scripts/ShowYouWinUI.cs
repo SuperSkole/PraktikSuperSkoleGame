@@ -20,6 +20,11 @@ public class ShowYouWinUI : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// If the player collides with the last Platform then the winUi will be activated and movement will be removed. 
+    /// Also sets up the player to defaultComponents. 
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
         if (hasCollided == false)

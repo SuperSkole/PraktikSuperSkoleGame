@@ -65,7 +65,7 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
 
         AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
 
-        manager.hearLetterButton.GetComponent<AudioSource>().clip = clip;
+        manager.hearLetterButtonAudioSource.GetComponent<AudioSource>().clip = clip;
 
     }
 
@@ -92,11 +92,11 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
     /// <param name="manager">a reference back to the PathOfDangerManager</param>
     public void SetAnswerPrefab(PathOfDangerManager manager)
     {
-        manager.hearLetterButton.SetActive(true);
+       
         manager.answerHolderPrefab = manager.textHolderPrefab;
 
         manager.textOnPlatform = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        manager.descriptionText.text = " Tryk På den grønne knap og hør et bogstav. Hop på det rigtige bogstav";
+        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe og høre et bogstav. Hop på det rigtige bogstav";
     }
 }
