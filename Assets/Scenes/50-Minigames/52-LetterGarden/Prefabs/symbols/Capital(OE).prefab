@@ -62,16 +62,16 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: 2.4
-        z: 0
+        y: 1.6
+        z: 0.4
       TangentIn:
         x: 0
         y: 0
-        z: -2.3326757
+        z: -1.8203727
       TangentOut:
         x: 0
         y: 0
-        z: 2.6445937
+        z: 1.6047584
       Rotation:
         value:
           x: 0
@@ -80,8 +80,8 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: 0
-        z: 2.3
+        y: -0.2
+        z: 2.082
       TangentIn:
         x: 0
         y: 0
@@ -98,16 +98,16 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: -2
-        z: 0
+        y: -2.3
+        z: 0.3
       TangentIn:
         x: 0
         y: 0
-        z: -2.2325652
+        z: -1.6747663
       TangentOut:
         x: 0
         y: 0
-        z: 1.7340574
+        z: 1.7855642
       Rotation:
         value:
           x: 1
@@ -116,8 +116,8 @@ MonoBehaviour:
           w: 0
     - Position:
         x: 0
-        y: 0
-        z: -1.8
+        y: -0.2
+        z: -1.473
       TangentIn:
         x: 0
         y: 0
@@ -154,8 +154,8 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: 2.4
-        z: -1.8
+        y: 1.6
+        z: -1.4
       TangentIn:
         x: 0
         y: 0
@@ -172,12 +172,12 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: -2
-        z: 2.3
+        y: -2.4
+        z: 2.1
       TangentIn:
         x: 0
         y: 0
-        z: 0
+        z: -0
       TangentOut:
         x: 0
         y: 0
@@ -191,9 +191,9 @@ MonoBehaviour:
     m_MetaData:
     - Mode: 1
       Tension: 0.5
-    - Mode: 1
+    - Mode: 2
       Tension: 0.5
-    m_Closed: 1
+    m_Closed: 0
     m_IntData:
       m_Data: []
     m_FloatData:

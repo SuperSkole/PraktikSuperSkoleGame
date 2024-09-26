@@ -72,6 +72,23 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Racing";
                     }
                     break;
+                case 4:
+                    modeSetter = new BankFrontSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToBankFrontScene);
+                    if(usePlayerLevel)
+                    {
+                        title.text = "Bank Hovedindgang";
+                    }
+                    break;
+
+                case 5:
+                    modeSetter = new PathOfDangerSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToPathOfDanger);
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Den Farlige Rute";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {
