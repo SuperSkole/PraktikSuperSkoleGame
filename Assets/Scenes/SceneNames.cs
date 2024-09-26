@@ -67,6 +67,7 @@ namespace Scenes
         public const string ArcadeBalloon = "71-BalloonPopper";
         public const string ArcadeAsteroid = "72-AsteroidShooting";
         public const string ArcadeAsteroidLoseScreen = "AsteroidLoseScreen";
+        public const string ArcadeCatClock = "73-CatClockMinigame";
 
         // Multiplayer features
         public const string MultiplayerLobby = "80-MultiplayerLobby";
