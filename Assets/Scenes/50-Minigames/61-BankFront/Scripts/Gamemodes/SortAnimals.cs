@@ -74,6 +74,11 @@ public class SortAnimals : IBankFrontGamemode
         return currentCustomersCoins;
     }
 
+    public string GetErrorExplainText()
+    {
+        return "Du sorterede dyrene forkert";
+    }
+
     public string GetHintText()
     {
         return "Find alle " + correctAnimal;
