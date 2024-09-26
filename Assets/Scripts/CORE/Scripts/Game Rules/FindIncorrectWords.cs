@@ -46,7 +46,16 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>Whether it is the correct one</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return !wordValidator.IsValidWord(symbol, symbol.Length);
+            bool containsVowel = false;
+            for(int i = 0; i < symbol.Length; i++)
+            {
+                if(LetterManager.GetDanishVowels().Contains(char.ToUpper(symbol[i])))
+                {
+                    containsVowel = true;
+                    break;
+                }
+            }
+            return !wordValidator.IsValidWord(symbol, symbol.Length) && containsVowel; 
         }
 
 

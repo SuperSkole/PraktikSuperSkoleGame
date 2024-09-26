@@ -62,26 +62,26 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: 1.3
+        y: 0.32
         z: 0
       TangentIn:
         x: 0
         y: 0
-        z: -1.2547251
+        z: -1.1107255
       TangentOut:
         x: 0
         y: 0
-        z: 1.2547251
+        z: 1.1107255
       Rotation:
         value:
-          x: 0.009262187
+          x: 0.0104627535
           y: 0
           z: 0
-          w: 0.99995714
+          w: 0.9999453
     - Position:
         x: 0
-        y: 0
-        z: 1.3
+        y: -0.9
+        z: 0.97
       TangentIn:
         x: 0
         y: 0
@@ -98,16 +98,16 @@ MonoBehaviour:
           w: 1
     - Position:
         x: 0
-        y: -2.1
+        y: -2.29
         z: 0
       TangentIn:
         x: 0
         y: 0
-        z: -1.6107324
+        z: -1.0080426
       TangentOut:
         x: 0
         y: 0
-        z: 1.6107324
+        z: 1.0080426
       Rotation:
         value:
           x: 0
@@ -116,8 +116,8 @@ MonoBehaviour:
           w: 0
     - Position:
         x: 0
-        y: 0
-        z: -1.4
+        y: -0.9
+        z: -1.05
       TangentIn:
         x: 0
         y: 0
@@ -154,8 +154,8 @@ MonoBehaviour:
     m_Knots:
     - Position:
         x: 0
-        y: 1.4
-        z: -1.7
+        y: 0.4
+        z: -1.2
       TangentIn:
         x: 0
         y: 0
@@ -166,14 +166,14 @@ MonoBehaviour:
         z: 0
       Rotation:
         value:
-          x: 0
+          x: 0.0104627535
           y: 0
           z: 0
-          w: 1
+          w: 0.9999453
     - Position:
         x: 0
-        y: -2.21375
-        z: 1.52
+        y: -2.4
+        z: 1.2
       TangentIn:
         x: 0
         y: 0
