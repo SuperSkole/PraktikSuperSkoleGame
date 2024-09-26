@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -26,19 +27,19 @@ namespace LoadSave
         [SerializeField] private Vector3 currentPosition;
         
         // Words and letters
-        public List<string> CollectedWords = new List<string>();
-        public List<char> CollectedLetters = new List<char>();
+        [JsonIgnore] public List<string> CollectedWords = new List<string>();
+        [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         [SerializeField] private int lifetimeTotalWords;
         [SerializeField] private int lifetimeTotalLetters;
         
         // Clothing
         [SerializeField] private string clothMid;
         [SerializeField] private string clothTop;
-        public List<int> BoughtClothes = new List<int>();
+        [JsonIgnore] public List<int> BoughtClothes = new List<int>();
 
 
         //For the Car
-        public List<CarInfo> ListOfCars = new List<CarInfo>();
+        [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
         public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
         public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
         public float FuelAmount { get; set; } = 1f;

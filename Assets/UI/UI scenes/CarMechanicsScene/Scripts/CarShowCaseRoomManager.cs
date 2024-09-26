@@ -442,16 +442,16 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
         for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
-            //foreach (var item in carButtons)
-            carButtons.Add(GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>());
-
-            // TODO : Find at better solution for this
-            //If we switch the buttons around os Van is the first instead of Mustang this wont work
-            if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
+            foreach (var item in carButtons)
             {
-                if (playerData.listOfCars[i].Name == item.nameOfCar)
+                // TODO : Find at better solution for this
+                //If we switch the buttons around os Van is the first instead of Mustang this wont work
+                if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
                 {
-                    item.Bought = true;
+                    if (playerData.ListOfCars[i].Name == item.nameOfCar)
+                    {
+                        item.Bought = true;
+                    }
                 }
             }
         }
