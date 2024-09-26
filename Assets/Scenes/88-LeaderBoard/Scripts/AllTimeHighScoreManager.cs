@@ -80,11 +80,11 @@ namespace Scenes._89_MultiPlayerHighScoreScene.Scripts
 
             foreach (var saveKey in saveKeys)
             {
-                PlayerData playerData = await GameManager.Instance.SaveGameController.LoadSaveDataAsync(saveKey);
-                if (playerData)
-                {
-                    allPlayerData.Add(playerData);
-                }
+                // PlayerData playerData = await GameManager.Instance.SaveGameController.LoadSaveDataAsync(saveKey);
+                // if (playerData)
+                // {
+                //     allPlayerData.Add(playerData);
+                // }
             }
 
             // Calculate and display the top users

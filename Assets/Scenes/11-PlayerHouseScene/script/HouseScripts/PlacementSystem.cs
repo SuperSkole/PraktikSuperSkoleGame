@@ -7,7 +7,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
     {
         [SerializeField] private InputManager inputManager;
         [SerializeField] private Grid grid;
-        [SerializeField] private HouseSaving saveManager;
+        [SerializeField] private HouseLoadSaveController saveManager;
 
         [SerializeField] private ObjectsDataBaseSO database;
         [SerializeField] private GameObject gridVisualization;
