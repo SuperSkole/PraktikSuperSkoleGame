@@ -13,7 +13,7 @@ public class MiniMap : MonoBehaviour
     [SerializeField] RectTransform miniMapUI;
 
     private List<GameObject> icons = new List<GameObject>();
-    private string[] tagsToCheck = {"mark","Player"};
+    private string[] tagsToCheck = {"marker","Player"};
 
     private Dictionary<string, List<GameObject>> cachedTargets = new Dictionary<string, List<GameObject>>();
 
