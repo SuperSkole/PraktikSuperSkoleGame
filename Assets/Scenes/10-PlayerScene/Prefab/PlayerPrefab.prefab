@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3406586699645998164}
   - component: {fileID: 7000402631017721828}
   - component: {fileID: 4370899767886551907}
+  - component: {fileID: 5729133520373277983}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -239,6 +240,19 @@ MonoBehaviour:
   cameraMoveWithMouse: 0
   cameraMoveWithDrag: 1
   turnSpeed: 5
+--- !u!114 &5729133520373277983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16e4f65e2e40734fb59c0c834b9e800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImageName: player
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
