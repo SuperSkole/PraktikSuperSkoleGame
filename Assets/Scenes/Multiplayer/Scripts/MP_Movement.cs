@@ -1,9 +1,11 @@
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
+using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MP_Movement : NetworkBehaviour
 {
@@ -23,12 +25,15 @@ public class MP_Movement : NetworkBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private PlayerAnimatior animator;
     [SerializeField] private Transform spriteTransform;
+    [SerializeField] private GameObject textDisplay;
+    [SerializeField] private TextMeshProUGUI textField;
     private ISkeletonComponent skeleton;
 
-    public NetworkVariable<Vector3> Position = new();
+    public NetworkVariable<Vector3> textRotation = new();
     public NetworkVariable<FixedString32Bytes> colorPick = new();
     public NetworkVariable<FixedString32Bytes> clothMid = new();
     public NetworkVariable<FixedString32Bytes> clothTop = new();
+    public NetworkVariable<FixedString32Bytes> text = new();
     #endregion
 
     #region NetworkSpawn/Despawn
@@ -45,6 +50,7 @@ public class MP_Movement : NetworkBehaviour
         colorPick.OnValueChanged += UpdateColorServerRpc;
         clothMid.OnValueChanged += UpdateCloth;
         clothTop.OnValueChanged += UpdateCloth;
+        text.OnValueChanged += UpdateNameServerRpc;
         if (skeleton == null)
         {
             Debug.LogError("PlayerManager.SetupPlayer(): " +
@@ -66,14 +72,30 @@ public class MP_Movement : NetworkBehaviour
                 string clothTop = originPlayer.GetComponent<PlayerData>().ClothTop;
                 RequestclothingMidPickServerRpc(clothMid);
                 RequestclothingTopPickServerRpc(clothTop);
+                textField.text = originPlayer.GetComponent<PlayerData>().MonsterName;
+                RequestNamePickServerRpc(textField.text);
             }
         }
-        if (MonsterColorOrClothingIsSet(colorPick.Value.ToString()))
+        if (StringIsSetCheck(colorPick.Value.ToString()))
+        {
             colorChange.ColorChange(colorPick.Value.ToString());
-        if (MonsterColorOrClothingIsSet(clothMid.Value.ToString()))
+        }
+        if (StringIsSetCheck(clothMid.Value.ToString()))
+        {
             clothChange.ChangeClothes(clothMid.Value.ToString(), skeleton);
-        if (MonsterColorOrClothingIsSet(clothTop.Value.ToString()))
+        }
+        if (StringIsSetCheck(clothTop.Value.ToString()))
+        {
             clothChange.ChangeClothes(clothTop.Value.ToString(), skeleton);
+        }
+        if (StringIsSetCheck(text.Value.ToString()))
+        {
+            textField.text = text.Value.ToString();
+        }
+        if(textRotation.Value != new Vector3())
+        {
+            textDisplay.transform.localScale = textRotation.Value;
+        }
     }
 
     /// <summary>
@@ -84,11 +106,11 @@ public class MP_Movement : NetworkBehaviour
         colorPick.OnValueChanged -= UpdateColorServerRpc;
         clothMid.OnValueChanged -= UpdateCloth;
         clothTop.OnValueChanged -= UpdateCloth;
+        text.OnValueChanged -= UpdateNameServerRpc;
     }
     #endregion
 
     #region update
-
     /// <summary>
     /// Updates the player to check their input and animation
     /// </summary>
@@ -156,12 +178,15 @@ public class MP_Movement : NetworkBehaviour
             bool isMovingRight = movement.x < 0;
             if (isMovingRight)
             {
+                textDisplay.transform.localScale = new Vector3(Mathf.Abs(textDisplay.transform.localScale.x), textDisplay.transform.localScale.y, textDisplay.transform.localScale.z);
                 rb.transform.localScale = new Vector3(Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
             }
             else
             {
+                textDisplay.transform.localScale = new Vector3(-Mathf.Abs(textDisplay.transform.localScale.x), textDisplay.transform.localScale.y, textDisplay.transform.localScale.z);
                 rb.transform.localScale = new Vector3(-Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
             }
+            textRotation.Value = textDisplay.transform.localScale;
             UpdateSpriteFlipClientRpc(isMovingRight);
         }
         SyncPlayerPositionClientRpc(rb.position);
@@ -210,10 +235,12 @@ public class MP_Movement : NetworkBehaviour
     {
         if (isMovingRight)
         {
+            textDisplay.transform.localScale = new Vector3(Mathf.Abs(textDisplay.transform.localScale.x), textDisplay.transform.localScale.y, textDisplay.transform.localScale.z);
             rb.transform.localScale = new Vector3(Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
         }
         else
         {
+            textDisplay.transform.localScale = new Vector3(-Mathf.Abs(textDisplay.transform.localScale.x), textDisplay.transform.localScale.y, textDisplay.transform.localScale.z);
             rb.transform.localScale = new Vector3(-Mathf.Abs(rb.transform.localScale.x), rb.transform.localScale.y, rb.transform.localScale.z);
         }
     }
@@ -250,7 +277,7 @@ public class MP_Movement : NetworkBehaviour
     [ClientRpc]
     private void UpdateColorClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        if (MonsterColorOrClothingIsSet(current.ToString()))
+        if (StringIsSetCheck(current.ToString()))
         {
             colorChange.ColorChange(current.ToString());
         }
@@ -297,9 +324,47 @@ public class MP_Movement : NetworkBehaviour
     [ClientRpc]
     private void UpdateClothClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        if (MonsterColorOrClothingIsSet(current.ToString()))
+        if (StringIsSetCheck(current.ToString()))
         {
             clothChange.ChangeClothes(current.ToString(), skeleton);
+        }
+    }
+    #endregion
+
+    #region NameHandling
+    /// <summary>
+    /// Request server handling of a player name
+    /// </summary>
+    /// <param name="name">The new color</param>
+    [ServerRpc]
+    private void RequestNamePickServerRpc(string name)
+    {
+        text.Value = name;
+    }
+
+    /// <summary>
+    /// Updates the player name when the networkvariable is changed
+    /// </summary>
+    /// <param name="past">What the previous name was</param>
+    /// <param name="current">What the current name is</param>
+    [ServerRpc]
+    private void UpdateNameServerRpc(FixedString32Bytes past, FixedString32Bytes current)
+    {
+        textField.text = current.ToString();
+        UpdateNameClientRpc(past, current);
+    }
+
+    /// <summary>
+    /// Updates the player names on the clientside, when called by the server
+    /// </summary>
+    /// <param name="past">What the previous name was</param>
+    /// <param name="current">What the current name is</param>
+    [ClientRpc]
+    private void UpdateNameClientRpc(FixedString32Bytes past, FixedString32Bytes current)
+    {
+        if (StringIsSetCheck(current.ToString()))
+        {
+            textField.text = current.ToString();
         }
     }
     #endregion
@@ -310,7 +375,7 @@ public class MP_Movement : NetworkBehaviour
     /// </summary>
     /// <param name="CheckedItem">What is to be checked</param>
     /// <returns>Is the value not null or similar?</returns>
-    private bool MonsterColorOrClothingIsSet(string CheckedItem)
+    private bool StringIsSetCheck(string CheckedItem)
     {
         if (CheckedItem is not "white" and not "" and not null)
             return true;
