@@ -13,13 +13,17 @@ public class CorrectLetterHandler : MonoBehaviour
     private float speed = 25;
     public TextMeshProUGUI exampleLetter;
     public RawImage image;
-    // Start is called before the first frame update
+    /// <summary>
+    /// Starts a coroutine to automaticly close the window after some time
+    /// </summary>
     void Start()
     {
         StartCoroutine(AutomaticClose());
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// if movement has begun the window is moved towards the upper right corner and scaled down at the same time
+    /// </summary>
     void Update()
     {
         if(moving)
@@ -33,6 +37,10 @@ public class CorrectLetterHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts moving the window after 2 seconds
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator AutomaticClose()
     {
         yield return new WaitForSeconds(2);
@@ -42,6 +50,9 @@ public class CorrectLetterHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// sets various movement related variables
+    /// </summary>
     private void StartMoving()
     {
         moving = true;
@@ -49,11 +60,17 @@ public class CorrectLetterHandler : MonoBehaviour
         startDistance = Vector3.Distance(startPos, endPos);
     }
 
+    /// <summary>
+    /// Starts the movement when clicking on the close button
+    /// </summary>
     public void OnClick()
     {
         StartMoving();
     }
 
+    /// <summary>
+    /// Destroys the window if it is no longer visible
+    /// </summary>
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
