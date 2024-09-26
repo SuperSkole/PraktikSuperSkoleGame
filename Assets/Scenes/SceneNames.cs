@@ -59,6 +59,8 @@ namespace Scenes
         public const string TowerLoading = "64-MonsterTower";
         public const string Tower = "65-MonsterTower";
         public const string MinigameLoading = "LevelSelect";
+        public const string PathOfDanger = "69-PathOfDanger";
+        public const string PathOfDangerLoseScreen = "PathOfDangerLoseScreen";
 
         //Arcade 70
         public const string Arcade = "70-ArcadeScene";

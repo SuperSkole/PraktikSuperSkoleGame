@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using static UnityEngine.ParticleSystem;
 using System;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._65_MonsterTower.Scripts;
 
 
 
@@ -84,6 +85,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         {
             towerAudioSource = mainCamera.GetComponent<AudioSource>();
             hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
+            
         }
      
         
