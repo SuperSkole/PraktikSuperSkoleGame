@@ -7,7 +7,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
     {
         [SerializeField] private InputManager inputManager;
         [SerializeField] private Grid grid;
-        [SerializeField] private HouseLoadSaveController saveManager;
+        public HouseLoadSaveController saveManager;
 
         [SerializeField] private ObjectsDataBaseSO database;
         [SerializeField] private GameObject gridVisualization;
@@ -35,7 +35,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // TODO refactor house save
             return;
-
             //if (GameManager.Instance.LoadManager.DoesSaveFileExist(
             //        GameManager.Instance.CurrentUser,
             //        GameManager.Instance.PlayerData.MonsterName,
@@ -55,7 +54,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         }
 
         private Vector3Int previousKey = new();
-        private void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType)
+        public void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType)
         {
             //if Obj is placed on 0,0,0 this doesnt work like it should
 
@@ -212,6 +211,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 // Update the last detected grid position.
                 lastDetectedPosition = gridPos;
             }
+            
         }
     }
 }

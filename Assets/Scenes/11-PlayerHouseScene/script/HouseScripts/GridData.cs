@@ -32,6 +32,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             //CalculatePositions does not like being fed for example objectSize 1,2 instead of 2,1 Cant fix the problem but put in a patch that should fix it
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, ObjectSize);
+            //PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, floorType, rotationValue);
             PlacementData data = new PlacementData(positionToOccupy, ID, placedObjectIndex, floorType);
             foreach (var pos in positionToOccupy)
             {
@@ -139,6 +140,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         public EnumFloorDataType FloorType { get; private set; }
 
+        public int rotationValue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlacementData"/> class.
         /// </summary>
@@ -151,6 +154,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ID = iD;
             PlacedObjectIndex = placedObjectIndex;
             FloorType = floorType;
+            //this.rotationValue = rotationValue;
         }
     }
 }

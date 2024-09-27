@@ -100,7 +100,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 SizeCopy,
                 database.objectData[selectedObjectIndex].ID,
                 index,
-                floorType);
+                floorType
+                );
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
