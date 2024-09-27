@@ -30,6 +30,8 @@ public class ProductionLineController : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
 
+    public bool checking = false;
+
 
     RaycastHit hit;
     Ray ray;
@@ -57,24 +59,28 @@ public class ProductionLineController : MonoBehaviour
     /// </summary>
     private void ClickHit()
     {
-        ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out hit);
-        if (hit.transform == null) return;
-
-        GameObject hitObject = hit.transform.gameObject;
-
-        if (!hitObject.CompareTag("ProductionCube"))
+        if (!checking)
         {
-            return;
+
+
+            ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(ray, out hit);
+            if (hit.transform == null) return;
+
+            GameObject hitObject = hit.transform.gameObject;
+
+            if (!hitObject.CompareTag("ProductionCube"))
+            {
+                return;
+            }
+
+            ClickLetterCubes(hitObject);
+
+
+            CheckIfCorrect();
+
+
         }
-
-        ClickLetterCubes(hitObject);
-
-
-        CheckIfCorrect();
-
-
-
     }
 
     /// <summary>
@@ -175,6 +181,7 @@ public class ProductionLineController : MonoBehaviour
     /// </summary>
     private void CheckIfWrong()
     {
+        
         // Start koroutinen
         StartCoroutine(WaitForWrongXSeconds());
     }
@@ -186,10 +193,10 @@ public class ProductionLineController : MonoBehaviour
     IEnumerator CheckIfYouWin()
     {
         
-            winScreen.SetActive(true);
-            yield return new WaitForSeconds(2);
+        winScreen.SetActive(true);
+        yield return new WaitForSeconds(2);
 
-            SwitchScenes.SwitchToMainWorld();
+        SwitchScenes.SwitchToMainWorld();
     }
 
 
@@ -199,6 +206,7 @@ public class ProductionLineController : MonoBehaviour
     /// <returns></returns>
     IEnumerator WaitForRightXSeconds()
     {
+        checking = true;
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
         points++;
@@ -210,6 +218,7 @@ public class ProductionLineController : MonoBehaviour
         selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
         ResetCubes(selectedImageBox);
         ResetCubes(selectedLetterBox);
+        checking = false;
     }
 
     /// <summary>
@@ -218,6 +227,7 @@ public class ProductionLineController : MonoBehaviour
     /// <returns></returns>
     IEnumerator WaitForWrongXSeconds()
     {
+        checking = true;
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
 
@@ -228,5 +238,6 @@ public class ProductionLineController : MonoBehaviour
         selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
         ResetCubes(selectedImageBox);
         ResetCubes(selectedLetterBox);
+        checking = false;
     }
 }
