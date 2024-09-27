@@ -36,23 +36,6 @@ namespace LoadSave
             await saveRepository.SaveAsync(saveKey, jsonData);
         }
         
-        public async Task<PlayerData> LoadDataAsync(string saveKey)
-        {
-            string jsonData = await saveRepository.LoadAsync(saveKey);
-            if (string.IsNullOrEmpty(jsonData))
-            {
-                return null;
-            }
-        
-            // Deserialize to SaveDataDTO
-            SaveDataDTO dto = JsonConvert.DeserializeObject<SaveDataDTO>(jsonData);
-        
-            // Convert back to PlayerData
-            PlayerData playerData = converter.ConvertToPlayerData(dto);
-        
-            return playerData;
-        }
-        
         /// <summary>
         /// Loads the data from the cloud and returns the specific type of IDataTransferObject.
         /// </summary>
