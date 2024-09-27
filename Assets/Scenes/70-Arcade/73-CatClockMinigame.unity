@@ -1401,7 +1401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -174.99997, y: -50}
+  m_AnchoredPosition: {x: -174.99994, y: -50}
   m_SizeDelta: {x: -550, y: -100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &918662018
@@ -1718,6 +1718,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f1d4d90b9cf04a94eb892b9c3821a03f, type: 2}
+    - target: {fileID: 8211277962650216568, guid: 67824c7b894290541b46c528c2534846, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 56514a1be2e18cd4db30ea0905a34cbb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1776,6 +1780,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532c820ddaca42f47ba5068c28f0ad3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  catGlass: {fileID: 1891471882}
+  defaultMaterial: {fileID: 2100000, guid: 366b8ebc4709eaa4c9d6bd79c4205c5c, type: 2}
+  wrongMaterial: {fileID: 2100000, guid: f0fa0c29675ad474891661c6087f51c3, type: 2}
+  correctMaterial: {fileID: 2100000, guid: 9ab3d884a66d872479afd01ca0a939d1, type: 2}
   hourGameObject: {fileID: 1566511630}
   minuteGameObject: {fileID: 1566511629}
   submitAnswerLever: {fileID: 1566511628}

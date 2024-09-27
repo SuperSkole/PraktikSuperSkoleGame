@@ -6,6 +6,13 @@ using UnityEngine;
 public class ClockController : MonoBehaviour
 {
     [SerializeField]
+    private GameObject catGlass;
+
+    [SerializeField]
+    private Material defaultMaterial, wrongMaterial, correctMaterial;
+
+
+    [SerializeField]
     private Transform hourGameObject, minuteGameObject;
 
     [SerializeField] private GameObject submitAnswerLever;
@@ -43,7 +50,7 @@ public class ClockController : MonoBehaviour
     }
 
 
-    // When you press Spacebar you submit answer.
+    // When you press Gaet, you submit answer.
     public void SubmitAnswer()
     {
 
@@ -55,6 +62,9 @@ public class ClockController : MonoBehaviour
 
             if (hourTime == watch.randoHour && minuteTime == int.Parse(watch.randoMinute))
             {
+
+                StartCoroutine(CorrectAnswer());
+
                 score++;
                 scoreText.text = $"Point: {score}";
 
@@ -65,6 +75,10 @@ public class ClockController : MonoBehaviour
 
                     SwitchScenes.SwitchToArcadeScene();
                 }
+            }
+            else
+            {
+                StartCoroutine(WrongAnswer());
             }
 
         }
@@ -92,7 +106,7 @@ public class ClockController : MonoBehaviour
                 hourTime = 1;
             }
         }
-        
+
     }
 
     /// <summary>
@@ -180,6 +194,32 @@ public class ClockController : MonoBehaviour
         }
         // Ensure we reach the exact target rotation
         submitAnswerLever.transform.rotation = targetRotation;
+    }
+
+    /// <summary>
+    /// changes the color of the cats glass to red
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator WrongAnswer()
+    {
+        catGlass.GetComponent<MeshRenderer>().material = wrongMaterial;
+
+        yield return new WaitForSeconds(1);
+
+        catGlass.GetComponent<MeshRenderer>().material = defaultMaterial;
+    }
+
+    /// <summary>
+    /// changes the color of the cats glass to green
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator CorrectAnswer()
+    {
+        catGlass.GetComponent<MeshRenderer>().material = correctMaterial;
+
+        yield return new WaitForSeconds(1);
+
+        catGlass.GetComponent<MeshRenderer>().material = defaultMaterial;
     }
 
 }
