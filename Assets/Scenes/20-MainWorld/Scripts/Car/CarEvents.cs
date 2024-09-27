@@ -156,7 +156,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
             spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
             spawnedPlayer.GetComponent<PlayerEventManager>().enabled = true;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
-            spawnedPlayer.GetComponentInChildren<MeshRenderer>().enabled = true;
+            foreach (var playerMeshRenderer in spawnedPlayer.GetComponentsInChildren<MeshRenderer>())
+            {
+                playerMeshRenderer.enabled = true;
+            }
             spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
         }
         /// <summary>
@@ -168,7 +171,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
             spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
             spawnedPlayer.GetComponent<PlayerEventManager>().enabled = false;
             spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
-            spawnedPlayer.GetComponentInChildren<MeshRenderer>().enabled = false;
+            foreach (var playerMeshRenderer in spawnedPlayer.GetComponentsInChildren<MeshRenderer>())
+            {
+                playerMeshRenderer.enabled = false;
+            }
             spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
         }
     }
