@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CORE;
 using LoadSave;
 using Scenes._11_PlayerHouseScene.script.HouseScripts;
@@ -10,8 +11,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     {
         public PlacementSystem floorData, furnitureData;
         private SaveGameController saveGameController;
-        [HideInInspector]
-        public SaveContainer itemContainer = new SaveContainer();
+        
 
         private const string HOUSETAG = "House";
 
@@ -35,7 +35,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             Debug.Log("House data saved successfully to cloud.");
         }
 
-        public async void LoadGridData()
+        public async Task<T> LoadGridData<T>() where T : IDataTransferObject
         {
             string username = GameManager.Instance.PlayerData.Username;
             string monsterName = GameManager.Instance.PlayerData.MonsterName;
@@ -44,29 +44,20 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             string saveKey = saveGameController.GenerateSaveKey(username, monsterName, HOUSETAG);
 
             // Use SaveGameController to load the house data from Unity Cloud Save
-            HouseDataDTO houseDataDTO = await saveGameController.LoadSaveDataAsync<HouseDataDTO>(saveKey);
+            T houseDataDTO = await saveGameController.LoadSaveDataAsync<T>(saveKey);
 
             if (houseDataDTO != null)
             {
-                ApplyLoadedData(houseDataDTO);
+                 return houseDataDTO;
             }
             else
             {
                 Debug.LogError("Failed to load house data from the cloud.");
+                return default;
             }
         }
 
-        private void ApplyLoadedData(HouseDataDTO houseDataDTO)
-        {
-            // Apply the loaded grid data to the house systems
-            itemContainer.floorData = houseDataDTO.FloorData;
-            itemContainer.furnitureData = houseDataDTO.FurnitureData;
-
-         //   floorData.FloorData = houseDataDTO.FloorData
-           // furnitureData.FurnitureData.placedObjects = houseDataDTO.FurnitureData.ConvertToDictionary();
-
-            Debug.Log("House data applied successfully.");
-        }
+        
     }
 
     [Serializable]
