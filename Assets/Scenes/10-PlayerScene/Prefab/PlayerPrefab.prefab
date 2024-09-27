@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3406586699645998164}
   - component: {fileID: 7000402631017721828}
   - component: {fileID: 4370899767886551907}
+  - component: {fileID: 5729133520373277983}
   m_Layer: 8
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -57,8 +58,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939422bbe3880c64c9291f46bbf23fd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LastInteractionPoint: {x: 0, y: 0, z: 0}
   username: 
-  savefile: 
   monsterName: 
   monsterTypeID: 0
   monsterColor: 
@@ -68,14 +69,14 @@ MonoBehaviour:
   pendingXPAmount: 0
   currentLevel: 0
   currentPosition: {x: 0, y: 0, z: 0}
-  clothMid: 
-  clothTop: 
   CollectedWords: []
   CollectedLetters: 
-  CollectedNumbers: 
+  lifetimeTotalWords: 0
+  lifetimeTotalLetters: 0
+  clothMid: 
+  clothTop: 
   BoughtClothes: 
-  listOfCars: []
-  LastInteractionPoint: {x: 0, y: 0, z: 0}
+  ListOfCars: []
 --- !u!54 &5874153678614725772
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -239,6 +240,19 @@ MonoBehaviour:
   cameraMoveWithMouse: 0
   cameraMoveWithDrag: 1
   turnSpeed: 5
+--- !u!114 &5729133520373277983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 370280089111779063}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f16e4f65e2e40734fb59c0c834b9e800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconImageName: player
 --- !u!1 &1225004307142023526
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +599,10 @@ PrefabInstance:
     - target: {fileID: 2016602182341116093, guid: c5ae6d780bdb9ea4f9aff0d2acb92543, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2789577201742281410, guid: c5ae6d780bdb9ea4f9aff0d2acb92543, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4249445124112230310, guid: c5ae6d780bdb9ea4f9aff0d2acb92543, type: 3}
       propertyPath: m_LocalScale.x

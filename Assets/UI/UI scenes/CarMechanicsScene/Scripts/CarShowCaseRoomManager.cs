@@ -27,7 +27,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     [SerializeField] private Image priceHolder;
     [SerializeField] TextMeshProUGUI price;
 
-    private CarColorShowCaseButtons buttonInstance;
+    private CarColorShowCaseButtons colorButtonInstance;
     private CarShowCaseButton carButtonInstance;
     private string clickedButtonName;
 
@@ -38,12 +38,21 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     private List<GameObject> colorBoxsList = new();
 
+    [SerializeField] private GameObject colorsTab;
+    [SerializeField] private GameObject carsTabs;
+
+    [Header("Car Info")]
+    [SerializeField] private Slider speedSlider;
+    [SerializeField] private Slider accSlider;
+    [SerializeField] private Slider driftSlider;
+    [SerializeField] private Slider fuelSlider;
+
     // Start is called before the first frame update
     void Start()
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
 
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             if (item.IsActive)
             {
@@ -105,7 +114,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
         LettersTxt.text = lettersCount.ToString();
 
         List<CarColorShowCaseButtons> colorButtons = new();
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < ReturnAmountInMaterialList(); i++)
         {
             CarColorShowCaseButtons button = GameObject.Find($"ColorButton ({i})").GetComponent<CarColorShowCaseButtons>();
             if (button != null)
@@ -113,23 +122,36 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 colorButtons.Add(button);
             }
         }
-        foreach (CarInfo car in playerData.listOfCars)
+        foreach (CarInfo car in playerData.ListOfCars)
         {
-            // Loop through each car's materials
-            foreach (MaterialInfo material in car.materialList)
+            if (car.IsActive)
             {
-                // Find the corresponding button for this material
-                foreach (CarColorShowCaseButtons button in colorButtons)
+                // Loop through each car's materials
+                foreach (MaterialInfo material in car.materialList)
                 {
-                    if (button.nameOfMaterial == material.nameOfMaterial)
+                    // Find the corresponding button for this material
+                    foreach (CarColorShowCaseButtons button in colorButtons)
                     {
-                        // Set the 'Bought' status of the button
-                        button.Bought = material.Bought;
+                        if (button.nameOfMaterial == material.nameOfMaterial)
+                        {
+                            // Set the 'Bought' status of the button
+                            button.Bought = material.Bought;
+                        }
                     }
                 }
             }
         }
-
+    }
+    private int ReturnAmountInMaterialList()
+    {
+        foreach (var item in CarListMaterials)
+        {
+            if (item.CarName == carNameFromList)
+            {
+                return item.materialInfo.Count;
+            }
+        }
+        return 0;
     }
     /// <summary>
     /// 
@@ -180,6 +202,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
             {
                 // Set the new material
                 carRenderer.material = previewMaterial.material;
+                if (spawnedCar.name == "Van(Clone)")
+                {
+                    spawnedCar.transform.Find("BackDoor (0)").GetComponent<Renderer>().material = previewMaterial.material;
+                    spawnedCar.transform.Find("BackDoor (1)").GetComponent<Renderer>().material = previewMaterial.material;
+                }
                 clickedMaterialName = previewMaterial.nameOfMaterial;
             }
             else
@@ -202,7 +229,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     public void SettingButtonsUp(CarColorShowCaseButtons button)
     {
         isColor = true;
-        buttonInstance = button;
+        colorButtonInstance = button;
         if (button.Bought)
         {
             priceHolder.enabled = false;
@@ -234,6 +261,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
             imgHolder.sprite = buyImg;
             price.text = button.price.ToString();
         }
+        //spawnedCar.GetComponent<CarShowCaseButton>().
+        speedSlider.value = carButtonInstance.MaxSpeed;
+        accSlider.value = carButtonInstance.Acacceleration;
+        driftSlider.value = carButtonInstance.DriftStats;
+        fuelSlider.value = carButtonInstance.FuelUsageMultiplier;
     }
 
 
@@ -250,16 +282,16 @@ public class CarShowCaseRoomManager : MonoBehaviour
     }
     private void SaveColorButton()
     {
-        if (buttonInstance.Bought)
+        if (colorButtonInstance.Bought)
         {
             SaveCarMaterialNameData(FindIndexInCarMaList());
         }
-        else
+        else //Buying a color
         {
-            //Buying a color
-            if (buttonInstance.price <= lettersCount)
+
+            if (colorButtonInstance.price <= lettersCount)
             {
-                RemoveLetters(buttonInstance.price);
+                RemoveLetters(colorButtonInstance.price);
                 var tmp = GameObject.Find(clickedButtonName);
                 tmp.GetComponent<CarColorShowCaseButtons>().Bought = true;
                 SaveCarMaterialNameData(FindIndexInCarMaList());
@@ -281,10 +313,9 @@ public class CarShowCaseRoomManager : MonoBehaviour
     {
         if (carButtonInstance.Bought)
         {
-            FindActiveCar();
-            SaveActiveCar(FindIndexInCarMaList());
+            SaveActiveCar();
         }
-        else
+        else//This Buys the car
         {
             if (carButtonInstance.price <= lettersCount)
             {
@@ -292,23 +323,51 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 var tmp = GameObject.Find(clickedButtonName);
                 tmp.GetComponent<CarShowCaseButton>().Bought = true;
                 CarInfo carInfo = new CarInfo("", "", false, null);
+                //Add to this for each car thats avaiable for purchase 
                 switch (tmp.GetComponent<CarShowCaseButton>().nameOfCar)
                 {
+                    case "Mustang":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Red", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Red") });
+                        break;
                     case "Van":
                         carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
                         "Gray", true,
                         new List<MaterialInfo> { new MaterialInfo(true, "Gray") });
                         break;
+                    case "Police":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "White", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "White") });
+                        break;
+                    case "Cab":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Yellow", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Yellow") });
+                        break;
+                    case "TopHatCar":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Black", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Black") });
+                        break;
+                    case "GoKart":
+                        carInfo = new CarInfo(tmp.GetComponent<CarShowCaseButton>().nameOfCar,
+                        "Blue", true,
+                        new List<MaterialInfo> { new MaterialInfo(true, "Blue") });
+                        break;
+
                 }
                 AddNewCarToCarList(carInfo);
-                FindActiveCar();
-                SaveActiveCar(FindIndexInCarMaList());
+                //FindActiveCar();
+                //SaveActiveCar(FindIndexInCarMaList());
+                SaveActiveCar();
 
                 priceHolder.enabled = false;
                 price.enabled = false;
                 imgHolder.sprite = equipImg;
 
-                //UpdateValues();
+                UpdateCarButtonInfo();
             }
             else
             {
@@ -316,22 +375,13 @@ public class CarShowCaseRoomManager : MonoBehaviour
             }
         }
     }
-    private void FindActiveCar()
-    {
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
-        {
-            if (playerData.listOfCars[i].IsActive)
-            {
-                carNameFromList = playerData.listOfCars[i].Name;
-            }
-        }
-    }
+
     private int FindIndexInCarMaList()
     {
         int savedIndex = 0;
-        for (int i = 0; i < playerData.listOfCars.Count; i++)
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
         {
-            if (carNameFromList == playerData.listOfCars[i].Name)
+            if (carNameFromList == playerData.ListOfCars[i].Name)
             {
                 savedIndex = i;
                 break;
@@ -340,29 +390,24 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
         return savedIndex;
     }
-    private void SaveCarMaterialNameData(int indexer)
+    private void SaveCarMaterialNameData(int indexer) => playerData.ListOfCars[indexer].MaterialName = clickedMaterialName;
+    private void SaveActiveCar()
     {
-        playerData.listOfCars[indexer].MaterialName = clickedMaterialName;
-    }
-    private void SaveActiveCar(int indexer)
-    {
-        foreach (var item in playerData.listOfCars)
+        foreach (var item in playerData.ListOfCars)
         {
             item.IsActive = false;
         }
-        playerData.listOfCars[indexer].IsActive = true;
-        carNameFromList = playerData.listOfCars[indexer].Name;
-
-
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
+        {
+            if (playerData.ListOfCars[i].Name == carButtonInstance.nameOfCar)
+            {
+                playerData.ListOfCars[i].IsActive = true;
+                carNameFromList = playerData.ListOfCars[i].Name;
+            }
+        }
     }
-    private void AddNewMaterialToCarList(int indexer)
-    {
-        playerData.listOfCars[indexer].materialList.Add(new MaterialInfo(buttonInstance.Bought, buttonInstance.nameOfMaterial));
-    }
-    private void AddNewCarToCarList(CarInfo car)
-    {
-        playerData.listOfCars.Add(car);
-    }
+    private void AddNewMaterialToCarList(int indexer) => playerData.ListOfCars[indexer].materialList.Add(new MaterialInfo(colorButtonInstance.Bought, colorButtonInstance.nameOfMaterial));
+    private void AddNewCarToCarList(CarInfo car) => playerData.ListOfCars.Add(car);
     public void SetButtonName(GameObject gO) => clickedButtonName = gO.name;
     private void RemoveLetters(int amountTimes)
     {
@@ -371,14 +416,14 @@ public class CarShowCaseRoomManager : MonoBehaviour
             playerData.CollectedLetters.RemoveAt(0);
         }
     }
-
-    private void SpawnCar(GameObject ActiveCar)
-    {
-        spawnedCar = Instantiate(ActiveCar, ShowcasedSpawnPoint);
-    }
+    private void SpawnCar(GameObject ActiveCar) => spawnedCar = Instantiate(ActiveCar, ShowcasedSpawnPoint);
 
     public void ClickOnCarTab()
     {
+        colorsTab.SetActive(false);
+        carsTabs.SetActive(true);
+
+        UpdateCarButtonInfo();
 
         foreach (var item in colorBoxsList)
         {
@@ -387,34 +432,75 @@ public class CarShowCaseRoomManager : MonoBehaviour
         colorBoxsList.Clear();
         isOnColorTab = false;
     }
+    private void UpdateCarButtonInfo()
+    {
+        List<CarShowCaseButton> carButtons = new List<CarShowCaseButton>();
+        for (int i = 0; i < ShowcasedCar.Count; i++)
+        {
+            carButtons.Add(GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>());
+        }
+
+        for (int i = 0; i < playerData.ListOfCars.Count; i++)
+        {
+            foreach (var item in carButtons)
+            {
+                if (playerData.ListOfCars[i].Name == item.nameOfCar)
+                {
+                    item.Bought = true;
+                }
+                //// TODO : Find at better solution for this
+                ////If we switch the buttons around os Van is the first instead of Mustang this wont work
+                //if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
+                //{
+                    
+                //}
+            }
+        }
+    }
+
     private bool isOnColorTab = true;
     public void ClickOnColorTab()
     {
-        if (isOnColorTab)
+        if (ReturnIsCarActive())
         {
-
-        }
-        else
-        {
-
-            foreach (var item in playerData.listOfCars)
+            colorsTab.SetActive(true);
+            carsTabs.SetActive(false);
+            foreach (var item in playerData.ListOfCars)
             {
                 if (item.IsActive)
                 {
-                    carNameFromList = item.Name;
-
                     var tmp = CarListMaterials.Find(car => car.CarName == item.Name);
                     for (int i = 0; i < tmp.materialInfo.Count; i++)
                     {
                         InstantiateColorBoxes(tmp.materialInfo[i], i);
                     }
+                    UpdateValues();
+                    isOnColorTab = true;
                     break;
                 }
             }
         }
-        isOnColorTab = true;
+        else
+        {
+            print("Can't see colors of this car before its equiped");
+        }
     }
 
+    /// <summary>
+    /// Use for checking if car is equpied or not
+    /// </summary>
+    /// <returns></returns>
+    private bool ReturnIsCarActive()
+    {
+        foreach (var item in playerData.ListOfCars)
+        {
+            if (carButtonInstance.nameOfCar == item.Name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private IEnumerator StartRotationOfCar()
     {
