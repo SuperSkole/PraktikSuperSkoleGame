@@ -53,4 +53,6 @@ public interface IBankFrontGamemode:IGenericGameMode
     int Validate(int playerGuess);
 
     string GetHintText();
+
+    string GetErrorExplainText();
 }
