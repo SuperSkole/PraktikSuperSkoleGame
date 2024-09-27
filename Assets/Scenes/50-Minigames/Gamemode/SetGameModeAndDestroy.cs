@@ -80,6 +80,15 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Bank Hovedindgang";
                     }
                     break;
+
+                case 5:
+                    modeSetter = new PathOfDangerSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToPathOfDanger);
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Den Farlige Rute";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {
