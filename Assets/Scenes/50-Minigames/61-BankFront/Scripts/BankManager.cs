@@ -45,6 +45,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     public GameObject unifiedField;
     [SerializeField]private Image unifiedFieldBackground;
     [SerializeField]private ErrorExplainer mistakeExplainer;
+    [SerializeField]private HealthDisplay healthDisplay;
 
     private Customer currentCustomer;
 
@@ -78,7 +79,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     {
         errorDisplay.Reset();
         currentCustomer = customer;
-        lives.text = "3/3 liv";
+        healthDisplay.SetHearts(3);
         mistakes = 0;
         //finds out how many coins the customer have and then generates them
         int amount = Random.Range(1, 20);
@@ -131,14 +132,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         else if(result == 1)
         {
             mistakes += 0.5f;
-            UpdateLivesDisplay();
+            healthDisplay.ChangeHearts(0.5f);
             errorDisplay.PartialCorrect();
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
             mistakes++;
-            UpdateLivesDisplay();
+            healthDisplay.ChangeHearts(1);
             errorDisplay.Incorrect();
         }
         if(mistakes >= 3)
@@ -179,20 +180,6 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         SwitchScenes.SwitchToMainWorld();
     }
 
-    /// <summary>
-    /// Updates the display of the players remaining lives
-    /// </summary>
-    private void UpdateLivesDisplay()
-    {
-        if(mistakes <= 3)
-        {
-            lives.text = 3 - mistakes + "/3 liv";
-        }
-        else
-        {
-            lives.text = "0/3 liv";
-        }
-    }
 
     /// <summary>
     /// Returns the two coin lists
