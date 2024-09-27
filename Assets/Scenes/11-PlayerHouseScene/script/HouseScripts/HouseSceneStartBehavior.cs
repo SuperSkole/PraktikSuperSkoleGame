@@ -17,30 +17,35 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         [SerializeField] private HouseLoadSaveController saveManager;
         [SerializeField] private PlacementSystem placementSystem;
-        
+
         [HideInInspector]
         public SaveContainer itemContainer = new SaveContainer();
 
         private GameObject spawnedPlayer;
 
         // Start is called before the first frame update
-        private void Start()
+        private async void Start()
         {
             //Debug.Log("Trying to set player obj in house start");
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
-            
+
             buildingSystemParent.SetActive(true);
-            //LoadingHouseItems();
+
+            await LoadingHouseItems();  // Wait for the house data to load
+
             buildingSystemParent.SetActive(false);
 
             uiBuilding.SetActive(buildingSystemParent.activeSelf);
             cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
         }
-        public void LoadingHouseItems()
+        public async Task LoadingHouseItems()
         {
-            var data = saveManager.LoadGridData<HouseDataDTO>();
-            ApplyLoadedData(data);
+            // Load the house data asynchronously
+            var data = await saveManager.LoadGridData<HouseDataDTO>();
 
+            ApplyLoadedData(data);  // Apply the loaded data after it's loaded
+
+            // After applying the data, place the objects in the scene
             foreach (var item in itemContainer.floorData.placedObjectsList)
             {
                 placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Rug);
@@ -51,17 +56,15 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Furniture);
             }
         }
-        public void ApplyLoadedData(Task<HouseDataDTO> houseDataDTO)
+        public void ApplyLoadedData(HouseDataDTO houseDataDTO)
         {
             // Apply the loaded grid data to the house systems
-            itemContainer.floorData = houseDataDTO.Result.FloorData;
-            itemContainer.furnitureData = houseDataDTO.Result.FurnitureData;
-
-            //   floorData.FloorData = houseDataDTO.FloorData
-            // furnitureData.FurnitureData.placedObjects = houseDataDTO.FurnitureData.ConvertToDictionary();
+            itemContainer.floorData = houseDataDTO.FloorData;
+            itemContainer.furnitureData = houseDataDTO.FurnitureData;
 
             Debug.Log("House data applied successfully.");
         }
+
         public void EnableBuildingSystem()
         {
             if (!buildingSystemParent.activeSelf)

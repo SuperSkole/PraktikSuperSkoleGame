@@ -44,6 +44,10 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private GameObject validCoinsContainer;
     public GameObject unifiedField;
     [SerializeField]private Image unifiedFieldBackground;
+    [SerializeField]private ErrorExplainer mistakeExplainer;
+    [SerializeField]private HealthDisplay healthDisplay;
+
+    private Customer currentCustomer;
 
     public IBankFrontGamemode gamemode;
 
@@ -51,7 +55,10 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     private float mistakes = 0;
 
 
-
+    void Start()
+    {
+        gameOverText.text = "";
+    }
 
     /// <summary>
     /// Starts up the game if it is currently not going
@@ -62,33 +69,39 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             SetupGame(new SortAndCount(), null);
         }
-        if(gamemode.GetCurrentCustomersCoins().Count == 0)
+    }
+
+    /// <summary>
+    /// Creates the money used for the current game
+    /// </summary>
+    /// <param name="customer">The current customer</param>
+    public void HandOverMoney(Customer customer)
+    {
+        errorDisplay.Reset();
+        currentCustomer = customer;
+        healthDisplay.SetHearts(3);
+        mistakes = 0;
+        //finds out how many coins the customer have and then generates them
+        int amount = Random.Range(1, 20);
+        float chancePerCoin = gamemode.GetChance();
+        for(int i = 0; i < amount; i++)
         {
-            
-            lives.text = "3/3 liv";
-            gameOverText.text = "";
-            //finds out how many coins the customer have and then generates them
-            int amount = Random.Range(1, 20);
-            float chancePerCoin = gamemode.GetChance();
-            for(int i = 0; i < amount; i++)
+            int coinRoll = Random.Range(0, 100);
+            bool realCoin = false;
+            //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
+            for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
             {
-                int coinRoll = Random.Range(0, 100);
-                bool realCoin = false;
-                //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
-                for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
+                if(coinRoll < (j + 1) * chancePerCoin)
                 {
-                    if(coinRoll < (j + 1) * chancePerCoin)
-                    {
-                        gamemode.CreateRealCoin(j);
-                        realCoin = true;
-                        break;
-                    }
+                    gamemode.CreateRealCoin(j);
+                    realCoin = true;
+                    break;
                 }
-                //Does the same but for fake coins
-                if(!realCoin)
-                {
-                    gamemode.CreateFakeCoin();
-                }
+            }
+            //Does the same but for fake coins
+            if(!realCoin)
+            {
+                gamemode.CreateFakeCoin();
             }
         }
     }
@@ -101,6 +114,12 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
         int result = gamemode.Validate(numberDisplay.GetNumber());
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
+        if(result < 2)
+        {
+            mistakeExplainer.gameObject.SetActive(true);
+            mistakeExplainer.AddExplanation(gamemode.GetErrorExplainText());
+            
+        }
         if(result == 2)
         {
             errorDisplay.Correct();
@@ -113,14 +132,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         else if(result == 1)
         {
             mistakes += 0.5f;
-            UpdateLivesDisplay();
+            healthDisplay.ChangeHearts(0.5f);
             errorDisplay.PartialCorrect();
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
             mistakes++;
-            UpdateLivesDisplay();
+            healthDisplay.ChangeHearts(1);
             errorDisplay.Incorrect();
         }
         if(mistakes >= 3)
@@ -135,13 +154,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     /// <returns></returns>
     IEnumerator Restart()
     {
-        completedGames++;
+        /*completedGames++;
         if(completedGames >= 5)
         {
             gameOverText.text = "Du vandt du sorterede mønterne korrekt og udregnede deres værdi 5 gange";
-        }
+        }*/
         gamemode.ClearCurrentCustomersCoins();
-        errorDisplay.Reset();
+        currentCustomer.PrepareToLeaveBank();
+        currentCustomer = null;
         if(completedGames >= 5)
         {
             yield return new WaitForSeconds(5);
@@ -160,20 +180,6 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         SwitchScenes.SwitchToMainWorld();
     }
 
-    /// <summary>
-    /// Updates the display of the players remaining lives
-    /// </summary>
-    private void UpdateLivesDisplay()
-    {
-        if(mistakes <= 3)
-        {
-            lives.text = 3 - mistakes + "/3 liv";
-        }
-        else
-        {
-            lives.text = "0/3 liv";
-        }
-    }
 
     /// <summary>
     /// Returns the two coin lists

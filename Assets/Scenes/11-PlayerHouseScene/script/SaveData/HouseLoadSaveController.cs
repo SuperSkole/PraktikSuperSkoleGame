@@ -55,9 +55,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
                 Debug.LogError("Failed to load house data from the cloud.");
                 return default;
             }
-        }
-
-        
+        }        
     }
 
     [Serializable]
