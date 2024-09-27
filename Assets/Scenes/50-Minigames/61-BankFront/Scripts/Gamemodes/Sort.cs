@@ -72,9 +72,14 @@ public class Sort : IBankFrontGamemode
         return currentCustomersCoins;
     }
 
+    public string GetErrorExplainText()
+    {
+        return "Du sorterede m\u00F8ntenre forkert";
+    }
+
     public string GetHintText()
     {
-        return "Find alle ægte mønter";
+        return "Find alle \u00e6gte m\u00F8nter";
     }
 
     /// <summary>
