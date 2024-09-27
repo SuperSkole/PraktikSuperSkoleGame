@@ -107,6 +107,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <exception cref="ArgumentException">Thrown when the provided word is null or empty.</exception>
         private void AddWordToPlayerData(string word)
         {
+            playerData.LifetimeTotalWords++;
             try
             {
                 if (string.IsNullOrEmpty(word))
@@ -124,6 +125,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private void AddLetterToPlayerData(char Letter)
         {
+            playerData.LifetimeTotalLetters++;
             try
             {
                 playerData.CollectedLetters.Add(Letter);

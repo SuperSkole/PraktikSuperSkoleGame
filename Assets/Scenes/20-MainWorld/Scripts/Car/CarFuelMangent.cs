@@ -9,6 +9,8 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private float speed;
         private float fuelConsumptionRate = 0.001f;
         [SerializeField] private float fuelAmount;
+        [Range(1, 3)]
+        public float FuelUsageMultiplier;
         public float FuelAmount { get { return fuelAmount; } 
                                   set { fuelAmount = value; } }
         public Image fuelGauge;
@@ -41,7 +43,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         {
             speed = controller.carSpeed;
             // Calculate fuel consumption based on speed
-            FuelAmount -= speed * fuelConsumptionRate * Time.deltaTime;
+            FuelAmount -= speed * (fuelConsumptionRate * FuelUsageMultiplier) * Time.deltaTime;
 
             // Clamp the fuel to ensure it doesn't go below 0
             FuelAmount = Mathf.Clamp(FuelAmount, 0, 1.0f);

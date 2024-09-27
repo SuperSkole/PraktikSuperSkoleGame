@@ -10,7 +10,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private Vector3 lastPos;
         [SerializeField] private LayerMask placementLayermask;
 
-        public event Action OnClicked, OnExit;
+        public event Action OnClicked, OnExit, RotateMinus, RotatePlus;
 
         private void Update()
         {
@@ -22,6 +22,15 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 OnExit?.Invoke();
             }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                RotateMinus?.Invoke();
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RotatePlus?.Invoke();
+            }
+
         }
 
         public bool IsPointerOverUI() 

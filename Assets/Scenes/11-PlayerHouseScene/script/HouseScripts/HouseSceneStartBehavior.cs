@@ -7,7 +7,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 {
     public class HouseSceneStartBehavior : MonoBehaviour
     {
-        [SerializeField] private GameObject buildingSystem;
+        [SerializeField] private GameObject buildingSystemParent;
         [SerializeField] private GameObject uiBuilding;
         [SerializeField] private GameObject cameraMovement;
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
@@ -20,31 +20,31 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             //Debug.Log("Trying to set player obj in house start");
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
-            buildingSystem.SetActive(false);
-            uiBuilding.SetActive(buildingSystem.activeSelf);
-            cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystem.activeSelf;
+            buildingSystemParent.SetActive(false);
+            uiBuilding.SetActive(buildingSystemParent.activeSelf);
+            cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
         }
 
         public void EnableBuildingSystem()
         {
-            if (!buildingSystem.activeSelf)
+            if (!buildingSystemParent.activeSelf)
             {
-                buildingSystem.SetActive(true);
-                cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystem.activeSelf;
+                buildingSystemParent.SetActive(true);
+                cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
                 spawnedPlayer.SetActive(false);
                 virtualCamera.Follow = cameraMovement.transform;
                 virtualCamera.LookAt = cameraMovement.transform;
             }
             else
             {        
-                buildingSystem.SetActive(false);
-                cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystem.activeSelf;
+                buildingSystemParent.SetActive(false);
+                cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
                 spawnedPlayer.SetActive(true);
                 virtualCamera.Follow = spawnedPlayer.transform;
                 virtualCamera.LookAt = spawnedPlayer.transform;
             }
 
-            uiBuilding.SetActive(buildingSystem.activeSelf);
+            uiBuilding.SetActive(buildingSystemParent.activeSelf);
         }
     }
 }

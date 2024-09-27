@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Scenes._24_HighScoreScene.Scripts;
+using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,7 +32,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
 
-    
+        private ILeaderboardSubmissionService leaderboardSubmissionService;
         
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
@@ -101,7 +103,46 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
-            GameManager.Instance.playerManager = this;
+            
+            GameManager.Instance.PlayerManager = this;
+            leaderboardSubmissionService = new LeaderboardSubmissionService();
+        }
+        
+        private void OnEnable()
+        {
+            PlayerEvents.OnAddWord += OnAddWordHandler;
+            PlayerEvents.OnAddLetter += OnAddLetterHandler;
+        }
+
+        private void OnDisable()
+        {
+            PlayerEvents.OnAddWord -= OnAddWordHandler;
+            PlayerEvents.OnAddLetter -= OnAddLetterHandler;
+        }
+
+        private void OnAddWordHandler(string word)
+        {
+            SubmitWordCountToLeaderboard();
+        }
+
+        private void OnAddLetterHandler(char letter)
+        {
+            SubmitLetterCountToLeaderboard();
+        }
+
+        
+        public async void SubmitWordCountToLeaderboard()
+        {
+            await leaderboardSubmissionService.EnsureSignedIn();
+            int totalWords = PlayerData.LifetimeTotalWords;
+            await leaderboardSubmissionService.SubmitMostWords(totalWords, PlayerData.MonsterName);
+        }
+        
+        public async void SubmitLetterCountToLeaderboard()
+        {
+            await leaderboardSubmissionService.EnsureSignedIn();
+            int totalLetters = PlayerData.LifetimeTotalLetters;
+            await leaderboardSubmissionService.SubmitMostLetters(totalLetters, PlayerData.MonsterName);
         }
         
         /// <summary>
@@ -173,9 +214,24 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 1,
                 spawnedPlayer.transform.position,
-                null,
-                null,
-                GameManager.Instance.PlayerData.listOfCars
+                new List<string>(),
+                new List<char>(),
+                0,
+                0,
+                "",
+                "",
+                new List<int>(),
+                new List<CarInfo>()
+                {
+                    new CarInfo("Mustang",
+                        "Red",
+                        true,
+                        new List<MaterialInfo>
+                        {
+                            new MaterialInfo(true,
+                                "Red")
+                        })
+                }
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -194,8 +250,6 @@ namespace Scenes._10_PlayerScene.Scripts
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
 
-            //playerData.listOfCars.Add("Mustang","Red",true);
-
             // Log for debugging
             // Debug.Log(
             //     $"PlayerManager.SetupPlayer(): " +
@@ -211,8 +265,6 @@ namespace Scenes._10_PlayerScene.Scripts
 
             GameManager.Instance.IsNewGame = false;
         }
-
-        
 
         public void SetupPlayerFromSave(PlayerData saveData)
         {
@@ -260,9 +312,14 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
+                saveData.CollectedWords,
+                saveData.CollectedLetters,
+                saveData.LifetimeTotalWords,
+                saveData.LifetimeTotalLetters,
                 saveData.ClothMid,
                 saveData.ClothTop,
-                saveData.listOfCars
+                saveData.BoughtClothes,
+                saveData.ListOfCars
             );
 
             // Call the ColorChange method to recolor the player
@@ -278,13 +335,13 @@ namespace Scenes._10_PlayerScene.Scripts
                     ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
 
-            // Log for debugging
-            Debug.Log($"Player loaded from save: " +
-                      $"username: {playerData.Username} " +
-                      $"Player Name: {playerData.MonsterName} " +
-                      $"Monster Color: {playerData.MonsterColor} " +
-                      $"XP: {playerData.CurrentXPAmount} " +
-                      $"Gold: {playerData.CurrentGoldAmount}");
+            // // Log for debugging
+            // Debug.Log($"Player loaded from save: " +
+            //           $"username: {playerData.Username} " +
+            //           $"Player Name: {playerData.MonsterName} " +
+            //           $"Monster Color: {playerData.MonsterColor} " +
+            //           $"XP: {playerData.CurrentXPAmount} " +
+            //           $"Gold: {playerData.CurrentGoldAmount}");
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
@@ -313,9 +370,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
-
-
-
+            
             // TODO : Find a more permnat solution
             if (SceneManager.GetActiveScene().name.StartsWith("11") ||
                 SceneManager.GetActiveScene().name.StartsWith("20") ||
@@ -326,14 +381,12 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerFloating>().enabled = true;
                 instance.spawnedPlayer.GetComponent<PlayerAnimatior>().StartUp();
-              
             }
             else
             {
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
-
             }
         }
 
@@ -384,21 +437,19 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
-
                 }    
             }
         }
 
         public void UpdatePlayerClothOnSceneChange(Scene scene)
         {
-
             if (scene.name == SceneNames.House ||
-               scene.name == SceneNames.Main ||
-               scene.name.StartsWith("5") ||
-               scene.name.StartsWith("6") ||
-               scene.name.StartsWith("7"))
+                scene.name == SceneNames.Main ||
+                scene.name.StartsWith("5") ||
+                scene.name.StartsWith("6") ||
+                scene.name.StartsWith("7"))
             {
-               if (clothChanging != null)
+                if (clothChanging != null)
                 {
                     // Call the ColorChange method to recolor the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
@@ -413,10 +464,6 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <param name="scene">The loaded scene.</param>
         private void SetPlayerPositionOnSceneChange(Scene scene)
         {
-            // Debug.Log($"PlayerManager.SetPlayerPositionOnSceneChange():" +
-            //           $"Loaded Scene: {scene.name}, " +
-            //           $"Last Interaction Point: {PlayerData.LastInteractionPoint}");
-
             // Player House sat spawn to 0,2,0
             if (scene.name == SceneNames.House)
             {
@@ -444,14 +491,6 @@ namespace Scenes._10_PlayerScene.Scripts
                     spawnedPlayer.GetComponent<Rigidbody>().position = playerData.LastInteractionPoint;
                     spawnedPlayer.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
                     spawnedPlayer.transform.position = playerData.LastInteractionPoint;
-                    //Debug.Log("Player spawned at last interaction point: " + playerData.LastInteractionPoint.ToString());
-
-                    //var car = GameObject.Find("Prometheus Variant");
-                    //car.transform.position = playerData.CarPos;
-                    //car.transform.rotation = playerData.CarRo;
-                    //car.GetComponent<CarFuelMangent>().FuelAmount = playerData.FuelAmount;
-
-
                 }
                 else
                 {

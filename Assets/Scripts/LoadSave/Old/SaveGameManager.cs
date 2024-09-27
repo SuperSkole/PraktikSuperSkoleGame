@@ -92,11 +92,11 @@ namespace LoadSave
                 MonsterName = gm.MonsterName,
                 MonsterTypeID = gm.MonsterTypeID,
                 MonsterColor = gm.MonsterColor,
-                GoldAmount = gm.CurrentGoldAmount,
-                XPAmount = gm.CurrentXPAmount,
-                PlayerLevel = gm.CurrentLevel,
-                SavedPlayerStartPostion = new SerializablePlayerPosition(gm.CurrentPosition),
-                listOfCars  = gm.listOfCars
+                CurrentGoldAmount = gm.CurrentGoldAmount,
+                CurrentXPAmount = gm.CurrentXPAmount,
+                CurrentLevel = gm.CurrentLevel,
+                //SavedPlayerStartPostion = new SerializablePlayerPosition(gm.CurrentPosition),
+                //listOfCars  = gm.listOfCars
             };
             return data;
         }
