@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class Level5 : MonoBehaviour, IMTGameMode
+    public class Level5 : IMTGameMode
     {
 
         List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
