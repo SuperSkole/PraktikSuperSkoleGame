@@ -57,8 +57,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType)
         {
             //if Obj is placed on 0,0,0 this doesnt work like it should
+            //At later date update this so we can have checks for rugs i.e if something is bigger than 1x1
 
-            if (ID == 0 && previousKey == Vector3Int.zero)
+            if (floorType == EnumFloorDataType.Furniture && previousKey == Vector3Int.zero)
             {
                 //Dont think this methode will work if size is 2x2 or rotation gets build in
                 if (key.y == 0 && key.x == 1)
@@ -67,7 +68,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 }
                 previousKey = key;
             }
-            if (ID == 0 && !key.Equals(previousKey))
+            if (floorType == EnumFloorDataType.Furniture && !key.Equals(previousKey))
             {
                 previousKey = new();
                 return;
@@ -211,7 +212,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 // Update the last detected grid position.
                 lastDetectedPosition = gridPos;
             }
-            
+
         }
     }
 }
