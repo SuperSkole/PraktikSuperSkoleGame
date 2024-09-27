@@ -79,13 +79,20 @@ public class ClockController : MonoBehaviour
     {
 
         minuteGameObject.Rotate(Vector3.back, -30);
+        hourGameObject.Rotate(Vector3.back, -2.5f);
 
         minuteTime += 5;
 
         if (minuteTime >= 60)
         {
             minuteTime = 0;
+            hourTime++;
+            if (hourTime >= 13)
+            {
+                hourTime = 1;
+            }
         }
+        
     }
 
     /// <summary>
@@ -95,12 +102,18 @@ public class ClockController : MonoBehaviour
     {
 
         minuteGameObject.Rotate(Vector3.back, 30);
+        hourGameObject.Rotate(Vector3.back, 2.5f);
 
         minuteTime -= 5;
 
         if (minuteTime <= -5)
         {
             minuteTime = 55;
+            hourTime--;
+            if (hourTime <= 0)
+            {
+                hourTime = 12;
+            }
         }
     }
 

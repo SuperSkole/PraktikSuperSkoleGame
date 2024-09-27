@@ -34,11 +34,15 @@ public class WatchSpawner : MonoBehaviour
     {
         randoMinute = minuteList[Random.Range(0, minuteList.Length)];
         minuteText.text = randoMinute;
-        randoHour = Random.Range(1, 12);
+        randoHour = Random.Range(0, 12);
         if (randoHour < 10)
         {
             string addZero = $"0{randoHour}";
             hourText.text = $"{addZero}";
+            if(Random.Range(0, 2) == 1)
+            {
+                hourText.text = $"{addZero + 12}";
+            }
         }
         else
         {
