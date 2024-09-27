@@ -23,7 +23,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         private ProductionLine[] productionLine;
 
-        public float rotationAngle = 45f;
+        public float rotationAngle = -35f;
         private bool isRotated = false;
 
 
@@ -80,12 +80,12 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
                 if (isRotated)
                 {
                     // Rotate back to the original position (reset)
-                    stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, 135);
+                    stopBeltLever.transform.rotation = Quaternion.Euler(0, 0, -35);
                 }
                 else
                 {
                     // Rotate to the desired angle on the Z-axis
-                    stopBeltLever.transform.rotation = Quaternion.Euler(0, -90, rotationAngle);
+                    stopBeltLever.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
                 }
 
                 // Toggle the rotation state

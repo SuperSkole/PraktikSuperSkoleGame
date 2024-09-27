@@ -6,7 +6,8 @@ using UnityEngine.AI;
 public class NPCController : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent agent;
-
+    [SerializeField] private Animator animator;
+    [SerializeField] private GameObject[] Skins;
     private Transform[] pointsOfIntrest;
     private Vector3 destination = Vector3.zero;
 
@@ -19,7 +20,13 @@ public class NPCController : MonoBehaviour
         if(POI == null) return;
         pointsOfIntrest = POI;
         gameObject.SetActive(true);
+        SetRandomSkin();
         FindNewDest();
+    }
+
+    private void SetRandomSkin()
+    {
+        Skins[Random.Range(0,Skins.Length)].SetActive(true);
     }
 
     /// <summary>
@@ -31,15 +38,16 @@ public class NPCController : MonoBehaviour
         {
             destination = pointsOfIntrest[Random.Range(0, pointsOfIntrest.Length)].position;
         }
-        while (Vector3.Distance(destination, transform.position) <= 1);
+        while (Vector3.Distance(destination, transform.position) <= 2);
         agent.SetDestination(destination);
     }
 
     private void Update()
     {
         if (destination == Vector3.zero) return;
-
-        if(Vector3.Distance(destination,transform.position) <= 1)
+        float velocity = agent.velocity.magnitude /agent.speed;
+        animator.SetFloat("Speed", velocity);
+        if (Vector3.Distance(destination,transform.position) <= 1)
         {
             Reset();
         }
@@ -48,6 +56,10 @@ public class NPCController : MonoBehaviour
     private void Reset()
     {
         agent.isStopped = true;
+        foreach (GameObject skin in Skins)
+        {
+            skin.SetActive(false);
+        }
         gameObject.SetActive(false);
         destination = Vector3.zero;
     }

@@ -72,9 +72,14 @@ public class SortAndCount : IBankFrontGamemode
         return currentCustomersCoins;
     }
 
+    public string GetErrorExplainText()
+    {
+        return "du sorterede eller talte m\u00F8nterne forkert";
+    }
+
     public string GetHintText()
     {
-        return "Udregn værdien af ægte mønter";
+        return "Udregn v\u00e6rdien af \u00e6gte m\u00F8nter";
     }
 
     /// <summary>
@@ -91,7 +96,6 @@ public class SortAndCount : IBankFrontGamemode
     /// </summary>
     public void HandleUIElements()
     {
-        Debug.Log("disabling unifiedField");
         bankManager.unifiedField.transform.parent.gameObject.SetActive(false);
     }
 

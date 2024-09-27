@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class WatchSpawner : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private GameObject hourTextObject, minuteTextObject;
 
     public TextMeshProUGUI hourText;
@@ -18,6 +16,7 @@ public class WatchSpawner : MonoBehaviour
 
     public string randoMinute;
     public int randoHour;
+    public int dislplayHour;
 
     private void Start()
     {
@@ -34,17 +33,25 @@ public class WatchSpawner : MonoBehaviour
     {
         randoMinute = minuteList[Random.Range(0, minuteList.Length)];
         minuteText.text = randoMinute;
-        randoHour = Random.Range(1, 12);
-        if (randoHour < 10)
+        randoHour = Random.Range(0, 12);
+        dislplayHour = randoHour;
+
+        if (Random.Range(0, 2) == 1)
         {
-            string addZero = $"0{randoHour}";
+            dislplayHour += 12;
+        }
+
+        if (dislplayHour < 10)
+        {
+
+            string addZero = $"0{dislplayHour}";
             hourText.text = $"{addZero}";
         }
         else
         {
-          hourText.text = $"{randoHour}";  
+            hourText.text = $"{dislplayHour}";
         }
-        
+
     }
 
 

@@ -65,9 +65,14 @@ public class Count : IBankFrontGamemode
         return currentCustomersCoins;
     }
 
+    public string GetErrorExplainText()
+    {
+        return "Du talte forkert";
+    }
+
     public string GetHintText()
     {
-        return "Find værdien af mønterne";
+        return "Find v\u00e6rdien af m\u00F8nterne";
     }
 
     /// <summary>
