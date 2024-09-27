@@ -35,7 +35,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
 
         public void SetUpGameModeDescription(ActiveLetterHandler activeLetterHandler)
         {
-            activeLetterHandler.descriptionText.text = "Tegn tal. Følg bien med musen";
+            activeLetterHandler.descriptionText.text = "Tegn tal. F\u00F8lg bien med musen \n Tryk [Mellemrum] for at hÃ¸re tallet";
         }
 
         public bool UseBee()

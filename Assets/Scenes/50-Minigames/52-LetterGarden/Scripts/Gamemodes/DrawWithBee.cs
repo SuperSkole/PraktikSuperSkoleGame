@@ -37,7 +37,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
                 }
                 else
                 {
-                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter[0]));
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter.ToLower()[0]));
                 }
             }
             return result;
@@ -45,7 +45,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
 
         public void SetUpGameModeDescription(ActiveLetterHandler activeLetterHandler)
         {
-            activeLetterHandler.descriptionText.text = "Tegn Bogstaver. Følg bien med musen";
+            activeLetterHandler.descriptionText.text = "Tegn Bogstaver. F\u00F8lg bien med musen \n Tryk [Mellemrum] for at hÃ¸re bogstavet";
         }
 
         public bool UseBee()

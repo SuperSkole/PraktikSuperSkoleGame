@@ -8,7 +8,9 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Splines;
 
 namespace Scenes.Minigames.LetterGarden.Scripts
@@ -22,7 +24,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private GameObject helperBee;
         [SerializeField] private GameObject activeHelperBee;
-        
         public AudioClip letterSound;
         float defaultBeeSpeed;
         bool helperBeeActive = true;
@@ -34,6 +35,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
          public TextMeshProUGUI descriptionText;
 
         private LettergardenGameMode gamemode;
+        public string oldLetter;
+
         /// <summary>
         /// used for testing only!!!!
         /// </summary>
@@ -58,11 +61,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
             defaultBeeSpeed = bee.speed;
+            letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
             //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
             if(!gameMode.UseBee())
             {
                 bee.speed = 0;
-                letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                
                 if(helperBeeActive)
                 {
                     activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
@@ -92,9 +96,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+                    oldLetter = currentSymbol.symbol.ToString();
                     GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
                     Instantiate(coinObject);
-
+                    //StartCoroutine(TakeScreenShot());
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game
@@ -108,11 +113,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                         Destroy(activeHelperBee);
                         activeHelperBee = null;
                     }
+                    letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
                     //Disables the bee's movement and if it is active adds an extra bee which rotates around it self at the endpoint of the spline
                     if(!gamemode.UseBee())
                     {
                         bee.speed = 0;
-                        letterSound = LetterAudioManager.GetAudioClipFromLetter(currentSymbol.symbol.ToString() + 1);
+                        
                         if(helperBeeActive)
                         {
                             activeHelperBee = Instantiate(helperBee, (Vector3)currentSymbol.splineContainer.EvaluatePosition(0, 1), Quaternion.identity);
@@ -169,6 +175,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             this.splineContainer = splineContainer;
             this.symbol = Symbol;
         }
+    
     }
-
 }

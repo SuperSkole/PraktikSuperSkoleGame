@@ -52,14 +52,16 @@ namespace Scenes._03_StartScene.Scripts
                 if (i < savePanels.Count)
                 {
                     // Load the save data from the cloud for the current key
-                    PlayerData data
-                        = await GameManager.Instance.SaveGameController
-                            .LoadSaveDataAsync(saveKeys[i]);
+                    SaveDataDTO dataDTO = await GameManager.Instance.SaveGameController
+                        .LoadSaveDataAsync<SaveDataDTO>(saveKeys[i]);
 
-                    if (data != null)
+                    if (dataDTO != null)
                     {
+                        // Use the DataConverter to convert the DTO back to PlayerData
+                        PlayerData playerData = GameManager.Instance.Converter.ConvertToPlayerData(dataDTO);
+
                         savePanels[i].SetSaveKey(monsterSave.Value);
-                        savePanels[i].UpdatePanelWithSaveData(data);
+                        savePanels[i].UpdatePanelWithSaveData(playerData);
                     }
                     else
                     {
