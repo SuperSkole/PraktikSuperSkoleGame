@@ -42,7 +42,7 @@ public class Count : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unifiedField.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unifiedField, bankManager.unifiedField);
+        c.SetTrays(bankManager.unifiedField, bankManager.unifiedField, bankManager.dragArea);
         bankManager.DestroyComponent(c.button);
         currentCustomersCoins.Add(c);
     }

@@ -46,6 +46,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private Image unifiedFieldBackground;
     [SerializeField]private ErrorExplainer mistakeExplainer;
     [SerializeField]private HealthDisplay healthDisplay;
+    public GameObject dragArea;
 
     private Customer currentCustomer;
 

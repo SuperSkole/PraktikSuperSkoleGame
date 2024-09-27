@@ -36,7 +36,7 @@ public class Sort : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unsortedTray.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray);
+        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray, bankManager.dragArea);
         currentCustomersCoins.Add(c);
     }
 
@@ -50,7 +50,7 @@ public class Sort : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unsortedTray.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray);
+        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray, bankManager.dragArea);
         currentCustomersCoins.Add(c);
     }
 
