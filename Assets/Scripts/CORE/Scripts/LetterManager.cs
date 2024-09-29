@@ -4,93 +4,86 @@ using UnityEngine;
 
 namespace CORE.Scripts
 {
-    public static class LetterManager
+    /// <summary>
+    /// Manages all operations related to letters.
+    /// </summary>
+    public class LetterManager
     {
-        private static ILetterProvider _letterProvider;
-        private static IRandomLetterSelector _randomLetterSelector;
-        private static IWeightManager _weightManager;
-
-        static LetterManager()
+        // \u00c6, \u00d8 and \u00c5 are the unicode codes for the three danish vowels which can sometimes go missing when typed directly in scripts
+        private static readonly HashSet<char> AllDanishLetters = new HashSet<char>
         {
-            // Initialiser afhængigheder
-            _letterProvider = new LetterProvider();
-            _randomLetterSelector = new RandomLetterSelector();
-            _weightManager = new WeightManager();
-        }
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '\u00c6', '\u00d8', '\u00c5'
+        };
 
-        /// <summary>
-        /// Initializes the weights for all letters using the weight manager.
-        /// </summary>
-        public static void InitializeWeights()
+        private static readonly HashSet<char> DanishVowels = new HashSet<char>
         {
-            _weightManager.InitializeWeights(_letterProvider.GetAllLetters());
-        }
+            'A', 'E', 'I', 'O', 'U', 'Y', '\u00c6', '\u00d8', '\u00c5'
+        };
+
+        private static readonly HashSet<char> Consonants = new HashSet<char>
+        {
+            'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q',
+            'R', 'S', 'T', 'V', 'W', 'X', 'Z'
+        };
+
+        private static readonly HashSet<char> FMNSConsonants = new HashSet<char>
+        {
+           'F','M', 'N','S', 
+        };
+
+        private static Dictionary<char, int> _weightedDanishLetters = new Dictionary<char, int>
+        {
+            {'A', 1}, {'B', 3}, {'C', 3}, {'D', 2}, {'E', 1},
+            {'F', 4}, {'G', 2}, {'H', 4}, {'I', 1}, {'J', 8},
+            {'K', 5}, {'L', 1}, {'M', 3}, {'N', 1}, {'O', 1},
+            {'P', 3}, {'Q', 10}, {'R', 1}, {'S', 1}, {'T', 1},
+            {'U', 1}, {'V', 4}, {'W', 4}, {'X', 8}, {'Y', 4},
+            {'Z', 10}, {'\u00c6', 6}, {'\u00d8', 7}, {'\u00c5', 6}
+        };
 
         public static List<char> GetRandomLetters(int count)
         {
-            var allDanishLetters = _letterProvider.GetAllLetters();
-            return allDanishLetters.OrderBy(_ => Random.value).Take(count).ToList();
+            return AllDanishLetters.OrderBy(_ => Random.value).Take(count).ToList();
         }
-
-        public static char GetRandomLetter()
-        {
-            var letters = _letterProvider.GetAllLetters();
-            return _randomLetterSelector.GetRandomLetter(letters);
-        }
-
-        public static char GetRandomVowel()
-        {
-            var vowels = _letterProvider.GetVowels();
-            return _randomLetterSelector.GetRandomLetter(vowels);
-        }
-
-        public static char GetRandomConsonant()
-        {
-            var consonants = _letterProvider.GetConsonants();
-            return _randomLetterSelector.GetRandomLetter(consonants);
-        }
-
-        public static char GetWeightedLetter()
-        {
-            var currentWeights = _weightManager.GetCurrentWeights();
-            return _randomLetterSelector.GetWeightedRandomLetter(currentWeights);
-        }
-
-        public static void UpdateLetterWeight(char letter, bool isCorrect)
-        {
-            _weightManager.UpdateWeight(letter, isCorrect);
-        }
-        
-        
-        // TODO REMOVE OLD
-
 
 
         /// <summary>
-        /// Gets a list containing the Consonants F,M,N,S
+        /// Returns a random letter
         /// </summary>
-        /// <returns>List of all danish vowels</returns>
-        public static List<char> GetFMNSConsonants()
+        /// <returns>A random letter</returns>
+        public static char GetRandomLetter()
         {
-         HashSet<char> FMNSConsonants = new HashSet<char>
-            {
-                'F','M', 'N','S', 
-            };
-            
-            return FMNSConsonants.ToList();
+            return AllDanishLetters.ToList()[Random.Range(0, AllDanishLetters.Count)];
+        }
+
+        public static List<char> GetRandomVowels(int count)
+        {
+            return DanishVowels.OrderBy(_ => Random.value).Take(count).ToList();
+        }
+
+        /// <summary>
+        /// Gets a random vowel
+        /// </summary>
+        /// <returns>A random Vowel</returns>
+        public static char GetRandomVowel()
+        {
+            return DanishVowels.ToList()[Random.Range(0, DanishVowels.Count)];
+        }
+
+        public static List<char> GetRandomConsonants(int count)
+        {
+            return Consonants.OrderBy(_ => Random.value).Take(count).ToList();
         }
 
         /// <summary>
         /// Gets a random consonant
         /// </summary>
-        /// <returns>A random consonant from the list containing the Consonants F,M,N,S
-        public static char GetRandomFMNSConsonant()
+        /// <returns>A random consonant</returns>
+        public static char GetRandomConsonant()
         {
-            HashSet<char> FMNSConsonants = new HashSet<char>
-            {
-                'F','M', 'N','S', 
-            };
-            return FMNSConsonants.ToList()[Random.Range(0, FMNSConsonants.Count)];
+            return Consonants.ToList()[Random.Range(0, Consonants.Count)];
         }
 
         /// <summary>
@@ -99,7 +92,6 @@ namespace CORE.Scripts
         /// <returns>List of all danish vowels</returns>
         public static List<char> GetDanishVowels()
         {
-            var DanishVowels = _letterProvider.GetVowels();
             return DanishVowels.ToList();
         }
 
@@ -109,9 +101,29 @@ namespace CORE.Scripts
         /// <returns>List of all consonants</returns>
         public static List<char>GetConsonants()
         {
-           var Consonants = _letterProvider.GetConsonants();
             return Consonants.ToList();
         }
+
+        /// <summary>
+        /// Gets a list containing the Consonants F,M,N,S
+        /// </summary>
+        /// <returns>List of all danish vowels</returns>
+        public static List<char> GetFMNSConsonants()
+        {
+            return FMNSConsonants.ToList();
+        }
+
+        /// <summary>
+        /// Gets a random consonant
+        /// </summary>
+        /// <returns>A random consonant from the list containing the Consonants F,M,N,S
+        public static char GetRandomFMNSConsonant()
+        {
+            return FMNSConsonants.ToList()[Random.Range(0, FMNSConsonants.Count)];
+        }
+
+
+
 
         /// <summary>
         /// Gets a list of all letters
@@ -119,8 +131,7 @@ namespace CORE.Scripts
         /// <returns>List of all letters</returns>
         public static List<char>GetAllLetters()
         {
-            var allLetters = _letterProvider.GetAllLetters();
-            return allLetters.ToList();
+            return AllDanishLetters.ToList();
         }
     }
 }

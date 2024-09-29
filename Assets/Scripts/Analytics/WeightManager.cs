@@ -1,13 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace CORE.Scripts
 {
-    public class WeightManager : IWeightManager
+    public class WeightManager : PersistentSingleton<WeightManager>, IWeightManager
     {
         private Dictionary<char, LetterData> letterData = new Dictionary<char, LetterData>();
         private const int START_WEIGHT = 50;
+
+        protected override void Awake()
+        {
+            Debug.Log("weight manager awake");
+            base.Awake();
+        }
 
         public void InitializeWeights(IEnumerable<char> letters)
         {
@@ -30,20 +37,22 @@ namespace CORE.Scripts
 
         public void UpdateWeight(char letter, bool isCorrect)
         {
-            if (letterData.ContainsKey(letter))
+            if (!letterData.TryGetValue(letter, value: out var data))
             {
-                var data = letterData[letter];
-                if (isCorrect)
-                {
-                    data.Weight = Math.Max(data.Weight - 5, 1);
-                }
-                else
-                {
-                    data.Weight = Math.Min(data.Weight + 5, 99);
-                    data.ErrorCount++;
-                }
-                data.LastUsed = DateTime.Now;
+                return;
             }
+
+            if (isCorrect)
+            {
+                data.Weight = Math.Max(data.Weight - 5, 1);
+            }
+            else
+            {
+                data.Weight = Math.Min(data.Weight + 5, 99);
+                data.ErrorCount++;
+            }
+                
+            data.LastUsed = DateTime.Now;
         }
     }
 }
