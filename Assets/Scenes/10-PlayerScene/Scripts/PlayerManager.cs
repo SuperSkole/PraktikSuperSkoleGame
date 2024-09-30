@@ -107,7 +107,14 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PlayerManager = this;
             leaderboardSubmissionService = new LeaderboardSubmissionService();
         }
-        
+
+        private void OnDestroy()
+        {
+            PlayerEvents.OnAddWord -= OnAddWordHandler;
+            PlayerEvents.OnAddLetter -= OnAddLetterHandler;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
         private void OnEnable()
         {
             PlayerEvents.OnAddWord += OnAddWordHandler;
@@ -269,42 +276,42 @@ namespace Scenes._10_PlayerScene.Scripts
         public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
-            spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
-            spawnedPlayer.name = "PlayerMonster";
+            Instance.spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+            Instance.spawnedPlayer.name = "PlayerMonster";
 
-            colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
-            if (colorChanging == null) 
+            Instance.colorChanging = Instance.spawnedPlayer.GetComponentInChildren<ColorChanging>();
+            if (Instance.colorChanging == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ColorChanging component not found on spawned player.");
                 return;
             }
 
-            playerData = spawnedPlayer.GetComponent<PlayerData>();
-            if (playerData == null) 
+            Instance.playerData = Instance.spawnedPlayer.GetComponent<PlayerData>();
+            if (Instance.playerData == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "PlayerData component not found on spawned player.");
                 return;
             }
 
-            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
-            if (skeleton == null)
+            Instance.skeleton = Instance.spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
+            if (Instance.skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
                 //return;
             }
 
-            clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
-            if (clothChanging == null)
+            Instance.clothChanging = Instance.spawnedPlayer.GetComponentInChildren<ClothChanging>();
+            if (Instance.clothChanging == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
                                "ClothChanging component not found on spawned player.");
             }
 
             // Init player data with saved data
-            playerData.Initialize(
+            Instance.playerData.Initialize(
                 saveData.Username,
                 saveData.MonsterName,
                 saveData.MonsterColor,
@@ -323,17 +330,17 @@ namespace Scenes._10_PlayerScene.Scripts
             );
 
             // Call the ColorChange method to recolor the player
-            colorChanging.SetSkeleton(skeleton);
-            colorChanging.ColorChange(playerData.MonsterColor);
+            Instance.colorChanging.SetSkeleton(Instance.skeleton);
+            Instance.colorChanging.ColorChange(Instance.playerData.MonsterColor);
 
             // Call the ColorChange method to recolor the player
-            clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
-            clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+            Instance.clothChanging.ChangeClothes(Instance.playerData.ClothMid, skeleton);
+            Instance.clothChanging.ChangeClothes(Instance.playerData.ClothTop, skeleton);
 
-            playerData.SetLastInteractionPoint(
-                playerData.LastInteractionPoint == Vector3.zero
+            Instance.playerData.SetLastInteractionPoint(
+                Instance.playerData.LastInteractionPoint == Vector3.zero
                     ? tmpPlayerSpawnPoint
-                    : playerData.LastInteractionPoint);
+                    : Instance.playerData.LastInteractionPoint);
 
             // // Log for debugging
             // Debug.Log($"Player loaded from save: " +
@@ -344,8 +351,8 @@ namespace Scenes._10_PlayerScene.Scripts
             //           $"Gold: {playerData.CurrentGoldAmount}");
 
             // Assign to GameManager for global access
-            GameManager.Instance.PlayerData = playerData;
-            DontDestroyOnLoad(spawnedPlayer);
+            GameManager.Instance.PlayerData = Instance.playerData;
+            DontDestroyOnLoad(Instance.spawnedPlayer);
         }
 
         // TODO maybe refactor onSceneLoaded into new script 
@@ -357,8 +364,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (instance.spawnedPlayer == null) return;
-            
-            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            instance.spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);
@@ -406,11 +413,11 @@ namespace Scenes._10_PlayerScene.Scripts
                     var virtualCamera = cinemachineCam
                         .GetComponent<CinemachineVirtualCamera>();
 
-                    virtualCamera.Follow = spawnedPlayer.transform;
-                    virtualCamera.LookAt = spawnedPlayer.transform;
+                    virtualCamera.Follow = Instance.spawnedPlayer.transform;
+                    virtualCamera.LookAt = Instance.spawnedPlayer.transform;
 
                     var cameraBrain = GameObject.Find("CameraBrain");
-                    spawnedPlayer.GetComponent<SpinePlayerMovement>()
+                    Instance.spawnedPlayer.GetComponent<SpinePlayerMovement>()
                         .sceneCamera = cameraBrain.GetComponent<Camera>();
                 }
                 catch

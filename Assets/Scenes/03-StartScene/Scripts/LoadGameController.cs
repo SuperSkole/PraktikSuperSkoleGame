@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using CORE;
 using LoadSave;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -108,11 +109,11 @@ namespace Scenes._03_StartScene.Scripts
                 onSceneLoaded = (scene, mode) =>
                 {
                     // Early out if not player scene
+                    Debug.Log(scene.name);
                     if (scene.name != SceneNames.Player)
                     {
                         return;
                     }
-
                     loadGameSetup.SetupPlayer(playerData);
                         
                     // Unsubscribe from the event

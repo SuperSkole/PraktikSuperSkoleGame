@@ -1,8 +1,10 @@
 using CORE;
 using Scenes;
+using Scenes._10_PlayerScene.Scripts;
+using System.Collections;
 using Unity.Services.Authentication;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
@@ -26,11 +28,13 @@ public class MenuManager : MonoBehaviour
     public void PlayerHouse()
     {
         SwitchScenes.SwitchToPlayerHouseScene();
+        Back();
     }
 
-    public void CharacterSelect()
+    public void CharacterSelect()//need somone too look at this
     {
-        //how do i switch to this sceen?
+        Back();
+        //SceneManager.LoadScene(SceneNames.Start);
     }
 
     public void ManualSave()
@@ -41,6 +45,7 @@ public class MenuManager : MonoBehaviour
     public void Leaderboard()
     {
         SwitchScenes.SwitchToLeaderBoard();
+        Back();
     }
 
     public void Audio()
@@ -51,8 +56,14 @@ public class MenuManager : MonoBehaviour
     public void Logout()
     {
         ManualSave();
+
         AuthenticationService.Instance.SignOut();
+        Destroy(PlayerManager.Instance.SpawnedPlayer);
+        Destroy(PlayerManager.Instance.gameObject);
+        Destroy(GameManager.Instance.gameObject);
+        Back();
         SwitchScenes.SwitchToLogin();
+        SceneManager.LoadSceneAsync(SceneNames.Boot, LoadSceneMode.Additive);
     }
 
     public void Back()
