@@ -133,57 +133,6 @@ namespace Scenes._03_StartScene.Scripts
                 Debug.LogError("Failed to load game data.");
             }
         }
-        
-        // /// <summary>
-        // /// Handles a load request by initiating the loading of saved game data.
-        // /// </summary>
-        // /// <param name="saveKey">The key of the save file to load.</param>
-        // private void HandleLoadRequest(string saveKey)
-        // {
-        //     Debug.Log("LoadGameController-HandleLoadRequest: Handling load request for save key: " + saveKey);
-        //     
-        //     // Use SaveGameController to load the game from Unity Cloud Save and pass OnDataLoaded as the callback
-        //     saveGameController.LoadGame(saveKey, OnDataLoaded);
-        // }
-        //
-        // /// <summary>
-        // /// Callback function that is triggered when saved game data is successfully loaded.
-        // /// Sets up the game state with the loaded data and transitions to the appropriate scenes.
-        // /// </summary>
-        // /// <param name="data">The data transfer object containing the loaded game data.</param>
-        // private void OnDataLoaded(PlayerData data)
-        // {
-        //     if (data != null)
-        //     {
-        //         // Define the delegate and subscribe before loading the scenes
-        //         UnityEngine.Events.UnityAction<Scene, LoadSceneMode> onSceneLoaded = null;
-        //         onSceneLoaded = (scene, mode) =>
-        //         {
-        //             // Early out; if not player scene
-        //             if (scene.name != SceneNames.Player)
-        //             {
-        //                 return;
-        //             }
-        //
-        //             loadGameSetup.SetupPlayer(data);
-        //                 
-        //             // Unsubscribe from the event
-        //             SceneManager.sceneLoaded -= onSceneLoaded;
-        //         };
-        //
-        //         // Subscribe to the scene loaded event
-        //         SceneManager.sceneLoaded += onSceneLoaded;
-        //         
-        //         // Load the House and Player scenes, using additive mode for Player
-        //         SceneManager.LoadScene(SceneNames.House);
-        //         SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-        //         Debug.Log("Data loaded successfully.");
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("Failed to load game data.");
-        //     }
-        // }
 
         /// <summary>
         /// Unregisters all SavePanel listeners to prevent memory leaks when the controller is destroyed.
