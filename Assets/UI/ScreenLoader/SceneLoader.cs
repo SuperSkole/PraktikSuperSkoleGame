@@ -7,32 +7,15 @@ using UnityEngine.UI;
 
 public class SceneLoader : PersistentSingleton<SceneLoader>
 {
-    //private static SceneLoader instance;
-    //public static SceneLoader Instance { get { return instance; } }
 
     public GameObject loadingPreFab;
+
     private GameObject loadingScreenInstance;
     private AsyncOperation backgroundLoadOperation;
 
-    float CurrentProgress;
+    private float CurrentProgress;
 
     [SerializeField] Image barfill;
-
-    //private void Awake()
-    //{
-        
-    //    //Singleton pattern
-    //    if (instance != null && instance != this)
-    //    {
-    //        Destroy(this.gameObject);
-
-    //        return;
-    //    }
-
-    //        instance = this;
-    //        DontDestroyOnLoad(this.gameObject);
-
-    //}
 
     //Load here and now
     public void LoadScene(string sceneName)
@@ -49,7 +32,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     //Load what has been loading in the background
     public void ActivateBackgroundLoadedScene()
     {
-        
+        Debug.Log("Background loading");
         if (backgroundLoadOperation != null)
         {
             if (backgroundLoadOperation.progress >= 0.9f)
@@ -97,6 +80,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     }
     private IEnumerator ContinueLoading()
     {
+        Debug.Log("Continue Loading");
         SetUpLoadingScreen();
 
         //if AsynOperation Backgroundload is not empty and is not done
@@ -186,6 +170,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private IEnumerator LoadSceneInBackgroundAsync(string sceneName1, string sceneName2)
     {
+        Debug.Log("two scenes loading");
         yield return StartCoroutine(LoadSceneAsync(sceneName1));
 
         //Load in background
