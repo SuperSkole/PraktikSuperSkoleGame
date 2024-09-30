@@ -16,10 +16,10 @@ public class ShootLaser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Instantiates a laser if the spacebar is pressed
         if(Input.GetKeyDown(KeyCode.Space))
         {
             Vector3 spawnPos = transform.GetChild(0).transform.position;
-            //Debug.Log(spawnPos);
 
             Instantiate(laserPrefab, spawnPos, transform.rotation);
         }

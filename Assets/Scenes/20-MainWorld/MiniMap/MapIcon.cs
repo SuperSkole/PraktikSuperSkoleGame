@@ -63,7 +63,7 @@ public class MapIcon : MonoBehaviour
                 thisImage.sprite = home;
                 break;
             default:
-                Debug.LogError("Invalid image name: " + imageName);
+                Debug.Log("Invalid image name: " + imageName);
                 break;
         }
 

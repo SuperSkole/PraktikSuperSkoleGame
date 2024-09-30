@@ -22,50 +22,38 @@ namespace LoadSave
         }
 
         /// <summary>
-        /// Saves the player data by converting it to a DTO and storing it in the cloud using a custom key.
+        /// Saves a data transfer object (DTO) by converting it to JSON and storing it in the cloud using a specified key.
         /// </summary>
-        public async Task SavePlayerDataAsync(PlayerData playerData, string saveKey)
+        /// <param name="dto">The data transfer object to be saved.</param>
+        /// <param name="saveKey">The key to associate with the saved data.</param>
+        /// <returns>A task that represents the asynchronous save operation.</returns>
+        public async Task SaveAsync(IDataTransferObject dto, string saveKey)
         {
-            // Convert the PlayerData to a SaveDataDTO
-            SaveDataDTO dto = converter.ConvertToDTO(playerData);
-
             // Serialize DTO to JSON
             string jsonData = JsonConvert.SerializeObject(dto, Formatting.Indented);
-
+            
             // Save the data in the cloud with a custom key
             await saveRepository.SaveAsync(saveKey, jsonData);
         }
-
-        /// <summary>
-        /// Loads the player data from the cloud and converts it back to a PlayerData object.
-        /// </summary>
-        // public async Task<SaveDataDTO> LoadPlayerDataAsync(string saveKey)
-        // {
-        //     string jsonData = await saveRepository.LoadAsync(saveKey);
-        //     if (string.IsNullOrEmpty(jsonData))
-        //     {
-        //         return null;
-        //     }
-        //
-        //     // Deserialize and return SaveDataDTO
-        //     return JsonUtility.FromJson<SaveDataDTO>(jsonData);  
-        // }
         
-        public async Task<PlayerData> LoadPlayerDataAsync(string saveKey)
+        /// <summary>
+        /// Loads the data from the cloud and returns the specific type of IDataTransferObject.
+        /// </summary>
+        /// <param name="saveKey">The key of the save to load.</param>
+        /// <typeparam name="T">The expected type of the DTO.</typeparam>
+        /// <returns>The loaded data as an IDataTransferObject.</returns>
+        public async Task<T> LoadDataAsync<T>(string saveKey) where T : IDataTransferObject
         {
             string jsonData = await saveRepository.LoadAsync(saveKey);
             if (string.IsNullOrEmpty(jsonData))
             {
-                return null;
+                return default;
             }
-        
-            // Deserialize to SaveDataDTO
-            SaveDataDTO dto = JsonConvert.DeserializeObject<SaveDataDTO>(jsonData);
-        
-            // Convert back to PlayerData
-            PlayerData playerData = converter.ConvertToPlayerData(dto);
-        
-            return playerData;
+
+            // Deserialize the data into the specified DTO type
+            T dto = JsonConvert.DeserializeObject<T>(jsonData);
+
+            return dto;
         }
     }
 }

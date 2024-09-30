@@ -155,7 +155,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     
                     correctLetterCount++;
                 }
-                boardController.SetAnswerText("Tryk [Mellemrum] for at hoere et ord, Find det billede der passer til det ord. Der er " + correctLetterCount + " tilbage.");
+                boardController.SetAnswerText("Tryk [mellemrum] og find det rigtige billede. " + correctLetterCount + " ord tilbage.");
 
 
                 //uses the CurrentWordSound 

@@ -444,15 +444,16 @@ public class CarShowCaseRoomManager : MonoBehaviour
         {
             foreach (var item in carButtons)
             {
-                // TODO : Find at better solution for this
-                //If we switch the buttons around os Van is the first instead of Mustang this wont work
-                if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
+                if (playerData.ListOfCars[i].Name == item.nameOfCar)
                 {
-                    if (playerData.ListOfCars[i].Name == item.nameOfCar)
-                    {
-                        item.Bought = true;
-                    }
+                    item.Bought = true;
                 }
+                //// TODO : Find at better solution for this
+                ////If we switch the buttons around os Van is the first instead of Mustang this wont work
+                //if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
+                //{
+                    
+                //}
             }
         }
     }

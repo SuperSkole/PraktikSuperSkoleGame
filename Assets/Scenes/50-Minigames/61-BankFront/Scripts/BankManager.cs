@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using TMPro;
@@ -12,32 +14,50 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Manager class for the bank main entrance minigame
 /// </summary>
-public class BankManager : MonoBehaviour
+public class BankManager : MonoBehaviour, IMinigameSetup
 {
     [SerializeField]private List<GameObject>validCoins;
+    
     [SerializeField]private List<GameObject>fakeCoins;
-    [SerializeField]private GameObject unsortedTray;
+    [SerializeField]private List<GameObject>animals;
+    public List<string> multipleImagesAnimals = new List<string>()
+    {
+        "cow", "mouse", "cat"
+    };
+    public GameObject unsortedTray;
     [SerializeField]private Image unsortedTraybackground;
-    [SerializeField]private GameObject sortedTray;
+    public GameObject sortedTray;
     [SerializeField]private Image sortedTrayBackground;
-    [SerializeField]private TMP_InputField inputField;
     [SerializeField]private GameObject playerPrison;
-    public List<Coin> currentCustomersCoins = new List<Coin>();
     [SerializeField]private GameObject coinPrefab;
+    [SerializeField]private TextMeshProUGUI lives;
+    [SerializeField]private TextMeshProUGUI gameOverText;
+    [SerializeField]private TextMeshProUGUI hintText;
+    [SerializeField]private NumberDisplay numberDisplay;
+    [SerializeField]private ErrorDisplay errorDisplay;
+    [SerializeField]private List<GameObject>triangleCoins;
+    [SerializeField]private List<GameObject>squareCoins;
+    [SerializeField]private List<GameObject>roundCoins;
+    [SerializeField]private List<GameObject>pentagonCoins;
+    [SerializeField]private List<GameObject>hexagonCoins;
+    public GameObject validCoinsField;
+    [SerializeField]private GameObject validCoinsContainer;
+    public GameObject unifiedField;
+    [SerializeField]private Image unifiedFieldBackground;
+    [SerializeField]private ErrorExplainer mistakeExplainer;
+    [SerializeField]private HealthDisplay healthDisplay;
 
-    [SerializeField]private float realCoinPercentage = 80;
+    private Customer currentCustomer;
 
-    [SerializeField]private int playerGuess = -1;
+    public IBankFrontGamemode gamemode;
 
     private int completedGames = 0;
-    private int mistakes = 0;
+    private float mistakes = 0;
+
 
     void Start()
     {
-        if(PlayerManager.Instance != null)
-        {
-            PlayerManager.Instance.PositionPlayerAt(playerPrison);
-        }
+        gameOverText.text = "";
     }
 
     /// <summary>
@@ -45,39 +65,43 @@ public class BankManager : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if(currentCustomersCoins.Count == 0)
+        if(gamemode == null)
         {
-            //finds out how many coins the customer have and then generates them
-            int amount = Random.Range(1, 20);
-            float chancePerCoin = realCoinPercentage / validCoins.Count;
-            for(int i = 0; i < amount; i++)
+            SetupGame(new SortAndCount(), null);
+        }
+    }
+
+    /// <summary>
+    /// Creates the money used for the current game
+    /// </summary>
+    /// <param name="customer">The current customer</param>
+    public void HandOverMoney(Customer customer)
+    {
+        errorDisplay.Reset();
+        currentCustomer = customer;
+        healthDisplay.SetHearts(3);
+        mistakes = 0;
+        //finds out how many coins the customer have and then generates them
+        int amount = Random.Range(1, 20);
+        float chancePerCoin = gamemode.GetChance();
+        for(int i = 0; i < amount; i++)
+        {
+            int coinRoll = Random.Range(0, 100);
+            bool realCoin = false;
+            //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
+            for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
             {
-                int coinRoll = Random.Range(0, 100);
-                bool realCoin = false;
-                //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
-                for(int j = 0; j < validCoins.Count; j++)
+                if(coinRoll < (j + 1) * chancePerCoin)
                 {
-                    if(coinRoll < (j + 1) * chancePerCoin)
-                    {
-                        GameObject coin = Instantiate(validCoins[j]);
-                        coin.transform.SetParent(unsortedTray.transform);
-                        Coin c = coin.GetComponent<Coin>();
-                        c.SetTrays(unsortedTray, sortedTray);
-                        currentCustomersCoins.Add(c);
-                        realCoin = true;
-                        break;
-                    }
+                    gamemode.CreateRealCoin(j);
+                    realCoin = true;
+                    break;
                 }
-                //Does the same but for fake coins
-                if(!realCoin)
-                {
-                    coinRoll = Random.Range(0, fakeCoins.Count);
-                    GameObject coin = Instantiate(fakeCoins[coinRoll]);
-                    coin.transform.SetParent(unsortedTray.transform);
-                    Coin c = coin.GetComponent<Coin>();
-                    c.SetTrays(unsortedTray, sortedTray);
-                    currentCustomersCoins.Add(c);
-                }
+            }
+            //Does the same but for fake coins
+            if(!realCoin)
+            {
+                gamemode.CreateFakeCoin();
             }
         }
     }
@@ -86,39 +110,41 @@ public class BankManager : MonoBehaviour
     /// </summary>
     public void Validate()
     {
+        
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
-        bool correct = true;
-        int currentSum = 0;
-        foreach(Coin coin in currentCustomersCoins)
-        {
-            (bool, int) validateData = coin.placedCorrectly();
-            currentSum += validateData.Item2;
-            if(!validateData.Item1)
-            {
-                correct = false;
-            }
-        }
+        int result = gamemode.Validate(numberDisplay.GetNumber());
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
-        if(correct && playerGuess == currentSum)
+        if(result < 2)
         {
-            sortedTrayBackground.color = Color.green;
-            unsortedTraybackground.color = Color.green;
+            mistakeExplainer.gameObject.SetActive(true);
+            mistakeExplainer.AddExplanation(gamemode.GetErrorExplainText());
+            
+        }
+        if(result == 2)
+        {
+            errorDisplay.Correct();
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
             Instantiate(coinPrefab);
             StartCoroutine(Restart());
         }
         //Changes the background color of the trays to yellow if either the guess or the sorting is correct
-        else if(correct || playerGuess == currentSum)
+        else if(result == 1)
         {
-            sortedTrayBackground.color = Color.yellow;
-            unsortedTraybackground.color = Color.yellow;
+            mistakes += 0.5f;
+            healthDisplay.ChangeHearts(0.5f);
+            errorDisplay.PartialCorrect();
         }
         //Colors the tray backgrounds red if neither the sorting or the players guess is correct
         else 
         {
-            sortedTrayBackground.color = Color.red;
-            unsortedTraybackground.color = Color.red;
+            mistakes++;
+            healthDisplay.ChangeHearts(1);
+            errorDisplay.Incorrect();
+        }
+        if(mistakes >= 3)
+        {
+            StartCoroutine(LostGame());
         }
     }
 
@@ -128,30 +154,123 @@ public class BankManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator Restart()
     {
-        yield return new WaitForSeconds(5);
-        completedGames++;
-        for(int i = 0; i < currentCustomersCoins.Count; i++)
-        {
-            Destroy(currentCustomersCoins[i].gameObject);
-        }
-        currentCustomersCoins.Clear();
-        sortedTrayBackground.color = Color.white;
-        unsortedTraybackground.color = Color.white;
+        /*completedGames++;
         if(completedGames >= 5)
         {
+            gameOverText.text = "Du vandt du sorterede mønterne korrekt og udregnede deres værdi 5 gange";
+        }*/
+        gamemode.ClearCurrentCustomersCoins();
+        currentCustomer.PrepareToLeaveBank();
+        currentCustomer = null;
+        if(completedGames >= 5)
+        {
+            yield return new WaitForSeconds(5);
             SwitchScenes.SwitchToMainWorld();
         }
     }
 
     /// <summary>
-    /// Updates the playerguess then the player types an integer into the player guess field
+    /// Sets the gameover text and then waits a bit before ending the game
     /// </summary>
-    public void UpdateGuess()
+    /// <returns></returns>
+    IEnumerator LostGame()
     {
-        bool res = Int32.TryParse(inputField.text, out int number);
-        if (res)
+        gameOverText.text = "Du tabte. Du lavede for mange fejl";
+        yield return new WaitForSeconds(5);
+        SwitchScenes.SwitchToMainWorld();
+    }
+
+
+    /// <summary>
+    /// Returns the two coin lists
+    /// </summary>
+    /// <returns>Returns the validCoins list and the fakeCoins list</returns>
+    public (List<GameObject>, List<GameObject>) GetCoins()
+    {
+        validCoins.Clear();
+        fakeCoins.Clear();
+        List<List<GameObject>> coinTypes = new List<List<GameObject>>()
         {
-            playerGuess = number;
+            triangleCoins,
+            squareCoins,
+            roundCoins,
+            pentagonCoins,
+            hexagonCoins
+        };
+        for (int i = 0; i < triangleCoins.Count; i++)
+        {
+            int coinList = Random.Range(0, coinTypes.Count);
+            GameObject validCoin = coinTypes[coinList][i];
+            validCoin.GetComponent<Coin>().validCoin = true;
+            foreach(GameObject coin in coinTypes[coinList])
+            {
+                if(coin == validCoin)
+                {
+                    validCoins.Add(coin);
+                }
+                else
+                {
+                    fakeCoins.Add(coin);
+                }
+            }
+            coinTypes.RemoveAt(coinList);
         }
+        for(int i = 0; i < validCoins.Count; i++)
+        {
+            GameObject validCoin = Instantiate(validCoins[i]);
+            validCoin.transform.SetParent(validCoinsContainer.transform);
+            validCoin.transform.localScale = new Vector3(1, 1, 1);
+        }
+        return (validCoins, fakeCoins);
+    }
+
+    /// <summary>
+    /// Moves the player out of the screen and sets up the given gamemode
+    /// </summary>
+    /// <param name="gameMode">The gamemode to be used</param>
+    /// <param name="gameRules">currently not used</param>
+    public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+    {
+        if(PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.PositionPlayerAt(playerPrison);
+        }
+        gamemode = (IBankFrontGamemode)gameMode;
+        gamemode.RequestGameObjectsToBeUsed(this);
+        gamemode.HandleUIElements();
+        var tempColor = unsortedTraybackground.color;
+        tempColor.a = 0;
+        unsortedTraybackground.color = tempColor;
+        sortedTrayBackground.color = tempColor;
+        unifiedFieldBackground.color = tempColor;
+        hintText.text = gamemode.GetHintText();
+    }
+
+    /// <summary>
+    /// Instantiates the given object
+    /// </summary>
+    /// <param name="objectToBeInstantiated">the object which should be instantiated</param>
+    /// <returns>the instantiated object</returns>
+    public GameObject InstantiateObject(GameObject objectToBeInstantiated)
+    {
+        return Instantiate(objectToBeInstantiated);
+    }
+
+    /// <summary>
+    /// Destroys the given object
+    /// </summary>
+    /// <param name="objectToBeDestroyed">The object which should be destroyed</param>
+    public void DestroyObject(GameObject objectToBeDestroyed)
+    {
+        Destroy(objectToBeDestroyed);
+    }
+    public void DestroyComponent(MonoBehaviour component)
+    {
+        Destroy(component);
+    }
+
+    public List<GameObject> GetAnimalCoins()
+    {
+        return animals;
     }
 }

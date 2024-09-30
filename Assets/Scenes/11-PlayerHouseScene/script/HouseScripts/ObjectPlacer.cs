@@ -27,7 +27,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             //If new models are used or the grid is smaller change this accordingly.
             PreviewSystem previewSystem = new();
 
-            newObject.transform.position += previewSystem.ReturnLocationOfGameObject(newObject.name);
+            newObject.transform.position += previewSystem.ReturnLocationOfGameObject(newObject.name, newObject);
 
             // Add the newly placed object to the list of placed objects.
             placedGameObjects.Add(newObject);

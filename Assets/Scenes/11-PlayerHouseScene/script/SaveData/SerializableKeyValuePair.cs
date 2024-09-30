@@ -12,30 +12,19 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 
         public int ID;
 
+//        public int rotationValue;
+
+        //public SerializableKeyValuePair(Vector3Int key, int iD, int rotationValue)
         public SerializableKeyValuePair(Vector3Int key, int iD)
         {
             Key = key;
             ID = iD;
+            //this.rotationValue = rotationValue;
         }
 
         public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
         {
             return new PlacementData(occupiedPositions, iD, placedObjectIndex, floorType);
         }  
-        //public int PlacedObjectIndex;
-        //public List<Vector3Int> occupiedPositions;
-
-        //public SerializableKeyValuePair(Vector3Int key, int iD, int placedObjectIndex, List<Vector3Int> occupiedPositions)
-        //{
-        //    Key = key;
-        //    ID = iD;
-        //    PlacedObjectIndex = placedObjectIndex;
-        //    this.occupiedPositions = occupiedPositions;
-        //}
-
-        //public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex)
-        //{
-        //    return new PlacementData(occupiedPositions, iD, placedObjectIndex);
-        //}
     }
 }
