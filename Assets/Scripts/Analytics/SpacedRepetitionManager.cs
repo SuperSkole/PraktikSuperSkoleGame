@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CORE;
 using CORE.Scripts;
 
@@ -13,6 +14,7 @@ namespace Analytics
         
         // method for getting timed weight
         // method for teliing a letter has been used
-        
+
+        public Dictionary<char, int> GetCurrentWeights() { throw new NotImplementedException(); }
     }
 }

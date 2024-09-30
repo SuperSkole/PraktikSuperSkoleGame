@@ -1,3 +1,4 @@
+using Analytics;
 using CORE.Scripts;
 using LoadSave;
 using Scenes;
@@ -17,6 +18,8 @@ namespace CORE
         public PlayerManager PlayerManager;
 
         public WeightManager WeightManager { get; private set; }
+        public SpacedRepetitionManager SpacedRepetitionManager { get; private set; }
+        
         public DataConverter Converter { get; } = new DataConverter();
         public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
@@ -134,6 +137,11 @@ namespace CORE
             if (!GetComponent<WeightManager>())
             {
                 WeightManager = gameObject.AddComponent<WeightManager>();
+            }
+            
+            if (!GetComponent<SpacedRepetitionManager>())
+            {
+                SpacedRepetitionManager = gameObject.AddComponent<SpacedRepetitionManager>();
             }
         }
 

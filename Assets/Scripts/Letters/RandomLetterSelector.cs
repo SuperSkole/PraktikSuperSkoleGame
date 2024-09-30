@@ -3,11 +3,29 @@ using System.Linq;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
-namespace CORE.Scripts
+namespace Letters
 {
     public class RandomLetterSelector : IRandomLetterSelector
     {
-        private Random _random = new Random();
+        private Random _random;
+
+        public char GetRandomVowel(IEnumerable<char> vowels)
+        {
+            Debug.Log("RandomLetterSelector.GetRandomVowel");
+            var letterList = vowels.ToList();
+            int index = _random.NextInt(letterList.Count);
+            Debug.Log($"RandomLetterSelector.GetRandomVowel: Return {letterList[index]}");
+            return letterList[index];
+        }
+
+        public char GetRandomConsonant(IEnumerable<char> consonants)
+        {
+            Debug.Log("RandomLetterSelector.GetRandomConsonant");
+            var letterList = consonants.ToList();
+            int index = _random.NextInt(letterList.Count);
+            Debug.Log($"RandomLetterSelector.GetRandomConsonant: Return {letterList[index]}");
+            return letterList[index];
+        }
 
         public char GetRandomLetter(IEnumerable<char> letters)
         {
@@ -18,12 +36,12 @@ namespace CORE.Scripts
             return letterList[index];
         }
 
-        public char GetWeightedRandomLetter(Dictionary<char, int> weightedLetters)
+        public char GetWeightedRandomLetter(Dictionary<char, float> weightedLetters)
         {
             Debug.Log("RandomLetterSelector.GetWeightedRandomLetter");
-            int totalWeight = weightedLetters.Values.Sum();
-            int randomNumber = _random.NextInt(0, totalWeight);
-            int cumulativeWeight = 0;
+            float totalWeight = weightedLetters.Values.Sum();
+            float randomNumber = _random.NextInt(0, (int)totalWeight);
+            float cumulativeWeight = 0;
 
             foreach (var kvp in weightedLetters)
             {

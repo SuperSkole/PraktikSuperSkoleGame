@@ -1,58 +1,96 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using CORE;
+using Letters;
 using UnityEngine;
 
-namespace CORE.Scripts
+namespace Analytics
 {
     public class WeightManager : PersistentSingleton<WeightManager>, IWeightManager
     {
-        private Dictionary<char, LetterData> letterData = new Dictionary<char, LetterData>();
-        private const int START_WEIGHT = 50;
+        private Dictionary<string, int> entityWeights = new Dictionary<string, int>();
+        private readonly ILetterRepository letterRepository;
+        private const int DefaultWeight = 50;
 
-        protected override void Awake()
+        public WeightManager(ILetterRepository letterRepository)
         {
-            Debug.Log("weight manager awake");
-            base.Awake();
+            this.letterRepository = letterRepository;
         }
 
-        public void InitializeWeights(IEnumerable<char> letters)
+        /// <summary>
+        /// Initializes the weights for a given set of entities, setting a default weight if not already set.
+        /// </summary>
+        public void InitializeWeights(IEnumerable<IEntity> entities)
         {
-            foreach (var letter in letters)
+            foreach (var entity in entities)
             {
-                letterData[letter] = new LetterData
+                if (!entityWeights.ContainsKey(entity.Identifier))
                 {
-                    Letter = letter,
-                    Weight = START_WEIGHT,
-                    LastUsed = DateTime.MinValue,
-                    ErrorCount = 0
-                };
+                    entityWeights[entity.Identifier] = DefaultWeight;
+                }
             }
         }
 
-        public Dictionary<char, int> GetCurrentWeights()
+        /// <summary>
+        /// Sets the weight of a specific entity.
+        /// </summary>
+        public void SetEntityWeight(IEntity entity, int weight)
         {
-            return letterData.ToDictionary(ld => ld.Key, ld => ld.Value.Weight);
-        }
-
-        public void UpdateWeight(char letter, bool isCorrect)
-        {
-            if (!letterData.TryGetValue(letter, value: out var data))
+            if (entityWeights.ContainsKey(entity.Identifier))
             {
-                return;
-            }
-
-            if (isCorrect)
-            {
-                data.Weight = Math.Max(data.Weight - 5, 1);
+                entityWeights[entity.Identifier] = weight;
             }
             else
             {
-                data.Weight = Math.Min(data.Weight + 5, 99);
-                data.ErrorCount++;
+                Debug.LogWarning($"Entity '{entity.Identifier}' not found in WeightManager.");
             }
-                
-            data.LastUsed = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Updates the weight of an entity based on whether the action was correct.
+        /// </summary>
+        public void UpdateWeight(IEntity entity, bool isCorrect)
+        {
+            if (entityWeights.TryGetValue(entity.Identifier, out int currentWeight))
+            {
+                entityWeights[entity.Identifier] = isCorrect 
+                    ? Mathf.Max(currentWeight - 5, 1) 
+                    : Mathf.Min(currentWeight + 5, 99);
+            }
+            else
+            {
+                Debug.LogWarning($"Entity '{entity.Identifier}' not found for weight update.");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the current weights for all entities.
+        /// </summary>
+        public Dictionary<string, int> GetCurrentWeights()
+        {
+            return new Dictionary<string, int>(entityWeights);
+        }
+
+        /// <summary>
+        /// Retrieves the weights of all vowel entities.
+        /// </summary>
+        public Dictionary<string, int> GetVowelWeights()
+        {
+            var vowels = new HashSet<string>(letterRepository.GetVowels().Select(v => v.ToString()));
+            return entityWeights
+                .Where(e => vowels.Contains(e.Key))
+                .ToDictionary(e => e.Key, e => e.Value);
+        }
+
+        /// <summary>
+        /// Retrieves the weights of all consonant entities.
+        /// </summary>
+        public Dictionary<string, int> GetConsonantWeights()
+        {
+            var consonants = new HashSet<string>(letterRepository.GetConsonants().Select(c => c.ToString()));
+            return entityWeights
+                .Where(e => consonants.Contains(e.Key))
+                .ToDictionary(e => e.Key, e => e.Value);
         }
     }
 }

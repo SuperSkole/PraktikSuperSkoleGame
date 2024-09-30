@@ -1,8 +1,8 @@
-using System.Collections.Generic;
+using Analytics;
 
-namespace CORE.Scripts
+namespace Letters
 {
-    public interface ILetterManager
+    public interface ILetterController
     {
         // Get Randoms
         char GetRandomVowel();

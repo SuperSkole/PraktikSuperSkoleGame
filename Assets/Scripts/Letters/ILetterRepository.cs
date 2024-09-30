@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace CORE.Scripts
+namespace Letters
 {
-    public interface ILetterProvider
+    public interface ILetterRepository
     {
         IEnumerable<char> GetAllLetters();
         IEnumerable<char> GetVowels();

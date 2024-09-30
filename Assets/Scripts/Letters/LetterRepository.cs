@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace CORE.Scripts
+namespace Letters
 {
-    public class LetterProvider : ILetterProvider
+    public class LetterRepository : ILetterRepository
     {
         /// <summary>
         /// A collection of all Danish letters.
