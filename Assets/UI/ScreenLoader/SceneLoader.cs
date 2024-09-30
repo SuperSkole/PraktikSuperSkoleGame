@@ -126,7 +126,6 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Debug.Log("Activated");
 
         SetUpLoadingScreen();
 
