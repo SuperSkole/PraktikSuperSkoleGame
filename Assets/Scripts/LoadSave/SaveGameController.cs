@@ -1,8 +1,8 @@
+using CORE;
+using Scenes._10_PlayerScene.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CORE;
-using Scenes._10_PlayerScene.Scripts;
 using Unity.Services.CloudSave;
 using UnityEngine;
 
@@ -21,12 +21,12 @@ namespace LoadSave
             ISaveRepository repository = new CloudSaveRepository();
             cloudSaveService = new UnityCloudSaveService(repository);
         }
-        
+
         public async Task SaveDataAsync(IDataTransferObject DTO, string dataType)
         {
             var username = PlayerManager.Instance.PlayerData.Username;
             var monsterName = PlayerManager.Instance.PlayerData.MonsterName;
-            
+
             try
             {
                 // Use the username and monsterName to generate the save key
@@ -42,7 +42,7 @@ namespace LoadSave
                 Debug.LogError($"An error occurred while saving the game: {ex.Message}");
             }
         }
-        
+
         /// <summary>
         /// Loads the game data of the specified type.
         /// </summary>
@@ -55,7 +55,7 @@ namespace LoadSave
             {
                 // Load the data as a generic IDataTransferObject
                 T data = await LoadSaveDataAsync<T>(saveKey);
-
+                    
                 if (data != null)
                 {
                     Debug.Log("Game loaded successfully.");
@@ -73,7 +73,7 @@ namespace LoadSave
                 onDataLoaded?.Invoke(default);
             }
         }
-        
+
         /// <summary>
         /// Asynchronously loads the save data of the specified type from the cloud.
         /// </summary>
@@ -131,9 +131,9 @@ namespace LoadSave
             foreach (var keyItem in keys)
             {
                 // Ensure correct string comparison using the Key property
-                if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser))
+                if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser) && !keyItem.Key.Contains("_House"))
                 {
-                    relevantKeys.Add(keyItem.Key);  
+                        relevantKeys.Add(keyItem.Key);
                 }
             }
 
