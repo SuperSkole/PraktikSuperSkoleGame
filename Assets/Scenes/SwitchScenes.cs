@@ -35,5 +35,6 @@ namespace Scenes
         public static void SwitchToLeaderBoard() => SceneManager.LoadScene(SceneNames.LeaderBoard);
         public static void SwitchToBankFrontLoadingScene() => SceneManager.LoadScene(SceneNames.BankFrontLoading);
         public static void SwitchToAllTimeHighscore() => SceneManager.LoadScene(SceneNames.MultiPlayerHighScores);
+        public static void SwitchToMultiplayer() => SceneManager.LoadScene(SceneNames.MultiplayerLobby);
     }
 }
