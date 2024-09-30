@@ -15,6 +15,10 @@ public class Jump : MonoBehaviour
     private bool canJump = true;
 
     public PathOfDangerManager manager;
+
+    public GameObject shadowPrefab;
+
+    private GameObject spawnedShadow;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,8 +35,21 @@ public class Jump : MonoBehaviour
         {
             isJumping = true;
             canJump = false;
+           
+
+            
+        }
+        if(spawnedShadow!=null)
+        {
+            spawnedShadow.transform.position = new Vector3(transform.position.x,spawnedShadow.transform.position.y,transform.position.z);
+
+        }
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
             manager.PlaySoundFromHearLetterButton();
         }
+       
     }
 
     void FixedUpdate()
@@ -41,11 +58,33 @@ public class Jump : MonoBehaviour
         { 
             rigidbody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
             isJumping = false;
+
+            CastShadow();
+
         }
     }
+
+   
 
     private void OnCollisionEnter(Collision collision)
     {
         canJump = true;
+        if(spawnedShadow!=null)
+        {
+            Destroy(spawnedShadow);
+        }
+    }
+
+    void CastShadow()
+    {
+        Ray ray = new Ray(gameObject.transform.position,new Vector3(0,-1,0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 1000))
+        {
+            var posOffset = new Vector3(0, 0.5f, 0);
+            
+            spawnedShadow=Instantiate(shadowPrefab, hit.point+posOffset,shadowPrefab.gameObject.transform.rotation);
+        }
+        
     }
 }

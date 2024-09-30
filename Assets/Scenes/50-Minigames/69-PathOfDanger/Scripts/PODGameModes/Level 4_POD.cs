@@ -97,6 +97,6 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
 
         manager.textOnPlatform = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe og høre et bogstav. Hop på det rigtige bogstav";
+        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på det rigtige bogstav";
     }
 }

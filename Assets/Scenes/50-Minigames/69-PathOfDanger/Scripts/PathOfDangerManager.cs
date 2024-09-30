@@ -4,11 +4,13 @@ using CORE.Scripts.Game_Rules;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 {
@@ -67,7 +69,11 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject endPlane;
 
-    
+    private float originalCapsuleColiderHeight;
+
+    [SerializeField] GameObject shadowPrefab;
+    [SerializeField] GameObject safePlatform;
+   
 
     void Start()
     {
@@ -110,7 +116,12 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
         Rigidbody playerRigidBody = spawnedPlayer.GetComponent<Rigidbody>();
         playerRigidBody.useGravity = true;
-        spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+        CapsuleCollider capsuleCollider= spawnedPlayer.GetComponent<CapsuleCollider>();
+        capsuleCollider.enabled = true;
+        originalCapsuleColiderHeight = capsuleCollider.height;
+        capsuleCollider.height = 12.3f;
+
+
         spawnedPlayer.GetComponent<PlayerFloating>().enabled = false;
 
 
@@ -126,6 +137,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         Jump jumpComp = spawnedPlayer.AddComponent<Jump>();
         jumpComp.rigidbody = playerRigidBody;
         jumpComp.manager = this;
+        jumpComp.shadowPrefab = shadowPrefab;
 
         OutOfBounds outOfBouncePComp = spawnedPlayer.AddComponent<OutOfBounds>();
         outOfBouncePComp.startPosition = playerSpawnPoint;
@@ -151,6 +163,8 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     public void SetupPlayerToDefaultComponents()
     {
+        spawnedPlayer.GetComponent<CapsuleCollider>().height = originalCapsuleColiderHeight;
+
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<Jump>());
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<OutOfBounds>());
      
@@ -175,30 +189,54 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
             int correctImageIndex = Random.Range(0, x_AmountOfPlatforms);
             for (int x = 0; x < x_AmountOfPlatforms; x++)
             {
-                //setting the correct and incorrect answer
-                if (x == correctImageIndex)
+                if (z % 2 == 0)
                 {
-
-                    gameMode.SetCorrectAnswer(questions[z], this);
 
                    
 
-                    platformPrefabFallingScript.isCorrectAnswer = true;
-                }
-                else
-                {
-                    gameMode.SetWrongAnswer(this, questions[z]);
-                    platformPrefabFallingScript.isCorrectAnswer = false;
+                    
+                    
+                    
+                   
+                    //setting the correct and incorrect answer
+                    if (x == correctImageIndex)
+                    {
+
+                        gameMode.SetCorrectAnswer(questions[z/2], this);
+
+
+
+                        platformPrefabFallingScript.isCorrectAnswer = true;
+                    }
+                    else
+                    {
+                        gameMode.SetWrongAnswer(this, questions[z/2]);
+                        platformPrefabFallingScript.isCorrectAnswer = false;
+                    }
                 }
 
                // instantiating the platform and the answerholder. 
                 Vector3 pos = new Vector3(x*x_distanceBetweenPlatforms, 0, z*z_distanceBetweenPlatforms)+DeathPlatforms.transform.position;
 
-                spawnedPlatforms[x,z]= Instantiate(platformPrefab, pos, Quaternion.identity);
-                spawnedPlatforms[x,z].transform.parent = DeathPlatforms.transform;
+                if(z%2!=0 && x==0)
+                {
+                    spawnedPlatforms[x, z] = Instantiate(safePlatform, pos, Quaternion.identity);
+                    spawnedPlatforms[x, z].transform.parent = DeathPlatforms.transform;
+                }
+                else if(z%2==0)
+                {
+                    spawnedPlatforms[x, z] = Instantiate(platformPrefab, pos, Quaternion.identity);
 
-                Vector3 offset = new Vector3(0, 0.6f, 0);
-                GameObject imageholder = Instantiate(answerHolderPrefab,pos+offset,answerHolderPrefab.transform.rotation, spawnedPlatforms[x, z].transform);
+                    spawnedPlatforms[x, z].transform.parent = DeathPlatforms.transform;
+
+
+
+                    Vector3 offset = new Vector3(0, 0.6f, 0);
+                    GameObject imageholder = Instantiate(answerHolderPrefab, pos + offset, answerHolderPrefab.transform.rotation, spawnedPlatforms[x, z].transform);
+                }
+              
+                
+             
                
             }
           
@@ -213,7 +251,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
 
 
-
+       
     }
 
     /// <summary>
@@ -249,7 +287,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                 Destroy(item);
 
             }
-            //Adding +1 to z_AmountOfPlatforms because there is need for space for the last endgoal platform. 
+            //Times 2 to z_AmountOfPlatforms because there is need for space for the last endgoal platform and the platforms in between the trap platforms. 
             spawnedPlatforms = new GameObject[x_AmountOfPlatforms,z_AmountOfPlatforms+1];
 
         }
@@ -287,7 +325,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
         currentQuestionIndex = 0;
         questions = gameMode.GenerateAnswers(3);
-        z_AmountOfPlatforms = questions.Length;
+        z_AmountOfPlatforms = questions.Length*2;
 
         gameMode.SetAnswerPrefab(this);
 

@@ -7,6 +7,7 @@ public class PentagonManager : MonoBehaviour
 
 
     [SerializeField] GameObject square;
+    [SerializeField] GameObject triangle;
     [SerializeField] GameObject explosionPrefab;
 
     public AsteroidGameManager gameManager;
@@ -55,10 +56,11 @@ public class PentagonManager : MonoBehaviour
             spawnedSquare.GetComponent<SquareManager>().gameManager = gameManager;
 
 
-            var spawnedSquare2 = Instantiate(square, gameObject.transform.position, transform.rotation, transform.parent);
+            var spawnedSquare2 = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
             Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
             spawnedSquare2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
             spawnedSquare2.GetComponent<SquareManager>().gameManager = gameManager;
+
             Destroy(gameObject);
             Destroy(collision.gameObject);
         }

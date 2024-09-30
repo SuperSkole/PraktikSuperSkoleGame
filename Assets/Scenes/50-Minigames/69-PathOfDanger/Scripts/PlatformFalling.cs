@@ -8,7 +8,7 @@ public class PlatformFalling : MonoBehaviour
     [SerializeField] Rigidbody rb;
     public PathOfDangerManager manager;
     public bool isCorrectAnswer = false;
-    private bool enteredBefore = false;
+    [SerializeField] bool enteredBefore = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,9 +33,8 @@ public class PlatformFalling : MonoBehaviour
         
         if (isCorrectAnswer == false && enteredBefore == false)
         {
-            rb.isKinematic = false;
-            rb.constraints = RigidbodyConstraints.None;
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
+         
+            rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
 
             enteredBefore = true;
         }
