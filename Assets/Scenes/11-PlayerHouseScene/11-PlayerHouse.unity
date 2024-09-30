@@ -2572,8 +2572,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1466559731}
-        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
-        m_MethodName: SwitchToMainWorld
+        m_TargetAssemblyTypeName: Scenes.SwitchScenes, Assembly-CSharp
+        m_MethodName: SwitchToMultiplayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

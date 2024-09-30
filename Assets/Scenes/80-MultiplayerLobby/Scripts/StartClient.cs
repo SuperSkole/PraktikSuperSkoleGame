@@ -17,6 +17,7 @@ namespace Scenes.MultiplayerLobby.Scripts
         }
         public async void QuickJoinGame()
         {
+            string joinCode = await relayManager.CreateRelay();
             try
             {
                 // Query available lobbies
