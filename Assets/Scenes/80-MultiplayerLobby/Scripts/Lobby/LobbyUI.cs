@@ -7,22 +7,24 @@ namespace Kart
     {
         [SerializeField] Button createLobbyButton;
         [SerializeField] Button joinLobbyButton;
+        [SerializeField] Scenes.MultiplayerLobby.Scripts.StartClient client;
+        [SerializeField] Scenes.MultiplayerLobby.Scripts.StartHost host;
 
-        void Awake()
-        {
-            createLobbyButton.onClick.AddListener(CreateGame);
-            joinLobbyButton.onClick.AddListener(JoinGame);
-        }
+        //void Awake()
+        //{
+        //    createLobbyButton.onClick.AddListener(CreateGame);
+        //    joinLobbyButton.onClick.AddListener(JoinGame);
+        //}
 
-        async void CreateGame()
+        void CreateGame()
         {
-            await StartGame.Instance.CreateLobby();
+            client.QuickJoinGame();
             //Loader.LoadNetwork(gameScene);
         }
 
-        async void JoinGame()
+        void JoinGame()
         {
-            await StartGame.Instance.QuickJoinLobby();
+            host.StartHostGame();
         }
     }
 }

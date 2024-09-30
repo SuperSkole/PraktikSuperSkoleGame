@@ -5,56 +5,59 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LobbyManager : MonoBehaviour
+namespace Scenes.MultiplayerLobby.Scripts
 {
-    public async Task CreateLobby(string lobbyName, int maxPlayers)
+    public class LobbyManager : MonoBehaviour
     {
-        try
+        public async Task CreateLobby(string lobbyName = "Lobby Manager", int maxPlayers = 10, string relayCode = "")
         {
-            var options = new CreateLobbyOptions();
-            options.IsPrivate = false;
-            options.Data = new Dictionary<string, DataObject>
+            try
             {
-                { "RelayCode", new DataObject(DataObject.VisibilityOptions.Public, "", DataObject.IndexOptions.S1) }
-            };
+                var options = new CreateLobbyOptions();
+                options.IsPrivate = false;
+                options.Data = new Dictionary<string, DataObject>
+                {
+                    { "RelayCode", new DataObject(DataObject.VisibilityOptions.Public, relayCode, DataObject.IndexOptions.S1) }
+                };
 
-            Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-            Debug.Log($"Created Lobby: {lobby.Name}, LobbyCode: {lobby.LobbyCode}");
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError($"Lobby Error: {e}");
-        }
-    }
-
-    public async Task JoinLobby(string lobbyCode)
-    {
-        try
-        {
-            Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode);
-            Debug.Log($"Joined Lobby: {lobby.Name}");
-        }
-        catch (LobbyServiceException e)
-        {
-            Debug.LogError($"Join Lobby Error: {e}");
-        }
-    }
-
-    public async Task UpdateLobbyRelayCode(string lobbyId, string relayCode)
-    {
-        try
-        {
-            var data = new Dictionary<string, DataObject>
+                Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+                Debug.Log($"Created Lobby: {lobby.Name}, LobbyCode: {lobby.LobbyCode}");
+            }
+            catch (LobbyServiceException e)
             {
-                { "RelayCode", new DataObject(DataObject.VisibilityOptions.Public, relayCode, DataObject.IndexOptions.S1) }
-            };
-
-            await Lobbies.Instance.UpdateLobbyAsync(lobbyId, new UpdateLobbyOptions { Data = data });
-            Debug.Log("Lobby updated with relay code.");
+                Debug.LogError($"Lobby Error: {e}");
+            }
         }
-        catch (LobbyServiceException e)
+
+        public async Task JoinLobby(string lobbyCode)
         {
-            Debug.LogError($"Update Lobby Error: {e}");
+            try
+            {
+                Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode);
+                Debug.Log($"Joined Lobby: {lobby.Name}");
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.LogError($"Join Lobby Error: {e}");
+            }
+        }
+
+        public async Task UpdateLobbyRelayCode(string lobbyId, string relayCode)
+        {
+            try
+            {
+                var data = new Dictionary<string, DataObject>
+                {
+                    { "RelayCode", new DataObject(DataObject.VisibilityOptions.Public, relayCode, DataObject.IndexOptions.S1) }
+                };
+
+                await Lobbies.Instance.UpdateLobbyAsync(lobbyId, new UpdateLobbyOptions { Data = data });
+                Debug.Log("Lobby updated with relay code.");
+            }
+            catch (LobbyServiceException e)
+            {
+                Debug.LogError($"Update Lobby Error: {e}");
+            }
         }
     }
 }

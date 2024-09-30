@@ -3,48 +3,63 @@ using Unity.Services.Core;
 using Unity.Services.Authentication;
 using System.Threading.Tasks;
 using UnityEngine;
+using Unity.Netcode.Transports.UTP;
+using Unity.Netcode;
 
-public class RelayManager : MonoBehaviour
+namespace Scenes.MultiplayerLobby.Scripts
 {
-    async void Start()
+    public class RelayManager : MonoBehaviour
     {
-        await InitializeUnityServices();
-    }
-
-    private async Task InitializeUnityServices()
-    {
-        await UnityServices.InitializeAsync();
-
-        if (!AuthenticationService.Instance.IsSignedIn)
+        async void Start()
         {
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            await InitializeUnityServices();
         }
-    }
 
-    public async Task<string> CreateRelay(int maxPlayers)
-    {
-        try
+        private async Task InitializeUnityServices()
         {
-            var allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
-            var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-            return joinCode;
-        }
-        catch (RelayServiceException e)
-        {
-            Debug.LogError($"Relay Error: {e}");
-            return null;
-        }
-    }
+            await UnityServices.InitializeAsync();
 
-    public async Task JoinRelay(string joinCode)
-    {
-        try
-        {
-            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
         }
-        catch (RelayServiceException e)
+
+        public async Task<string> CreateRelay(int maxPlayers = 10)
         {
-            Debug.LogError($"Relay Join Error: {e}");
+            try
+            {
+                var allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
+                var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+
+                UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+                transport.SetRelayServerData(
+                    allocation.RelayServer.IpV4,
+                    (ushort)allocation.RelayServer.Port,
+                    allocation.AllocationIdBytes,
+                    allocation.Key,
+                    allocation.ConnectionData,
+                    allocation.ConnectionData);
+
+                return joinCode;
+            }
+            catch (RelayServiceException e)
+            {
+                Debug.LogError($"Relay Error: {e}");
+                return null;
+            }
+        }
+
+        public async Task JoinRelay(string joinCode)
+        {
+            try
+            {
+                var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            }
+            catch (RelayServiceException e)
+            {
+                Debug.LogError($"Relay Join Error: {e}");
+            }
         }
     }
 }

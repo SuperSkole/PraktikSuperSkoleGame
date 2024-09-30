@@ -1,3 +1,4 @@
+using Scenes.MultiplayerLobby.Scripts;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace HelloWorld
     public class NetworkTestConnection : MonoBehaviour
     {
         static private NetworkManager m_NetworkManager;
+        static Scenes.MultiplayerLobby.Scripts.StartClient client;
+        static Scenes.MultiplayerLobby.Scripts.StartHost host;
 
         /// <summary>
         /// Fetches the networkmanager component when waking up
@@ -38,9 +41,12 @@ namespace HelloWorld
         /// </summary>
         static void StartButtons()
         {
+            //if (GUILayout.Button("Host")) m_NetworkManager.StartHost();
+            //if (GUILayout.Button("Client")) m_NetworkManager.StartClient();
+            //if (GUILayout.Button("Server")) m_NetworkManager.StartServer();
             if (GUILayout.Button("Host")) m_NetworkManager.StartHost();
-            if (GUILayout.Button("Client")) m_NetworkManager.StartClient();
-            if (GUILayout.Button("Server")) m_NetworkManager.StartServer();
+            if (GUILayout.Button("Client")) client.QuickJoinGame();
+            if (GUILayout.Button("Server")) host.StartHostGame();
         }
 
         /// <summary>
