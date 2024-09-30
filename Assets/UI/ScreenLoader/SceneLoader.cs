@@ -126,11 +126,12 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-
         SetUpLoadingScreen();
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
+
+        float lerpSpeed = 5f;
 
         //while its loading
         while (!operation.isDone)
@@ -138,7 +139,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
             if(barfill != null)
             {
-                barfill.fillAmount = progress;
+                barfill.fillAmount = Mathf.Lerp(barfill.fillAmount, progress, Time.deltaTime * lerpSpeed);
             }
 
             //loading done
