@@ -1,13 +1,14 @@
+using CORE;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : PersistentSingleton<SceneLoader>
 {
-    private static SceneLoader instance;
-    public static SceneLoader Instance { get { return instance; } }
+    //private static SceneLoader instance;
+    //public static SceneLoader Instance { get { return instance; } }
 
     public GameObject loadingPreFab;
     private GameObject loadingScreenInstance;
@@ -16,20 +17,21 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] Image barfill;
 
-    private void Awake()
-    {
-        //Singleton pattern
-        if (instance != null && instance != this)
-        {
-            Destroy(this.gameObject);
+    //private void Awake()
+    //{
+        
+    //    //Singleton pattern
+    //    if (instance != null && instance != this)
+    //    {
+    //        Destroy(this.gameObject);
 
-            return;
-        }
+    //        return;
+    //    }
 
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
+    //        instance = this;
+    //        DontDestroyOnLoad(this.gameObject);
 
-    }
+    //}
 
     //Load here and now
     public void LoadScene(string sceneName)

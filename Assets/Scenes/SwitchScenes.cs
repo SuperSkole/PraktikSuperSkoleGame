@@ -8,10 +8,14 @@ namespace Scenes
         public static void SwitchToMainWorld() => SceneLoader.Instance.LoadScene(SceneNames.Main);
         public static void SwitchToPlayerHouseScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
         public static void SwitchToWordFactoryLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.FactoryLoading);
-        public static void SwitchToWordFactory() => SceneLoader.Instance.LoadScene(SceneNames.Factory);
+        public static void SwitchToArcadeAsteroidScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroid);
+        public static void SwitchToArcadeAsteroidLoseScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroidLoseScreen);
         // TODO : Change this when we have a racing scene
-        public static void SwitchToRacingScene() => SceneLoader.Instance.LoadScene(SceneNames.House);    
+        public static void SwitchToRacingScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
+        public static void SwitchToPathOfDanger() => SceneManager.LoadScene(SceneNames.PathOfDanger);
+        public static void SwitchToPathOfDangerLoseScene() => SceneManager.LoadScene(SceneNames.PathOfDangerLoseScreen);
         public static void SwitchToSymbolEaterScene() => SceneLoader.Instance.LoadScene(SceneNames.Eater);    
+        public static void SwitchToWordFactory() => SceneLoader.Instance.LoadScene(SceneNames.Factory);
         public static void SwitchToSymbolEaterLoaderScene() => SceneLoader.Instance.LoadScene(SceneNames.EaterLoading);
         public static void SwitchToTowerScene() => SceneLoader.Instance.LoadScene(SceneNames.Tower);
         public static void SwitchToTowerLoaderScene() => SceneLoader.Instance.LoadScene(SceneNames.TowerLoading);
@@ -28,5 +32,7 @@ namespace Scenes
         public static void SwitchToHighscore() => SceneLoader.Instance.LoadScene(SceneNames.HighScores);
         public static void SwitchToLeaderBoard() => SceneLoader.Instance.LoadScene(SceneNames.LeaderBoard);
         public static void SwitchToAllTimeHighscore() => SceneLoader.Instance.LoadScene(SceneNames.MultiPlayerHighScores);
+
+        
     }
 }
