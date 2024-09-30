@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ProductionLineController : MonoBehaviour
 {
 
-    private static GameObject selectedLetterBox, selectedImageBox;
+    private static GameObject selectedLetterBox, selectedImageBox, lineObject;
 
 
     [SerializeField] private Material selectedMaterial, defaultMaterial, wrongMaterial, correctMaterial;
@@ -31,7 +31,12 @@ public class ProductionLineController : MonoBehaviour
     public TextMeshProUGUI scoreText;
 
     public bool checking = false;
+    private bool hasChecked = false;
 
+
+    private static LineRenderer lineRend;
+    
+    private Vector3 mousePos;
 
     RaycastHit hit;
     Ray ray;
@@ -41,14 +46,39 @@ public class ProductionLineController : MonoBehaviour
     {
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
         staticDefaultMaterial = defaultMaterial;
+        lineRend = GetComponent<LineRenderer>();
+        lineRend.positionCount = 2;
+        
     }
 
     void Update()
     {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePos.z = mousePos.x;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePosition);
+        Debug.DrawRay(transform.position, mousePosition - transform.position, Color.blue);
+
+
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             ClickHit();
         }
+
+        if (selectedLetterBox != null && selectedImageBox == null)
+        {
+            DrawLineToMouse(selectedLetterBox);
+        }
+
+        if (selectedLetterBox != null && selectedImageBox != null && !hasChecked)
+        {
+            DrawLineBetweenBoxes();
+
+
+            hasChecked = true;
+        }
+
     }
 
 
@@ -85,9 +115,9 @@ public class ProductionLineController : MonoBehaviour
     /// Checks what you've clicked.
     /// </summary>
     /// <param name="hitObject">Describes what object was hit.</param>
-    ///
     private void ClickLetterCubes(GameObject hitObject)
     {
+        // Hvis det er en LetterBox
         if (hitObject.GetComponentInChildren<LetterBox>())
         {
             if (selectedLetterBox != null)
@@ -107,8 +137,31 @@ public class ProductionLineController : MonoBehaviour
 
             selectedImageBox = hitObject;
             selectedImageBox.GetComponentInChildren<MeshRenderer>().material = selectedMaterial;
-
         }
+    }
+
+    /// <summary>
+    /// Draws line from chosen box to mouse position.
+    /// </summary>
+    /// /// <param name="selectedBox">Describes the selected box.</param>
+    private void DrawLineToMouse(GameObject selectedBox)
+    {
+        Vector3 boxPosition = selectedBox.transform.position;
+        lineRend.SetPosition(0, new Vector3(boxPosition.x, boxPosition.y, 3f));
+        lineRend.SetPosition(1, new Vector3(mousePos.x, mousePos.y, mousePos.x));
+        Debug.Log("X: " + mousePos.x + " || Y: " + mousePos.y);
+    }
+
+    /// <summary>
+    /// Draws line between 2 chosen boxes.
+    /// </summary>
+    private void DrawLineBetweenBoxes()
+    {
+        Vector3 startPos = selectedLetterBox.transform.position;
+        Vector3 endPos = selectedImageBox.transform.position;
+
+        lineRend.SetPosition(0, new Vector3(startPos.x, startPos.y, 3f));
+        lineRend.SetPosition(1, new Vector3(endPos.x, endPos.y, 3f));
     }
 
     /// <summary>
@@ -117,28 +170,42 @@ public class ProductionLineController : MonoBehaviour
     /// <param name="cube">what cube needs to reset.</param>
     public static void ResetCubes(GameObject cube)
     {
-        if (cube != selectedLetterBox && cube != selectedImageBox)
-        {
-            return;
-        }
-
-        if (cube == selectedImageBox)
-        {
-            selectedImageBox.GetComponentInChildren<MeshRenderer>().material = staticDefaultMaterial;
-
-            selectedImageBox = null;
-        }
-
         if (cube == selectedLetterBox)
         {
             selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = staticDefaultMaterial;
-
             selectedLetterBox = null;
+
+            if (selectedImageBox == null)
+            {
+                ResetLine();
+            }
+        }
+
+        else if (cube == selectedImageBox)
+        {
+            // Reset selectedImageBox and its material
+            selectedImageBox.GetComponentInChildren<MeshRenderer>().material = staticDefaultMaterial;
+            selectedImageBox = null;
+
+            // If both are null, reset the line as well
+            if (selectedLetterBox == null)
+            {
+                ResetLine();
+            }
         }
 
 
     }
 
+    /// <summary>
+    /// Resets the line to default
+    /// </summary>
+    public static void ResetLine()
+    {
+        // Assuming you have a method or logic to reset the line (could be hiding it or setting positions to default)
+        lineRend.SetPosition(0, Vector3.zero);
+        lineRend.SetPosition(1, Vector3.zero);
+    }
 
     /// <summary>
     /// Checks if the contents is correct
@@ -179,8 +246,7 @@ public class ProductionLineController : MonoBehaviour
     /// </summary>
     private void CheckIfWrong()
     {
-        
-        // Start koroutinen
+
         StartCoroutine(WaitForWrongXSeconds());
     }
 
@@ -190,7 +256,7 @@ public class ProductionLineController : MonoBehaviour
     /// <returns> 2 second delay</returns>
     IEnumerator CheckIfYouWin()
     {
-        
+
         winScreen.SetActive(true);
         yield return new WaitForSeconds(2);
 
@@ -216,6 +282,7 @@ public class ProductionLineController : MonoBehaviour
         selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
         ResetCubes(selectedImageBox);
         ResetCubes(selectedLetterBox);
+
         checking = false;
     }
 
@@ -236,6 +303,7 @@ public class ProductionLineController : MonoBehaviour
         selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
         ResetCubes(selectedImageBox);
         ResetCubes(selectedLetterBox);
+
         checking = false;
     }
 }
