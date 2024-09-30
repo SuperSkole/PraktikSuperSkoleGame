@@ -33,24 +33,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             floorData = new GridData();
             furnitureData = new GridData();
 
-            // TODO refactor house save
             return;
-            //if (GameManager.Instance.LoadManager.DoesSaveFileExist(
-            //        GameManager.Instance.CurrentUser,
-            //        GameManager.Instance.PlayerData.MonsterName,
-            //        "house"))
-            //{
-            //    saveManager.LoadGridData();
-            //    foreach (var item in saveManager.container.floorData.placedObjectsList)
-            //    {
-            //        PlaceItemsStartLoading(item.Key, item.ID);
-            //    }
-
-            //    foreach (var item in saveManager.container.furnitureData.placedObjectsList)
-            //    {
-            //        PlaceItemsStartLoading(item.Key, item.ID);
-            //    }
-            //}
+           
         }
 
         private Vector3Int previousKey = new();
