@@ -13,7 +13,8 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     public GameObject loadingPreFab;
     private GameObject loadingScreenInstance;
     private AsyncOperation backgroundLoadOperation;
-    
+
+    float CurrentProgress;
 
     [SerializeField] Image barfill;
 
@@ -131,22 +132,48 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
 
-        float lerpSpeed = 5f;
+        float duration = 1f;
+        float StartFillAmount = 0f;
+        float elapsed = 0f;
+        float oldFillAmount = 0f;
+
+        CurrentProgress = operation.progress;
 
         //while its loading
         while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            if(barfill != null)
-            {
-                barfill.fillAmount = Mathf.Lerp(barfill.fillAmount, progress, Time.deltaTime * lerpSpeed);
-            }
-
             //loading done
-            if (operation.progress >= 0.9f)
+            if (barfill.fillAmount >= 0.9f && operation.progress >= 0.9f)
             {
+                barfill.fillAmount = 1;
                 operation.allowSceneActivation = true;
             }
+
+            //if progress changes
+            if(CurrentProgress != operation.progress)
+            {
+                //reset timer
+                elapsed = 0f;
+                CurrentProgress = operation.progress;
+                StartFillAmount = oldFillAmount;
+
+            }
+            //if progress is the same
+            if(CurrentProgress == operation.progress && elapsed < duration)
+            {
+                //count the time
+                elapsed += Time.deltaTime;
+                //calculate interpolation factor (0 to 1 over the duration)
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                    if (barfill != null)
+                    {
+                        barfill.fillAmount = Mathf.Lerp(StartFillAmount, CurrentProgress, t);
+                        oldFillAmount = barfill.fillAmount;
+                    }
+
+            }
+            
 
             yield return null;
         }
