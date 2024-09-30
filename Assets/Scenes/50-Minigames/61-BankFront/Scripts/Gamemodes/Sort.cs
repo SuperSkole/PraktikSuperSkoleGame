@@ -36,7 +36,7 @@ public class Sort : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unsortedTray.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray, bankManager.dragArea);
+        c.SetTrays(bankManager);
         currentCustomersCoins.Add(c);
     }
 
@@ -50,7 +50,7 @@ public class Sort : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unsortedTray.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unsortedTray, bankManager.sortedTray, bankManager.dragArea);
+        c.SetTrays(bankManager);
         currentCustomersCoins.Add(c);
     }
 
@@ -106,7 +106,7 @@ public class Sort : IBankFrontGamemode
     public void RequestGameObjectsToBeUsed(BankManager bankManager)
     {
         this.bankManager = bankManager;
-        (List<GameObject>, List<GameObject>) coins = bankManager.GetCoins();
+        (List<GameObject>, List<GameObject>) coins = bankManager.GetCoins(true, false);
         validCoins = coins.Item1;
         fakeCoins = coins.Item2;
     }
@@ -116,7 +116,7 @@ public class Sort : IBankFrontGamemode
     /// </summary>
     /// <param name="playerGuess">the value of the playerGuess inputfield</param>
     /// <returns></returns>
-    public int Validate(int playerGuess)
+    public int Validate(float playerGuess)
     {
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
         bool correct = true;
@@ -124,7 +124,7 @@ public class Sort : IBankFrontGamemode
         
         foreach(Coin coin in currentCustomersCoins)
         {
-            (bool, int) validateData = coin.placedCorrectly();
+            (bool, float) validateData = coin.placedCorrectly();
             if(!validateData.Item1)
             {
                 correct = false;

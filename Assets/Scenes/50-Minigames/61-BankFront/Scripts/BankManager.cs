@@ -40,12 +40,17 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private List<GameObject>roundCoins;
     [SerializeField]private List<GameObject>pentagonCoins;
     [SerializeField]private List<GameObject>hexagonCoins;
+    [SerializeField]private List<GameObject>octagonCoins;
+    [SerializeField]private List<GameObject>trapezoidCoins;
     public GameObject validCoinsField;
     [SerializeField]private GameObject validCoinsContainer;
     public GameObject unifiedField;
     [SerializeField]private Image unifiedFieldBackground;
     [SerializeField]private ErrorExplainer mistakeExplainer;
     [SerializeField]private HealthDisplay healthDisplay;
+    [SerializeField]private AudioSource audioSource;
+    [SerializeField]private AudioClip correctSound;
+    [SerializeField]private AudioClip incorrectSound;
     public GameObject dragArea;
 
     private Customer currentCustomer;
@@ -68,7 +73,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     {
         if(gamemode == null)
         {
-            SetupGame(new SortAndCount(), null);
+            SetupGame(new SortAndCountOnesAndTwos(), null);
         }
     }
 
@@ -119,7 +124,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             mistakeExplainer.gameObject.SetActive(true);
             mistakeExplainer.AddExplanation(gamemode.GetErrorExplainText());
-            
+            audioSource.PlayOneShot(incorrectSound);
         }
         if(result == 2)
         {
@@ -127,6 +132,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
             Instantiate(coinPrefab);
+            audioSource.PlayOneShot(correctSound);
             StartCoroutine(Restart());
         }
         //Changes the background color of the trays to yellow if either the guess or the sorting is correct
@@ -185,8 +191,10 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     /// <summary>
     /// Returns the two coin lists
     /// </summary>
-    /// <returns>Returns the validCoins list and the fakeCoins list</returns>
-    public (List<GameObject>, List<GameObject>) GetCoins()
+    /// <param name="useDecimals">Whether coin values between 1 and 0 should be used</param>
+    /// <param name="onlyUseOneAndTwo">Whether the only coin values should be 1 and 2</param>
+    /// <returns></returns>
+    public (List<GameObject>, List<GameObject>) GetCoins(bool useDecimals, bool onlyUseOneAndTwo)
     {
         validCoins.Clear();
         fakeCoins.Clear();
@@ -196,15 +204,28 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             squareCoins,
             roundCoins,
             pentagonCoins,
-            hexagonCoins
+            hexagonCoins,
+            octagonCoins,
+            trapezoidCoins
         };
-        for (int i = 0; i < triangleCoins.Count; i++)
+        int coinAmount = triangleCoins.Count;
+        if(!useDecimals)
+        {
+            coinAmount -= 2;
+        }
+        if(onlyUseOneAndTwo)
+        {
+            coinAmount = 2;
+        }
+        //Finds a random coin shape for all used coins and adds the rest of the coins of that coin type as fake coins
+        for (int i = 0; i < coinAmount; i++)
         {
             int coinList = Random.Range(0, coinTypes.Count);
             GameObject validCoin = coinTypes[coinList][i];
             validCoin.GetComponent<Coin>().validCoin = true;
-            foreach(GameObject coin in coinTypes[coinList])
+            for(int j = 0; j < coinAmount; j++)
             {
+                GameObject coin = coinTypes[coinList][j];
                 if(coin == validCoin)
                 {
                     validCoins.Add(coin);
@@ -216,12 +237,27 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             }
             coinTypes.RemoveAt(coinList);
         }
+        //Adds any remaining coin shapes as fake coins
+        while(coinTypes.Count > 0)
+        {
+            for(int j = 0; j < coinAmount; j++)
+            {
+                GameObject coin = coinTypes[0][j];
+                fakeCoins.Add(coin);
+                
+            }
+            coinTypes.RemoveAt(0);
+        }
+        //Adds a clone of all valid coins to the valid coins display
         for(int i = 0; i < validCoins.Count; i++)
         {
             GameObject validCoin = Instantiate(validCoins[i]);
             validCoin.transform.SetParent(validCoinsContainer.transform);
+            validCoin.GetComponent<Button>().transition = Selectable.Transition.None;
+            validCoin.GetComponent<Button>().interactable = false;
             validCoin.transform.localScale = new Vector3(1, 1, 1);
         }
+        validCoinsContainer.transform.parent.gameObject.GetComponent<CoinInfoToggle>().ToggleAlwaysDisplay();
         return (validCoins, fakeCoins);
     }
 
@@ -273,5 +309,14 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     public List<GameObject> GetAnimalCoins()
     {
         return animals;
+    }
+
+    /// <summary>
+    /// adds half a mistake if the player attempts to move a fake coin to the sorted tray
+    /// </summary>
+    public void FakeCoinMoved()
+    {
+        mistakes += 0.5f;
+        healthDisplay.ChangeHearts(0.5f);
     }
 }
