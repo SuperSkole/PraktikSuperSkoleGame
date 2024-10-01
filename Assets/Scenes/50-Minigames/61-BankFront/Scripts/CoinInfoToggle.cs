@@ -11,8 +11,11 @@ public class CoinInfoToggle : MonoBehaviour
 {
     [SerializeField] private GameObject coinWindow;
     [SerializeField] private BankManager bankManager;
+    [SerializeField] private TextMeshProUGUI text;
     private RectTransform rectTransform;
     private bool shown = false;
+
+    private bool alwaysShown = false;
     private Vector2 startPos;
     private Vector2 shownPos;
     
@@ -31,11 +34,11 @@ public class CoinInfoToggle : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if(shown && rectTransform.anchoredPosition != shownPos)
+        if((shown || alwaysShown) && rectTransform.anchoredPosition != shownPos)
         {
             rectTransform.anchoredPosition = Vector3.MoveTowards(rectTransform.anchoredPosition, shownPos, 1);
         }
-        else if(!shown && rectTransform.anchoredPosition != startPos)
+        else if(!alwaysShown && !shown && rectTransform.anchoredPosition != startPos)
         {
             rectTransform.anchoredPosition = Vector3.MoveTowards(rectTransform.anchoredPosition, startPos, 1);
         }
@@ -47,19 +50,25 @@ public class CoinInfoToggle : MonoBehaviour
     public void OnClick()
     {
         shown = !shown;
-        if(shown)
+        if(!alwaysShown && shown)
         {
             foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(false);
             }
         }
-        else
+        else if(!alwaysShown)
         {
             foreach(Coin coin in bankManager.gamemode.GetCurrentCustomersCoins())
             {
                 coin.gameObject.SetActive(true);
             }
         }
+    }
+
+    public void ToggleAlwaysDisplay()
+    {
+        alwaysShown = true;
+        text.text = "Gyldige m\u00F8nter";
     }
 }
