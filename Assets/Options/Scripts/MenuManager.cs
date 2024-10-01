@@ -17,7 +17,10 @@ public class MenuManager : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(false);
         playerControles = new();
-        DontDestroyOnLoad(gameObject);
+        if(FindObjectsOfType<MenuManager>().Length <= 1)
+            DontDestroyOnLoad(gameObject);
+        else
+            Destroy(gameObject);
     }
 
     private void OnPause()
@@ -31,10 +34,15 @@ public class MenuManager : MonoBehaviour
         Back();
     }
 
-    public void CharacterSelect()//need somone too look at this
+    public void CharacterSelect()
     {
         Back();
-        //SceneManager.LoadScene(SceneNames.Start);
+        ManualSave();
+        Destroy(PlayerManager.Instance.SpawnedPlayer);
+        Destroy(PlayerManager.Instance.gameObject);
+
+        //SceneManager.LoadScene(SceneNames.Boot);
+        SceneManager.LoadScene(SceneNames.Start);
     }
 
     public void ManualSave()
