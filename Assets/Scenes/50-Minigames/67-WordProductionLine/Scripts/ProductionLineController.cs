@@ -55,7 +55,7 @@ public class ProductionLineController : MonoBehaviour
     {
         Vector3 mousePosition = Input.mousePosition;
         mousePos.z = mousePos.x;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePosition);
+        mousePos = mainCamera.ScreenToWorldPoint(mousePosition);
         Debug.DrawRay(transform.position, mousePosition - transform.position, Color.blue);
 
 
