@@ -18,6 +18,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
         [SerializeField] private HouseLoadSaveController saveManager;
+        [SerializeField] private UIInvetoryManager invetoryManager;
         [SerializeField] private PlacementSystem placementSystem;
 
         [HideInInspector]
@@ -32,6 +33,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
             buildingSystemParent.SetActive(true);
+            invetoryManager.LoadFurnitureAmount();
             try
             {
                 await LoadingHouseItems();  // Wait for the house data to load

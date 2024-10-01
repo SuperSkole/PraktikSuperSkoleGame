@@ -231,6 +231,10 @@ namespace Scenes._10_PlayerScene.Scripts
                             new MaterialInfo(true,
                                 "Red")
                         })
+                },
+                new List<int>()
+                {
+                    0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8
                 }
             );
 
@@ -319,7 +323,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ClothMid,
                 saveData.ClothTop,
                 saveData.BoughtClothes,
-                saveData.ListOfCars
+                saveData.ListOfCars,
+                saveData.ListOfFurniture
             );
 
             // Call the ColorChange method to recolor the player

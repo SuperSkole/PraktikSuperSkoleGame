@@ -16,6 +16,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private GridData furnitureData;
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
+        private UIInvetoryManager invetoryManager;
 
         private Vector2Int sizeCopy;
         public Vector2Int SizeCopy { get { return sizeCopy; } set { sizeCopy = value; } }
@@ -29,6 +30,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             GridData floorData,
             GridData furnitureData,
             ObjectPlacer objectPlacer,
+            UIInvetoryManager invetoryManager,
             EnumFloorDataType floorType)
         {
             // Initialize fields with provided parameters.
@@ -40,6 +42,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.objectPlacer = objectPlacer;
+            this.invetoryManager = invetoryManager;
             this.floorType = floorType;
 
             // Find the index of the selected object in the database using its ID.
@@ -113,8 +116,15 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 (new SaveableGridData(new Vector2Int(gridPos.x, gridPos.y),
                 database.objectData[selectedObjectIndex].ID, rotationYInDegrees, floorType)));
 
+            invetoryManager.ModifyFurnitureAmount(selectedObjectIndex);
+
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
+           
+            if (invetoryManager.ReturnAmountOfRemaingItems(selectedObjectIndex) <= 0)
+            {
+                placementSystem.StopPlacement();
+            }
         }
         public void RotateItem(int degree)
         {
