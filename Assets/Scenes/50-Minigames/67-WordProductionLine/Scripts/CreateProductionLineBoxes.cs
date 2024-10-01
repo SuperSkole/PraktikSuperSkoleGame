@@ -39,8 +39,15 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
             if (letterBox != null)
             {
+                if (Random.Range(0, 2) == 1)
+                {
+                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetFixedCorrect());
+                }
+                else
+                {
+                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetters());
+                }
                 
-                letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetters());
                 letterBox.transform.position = botSpawnPoint.transform.position;
                 letterBox.SetActive(true);
             }

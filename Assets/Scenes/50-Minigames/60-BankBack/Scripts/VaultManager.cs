@@ -262,7 +262,6 @@ public class VaultManager : MonoBehaviour
         while(waitingForEnd)
         {
             GameObject coin = Instantiate(coinPrefab);
-
             Vector3 newPos = new Vector3(Random.Range(100, 1820), Random.Range(100, 980), coin.transform.position.z);
             coin.transform.SetParent(ui.transform, false);
             coin.GetComponent<RectTransform>().position = newPos;
