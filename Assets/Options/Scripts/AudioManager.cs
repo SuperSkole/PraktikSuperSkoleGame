@@ -12,7 +12,10 @@ public class AudioManager : MonoBehaviour
     private bool muted = false;
     private float savedmasterVolume = 0f;
 
-
+    /// <summary>
+    /// used to set the master volume
+    /// </summary>
+    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetMasterVolume(float volume)
     {
         savedmasterVolume = volume;
@@ -20,21 +23,36 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20f);
     }
 
+    /// <summary>
+    /// used to set the SFX volume
+    /// </summary>
+    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetSFXVolume(float volume)
     {
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20f);
     }
 
+    /// <summary>
+    /// used to set the Music volume
+    /// </summary>
+    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetMusicVolume(float volume)
     {
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20f);
     }
 
+    /// <summary>
+    /// used to set the Voice volume
+    /// </summary>
+    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetVoiceVolume(float volume)
     {
         audioMixer.SetFloat("VoiceVolume", Mathf.Log10(volume) * 20f);
     }
 
+    /// <summary>
+    /// used to mute and unmute the game. toggles between the 2.
+    /// </summary>
     public void Mute()
     {
         muted = !muted;
@@ -50,6 +68,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// used to go back from the audio menu
+    /// </summary>
     public void Back()
     {
         menu.SetActive(false);

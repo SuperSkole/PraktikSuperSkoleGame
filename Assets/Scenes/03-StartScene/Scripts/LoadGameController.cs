@@ -4,6 +4,7 @@ using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Scenes._03_StartScene.Scripts
 {
@@ -81,7 +82,7 @@ namespace Scenes._03_StartScene.Scripts
         {
             panel.OnLoadRequested += HandleLoadRequest;
         }
-       
+
         /// <summary>
         /// Handles a load request by initiating the loading of saved game data.
         /// </summary>

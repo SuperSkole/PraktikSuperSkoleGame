@@ -23,17 +23,26 @@ public class MenuManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    /// <summary>
+    /// showes the "pause" menu when the "P" buton is pressed
+    /// </summary>
     private void OnPause()
     {
         transform.GetChild(0).gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// called when the player wants to tp to there house
+    /// </summary>
     public void PlayerHouse()
     {
         SwitchScenes.SwitchToPlayerHouseScene();
         Back();
     }
 
+    /// <summary>
+    /// used to send the player back to the CharacterSelect scean
+    /// </summary>
     public void CharacterSelect()
     {
         Back();
@@ -45,22 +54,34 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneNames.Start);
     }
 
+    /// <summary>
+    /// saves the game
+    /// </summary>
     public void ManualSave()
     {
         GameManager.Instance.SaveGame();
     }
 
+    /// <summary>
+    /// goes to the leaderboard scean
+    /// </summary>
     public void Leaderboard()
     {
         SwitchScenes.SwitchToLeaderBoard();
         Back();
     }
 
+    /// <summary>
+    /// displayes the audio menu where you can change volumen
+    /// </summary>
     public void Audio()
     {
         audioMenu.SetActive(!audioMenu.activeInHierarchy);
     }
 
+    /// <summary>
+    /// used if the player wants to log out of the game
+    /// </summary>
     public void Logout()
     {
         ManualSave();
@@ -74,6 +95,9 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneNames.Boot, LoadSceneMode.Additive);
     }
 
+    /// <summary>
+    /// used to close the "pause" menu
+    /// </summary>
     public void Back()
     {
         transform.GetChild(0).gameObject.SetActive(false);
