@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
 
 namespace Scenes.MultiplayerLobby.Scripts
@@ -20,10 +22,8 @@ namespace Scenes.MultiplayerLobby.Scripts
             string joinCode = await relayManager.CreateRelay();
             NetworkManager.Singleton.StartHost();
             await lobbyManager.CreateLobby(relayCode: joinCode);
-            
-            //string currentLobbyId = lobbyManager.GetInstanceID().ToString();
-            //await lobbyManager.UpdateLobbyRelayCode(currentLobbyId, joinCode);
+            var lobby = await LobbyService.Instance.GetJoinedLobbiesAsync();
+            LobbyManager.lobbyId = lobby[0];
         }
-
     }
 }

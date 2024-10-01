@@ -16,6 +16,7 @@ namespace Scenes.MultiplayerLobby.Scripts
         private LobbyManager lobbyManager;
         private NetworkTransport transport;
         private NetworkManager networkManager;
+
         private void Start()
         {
             relayManager = GetComponent<RelayManager>();
@@ -51,12 +52,10 @@ namespace Scenes.MultiplayerLobby.Scripts
 
                     Lobby joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(firstAvailableLobby.Id);
                     Debug.Log($"Successfully joined lobby: {joinedLobby.Name}");
-
+                    
                     // Retrieve the relay join code from the lobby data
                     if (joinedLobby.Data.ContainsKey("RelayCode"))
                     {
-                        
-
                         string relayJoinCode = joinedLobby.Data["RelayCode"].Value;
 
                         if (!string.IsNullOrEmpty(relayJoinCode))
@@ -70,6 +69,8 @@ namespace Scenes.MultiplayerLobby.Scripts
 
                             // Start the Netcode client
                             NetworkManager.Singleton.StartClient();
+
+                            LobbyManager.lobbyId = joinedLobby.Id;
                         }
                         else
                         {

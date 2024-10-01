@@ -4,11 +4,13 @@ using Unity.Services.Authentication;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Collections;
 
 namespace Scenes.MultiplayerLobby.Scripts
 {
     public class LobbyManager : MonoBehaviour
     {
+        static public string lobbyId;
         public async Task CreateLobby(string lobbyName = "Lobby Manager", int maxPlayers = 10, string relayCode = "")
         {
             try
@@ -22,6 +24,7 @@ namespace Scenes.MultiplayerLobby.Scripts
 
                 Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
                 Debug.Log($"Created Lobby: {lobby.Name}, LobbyCode: {lobby.LobbyCode}");
+                StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
             }
             catch (LobbyServiceException e)
             {
@@ -41,6 +44,11 @@ namespace Scenes.MultiplayerLobby.Scripts
                 Debug.LogError($"Join Lobby Error: {e}");
             }
         }
+        public async void leave()
+        {
+            string playerId = AuthenticationService.Instance.PlayerId;
+            await LobbyService.Instance.RemovePlayerAsync(lobbyId, playerId);
+        }
 
         public async Task UpdateLobbyRelayCode(string lobbyId, string relayCode)
         {
@@ -57,6 +65,16 @@ namespace Scenes.MultiplayerLobby.Scripts
             catch (LobbyServiceException e)
             {
                 Debug.LogError($"Update Lobby Error: {e}");
+            }
+        }
+        IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+        {
+            var delay = new WaitForSecondsRealtime(waitTimeSeconds);
+
+            while (true)
+            {
+                LobbyService.Instance.SendHeartbeatPingAsync(lobbyId);
+                yield return delay;
             }
         }
     }

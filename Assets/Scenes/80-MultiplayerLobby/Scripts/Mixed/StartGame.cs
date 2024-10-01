@@ -11,7 +11,6 @@ using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using Utilities;
 
 [System.Serializable]
 public enum EncryptionType
@@ -41,8 +40,8 @@ public class StartGame : MonoBehaviour
     const string k_dtlsEncryption = "dtls"; // Datagram Transport Layer Security
     const string k_wssEncryption = "wss"; // Web Socket Secure, use for WebGL builds
 
-    CountdownTimer heartbeatTimer = new CountdownTimer(k_lobbyHeartbeatInterval);
-    CountdownTimer pollForUpdatesTimer = new CountdownTimer(k_lobbyPollInterval);
+    //CountdownTimer heartbeatTimer = new CountdownTimer(k_lobbyHeartbeatInterval);
+    //CountdownTimer pollForUpdatesTimer = new CountdownTimer(k_lobbyPollInterval);
 
     async void Start()
     {
@@ -51,15 +50,15 @@ public class StartGame : MonoBehaviour
 
         await Authenticate();
 
-        heartbeatTimer.OnTimerStop += () => {
-            HandleHeartbeatAsync();
-            heartbeatTimer.Start();
-        };
+        //heartbeatTimer.OnTimerStop += () => {
+        //    HandleHeartbeatAsync();
+        //    heartbeatTimer.Start();
+        //};
 
-        pollForUpdatesTimer.OnTimerStop += () => {
-            HandlePollForUpdatesAsync();
-            pollForUpdatesTimer.Start();
-        };
+        //pollForUpdatesTimer.OnTimerStop += () => {
+        //    HandlePollForUpdatesAsync();
+        //    pollForUpdatesTimer.Start();
+        //};
         //if (isHost)
         //    DoWork(isHost);
     }
@@ -107,8 +106,8 @@ public class StartGame : MonoBehaviour
             currentLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
             Debug.Log("Created lobby: " + currentLobby.Name + " with code " + currentLobby.LobbyCode);
 
-            heartbeatTimer.Start();
-            pollForUpdatesTimer.Start();
+            //heartbeatTimer.Start();
+            //pollForUpdatesTimer.Start();
 
             await LobbyService.Instance.UpdateLobbyAsync(currentLobby.Id, new UpdateLobbyOptions
             {
@@ -134,7 +133,7 @@ public class StartGame : MonoBehaviour
         try
         {
             currentLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-            pollForUpdatesTimer.Start();
+            //pollForUpdatesTimer.Start();
 
             string relayJoinCode = currentLobby.Data[k_keyJoinCode].Value;
             JoinAllocation joinAllocation = await JoinRelay(relayJoinCode);
