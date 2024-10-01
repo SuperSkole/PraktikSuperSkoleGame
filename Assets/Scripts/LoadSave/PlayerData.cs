@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Analytics;
 using Newtonsoft.Json;
 using Unity.Mathematics;
 using UnityEngine;
@@ -27,6 +29,7 @@ namespace LoadSave
         [SerializeField] private Vector3 currentPosition;
         
         // Words and letters
+        [JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> LettersWeights = new ConcurrentDictionary<string, ILanguageUnit>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         [SerializeField] private int lifetimeTotalWords;
@@ -44,7 +47,7 @@ namespace LoadSave
         [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
         [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
 
-        
+        // Properties for encapsulation and dataconvertion reflection
         public string Username { get => username; set => username = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
         public int MonsterTypeID { get => monsterTypeID; set => monsterTypeID = value; }
@@ -57,6 +60,7 @@ namespace LoadSave
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
+        public ConcurrentDictionary<string, ILanguageUnit> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
@@ -97,6 +101,7 @@ namespace LoadSave
             int xpAmount,
             int level,
             Vector3 position,
+            ConcurrentDictionary<string, ILanguageUnit> lettersWeights,
             List<string> collectedWords,
             List<char> collectedLetters,
             int totalWords,
@@ -116,6 +121,12 @@ namespace LoadSave
             this.currentPosition = position;
             
             // words and letters
+            this.LettersWeights.Clear();
+            foreach (var kvp in lettersWeights)
+            {
+                this.LettersWeights.TryAdd(kvp.Key, kvp.Value);
+            }
+            
             this.CollectedWords.Clear();
             this.CollectedWords.AddRange(collectedWords);
             this.CollectedLetters.Clear();

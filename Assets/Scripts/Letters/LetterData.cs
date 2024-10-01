@@ -3,22 +3,22 @@ using Analytics;
 
 namespace Letters
 {
-    public class LetterData : IEntity
+    public class LetterData : ILanguageUnit
     {
-        public char Letter { get; private set; }
-        public string Identifier => Letter.ToString(); // Convert char to string for unified interface
-        public int Weight { get; set; }
+        public string Identifier { get; private set; }
+        public LetterCategory Category { get; private set; }
+        public LanguageUnit LanguageUnitType => LanguageUnit.Letter;
+        public float Weight { get; set; }
+        public float TimeWeight { get; set; }
         public DateTime LastUsed { get; set; }
         public int ErrorCount { get; set; }
-        public bool IsVowel { get; private set; }
 
-        public LetterData(char letter, bool isVowel, int initialWeight)
+        public LetterData(string identifier, LetterCategory category, float weight)
         {
-            Letter = letter;
-            IsVowel = isVowel;
-            Weight = initialWeight; 
-            LastUsed = DateTime.MinValue; 
-            ErrorCount = 0; // No errors recorded initially
+            Identifier = identifier;
+            Category = category;
+            Weight = weight;
+            LastUsed = DateTime.MinValue;
         }
     }
 }

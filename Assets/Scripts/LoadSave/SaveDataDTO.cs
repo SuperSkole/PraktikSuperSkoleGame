@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Analytics;
 using Newtonsoft.Json;
 
 namespace LoadSave
@@ -21,6 +23,7 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
+        [JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> LettersWeights = new ConcurrentDictionary<string, ILanguageUnit>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
@@ -45,6 +48,7 @@ namespace LoadSave
         public SerializablePlayerPosition CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
+        public ConcurrentDictionary<string, ILanguageUnit> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }

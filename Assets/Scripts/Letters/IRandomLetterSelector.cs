@@ -8,7 +8,6 @@ namespace Letters
         char GetRandomVowel(IEnumerable<char> vowels);
         char GetRandomConsonant(IEnumerable<char> consonants);
         char GetRandomLetter(IEnumerable<char> letters);
-        //char GetWeightedRandomLetter(Dictionary<char, float> weightedLetters);
     }
 }
 

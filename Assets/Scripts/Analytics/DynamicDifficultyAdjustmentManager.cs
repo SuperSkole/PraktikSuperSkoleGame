@@ -18,8 +18,8 @@ namespace Analytics
         // Constructor with Dependency Injection
         public DynamicDifficultyAdjustmentManager(IWeightManager weightManager, ISpacedRepetitionManager spacedRepetitionManager)
         {
-            this.weightManager = weightManager;
-            this.spacedRepetitionManager = spacedRepetitionManager;
+            this.weightManager = GameManager.Instance.WeightManager;
+            this.spacedRepetitionManager = GameManager.Instance.SpacedRepetitionManager;
             compositeWeights = new Dictionary<string, float>();
         }
 

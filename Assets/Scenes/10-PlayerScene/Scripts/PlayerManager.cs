@@ -1,4 +1,6 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
@@ -214,6 +216,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 1,
                 spawnedPlayer.transform.position,
+                new ConcurrentDictionary<string, ILanguageUnit>(),
                 new List<string>(),
                 new List<char>(),
                 0,
@@ -264,6 +267,9 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
 
             GameManager.Instance.IsNewGame = false;
+            
+            GameManager.Instance.WeightManager.InitializeWeights();
+            GameManager.Instance.WeightManager.PrintAllWeights();
         }
 
         public void SetupPlayerFromSave(PlayerData saveData)
@@ -312,6 +318,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
+                saveData.LettersWeights,
                 saveData.CollectedWords,
                 saveData.CollectedLetters,
                 saveData.LifetimeTotalWords,
@@ -346,6 +353,8 @@ namespace Scenes._10_PlayerScene.Scripts
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
+            
+            GameManager.Instance.WeightManager.PrintAllWeights();
         }
 
         // TODO maybe refactor onSceneLoaded into new script 
