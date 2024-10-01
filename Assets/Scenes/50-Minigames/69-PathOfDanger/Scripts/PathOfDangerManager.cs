@@ -304,9 +304,12 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     void SetNextQuestion()
     {
+        Instantiate(coinPrefab);
+        PlayerEvents.RaiseGoldChanged(1);
+        PlayerEvents.RaiseXPChanged(1);
         if (questions.Length <= currentQuestionIndex) return;
         gameMode.GetDisplayAnswer(questions[currentQuestionIndex], this);
-        Instantiate(coinPrefab);
+       
 
     }
 

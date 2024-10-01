@@ -31,6 +31,7 @@ public class ShowYouWinUI : MonoBehaviour
         {
             manager.SetupPlayerToDefaultComponents();
             PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
+            PlayerManager.Instance.SpawnedPlayer.GetComponent<Rigidbody>().velocity=Vector3.zero;
             WinUI.SetActive(true);
             hasCollided = true;
         }
