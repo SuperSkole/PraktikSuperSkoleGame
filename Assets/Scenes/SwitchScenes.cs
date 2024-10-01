@@ -31,6 +31,8 @@ namespace Scenes
         public static void SwitchToHighscore() => SceneLoader.Instance.LoadScene(SceneNames.HighScores);
         public static void SwitchToLeaderBoard() => SceneLoader.Instance.LoadScene(SceneNames.LeaderBoard);
         public static void SwitchToAllTimeHighscore() => SceneLoader.Instance.LoadScene(SceneNames.MultiPlayerHighScores);
+        public static void SwitchToLogin() => SceneLoader.Instance.LoadScene(SceneNames.Login);
+        public static void SwitchToBankFrontLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.BankFrontLoading);
 
         
     }

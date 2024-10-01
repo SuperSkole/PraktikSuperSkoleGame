@@ -5,6 +5,7 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._24_HighScoreScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,6 @@ namespace CORE
 
         public WeightManager WeightManager { get; private set; }
         public DataConverter Converter { get; } = new DataConverter();
-        public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }
         public string CurrentMonsterName { get; set; }
@@ -160,6 +160,7 @@ namespace CORE
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            instance = null;
         }
     }
 }
