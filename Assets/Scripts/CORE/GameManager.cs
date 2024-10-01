@@ -4,6 +4,7 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._24_HighScoreScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,6 @@ namespace CORE
         public PlayerManager PlayerManager;
 
         public DataConverter Converter { get; } = new DataConverter();
-        public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }
         public string CurrentMonsterName { get; set; }
@@ -34,6 +34,20 @@ namespace CORE
         // GameManager Singleton
         private static GameManager instance;
         private static readonly object Lock = new object();
+        private PlayerData playerData;
+        public PlayerData PlayerData 
+        {
+            get
+            {
+                if(playerData == null)
+                {
+                    playerData = GetComponent<PlayerData>();
+                    if(playerData == null)
+                        playerData = instance.gameObject.AddComponent<PlayerData>();
+                }
+                return playerData;
+            }
+            set { playerData = value; } }
         
         /// <summary>
         /// Auto self Creating Lazy Singleton instance
@@ -59,6 +73,8 @@ namespace CORE
                 }
             }
         }
+
+        
 
         private void Awake()
         {
@@ -188,6 +204,7 @@ namespace CORE
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            instance = null;
         }
     }
 }

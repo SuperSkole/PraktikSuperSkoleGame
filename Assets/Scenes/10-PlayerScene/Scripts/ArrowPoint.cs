@@ -13,7 +13,12 @@ public class ArrowPoint : MonoBehaviour
     {
         SceneManager.sceneLoaded += Setup;
     }
-    
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= Setup;
+    }
+
     void Setup(Scene scene, LoadSceneMode mode)
     {
         target = Vector3.zero;
