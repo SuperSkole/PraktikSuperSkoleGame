@@ -121,10 +121,10 @@ namespace Scenes._03_StartScene.Scripts
 
                 // Subscribe to the scene loaded event
                 SceneManager.sceneLoaded += onSceneLoaded;
-                
+
                 // Load the House and Player scenes, using additive mode for Player
-                SceneManager.LoadScene(SceneNames.House);
                 SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+                SceneLoader.Instance.LoadScene(SceneNames.House);
 
                 Debug.Log("Data loaded successfully.");
             }

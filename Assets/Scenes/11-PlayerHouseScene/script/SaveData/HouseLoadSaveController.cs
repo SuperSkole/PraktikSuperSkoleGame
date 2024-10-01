@@ -9,7 +9,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 {
     public class HouseLoadSaveController : MonoBehaviour
     {
-        public PlacementSystem floorData, furnitureData;
+        public PlacementSystem floorData, furnitureData, placementSystem;
         private SaveGameController saveGameController;
         
 
@@ -23,11 +23,16 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
         public async void SaveGridData()
         {
             // Convert the current floor and furniture dictionaries into serializable lists
-            SerializableGridData floorGridData = new SerializableGridData(floorData.FloorData.placedObjects);
-            SerializableGridData furnitureGridData = new SerializableGridData(furnitureData.FurnitureData.placedObjects);
+            //SerializableGridData floorGridData = new SerializableGridData(floorData.FloorData.placedObjects);
+            //SerializableGridData furnitureGridData = new SerializableGridData(furnitureData.FurnitureData.placedObjects);
+            
+            SerializableGridData SavedGridData = new SerializableGridData(placementSystem.placedObjectsSaved);
+
+
 
             // Create a new HouseDataDTO
-            HouseDataDTO houseDataDTO = new HouseDataDTO(floorGridData, furnitureGridData);
+            //HouseDataDTO houseDataDTO = new HouseDataDTO(floorGridData, furnitureGridData);
+            HouseDataDTO houseDataDTO = new HouseDataDTO(SavedGridData);
 
             // Use SaveGameController to save the house data to Unity Cloud Save
             await saveGameController.SaveDataAsync(houseDataDTO, HOUSETAG);
@@ -52,7 +57,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             }
             else
             {
-                Debug.LogError("Failed to load house data from the cloud.");
+                Debug.Log("Failed to either load/Find house data from the cloud.");
                 return default;
             }
         }        
@@ -63,5 +68,8 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     {
         public SerializableGridData floorData;
         public SerializableGridData furnitureData;
+
+        public SerializableGridData SavedGridData;
+
     }
 }

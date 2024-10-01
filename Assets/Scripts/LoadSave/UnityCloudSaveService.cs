@@ -30,7 +30,7 @@ namespace LoadSave
         public async Task SaveAsync(IDataTransferObject dto, string saveKey)
         {
             // Serialize DTO to JSON
-            string jsonData = JsonConvert.SerializeObject(dto, Formatting.Indented);
+            string jsonData = JsonConvert.SerializeObject(dto, Formatting.None);
             
             // Save the data in the cloud with a custom key
             await saveRepository.SaveAsync(saveKey, jsonData);
