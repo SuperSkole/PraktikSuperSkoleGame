@@ -251,7 +251,7 @@ public class MP_Movement : NetworkBehaviour
     /// Request server handling of a picked color
     /// </summary>
     /// <param name="color">The new color</param>
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void RequestColorPickServerRpc(string color)
     {
         colorPick.Value = new FixedString32Bytes(color);
@@ -262,7 +262,7 @@ public class MP_Movement : NetworkBehaviour
     /// </summary>
     /// <param name="past">What the previous color was</param>
     /// <param name="current">What the current color is</param>
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void UpdateColorServerRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
         colorChange.ColorChange(current.ToString());
@@ -336,7 +336,7 @@ public class MP_Movement : NetworkBehaviour
     /// Request server handling of a player name
     /// </summary>
     /// <param name="name">The new color</param>
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void RequestNamePickServerRpc(string name)
     {
         text.Value = name;
@@ -347,7 +347,7 @@ public class MP_Movement : NetworkBehaviour
     /// </summary>
     /// <param name="past">What the previous name was</param>
     /// <param name="current">What the current name is</param>
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void UpdateNameServerRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
         textField.text = current.ToString();

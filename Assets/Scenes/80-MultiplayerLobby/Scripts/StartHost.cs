@@ -18,11 +18,11 @@ namespace Scenes.MultiplayerLobby.Scripts
         public async void StartHostGame()
         {
             string joinCode = await relayManager.CreateRelay();
+            NetworkManager.Singleton.StartHost();
             await lobbyManager.CreateLobby(relayCode: joinCode);
             
             //string currentLobbyId = lobbyManager.GetInstanceID().ToString();
             //await lobbyManager.UpdateLobbyRelayCode(currentLobbyId, joinCode);
-            NetworkManager.Singleton.StartHost();
         }
 
     }
