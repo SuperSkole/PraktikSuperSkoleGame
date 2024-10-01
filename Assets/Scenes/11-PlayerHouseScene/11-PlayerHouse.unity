@@ -792,11 +792,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorData: {fileID: 1356158577}
   furnitureData: {fileID: 1356158577}
-  itemContainer:
-    floorData:
-      placedObjectsList: []
-    furnitureData:
-      placedObjectsList: []
 --- !u!1 &207234289 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 55b8de7fd58717f40a932a98e636d42a, type: 3}
@@ -2577,7 +2572,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1466559731}
-        m_TargetAssemblyTypeName: SwitchScenes, Assembly-CSharp
+        m_TargetAssemblyTypeName: Scenes.SwitchScenes, Assembly-CSharp
         m_MethodName: SwitchToMainWorld
         m_Mode: 1
         m_Arguments:
@@ -8140,6 +8135,11 @@ MonoBehaviour:
   virtualCamera: {fileID: 1864370800}
   saveManager: {fileID: 196346126}
   placementSystem: {fileID: 1356158577}
+  itemContainer:
+    floorData:
+      placedObjectsList: []
+    furnitureData:
+      placedObjectsList: []
 --- !u!4 &1641864871
 Transform:
   m_ObjectHideFlags: 0
