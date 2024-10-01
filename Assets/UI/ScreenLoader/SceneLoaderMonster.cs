@@ -38,8 +38,17 @@ public class SceneLoaderMonster : MonoBehaviour
         if (clothChanging == null)
         {
             clothChanging = this.GetComponent<ClothChanging>();
-             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
-             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+
+            try
+            {
+                clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
+                clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+            }
+            catch
+            {
+
+                print("Cant Find skeletonGraphic, But because i'm nice i wont error you");
+            }
         }
 
 

@@ -1,6 +1,7 @@
 using Scenes._11_PlayerHouseScene.script.HouseScripts;
 using Scenes._11_PlayerHouseScene.script.SaveData;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -26,6 +27,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         [SerializeField] private ObjectPlacer objectPlacer;
         private IBuildingState buildingState;
+        [SerializeField] private UIInvetoryManager invetoryManager;
 
         [SerializeField]
         public Dictionary<PlaceableTemporayItemsInfo, SaveableGridData> placedObjectsSaved = new();
@@ -71,6 +73,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 floorData,
                 furnitureData,
                 objectPlacer,
+                invetoryManager,
                 floorType);
             buildingState.OnLoadStartUp(key, ID, rotationValue);
         }
@@ -95,6 +98,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 floorData,
                 furnitureData,
                 objectPlacer,
+                invetoryManager,
                 floorType);
 
             // Subscribe to input events for clicking and exiting the placement mode.
@@ -146,7 +150,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         }
 
         // Stops the current placement or removal process.
-        private void StopPlacement()
+        public void StopPlacement()
         {
             // If there's no active building state, there's nothing to stop.
             if (buildingState == null)

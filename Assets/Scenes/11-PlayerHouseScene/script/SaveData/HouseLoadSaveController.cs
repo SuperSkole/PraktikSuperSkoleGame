@@ -23,15 +23,11 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
         public async void SaveGridData()
         {
             // Convert the current floor and furniture dictionaries into serializable lists
-            //SerializableGridData floorGridData = new SerializableGridData(floorData.FloorData.placedObjects);
-            //SerializableGridData furnitureGridData = new SerializableGridData(furnitureData.FurnitureData.placedObjects);
-            
             SerializableGridData SavedGridData = new SerializableGridData(placementSystem.placedObjectsSaved);
 
 
 
             // Create a new HouseDataDTO
-            //HouseDataDTO houseDataDTO = new HouseDataDTO(floorGridData, furnitureGridData);
             HouseDataDTO houseDataDTO = new HouseDataDTO(SavedGridData);
 
             // Use SaveGameController to save the house data to Unity Cloud Save
