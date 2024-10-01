@@ -8,7 +8,7 @@ using UnityEngine;
 public class Level4_POD : MonoBehaviour,IPODGameMode
 {
     List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
-
+    private string previousRetrievedAnswer;
 
 
     /// <summary>
@@ -81,8 +81,19 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
         {
+            
             returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+
+            //Code to make sure that the previous answer is not getting repeated imediatly after. 
+            while (returnedString[i]==previousRetrievedAnswer)
+            {
+                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+            }
+
+            previousRetrievedAnswer = returnedString[i];
         }
+
+
 
         return returnedString;
     }

@@ -73,7 +73,8 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject shadowPrefab;
     [SerializeField] GameObject safePlatform;
-   
+
+    [SerializeField] GameObject healthUI;
 
     void Start()
     {
@@ -154,6 +155,10 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
            
             correctAnswer = false;
         }
+
+        UpdatePlayerHealthUI();
+
+
 
     }
 
@@ -242,7 +247,8 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         }
 
         // Spawning the end platform
-        Vector3 endGoalPos = new Vector3(0 * x_distanceBetweenPlatforms, 0, z_AmountOfPlatforms * z_distanceBetweenPlatforms) + DeathPlatforms.transform.position;
+        Vector3 posOffset = new Vector3(4, 0, 0);
+        Vector3 endGoalPos = new Vector3(0 * x_distanceBetweenPlatforms, 0, z_AmountOfPlatforms * z_distanceBetweenPlatforms) + DeathPlatforms.transform.position+posOffset;
         spawnedPlatforms[0, z_AmountOfPlatforms] = Instantiate(endPlane, endGoalPos, Quaternion.identity);
 
         spawnedPlatforms[0, z_AmountOfPlatforms].GetComponent<ShowYouWinUI>().WinUI = winUI;
@@ -363,5 +369,27 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public void PlaySoundFromHearLetterButton()
     {
         hearLetterButtonAudioSource.GetComponent<AudioSource>().Play();
+    }
+
+    /// <summary>
+    /// Updates the playerhealth UI by removing a heart from the screen. 
+    /// </summary>
+    public void UpdatePlayerHealthUI()
+    {
+        switch (playerLifePoints)
+        {
+            case 2:
+                healthUI.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+
+            case 1:
+                healthUI.transform.GetChild(1).gameObject.SetActive(false);
+                break;
+
+            case 0:
+                healthUI.transform.GetChild(2).gameObject.SetActive(false);
+                break;
+        }
+
     }
 }
