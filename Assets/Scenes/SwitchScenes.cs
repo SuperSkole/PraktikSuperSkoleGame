@@ -6,8 +6,7 @@ namespace Scenes
     public class SwitchScenes : MonoBehaviour
     {   
         public static void SwitchToMainWorld() => SceneLoader.Instance.LoadScene(SceneNames.Main);
-        public static void SwitchToPlayerHouseScene() => SceneLoader.Instance.LoadSceneInBackground(SceneNames.House, SceneNames.Main);
-        public static void SwitchToMainWorldFromHouse() => SceneLoader.Instance.ActivateBackgroundLoadedScene();
+        public static void SwitchToPlayerHouseScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
         public static void SwitchToWordFactoryLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.FactoryLoading);
         public static void SwitchToArcadeAsteroidScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroid);
         public static void SwitchToArcadeAsteroidLoseScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroidLoseScreen);

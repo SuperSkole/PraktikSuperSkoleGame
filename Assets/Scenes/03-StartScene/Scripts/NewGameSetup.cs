@@ -18,8 +18,8 @@ namespace Scenes._03_StartScene.Scripts
         public void OnClick()
         {
             SetupPlayer();
-            SceneLoader.Instance.LoadSceneInBackground(SceneNames.House, SceneNames.Main);
             SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+            SceneLoader.Instance.LoadScene(SceneNames.House);
         }   
         
         private void SetupPlayer()

@@ -26,7 +26,14 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     //Load in background
     public void LoadSceneInBackground(string sceneName1, string sceneName2)
     {
-        StartCoroutine(LoadSceneInBackgroundAsync(sceneName1, sceneName2));
+        StartCoroutine(LoadSceneAsync(sceneName1));
+
+        Debug.Log("second scene loading");
+        backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2, LoadSceneMode.Additive);
+        backgroundLoadOperation.allowSceneActivation = false;
+        backgroundLoadOperation.priority = -1;
+        Debug.Log("second scene done");
+
     }
 
     //Load what has been loading in the background
@@ -168,27 +175,25 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
         }
     }
 
-    private IEnumerator LoadSceneInBackgroundAsync(string sceneName1, string sceneName2)
-    {
-        Debug.Log("two scenes loading");
-        yield return StartCoroutine(LoadSceneAsync(sceneName1));
+    //private IEnumerator LoadSceneInBackgroundAsync(string sceneName1, string sceneName2)
+    //{
+    //    Debug.Log("starting loading first scene");
 
-        //Load in background
-        backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2);
-        backgroundLoadOperation.allowSceneActivation = false;
+    //    yield return StartCoroutine(LoadSceneAsync(sceneName1));
 
-        // While the scene is loading in the background
-        while (!backgroundLoadOperation.isDone)
-        {
-            float progress = Mathf.Clamp01(backgroundLoadOperation.progress / 0.9f);
+    //    Debug.Log("first scene done loading");
 
-            if (backgroundLoadOperation.progress >= 0.9f)
-            {
-                yield break;
-            }
+    //    Resources.UnloadUnusedAssets();
 
-            yield return null;
-        }
-    }
+    //    yield return new WaitForSeconds(3f);
+
+    //    //Load in background
+    //    Debug.Log("Doing second loading scene");
+    //    backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2, LoadSceneMode.Additive);
+    //    backgroundLoadOperation.allowSceneActivation = false;
+    //    backgroundLoadOperation.priority = -100;
+    //    Debug.Log("set in function");      
+     
+    //}
 
 }
