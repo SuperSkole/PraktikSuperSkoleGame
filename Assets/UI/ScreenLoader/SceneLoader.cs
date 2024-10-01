@@ -7,31 +7,15 @@ using UnityEngine.UI;
 
 public class SceneLoader : PersistentSingleton<SceneLoader>
 {
-    //private static SceneLoader instance;
-    //public static SceneLoader Instance { get { return instance; } }
 
     public GameObject loadingPreFab;
+
     private GameObject loadingScreenInstance;
     private AsyncOperation backgroundLoadOperation;
-    
+
+    private float CurrentProgress;
 
     [SerializeField] Image barfill;
-
-    //private void Awake()
-    //{
-        
-    //    //Singleton pattern
-    //    if (instance != null && instance != this)
-    //    {
-    //        Destroy(this.gameObject);
-
-    //        return;
-    //    }
-
-    //        instance = this;
-    //        DontDestroyOnLoad(this.gameObject);
-
-    //}
 
     //Load here and now
     public void LoadScene(string sceneName)
@@ -42,13 +26,20 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     //Load in background
     public void LoadSceneInBackground(string sceneName1, string sceneName2)
     {
-        StartCoroutine(LoadSceneInBackgroundAsync(sceneName1, sceneName2));
+        StartCoroutine(LoadSceneAsync(sceneName1));
+
+        Debug.Log("second scene loading");
+        backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2, LoadSceneMode.Additive);
+        backgroundLoadOperation.allowSceneActivation = false;
+        backgroundLoadOperation.priority = -1;
+        Debug.Log("second scene done");
+
     }
 
     //Load what has been loading in the background
     public void ActivateBackgroundLoadedScene()
     {
-        
+        Debug.Log("Background loading");
         if (backgroundLoadOperation != null)
         {
             if (backgroundLoadOperation.progress >= 0.9f)
@@ -76,10 +67,12 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
             if (canvas != null)
             {
                 loadingScreenInstance = Instantiate(loadingPreFab, canvas.transform);
+                loadingScreenInstance.transform.SetAsLastSibling();
             }
             else
             {
                 loadingScreenInstance = Instantiate(loadingPreFab);
+                loadingScreenInstance.transform.SetAsLastSibling();
             }
 
             // Find barfill in the instantiated prefab
@@ -96,6 +89,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     }
     private IEnumerator ContinueLoading()
     {
+        Debug.Log("Continue Loading");
         SetUpLoadingScreen();
 
         //if AsynOperation Backgroundload is not empty and is not done
@@ -126,27 +120,53 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
-        Debug.Log("Activated");
-
         SetUpLoadingScreen();
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         operation.allowSceneActivation = false;
 
+        float duration = 1f;
+        float StartFillAmount = 0f;
+        float elapsed = 0f;
+        float oldFillAmount = 0f;
+
+        CurrentProgress = operation.progress;
+
         //while its loading
         while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            if(barfill != null)
-            {
-                barfill.fillAmount = progress;
-            }
-
             //loading done
-            if (operation.progress >= 0.9f)
+            if (barfill.fillAmount >= 0.9f && operation.progress >= 0.9f)
             {
+                barfill.fillAmount = 1;
                 operation.allowSceneActivation = true;
             }
+
+            //if progress changes
+            if(CurrentProgress != operation.progress)
+            {
+                //reset timer
+                elapsed = 0f;
+                CurrentProgress = operation.progress;
+                StartFillAmount = oldFillAmount;
+
+            }
+            //if progress is the same
+            if(CurrentProgress == operation.progress && elapsed < duration)
+            {
+                //count the time
+                elapsed += Time.deltaTime;
+                //calculate interpolation factor (0 to 1 over the duration)
+                float t = Mathf.Clamp01(elapsed / duration);
+
+                    if (barfill != null)
+                    {
+                        barfill.fillAmount = Mathf.Lerp(StartFillAmount, CurrentProgress, t);
+                        oldFillAmount = barfill.fillAmount;
+                    }
+
+            }
+            
 
             yield return null;
         }
@@ -157,26 +177,25 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
         }
     }
 
-    private IEnumerator LoadSceneInBackgroundAsync(string sceneName1, string sceneName2)
-    {
-        yield return StartCoroutine(LoadSceneAsync(sceneName1));
+    //private IEnumerator LoadSceneInBackgroundAsync(string sceneName1, string sceneName2)
+    //{
+    //    Debug.Log("starting loading first scene");
 
-        //Load in background
-        backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2);
-        backgroundLoadOperation.allowSceneActivation = false;
+    //    yield return StartCoroutine(LoadSceneAsync(sceneName1));
 
-        // While the scene is loading in the background
-        while (!backgroundLoadOperation.isDone)
-        {
-            float progress = Mathf.Clamp01(backgroundLoadOperation.progress / 0.9f);
+    //    Debug.Log("first scene done loading");
 
-            if (backgroundLoadOperation.progress >= 0.9f)
-            {
-                yield break;
-            }
+    //    Resources.UnloadUnusedAssets();
 
-            yield return null;
-        }
-    }
+    //    yield return new WaitForSeconds(3f);
+
+    //    //Load in background
+    //    Debug.Log("Doing second loading scene");
+    //    backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2, LoadSceneMode.Additive);
+    //    backgroundLoadOperation.allowSceneActivation = false;
+    //    backgroundLoadOperation.priority = -100;
+    //    Debug.Log("set in function");      
+     
+    //}
 
 }
