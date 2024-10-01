@@ -28,11 +28,12 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private AlarmScript alarmScript;
     [SerializeField] private TextMeshProUGUI codeText;
     [SerializeField] private TextMeshProUGUI desiredInput;
+    private bool waitingForEnd;
     private int desiredInputIndex;
 
     private List<string> desiredInputNames = new List<string>()
     {
-        "hundrederne", "tierne", "enerne"
+        "1000'ere", "100'ere", "10'ere", "1'ere"
     };
     private bool foundCode = false;
     private float  mistakes;
@@ -54,7 +55,7 @@ public class VaultManager : MonoBehaviour
     {
         gameOverText.text = "";
         lives.text = "3/3 liv";
-        for(int i = 1; i < 4; i++)
+        for(int i = 0; i < 4; i++)
         {
             answer[i] = Random.Range(1, 10);
             soundButtons[i].amount = answer[i];
@@ -73,10 +74,10 @@ public class VaultManager : MonoBehaviour
         if(!foundCode)
         {
             //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
-            if(answer[desiredInputIndex + 1] == gearScripts[desiredInputIndex + 1].currentNumber)
+            if(answer[desiredInputIndex] == gearScripts[desiredInputIndex].currentNumber)
             {
                 ChangeMaterial(correctMaterial);
-                if(usedDesiredInputIndices.Count == 3)
+                if(usedDesiredInputIndices.Count == 4)
                 {
                     Won();
                     foundCode = true;
@@ -182,6 +183,7 @@ public class VaultManager : MonoBehaviour
         PlayerEvents.RaiseGoldChanged(1);
         gameOverText.text = "Du vandt. Du fandt koden til bankboksen";
         StartCoroutine(WaitBeforeEnd());
+        StartCoroutine(SpawnCoins());
     }
 
     /// <summary>
@@ -199,8 +201,9 @@ public class VaultManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator WaitBeforeEnd()
     {
-        
+        waitingForEnd = true;
         yield return new WaitForSeconds(5);
+        waitingForEnd = false;
         SwitchScenes.SwitchToMainWorld();
     }
 
@@ -230,5 +233,21 @@ public class VaultManager : MonoBehaviour
         {
             gearScript.ChangeMaterial(defaultMaterial);
         }
+    }
+
+    /// <summary>
+    /// Spawns coins continually until the game has ended
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SpawnCoins()
+    {
+        while(waitingForEnd)
+        {
+            GameObject coin = Instantiate(coinPrefab);
+            Vector3 newPos = new Vector3(coin.transform.position.x + Random.Range(-100, 101), coin.transform.position.z + Random.Range(-100, 101), coin.transform.position.z + Random.Range(-100, 101));
+            coin.transform.position = newPos;
+            yield return new WaitForSeconds(0.1f);
+        }
+        
     }
 }
