@@ -25,14 +25,30 @@ public class SceneLoaderMonster : MonoBehaviour
         {
             playerColorChanging = this.GetComponent<ColorChanging>();
 
-             playerColorChanging.SetSkeleton(skeletonGraphic);
-             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+            try
+            {
+                playerColorChanging.SetSkeleton(skeletonGraphic);
+                playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
+            }
+            catch
+            {
+                print("Cant Find MonsterColor, But because i'm nice i wont error you");
+            }
         }
         if (clothChanging == null)
         {
             clothChanging = this.GetComponent<ClothChanging>();
-             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
-             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+
+            try
+            {
+                clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
+                clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
+            }
+            catch
+            {
+
+                print("Cant Find skeletonGraphic, But because i'm nice i wont error you");
+            }
         }
 
 

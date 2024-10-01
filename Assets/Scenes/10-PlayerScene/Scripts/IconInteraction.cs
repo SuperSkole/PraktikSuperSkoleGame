@@ -39,8 +39,10 @@ namespace Scenes._10_PlayerScene.Scripts
         }
         private void OnMouseDown()
         {
+            ResetScale();
             if (isPlayer)
             {
+                GetComponentInParent<SpinePlayerMovement>().hoveringOverUI = false;
                 GetComponentInParent<PlayerEventManager>().InvokeAction();
             }
             else

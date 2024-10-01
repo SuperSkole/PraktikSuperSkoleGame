@@ -8,18 +8,23 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     [Serializable]
     public class SerializableKeyValuePair
     {
-        public Vector3Int Key;
+        public PlaceableTemporayItemsInfo Key;
+        //public Vector3Int Key;
+        //public Vector2Int Key;
 
         public int ID;
 
-//        public int rotationValue;
+        public int RotationValue;
 
-        //public SerializableKeyValuePair(Vector3Int key, int iD, int rotationValue)
-        public SerializableKeyValuePair(Vector3Int key, int iD)
+        public EnumFloorDataType FloorType;
+
+        //public SerializableKeyValuePair(Vector3Int key, int iD)
+        public SerializableKeyValuePair(PlaceableTemporayItemsInfo key, int iD, int rotationValue, EnumFloorDataType floorType)
         {
             Key = key;
             ID = iD;
-            //this.rotationValue = rotationValue;
+            RotationValue = rotationValue;
+            FloorType = floorType;
         }
 
         public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
