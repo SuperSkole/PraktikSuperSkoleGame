@@ -67,10 +67,12 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
             if (canvas != null)
             {
                 loadingScreenInstance = Instantiate(loadingPreFab, canvas.transform);
+                loadingScreenInstance.transform.SetAsLastSibling();
             }
             else
             {
                 loadingScreenInstance = Instantiate(loadingPreFab);
+                loadingScreenInstance.transform.SetAsLastSibling();
             }
 
             // Find barfill in the instantiated prefab
