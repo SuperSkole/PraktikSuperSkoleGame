@@ -21,7 +21,7 @@ public class OutOfBounds : MonoBehaviour
 
         //Checks if the player is under a certain treshold on the y axis and therefor out of bounds.
         //Also checks the amount of lifepoints the player has left and depending on the amount is either sent back to the start position or to the lose screen. 
-        if(gameObject.transform.position.y<=-5 && manager.playerLifePoints>1)
+        if(gameObject.transform.position.y<=-2 && manager.playerLifePoints>1)
         {
            
             manager.playerLifePoints -= 1;
@@ -30,7 +30,7 @@ public class OutOfBounds : MonoBehaviour
             StartCoroutine(manager.WaitUntillDataIsLoaded());
           
         }
-        else if(gameObject.transform.position.y <= -7 &&manager.playerLifePoints<=1)
+        else if(gameObject.transform.position.y <= -3 &&manager.playerLifePoints<=1)
         {
             manager.StartGoToLoseScreenCoroutine();
 
