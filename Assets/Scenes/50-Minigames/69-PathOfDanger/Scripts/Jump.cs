@@ -39,12 +39,15 @@ public class Jump : MonoBehaviour
 
             
         }
+
+        // Makes sure the spawned shadow is following the player in the x and z plane. 
         if(spawnedShadow!=null)
         {
             spawnedShadow.transform.position = new Vector3(transform.position.x,spawnedShadow.transform.position.y,transform.position.z);
 
         }
 
+        // Plays the current sound in the hearLetter button. 
         if(Input.GetKeyDown(KeyCode.F))
         {
             manager.PlaySoundFromHearLetterButton();
@@ -54,6 +57,7 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Adds a force to the players rigidbody and cast a shadow on the ground. 
         if(isJumping==true)
         { 
             rigidbody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
@@ -69,12 +73,17 @@ public class Jump : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         canJump = true;
+        //Destroys the shadown when colliding with an object. 
         if(spawnedShadow!=null)
         {
             Destroy(spawnedShadow);
         }
     }
 
+
+    /// <summary>
+    /// Instantiates a shadowprefab on the position where the raycast hits. The raycast is shooting along the y axis in a downwars direction. 
+    /// </summary>
     void CastShadow()
     {
         Ray ray = new Ray(gameObject.transform.position,new Vector3(0,-1,0));

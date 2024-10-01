@@ -176,7 +176,7 @@ MonoBehaviour:
   playerLifePoints: 3
   z_AmountOfPlatforms: 4
   x_AmountOfPlatforms: 3
-  z_distanceBetweenPlatforms: 20
+  z_distanceBetweenPlatforms: 15
   x_distanceBetweenPlatforms: 5
   answerHolderPrefab: {fileID: 0}
   singleImageHolderPrefab: {fileID: 4343751956295010732, guid: 7943abbeb8ad6ac4fbbbe2a4a2fe3004, type: 3}
@@ -885,7 +885,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 500}
-  m_LocalScale: {x: 5, y: 1.4, z: 1}
+  m_LocalScale: {x: 3, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 643180586}
@@ -4370,7 +4370,7 @@ Transform:
   m_GameObject: {fileID: 1921915581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3, y: 0, z: 520}
+  m_LocalPosition: {x: -3, y: 0, z: 510.78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

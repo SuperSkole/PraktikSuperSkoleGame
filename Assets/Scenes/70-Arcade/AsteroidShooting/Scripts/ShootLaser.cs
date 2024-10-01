@@ -19,7 +19,7 @@ public class ShootLaser : MonoBehaviour
     void Update()
     {
         shootCooldown -= Time.deltaTime;
-        //Instantiates a laser if the spacebar is pressed
+        //Instantiates a laser after the cooldown time if the spacebar is pressed
         if(Input.GetKeyDown(KeyCode.Space) && shootCooldown<=0)
         {
             Vector3 spawnPos = transform.GetChild(0).transform.position;

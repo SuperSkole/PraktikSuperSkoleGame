@@ -40,7 +40,7 @@ public class PentagonManager : MonoBehaviour
     }
 
     /// <summary>
-    /// When colliding with a projectile two new asteroids with one less angle than the current are spawned.
+    /// When colliding with a projectile a square and a triangle asteroid is spawned.
     /// The score is also updated and the old asteroid and the projectile that hit it is destroyed
     /// </summary>
     /// <param name="collision"></param>
@@ -56,10 +56,10 @@ public class PentagonManager : MonoBehaviour
             spawnedSquare.GetComponent<SquareManager>().gameManager = gameManager;
 
 
-            var spawnedSquare2 = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
+            var spawnedTriangle = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
             Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
-            spawnedSquare2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
-            spawnedSquare2.GetComponent<SquareManager>().gameManager = gameManager;
+            spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
+            spawnedTriangle.GetComponent<SquareManager>().gameManager = gameManager;
 
             Destroy(gameObject);
             Destroy(collision.gameObject);

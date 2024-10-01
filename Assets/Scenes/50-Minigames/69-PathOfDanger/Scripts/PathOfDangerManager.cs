@@ -60,7 +60,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     private string[] questions;
     private int currentQuestionIndex = 0;
     private string currentQuestion;
-    private int amountOfOptions;
+ 
 
     [SerializeField] private GameObject coinPrefab;
     public bool correctAnswer = false;
@@ -189,19 +189,15 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
             int correctImageIndex = Random.Range(0, x_AmountOfPlatforms);
             for (int x = 0; x < x_AmountOfPlatforms; x++)
             {
+                //Making sure that the actual falling platforms are spawned on all the even z values. 
                 if (z % 2 == 0)
                 {
-
-                   
-
-                    
-                    
-                    
                    
                     //setting the correct and incorrect answer
                     if (x == correctImageIndex)
                     {
-
+                        //dividing z/2 due the fact the z_amount ofplatforms is twice the amount of actual falling platforms. 
+                        // that is because the safeplatforms in between is also taken into account. 
                         gameMode.SetCorrectAnswer(questions[z/2], this);
 
 
@@ -218,6 +214,9 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                // instantiating the platform and the answerholder. 
                 Vector3 pos = new Vector3(x*x_distanceBetweenPlatforms, 0, z*z_distanceBetweenPlatforms)+DeathPlatforms.transform.position;
 
+
+                // When the number is an uneven number only one platform is spawned and that is the safeplatform. 
+                // else the number is even and a falling platform is spawned with an answerholder. 
                 if(z%2!=0 && x==0)
                 {
                     spawnedPlatforms[x, z] = Instantiate(safePlatform, pos, Quaternion.identity);
@@ -325,6 +324,9 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
         currentQuestionIndex = 0;
         questions = gameMode.GenerateAnswers(3);
+
+        //The amounts of platforms is the questions.lenght*2 because the need for safeplatforms in between the falling platforms. 
+
         z_AmountOfPlatforms = questions.Length*2;
 
         gameMode.SetAnswerPrefab(this);
