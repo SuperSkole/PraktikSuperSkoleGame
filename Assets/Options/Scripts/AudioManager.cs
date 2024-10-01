@@ -30,6 +30,11 @@ public class AudioManager : MonoBehaviour
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20f);
     }
 
+    public void SetVoiceVolume(float volume)
+    {
+        audioMixer.SetFloat("VoiceVolume", Mathf.Log10(volume) * 20f);
+    }
+
     public void Mute()
     {
         muted = !muted;
