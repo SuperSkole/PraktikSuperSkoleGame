@@ -29,7 +29,22 @@ namespace CORE
         public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
         public bool IsPlayerBootstrapped { get; set; }
-        
+
+        private PlayerData playerData;
+        public PlayerData PlayerData
+        {
+            get
+            {
+                if (playerData == null)
+                {
+                    playerData = GetComponent<PlayerData>();
+                    if (playerData == null)
+                        playerData = instance.gameObject.AddComponent<PlayerData>();
+                }
+                return playerData;
+            }
+            set { playerData = value; }
+        }
         /// <summary>
         /// Initializes the singleton instance and sets up the GameManager.
         /// </summary>
