@@ -2024,7 +2024,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 177.5, y: -123}
+  m_AnchoredPosition: {x: 177.50012, y: -123.00015}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &410611451
@@ -2505,8 +2505,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Koden er [Code]
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4673,7 +4673,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1435345600}
-  - {fileID: 410611450}
   - {fileID: 355916721}
   - {fileID: 300125289}
   - {fileID: 1151237437}
@@ -4683,6 +4682,7 @@ RectTransform:
   - {fileID: 1726136303}
   - {fileID: 1185243477}
   - {fileID: 1730796556}
+  - {fileID: 410611450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -7577,7 +7577,6 @@ SceneRoots:
   - {fileID: 17256966}
   - {fileID: 1452237290}
   - {fileID: 30785040}
-  - {fileID: 1224096413}
   - {fileID: 420684131}
   - {fileID: 1118749294}
   - {fileID: 15996086}
@@ -7623,3 +7622,4 @@ SceneRoots:
   - {fileID: 1553774352}
   - {fileID: 1353410944}
   - {fileID: 153643826235844898}
+  - {fileID: 1224096413}
