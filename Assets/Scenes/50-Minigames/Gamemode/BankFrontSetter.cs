@@ -11,7 +11,7 @@ public class BankFrontSetter : IGameModeSetter
 {
     public IGenericGameMode SetMode(int level)
     {
-        return new SortAndCount();
+        return new SortAndCountAll();
     }
 
     public IGenericGameMode SetMode(string gamemode)
@@ -20,7 +20,7 @@ public class BankFrontSetter : IGameModeSetter
         switch(gamemode)
         {
             case "sortandcount":
-                modeToBeUsed = new SortAndCount();
+                modeToBeUsed = new SortAndCountAll();
                 break;
             case "sort":
                 modeToBeUsed = new Sort();
@@ -33,7 +33,7 @@ public class BankFrontSetter : IGameModeSetter
                 break;
             default:
                 Debug.Log("unknown gamemode. Returning the default gamemode");
-                modeToBeUsed = new SortAndCount();
+                modeToBeUsed = new SortAndCountAll();
                 break;
         }
         return modeToBeUsed;

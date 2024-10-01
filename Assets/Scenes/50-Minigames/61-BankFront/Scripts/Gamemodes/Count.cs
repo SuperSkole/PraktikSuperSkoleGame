@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Bank front gamemode where the player should sort coins and count how much the correct ones are worth
@@ -42,7 +43,8 @@ public class Count : IBankFrontGamemode
         coin.transform.SetParent(bankManager.unifiedField.transform);
         coin.transform.localScale = new Vector3(1, 1, 1);
         Coin c = coin.GetComponent<Coin>();
-        c.SetTrays(bankManager.unifiedField, bankManager.unifiedField);
+        coin.GetComponent<Button>().interactable = false;
+        c.SetTrays(bankManager);
         bankManager.DestroyComponent(c.button);
         currentCustomersCoins.Add(c);
     }
@@ -101,7 +103,7 @@ public class Count : IBankFrontGamemode
     public void RequestGameObjectsToBeUsed(BankManager bankManager)
     {
         this.bankManager = bankManager;
-        (List<GameObject>, List<GameObject>) coins = bankManager.GetCoins();
+        (List<GameObject>, List<GameObject>) coins = bankManager.GetCoins(true, false);
         validCoins = coins.Item1;
     }
 
@@ -110,14 +112,14 @@ public class Count : IBankFrontGamemode
     /// </summary>
     /// <param name="playerGuess">the value of the playerGuess inputfield</param>
     /// <returns></returns>
-    public int Validate(int playerGuess)
+    public int Validate(float playerGuess)
     {
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
-        int currentSum = 0;
+        float currentSum = 0;
         
         foreach(Coin coin in currentCustomersCoins)
         {
-            (bool, int) validateData = coin.placedCorrectly();
+            (bool, float) validateData = coin.placedCorrectly();
             currentSum += validateData.Item2;
         }
         int res = 0;

@@ -15,6 +15,9 @@ public class KeyPress : MonoBehaviour
     public delegate void OnClickMethod();
 
     public OnClickMethod onClickMethod;
+
+    [SerializeField]private AudioSource audioSource;
+    [SerializeField]private AudioClip keySound;
     /// <summary>
     /// Sets up the starting position
     /// </summary>
@@ -33,6 +36,7 @@ public class KeyPress : MonoBehaviour
         if (currentDestination != startingPosition && transform.localPosition == currentDestination)
         {
             currentDestination = startingPosition;
+            audioSource.PlayOneShot(keySound);
             onClickMethod();
         }
         //Moves the button towards either the pressed position or its starting position
