@@ -18,8 +18,26 @@ public class KatjaFe : MonoBehaviour
     Coroutine currentCoroutine;
 
     //Stuff saved
-    AudioSource oldaudio;
+    AudioClip oldaudio;
 
+    //tutorial or tip
+    public bool tutorial;
+
+    private void Initialize(bool type, AudioSource audio)
+    {
+        //if tutorial
+        if(type)
+        {
+            offButton.gameObject.SetActive(true);
+            audio.clip = oldaudio;
+        }
+        //if not, but only tip
+        else
+        {
+            audio.clip = oldaudio;
+            CheckIfThereIsAudio();
+        }
+    }
 
     public void KatjaSpeak(AudioClip audioClip, System.Action onComplete)
     {
@@ -52,6 +70,12 @@ public class KatjaFe : MonoBehaviour
     public void KatjaIntro(System.Action onComplete)
     {
         Clear();
+
+        //Set the button off
+        if (offButton != null)
+        {
+            offButton.gameObject.SetActive(true);
+        }
 
         //Animation go
         katjaFeSkeleton.gameObject.SetActive(true);
@@ -100,6 +124,7 @@ public class KatjaFe : MonoBehaviour
         if(!state)
         {
             katjaFeSkeleton.gameObject.SetActive(false);
+            CheckIfThereIsAudio();
         }
 
 
@@ -112,8 +137,18 @@ public class KatjaFe : MonoBehaviour
 
     //INFO BUTTON
 
+    private void CheckIfThereIsAudio()
+    {
+        if (oldaudio != null)
+        {
+            offButton.gameObject.SetActive(false);
+        }
+    }
+
+
     public void Click()
     {
-
+        //Example
+        KatjaIntro(() => { KatjaSpeak(oldaudio, () => {KatjaExit();});});
     }
 }
