@@ -4,15 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
 using UnityEngine.Analytics;
+using UnityEngine.UI;
 
 
-public class KatjaFe : PersistentSingleton<SceneLoader>
+public class KatjaFe : MonoBehaviour
 {
+    //The prefab's assets
     [SerializeField] SkeletonGraphic katjaFeSkeleton;
+    [SerializeField] Image offButton;
 
     //Stuff given
     AudioSource audioSource;
     Coroutine currentCoroutine;
+
+    //Stuff saved
+    AudioSource oldaudio;
 
 
     public void KatjaSpeak(AudioClip audioClip, System.Action onComplete)
@@ -102,5 +108,12 @@ public class KatjaFe : PersistentSingleton<SceneLoader>
         {
             onComplete.Invoke();
         }
+    }
+
+    //INFO BUTTON
+
+    public void Click()
+    {
+
     }
 }

@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3002907654355519401}
   - component: {fileID: 380277557425655146}
   - component: {fileID: 204246412774112468}
+  - component: {fileID: 2857715323782004424}
   m_Layer: 5
-  m_Name: Button
+  m_Name: OnButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,7 +89,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7863d6ce6e3c1a45bdcd1e9c0d67e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  image: {fileID: 380277557425655146}
+--- !u!114 &2857715323782004424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4842073231569373612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 204246412774112468}
+          m_TargetAssemblyTypeName: UI.Scripts.HoverEffectUI, Assembly-CSharp
+          m_MethodName: HoverEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 204246412774112468}
+          m_TargetAssemblyTypeName: UI.Scripts.HoverEffectUI, Assembly-CSharp
+          m_MethodName: HoverExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8891462649930181965}
+          m_TargetAssemblyTypeName: KatjaFe, Assembly-CSharp
+          m_MethodName: Click
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4930651543218279197
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,8 +268,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93bc070c88833546b98b6c471244933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AutoUnparentOnAwake: 1
   katjaFeSkeleton: {fileID: 3327973866342063855}
+  offButton: {fileID: 8062408825451320099}
 --- !u!1 &5525176604058117052
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +282,7 @@ GameObject:
   - component: {fileID: 3311882588824800939}
   - component: {fileID: 8062408825451320099}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: OffButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
