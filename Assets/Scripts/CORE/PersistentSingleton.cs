@@ -100,11 +100,11 @@ namespace CORE
             }
         }
         
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void InitializeOnLoad()
-        {
-            // Force singleton initialization
-            _ = Instance;
-        }
+        //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        //private static void InitializeOnLoad()
+        //{
+        //    // Force singleton initialization
+        //    _ = Instance;
+        //}
     }
 }
