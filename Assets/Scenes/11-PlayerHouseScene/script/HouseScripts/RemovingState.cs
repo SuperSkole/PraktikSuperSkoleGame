@@ -8,18 +8,21 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private int gameObjectIndex = -1;
         private Grid grid;
         private PreviewSystem previewSystem;
+        private PlacementSystem placementSystem;
         private GridData floorData;
         private GridData furnitureData;
         private ObjectPlacer objectPlacer;
 
         public RemovingState(Grid grid,
             PreviewSystem previewSystem,
+            PlacementSystem placementSystem,
             GridData floorData,
             GridData furnitureData,
             ObjectPlacer objectPlacer)
         {
             this.grid = grid;
             this.previewSystem = previewSystem;
+            this.placementSystem = placementSystem;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.objectPlacer = objectPlacer;
@@ -53,8 +56,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 gameObjectIndex = selectedData.GetRepresentationIndex(gridPos);
                 if (gameObjectIndex == -1)
                     return;
-                selectedData.RemoveObjectAt(gridPos);
+
+                selectedData.RemoveObjectAt(gridPos, placementSystem, selectedData.placedObjects[gridPos].FloorType);
                 objectPlacer.RemoveObjectAt(gameObjectIndex);
+               
+                placementSystem.RemoveObjectAt();
             }
             Vector3 cellPos = grid.CellToWorld(gridPos);
             previewSystem.UpdatePosition(cellPos, CheckIfSelectionIsValid(gridPos));
@@ -72,7 +78,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), validity);
         }
 
-        public void OnLoadStartUp(Vector3Int gridPos, int ID)
+        public void OnLoadStartUp(Vector3Int gridPos, int ID, int RotationValue)
         {
             throw new NotImplementedException();
         }

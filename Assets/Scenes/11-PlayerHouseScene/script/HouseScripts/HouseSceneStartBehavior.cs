@@ -1,6 +1,9 @@
 using Cinemachine;
+using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._11_PlayerHouseScene.script.CameraScripts;
+using Scenes._11_PlayerHouseScene.script.SaveData;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -12,17 +15,64 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private GameObject cameraMovement;
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
+        [SerializeField] private HouseLoadSaveController saveManager;
+        [SerializeField] private UIInvetoryManager invetoryManager;
+        [SerializeField] private PlacementSystem placementSystem;
+
+        [HideInInspector]
+        public SaveContainer itemContainer = new SaveContainer();
+
         private GameObject spawnedPlayer;
 
         // Start is called before the first frame update
-        private void Start()
+        private async void Start()
         {
             //Debug.Log("Trying to set player obj in house start");
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
+            buildingSystemParent.SetActive(true);
+            invetoryManager.LoadFurnitureAmount();
+            try
+            {
+                await LoadingHouseItems();  // Wait for the house data to load
+            }
+            catch { print("No House Save has been found"); }
+
             buildingSystemParent.SetActive(false);
+
             uiBuilding.SetActive(buildingSystemParent.activeSelf);
             cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
+        }
+        public async Task LoadingHouseItems()
+        {
+            // Load the house data asynchronously
+            var data = await saveManager.LoadGridData<HouseDataDTO>();
+
+            ApplyLoadedData(data);  // Apply the loaded data after it's loaded
+
+            foreach (var item in itemContainer.SavedGridData.placedObjectsList)
+            {
+                placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType, item.RotationValue);
+            }
+            // After applying the data, place the objects in the scene
+            //foreach (var item in itemContainer.floorData.placedObjectsList)
+            //{
+            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Rug);
+            //}
+
+            //foreach (var item in itemContainer.furnitureData.placedObjectsList)
+            //{
+            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Furniture);
+            //}
+        }
+        public void ApplyLoadedData(HouseDataDTO houseDataDTO)
+        {
+            // Apply the loaded grid data to the house systems
+            //itemContainer.floorData = houseDataDTO.FloorData;
+            //itemContainer.furnitureData = houseDataDTO.FurnitureData;
+            itemContainer.SavedGridData = houseDataDTO.SavedGridData;
+
+            Debug.Log("House data applied successfully.");
         }
 
         public void EnableBuildingSystem()
@@ -36,7 +86,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 virtualCamera.LookAt = cameraMovement.transform;
             }
             else
-            {        
+            {
+                saveManager.floorData.FloorData = placementSystem.FloorData;
+                saveManager.furnitureData.FurnitureData = placementSystem.FurnitureData;
+                saveManager.SaveGridData();
+
                 buildingSystemParent.SetActive(false);
                 cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
                 spawnedPlayer.SetActive(true);
