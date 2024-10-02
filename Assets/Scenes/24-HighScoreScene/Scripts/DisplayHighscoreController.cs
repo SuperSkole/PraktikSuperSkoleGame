@@ -38,7 +38,7 @@ namespace Scenes._24_HighScoreScene.Scripts
         private void DisplayWords()
         {
             var sortedWords = highScore.CollectedWords.OrderByDescending(pair => pair.Value);
-            wordsText.text = "Words Found:\n";
+            wordsText.text = "Ord Fundet:\n";
             foreach (var pair in sortedWords)
             {
                 wordsText.text += $"{pair.Key}: {pair.Value}\n";
@@ -48,7 +48,7 @@ namespace Scenes._24_HighScoreScene.Scripts
         private void DisplayLetters()
         {
             var sortedLetters = highScore.CollectedLetters.OrderByDescending(pair => pair.Value);
-            lettersText.text = "Letters Found:\n";
+            lettersText.text = "Bogstaver Fundet:\n";
             foreach (var pair in sortedLetters)
             {
                 lettersText.text += $"{pair.Key}: {pair.Value}\n";
@@ -58,7 +58,7 @@ namespace Scenes._24_HighScoreScene.Scripts
         private void DisplayNumbers()
         {
             var sortedNumbers = highScore.CollectedNumbers.OrderByDescending(pair => pair.Value);
-            numbersText.text = "Letters Found:\n";
+            numbersText.text = "Tal Fundet:\n";
             foreach (var pair in sortedNumbers)
             {
                 numbersText.text += $"{pair.Key}: {pair.Value}\n";

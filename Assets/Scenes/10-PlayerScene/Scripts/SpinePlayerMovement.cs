@@ -31,7 +31,8 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         void Update()
         {
-            if (!hoveringOverUI  && !IsPointerOverUI() && Input.GetMouseButtonDown(0))
+            //if (!hoveringOverUI  && !IsPointerOverUI() && Input.GetMouseButtonDown(0))
+            if (!IsPointerOverUI() && Input.GetMouseButtonDown(0))
             {
                 Vector3 newMoveToPos = GetSelectedMapPosition();
                 if (newMoveToPos != Vector3.zero)

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CORE;
 using LoadSave;
 using Scenes._11_PlayerHouseScene.script.HouseScripts;
@@ -8,8 +9,11 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 {
     public class HouseLoadSaveController : MonoBehaviour
     {
-        [SerializeField] private PlacementSystem floorData, furnitureData;
+        public PlacementSystem floorData, furnitureData, placementSystem;
         private SaveGameController saveGameController;
+        
+
+        private const string HOUSETAG = "House";
 
         private void Start()
         {
@@ -19,47 +23,40 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
         public async void SaveGridData()
         {
             // Convert the current floor and furniture dictionaries into serializable lists
-            SerializableGridData floorGridData = new SerializableGridData(floorData.FloorData.placedObjects);
-            SerializableGridData furnitureGridData = new SerializableGridData(furnitureData.FurnitureData.placedObjects);
+            SerializableGridData SavedGridData = new SerializableGridData(placementSystem.placedObjectsSaved);
+
+
 
             // Create a new HouseDataDTO
-            HouseDataDTO houseDataDTO = new HouseDataDTO(floorGridData, furnitureGridData);
+            HouseDataDTO houseDataDTO = new HouseDataDTO(SavedGridData);
 
             // Use SaveGameController to save the house data to Unity Cloud Save
-            await saveGameController.SaveDataAsync(houseDataDTO, "house");
+            await saveGameController.SaveDataAsync(houseDataDTO, HOUSETAG);
 
             Debug.Log("House data saved successfully to cloud.");
         }
 
-        public async void LoadGridData()
+        public async Task<T> LoadGridData<T>() where T : IDataTransferObject
         {
             string username = GameManager.Instance.PlayerData.Username;
             string monsterName = GameManager.Instance.PlayerData.MonsterName;
 
             // Generate save key for house data
-            string saveKey = saveGameController.GenerateSaveKey(username, monsterName, "house");
+            string saveKey = saveGameController.GenerateSaveKey(username, monsterName, HOUSETAG);
 
             // Use SaveGameController to load the house data from Unity Cloud Save
-            HouseDataDTO houseDataDTO = await saveGameController.LoadSaveDataAsync<HouseDataDTO>(saveKey);
+            T houseDataDTO = await saveGameController.LoadSaveDataAsync<T>(saveKey);
 
             if (houseDataDTO != null)
             {
-                ApplyLoadedData(houseDataDTO);
+                 return houseDataDTO;
             }
             else
             {
-                Debug.LogError("Failed to load house data from the cloud.");
+                Debug.Log("Failed to either load/Find house data from the cloud.");
+                return default;
             }
-        }
-
-        private void ApplyLoadedData(HouseDataDTO houseDataDTO)
-        {
-            // Apply the loaded grid data to the house systems
-            // floorData.FloorData.placedObjects = houseDataDTO.FloorData.ConvertToDictionary();
-            // furnitureData.FurnitureData.placedObjects = houseDataDTO.FurnitureData.ConvertToDictionary();
-
-            Debug.Log("House data applied successfully.");
-        }
+        }        
     }
 
     [Serializable]
@@ -67,5 +64,8 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     {
         public SerializableGridData floorData;
         public SerializableGridData furnitureData;
+
+        public SerializableGridData SavedGridData;
+
     }
 }

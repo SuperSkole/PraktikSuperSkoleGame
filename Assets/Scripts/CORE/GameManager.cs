@@ -1,28 +1,27 @@
+using CORE.Scripts;
 using LoadSave;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._24_HighScoreScene.Scripts;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CORE
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : PersistentSingleton<GameManager>
     {
         // Player and game Data
-        public SaveToJsonManager SaveManager;
-        public LoadGameManager LoadManager;
         public SaveGameController SaveGameController; 
         public PlayerManager PlayerManager;
 
+        public WeightManager WeightManager { get; private set; }
         public DataConverter Converter { get; } = new DataConverter();
-        public PlayerData PlayerData { get; set; }
         public HighScore HighScore;
         public string CurrentUser { get; set; }
         public string CurrentMonsterName { get; set; }
-        public string CurrentSaveFileName { get; private set; }
         public string CurrentMonsterColor { get; set; }
         public DeviceType UserDevice { get; set; }
         
@@ -30,51 +29,33 @@ namespace CORE
         public string CurrentClothTop { get; set; }
         public bool IsNewGame { get; set; }
         public bool IsPlayerBootstrapped { get; set; }
-        
-        // GameManager Singleton
-        private static GameManager instance;
-        private static readonly object Lock = new object();
-        
-        /// <summary>
-        /// Auto self Creating Lazy Singleton instance
-        /// </summary>
-        public static GameManager Instance
+
+        private PlayerData playerData;
+        public PlayerData PlayerData
         {
             get
             {
-                lock (Lock)
+                if (playerData == null)
                 {
-                    if (instance is null)
-                    {
-                        instance = FindObjectOfType<GameManager>();
-                        if (instance is null)
-                        {
-                            GameObject singletonObject = new GameObject("GameManager");
-                            instance = singletonObject.AddComponent<GameManager>();
-                            DontDestroyOnLoad(singletonObject);
-                        }
-                    }
-                    
-                    return instance;
+                    playerData = GetComponent<PlayerData>();
+                    if (playerData == null)
+                        playerData = instance.gameObject.AddComponent<PlayerData>();
                 }
+                return playerData;
             }
+            set { playerData = value; }
         }
-
-        private void Awake()
+        /// <summary>
+        /// Initializes the singleton instance and sets up the GameManager.
+        /// </summary>
+        protected override void Awake()
         {
-            // Highlander other GM's There can only be 1
-            if (instance != null && instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-                InitializeManagers();
-                SceneManager.sceneLoaded += OnSceneLoaded;
-                InitializeGameManager();
-            }
+            // Calling base to ensure the singleton is initialized
+            base.Awake(); 
+
+            InitializeManagers();
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            InitializeGameManager();
         }
 
         #region Login Region
@@ -160,11 +141,17 @@ namespace CORE
         
         private void InitializeGameManager()
         {  
-            if (instance.GetComponent<PlayerData>() == null)
+            if (!GetComponent<PlayerData>())
             {
-                PlayerData = instance.gameObject.AddComponent<PlayerData>();
+                PlayerData = gameObject.AddComponent<PlayerData>();
+            }
+            
+            if (!GetComponent<WeightManager>())
+            {
+                WeightManager = gameObject.AddComponent<WeightManager>();
             }
         }
+
         
         private void InitializeManagers()
         {            
@@ -188,6 +175,8 @@ namespace CORE
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            instance = null;
         }
     }
 }
+
