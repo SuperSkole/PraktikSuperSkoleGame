@@ -47,9 +47,10 @@ namespace LoadSave
         [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
         [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
 
-        // Properties for encapsulation and dataconvertion reflection
+        // Furniture
         [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
 
+        // Properties for encapsulation and dataconvertion reflection
 
         public string Username { get => username; set => username = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
@@ -99,7 +100,8 @@ namespace LoadSave
         /// <param name="topCloth">The top clothing of the character.</param>
         /// <param name="boughtClothes">The list of bought clothes.</param>
         /// <param name="listOfCars">The list of cars associated with the character.</param>
-        public void Initialize(string username,
+        public void Initialize(
+            string username,
             string monsterName,
             //int monsterTypeID,
             string monsterColor,
@@ -116,8 +118,7 @@ namespace LoadSave
             string topCloth,
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
-            List<int> ListOfFurniture
-            )
+            List<int> ListOfFurniture)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -151,10 +152,10 @@ namespace LoadSave
             // cars
             this.ListOfCars.Clear();
             this.ListOfCars.AddRange(listOfCars);
+            
+            // Furniture
             this.ListOfFurniture = ListOfFurniture;
         }
-
-
 
         public void SetLastInteractionPoint(Vector3 position)
         {
