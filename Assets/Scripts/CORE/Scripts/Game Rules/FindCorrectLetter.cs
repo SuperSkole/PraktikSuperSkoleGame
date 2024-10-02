@@ -1,3 +1,5 @@
+using Analytics;
+
 namespace CORE.Scripts.Game_Rules
 {
     /// <summary>
@@ -46,7 +48,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>Whether it is the correct one</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return correctLetter == symbol.ToLower();
+            return correctLetter.ToLower() == symbol.ToLower();
         }
 
 
@@ -64,7 +66,7 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         public void SetCorrectAnswer()
         {
-            correctLetter = LetterManager.GetRandomLetter().ToString().ToLower();
+            correctLetter = GameManager.Instance.WeightManager.GetNextLanguageUnits(LanguageUnit.Letter, LetterCategory.All, 1)[0].Identifier;;
         }
     }
 }
