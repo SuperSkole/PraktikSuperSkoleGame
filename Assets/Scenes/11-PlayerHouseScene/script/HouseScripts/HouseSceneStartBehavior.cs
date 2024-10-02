@@ -4,9 +4,7 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._11_PlayerHouseScene.script.CameraScripts;
 using Scenes._11_PlayerHouseScene.script.SaveData;
 using System.Threading.Tasks;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 {
@@ -54,7 +52,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             foreach (var item in itemContainer.SavedGridData.placedObjectsList)
             {
-                placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType,item.RotationValue);
+                placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType, item.RotationValue);
             }
             // After applying the data, place the objects in the scene
             //foreach (var item in itemContainer.floorData.placedObjectsList)
