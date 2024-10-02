@@ -4,7 +4,9 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._11_PlayerHouseScene.script.CameraScripts;
 using Scenes._11_PlayerHouseScene.script.SaveData;
 using System.Threading.Tasks;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 {
@@ -16,6 +18,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
         [SerializeField] private HouseLoadSaveController saveManager;
+        [SerializeField] private UIInvetoryManager invetoryManager;
         [SerializeField] private PlacementSystem placementSystem;
 
         [HideInInspector]
@@ -30,8 +33,12 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             spawnedPlayer = PlayerManager.Instance.SpawnedPlayer;
 
             buildingSystemParent.SetActive(true);
-
-            await LoadingHouseItems();  // Wait for the house data to load
+            invetoryManager.LoadFurnitureAmount();
+            try
+            {
+                await LoadingHouseItems();  // Wait for the house data to load
+            }
+            catch { print("No House Save has been found"); }
 
             buildingSystemParent.SetActive(false);
 
@@ -45,22 +52,27 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             ApplyLoadedData(data);  // Apply the loaded data after it's loaded
 
+            foreach (var item in itemContainer.SavedGridData.placedObjectsList)
+            {
+                placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType,item.RotationValue);
+            }
             // After applying the data, place the objects in the scene
-            foreach (var item in itemContainer.floorData.placedObjectsList)
-            {
-                placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Rug);
-            }
+            //foreach (var item in itemContainer.floorData.placedObjectsList)
+            //{
+            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Rug);
+            //}
 
-            foreach (var item in itemContainer.furnitureData.placedObjectsList)
-            {
-                placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Furniture);
-            }
+            //foreach (var item in itemContainer.furnitureData.placedObjectsList)
+            //{
+            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Furniture);
+            //}
         }
         public void ApplyLoadedData(HouseDataDTO houseDataDTO)
         {
             // Apply the loaded grid data to the house systems
-            itemContainer.floorData = houseDataDTO.FloorData;
-            itemContainer.furnitureData = houseDataDTO.FurnitureData;
+            //itemContainer.floorData = houseDataDTO.FloorData;
+            //itemContainer.furnitureData = houseDataDTO.FurnitureData;
+            itemContainer.SavedGridData = houseDataDTO.SavedGridData;
 
             Debug.Log("House data applied successfully.");
         }

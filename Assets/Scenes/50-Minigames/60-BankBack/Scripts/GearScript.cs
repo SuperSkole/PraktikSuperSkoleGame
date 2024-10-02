@@ -79,7 +79,7 @@ public class GearScript : MonoBehaviour
         
         Vector3 remainingRotation = new Vector3(0, deltaAngle, 0);
         rotating = true;
-        Vector3 deltaRotation = new Vector3(0, deltaAngle / (seconds * 100));
+        Vector3 deltaRotation = new Vector3(0, deltaAngle / (seconds * 25));
         //Rotates a bit until the gear has been rotated the correct amount
         while(remainingRotation.y > 0)
         {
