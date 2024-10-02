@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Analytics;
 using UnityEngine;
 
 namespace CORE.Scripts.Game_Rules
@@ -16,7 +17,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>a random letter of the correct type</returns>
         public string GetCorrectAnswer()
         {
-            return LetterManager.GetRandomConsonant().ToString();
+            return GameManager.Instance.WeightManager.GetNextLanguageUnits(LanguageUnit.Letter, LetterCategory.Consonant, 1)[0].Identifier;
         }
 
         /// <summary>
