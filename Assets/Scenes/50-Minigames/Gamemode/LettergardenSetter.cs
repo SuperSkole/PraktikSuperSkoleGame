@@ -26,6 +26,13 @@ namespace Scenes._50_Minigames.Gamemode
             new FindConsonant(),
             new FindConsonant()
         };
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            return(SetRules(level), SetMode(level));
+        }
+
+
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>

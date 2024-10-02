@@ -26,6 +26,12 @@ namespace Scenes._50_Minigames.Gamemode
             null,
             null,
         };
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            return (SetRules(level), SetMode(level));
+        }
+
         /// <summary>
         /// returns a gamemode of the Path of Danger type
         /// </summary>
