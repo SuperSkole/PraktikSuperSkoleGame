@@ -9,6 +9,9 @@ using UnityEngine;
 public class Customer : MonoBehaviour
 {
     public List<CustomerNavPoint>navPoints;
+    public List<CustomerNavPoint>exitNavPoints;
+    public List<CustomerNavPoint>currentRoute;
+    public Transform cameraTransform;
     public int currentNavPoint;
     public BankManager bankManager;
     public CustomerPool customerPool;
@@ -33,7 +36,7 @@ public class Customer : MonoBehaviour
             skinActivated = true;
         }
         //handles when the customor has reached a navpoint
-        if(navPoints[currentNavPoint].transform.position == transform.position && navPoints.Count - 1> currentNavPoint)
+        if(currentRoute[currentNavPoint].transform.position == transform.position && currentRoute.Count - 1> currentNavPoint)
         {
             if(animator.GetFloat("Speed") != 0)
             {
@@ -41,35 +44,37 @@ public class Customer : MonoBehaviour
             }
             
             // removes the customer from the game when it reaches the spawnpoint
-            if(leaving)
-            {
-                leaving = false;
-                customerPool.returnToPool(this);
-            }
+
             //Tells the customer to begin moving towards the next point if it is empty
-            else if(navPoints[currentNavPoint + 1].customer == null)
+            else if(currentRoute[currentNavPoint + 1].customer == null)
             {
-                transform.LookAt(navPoints[currentNavPoint + 1].transform);
-                navPoints[currentNavPoint].customer = null;
+                transform.LookAt(currentRoute[currentNavPoint + 1].transform);
+                currentRoute[currentNavPoint].customer = null;
                 currentNavPoint++;
                 animator.SetFloat("Speed", speed);
-                navPoints[currentNavPoint].customer = gameObject;
+                currentRoute[currentNavPoint].customer = gameObject;
             }       
         }
         //Moves the customer towards the next point if it has not been reached
-        if(navPoints[currentNavPoint].transform.position != transform.position)
+        if(currentRoute[currentNavPoint].transform.position != transform.position)
         {   
-            transform.position = Vector3.MoveTowards(transform.position, navPoints[currentNavPoint].transform.position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentRoute[currentNavPoint].transform.position, speed * Time.deltaTime);
         }
         //Starts a game if the last point has been reached
-        else if(navPoints[navPoints.Count - 1].transform.position == transform.position && !givenMoney)
+        else if(currentRoute[currentRoute.Count - 1].transform.position == transform.position && !givenMoney)
         {
             if(animator.GetFloat("Speed") != 0)
             {
                 animator.SetFloat("Speed", 0);
             }
+            transform.LookAt(cameraTransform);
             bankManager.HandOverMoney(this);
             givenMoney = true;
+        }
+        else if(leaving && currentRoute[currentRoute.Count - 1].transform.position == transform.position)
+        {
+            leaving = false;
+            customerPool.returnToPool(this);
         }
     }
     /// <summary>
@@ -77,11 +82,13 @@ public class Customer : MonoBehaviour
     /// </summary>
     public void PrepareToLeaveBank()
     {
-        transform.LookAt(navPoints[0].transform);
+        
         animator.SetFloat("Speed", speed);
         leaving = true;
         givenMoney = false;
-        navPoints[currentNavPoint].customer = null;
+        currentRoute[currentNavPoint].customer = null;
+        currentRoute = exitNavPoints;
         currentNavPoint = 0;
+        transform.LookAt(currentRoute[0].transform);
     }
 }
