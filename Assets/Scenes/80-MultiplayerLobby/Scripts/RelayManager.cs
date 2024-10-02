@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
+using Unity.Networking.Transport.Relay;
 
 namespace Scenes.MultiplayerLobby.Scripts
 {
@@ -31,15 +32,10 @@ namespace Scenes.MultiplayerLobby.Scripts
             {
                 var allocation = await RelayService.Instance.CreateAllocationAsync(maxPlayers);
                 var joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
+                RelayServerData relayData = new(allocation, "wss");
 
                 UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-                transport.SetRelayServerData(
-                    allocation.RelayServer.IpV4,
-                    (ushort)allocation.RelayServer.Port,
-                    allocation.AllocationIdBytes,
-                    allocation.Key,
-                    allocation.ConnectionData,
-                    allocation.ConnectionData);
+                transport.SetRelayServerData(relayData);
 
                 return joinCode;
             }

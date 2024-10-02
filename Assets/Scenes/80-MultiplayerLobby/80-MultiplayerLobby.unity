@@ -3423,6 +3423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ProtocolType: 1
+  m_UseWebSockets: 1
+  m_UseEncryption: 0
   m_MaxPacketQueueSize: 128
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
@@ -3516,7 +3518,7 @@ MonoBehaviour:
   isHost: 1
   lobbyName: new lobby
   maxPlayers: 4
-  encryption: 0
+  encryption: 1
 --- !u!114 &1070461169
 MonoBehaviour:
   m_ObjectHideFlags: 0

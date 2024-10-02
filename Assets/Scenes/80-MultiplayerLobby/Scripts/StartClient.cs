@@ -64,7 +64,7 @@ namespace Scenes.MultiplayerLobby.Scripts
                             //await relayManager.JoinRelay(relayJoinCode);
                             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
                             //Allocation allocation = await RelayService.Instance.CreateAllocationAsync(7);
-                            RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
+                            RelayServerData relayServerData = new RelayServerData(joinAllocation, "wss");
                             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                             // Start the Netcode client
