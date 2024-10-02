@@ -8,6 +8,12 @@ namespace Letters
     public class RandomLetterSelector : IRandomLetterSelector
     {
         private Random _random;
+        
+        public RandomLetterSelector()
+        {
+            _random = new Random();
+        }
+
 
         public char GetRandomVowel(IEnumerable<char> vowels)
         {
