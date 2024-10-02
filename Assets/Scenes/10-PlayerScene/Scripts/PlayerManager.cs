@@ -113,6 +113,7 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnAddWord -= OnAddWordHandler;
             PlayerEvents.OnAddLetter -= OnAddLetterHandler;
             SceneManager.sceneLoaded -= OnSceneLoaded;
+            instance = null;
         }
 
         private void OnEnable()
@@ -280,42 +281,42 @@ namespace Scenes._10_PlayerScene.Scripts
         public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
-            Instance.spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
-            Instance.spawnedPlayer.name = "PlayerMonster";
+            spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+            spawnedPlayer.name = "PlayerMonster";
 
-            Instance.colorChanging = Instance.spawnedPlayer.GetComponentInChildren<ColorChanging>();
-            if (Instance.colorChanging == null) 
+            colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
+            if (colorChanging == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ColorChanging component not found on spawned player.");
                 return;
             }
 
-            Instance.playerData = Instance.spawnedPlayer.GetComponent<PlayerData>();
-            if (Instance.playerData == null) 
+            playerData = spawnedPlayer.GetComponent<PlayerData>();
+            if (playerData == null) 
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "PlayerData component not found on spawned player.");
                 return;
             }
 
-            Instance.skeleton = Instance.spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
-            if (Instance.skeleton == null)
+            skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
+            if (skeleton == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
                                "ISkeletonComponent component not found on spawned player.");
                 //return;
             }
 
-            Instance.clothChanging = Instance.spawnedPlayer.GetComponentInChildren<ClothChanging>();
-            if (Instance.clothChanging == null)
+            clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
+            if (clothChanging == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
                                "ClothChanging component not found on spawned player.");
             }
 
             // Init player data with saved data
-            Instance.playerData.Initialize(
+            playerData.Initialize(
                 saveData.Username,
                 saveData.MonsterName,
                 saveData.MonsterColor,
@@ -335,17 +336,17 @@ namespace Scenes._10_PlayerScene.Scripts
             );
 
             // Call the ColorChange method to recolor the player
-            Instance.colorChanging.SetSkeleton(Instance.skeleton);
-            Instance.colorChanging.ColorChange(Instance.playerData.MonsterColor);
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(playerData.MonsterColor);
 
             // Call the ColorChange method to recolor the player
-            Instance.clothChanging.ChangeClothes(Instance.playerData.ClothMid, skeleton);
-            Instance.clothChanging.ChangeClothes(Instance.playerData.ClothTop, skeleton);
+            clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
+            clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
 
-            Instance.playerData.SetLastInteractionPoint(
-                Instance.playerData.LastInteractionPoint == Vector3.zero
+            playerData.SetLastInteractionPoint(
+                playerData.LastInteractionPoint == Vector3.zero
                     ? tmpPlayerSpawnPoint
-                    : Instance.playerData.LastInteractionPoint);
+                    : playerData.LastInteractionPoint);
 
             // // Log for debugging
             // Debug.Log($"Player loaded from save: " +
@@ -356,8 +357,8 @@ namespace Scenes._10_PlayerScene.Scripts
             //           $"Gold: {playerData.CurrentGoldAmount}");
 
             // Assign to GameManager for global access
-            GameManager.Instance.PlayerData = Instance.playerData;
-            DontDestroyOnLoad(Instance.spawnedPlayer);
+            GameManager.Instance.PlayerData = playerData;
+            DontDestroyOnLoad(spawnedPlayer);
         }
 
         // TODO maybe refactor onSceneLoaded into new script 
@@ -418,11 +419,11 @@ namespace Scenes._10_PlayerScene.Scripts
                     var virtualCamera = cinemachineCam
                         .GetComponent<CinemachineVirtualCamera>();
 
-                    virtualCamera.Follow = Instance.spawnedPlayer.transform;
-                    virtualCamera.LookAt = Instance.spawnedPlayer.transform;
+                    virtualCamera.Follow = spawnedPlayer.transform;
+                    virtualCamera.LookAt = spawnedPlayer.transform;
 
                     var cameraBrain = GameObject.Find("CameraBrain");
-                    Instance.spawnedPlayer.GetComponent<SpinePlayerMovement>()
+                    spawnedPlayer.GetComponent<SpinePlayerMovement>()
                         .sceneCamera = cameraBrain.GetComponent<Camera>();
                 }
                 catch
