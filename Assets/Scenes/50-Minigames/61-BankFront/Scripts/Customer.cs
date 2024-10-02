@@ -74,6 +74,7 @@ public class Customer : MonoBehaviour
         else if(leaving && currentRoute[currentRoute.Count - 1].transform.position == transform.position)
         {
             leaving = false;
+            givenMoney = false;
             customerPool.returnToPool(this);
         }
     }
@@ -85,7 +86,7 @@ public class Customer : MonoBehaviour
         
         animator.SetFloat("Speed", speed);
         leaving = true;
-        givenMoney = false;
+        
         currentRoute[currentNavPoint].customer = null;
         currentRoute = exitNavPoints;
         currentNavPoint = 0;
