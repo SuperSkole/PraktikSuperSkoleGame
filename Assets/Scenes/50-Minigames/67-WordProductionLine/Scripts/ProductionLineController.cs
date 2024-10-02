@@ -37,14 +37,12 @@ public class ProductionLineController : MonoBehaviour
     Ray ray;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
         staticDefaultMaterial = defaultMaterial;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -86,7 +84,8 @@ public class ProductionLineController : MonoBehaviour
     /// <summary>
     /// Checks what you've clicked.
     /// </summary>
-    /// <param name="hitObject"></param>
+    /// <param name="hitObject">Describes what object was hit.</param>
+    ///
     private void ClickLetterCubes(GameObject hitObject)
     {
         if (hitObject.GetComponentInChildren<LetterBox>())
@@ -115,7 +114,7 @@ public class ProductionLineController : MonoBehaviour
     /// <summary>
     /// Used for resetting selected material
     /// </summary>
-    /// <param name="cube"></param>
+    /// <param name="cube">what cube needs to reset.</param>
     public static void ResetCubes(GameObject cube)
     {
         if (cube != selectedLetterBox && cube != selectedImageBox)
@@ -144,7 +143,6 @@ public class ProductionLineController : MonoBehaviour
     /// <summary>
     /// Checks if the contents is correct
     /// </summary>
-    /// <returns></returns>
     private void CheckIfCorrect()
     {
         if (selectedLetterBox != null && selectedImageBox != null)
@@ -189,7 +187,7 @@ public class ProductionLineController : MonoBehaviour
     /// <summary>
     /// Sets winscreen active and after a few seconds switches to GameWorld
     /// </summary>
-    /// <returns></returns>
+    /// <returns> 2 second delay</returns>
     IEnumerator CheckIfYouWin()
     {
         
@@ -203,7 +201,7 @@ public class ProductionLineController : MonoBehaviour
     /// <summary>
     /// changes the color of the cube to green to indiacte Success and increases the Score
     /// </summary>
-    /// <returns></returns>
+    /// <returns> 1 second delay</returns>
     IEnumerator WaitForRightXSeconds()
     {
         checking = true;

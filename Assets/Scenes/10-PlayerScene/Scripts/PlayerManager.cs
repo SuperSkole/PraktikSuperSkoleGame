@@ -107,7 +107,15 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PlayerManager = this;
             leaderboardSubmissionService = new LeaderboardSubmissionService();
         }
-        
+
+        private void OnDestroy()
+        {
+            PlayerEvents.OnAddWord -= OnAddWordHandler;
+            PlayerEvents.OnAddLetter -= OnAddLetterHandler;
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+            instance = null;
+        }
+
         private void OnEnable()
         {
             PlayerEvents.OnAddWord += OnAddWordHandler;
@@ -221,15 +229,15 @@ namespace Scenes._10_PlayerScene.Scripts
                 "",
                 "",
                 new List<int>(),
-                new List<CarInfo>()
+                new List<CarInfo>()//Start with the Van so there is a purpose for switching cars
                 {
-                    new CarInfo("Mustang",
-                        "Red",
+                    new CarInfo("Van",
+                        "Gray",
                         true,
                         new List<MaterialInfo>
                         {
                             new MaterialInfo(true,
-                                "Red")
+                                "Gray")
                         })
                 },
                 new List<int>()
@@ -362,8 +370,8 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             if (instance.spawnedPlayer == null) return;
-            
-            spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+            instance.spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);

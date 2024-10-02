@@ -1,9 +1,6 @@
 using Scenes._11_PlayerHouseScene.script.HouseScripts;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -40,6 +37,6 @@ public class PlaceableButtons : MonoBehaviour
         }
 
     }
-    
+
 
 }
