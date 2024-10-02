@@ -30,27 +30,10 @@ namespace LoadSave
         public async Task SaveAsync(IDataTransferObject dto, string saveKey)
         {
             // Serialize DTO to JSON
-            string jsonData = JsonConvert.SerializeObject(dto, Formatting.Indented);
+            string jsonData = JsonConvert.SerializeObject(dto, Formatting.None);
             
             // Save the data in the cloud with a custom key
             await saveRepository.SaveAsync(saveKey, jsonData);
-        }
-        
-        public async Task<PlayerData> LoadDataAsync(string saveKey)
-        {
-            string jsonData = await saveRepository.LoadAsync(saveKey);
-            if (string.IsNullOrEmpty(jsonData))
-            {
-                return null;
-            }
-        
-            // Deserialize to SaveDataDTO
-            SaveDataDTO dto = JsonConvert.DeserializeObject<SaveDataDTO>(jsonData);
-        
-            // Convert back to PlayerData
-            PlayerData playerData = converter.ConvertToPlayerData(dto);
-        
-            return playerData;
         }
         
         /// <summary>

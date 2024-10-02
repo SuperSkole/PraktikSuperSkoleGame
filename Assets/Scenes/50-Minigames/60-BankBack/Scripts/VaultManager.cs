@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -28,6 +29,8 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private AlarmScript alarmScript;
     [SerializeField] private TextMeshProUGUI codeText;
     [SerializeField] private TextMeshProUGUI desiredInput;
+    [SerializeField] private GameObject ui;
+    [SerializeField] private VaultOpener vaultOpener;
     private bool waitingForEnd;
     private int desiredInputIndex;
 
@@ -74,11 +77,26 @@ public class VaultManager : MonoBehaviour
         if(!foundCode)
         {
             //Changes the color of the teeth to green if all numbers were correct and afterwards prepares to end the game
-            if(answer[desiredInputIndex] == gearScripts[desiredInputIndex].currentNumber)
+            bool correct = true;
+            for(int i = 0; i < answer.Length; i++)
+            {
+                if(usedDesiredInputIndices.Contains(i) && !(answer[i] == gearScripts[i].currentNumber))
+                {
+                    correct = false;
+                    break;
+                }
+                else if(!usedDesiredInputIndices.Contains(i) && answer[i] == gearScripts[i].currentNumber)
+                {
+                    correct = false;
+                    break;
+                }
+            }
+            if(correct)
             {
                 ChangeMaterial(correctMaterial);
                 if(usedDesiredInputIndices.Count == 4)
                 {
+                    vaultOpener.StartMove();
                     Won();
                     foundCode = true;
                 }
@@ -244,9 +262,10 @@ public class VaultManager : MonoBehaviour
         while(waitingForEnd)
         {
             GameObject coin = Instantiate(coinPrefab);
-            Vector3 newPos = new Vector3(coin.transform.position.x + Random.Range(-100, 101), coin.transform.position.z + Random.Range(-100, 101), coin.transform.position.z + Random.Range(-100, 101));
-            coin.transform.position = newPos;
-            yield return new WaitForSeconds(0.1f);
+            Vector3 newPos = new Vector3(Random.Range(100, 1820), Random.Range(100, 980), coin.transform.position.z);
+            coin.transform.SetParent(ui.transform, false);
+            coin.GetComponent<RectTransform>().position = newPos;
+            yield return new WaitForSeconds(0.01f);
         }
         
     }
