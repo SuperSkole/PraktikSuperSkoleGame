@@ -121,5 +121,11 @@ namespace Scenes._50_Minigames.Gamemode
             }
             return rulesReturned;
         }
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            return (SetRules(level), SetMode(level));
+        }
+
     }
 }
