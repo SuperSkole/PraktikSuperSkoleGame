@@ -138,6 +138,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             return previewObject.transform.rotation;
         }
+        public float ReturnYEulerAngelsOnPreviewItem()
+        {
+            return previewObject.transform.rotation.eulerAngles.y;
+        }
         // Prepares the cursor's visual appearance based on the size of the object to be placed.
         private void PrepareCursor(Vector2Int size)
         {

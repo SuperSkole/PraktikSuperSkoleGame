@@ -28,7 +28,8 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     private void OnPause()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        if(!SceneManager.GetActiveScene().name.StartsWith("0"))
+            transform.GetChild(0).gameObject.SetActive(true);
     }
 
     /// <summary>

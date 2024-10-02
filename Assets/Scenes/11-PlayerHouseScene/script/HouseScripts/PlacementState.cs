@@ -1,3 +1,4 @@
+using System;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -9,32 +10,39 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private int ID;
         private Grid grid;
         private PreviewSystem previewSystem;
+        private PlacementSystem placementSystem;
         private ObjectsDataBaseSO database;
         private GridData floorData;
         private GridData furnitureData;
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
+        private UIInvetoryManager invetoryManager;
 
         private Vector2Int sizeCopy;
         public Vector2Int SizeCopy { get { return sizeCopy; } set { sizeCopy = value; } }
+
         // Constructor for initializing the PlacementState with required dependencies.
         public PlacementState(int iD,
             Grid grid,
             PreviewSystem previewSystem,
+            PlacementSystem placementSystem,
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
             ObjectPlacer objectPlacer,
+            UIInvetoryManager invetoryManager,
             EnumFloorDataType floorType)
         {
             // Initialize fields with provided parameters.
             ID = iD;
             this.grid = grid;
             this.previewSystem = previewSystem;
+            this.placementSystem = placementSystem;
             this.database = database;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.objectPlacer = objectPlacer;
+            this.invetoryManager = invetoryManager;
             this.floorType = floorType;
 
             // Find the index of the selected object in the database using its ID.
@@ -94,34 +102,45 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     //    break;
 
             }
-            //database.objectData[selectedObjectIndex].Size
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
                 SizeCopy,
                 database.objectData[selectedObjectIndex].ID,
                 index,
-                floorType);
+                floorType
+                );
+
+            int rotationYInDegrees = Mathf.RoundToInt(previewSystem.ReturnYEulerAngelsOnPreviewItem());
+
+            placementSystem.placedObjectsSaved.Add(new PlaceableTemporayItemsInfo(gridPos, floorType),
+                (new SaveableGridData(new Vector2Int(gridPos.x, gridPos.y),
+                database.objectData[selectedObjectIndex].ID, rotationYInDegrees, floorType)));
+
+            invetoryManager.ModifyFurnitureAmount(selectedObjectIndex);
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
+           
+            if (invetoryManager.ReturnAmountOfRemaingItems(selectedObjectIndex) <= 0)
+            {
+                placementSystem.StopPlacement();
+            }
         }
         public void RotateItem(int degree)
         {
 
-            previewSystem.RotateItem(degree,this);
+            previewSystem.RotateItem(degree, this);
         }
 
-        public void OnLoadStartUp(Vector3Int gridPos, int ID)
+        public void OnLoadStartUp(Vector3Int gridPos, int ID, int RotationValue)
         {
+            // Convert the rotation value (e.g., 90) to a clean quaternion
+            Quaternion targetRotation = Quaternion.Euler(0, RotationValue, 0);
             // Place the object in the world using the object placer.
             int index = objectPlacer.PlaceObject(
                 database.objectData[ID].Prefab,
                 grid.CellToWorld(gridPos),
-                quaternion.identity);
-
-            //// Determine whether the object is floor data or furniture data. has to fit with the Database
-            //GridData selectedData = database.objectData[ID].ID == 0 ?
-            //    furnitureData : floorData;
+                targetRotation);
 
             // Determine whether the object is floor data or furniture data. has to fit with the Database
             GridData selectedData = new();
@@ -139,6 +158,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     //    break;
             }
 
+            GetSizeOnRotation(RotationValue, ID);
+
             //database.objectData[ID].Size
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
@@ -146,6 +167,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database.objectData[ID].ID,
                 index,
                 floorType);
+
+            placementSystem.placedObjectsSaved.Add(new PlaceableTemporayItemsInfo(gridPos, floorType),
+                 (new SaveableGridData(new Vector2Int(gridPos.x, gridPos.y),
+                 database.objectData[selectedObjectIndex].ID, RotationValue, floorType)));
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
@@ -155,7 +180,31 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             objectPlacer.PlacedGameObjects.Sort();
         }
-
+        private void GetSizeOnRotation(int rotationValue, int indexer)
+        {
+            var xtmp = SizeCopy.x;
+            var ytmp = SizeCopy.y;
+            var tmp = xtmp;
+            switch (rotationValue)
+            {
+                case 0:
+                    SizeCopy = database.objectData[indexer].Size;
+                    break;
+                case 90:
+                    xtmp = ytmp;
+                    ytmp = tmp;
+                    SizeCopy = new Vector2Int(xtmp, ytmp);
+                    break;
+                case 180:
+                    SizeCopy = database.objectData[indexer].Size;
+                    break;
+                case 270:
+                    xtmp = ytmp;
+                    ytmp = tmp;
+                    SizeCopy = new Vector2Int(xtmp, ytmp);
+                    break;
+            }
+        }
 
         // Updates the placement state as the player moves the cursor on the grid.
         public void UpdateState(Vector3Int gridPos)
@@ -192,7 +241,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             }
             //database.objectData[selectedObjectIndex].Size
             // Check if the object can be placed at the given grid position based on its size.
-            return selectedData.CanPlaceObjectAt(gridPos,SizeCopy);
+            return selectedData.CanPlaceObjectAt(gridPos, SizeCopy);
         }
     }
 }
