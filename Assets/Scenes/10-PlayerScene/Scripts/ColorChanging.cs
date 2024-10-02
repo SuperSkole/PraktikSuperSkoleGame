@@ -77,7 +77,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 GameManager.Instance.CurrentMonsterColor = colorName;
             }
-            else
+            else if(string.IsNullOrEmpty(GameManager.Instance.CurrentMonsterColor) )
             {
                 GameManager.Instance.CurrentMonsterColor = "White";
             }

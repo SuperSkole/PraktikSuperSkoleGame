@@ -1,4 +1,7 @@
+using Scenes._11_PlayerHouseScene.script.HouseScripts;
 using Scenes._11_PlayerHouseScene.script.SaveData;
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -7,7 +10,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
     {
         [SerializeField] private InputManager inputManager;
         [SerializeField] private Grid grid;
-        [SerializeField] private HouseLoadSaveController saveManager;
+        public HouseLoadSaveController saveManager;
 
         [SerializeField] private ObjectsDataBaseSO database;
         [SerializeField] private GameObject gridVisualization;
@@ -24,7 +27,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         [SerializeField] private ObjectPlacer objectPlacer;
         private IBuildingState buildingState;
+        [SerializeField] private UIInvetoryManager invetoryManager;
 
+        [SerializeField]
+        public Dictionary<PlaceableTemporayItemsInfo, SaveableGridData> placedObjectsSaved = new();
+        public List<PlaceableTemporayItemsInfo> itemsFoundPositions = new();
         // Initializes the placement system.
         private void Start()
         {
@@ -33,56 +40,42 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             floorData = new GridData();
             furnitureData = new GridData();
 
-            // TODO refactor house save
             return;
 
-            //if (GameManager.Instance.LoadManager.DoesSaveFileExist(
-            //        GameManager.Instance.CurrentUser,
-            //        GameManager.Instance.PlayerData.MonsterName,
-            //        "house"))
-            //{
-            //    saveManager.LoadGridData();
-            //    foreach (var item in saveManager.container.floorData.placedObjectsList)
-            //    {
-            //        PlaceItemsStartLoading(item.Key, item.ID);
-            //    }
-
-            //    foreach (var item in saveManager.container.furnitureData.placedObjectsList)
-            //    {
-            //        PlaceItemsStartLoading(item.Key, item.ID);
-            //    }
-            //}
         }
 
         private Vector3Int previousKey = new();
-        private void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType)
+        public void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType, int rotationValue)
         {
             //if Obj is placed on 0,0,0 this doesnt work like it should
+            //At later date update this so we can have checks for rugs i.e if something is bigger than 1x1
 
-            if (ID == 0 && previousKey == Vector3Int.zero)
-            {
-                //Dont think this methode will work if size is 2x2 or rotation gets build in
-                if (key.y == 0 && key.x == 1)
-                {
-                    return;
-                }
-                previousKey = key;
-            }
-            if (ID == 0 && !key.Equals(previousKey))
-            {
-                previousKey = new();
-                return;
-            }
+            //if (floorType == EnumFloorDataType.Furniture && previousKey == Vector3Int.zero)
+            //{
+            //    //Dont think this methode will work if size is 2x2 or rotation gets build in
+            //    if (key.y == 0 && key.x == 1)
+            //    {
+            //        return;
+            //    }
+            //    previousKey = key;
+            //}
+            //if (floorType == EnumFloorDataType.Furniture && !key.Equals(previousKey))
+            //{
+            //    previousKey = new();
+            //    return;
+            //}
             // Set the current building state to placement, passing in necessary dependencies.
             buildingState = new PlacementState(ID,
                 grid,
                 preview,
+                this,
                 database,
                 floorData,
                 furnitureData,
                 objectPlacer,
+                invetoryManager,
                 floorType);
-            buildingState.OnLoadStartUp(key, ID);
+            buildingState.OnLoadStartUp(key, ID, rotationValue);
         }
         // Starts the placement process for an object with the specified ID.
         // public void StartPlacement(int ID, EnumFloorDataType floorType)
@@ -100,10 +93,12 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             buildingState = new PlacementState(ID,
                 grid,
                 preview,
+                this,
                 database,
                 floorData,
                 furnitureData,
                 objectPlacer,
+                invetoryManager,
                 floorType);
 
             // Subscribe to input events for clicking and exiting the placement mode.
@@ -125,6 +120,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Set the current building state to removing, passing in necessary dependencies.
             buildingState = new RemovingState(grid,
                 preview,
+                this,
                 floorData,
                 furnitureData,
                 objectPlacer);
@@ -154,7 +150,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         }
 
         // Stops the current placement or removal process.
-        private void StopPlacement()
+        public void StopPlacement()
         {
             // If there's no active building state, there's nothing to stop.
             if (buildingState == null)
@@ -189,6 +185,27 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             buildingState.RotateItem(90);
         }
 
+        /// <summary>
+        /// Removes the object at the specified grid position from the grid.
+        /// </summary>
+        /// <param name="gridPos">The grid position of the object to be removed.</param>
+        public void RemoveObjectAt()
+        {
+            foreach (PlaceableTemporayItemsInfo pos in itemsFoundPositions)
+            {
+                if (placedObjectsSaved.ContainsKey(pos))
+                {
+                   // print("Contains: " + pos);
+                    placedObjectsSaved.Remove(pos);
+                }
+                else
+                {
+                    //print("Does not contain: " + pos);
+                }
+            }
+            itemsFoundPositions.Clear();
+        }
+
         // Updates the placement system each frame.
         private void Update()
         {
@@ -212,6 +229,38 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 // Update the last detected grid position.
                 lastDetectedPosition = gridPos;
             }
+
         }
     }
+}
+public class PlaceableTemporayItemsInfo
+{
+    public Vector3Int key;
+    public EnumFloorDataType floorDataType;
+
+    public PlaceableTemporayItemsInfo(Vector3Int key, EnumFloorDataType floorDataType)
+    {
+        this.key = key;
+        this.floorDataType = floorDataType;
+    }
+   
+    // Override Equals
+    public override bool Equals(object obj)
+    {
+        if (obj is PlaceableTemporayItemsInfo other)
+        {
+            return this.key.Equals(other.key) && this.floorDataType == other.floorDataType;
+        }
+        return false;
+    }
+
+    // Override GetHashCode
+    public override int GetHashCode()
+    {
+        int hash = 17;
+        hash = hash * 31 + key.GetHashCode();
+        hash = hash * 31 + floorDataType.GetHashCode();
+        return hash;
+    }
+
 }

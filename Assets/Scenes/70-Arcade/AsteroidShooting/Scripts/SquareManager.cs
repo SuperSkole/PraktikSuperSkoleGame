@@ -33,7 +33,7 @@ public class SquareManager : MonoBehaviour
     }
 
     /// <summary>
-    /// When colliding with a projectile two new asteroids with one less angle than the current are spawned.
+    /// When colliding with a projectile two new triangle asteroids are spawned. 
     /// The score is also updated and the old asteroid and the projectile that hit it is destroyed
     /// </summary>
     /// <param name="collision"></param>

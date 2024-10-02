@@ -77,7 +77,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                 
                 //Debug.Log("Displaying Leaderboard");
                 // Display the leaderboard if leaderboard scene is loaded
-                await Task.Delay(500);
+                await Task.Delay(100);
                 await DisplayLeaderboards();
             }
         }
@@ -141,7 +141,13 @@ namespace Scenes._88_LeaderBoard.Scripts
                 if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[LIMIT_ENTRY_RANGE].Rank + 1 > TOPX_ENTRIES) // +1 because 0-index
                 {
                     var playerEntry = playerScoreResponse.Results[LIMIT_ENTRY_RANGE];
+                    
+                    // Split the playerName at the '#' character, if it exists, and take the first part
                     string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
+                    playerName = playerEntry.PlayerName.Contains("#") 
+                        ? playerEntry.PlayerName.Split('#')[0] 
+                        : playerEntry.PlayerName;
+                    
                     var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
             

@@ -21,7 +21,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Set the position of the new object to the specified position.
             newObject.transform.position = pos;
-            newObject.transform.rotation = rotation;
+            newObject.transform.rotation *= rotation;
 
             //This nudges the placed GO to the middle of the click gridplace,
             //If new models are used or the grid is smaller change this accordingly.
