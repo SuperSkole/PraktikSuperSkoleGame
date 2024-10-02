@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Spine.Unity;
 using Scenes._10_PlayerScene.Scripts;
+using Unity.VisualScripting;
 
 namespace Scenes._03_StartScene.Scripts
 {
@@ -59,7 +60,12 @@ namespace Scenes._03_StartScene.Scripts
                 clothChanging = this.GetComponent<ClothChanging>();
             }
         }
-        
+
+        private void OnDisable()
+        {
+            OnLoadRequested = null;
+        }
+
         /// <summary>
         /// Handles pointer click events to trigger the load game button action.
         /// </summary>
@@ -212,7 +218,7 @@ namespace Scenes._03_StartScene.Scripts
         public void UpdatePanelWithSaveData(PlayerData saveData)
         {
             // EO; no savedata
-            if (saveData == null)
+            if (saveData.IsUnityNull())
             {
                 return;
             }

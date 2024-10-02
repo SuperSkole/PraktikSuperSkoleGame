@@ -108,10 +108,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// Removes the object at the specified grid position from the grid.
         /// </summary>
         /// <param name="gridPos">The grid position of the object to be removed.</param>
-        internal void RemoveObjectAt(Vector3Int gridPos)
+        internal void RemoveObjectAt(Vector3Int gridPos,PlacementSystem placementSystem,EnumFloorDataType floorType)
         {
             foreach (var pos in placedObjects[gridPos].occupiedPositions)
             {
+                placementSystem.itemsFoundPositions.Add(new PlaceableTemporayItemsInfo(pos,floorType));
                 placedObjects.Remove(pos);
             }
         }

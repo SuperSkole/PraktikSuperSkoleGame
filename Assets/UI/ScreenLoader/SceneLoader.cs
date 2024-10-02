@@ -1,6 +1,5 @@
 using CORE;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -17,16 +16,22 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private Image barfill;
 
+
     //Load here and now
     public void LoadScene(string sceneName)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        if (!StartedLoading)
+        {
+            StartCoroutine(LoadSceneAsync(sceneName));
+        }
     }
 
     //Load in background
     public void LoadSceneInBackground(string sceneName1, string sceneName2)
     {
+
         StartCoroutine(LoadSceneAsync(sceneName1));
+
 
         Debug.Log("second scene loading");
         backgroundLoadOperation = SceneManager.LoadSceneAsync(sceneName2, LoadSceneMode.Additive);
@@ -44,7 +49,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
         {
             if (backgroundLoadOperation.progress >= 0.9f)
             {
-                backgroundLoadOperation.allowSceneActivation = true; 
+                backgroundLoadOperation.allowSceneActivation = true;
             }
             else
             {
@@ -112,6 +117,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private IEnumerator LoadSceneAsync(string sceneName)
     {
+        StartedLoading = true;
         SetUpLoadingScreen();
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
@@ -135,7 +141,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
             }
 
             //if progress changes
-            if(CurrentProgress != operation.progress)
+            if (CurrentProgress != operation.progress)
             {
                 //reset timer
                 elapsed = 0f;
@@ -144,25 +150,25 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
             }
             //if progress is the same
-            if(CurrentProgress == operation.progress && elapsed < duration)
+            if (CurrentProgress == operation.progress && elapsed < duration)
             {
                 //count the time
                 elapsed += Time.deltaTime;
                 //calculate interpolation factor (0 to 1 over the duration)
                 float t = Mathf.Clamp01(elapsed / duration);
 
-                    if (barfill != null)
-                    {
-                        barfill.fillAmount = Mathf.Lerp(StartFillAmount, CurrentProgress, t);
-                        oldFillAmount = barfill.fillAmount;
-                    }
+                if (barfill != null)
+                {
+                    barfill.fillAmount = Mathf.Lerp(StartFillAmount, CurrentProgress, t);
+                    oldFillAmount = barfill.fillAmount;
+                }
 
             }
-            
+
 
             yield return null;
         }
-
+        StartedLoading = false;
         if (loadingScreenInstance != null)
         {
             Destroy(loadingScreenInstance);
@@ -187,7 +193,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     //    backgroundLoadOperation.allowSceneActivation = false;
     //    backgroundLoadOperation.priority = -100;
     //    Debug.Log("set in function");      
-     
+
     //}
 
 }

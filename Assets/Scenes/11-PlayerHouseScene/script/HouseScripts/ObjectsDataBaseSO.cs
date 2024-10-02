@@ -8,10 +8,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
     public class ObjectsDataBaseSO : ScriptableObject
     {
         public List<ObjectData> objectData;
-
-
-
     }
+
     [Serializable]
     public class ObjectData
     {
