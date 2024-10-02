@@ -15,7 +15,7 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     private float CurrentProgress;
 
     private Image barfill;
-
+    private bool StartedLoading = false;
 
     //Load here and now
     public void LoadScene(string sceneName)
