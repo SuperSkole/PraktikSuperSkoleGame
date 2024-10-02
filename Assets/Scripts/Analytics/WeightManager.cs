@@ -24,6 +24,7 @@ namespace Analytics
         private const float WeightDecrement = 5f;
         private const float MaxWeight = 99f;
         private const float MinWeight = 0f;
+        private const float AdvancementThreshold = 45f;
 
         public WeightManager(ILetterRepository letterRepository)
         {

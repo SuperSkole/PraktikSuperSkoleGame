@@ -115,6 +115,7 @@ namespace Scenes._03_StartScene.Scripts
                     {
                         return;
                     }
+                    
                     loadGameSetup.SetupPlayer(playerData);
                         
                     // Unsubscribe from the event
