@@ -24,30 +24,6 @@ namespace Analytics
         }
 
         /// <summary>
-        /// Gets a weighted vowel based on composite weight calculations.
-        /// </summary>
-        public char GetWeightedVowel()
-        {
-            CalculateCompositeWeights();
-            var vowelWeights = weightManager.GetVowelWeights()
-                .ToDictionary(kvp => kvp.Key, kvp => compositeWeights[kvp.Key]);
-
-            return GetRandomEntityBasedOnWeight(vowelWeights);
-        }
-
-        /// <summary>
-        /// Gets a weighted consonant based on composite weight calculations.
-        /// </summary>
-        public char GetWeightedConsonant()
-        {
-            CalculateCompositeWeights();
-            var consonantWeights = weightManager.GetConsonantWeights()
-                .ToDictionary(kvp => kvp.Key, kvp => compositeWeights[kvp.Key]);
-
-            return GetRandomEntityBasedOnWeight(consonantWeights);
-        }
-
-        /// <summary>
         /// Gets a weighted letter (vowel or consonant) based on composite weight calculations.
         /// </summary>
         public char GetWeightedLetter()
@@ -61,22 +37,22 @@ namespace Analytics
         /// </summary>
         public void CalculateCompositeWeights()
         {
-            var performanceWeights = weightManager.GetCurrentWeights();
-            // var timeWeights = spacedRepetitionManager.GetCurrentWeights();
-
-            compositeWeights.Clear();
-
-            foreach (var letterIdentifier in performanceWeights.Keys)
-            {
-                var performanceWeight = performanceWeights[letterIdentifier];
-                // var timeWeight = timeWeights.ContainsKey(letterIdentifier) ? timeWeights[letterIdentifier] : 0;
-
-                // Calculate composite weight using a weighted formula
-                // float compositeWeight = (performanceWeight * PerformanceFactor) + (timeWeight * TimeFactor);
-                float compositeWeight = performanceWeight * PerformanceFactor;
-
-                compositeWeights[letterIdentifier] = compositeWeight;
-            }
+            // var performanceWeights = weightManager.GetCurrentWeights();
+            // // var timeWeights = spacedRepetitionManager.GetCurrentWeights();
+            //
+            // compositeWeights.Clear();
+            //
+            // foreach (var letterIdentifier in performanceWeights.Keys)
+            // {
+            //     var performanceWeight = performanceWeights[letterIdentifier];
+            //     // var timeWeight = timeWeights.ContainsKey(letterIdentifier) ? timeWeights[letterIdentifier] : 0;
+            //
+            //     // Calculate composite weight using a weighted formula
+            //     // float compositeWeight = (performanceWeight * PerformanceFactor) + (timeWeight * TimeFactor);
+            //     float compositeWeight = performanceWeight * PerformanceFactor;
+            //
+            //     compositeWeights[letterIdentifier] = compositeWeight;
+            // }
         }
 
         /// <summary>

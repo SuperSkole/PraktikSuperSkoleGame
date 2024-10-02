@@ -5,10 +5,16 @@ namespace Analytics
     public interface IWeightManager
     {
         /// <summary>
-        /// Initializes weights for a collection of entities.
+        /// Initializes the weights from PlayerManager's PlayerData, setting a default weight if not already set.
+        /// This method should be called after PlayerManager has been initialized.
         /// </summary>
-        /// <param name="languageUnits">The collection of entities to initialize weights for.</param>
-        void InitializeWeights(IEnumerable<ILanguageUnit> languageUnits);
+        void InitializeWeights();
+
+        // /// <summary>
+        // /// Initializes weights for a collection of entities.
+        // /// </summary>
+        // /// <param name="languageUnits">The collection of entities to initialize weights for.</param>
+        // void InitializeWeights(IEnumerable<ILanguageUnit> languageUnits);
 
         // /// <summary>
         // /// Sets the weight of a specific entity.
@@ -43,24 +49,22 @@ namespace Analytics
         /// <param name="isCorrect">Whether the action taken on the entity was correct.</param>
         void UpdateWeight(ILanguageUnit entity, bool isCorrect);
 
-        /// <summary>
-        /// Gets the current weights for all entities.
-        /// </summary>
-        /// <returns>A dictionary containing entities and their respective weights.</returns>
-        Dictionary<string, int> GetCurrentWeights();
-        
-        /// <summary>
-        /// Gets weights for all vowel entities.
-        /// </summary>
-        /// <returns>A dictionary of vowels and their corresponding weights.</returns>
-        Dictionary<string, int> GetVowelWeights();
-        
-        /// <summary>
-        /// Gets weights for all consonant entities.
-        /// </summary>
-        /// <returns>A dictionary of consonants and their corresponding weights.</returns>
-        Dictionary<string, int> GetConsonantWeights();
-
-        void InitializeWeights();
+        // /// <summary>
+        // /// Gets the current weights for all entities.
+        // /// </summary>
+        // /// <returns>A dictionary containing entities and their respective weights.</returns>
+        // Dictionary<string, int> GetCurrentWeights();
+        //
+        // /// <summary>
+        // /// Gets weights for all vowel entities.
+        // /// </summary>
+        // /// <returns>A dictionary of vowels and their corresponding weights.</returns>
+        // Dictionary<string, int> GetVowelWeights();
+        //
+        // /// <summary>
+        // /// Gets weights for all consonant entities.
+        // /// </summary>
+        // /// <returns>A dictionary of consonants and their corresponding weights.</returns>
+        // Dictionary<string, int> GetConsonantWeights();
     }
 }
