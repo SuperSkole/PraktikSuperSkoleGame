@@ -228,15 +228,15 @@ namespace Scenes._10_PlayerScene.Scripts
                 "",
                 "",
                 new List<int>(),
-                new List<CarInfo>()
+                new List<CarInfo>()//Start with the Van so there is a purpose for switching cars
                 {
-                    new CarInfo("Mustang",
-                        "Red",
+                    new CarInfo("Van",
+                        "Gray",
                         true,
                         new List<MaterialInfo>
                         {
                             new MaterialInfo(true,
-                                "Red")
+                                "Gray")
                         })
                 },
                 new List<int>()
