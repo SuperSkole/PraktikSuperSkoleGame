@@ -22,8 +22,7 @@ public class PlaceableButtons : MonoBehaviour
     }
     public void StartUpValues(int value)
     {
-        var tmpAmount = Convert.ToInt32(amountTxt.text);
-        tmpAmount = value;
+        var tmpAmount = value;
 
         amount = tmpAmount;
         amountTxt.text = tmpAmount.ToString();
