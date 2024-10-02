@@ -2004,7 +2004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &677226290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,7 +2049,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070461170}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Scenes.MultiplayerLobby.Scripts.StartClient, Assembly-CSharp
         m_MethodName: QuickJoinGame
         m_Mode: 1
@@ -2168,7 +2168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &681560701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2271,7 +2271,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070461169}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Scenes.MultiplayerLobby.Scripts.StartHost, Assembly-CSharp
         m_MethodName: StartHostGame
         m_Mode: 1
@@ -3396,13 +3396,10 @@ GameObject:
   - component: {fileID: 1070461166}
   - component: {fileID: 1070461165}
   - component: {fileID: 1070461164}
-  - component: {fileID: 1070461167}
-  - component: {fileID: 1070461168}
-  - component: {fileID: 1070461173}
-  - component: {fileID: 1070461172}
-  - component: {fileID: 1070461171}
-  - component: {fileID: 1070461169}
   - component: {fileID: 1070461170}
+  - component: {fileID: 1070461169}
+  - component: {fileID: 1070461168}
+  - component: {fileID: 1070461167}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -3465,7 +3462,7 @@ MonoBehaviour:
     EnableTimeResync: 0
     TimeResyncInterval: 30
     EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
+    EnableSceneManagement: 0
     ForceSamePrefabs: 1
     RecycleNetworkIds: 1
     NetworkIdRecycleDelay: 120
@@ -3475,7 +3472,7 @@ MonoBehaviour:
     EnableNetworkLogs: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 0
+  LogLevel: 1
 --- !u!4 &1070461166
 Transform:
   m_ObjectHideFlags: 0
@@ -3498,9 +3495,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070461163}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 096b3a6d6d065c74ab6737510ec6dab5, type: 3}
+  m_Script: {fileID: 11500000, guid: dfecb8cf2cfb27640b6621beda52253b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1070461168
@@ -3512,50 +3509,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070461163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2b2f4dcafb926946bb6b58209c28c24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isHost: 1
-  lobbyName: new lobby
-  maxPlayers: 4
-  encryption: 1
---- !u!114 &1070461169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070461163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2dea195e38fb12b43a5e1b30d79aec0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1070461170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070461163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfecb8cf2cfb27640b6621beda52253b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1070461171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070461163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca2754050d75c8d429700953111b40bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1070461172
+--- !u!114 &1070461169
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3567,7 +3524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6336a6fb31a844b8ff5ba22937febb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1070461173
+--- !u!114 &1070461170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3576,13 +3533,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1070461163}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d5d9ababa8327e4d8f94b319a9bd154, type: 3}
+  m_Script: {fileID: 11500000, guid: ca2754050d75c8d429700953111b40bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createLobbyButton: {fileID: 681560704}
-  joinLobbyButton: {fileID: 677226290}
-  client: {fileID: 1070461170}
-  host: {fileID: 1070461169}
 --- !u!1 &1086255642 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 55b8de7fd58717f40a932a98e636d42a, type: 3}
@@ -4472,7 +4425,7 @@ MonoBehaviour:
   action:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1070461172}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Scenes.MultiplayerLobby.Scripts.LobbyManager, Assembly-CSharp
         m_MethodName: leave
         m_Mode: 1

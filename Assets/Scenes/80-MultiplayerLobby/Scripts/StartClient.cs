@@ -10,12 +10,18 @@ using UnityEngine;
 
 namespace Scenes.MultiplayerLobby.Scripts
 {
+    [RequireComponent(typeof(RelayManager))]
+    [RequireComponent(typeof(LobbyManager))]
+    [RequireComponent(typeof(StartHost))]
+    [RequireComponent(typeof(NetworkManager))]
+    [RequireComponent(typeof(NetworkTransport))]
     public class StartClient : MonoBehaviour
     {
         private RelayManager relayManager;
         private LobbyManager lobbyManager;
         private NetworkTransport transport;
         private NetworkManager networkManager;
+        private StartHost host;
 
         private void Start()
         {
@@ -23,11 +29,11 @@ namespace Scenes.MultiplayerLobby.Scripts
             lobbyManager = GetComponent<LobbyManager>();
             transport = GetComponent<NetworkTransport>();
             networkManager = GetComponent<NetworkManager>();
+            host = GetComponent<StartHost>();
+            QuickJoinGame();
         }
         public async void QuickJoinGame()
         {
-            //string joinCode = await relayManager.CreateRelay();
-
             try
             {
                 // Query available lobbies
@@ -42,10 +48,8 @@ namespace Scenes.MultiplayerLobby.Scripts
 
                 // Get a list of available lobbies
                 QueryResponse queryResponse = await Lobbies.Instance.QueryLobbiesAsync(options);
-                Debug.Log("test 1");
                 if (queryResponse.Results != null && queryResponse.Results.Count > 0)
                 {
-                    Debug.Log("test 2");
                     // Join the first available lobby
                     Lobby firstAvailableLobby = queryResponse.Results[0];
                     Debug.Log($"Joining Lobby: {firstAvailableLobby.Name}");
@@ -61,9 +65,9 @@ namespace Scenes.MultiplayerLobby.Scripts
                         if (!string.IsNullOrEmpty(relayJoinCode))
                         {
                             // Join the relay using the retrieved join code
-                            //await relayManager.JoinRelay(relayJoinCode);
+
                             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
-                            //Allocation allocation = await RelayService.Instance.CreateAllocationAsync(7);
+
                             RelayServerData relayServerData = new RelayServerData(joinAllocation, "wss");
                             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
@@ -82,15 +86,13 @@ namespace Scenes.MultiplayerLobby.Scripts
                         Debug.LogError("Lobby does not contain relay join code.");
                     }
                 }
+                else if(queryResponse.Results != null)
+                {
+                    host.StartHostGame();
+                }
                 else
                 {
-                    Debug.LogWarning("No available lobbies found. Lobby result: " + queryResponse.Results);
-                    if (queryResponse.Results != null)
-                    {
-                        Debug.LogWarning(queryResponse.Results.Count);
-                    }
-                    else
-                        Debug.LogWarning("No queryResponse found");
+                    Debug.LogWarning("Query returned null.");
                 }
             }
             catch (LobbyServiceException e)
