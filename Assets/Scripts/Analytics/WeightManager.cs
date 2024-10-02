@@ -11,20 +11,10 @@ namespace Analytics
 {
     public class WeightManager : PersistentSingleton<WeightManager>, IWeightManager
     {
-        private Dictionary<string, int> entityWeights = new Dictionary<string, int>();
-        private readonly Dictionary<string, ILanguageUnit> _languageUnits = new Dictionary<string, ILanguageUnit>();
-        private readonly Dictionary<string, float> _weights = new Dictionary<string, float>();
         private readonly ILetterRepository letterRepository;
 
         private ConcurrentDictionary<string, ILanguageUnit> letterWeights;
 
-
-        private const float InitialWeight = 50f;
-        private const float WeightIncrement = 5f;
-        private const float WeightDecrement = 5f;
-        private const float MaxWeight = 99f;
-        private const float MinWeight = 0f;
-        private const float AdvancementThreshold = 45f;
 
         public WeightManager(ILetterRepository letterRepository)
         {
@@ -43,7 +33,7 @@ namespace Analytics
         {
             if (letterWeights == null)
             {
-                letterWeights = PlayerManager.Instance.PlayerData.LettersWeights;
+                letterWeights = PlayerManager.Instance.PlayerData.LettersWeightsProperty;
             }
         }
 
@@ -67,19 +57,19 @@ namespace Analytics
                 if (!letterWeights.ContainsKey(upperIdentifier))
                 {
                     var upperLetterData = new LetterData(upperIdentifier,
-                        LetterCategory.All, InitialWeight);
+                        LetterCategory.All, WeightSettings.InitialWeight);
                     letterWeights.TryAdd(upperIdentifier, upperLetterData);
                     Debug.Log(
-                        $"Added uppercase letter: {upperIdentifier} with initial weight {InitialWeight}");
+                        $"Added uppercase letter: {upperIdentifier} with initial weight {WeightSettings.InitialWeight}");
                 }
 
                 if (!letterWeights.ContainsKey(lowerIdentifier))
                 {
                     var lowerLetterData = new LetterData(lowerIdentifier,
-                        LetterCategory.All, InitialWeight);
+                        LetterCategory.All, WeightSettings.InitialWeight);
                     letterWeights.TryAdd(lowerIdentifier, lowerLetterData);
                     Debug.Log(
-                        $"Added lowercase letter: {lowerIdentifier} with initial weight {InitialWeight}");
+                        $"Added lowercase letter: {lowerIdentifier} with initial weight {WeightSettings.InitialWeight}");
                 }
 
                 //     // if we dont want upper and lower
@@ -122,8 +112,8 @@ namespace Analytics
             if (letterWeights.TryGetValue(entity.Identifier, out ILanguageUnit currentUnit))
             {
                 currentUnit.Weight = isCorrect
-                    ? Mathf.Max(currentUnit.Weight - WeightDecrement, MinWeight)
-                    : Mathf.Min(currentUnit.Weight + WeightIncrement, MaxWeight);
+                    ? Mathf.Max(currentUnit.Weight - WeightSettings.WeightDecrement, WeightSettings.MinWeight)
+                    : Mathf.Min(currentUnit.Weight + WeightSettings.WeightIncrement, WeightSettings.MaxWeight);
             }
             else
             {
@@ -138,8 +128,8 @@ namespace Analytics
             if (letterWeights.TryGetValue(identifier, out ILanguageUnit currentUnit))
             {
                 currentUnit.Weight = isCorrect
-                    ? Mathf.Max(currentUnit.Weight - WeightDecrement, MinWeight)
-                    : Mathf.Min(currentUnit.Weight + WeightIncrement, MaxWeight);
+                    ? Mathf.Max(currentUnit.Weight - WeightSettings.WeightDecrement, WeightSettings.MinWeight)
+                    : Mathf.Min(currentUnit.Weight + WeightSettings.WeightIncrement, WeightSettings.MaxWeight);
             }
             else
             {
