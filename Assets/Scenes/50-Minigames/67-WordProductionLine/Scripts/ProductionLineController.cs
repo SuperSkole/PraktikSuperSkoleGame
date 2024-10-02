@@ -35,6 +35,8 @@ public class ProductionLineController : MonoBehaviour
 
 
     private static LineRenderer lineRend;
+
+    
     
     private Vector3 mousePos;
 
@@ -53,11 +55,10 @@ public class ProductionLineController : MonoBehaviour
 
     void Update()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePos.z = mousePos.x;
-        mousePos = mainCamera.ScreenToWorldPoint(mousePosition);
-        Debug.DrawRay(transform.position, mousePosition - transform.position, Color.blue);
-
+        if (Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out RaycastHit contact, 100, LayerMask.GetMask("RayBlocker")))
+        {
+            mousePos = contact.point;
+        }
 
         
 
@@ -71,12 +72,19 @@ public class ProductionLineController : MonoBehaviour
             DrawLineToMouse(selectedLetterBox);
         }
 
-        if (selectedLetterBox != null && selectedImageBox != null && !hasChecked)
+        if (selectedLetterBox == null && selectedImageBox != null)
+        {
+            DrawLineToMouse(selectedImageBox);
+        }
+
+        if (selectedLetterBox != null && selectedImageBox != null)
         {
             DrawLineBetweenBoxes();
 
-
-            hasChecked = true;
+            if (!hasChecked)
+            {
+                hasChecked = true;
+            }
         }
 
     }
@@ -92,7 +100,8 @@ public class ProductionLineController : MonoBehaviour
 
 
             ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit);
+            Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("RayBox"));
+            Debug.Log(hit);
             if (hit.transform == null) return;
 
             GameObject hitObject = hit.transform.gameObject;
@@ -148,8 +157,7 @@ public class ProductionLineController : MonoBehaviour
     {
         Vector3 boxPosition = selectedBox.transform.position;
         lineRend.SetPosition(0, new Vector3(boxPosition.x, boxPosition.y, 3f));
-        lineRend.SetPosition(1, new Vector3(mousePos.x, mousePos.y, mousePos.x));
-        Debug.Log("X: " + mousePos.x + " || Y: " + mousePos.y);
+        lineRend.SetPosition(1, mousePos);
     }
 
     /// <summary>
@@ -278,10 +286,18 @@ public class ProductionLineController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
-        selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
-        ResetCubes(selectedImageBox);
-        ResetCubes(selectedLetterBox);
+        if (selectedLetterBox != null)
+        {
+            selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
+            ResetCubes(selectedLetterBox);
+        }
+
+        if (selectedImageBox != null)
+        {
+            selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
+            ResetCubes(selectedImageBox);
+        }
+        
 
         checking = false;
     }
@@ -299,10 +315,18 @@ public class ProductionLineController : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
-        selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
-        ResetCubes(selectedImageBox);
-        ResetCubes(selectedLetterBox);
+        if (selectedLetterBox != null)
+        {
+            selectedLetterBox.GetComponentInChildren<IBox>().ResetCube();
+            ResetCubes(selectedLetterBox);
+        }
+
+        if(selectedImageBox != null)
+        { 
+            selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
+            ResetCubes(selectedImageBox);
+        }
+            
 
         checking = false;
     }
