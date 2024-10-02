@@ -41,7 +41,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void OnAction(Vector3Int gridPos)
         {
             GridData selectedData = null;
-            if (furnitureData.CanPlaceObjectAt(gridPos,Vector2Int.one) == false)
+            if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
             {
                 selectedData = furnitureData;
             }
@@ -60,9 +60,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 if (gameObjectIndex == -1)
                     return;
 
+                invetoryManager.AddFuritureBackToPile(selectedData.placedObjects[gridPos].ID);
                 selectedData.RemoveObjectAt(gridPos, placementSystem, selectedData.placedObjects[gridPos].FloorType);
                 objectPlacer.RemoveObjectAt(gameObjectIndex);
-               invetoryManager.AddFuritureBackToPile(gameObjectIndex);
 
                 placementSystem.RemoveObjectAt();
             }
