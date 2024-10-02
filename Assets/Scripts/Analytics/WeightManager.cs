@@ -24,6 +24,7 @@ namespace Analytics
         private const float WeightDecrement = 5f;
         private const float MaxWeight = 99f;
         private const float MinWeight = 0f;
+        private const float AdvancementThreshold = 45f;
 
         public WeightManager(ILetterRepository letterRepository)
         {
@@ -33,23 +34,6 @@ namespace Analytics
         public WeightManager()
         {
             letterRepository = new LetterRepository();
-        }
-
-        /// <summary>
-        /// Initializes the weights for a given set of entities, setting a default weight if not already set.
-        /// </summary>
-        public void InitializeWeights(IEnumerable<ILanguageUnit> languageUnits)
-        {
-            letterWeights = PlayerManager.Instance.PlayerData.LettersWeights;
-            
-            foreach (var unit in languageUnits)
-            {
-                if (!letterWeights.ContainsKey(unit.Identifier))
-                {
-                    unit.Weight = InitialWeight;
-                    letterWeights.TryAdd(unit.Identifier, unit);
-                }
-            }
         }
         
         /// <summary>
@@ -109,15 +93,7 @@ namespace Analytics
             }
         }
         
-        public void PrintAllWeights()
-        {
-            EnsureInitialized();
-            
-            foreach (var unit in letterWeights)
-            {
-                Debug.Log($"Identifier: {unit.Key}, Weight: {unit.Value.Weight}");
-            }
-        }
+        
 
         /// <summary>
         /// Sets the weight of a specific entity.
@@ -167,7 +143,7 @@ namespace Analytics
             }
             else
             {
-                throw new KeyNotFoundException($"Identifier {identifier} not found in letter weights.");
+                Debug.LogWarning($"Identifier {identifier} not found in letter weights.");
             }
         }
 
@@ -225,41 +201,44 @@ namespace Analytics
             return result;
         }
 
+        // /// <summary>
+        // /// Retrieves the current weights for all entities.
+        // /// </summary>
+        // public Dictionary<string, int> GetCurrentWeights()
+        // {
+        //     return new Dictionary<string, int>(entityWeights);
+        // }
+        //
+        // /// <summary>
+        // /// Retrieves the weights of all vowel entities.
+        // /// </summary>
+        // public Dictionary<string, int> GetVowelWeights()
+        // {
+        //     var vowels = new HashSet<string>(letterRepository.GetVowels().Select(v => v.ToString()));
+        //     return entityWeights
+        //         .Where(e => vowels.Contains(e.Key))
+        //         .ToDictionary(e => e.Key, e => e.Value);
+        // }
+        //
+        // /// <summary>
+        // /// Retrieves the weights of all consonant entities.
+        // /// </summary>
+        // public Dictionary<string, int> GetConsonantWeights()
+        // {
+        //     var consonants = new HashSet<string>(letterRepository.GetConsonants().Select(c => c.ToString()));
+        //     return entityWeights
+        //         .Where(e => consonants.Contains(e.Key))
+        //         .ToDictionary(e => e.Key, e => e.Value);
+        // }
 
-
-        
-        
-
-        /// <summary>
-        /// Retrieves the current weights for all entities.
-        /// </summary>
-        public Dictionary<string, int> GetCurrentWeights()
+        public void PrintAllWeights()
         {
-            return new Dictionary<string, int>(entityWeights);
+            EnsureInitialized();
+            
+            foreach (var unit in letterWeights)
+            {
+                Debug.Log($"Identifier: {unit.Key}, Weight: {unit.Value.Weight}");
+            }
         }
-
-        /// <summary>
-        /// Retrieves the weights of all vowel entities.
-        /// </summary>
-        public Dictionary<string, int> GetVowelWeights()
-        {
-            var vowels = new HashSet<string>(letterRepository.GetVowels().Select(v => v.ToString()));
-            return entityWeights
-                .Where(e => vowels.Contains(e.Key))
-                .ToDictionary(e => e.Key, e => e.Value);
-        }
-
-        /// <summary>
-        /// Retrieves the weights of all consonant entities.
-        /// </summary>
-        public Dictionary<string, int> GetConsonantWeights()
-        {
-            var consonants = new HashSet<string>(letterRepository.GetConsonants().Select(c => c.ToString()));
-            return entityWeights
-                .Where(e => consonants.Contains(e.Key))
-                .ToDictionary(e => e.Key, e => e.Value);
-        }
-
-        
     }
 }

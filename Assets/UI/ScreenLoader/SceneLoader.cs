@@ -14,8 +14,8 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
 
     private float CurrentProgress;
 
-    [SerializeField] Image barfill;
-    private bool StartedLoading;
+    private Image barfill;
+    private bool StartedLoading = false;
 
     //Load here and now
     public void LoadScene(string sceneName)
@@ -67,21 +67,13 @@ public class SceneLoader : PersistentSingleton<SceneLoader>
     {
         // If the loading screen is already present, do not instantiate it again
         if (loadingScreenInstance == null && loadingPreFab != null)
-        {
-            Canvas canvas = FindAnyObjectByType<Canvas>();
-            if (canvas != null)
-            {
-                loadingScreenInstance = Instantiate(loadingPreFab, canvas.transform);
-                loadingScreenInstance.transform.SetAsLastSibling();
-            }
-            else
-            {
-                loadingScreenInstance = Instantiate(loadingPreFab);
-                loadingScreenInstance.transform.SetAsLastSibling();
-            }
+        {    
+            loadingScreenInstance = Instantiate(loadingPreFab);
 
             // Find barfill in the instantiated prefab
-            Transform barfillTransform = loadingScreenInstance.transform.Find("BarFill");
+            Transform parent = loadingScreenInstance.transform.Find("LoadingScreenPrefab");
+            Transform barfillTransform = parent.transform.Find("BarFill");
+
             if (barfillTransform != null)
             {
                 barfill = barfillTransform.GetComponent<Image>();
