@@ -36,6 +36,9 @@ namespace LoadSave
 
         // Cars
         [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
+        
+        //House
+        [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
 
         // Properties for encapsulation
         public string Username { get => username; set => username = value; }
@@ -61,5 +64,8 @@ namespace LoadSave
         
         // cars
         public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
+        //Furniture
+        public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
+
     }
 }

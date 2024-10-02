@@ -1,8 +1,10 @@
 using System.Threading.Tasks;
 using CORE;
 using LoadSave;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace Scenes._03_StartScene.Scripts
 {
@@ -80,7 +82,7 @@ namespace Scenes._03_StartScene.Scripts
         {
             panel.OnLoadRequested += HandleLoadRequest;
         }
-       
+
         /// <summary>
         /// Handles a load request by initiating the loading of saved game data.
         /// </summary>
@@ -108,11 +110,11 @@ namespace Scenes._03_StartScene.Scripts
                 onSceneLoaded = (scene, mode) =>
                 {
                     // Early out if not player scene
+                    Debug.Log(scene.name);
                     if (scene.name != SceneNames.Player)
                     {
                         return;
                     }
-
                     loadGameSetup.SetupPlayer(playerData);
                         
                     // Unsubscribe from the event

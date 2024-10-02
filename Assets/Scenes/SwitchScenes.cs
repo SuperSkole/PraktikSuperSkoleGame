@@ -10,7 +10,6 @@ namespace Scenes
         public static void SwitchToWordFactoryLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.FactoryLoading);
         public static void SwitchToArcadeAsteroidScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroid);
         public static void SwitchToArcadeAsteroidLoseScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroidLoseScreen);
-        // TODO : Change this when we have a racing scene
         public static void SwitchToRacingScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
         public static void SwitchToPathOfDanger() => SceneManager.LoadScene(SceneNames.PathOfDanger);
         public static void SwitchToPathOfDangerLoseScene() => SceneManager.LoadScene(SceneNames.PathOfDangerLoseScreen);
@@ -32,6 +31,8 @@ namespace Scenes
         public static void SwitchToHighscore() => SceneLoader.Instance.LoadScene(SceneNames.HighScores);
         public static void SwitchToLeaderBoard() => SceneLoader.Instance.LoadScene(SceneNames.LeaderBoard);
         public static void SwitchToAllTimeHighscore() => SceneLoader.Instance.LoadScene(SceneNames.MultiPlayerHighScores);
+        public static void SwitchToLogin() => SceneLoader.Instance.LoadScene(SceneNames.Login);
+        public static void SwitchToBankFrontLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.BankFrontLoading);
 
         
     }

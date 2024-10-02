@@ -6,7 +6,8 @@ public class HexagonManager : MonoBehaviour
 {
 
 
-    [SerializeField] GameObject pentagon;
+ 
+    [SerializeField] GameObject triangle;
 
     [SerializeField] GameObject explosionPrefab;
 
@@ -38,7 +39,7 @@ public class HexagonManager : MonoBehaviour
     }
 
     /// <summary>
-    /// When colliding with a projectile two new asteroids with one less angle than the current are spawned.
+    /// When colliding with a projectile six new triangle asteroids are spawned.
     /// The score is also updated and the old asteroid and the projectile that hit it is destroyed
     /// </summary>
     /// <param name="collision"></param>
@@ -48,16 +49,11 @@ public class HexagonManager : MonoBehaviour
         if(collision.gameObject.tag=="PlayerProjectile")
         {
             gameManager.score += 25;
-            Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
-           var spawnedPentagon= Instantiate(pentagon,gameObject.transform.position, transform.rotation,transform.parent);
-            Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
-            spawnedPentagon.GetComponent<Rigidbody2D>().AddForce(randomForce*speed);
-            spawnedPentagon.GetComponent<PentagonManager>().gameManager = gameManager;
 
-            var spawnedPentagon2 = Instantiate(pentagon, gameObject.transform.position, transform.rotation, transform.parent);
-            Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
-            spawnedPentagon2.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
-            spawnedPentagon2.GetComponent<PentagonManager>().gameManager = gameManager;
+            for (int i = 0; i < 6; i++)
+            {
+                SpawnTriangle(minXForce, maxXForce, minYForce, maxYForce);
+            }
 
             Destroy(gameObject);
 
@@ -65,4 +61,17 @@ public class HexagonManager : MonoBehaviour
             
         }
     }
+
+    void SpawnTriangle(float minXForce, float maxXForce, float minYForce,float maxYForce)
+    {
+        Instantiate(explosionPrefab, gameObject.transform.position, transform.rotation, transform.parent);
+        var spawnedTriangle = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
+        Vector3 randomForce = new Vector3(Random.Range(minXForce, maxXForce), Random.Range(minYForce, maxYForce), 0);
+        spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce * speed);
+        spawnedTriangle.GetComponent<TriangleManager>().gameManager = gameManager;
+
+    }
+
 }
+
+

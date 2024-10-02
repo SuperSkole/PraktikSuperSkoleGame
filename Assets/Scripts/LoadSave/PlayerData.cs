@@ -48,6 +48,9 @@ namespace LoadSave
         [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
 
         // Properties for encapsulation and dataconvertion reflection
+        [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
+
+
         public string Username { get => username; set => username = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
         public int MonsterTypeID { get => monsterTypeID; set => monsterTypeID = value; }
@@ -73,6 +76,9 @@ namespace LoadSave
 
         // cars
         public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
+
+        //Furniture
+        public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
 
         /// <summary>
         /// Initializes the game character with provided attributes.
@@ -109,7 +115,9 @@ namespace LoadSave
             string midCloth,
             string topCloth,
             List<int> boughtClothes,
-            List<CarInfo> listOfCars)
+            List<CarInfo> listOfCars,
+            List<int> ListOfFurniture
+            )
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -143,6 +151,7 @@ namespace LoadSave
             // cars
             this.ListOfCars.Clear();
             this.ListOfCars.AddRange(listOfCars);
+            this.ListOfFurniture = ListOfFurniture;
         }
 
 
