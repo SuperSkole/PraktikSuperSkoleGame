@@ -1,9 +1,6 @@
-using CORE;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Spine.Unity;
-using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 
@@ -89,10 +86,12 @@ public class KatjaFe : MonoBehaviour
     //clear the variables
     private void Clear()
     {
+        StopCoroutine(currentCoroutine);
         audioSource = null;
         currentCoroutine = null;
         katjaFeSkeleton.AnimationState.ClearTrack(0);
     }
+
 
     //---IEnumerators---//
     private IEnumerator WaitForAudio(System.Action onComplete)
@@ -100,8 +99,7 @@ public class KatjaFe : MonoBehaviour
         yield return new WaitForSeconds(audioSource.clip.length);
 
         //Once the audio is done
-        katjaFeSkeleton.AnimationState.ClearTrack(0);
-        katjaFeSkeleton.AnimationState.SetAnimation(0, "Idle", true);
+        katjaFeSkeleton.AnimationState.SetAnimation(0, "Idle", true).MixDuration = 0.2f;
 
         if (onComplete != null)
         {
@@ -119,7 +117,7 @@ public class KatjaFe : MonoBehaviour
         //check if it's a end or continues animation
         if (state)
         {
-            katjaFeSkeleton.AnimationState.SetAnimation(0, "Idle", true);
+            katjaFeSkeleton.AnimationState.SetAnimation(0, "Idle", true).MixDuration = 0.2f;
         }
         if(!state)
         {
