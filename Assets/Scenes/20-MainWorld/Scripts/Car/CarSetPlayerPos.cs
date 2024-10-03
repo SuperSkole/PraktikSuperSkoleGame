@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scenes._20_MainWorld.Scripts.Car
 {
-    // TODO : Change this so it uses the Physics.CheckBox instead, Look at FindPlayerForButton for how to use
+    // NiceToHave : Change this so it uses the Physics.CheckBox instead, Look at FindPlayerForButton for how to use
     public class CarSetPlayerPos : MonoBehaviour
     {
         [SerializeField] private List<GameObject> PlacementPoints = new List<GameObject>();

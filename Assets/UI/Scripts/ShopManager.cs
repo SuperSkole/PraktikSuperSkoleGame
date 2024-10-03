@@ -1,9 +1,6 @@
-using CORE;
 using Scenes._10_PlayerScene.Scripts;
-using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -40,8 +37,14 @@ namespace UI.Scripts
 
         //Money bar
         [SerializeField] BarMeter meter;
-        //UI bar
-        
+
+        [SerializeField] private RectTransform MonsterRectContent;
+        [SerializeField] private GameObject MonsterGOContent;
+        [SerializeField] private RectTransform HouseRectContent;
+        [SerializeField] private GameObject HouseGOContent;
+        [SerializeField] private ScrollRect scrollRect;
+
+        private HouseItemsBuying houseItem;
 
         private Shopoption currentShopOption;
 
@@ -50,14 +53,18 @@ namespace UI.Scripts
 
         private void Start()
         {
-            if(colors.Count == 0)
+            if (colors.Count == 0)
             {
-            colors.AddRange(playerColorChanging.colors);
+                colors.AddRange(playerColorChanging.colors);
             }
         }
 
         private void OnEnable()
         {
+
+            MonsterGOContent.SetActive(true);
+            HouseGOContent.SetActive(false);
+            scrollRect.content = MonsterRectContent;
             avaliableMoney = 0;
             meter.SettingValueAfterScene(0);
 
@@ -113,6 +120,8 @@ namespace UI.Scripts
 
         private void OnDisable()
         {
+            MonsterGOContent.SetActive(true);
+            HouseGOContent.SetActive(false);
             var amountOfChild = shopOptionsParent.childCount;
 
             for (int i = amountOfChild - 1; i >= 0; i--)
@@ -120,7 +129,7 @@ namespace UI.Scripts
                 Destroy(shopOptionsParent.GetChild(i).gameObject);
             }
 
-            if(currentItem != null)
+            if (currentItem != null)
             {
                 skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
             }
@@ -177,18 +186,18 @@ namespace UI.Scripts
                 currentItem = itemName;
             }
 
-            if(itemName.Contains("MID"))
+            if (itemName.Contains("MID"))
             {
                 //hvis curren item ikke er tom, 
                 if (currentItem != null)
                 {
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
                 }
-                if(wearingTop != null)
+                if (wearingTop != null)
                 {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingTop,wearingTop);
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
                 }
-                if(wearingColor != null)
+                if (wearingColor != null)
                 {
                     playerColorChanging.ColorChange(wearingColor);
                 }
@@ -218,56 +227,62 @@ namespace UI.Scripts
 
 
             //Check if the player can afford this
+            CanAfford(thisprice);
 
-            if (avaliableMoney >= thisprice)
+
+        }
+        /// <summary>
+        /// Methode for checking if the player has enough money to buy an item
+        /// </summary>
+        /// <param name="price"></param>
+        /// <returns></returns>
+        private bool CanAfford(int price)
+        {
+            if (avaliableMoney >= price)
             {
                 offBuyButton.gameObject.SetActive(false);
                 ableToBuy = true;
             }
-            if (avaliableMoney < thisprice)
+            if (avaliableMoney < price)
             {
                 offBuyButton.gameObject.SetActive(true);
                 ableToBuy = false;
             }
-
+            return ableToBuy;
         }
-
-
 
         //Buy Button Function
         public void Buying()
         {
-            if (currentItem != null)
-            { 
+            if (MonsterGOContent.activeSelf)
+            {
+                if (currentItem != null)
+                {
                     if (ableToBuy)
                     {
-               
+
                         //Get player
                         PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
-                             if (currentItem.Contains("HEAD"))
-                            {
-                                PlayerManager.Instance.PlayerData.ClothTop = currentItem;
-                                 wearingTop = currentItem;
-                       
-                            }
-                            if (currentItem.Contains("MID"))
-                            {
-                                PlayerManager.Instance.PlayerData.ClothMid = currentItem;
-                                wearingMid = currentItem;
-                        
-                            }
-                            if (colors.Contains(currentItem.ToString()))
-                            {
-                                PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
-                                wearingColor = currentItem;
-                            }
+                        if (currentItem.Contains("HEAD"))
+                        {
+                            PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+                            wearingTop = currentItem;
 
-                            avaliableMoney -= currentPrice;
+                        }
+                        if (currentItem.Contains("MID"))
+                        {
+                            PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+                            wearingMid = currentItem;
 
-                            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+                        }
+                        if (colors.Contains(currentItem.ToString()))
+                        {
+                            PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+                            wearingColor = currentItem;
+                        }
 
-                            meter.ChangeValue(-currentPrice);
+                        ModifyMoneyValue(currentPrice);
 
 
 
@@ -281,12 +296,62 @@ namespace UI.Scripts
                         currentPrice = 0;
 
                     }
-             }
+                }
+            }
+            else if (HouseGOContent.activeSelf)
+            {
+                if (CanAfford(houseItem.Price))
+                {
+                    PlayerManager.Instance.PlayerData.ListOfFurniture.Add(houseItem.ID);
+                    ModifyMoneyValue(houseItem.Price);
+                }
+            }
 
+        }
+        /// <summary>
+        /// Takes in a price and then removes it from the pool of money the player has
+        /// Used when buying an item 
+        /// </summary>
+        /// <param name="amount"></param>
+        private void ModifyMoneyValue(int amount)
+        {
+            avaliableMoney -= amount;
 
-            //you cannot afford it
+            PlayerManager.Instance.PlayerData.CurrentGoldAmount = avaliableMoney;
+
+            meter.ChangeValue(-amount);
+        }
+        /// <summary>
+        /// Used by buttons sets the HouseItemsBuying so that when clicking the buy button we can buy a furniture item.
+        /// </summary>
+        /// <param name="item"></param>
+        public void SettingFurnitureItem(HouseItemsBuying item)
+        {
+            houseItem = item;
+            CanAfford(houseItem.Price);
         }
 
+
+        /// <summary>
+        /// Switches the content out from the scrollRect
+        /// </summary>
+        /// <param name="indexer"></param>
+        public void SwitchContentView(int indexer)
+        {
+            switch (indexer)
+            {
+                case 1:
+                    scrollRect.content = MonsterRectContent;
+                    MonsterGOContent.SetActive(true);
+                    HouseGOContent.SetActive(false);
+                    break;
+                case 2:
+                    scrollRect.content = HouseRectContent;
+                    MonsterGOContent.SetActive(false);
+                    HouseGOContent.SetActive(true);
+                    break;
+            }
+        }
         public void CloseShop()
         {
             currentShopOption = null;
