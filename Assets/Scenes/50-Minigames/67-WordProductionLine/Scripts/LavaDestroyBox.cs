@@ -9,8 +9,6 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
     public class LavaDestroyBox : MonoBehaviour
     {
-        
-
         /// <summary>
         /// Lava pool that deactivate boxes when the collide with the lava.
         /// </summary>
@@ -21,6 +19,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             {
                 other.gameObject.GetComponentInChildren<IBox>().ResetCube();
                 ProductionLineController.ResetCubes(other.gameObject);
+                ProductionLineController.ResetLine();
             }
         }
     }

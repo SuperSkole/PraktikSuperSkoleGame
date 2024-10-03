@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7606473891146679027}
   - component: {fileID: 509933548284230363}
   - component: {fileID: 4175401938384888296}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LetterBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   letterBoxText: {fileID: 3031825459711045379}
   letterText: {fileID: 4015030058653025606}
+  isSelected: 0
 --- !u!65 &4175401938384888296
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -132,7 +133,7 @@ GameObject:
   - component: {fileID: 3885155490892186418}
   - component: {fileID: 1171095091053527611}
   - component: {fileID: 4015030058653025606}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -265,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3256424764356665030}
   - component: {fileID: -5569424009767567246}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: LetterBox
   m_TagString: ProductionCube
   m_Icon: {fileID: 0}
@@ -327,7 +328,7 @@ GameObject:
   - component: {fileID: 4235709727882577968}
   - component: {fileID: 1460682705369616946}
   - component: {fileID: 1130468844019673250}
-  m_Layer: 5
+  m_Layer: 12
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
