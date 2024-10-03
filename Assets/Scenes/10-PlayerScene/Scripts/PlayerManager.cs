@@ -47,7 +47,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (spawnedPlayer == null) 
                 {
-                    Debug.LogError("SpawnedPlayer accessed before being initialized.");
+                    Debug.Log("SpawnedPlayer accessed before being initialized.");
                 }
                 
                 return spawnedPlayer;
@@ -60,7 +60,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (playerData == null) 
                 {
-                    Debug.LogError("PlayerData accessed before being initialized.");
+                    Debug.Log("PlayerData accessed before being initialized.");
                 }
                 
                 return playerData;
@@ -73,7 +73,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (highScore == null) 
                 {
-                    Debug.LogError("highScore accessed before being initialized.");
+                    Debug.Log("highScore accessed before being initialized.");
                 }
                 
                 return highScore;

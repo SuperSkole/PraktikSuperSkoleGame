@@ -27,6 +27,12 @@ public class BankFrontSetter : IGameModeSetter
             case "sortandcount":
                 modeToBeUsed = new SortAndCountAll();
                 break;
+            case "sortandcountonesandtwos":
+                modeToBeUsed = new SortAndCountOnesAndTwos();
+                break;
+            case "sortandcountAllExceptDecimals":
+                modeToBeUsed = new SortAndCountAllExceptDecimals();
+                break;
             case "sort":
                 modeToBeUsed = new Sort();
                 break;
