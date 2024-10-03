@@ -1,3 +1,4 @@
+using Cinemachine;
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
@@ -28,6 +29,7 @@ public class MP_Movement : NetworkBehaviour
     [SerializeField] private GameObject textDisplay;
     [SerializeField] private TextMeshProUGUI textField;
     private ISkeletonComponent skeleton;
+    CinemachineVirtualCamera playerCamera;
 
     public NetworkVariable<Vector3> textRotation = new();
     public NetworkVariable<FixedString32Bytes> colorPick = new();
@@ -57,14 +59,15 @@ public class MP_Movement : NetworkBehaviour
                            "ISkeleton component not found on spawned player.");
             return;
         }
-        if (IsServer)
-        {
-            rb.position = GameObject.Find("SpawnPoint").transform.position;
-        }
+        //rb.position = GameObject.Find("MPPlayerSpawn").transform.position;
+        rb.transform.position = GameObject.Find("MPPlayerSpawn").transform.position;
+        playerCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        
         if (IsClient)
         {
             if (IsOwner)
             {
+                playerCamera.Follow = this.gameObject.transform;
                 GameObject originPlayer = GameObject.Find("PlayerMonster");
                 string monsterColor = originPlayer.GetComponent<PlayerData>().MonsterColor;
                 RequestColorPickServerRpc(monsterColor);
