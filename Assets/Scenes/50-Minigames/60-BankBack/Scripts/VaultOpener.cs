@@ -10,7 +10,7 @@ public class VaultOpener : MonoBehaviour
     [SerializeField] private Transform codeBlockTransform;
     private Vector3 codeBlockDestination;
     private bool moving = false;
-    private bool startMove = true;
+    private bool startMove = false;
     float speed = 0;
     float handleSpeed = 200;
     float codeBlockSpeed = 0.1f;
@@ -25,9 +25,10 @@ public class VaultOpener : MonoBehaviour
         {
             if(codeBlockDestination == Vector3.zero || codeBlockDestination == null)
             {
-                codeBlockDestination = new Vector3(vaultHandle.transform.position.x, vaultHandle.transform.position.y, vaultHandle.transform.position.z);
+                codeBlockDestination = new Vector3(vaultHandle.transform.position.x + 0.01f, vaultHandle.transform.position.y - 0.04f, vaultHandle.transform.position.z - 0.39f);
             }
             codeBlockTransform.position = Vector3.MoveTowards(codeBlockTransform.position, codeBlockDestination, codeBlockSpeed * Time.deltaTime);
+            codeBlockSpeed += 0.1f;
             if(codeBlock.transform.position == codeBlockDestination)
             {
                 startMove = false;
@@ -43,7 +44,7 @@ public class VaultOpener : MonoBehaviour
             //vaultHandle.transform.RotateAround(vaultHandle.transform.position, Vector3.forward, velocity.x);
             Vector3 eulers = vaultHandle.transform.localRotation.eulerAngles;
             vaultHandle.transform.localRotation = Quaternion.Euler(new Vector3(velocity.x, eulers.y, eulers.z + eulers.x));
-            speed += 0.01f;
+            speed += 0.1f;
             //Stops movement after a bit
             if(moved >= 100)
             {
@@ -57,7 +58,6 @@ public class VaultOpener : MonoBehaviour
     /// </summary>
     public void StartMove()
     {
-        moving = true;
-        codeBlock.SetActive(false);
+        startMove = true;
     }
 }
