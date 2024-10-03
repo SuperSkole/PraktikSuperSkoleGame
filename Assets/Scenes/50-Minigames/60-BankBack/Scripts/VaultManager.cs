@@ -223,7 +223,14 @@ public class VaultManager : MonoBehaviour
     private IEnumerator WaitBeforeEnd()
     {
         waitingForEnd = true;
-        yield return new WaitUntil(()=> !alarmScript.audioSource.isPlaying);
+        if(mistakes >= 3)
+        {
+            yield return new WaitUntil(() => !alarmScript.audioSource.isPlaying);
+        }
+        else
+        {
+            yield return new WaitForSeconds(5);
+        }
         waitingForEnd = false;
         SwitchScenes.SwitchToMainWorld();
     }
