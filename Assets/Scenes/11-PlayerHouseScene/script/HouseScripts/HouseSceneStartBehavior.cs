@@ -54,16 +54,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType, item.RotationValue);
             }
-            // After applying the data, place the objects in the scene
-            //foreach (var item in itemContainer.floorData.placedObjectsList)
-            //{
-            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Rug);
-            //}
-
-            //foreach (var item in itemContainer.furnitureData.placedObjectsList)
-            //{
-            //    placementSystem.PlaceItemsStartLoading(item.Key, item.ID, EnumFloorDataType.Furniture);
-            //}
         }
         public void ApplyLoadedData(HouseDataDTO houseDataDTO)
         {
@@ -90,6 +80,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 saveManager.floorData.FloorData = placementSystem.FloorData;
                 saveManager.furnitureData.FurnitureData = placementSystem.FurnitureData;
                 saveManager.SaveGridData();
+
+                invetoryManager.SaveFurnitureAmount();
 
                 buildingSystemParent.SetActive(false);
                 cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
