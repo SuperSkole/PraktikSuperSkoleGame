@@ -26,9 +26,9 @@ public class GearScript : MonoBehaviour
     /// <summary>
     /// Starts rotating the gear if it is not currently rotating
     /// </summary>
-    public void OnMouseDown()
+    public void OnMouseOver()
     {
-        if(!rotating)
+        if(!rotating && Input.GetKey(KeyCode.Mouse0))
         {
             StartCoroutine(RotateGear(1));
         }
@@ -75,8 +75,6 @@ public class GearScript : MonoBehaviour
     /// <returns></returns>
     private IEnumerator RotateGear(int seconds)
     {
-        
-        
         Vector3 remainingRotation = new Vector3(0, deltaAngle, 0);
         rotating = true;
         Vector3 deltaRotation = new Vector3(0, deltaAngle / (seconds * 25));
