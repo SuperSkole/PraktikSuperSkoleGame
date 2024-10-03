@@ -103,7 +103,6 @@ public class ProductionLineController : MonoBehaviour
 
             ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit, 100, LayerMask.GetMask("RayBox"));
-            Debug.Log(hit);
             if (hit.transform == null) return;
 
             GameObject hitObject = hit.transform.gameObject;
