@@ -11,6 +11,8 @@ public class ProductionLineController : MonoBehaviour
 
     private static GameObject selectedLetterBox, selectedImageBox, lineObject;
 
+    [SerializeField] GameObject particals;
+
 
     [SerializeField] private Material selectedMaterial, defaultMaterial, wrongMaterial, correctMaterial;
 
@@ -156,7 +158,7 @@ public class ProductionLineController : MonoBehaviour
     private void DrawLineToMouse(GameObject selectedBox)
     {
         Vector3 boxPosition = selectedBox.transform.position;
-        lineRend.SetPosition(0, new Vector3(boxPosition.x, boxPosition.y, 3f));
+        lineRend.SetPosition(0, new Vector3(boxPosition.x, boxPosition.y, 3.5f));
         lineRend.SetPosition(1, mousePos);
     }
 
@@ -284,6 +286,9 @@ public class ProductionLineController : MonoBehaviour
         points++;
         scoreText.text = $"Score: {points}";
 
+        particals.transform.localScale = new Vector3(3, 3, 3);
+        Instantiate(particals, transform.position, Quaternion.identity);
+
         yield return new WaitForSeconds(1);
 
         if (selectedLetterBox != null)
@@ -312,6 +317,7 @@ public class ProductionLineController : MonoBehaviour
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
 
+        
 
         yield return new WaitForSeconds(1);
 
