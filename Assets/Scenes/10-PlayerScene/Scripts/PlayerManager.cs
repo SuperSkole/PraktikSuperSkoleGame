@@ -334,7 +334,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
-                saveData.LanguageLevel,
+                saveData.PlayerLanguageLevel,
                 saveData.LettersWeights,
                 saveData.CollectedWords,
                 saveData.CollectedLetters,

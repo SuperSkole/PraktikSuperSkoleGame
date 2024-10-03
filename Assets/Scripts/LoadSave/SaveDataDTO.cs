@@ -25,7 +25,7 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
-        private int languageLevel;
+        private int playerLanguageLevel;
         [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
         [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
         //[JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> SentenceWeights = new ConcurrentDictionary<string, ILanguageUnit>();
@@ -56,7 +56,7 @@ namespace LoadSave
         public SerializablePlayerPosition CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
-        public int LanguageLevel { get => languageLevel; set => languageLevel = value; }
+        public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
         public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         // public ConcurrentDictionary<string, ILanguageUnit> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
         // public ConcurrentDictionary<string, ILanguageUnit> SentenceWeightsProperty { get => SentenceWeights; set => SentenceWeights = value; }

@@ -124,6 +124,131 @@ namespace Analytics
                 Debug.LogWarning($"Entity '{entity.Identifier}' not found in WeightManager.");
             }
         }
+        
+        /// <summary>
+        /// Updates the weight of a letter based on whether the action was correct.
+        /// </summary>
+        public void UpdateLetterWeight(string identifier, bool isCorrect)
+        {
+            EnsureInitialized();
+
+            if (letterWeights.TryGetValue(identifier, out LetterData currentUnit))
+            {
+                currentUnit.Weight = isCorrect
+                    ? Mathf.Max(currentUnit.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+                    : Mathf.Min(currentUnit.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+
+                Debug.Log($"Updated weight for letter '{identifier}' to {currentUnit.Weight}");
+            }
+            else
+            {
+                Debug.LogWarning($"Letter '{identifier}' not found for weight update.");
+            }
+        }
+
+        /// <summary>
+        /// Updates the weight of a word based on whether the action was correct.
+        /// </summary>
+        /// <summary>
+        /// Updates the weight of a word and also adjusts the weights of individual letters within the word.
+        /// </summary>
+        public void UpdateWordWeight(string identifier, bool isCorrect)
+        {
+            EnsureInitialized();
+
+            if (wordWeights.TryGetValue(identifier, out WordData currentWord))
+            {
+                // Adjust the weight of the entire word
+                currentWord.Weight = isCorrect
+                    ? Mathf.Max(currentWord.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+                    : Mathf.Min(currentWord.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+
+                Debug.Log($"Updated weight for word '{identifier}' to {currentWord.Weight}");
+
+                // Update individual letter weights based on the word's performance
+                foreach (char letter in identifier)
+                {
+                    string letterIdentifier = letter.ToString(); //we do not toupper, so we can check capital and not letters
+                    if (letterWeights.TryGetValue(letterIdentifier, out LetterData letterData))
+                    {
+                        letterData.Weight = isCorrect
+                            ? Mathf.Max(letterData.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+                            : Mathf.Min(letterData.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+
+                        Debug.Log($"Updated weight for letter '{letterIdentifier}' to {letterData.Weight}");
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Letter '{letterIdentifier}' not found for weight update.");
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Word '{identifier}' not found for weight update.");
+            }
+        }
+
+        // TODO use when we have sentences
+        // /// <summary>
+        // /// Updates the weight of a sentence and also adjusts the weights of individual words and letters within the sentence.
+        // /// </summary>
+        // public void UpdateSentenceWeight(string sentenceIdentifier, bool isCorrect)
+        // {
+        //     EnsureInitialized();
+        //
+        //     if (sentenceWeights.TryGetValue(sentenceIdentifier, out SentenceData currentSentence))
+        //     {
+        //         // Adjust the weight of the entire sentence
+        //         currentSentence.Weight = isCorrect
+        //             ? Mathf.Max(currentSentence.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+        //             : Mathf.Min(currentSentence.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+        //
+        //         Debug.Log($"Updated weight for sentence '{sentenceIdentifier}' to {currentSentence.Weight}");
+        //
+        //         // Update individual word weights based on the sentence's performance
+        //         foreach (var word in currentSentence.Words)
+        //         {
+        //             if (wordWeights.TryGetValue(word, out WordData wordData))
+        //             {
+        //                 // Update word weight
+        //                 wordData.Weight = isCorrect
+        //                     ? Mathf.Max(wordData.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+        //                     : Mathf.Min(wordData.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+        //
+        //                 Debug.Log($"Updated weight for word '{word}' to {wordData.Weight}");
+        //
+        //                 // Update individual letter weights based on the word's performance
+        //                 foreach (char letter in word)
+        //                 {
+        //                     string letterIdentifier = letter.ToString().ToUpper();
+        //                     if (letterWeights.TryGetValue(letterIdentifier, out LetterData letterData))
+        //                     {
+        //                         // Update letter weight
+        //                         letterData.Weight = isCorrect
+        //                             ? Mathf.Max(letterData.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
+        //                             : Mathf.Min(letterData.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
+        //
+        //                         Debug.Log($"Updated weight for letter '{letterIdentifier}' to {letterData.Weight}");
+        //                     }
+        //                     else
+        //                     {
+        //                         Debug.LogWarning($"Letter '{letterIdentifier}' not found for weight update.");
+        //                     }
+        //                 }
+        //             }
+        //             else
+        //             {
+        //                 Debug.LogWarning($"Word '{word}' not found for weight update.");
+        //             }
+        //         }
+        //     }
+        //     else
+        //     {
+        //         Debug.LogWarning($"Sentence '{sentenceIdentifier}' not found for weight update.");
+        //     }
+        // }
+
 
         /// <summary>
         /// Updates the weight of an entity based on whether the action was correct.
@@ -147,7 +272,7 @@ namespace Analytics
         public void UpdateWeight(string identifier, bool isCorrect)
         {
             EnsureInitialized();
-
+        
             if (letterWeights.TryGetValue(identifier, out LetterData currentUnit))
             {
                 currentUnit.Weight = isCorrect
@@ -189,22 +314,7 @@ namespace Analytics
 
 
 
-        
-        // public List<ILanguageUnit> GetNextLanguageUnits(int playerLevel, int count)
-        // {
-        //     // Use the PlayerLevelMapper to determine what content to return
-        //     var (unitType, specificType) = PlayerLevelMapper.GetContentTypeForLevel(playerLevel);
-        //
-        //     EnsureInitialized();
-        //
-        //     // Filter based on the unit type and the specific category or length from the mapping
-        //     var filteredUnits = letterWeights.Values
-        //         .Where(unit => unit.LanguageUnitType == unitType && MatchesSpecificType(unit, specificType))
-        //         .ToList();
-        //
-        //     // Sort and take the requested count of units
-        //     return GetHighestWeightedUnits(filteredUnits, count);
-        // }
+
         
         private bool MatchesSpecificType(ILanguageUnit unit, object specificType)
         {
@@ -307,35 +417,6 @@ namespace Analytics
         }
 
 
-        // /// <summary>
-        // /// Retrieves the current weights for all entities.
-        // /// </summary>
-        // public Dictionary<string, int> GetCurrentWeights()
-        // {
-        //     return new Dictionary<string, int>(entityWeights);
-        // }
-        //
-        // /// <summary>
-        // /// Retrieves the weights of all vowel entities.
-        // /// </summary>
-        // public Dictionary<string, int> GetVowelWeights()
-        // {
-        //     var vowels = new HashSet<string>(letterRepository.GetVowels().Select(v => v.ToString()));
-        //     return entityWeights
-        //         .Where(e => vowels.Contains(e.Key))
-        //         .ToDictionary(e => e.Key, e => e.Value);
-        // }
-        //
-        // /// <summary>
-        // /// Retrieves the weights of all consonant entities.
-        // /// </summary>
-        // public Dictionary<string, int> GetConsonantWeights()
-        // {
-        //     var consonants = new HashSet<string>(letterRepository.GetConsonants().Select(c => c.ToString()));
-        //     return entityWeights
-        //         .Where(e => consonants.Contains(e.Key))
-        //         .ToDictionary(e => e.Key, e => e.Value);
-        // }
 
         public void PrintAllWeights()
         {

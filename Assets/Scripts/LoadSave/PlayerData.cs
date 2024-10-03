@@ -32,7 +32,7 @@ namespace LoadSave
         [SerializeField] private Vector3 currentPosition;
         
         // Words and letters
-        [SerializeField] private int languageLevel;
+        [SerializeField] private int playerLanguageLevel;
         [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
         [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
         [JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> SentenceWeights = new ConcurrentDictionary<string, ILanguageUnit>();
@@ -70,7 +70,7 @@ namespace LoadSave
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
-        public int LanguageLevel { get => languageLevel; set => languageLevel = value; }
+        public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
         public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public ConcurrentDictionary<string, WordData> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
         //public ConcurrentDictionary<string, ILanguageUnit> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
@@ -100,7 +100,7 @@ namespace LoadSave
         /// <param name="xpAmount">The amount of experience points the player currently has.</param>
         /// <param name="level">The current level of the player.</param>
         /// <param name="position">The current position of the player in the game world.</param>
-        /// <param name="languageLevel">The player's language proficiency level.</param>
+        /// <param name="playerLanguageLevel">The player's language proficiency level.</param>
         /// <param name="lettersWeights">A dictionary mapping letters to their weights.</param>
         /// <param name="collectedWords">The list of words the player has collected.</param>
         /// <param name="collectedLetters">The list of letters the player has collected.</param>
@@ -120,7 +120,7 @@ namespace LoadSave
             int xpAmount,
             int level,
             Vector3 position,
-            int languageLevel,
+            int playerLanguageLevel,
             ConcurrentDictionary<string, LetterData> lettersWeights,
             // TODO ADD WORDS AND SENTENCES
             List<string> collectedWords,
@@ -137,35 +137,35 @@ namespace LoadSave
             this.monsterName = monsterName;
             //this.monsterTypeID = monsterTypeID;
             this.monsterColor = monsterColor;
-            this.currentGoldAmount = goldAmount;
-            this.currentXPAmount = xpAmount;
-            this.currentLevel = level;
-            this.currentPosition = position;
+            currentGoldAmount = goldAmount;
+            currentXPAmount = xpAmount;
+            currentLevel = level;
+            currentPosition = position;
             
             // words and letters
-            this.languageLevel = languageLevel;
-            this.LettersWeights.Clear();
+            this.playerLanguageLevel = playerLanguageLevel;
+            LettersWeights.Clear();
             foreach (var kvp in lettersWeights)
             {
                 this.LettersWeights.TryAdd(kvp.Key, kvp.Value);
             }
             
-            this.CollectedWords.Clear();
-            this.CollectedWords.AddRange(collectedWords);
-            this.CollectedLetters.Clear();
-            this.CollectedLetters.AddRange(collectedLetters);
-            this.LifetimeTotalWords = totalWords;
-            this.LifetimeTotalLetters = totalLetters;
+            CollectedWords.Clear();
+            CollectedWords.AddRange(collectedWords);
+            CollectedLetters.Clear();
+            CollectedLetters.AddRange(collectedLetters);
+            LifetimeTotalWords = totalWords;
+            LifetimeTotalLetters = totalLetters;
             
             // cloth
-            this.clothMid = midCloth;
-            this.clothTop = topCloth;
-            this.BoughtClothes.Clear();
-            this.BoughtClothes.AddRange(boughtClothes);
+            clothMid = midCloth;
+            clothTop = topCloth;
+            BoughtClothes.Clear();
+            BoughtClothes.AddRange(boughtClothes);
             
             // cars
-            this.ListOfCars.Clear();
-            this.ListOfCars.AddRange(listOfCars);
+            ListOfCars.Clear();
+            ListOfCars.AddRange(listOfCars);
             
             // Furniture
             this.ListOfFurniture = ListOfFurniture;

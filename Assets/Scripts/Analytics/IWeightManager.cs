@@ -84,5 +84,7 @@ namespace Analytics
         // Dictionary<string, int> GetConsonantWeights();
         List<ILanguageUnit> GetNextLetters(LetterCategory category, int count);
         List<ILanguageUnit> GetNextWords(WordLength length, int count);
+        void UpdateLetterWeight(string identifier, bool isCorrect);
+        void UpdateWordWeight(string identifier, bool isCorrect);
     }
 }
