@@ -448,12 +448,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 {
                     item.Bought = true;
                 }
-                //// TODO : Find at better solution for this
-                ////If we switch the buttons around os Van is the first instead of Mustang this wont work
-                //if (playerData.ListOfCars[i].Name == carButtons[i].nameOfCar)
-                //{
-                    
-                //}
             }
         }
     }
