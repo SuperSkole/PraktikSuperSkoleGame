@@ -33,7 +33,7 @@ namespace Scenes
         public static void SwitchToAllTimeHighscore() => SceneLoader.Instance.LoadScene(SceneNames.MultiPlayerHighScores);
         public static void SwitchToLogin() => SceneLoader.Instance.LoadScene(SceneNames.Login);
         public static void SwitchToBankFrontLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.BankFrontLoading);
+        public static void SwitchToMultiplayerLobbyScene() => SceneLoader.Instance.LoadScene(SceneNames.MultiplayerLobby);
 
-        
     }
 }
