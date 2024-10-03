@@ -11,6 +11,8 @@ namespace Scenes
         public static void SwitchToArcadeAsteroidScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroid);
         public static void SwitchToArcadeAsteroidLoseScene() => SceneManager.LoadScene(SceneNames.ArcadeAsteroidLoseScreen);
         public static void SwitchToRacingScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
+
+        public static void SwitchToPathOfDangerAllModesSelector() => SceneManager.LoadScene(SceneNames.PathOfDangerAllModesSelector);
         public static void SwitchToPathOfDanger() => SceneManager.LoadScene(SceneNames.PathOfDanger);
         public static void SwitchToPathOfDangerLoseScene() => SceneManager.LoadScene(SceneNames.PathOfDangerLoseScreen);
         public static void SwitchToSymbolEaterScene() => SceneLoader.Instance.LoadScene(SceneNames.Eater);    
