@@ -58,8 +58,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void ApplyLoadedData(HouseDataDTO houseDataDTO)
         {
             // Apply the loaded grid data to the house systems
-            //itemContainer.floorData = houseDataDTO.FloorData;
-            //itemContainer.furnitureData = houseDataDTO.FurnitureData;
             itemContainer.SavedGridData = houseDataDTO.SavedGridData;
 
             Debug.Log("House data applied successfully.");

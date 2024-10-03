@@ -1,5 +1,7 @@
 using System;
 using Unity.Mathematics;
+using UnityEditor.Tilemaps;
+using UnityEditor.UI;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -14,6 +16,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private ObjectsDataBaseSO database;
         private GridData floorData;
         private GridData furnitureData;
+        private GridData nonePlaceablesData;
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
         private UIInvetoryManager invetoryManager;
@@ -29,6 +32,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
+            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer,
             UIInvetoryManager invetoryManager,
             EnumFloorDataType floorType)
@@ -41,6 +45,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.database = database;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
+            this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
             this.invetoryManager = invetoryManager;
             this.floorType = floorType;
@@ -152,6 +157,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     break;
                 case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
+                    break;
+                case EnumFloorDataType.NoneRemoveable:
+                    selectedData = nonePlaceablesData;
                     break;
                     //case EnumFloorDataType.Wall:
                     //    selectedData = furnitureData;

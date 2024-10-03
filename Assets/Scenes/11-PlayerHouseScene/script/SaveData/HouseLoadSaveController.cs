@@ -9,7 +9,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 {
     public class HouseLoadSaveController : MonoBehaviour
     {
-        public PlacementSystem floorData, furnitureData, placementSystem;
+        public PlacementSystem floorData, furnitureData, nonePlaceablesData, placementSystem;
         private SaveGameController saveGameController;
         
 
@@ -64,6 +64,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     {
         public SerializableGridData floorData;
         public SerializableGridData furnitureData;
+        public SerializableGridData nonePlaceablesData;
 
         public SerializableGridData SavedGridData;
 

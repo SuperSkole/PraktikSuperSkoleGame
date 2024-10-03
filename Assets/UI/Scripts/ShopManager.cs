@@ -231,6 +231,7 @@ namespace UI.Scripts
 
 
         }
+        
         /// <summary>
         /// Methode for checking if the player has enough money to buy an item
         /// </summary>
@@ -306,8 +307,8 @@ namespace UI.Scripts
                     ModifyMoneyValue(houseItem.Price);
                 }
             }
-
         }
+
         /// <summary>
         /// Takes in a price and then removes it from the pool of money the player has
         /// Used when buying an item 
@@ -321,6 +322,7 @@ namespace UI.Scripts
 
             meter.ChangeValue(-amount);
         }
+
         /// <summary>
         /// Used by buttons sets the HouseItemsBuying so that when clicking the buy button we can buy a furniture item.
         /// </summary>
@@ -352,6 +354,7 @@ namespace UI.Scripts
                     break;
             }
         }
+
         public void CloseShop()
         {
             currentShopOption = null;
