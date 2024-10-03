@@ -8,10 +8,12 @@ using UnityEngine;
 public class CustomerPool : MonoBehaviour
 {
     [SerializeField] private List<CustomerNavPoint> customerNavPoints;
+    [SerializeField] private List<CustomerNavPoint> customerExitRoute;
     private List<GameObject> customers;
     [SerializeField]private Queue<Customer> customersToSpawn;
     [SerializeField] private GameObject customerPrefab;
     [SerializeField] private BankManager bankManager;
+    [SerializeField] private Transform cameraTransform;
     /// <summary>
     /// Creates the pool of customers and sets up their various variables
     /// </summary>
@@ -27,7 +29,9 @@ public class CustomerPool : MonoBehaviour
             customer.bankManager = bankManager;
             customer.customerPool = this;
             customer.navPoints = customerNavPoints;
+            customer.exitNavPoints = customerExitRoute;
             customersToSpawn.Enqueue(customer);
+            customer.cameraTransform = cameraTransform;
         }
     }
 
@@ -51,6 +55,8 @@ public class CustomerPool : MonoBehaviour
             customer.bankManager = bankManager;
             customer.customerPool = this;
             customer.navPoints = customerNavPoints;
+            customer.exitNavPoints = customerExitRoute;
+            customer.cameraTransform = cameraTransform;
             SpawnCustomer(customer);
 
         }
@@ -66,6 +72,7 @@ public class CustomerPool : MonoBehaviour
         customerNavPoints[0].customer = customer.gameObject;
         customer.gameObject.SetActive(true);
         customer.currentNavPoint = 0;
+        customer.currentRoute = customer.navPoints;
     }
 
     /// <summary>

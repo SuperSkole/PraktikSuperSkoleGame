@@ -14,7 +14,6 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         [SerializeField]
         private ProductionLineObjectPool objectPool;
 
-        private int countDown = 0;
 
         private string fixedWord;
 

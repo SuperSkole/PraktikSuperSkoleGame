@@ -83,33 +83,41 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     /// <param name="customer">The current customer</param>
     public void HandOverMoney(Customer customer)
     {
-        errorDisplay.Reset();
-        currentCustomer = customer;
-        healthDisplay.SetHearts(3);
-        mistakes = 0;
-        //finds out how many coins the customer have and then generates them
-        int amount = Random.Range(1, 20);
-        float chancePerCoin = gamemode.GetChance();
-        for(int i = 0; i < amount; i++)
+        if(currentCustomer == null)
         {
-            int coinRoll = Random.Range(0, 100);
-            bool realCoin = false;
-            //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
-            for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
+            errorDisplay.Reset();
+            currentCustomer = customer;
+            healthDisplay.SetHearts(3);
+            mistakes = 0;
+            //finds out how many coins the customer have and then generates them
+            int amount = Random.Range(1, 20);
+            float chancePerCoin = gamemode.GetChance();
+            for(int i = 0; i < amount; i++)
             {
-                if(coinRoll < (j + 1) * chancePerCoin)
+                int coinRoll = Random.Range(0, 100);
+                bool realCoin = false;
+                //Checks if the roll gets a real coin. If it does it finds out which and then generates the coin and setting up its various variables
+                for(int j = 0; j < gamemode.GetRealCoinCount(); j++)
                 {
-                    gamemode.CreateRealCoin(j);
-                    realCoin = true;
-                    break;
+                    if(coinRoll < (j + 1) * chancePerCoin)
+                    {
+                        gamemode.CreateRealCoin(j);
+                        realCoin = true;
+                        break;
+                    }
+                }
+                //Does the same but for fake coins
+                if(!realCoin)
+                {
+                    gamemode.CreateFakeCoin();
                 }
             }
-            //Does the same but for fake coins
-            if(!realCoin)
-            {
-                gamemode.CreateFakeCoin();
-            }
         }
+        else
+        {
+            Debug.LogError("Attempted to add coins to ongoing game");
+        }
+        
     }
     /// <summary>
     /// Checks if the player has sorted the coins correctly and if their total for the correct ones is correct

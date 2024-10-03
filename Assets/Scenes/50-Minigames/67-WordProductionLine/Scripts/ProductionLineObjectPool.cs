@@ -11,7 +11,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         public List<GameObject> pooledObjects = new List<GameObject>();
 
-        public int amountToPool = 10;
+        public int amountToPool = 5;
 
         public int amountSpawned;
 
