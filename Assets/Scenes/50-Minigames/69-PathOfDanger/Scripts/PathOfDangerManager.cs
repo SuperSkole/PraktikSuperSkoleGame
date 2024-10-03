@@ -76,9 +76,12 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject healthUI;
 
+    [SerializeField] AudioSource backGroundMusicSource;
+
     void Start()
     {
         
+
         hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
 
         if (PlayerManager.Instance != null)
