@@ -68,6 +68,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         public List<Vector3> ammoSpawnPoints=new List<Vector3>();
 
         private GameObject spawnedPlayer;
+
+        public AudioSource flyingProjectileSound;
        
 
         /// <summary>

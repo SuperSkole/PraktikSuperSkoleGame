@@ -19,7 +19,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     [SerializeField] GameObject DeathPlatforms;
 
     [SerializeField] GameObject platformPrefab;
-    private GameObject spawnedPlayer;
+    public GameObject spawnedPlayer;
     [SerializeField] CinemachineVirtualCamera virtualCamera;
 
     [SerializeField] LayerMask playerPlacementLayerMask;
@@ -76,9 +76,17 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject healthUI;
 
+    [SerializeField] AudioSource backGroundMusicSource;
+
+    [SerializeField] GameObject mapSection;
+
+    [SerializeField] GameObject planes;
+    private bool mapLoaded = false;
+
     void Start()
     {
-        
+       
+
         hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
 
         if (PlayerManager.Instance != null)
@@ -173,6 +181,19 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<Jump>());
         Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<OutOfBounds>());
      
+
+    }
+
+    public void BuildMap()
+    {
+
+        for (int z = 0; z < z_AmountOfPlatforms / 2-1; z++)
+        {
+            Vector3 spawnPos = new Vector3(-22, 0, 506.5f + z * 59.5f);
+
+            Instantiate(mapSection,spawnPos,mapSection.transform.rotation);
+        }
+
 
     }
 
@@ -348,6 +369,12 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
         spawnedPlatforms = new GameObject[x_AmountOfPlatforms, z_AmountOfPlatforms+1];
 
+       if(mapLoaded==false)
+        {
+            BuildMap();
+            mapLoaded = true;
+        }
+
         BuildPlatforms();
 
     }
@@ -361,8 +388,8 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
     {
         this.gameMode = (IPODGameMode)gameMode;
-
       
+
     }
 
 
