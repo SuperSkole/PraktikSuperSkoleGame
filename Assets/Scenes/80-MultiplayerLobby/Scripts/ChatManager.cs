@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
 using TMPro;
+using LoadSave;
 
 public class ChatManager : NetworkBehaviour
 {
@@ -17,6 +18,10 @@ public class ChatManager : NetworkBehaviour
     private void Awake()
     {
         ChatManager.Singleton = this;
+        chatContent = GameObject.Find("ChatContent").GetComponent<CanvasGroup>();
+        chatInput = GameObject.Find("ChatBox Input").GetComponent<TMP_InputField>();
+        GameObject originPlayer = GameObject.Find("PlayerMonster");
+        playerName = originPlayer.GetComponent<PlayerData>().MonsterName;
     }
 
     private void Update()
