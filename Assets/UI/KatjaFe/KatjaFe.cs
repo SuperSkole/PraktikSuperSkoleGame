@@ -11,7 +11,7 @@ public class KatjaFe : MonoBehaviour
     [SerializeField] Image offButton;
 
     //Stuff given
-    AudioSource audioSource;
+    [SerializeField] AudioSource audioSource;
     Coroutine currentCoroutine;
 
     //Stuff saved
@@ -20,28 +20,36 @@ public class KatjaFe : MonoBehaviour
     //tutorial or tip
     public bool tutorial;
 
-    private void Initialize(bool type, AudioSource audio)
+    public void Initialize(bool type, AudioClip audio)
     {
+        audioSource = GetComponent<AudioSource>();
+
         //if tutorial
-        if(type)
+        if (type)
         {
             offButton.gameObject.SetActive(true);
-            audio.clip = oldaudio;
+            oldaudio = audio;
+            
         }
         //if not, but only tip
         else
         {
-            audio.clip = oldaudio;
+            oldaudio = audio;
             CheckIfThereIsAudio();
         }
+
     }
 
-    public void KatjaSpeak(AudioClip audioClip, System.Action onComplete)
+    public void KatjaSpeak(AudioClip thisAudioClip, System.Action onComplete)
     {
         Clear();
+        if(thisAudioClip != null)
+        {
+            Debug.Log("There is a audioclip");
+        }
 
         //Play the sound
-        audioSource.clip = audioClip;
+        audioSource.clip = thisAudioClip;
         audioSource.Play();
 
 
@@ -68,6 +76,8 @@ public class KatjaFe : MonoBehaviour
     {
         Clear();
 
+        Debug.Log("intro");
+
         //Set the button off
         if (offButton != null)
         {
@@ -86,10 +96,13 @@ public class KatjaFe : MonoBehaviour
     //clear the variables
     private void Clear()
     {
+        if(currentCoroutine != null)
+        {
         StopCoroutine(currentCoroutine);
-        audioSource = null;
-        currentCoroutine = null;
+        }
+
         katjaFeSkeleton.AnimationState.ClearTrack(0);
+        currentCoroutine = null;
     }
 
 
