@@ -21,7 +21,7 @@ public class SceneLoaderMonster : MonoBehaviour
             skeletonGraphic.AnimationState.SetAnimation(0, "Walk", true);
         }
 
-        if (playerColorChanging == null)
+        if (playerColorChanging == null && PlayerManager.Instance.PlayerData != null)
         {
             playerColorChanging = this.GetComponent<ColorChanging>();
 
@@ -35,7 +35,7 @@ public class SceneLoaderMonster : MonoBehaviour
                 print("Cant Find MonsterColor, But because i'm nice i wont error you");
             }
         }
-        if (clothChanging == null)
+        if (clothChanging == null && PlayerManager.Instance.PlayerData != null)
         {
             clothChanging = this.GetComponent<ClothChanging>();
 

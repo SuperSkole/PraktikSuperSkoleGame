@@ -9,6 +9,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private Grid grid;
         private PreviewSystem previewSystem;
         private PlacementSystem placementSystem;
+        private UIInvetoryManager invetoryManager;
         private GridData floorData;
         private GridData furnitureData;
         private ObjectPlacer objectPlacer;
@@ -16,6 +17,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public RemovingState(Grid grid,
             PreviewSystem previewSystem,
             PlacementSystem placementSystem,
+            UIInvetoryManager invetoryManager,
             GridData floorData,
             GridData furnitureData,
             ObjectPlacer objectPlacer)
@@ -23,6 +25,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.grid = grid;
             this.previewSystem = previewSystem;
             this.placementSystem = placementSystem;
+            this.invetoryManager = invetoryManager;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.objectPlacer = objectPlacer;
@@ -38,7 +41,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void OnAction(Vector3Int gridPos)
         {
             GridData selectedData = null;
-            if (furnitureData.CanPlaceObjectAt(gridPos,Vector2Int.one) == false)
+            if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
             {
                 selectedData = furnitureData;
             }
@@ -57,9 +60,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 if (gameObjectIndex == -1)
                     return;
 
+                invetoryManager.AddFuritureBackToPile(selectedData.placedObjects[gridPos].ID);
                 selectedData.RemoveObjectAt(gridPos, placementSystem, selectedData.placedObjects[gridPos].FloorType);
                 objectPlacer.RemoveObjectAt(gameObjectIndex);
-               
+
                 placementSystem.RemoveObjectAt();
             }
             Vector3 cellPos = grid.CellToWorld(gridPos);
