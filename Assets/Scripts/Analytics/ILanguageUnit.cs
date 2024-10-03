@@ -18,6 +18,7 @@ namespace Analytics
 
     public enum WordLength
     {
+        Unknown,
         TwoLetters,
         ThreeLetters,
         FourLetters,
@@ -25,10 +26,12 @@ namespace Analytics
     
     public interface ILanguageUnit
     {
-        string Identifier { get; } // what letter,word sentence eg. "A", "Cat", "A Black cat "
+        string Identifier { get; } // what letter,word or sentence eg. "A", "Cat", "A Black cat "
         LanguageUnit LanguageUnitType { get; }
         float Weight { get; set; }  
         float TimeWeight { get; set; }  
+        public float CompositeWeight { get; set; }
         DateTime LastUsed { get; set; }
+        public int ErrorCount { get; set; }
     }
 }

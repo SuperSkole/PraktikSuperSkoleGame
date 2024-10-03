@@ -20,6 +20,7 @@ namespace CORE
 
         public WeightManager WeightManager { get; private set; }
         public SpacedRepetitionManager SpacedRepetitionManager { get; private set; }
+        public DynamicDifficultyAdjustmentManager DynamicDifficultyAdjustmentManager { get; private set; }
         
         public DataConverter Converter { get; } = new DataConverter();
         public HighScore HighScore;
@@ -149,14 +150,19 @@ namespace CORE
                 PlayerData = gameObject.AddComponent<PlayerData>();
             }
             
+            if (!GetComponent<SpacedRepetitionManager>())
+            {
+                SpacedRepetitionManager = gameObject.AddComponent<SpacedRepetitionManager>();
+            }
+            
             if (!GetComponent<WeightManager>())
             {
                 WeightManager = gameObject.AddComponent<WeightManager>();
             }
             
-            if (!GetComponent<SpacedRepetitionManager>())
+            if (!GetComponent<DynamicDifficultyAdjustmentManager>())
             {
-                SpacedRepetitionManager = gameObject.AddComponent<SpacedRepetitionManager>();
+                DynamicDifficultyAdjustmentManager = gameObject.AddComponent<DynamicDifficultyAdjustmentManager>();
             }
         }
 

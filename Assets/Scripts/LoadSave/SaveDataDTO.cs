@@ -1,7 +1,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Analytics;
+using Letters;
 using Newtonsoft.Json;
+using Words;
 
 namespace LoadSave
 {
@@ -23,7 +25,10 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
-        [JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> LettersWeights = new ConcurrentDictionary<string, ILanguageUnit>();
+        private int languageLevel;
+        [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
+        [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
+        //[JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> SentenceWeights = new ConcurrentDictionary<string, ILanguageUnit>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
@@ -51,7 +56,10 @@ namespace LoadSave
         public SerializablePlayerPosition CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
-        public ConcurrentDictionary<string, ILanguageUnit> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
+        public int LanguageLevel { get => languageLevel; set => languageLevel = value; }
+        public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
+        // public ConcurrentDictionary<string, ILanguageUnit> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
+        // public ConcurrentDictionary<string, ILanguageUnit> SentenceWeightsProperty { get => SentenceWeights; set => SentenceWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }

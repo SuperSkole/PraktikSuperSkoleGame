@@ -10,6 +10,13 @@ namespace Analytics
         /// </summary>
         void InitializeWeights();
 
+        /// <summary>
+        /// Ensures that the weights are initialized before they are used.
+        /// </summary>
+        void EnsureInitialized();
+
+        IEnumerable<KeyValuePair<string, ILanguageUnit>> GetAllLanguageUnits();
+
         // /// <summary>
         // /// Initializes weights for a collection of entities.
         // /// </summary>
@@ -30,10 +37,19 @@ namespace Analytics
         /// <param name="category">The category of letter to filter by (e.g., vowel, consonant, all).</param>
         /// <param name="count">The number of language units to retrieve.</param>
         /// <returns>A list of language units that match the specified criteria.</returns>
-        public List<ILanguageUnit> GetNextLanguageUnits(
-            LanguageUnit type,
-            LetterCategory category,
-            int count);
+        // public List<ILanguageUnit> GetNextLanguageUnits(
+        //     LanguageUnit type,
+        //     LetterCategory category,
+        //     int count);
+        //
+        // public List<ILanguageUnit> GetNextLanguageUnits(
+        //     LanguageUnit type,
+        //     WordLength length,
+        //     int count);
+
+        // public List<ILanguageUnit> GetNextLanguageUnits(
+        //     int playerLevel,
+        //     int count);
 
         /// <summary>
         /// Updates the weight of a language unit identified by the given identifier.
@@ -66,5 +82,7 @@ namespace Analytics
         // /// </summary>
         // /// <returns>A dictionary of consonants and their corresponding weights.</returns>
         // Dictionary<string, int> GetConsonantWeights();
+        List<ILanguageUnit> GetNextLetters(LetterCategory category, int count);
+        List<ILanguageUnit> GetNextWords(WordLength length, int count);
     }
 }

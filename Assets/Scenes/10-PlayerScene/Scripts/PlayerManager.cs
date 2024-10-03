@@ -4,6 +4,7 @@ using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using LoadSave;
 using Scenes._20_MainWorld.Scripts.Car;
 using Scenes._24_HighScoreScene.Scripts;
@@ -224,7 +225,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 1,
                 spawnedPlayer.transform.position,
-                new ConcurrentDictionary<string, ILanguageUnit>(),
+                0,
+                new ConcurrentDictionary<string, LetterData>(),
                 new List<string>(),
                 new List<char>(),
                 0,
@@ -281,7 +283,9 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.IsNewGame = false;
             
             GameManager.Instance.WeightManager.InitializeWeights();
+            GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
             GameManager.Instance.WeightManager.PrintAllWeights();
+            GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
         }
 
         public void SetupPlayerFromSave(PlayerData saveData)
@@ -330,6 +334,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
+                saveData.LanguageLevel,
                 saveData.LettersWeights,
                 saveData.CollectedWords,
                 saveData.CollectedLetters,
@@ -367,6 +372,7 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
             
+            GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
             GameManager.Instance.WeightManager.PrintAllWeights();
         }
 
