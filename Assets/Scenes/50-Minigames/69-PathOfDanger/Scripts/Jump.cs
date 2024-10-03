@@ -1,3 +1,4 @@
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,10 @@ public class Jump : MonoBehaviour
     public PathOfDangerManager manager;
 
     public GameObject shadowPrefab;
-
+    private Vector3 posOffset;
     private GameObject spawnedShadow;
+
+    [SerializeField] float zOffset=-0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +46,10 @@ public class Jump : MonoBehaviour
         // Makes sure the spawned shadow is following the player in the x and z plane. 
         if(spawnedShadow!=null)
         {
-            spawnedShadow.transform.position = new Vector3(transform.position.x,spawnedShadow.transform.position.y,transform.position.z);
+            Vector3 centerPos = manager.spawnedPlayer.transform.GetChild(0).position;
+            var pos = new Vector3(centerPos.x, spawnedShadow.transform.position.y, centerPos.z);
+
+            spawnedShadow.transform.position = pos;
 
         }
 
@@ -90,9 +96,10 @@ public class Jump : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 1000))
         {
-            var posOffset = new Vector3(0, 0.5f, 0);
+           Vector3 centerPos= manager.spawnedPlayer.transform.GetChild(0).position;
+            var pos = new Vector3(centerPos.x, hit.point.y+0.5f,centerPos.z);
             
-            spawnedShadow=Instantiate(shadowPrefab, hit.point+posOffset,shadowPrefab.gameObject.transform.rotation);
+            spawnedShadow=Instantiate(shadowPrefab, pos,shadowPrefab.gameObject.transform.rotation);
         }
         
     }
