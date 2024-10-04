@@ -331,7 +331,7 @@ namespace Analytics
                 .SelectMany(group => group.OrderBy(_ => UnityEngine.Random.value)) // Randomize within each group of the same weight
                 .ToList();
 
-            // Take the top 'count' elements
+            // Take the top count elements
             return sortedUnits.Take(count).ToList();
         }
 

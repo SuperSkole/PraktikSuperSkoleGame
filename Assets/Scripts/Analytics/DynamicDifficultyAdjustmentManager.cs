@@ -67,7 +67,7 @@ namespace Analytics
             InitializeTimeWeightHandlers();
         }
         
-        // Constructor with Dependency Injection
+        // Constructor with Dependency Injection for unit testing
         public DynamicDifficultyAdjustmentManager(IWeightManager weightManager, ISpacedRepetitionManager spacedRepetitionManager)
         {
             this.weightManager = weightManager;
@@ -140,7 +140,7 @@ namespace Analytics
             {
                 return wordData;
             }
-            // If you have sentences later, add similar lookup logic here
+            // TODO sentence
 
             Debug.LogWarning($"Identifier '{identifier}' not found in WeightManager.");
             return null;
@@ -377,7 +377,7 @@ namespace Analytics
                         spacedRepetitionManager.RecordUsage(unit.Identifier);
                         Debug.Log($"Updated time weight for word '{unit.Identifier}'");
 
-                        // Optionally update time weight for individual letters within the word as well
+                        // TODO Optionally update time weight for individual letters within the word as well
                         foreach (char letter in unit.Identifier)
                         {
                             string letterIdentifier = letter.ToString();
@@ -392,7 +392,7 @@ namespace Analytics
                         spacedRepetitionManager.RecordUsage(unit.Identifier);
                         Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
 
-                        // Optionally update time weight for words and letters within the sentence
+                        // TODO Optionally update time weight for words and letters within the sentence
                         var sentenceWords = unit.Identifier.Split(' ');
                         foreach (var word in sentenceWords)
                         {

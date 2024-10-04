@@ -143,6 +143,7 @@ namespace Analytics
         private void UpdateTimeWeight(ILanguageUnit unit, bool isCorrect)
         {
             // Basic time weight calculation inspired by Anki's repetition model
+            // TODO - Implement a more sophisticated algorithm for spaced repetition
             TimeSpan elapsedTime = DateTime.Now - unit.LastUsed;
 
             if (isCorrect)

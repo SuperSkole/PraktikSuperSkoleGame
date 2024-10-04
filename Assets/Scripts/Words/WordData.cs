@@ -42,9 +42,7 @@ namespace Words
                 3 => WordLength.ThreeLetters,
                 4 => WordLength.FourLetters,
                 _ => WordLength.Unknown 
-                
             };
         }
     }
-
 }
