@@ -45,8 +45,7 @@ namespace Analytics
         public IEnumerable<KeyValuePair<string, ILanguageUnit>> GetAllLanguageUnits()
         {
             EnsureInitialized();
-
-            // Combine letters and words into a single collection
+            
             foreach (var kvp in letterWeights)
             {
                 yield return new KeyValuePair<string, ILanguageUnit>(kvp.Key, kvp.Value);
