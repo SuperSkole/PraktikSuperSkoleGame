@@ -103,8 +103,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     //StartCoroutine(TakeScreenShot());
                     
                     Debug.Log("Activelettehandler: right");
-                    GameManager.Instance.WeightManager.UpdateWeight(currentSymbol.symbol.ToString(), true);
-                    GameManager.Instance.WeightManager.PrintAllWeights();
+                    GameManager.Instance.PerformanceWeightManager.UpdateWeight(currentSymbol.symbol.ToString(), true);
+                    GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
                     
                     //next letter
                     currentSymbolIndex = 0;
@@ -151,8 +151,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             }
             
             Debug.Log("Activelettehandler: Wrong");
-            GameManager.Instance.WeightManager.UpdateWeight(currentSymbol.symbol.ToString(), false);
-            GameManager.Instance.WeightManager.PrintAllWeights();
+            GameManager.Instance.PerformanceWeightManager.UpdateWeight(currentSymbol.symbol.ToString(), false);
+            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
             
             dwaing.positionCount = 0;
             return false;

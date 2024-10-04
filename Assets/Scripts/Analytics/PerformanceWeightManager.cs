@@ -10,18 +10,18 @@ using Words;
 
 namespace Analytics
 {
-    public class WeightManager : PersistentSingleton<WeightManager>, IWeightManager
+    public class PerformanceWeightManager : PersistentSingleton<PerformanceWeightManager>, IPerformanceWeightManager
     {
         private ConcurrentDictionary<string, LetterData> letterWeights;
         private ConcurrentDictionary<string, WordData> wordWeights;
 
 
-        public WeightManager(ILetterRepository letterRepository)
+        public PerformanceWeightManager(ILetterRepository letterRepository)
         {
            
         }
         
-        public WeightManager()
+        public PerformanceWeightManager()
         {
            
         }
@@ -370,7 +370,7 @@ namespace Analytics
 
             // sort units by weight, then order randomly within each weight group
             var sortedUnits = unitList
-                .GroupBy(u => u.Weight)
+                .GroupBy(u => u.CompositeWeight)
                 .OrderByDescending(g => g.Key)
                 .SelectMany(g => g.OrderBy(u => UnityEngine.Random.value))
                 .Cast<ILanguageUnit>()

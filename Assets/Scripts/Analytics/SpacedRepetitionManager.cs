@@ -11,7 +11,7 @@ namespace Analytics
 {
     public class SpacedRepetitionManager : PersistentSingleton<SpacedRepetitionManager>, ISpacedRepetitionManager
     {
-        private readonly IWeightManager weightManager;
+        private readonly IPerformanceWeightManager performanceWeightManager;
         private readonly TimeSpan repetitionInterval = TimeSpan.FromDays(7);
 
         private ConcurrentDictionary<string, LetterData> letterWeights;

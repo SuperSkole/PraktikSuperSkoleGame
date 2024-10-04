@@ -285,7 +285,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             if(LetterManager.GetAllLetters().Contains(letter[0]))
             {
-                GameManager.Instance.WeightManager.UpdateWeight(letter, false);
+                GameManager.Instance.PerformanceWeightManager.UpdateWeight(letter, false);
             }
             
             readyForDeactivation = true;
@@ -305,7 +305,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             if(LetterManager.GetAllLetters().Contains(letter[0]))
             {
-                GameManager.Instance.WeightManager.UpdateWeight(letter, true);
+                GameManager.Instance.PerformanceWeightManager.UpdateWeight(letter, true);
             }
             readyForDeactivation = true;
             rawImage.color = Color.green;
