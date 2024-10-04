@@ -1,17 +1,18 @@
-using System;
-using System.Threading.Tasks;
 using CORE;
 using LoadSave;
 using Scenes._11_PlayerHouseScene.script.HouseScripts;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.SaveData
 {
     public class HouseLoadSaveController : MonoBehaviour
     {
-        public PlacementSystem floorData, furnitureData, placementSystem;
+        public PlacementSystem floorData, furnitureData, nonePlaceablesData, placementSystem;
         private SaveGameController saveGameController;
-        
+
 
         private const string HOUSETAG = "House";
 
@@ -23,9 +24,8 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
         public async void SaveGridData()
         {
             // Convert the current floor and furniture dictionaries into serializable lists
+
             SerializableGridData SavedGridData = new SerializableGridData(placementSystem.placedObjectsSaved);
-
-
 
             // Create a new HouseDataDTO
             HouseDataDTO houseDataDTO = new HouseDataDTO(SavedGridData);
@@ -49,14 +49,25 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 
             if (houseDataDTO != null)
             {
-                 return houseDataDTO;
+                return houseDataDTO;
             }
             else
             {
                 Debug.Log("Failed to either load/Find house data from the cloud.");
                 return default;
             }
-        }        
+        }
+        public bool ReturnIfGenerateSaveNameWorks()
+        {
+            string username = GameManager.Instance.PlayerData.Username;
+            string monsterName = GameManager.Instance.PlayerData.MonsterName;
+
+            // Generate save key for house data
+            string saveKey = saveGameController.GenerateSaveKey(username, monsterName, HOUSETAG);
+
+            if (saveKey != string.Empty) { return true; }
+            else { return false; }
+        }
     }
 
     [Serializable]
@@ -64,6 +75,7 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     {
         public SerializableGridData floorData;
         public SerializableGridData furnitureData;
+        public SerializableGridData nonePlaceablesData;
 
         public SerializableGridData SavedGridData;
 
