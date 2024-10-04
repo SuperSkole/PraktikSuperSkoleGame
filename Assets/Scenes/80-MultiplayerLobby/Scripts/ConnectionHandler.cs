@@ -61,16 +61,13 @@ public class ConnectionHandler : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
         try
         {
-            Debug.Log("Leaving lobby...");
             List<string> lobbies = await LobbyService.Instance.GetJoinedLobbiesAsync();
-            Debug.Log("1");
             string playerId = AuthenticationService.Instance.PlayerId;
-            Debug.Log("2");
             foreach (string lobby in lobbies)
             {
-                Debug.Log("3");
                 await LobbyService.Instance.RemovePlayerAsync(lobby, playerId);
             }
+            LeaveLevel();
         }
         catch (System.Exception ex)
         {
