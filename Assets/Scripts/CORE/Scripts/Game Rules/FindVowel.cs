@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using Analytics;
-using Letters;
+
 using UnityEngine;
 
 namespace CORE.Scripts.Game_Rules
@@ -18,12 +17,14 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>a random letter of the correct type</returns>
         public string GetCorrectAnswer()
         {
+            
+            
             Debug.Log("Getting vowel");
             var vowel
-                = GameManager.Instance.WeightManager.GetNextLanguageUnits(
-                    LanguageUnit.Letter, LetterCategory.Vowel, 1);
+                = GameManager.Instance.DynamicDifficultyAdjustmentManager
+                    .GetNextLanguageUnitsBasedOnLevel(1);
             
-            Debug.Log("Vowel: " + vowel[0].Identifier);
+            Debug.Log("Vowel: " + vowel[0].Identifier);            
             return vowel[0].Identifier;
             
             return LetterManager.GetRandomVowel().ToString();

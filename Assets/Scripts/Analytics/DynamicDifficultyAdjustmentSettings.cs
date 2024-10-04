@@ -8,7 +8,7 @@ namespace Analytics
         public const float WeightDecrement = 5f;
         public const float MaxWeight = 99f;
         public const float MinWeight = 0f;
-        public const float AdvancementThreshold = 45f;
+        public const float LevelUpThreshold = 45f;
         
         // Time weight settings
         public const float TimeWeightFactor = 0.1f;

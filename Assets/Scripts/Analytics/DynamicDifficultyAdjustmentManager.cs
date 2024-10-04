@@ -12,7 +12,7 @@ namespace Analytics
 {
     public static class PlayerLevelMapper
     {
-        private static readonly Dictionary<int, (LanguageUnit, object)> LevelMapping = new Dictionary<int, (LanguageUnit, object)>
+        public static readonly Dictionary<int, (LanguageUnit, object)> LevelMapping = new Dictionary<int, (LanguageUnit, object)>
         {
             { 0, (LanguageUnit.Letter, LetterCategory.Vowel) },         // Level 0: Vowels
             { 1, (LanguageUnit.Letter, LetterCategory.Consonant) },     // Level 1: Consonants
@@ -171,6 +171,140 @@ namespace Analytics
             Debug.Log($"Updated weight for {unit.Identifier} based on performance and time: {isCorrect}");
         }
         
+        public void CheckAndUpdatePlayerLevel()
+        {
+            EnsureInitialized();
+
+            int currentLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+
+            // Use LevelMapping to determine the relevant content type and parameter for the current level
+            if (PlayerLevelMapper.LevelMapping.TryGetValue(currentLevel, out var levelData))
+            {
+                var contentType = levelData.Item1;
+                var additionalParameter = levelData.Item2;
+
+                // Get the relevant language units based on the content type and parameter
+                List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+
+                if (relevantUnits.Count == 0)
+                {
+                    Debug.LogWarning($"No relevant units found for level {currentLevel}.");
+                    return;
+                }
+
+                // Calculate the average weight for the relevant units
+                float averageWeight = CalculateAverageWeight(relevantUnits);
+
+                // Determine if the player has performed well enough to level up
+                if (averageWeight <= DynamicDifficultyAdjustmentSettings.LevelUpThreshold)
+                {
+                    // Update the player's language level and initialize time weights for the new level
+                    Debug.Log("Player has leveled up!");
+                    PlayerManager.Instance.PlayerData.PlayerLanguageLevel++;
+                    InitializeTimeWeights(PlayerManager.Instance.PlayerData.PlayerLanguageLevel); 
+                    Debug.Log($"Player has leveled up to level {PlayerManager.Instance.PlayerData.PlayerLanguageLevel} with average weight: {averageWeight}");
+                }
+                else
+                {
+                    Debug.Log($"Player remains at level {currentLevel} with average weight: {averageWeight}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"No mapping found for player level {currentLevel}.");
+            }
+        }
+
+
+
+        public void InitializeTimeWeights(int playerLevel)
+        {
+            // Get the content type and additional parameter for the current level from LevelMapping
+            if (PlayerLevelMapper.LevelMapping.TryGetValue(playerLevel, out var levelData))
+            {
+                var contentType = levelData.Item1;
+                var additionalParameter = levelData.Item2;
+
+                // Get the relevant language units
+                List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+
+                // Initialize time weights for the relevant units
+                foreach (var unit in relevantUnits)
+                {
+                    if (unit.LastUsed == DateTime.MinValue)
+                    {
+                        unit.LastUsed = DateTime.Now; // Set initial time
+                        unit.TimeWeight = 0; // Set initial time weight
+                    }
+                }
+
+                Debug.Log($"Initialized time weights for content type: {contentType}, level {playerLevel}");
+            }
+            else
+            {
+                Debug.LogWarning($"No mapping found for player level {playerLevel}.");
+            }
+        }
+
+
+        private List<ILanguageUnit> GetUnitsByContentType((LanguageUnit, object) contentType)
+        {
+            var (unitType, parameter) = contentType;
+
+            return unitType switch
+            {
+                LanguageUnit.Letter when parameter is LetterCategory category => letterWeights.Values
+                    .Where(letter => letter.Category == category)
+                    .ToList<ILanguageUnit>(),
+
+                LanguageUnit.Word when parameter is WordLength wordLength => wordWeights.Values
+                    .Where(word => word.Length == wordLength)
+                    .ToList<ILanguageUnit>(),
+
+               // LanguageUnit.Sentence => sentenceWeights?.Values.ToList<ILanguageUnit>() ?? new List<ILanguageUnit>(),
+
+                _ => new List<ILanguageUnit>()
+            };
+        }
+
+
+        
+        // private List<ILanguageUnit> GetRelevantUnitsForLevel(int level)
+        // {
+        //     List<ILanguageUnit> relevantUnits = new List<ILanguageUnit>();
+        //
+        //     switch (level)
+        //     {
+        //         case 0:
+        //             relevantUnits.AddRange(letterWeights.Values.Where(letter => letter.Category == LetterCategory.Vowel));
+        //             break;
+        //         case 1:
+        //             relevantUnits.AddRange(letterWeights.Values.Where(letter => letter.Category == LetterCategory.Consonant));
+        //             break;
+        //         case 2:
+        //             relevantUnits.AddRange(letterWeights.Values); // All letters
+        //             break;
+        //         case 3:
+        //             relevantUnits.AddRange(wordWeights.Values.Where(word => word.Length == 2));
+        //             break;
+        //         // Add further levels as required
+        //     }
+        //
+        //     return relevantUnits;
+        // }
+
+        private float CalculateAverageWeight(List<ILanguageUnit> units)
+        {
+            if (units == null || units.Count == 0)
+            {
+                return float.MaxValue; // No units to calculate, return maximum to prevent level up
+            }
+
+            float totalWeight = units.Sum(unit => unit.Weight);
+            return totalWeight / units.Count;
+        }
+
+        
         /// <summary>
         /// Calculates the composite weights for each letter based on both performance and time data.
         /// </summary>
@@ -225,7 +359,7 @@ namespace Analytics
                 }
             };
         }
-
+        
         private void InitializeTimeWeightHandlers()
         {
             timeWeightHandlers = new Dictionary<LanguageUnit, Action<ILanguageUnit>>

@@ -310,11 +310,6 @@ namespace Analytics
 
             return GetHighestWeightedUnits(filteredUnits, count);
         }
-
-
-
-
-
         
         private bool MatchesSpecificType(ILanguageUnit unit, object specificType)
         {
@@ -341,7 +336,7 @@ namespace Analytics
         }
 
         
-        public List<ILanguageUnit> GetNextLanguageUnits(LanguageUnit type, LetterCategory category, int count)
+        public List<ILanguageUnit> GetNextLanguageUnitsByTypeAndCategory(LanguageUnit type, LetterCategory category, int count)
         {
             EnsureInitialized();
     
@@ -395,26 +390,26 @@ namespace Analytics
             return result;
         }
         
-        public List<ILanguageUnit> GetNextLanguageUnits(LanguageUnit type, int count)
-        {
-            EnsureInitialized();
-    
-            // Get all elements of the requested type
-            var filteredUnits = letterWeights.Values
-                .Where(u => u.LanguageUnitType == type)
-                .ToList();
-
-            // Sort and take the requested count
-            var sortedUnits = filteredUnits
-                .GroupBy(u => u.Weight)
-                .OrderByDescending(g => g.Key)
-                .SelectMany(g => g.OrderBy(u => UnityEngine.Random.value))
-                .Take(count)
-                .Cast<ILanguageUnit>()
-                .ToList();
-
-            return sortedUnits;
-        }
+        // public List<ILanguageUnit> GetNextLanguageUnits(LanguageUnit type, int count)
+        // {
+        //     EnsureInitialized();
+        //
+        //     // Get all elements of the requested type
+        //     var filteredUnits = letterWeights.Values
+        //         .Where(u => u.LanguageUnitType == type)
+        //         .ToList();
+        //
+        //     // Sort and take the requested count
+        //     var sortedUnits = filteredUnits
+        //         .GroupBy(u => u.Weight)
+        //         .OrderByDescending(g => g.Key)
+        //         .SelectMany(g => g.OrderBy(u => UnityEngine.Random.value))
+        //         .Take(count)
+        //         .Cast<ILanguageUnit>()
+        //         .ToList();
+        //
+        //     return sortedUnits;
+        // }
 
 
 
