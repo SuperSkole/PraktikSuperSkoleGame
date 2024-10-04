@@ -31,6 +31,8 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI desiredInput;
     [SerializeField] private GameObject ui;
     [SerializeField] private VaultOpener vaultOpener;
+    [SerializeField] private AudioSource successAudioSource;
+    [SerializeField] private AudioClip successSound;
     private bool waitingForEnd;
     private int desiredInputIndex;
 
@@ -57,6 +59,7 @@ public class VaultManager : MonoBehaviour
     public void StartGame()
     {
         gameOverText.text = "";
+        gameOverText.transform.parent.gameObject.SetActive(false);
         lives.text = "3/3 liv";
         for(int i = 0; i < 4; i++)
         {
@@ -94,6 +97,7 @@ public class VaultManager : MonoBehaviour
             if(correct)
             {
                 ChangeMaterial(correctMaterial);
+                successAudioSource.PlayOneShot(successSound);
                 if(usedDesiredInputIndices.Count == 4)
                 {
                     vaultOpener.StartMove();
@@ -200,6 +204,7 @@ public class VaultManager : MonoBehaviour
         PlayerEvents.RaiseXPChanged(1);
         PlayerEvents.RaiseGoldChanged(1);
         gameOverText.text = "Du vandt. Du fandt koden til bankboksen";
+        gameOverText.transform.parent.gameObject.SetActive(true);
         StartCoroutine(WaitBeforeEnd());
         StartCoroutine(SpawnCoins());
     }
@@ -210,6 +215,7 @@ public class VaultManager : MonoBehaviour
     private void Lost()
     {
         gameOverText.text = "Du tabte du gættede forkert for mange gange";
+        gameOverText.transform.parent.gameObject.SetActive(true);
         StartCoroutine(WaitBeforeEnd());
     }
 
@@ -220,7 +226,14 @@ public class VaultManager : MonoBehaviour
     private IEnumerator WaitBeforeEnd()
     {
         waitingForEnd = true;
-        yield return new WaitForSeconds(5);
+        if(mistakes >= 3)
+        {
+            yield return new WaitUntil(() => !alarmScript.audioSource.isPlaying);
+        }
+        else
+        {
+            yield return new WaitForSeconds(5);
+        }
         waitingForEnd = false;
         SwitchScenes.SwitchToMainWorld();
     }

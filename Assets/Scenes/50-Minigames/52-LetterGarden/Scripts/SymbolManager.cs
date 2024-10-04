@@ -84,7 +84,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     
                 }
                 //Adds the game object and splinecontainer of a lowercase letter to their dictionaries using the letter at the end as key
-                else if (gameObject.name.Contains("Lowercase"))
+                else if (gameObject.name.Contains("Lowercase") || gameObject.name.Contains("LowerCase"))
                 {
                     if (gameObject.name[9] == '(')
                     {

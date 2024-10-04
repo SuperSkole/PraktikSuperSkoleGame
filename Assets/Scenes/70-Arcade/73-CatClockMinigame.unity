@@ -299,6 +299,7 @@ MonoBehaviour:
   minuteText: {fileID: 1654625143}
   randoMinute: 
   randoHour: 0
+  dislplayHour: 0
 --- !u!114 &250657728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,6 +1715,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: -9117483709511198939, guid: 237756c4232676e4599a009ac2294ebc, type: 3}
+    - target: {fileID: 3314330619644243874, guid: 67824c7b894290541b46c528c2534846, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314330619644243874, guid: 67824c7b894290541b46c528c2534846, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314330619644243874, guid: 67824c7b894290541b46c528c2534846, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3314330619644243874, guid: 67824c7b894290541b46c528c2534846, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 5622426012782041062, guid: 67824c7b894290541b46c528c2534846, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -1788,7 +1805,7 @@ MonoBehaviour:
   minuteGameObject: {fileID: 1566511629}
   submitAnswerLever: {fileID: 1566511628}
   hourTime: 10
-  minuteTime: 10
+  minuteTime: 0
   watch: {fileID: 250657727}
   score: 0
   scoreTextObject: {fileID: 1694260205}

@@ -9,6 +9,8 @@ using UnityEngine;
 public class GearScript : MonoBehaviour
 {
     [SerializeField]private GameObject toothPrefab;
+    [SerializeField]private AudioSource audioSource;
+    [SerializeField]private AudioClip turnSound;
     private float deltaAngle;
     private bool rotating = false;
 
@@ -26,9 +28,9 @@ public class GearScript : MonoBehaviour
     /// <summary>
     /// Starts rotating the gear if it is not currently rotating
     /// </summary>
-    public void OnMouseDown()
+    public void OnMouseOver()
     {
-        if(!rotating)
+        if(!rotating && Input.GetKey(KeyCode.Mouse0))
         {
             StartCoroutine(RotateGear(1));
         }
@@ -75,8 +77,6 @@ public class GearScript : MonoBehaviour
     /// <returns></returns>
     private IEnumerator RotateGear(int seconds)
     {
-        
-        
         Vector3 remainingRotation = new Vector3(0, deltaAngle, 0);
         rotating = true;
         Vector3 deltaRotation = new Vector3(0, deltaAngle / (seconds * 25));
@@ -96,6 +96,7 @@ public class GearScript : MonoBehaviour
                 break;
             }
         }
+        audioSource.PlayOneShot(turnSound);
         rotating = false;
         currentNumber++;
         if(currentNumber > 9)
