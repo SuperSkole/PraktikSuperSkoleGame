@@ -83,7 +83,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
 
             return !(furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one,nonePlaceablesData) &&
-                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData) && nonePlaceablesData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData));
+                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData));
         }
 
         public void UpdateState(Vector3Int gridPos)

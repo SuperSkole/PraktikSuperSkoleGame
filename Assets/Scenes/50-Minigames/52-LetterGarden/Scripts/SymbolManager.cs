@@ -92,8 +92,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     }
                     else
                     {
-                        lowercaseLettersObjects.Add(gameObject.name[9], gameObject);
-                        lowercaseLetters.Add(gameObject.name[9], gameObject.GetComponent<SplineContainer>());
+                        lowercaseLettersObjects.Add(gameObject.name.ToLower()[9], gameObject);
+                        lowercaseLetters.Add(gameObject.name.ToLower()[9], gameObject.GetComponent<SplineContainer>());
                     }
                     
                 }
@@ -133,7 +133,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
             char letter = ' ';
             //Finds out which letter it is
-            switch (character)
+            switch (character.ToUpper())
             {
                 case "AA":
                     letter = 'Å';
@@ -156,8 +156,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             }
             else 
             {
-                lowercaseLettersObjects.Add(letter, gameObject);
-                lowercaseLetters.Add(letter, gameObject.GetComponent<SplineContainer>());
+                lowercaseLettersObjects.Add(char.ToLower(letter), gameObject);
+                lowercaseLetters.Add(char.ToLower(letter), gameObject.GetComponent<SplineContainer>());
             }
         }
     }

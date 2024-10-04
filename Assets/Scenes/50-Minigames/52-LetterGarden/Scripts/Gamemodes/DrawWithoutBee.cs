@@ -33,11 +33,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
                 usedLetters.Add(letter);
                 if(Random.Range(0, 2) == 0)
                 {
-                    result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[letter[0]], SymbolManager.capitalLetters[letter[0]], letter[0]));
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.capitalLettersObjects[letter.ToUpper()[0]], SymbolManager.capitalLetters[letter.ToUpper()[0]], letter.ToUpper()[0]));
                 }
                 else
                 {
-                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter[0]], SymbolManager.lowercaseLetters[letter[0]], letter.ToLower()[0]));
+                    result.Add(new SplineSymbolDataHolder(SymbolManager.lowercaseLettersObjects[letter.ToLower()[0]], SymbolManager.lowercaseLetters[letter.ToLower()[0]], letter.ToLower()[0]));
                 }
             }
             return result;

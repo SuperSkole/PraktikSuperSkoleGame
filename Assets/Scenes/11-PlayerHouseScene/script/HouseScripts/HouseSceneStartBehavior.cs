@@ -25,6 +25,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         private GameObject spawnedPlayer;
         [SerializeField] private GameObject houseFloorSide;//Where the walls are being placed by the PC
+        private bool saveDataHasBeenMade = false;
 
         // Start is called before the first frame update
         private async void Start()
@@ -36,19 +37,26 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             houseFloorSide.SetActive(true);
 
             invetoryManager.LoadFurnitureAmount();
-            try
+            
+            await LoadingHouseItems();  // Wait for the house data to load
+           
+            if (!saveDataHasBeenMade)
             {
-                await LoadingHouseItems();  // Wait for the house data to load
+                CreateHouseSaveData();
+                Debug.Log("No House Save has been found, We created a new one");
             }
-            catch (System.Exception ex)
-            {
-                if (saveManager.ReturnIfGenerateSaveNameWorks())
-                {
-                    CreateHouseSaveData();
-                    print("No House Save has been found, We created a new one");
-                }
-                else { print($"Something else went wrong look at error : {ex} "); }
-            }
+           
+            //try
+            //{
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    if (saveManager.ReturnIfGenerateSaveNameWorks())
+            //    {
+                  
+            //    }
+            //    else { print($"Something else went wrong look at error : {ex} "); }
+            //}
             houseFloorSide.SetActive(false);
             buildingSystemParent.SetActive(false);
 
@@ -195,12 +203,21 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Load the house data asynchronously
             var data = await saveManager.LoadGridData<HouseDataDTO>();
 
+            if (data == null)
+            {
+                Debug.Log("No Save was Found");
+                saveDataHasBeenMade = false;
+                return;
+            }
+
             ApplyLoadedData(data);  // Apply the loaded data after it's loaded
 
             foreach (var item in itemContainer.SavedGridData.placedObjectsList)
             {
                 placementSystem.PlaceItemsStartLoading(item.Key.key, item.ID, item.FloorType, item.RotationValue);
             }
+            saveDataHasBeenMade = true;
+
         }
         public void ApplyLoadedData(HouseDataDTO houseDataDTO)
         {
