@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
     private GameObject mCamara;
     [SerializeField] private AudioMixerGroup sfx, music, voice;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Correctness", "UNT0008:Null propagation on Unity objects", Justification = "<Pending>")]
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
