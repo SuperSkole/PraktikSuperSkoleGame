@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
         else
             Destroy(gameObject);
         if(mCamara == null)
-            mCamara = FindAnyObjectByType<AudioListener>().gameObject;
+            mCamara = FindAnyObjectByType<AudioListener>()?.gameObject;
     }
 
     /// <summary>
