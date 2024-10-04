@@ -83,6 +83,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     [SerializeField] GameObject planes;
     private bool mapLoaded = false;
 
+    public bool hasAnsweredWrong=false;
     void Start()
     {
        
@@ -91,7 +92,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
         if (PlayerManager.Instance != null)
         {
-            platformPrefabFallingScript = platformPrefab.transform.GetChild(0).GetComponent<PlatformFalling>();
+            platformPrefabFallingScript = platformPrefab.transform.GetComponent<PlatformFalling>();
 
             platformPrefabFallingScript.manager = this;
 
