@@ -507,6 +507,17 @@ namespace Analytics
             {
                 letterWeights = PlayerManager.Instance.PlayerData.LettersWeightsProperty;
             }
+            
+            if (wordWeights == null)
+            {
+                wordWeights = PlayerManager.Instance.PlayerData.WordWeightsProperty;
+            }
+            
+            // TODO Sentence weights
+            // if (sentenceWeights == null)
+            // {
+            //     sentenceWeights = PlayerManager.Instance.PlayerData.sentenceWeights;
+            // }
         }
         
         public void PrintAllWeights()

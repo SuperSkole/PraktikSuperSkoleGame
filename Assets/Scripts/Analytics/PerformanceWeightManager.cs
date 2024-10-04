@@ -16,16 +16,10 @@ namespace Analytics
         private ConcurrentDictionary<string, WordData> wordWeights;
 
 
-        public PerformanceWeightManager(ILetterRepository letterRepository)
-        {
-           
-        }
-        
-        public PerformanceWeightManager()
-        {
-           
-        }
-        
+        public PerformanceWeightManager(ILetterRepository letterRepository) { }
+
+        public PerformanceWeightManager() { }
+
         /// <summary>
         /// Ensures that letterWeights is initialized before use.
         /// </summary>
@@ -35,9 +29,41 @@ namespace Analytics
             {
                 letterWeights = PlayerManager.Instance.PlayerData.LettersWeightsProperty;
             }
+            
+            if (wordWeights == null)
+            {
+                wordWeights = PlayerManager.Instance.PlayerData.WordWeightsProperty;
+            }
+            
+            // TODO Sentence weights
+            // if (sentenceWeights == null)
+            // {
+            //     sentenceWeights = PlayerManager.Instance.PlayerData.sentenceWeights;
+            // }
         }
 
-        public IEnumerable<KeyValuePair<string, ILanguageUnit>> GetAllLanguageUnits() { throw new NotImplementedException(); }
+        public IEnumerable<KeyValuePair<string, ILanguageUnit>> GetAllLanguageUnits()
+        {
+            EnsureInitialized();
+            
+            foreach (var kvp in letterWeights)
+            {
+                yield return new KeyValuePair<string, ILanguageUnit>(kvp.Key, kvp.Value);
+            }
+
+            // TODO When words are fully implemented
+            // foreach (var kvp in wordWeights)
+            // {
+            //     yield return new KeyValuePair<string, ILanguageUnit>(kvp.Key, kvp.Value);
+            // }
+
+            // TODO When sentences are implemented
+            // foreach (var kvp in sentenceWeights)
+            // {
+            //     yield return new KeyValuePair<string, ILanguageUnit>(kvp.Key, kvp.Value);
+            // }
+        }
+
 
         /// <summary>
         /// Initializes the weights from PlayerManager's PlayerData, setting a default weight if not already set.
@@ -84,19 +110,19 @@ namespace Analytics
                 //      }
             }
             
-            // Link WordWeights to PlayerData's WordWeights
-            wordWeights = PlayerManager.Instance.PlayerData.WordWeights;
-
-            // TODO - Initialize words with default weight if not present
-            
-            // // Initialize words with default weight if not present 
-            // foreach (var word in wordRepository.GetAllWords())  
+            // // Link wordWeights to PlayerData's WordWeights
+            // wordWeights = PlayerManager.Instance.PlayerData.WordWeights;
+            //
+            // // Initialize words with default weight if they are not already present
+            // var allWords = WordRepository.GetAllWords();
+            //
+            // foreach (var word in allWords)
             // {
             //     if (!wordWeights.ContainsKey(word))
             //     {
-            //         var wordData = new WordData(word, WeightSettings.InitialWeight);
+            //         var wordData = new WordData(word, DynamicDifficultyAdjustmentSettings.InitialWeight);
             //         wordWeights.TryAdd(word, wordData);
-            //         Debug.Log($"Added word: {word} with initial weight {WeightSettings.InitialWeight}");
+            //         Debug.Log($"Added word: {word} with initial weight {DynamicDifficultyAdjustmentSettings.InitialWeight}");
             //     }
             // }
         }
