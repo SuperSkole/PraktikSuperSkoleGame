@@ -51,7 +51,7 @@ public class ConnectionHandler : MonoBehaviour
 
     public void LeaveLevel()
     {
-        SwitchScenes.SwitchToPlayerHouseScene();
+        SwitchScenes.SwitchToMainWorld();
     }
 
     // Leave the Lobby and Relay (cleanup)
