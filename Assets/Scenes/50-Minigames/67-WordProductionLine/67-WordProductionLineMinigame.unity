@@ -1856,6 +1856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01576bfa2b854046b77120d5f892dd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particals: {fileID: 1265720855497889114, guid: 1be9ac3dbc99db0409705d3e836ca43a, type: 3}
   selectedMaterial: {fileID: 2100000, guid: f99f5b04cfeeee5469b8b298bc6990d6, type: 2}
   defaultMaterial: {fileID: 2100000, guid: e41d24a8288a62b4e90f6bf4818c5ea3, type: 2}
   wrongMaterial: {fileID: 2100000, guid: 89b91374d5b18ff41ae59e6c21369477, type: 2}
@@ -3076,7 +3077,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 23.892368, y: 7.1648073, z: 1.1140326}
+  m_Size: {x: 25, y: 11, z: 1.1140326}
   m_Center: {x: 0.7161622, y: -3.353589, z: -0.057016194}
 --- !u!4 &1748938135
 Transform:
