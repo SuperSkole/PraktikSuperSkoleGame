@@ -89,7 +89,16 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <param name="dwaing">the line the player has drawn</param>
         public bool CheakDwaingQualaty(LineRenderer dwaing)
         {
-            if (LineSegmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing))
+            Vector3 offSet = new Vector3(0, 0, 0);
+            if(SymbolManager.capitalLetters.ContainsValue(currentSymbol.splineContainer))
+            {
+                offSet = SymbolManager.capitalLettersObjects[currentSymbol.symbol].transform.position;
+            }
+            else if(SymbolManager.lowercaseLetters.ContainsValue(currentSymbol.splineContainer))
+            {
+                offSet = SymbolManager.lowercaseLettersObjects[currentSymbol.symbol].transform.position;
+            }
+            if (LineSegmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing, offSet))
             {
                 currentSymbolIndex++;
                 if(!bee.NextSplineInLetter())
