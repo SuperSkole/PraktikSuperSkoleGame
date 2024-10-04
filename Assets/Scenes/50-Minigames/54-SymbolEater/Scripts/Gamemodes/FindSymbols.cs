@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts.Game_Rules;
 using System.Collections.Generic;
 using UnityEngine;
@@ -110,12 +111,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
+            bool correctLetter = false;
             //Checks if the symbol on the lettercube is the correct one
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
                 boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+                correctLetter = true;
             }
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), correctLetter);
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
             {
