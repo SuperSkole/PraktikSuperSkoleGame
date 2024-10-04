@@ -42,6 +42,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             StopPlacement();
             floorData = new GridData();
             furnitureData = new GridData();
+            nonePlaceablesData = new GridData();
 
             return;
 
@@ -113,6 +114,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 invetoryManager,
                 floorData,
                 furnitureData,
+                nonePlaceablesData,
                 objectPlacer);
 
             // Subscribe to input events for clicking and exiting the removal mode.
