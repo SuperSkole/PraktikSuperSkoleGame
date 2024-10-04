@@ -21,7 +21,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <param name="spline">the spline of a letter</param>
         /// <param name="dwaing">the drawing the player has made</param>
         /// <returns>true if the drawing is good enough. false if there are any conflict or wrong thing</returns>
-        public static bool EvaluateSpline(Spline spline, LineRenderer dwaing)
+        public static bool EvaluateSpline(Spline spline, LineRenderer dwaing, Vector3 offset)
         {
             float totalDist = 0;
             float totalCorrectDirectionPrecentage = 0;
@@ -30,11 +30,11 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             Vector3 temp = dwaing.GetPosition(0);
             
             SplineUtility.GetNearestPoint(spline, temp, out float3 nearest, out float _);
-            Vector3 offSet = new Vector3(temp.x - nearest.x, temp.y - nearest.y, temp.z - nearest.z);
             for (int i = 0; i < dwaing.positionCount; i++)
             {
-                Vector3 dwaingPoint = dwaing.GetPosition(i) + offSet;
+                Vector3 dwaingPoint = dwaing.GetPosition(i);
                 dwaingPoint.x = 0;
+                dwaingPoint -= offset;
                 float distToSpline = SplineUtility.GetNearestPoint(spline,dwaingPoint,out _,out float t);
                 if (oldT > (t + 0.25f))
                 {
