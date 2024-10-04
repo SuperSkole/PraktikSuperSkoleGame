@@ -21,11 +21,11 @@ namespace Scenes._50_Minigames.Gamemode
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
-            new FindVowel(),
+            new DynamicGameRules(),
             null,
-            new FindLetterInPicture(),
-            new FindFMNSConsonantBySound(),
-            new FindFMNSConsonantBySound()
+            new DynamicGameRules(),
+            new DynamicGameRules(),
+            new DynamicGameRules()
         };
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
