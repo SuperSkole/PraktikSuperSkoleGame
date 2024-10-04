@@ -905,6 +905,7 @@ GameObject:
   - component: {fileID: 117022394}
   - component: {fileID: 117022397}
   - component: {fileID: 117022398}
+  - component: {fileID: 117022399}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1039,7 +1040,7 @@ AudioSource:
   m_GameObject: {fileID: 117022393}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 6588938292050366621, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -1126,6 +1127,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &117022399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117022393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fe58f3648c4f841b8d90c734d254db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicFiles:
+  - {fileID: 8300000, guid: 8976ecae164930c43bdb8329b49c7ad4, type: 3}
+  musicPlayer: {fileID: 117022398}
 --- !u!1 &120899631
 GameObject:
   m_ObjectHideFlags: 0
@@ -5592,9 +5608,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: b3cead3e85afe9842a2e4db1001a1287, type: 2}
-  correctMaterial: {fileID: 2100000, guid: 2fe5b576b9242904b99946734085dea0, type: 2}
-  partialCorrectMaterial: {fileID: 2100000, guid: 33bee23e2a098c342a9502a76faa2221, type: 2}
-  incorrectMaterial: {fileID: 2100000, guid: 14b20c7538fcd894d8a7c18e943303dc, type: 2}
+  correctMaterial: {fileID: 2100000, guid: f9410cbe6a1676e48a4559de0161b6df, type: 2}
+  partialCorrectMaterial: {fileID: 2100000, guid: a8bb92a632e59184a869faff6bfd27cd, type: 2}
+  incorrectMaterial: {fileID: 2100000, guid: d513fd9dbe3be0049b0bd2325740ca20, type: 2}
   meshRenderer: {fileID: 1350294439}
 --- !u!1 &1452237287
 GameObject:
