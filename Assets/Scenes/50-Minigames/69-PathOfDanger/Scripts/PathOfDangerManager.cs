@@ -255,9 +255,9 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     spawnedPlatforms[x, z].transform.parent = DeathPlatforms.transform;
 
 
-
-                    Vector3 offset = new Vector3(0, 0.6f, 0);
-                    GameObject imageholder = Instantiate(answerHolderPrefab, pos + offset, answerHolderPrefab.transform.rotation, spawnedPlatforms[x, z].transform);
+                   
+                   
+                    GameObject imageholder = Instantiate(answerHolderPrefab, pos + answerHolderPrefab.transform.position, answerHolderPrefab.transform.rotation, spawnedPlatforms[x, z].transform);
                 }
               
                 
