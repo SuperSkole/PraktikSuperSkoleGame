@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Analytics
 {
-    public interface IWeightManager
+    public interface IPerformanceWeightManager
     {
         /// <summary>
         /// Initializes the weights from PlayerManager's PlayerData, setting a default weight if not already set.

@@ -282,9 +282,9 @@ namespace Scenes._10_PlayerScene.Scripts
 
             GameManager.Instance.IsNewGame = false;
             
-            GameManager.Instance.WeightManager.InitializeWeights();
+            GameManager.Instance.PerformanceWeightManager.InitializeWeights();
             GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
-            GameManager.Instance.WeightManager.PrintAllWeights();
+            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
             GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
         }
 
@@ -373,7 +373,7 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
             
             GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
-            GameManager.Instance.WeightManager.PrintAllWeights();
+            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
         }
 
         // TODO maybe refactor onSceneLoaded into new script 

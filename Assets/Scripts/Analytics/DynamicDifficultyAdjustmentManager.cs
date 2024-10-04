@@ -45,7 +45,7 @@ namespace Analytics
         private Dictionary<LanguageUnit, Action<ILanguageUnit, bool>> updateWeightHandlers;
         private Dictionary<LanguageUnit, Action<ILanguageUnit>> timeWeightHandlers;
         
-        private readonly IWeightManager weightManager;
+        private readonly IPerformanceWeightManager performanceWeightManager;
         private readonly ISpacedRepetitionManager spacedRepetitionManager;
         private Dictionary<string, float> compositeWeights;
         private ConcurrentDictionary<string, LetterData> letterWeights;
@@ -59,25 +59,34 @@ namespace Analytics
 
         public DynamicDifficultyAdjustmentManager()
         {
-            weightManager = GameManager.Instance.WeightManager;
+            performanceWeightManager = GameManager.Instance.PerformanceWeightManager;
             spacedRepetitionManager = GameManager.Instance.SpacedRepetitionManager;
             compositeWeights = new Dictionary<string, float>();
-            //InitializeLanguageUnitHandlers();
+            
+            // Initialize handlers for language units
+            InitializeLanguageUnitHandlers();
             InitializeUpdateWeightHandlers();
             InitializeTimeWeightHandlers();
         }
         
         // Constructor with Dependency Injection for unit testing
-        public DynamicDifficultyAdjustmentManager(IWeightManager weightManager, ISpacedRepetitionManager spacedRepetitionManager)
+        public DynamicDifficultyAdjustmentManager(IPerformanceWeightManager performanceWeightManager, ISpacedRepetitionManager spacedRepetitionManager)
         {
-            this.weightManager = weightManager;
+            this.performanceWeightManager = performanceWeightManager;
             this.spacedRepetitionManager = spacedRepetitionManager;
             compositeWeights = new Dictionary<string, float>();
-            //InitializeLanguageUnitHandlers();
+            
+            // Initialize handlers for language units
+            InitializeLanguageUnitHandlers();
             InitializeUpdateWeightHandlers();
             InitializeTimeWeightHandlers();
         }
-        
+
+        /// <summary>
+        /// Call this to get the next set of language units based on the player's current level.
+        /// </summary>
+        /// <param name="count">The number of language units to retrieve.</param>
+        /// <returns>A list of language units appropriate for the player's level.</returns>
         public List<ILanguageUnit> GetNextLanguageUnitsBasedOnLevel(int count)
         {
             if (PlayerManager.Instance.PlayerData != null)
@@ -98,7 +107,12 @@ namespace Analytics
             Debug.LogWarning($"Unsupported content type for player level {PlayerLanguageLevel}.");
             return new List<ILanguageUnit>();
         }
-        
+
+        /// <summary>
+        /// Call this to Update the weight of a language unit based on the players performance.
+        /// </summary>
+        /// <param name="identifier">The unique identifier for the language unit. e.g. "A", "Cat", "A Black cat "</param>
+        /// <param name="isCorrect">Indicates whether the performance on the unit was correct.</param>
         public void UpdateLanguageUnitWeight(string identifier, bool isCorrect)
         {
             // Ensure composite weights are calculated before updating
@@ -311,10 +325,10 @@ namespace Analytics
         private void CalculateCompositeWeights()
         {
             // Ensure the weights have been initialized before starting calculations
-            weightManager.EnsureInitialized();
+            performanceWeightManager.EnsureInitialized();
 
             // Iterate over all language units (letters, words, etc.) in the letterWeights collection
-            foreach (var kvp in weightManager.GetAllLanguageUnits())
+            foreach (var kvp in performanceWeightManager.GetAllLanguageUnits())
             {
                 // Get the current language unit, which could be LetterData, WordData, etc.
                 var languageUnit = kvp.Value;
@@ -418,14 +432,14 @@ namespace Analytics
                 {
                     LanguageUnit.Letter, (unit, isCorrect) =>
                     {
-                        weightManager.UpdateLetterWeight(unit.Identifier, isCorrect);
+                        performanceWeightManager.UpdateLetterWeight(unit.Identifier, isCorrect);
                         spacedRepetitionManager.RecordUsage(unit.Identifier);
                     }
                 },
                 {
                     LanguageUnit.Word, (unit, isCorrect) =>
                     {
-                        weightManager.UpdateWordWeight(unit.Identifier, isCorrect);
+                        performanceWeightManager.UpdateWordWeight(unit.Identifier, isCorrect);
                         spacedRepetitionManager.RecordUsage(unit.Identifier);
                     }
                 }
@@ -443,12 +457,12 @@ namespace Analytics
         
         private List<ILanguageUnit> GetLetters(LetterCategory category, int count)
         {
-            return weightManager.GetNextLetters(category, count);
+            return performanceWeightManager.GetNextLetters(category, count);
         }
 
         private List<ILanguageUnit> GetWords(WordLength length, int count)
         {
-            return weightManager.GetNextWords(length, count);
+            return performanceWeightManager.GetNextWords(length, count);
         }
         
         

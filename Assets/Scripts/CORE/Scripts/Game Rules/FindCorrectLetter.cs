@@ -71,7 +71,7 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         public void SetCorrectAnswer()
         {
-            correctLetter = GameManager.Instance.WeightManager.GetNextLanguageUnitsByTypeAndCategory(LanguageUnit.Letter, LetterCategory.All, 1)[0].Identifier;;
+            correctLetter = GameManager.Instance.PerformanceWeightManager.GetNextLanguageUnitsByTypeAndCategory(LanguageUnit.Letter, LetterCategory.All, 1)[0].Identifier;;
         }
     }
 }

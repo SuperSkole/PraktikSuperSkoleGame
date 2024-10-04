@@ -18,7 +18,7 @@ namespace CORE
         public SaveGameController SaveGameController; 
         public PlayerManager PlayerManager;
 
-        public WeightManager WeightManager { get; private set; }
+        public PerformanceWeightManager PerformanceWeightManager { get; private set; }
         public SpacedRepetitionManager SpacedRepetitionManager { get; private set; }
         public DynamicDifficultyAdjustmentManager DynamicDifficultyAdjustmentManager { get; private set; }
         
@@ -155,9 +155,9 @@ namespace CORE
                 SpacedRepetitionManager = gameObject.AddComponent<SpacedRepetitionManager>();
             }
             
-            if (!GetComponent<WeightManager>())
+            if (!GetComponent<PerformanceWeightManager>())
             {
-                WeightManager = gameObject.AddComponent<WeightManager>();
+                PerformanceWeightManager = gameObject.AddComponent<PerformanceWeightManager>();
             }
             
             if (!GetComponent<DynamicDifficultyAdjustmentManager>())
