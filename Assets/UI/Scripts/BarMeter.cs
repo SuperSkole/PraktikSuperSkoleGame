@@ -41,6 +41,12 @@ namespace UI.Scripts
 
             ChangeValue(GameManager.Instance.PlayerData.PendingGoldAmount);
         }
+        private void OnEnable()
+        {
+            currentAmount = GameManager.Instance.PlayerData.CurrentGoldAmount;
+            textMeshPro.text = currentAmount.ToString();
+            barFill.fillAmount = Mathf.Clamp01((float)currentAmount / maxAmount);
+        }
 
         public void SettingValueAfterScene(int amount)
         {

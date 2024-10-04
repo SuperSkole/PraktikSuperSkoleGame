@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class UIInvetoryManager : MonoBehaviour
 {
@@ -96,35 +95,31 @@ public class UIInvetoryManager : MonoBehaviour
             }
         }
 
-        //If there is no Item 7
+        FurnitureItemsInfo itemInfo = new FurnitureItemsInfo(itemID, ReturnRightSprite(itemID), itemTemplate);
+        //If there is no Item
         if (furnitureCount.ContainsKey(itemID))
         {
             furnitureCount[itemID]++;
         }
-        else
+        else//If there is no item create the item
         {
             furnitureCount[itemID] = 1;
+            var spawnedItem = Instantiate(itemInfo.gameObject, contentTransform);
+            var stringOfName = spawnedItem.name.Substring(7);
+            var valueInInt = stringOfName.Split(")");
+            var nameCount = Convert.ToInt32(valueInInt[0]);//This will only work with ID's less then 10, SO FIX when we add more items
+            spawnedItem.name = $"Items ({nameCount})";
+
+            // Set sprite and item details
+            spawnedItem.GetComponent<Image>().sprite = itemInfo.sprite;
+            spawnedItem.GetComponent<PlaceableButtons>().FloorType = ReturnFloorType(itemInfo.ID);
+            spawnedItem.GetComponent<PlaceableButtons>().ID = itemInfo.ID;
+
+            itemInfo.gameObject = spawnedItem;
+            ListOfFurniture.Add(itemInfo);
         }
-        int count = furnitureCount[itemID];
 
-        FurnitureItemsInfo itemInfo = new FurnitureItemsInfo(itemID, ReturnRightSprite(itemID), itemTemplate);
-        var spawnedItem = Instantiate(itemInfo.gameObject, contentTransform);
-        var nameCount = Convert.ToInt32(spawnedItem.name.Split("()"));
-        spawnedItem.name = $"Items ({nameCount})";
 
-        // Set sprite and item details
-        spawnedItem.GetComponent<Image>().sprite = itemInfo.sprite;
-        spawnedItem.GetComponent<PlaceableButtons>().FloorType = ReturnFloorType(itemInfo.ID);
-        spawnedItem.GetComponent<PlaceableButtons>().ID = itemInfo.ID;
-
-        // Display the count of this item (if more than one is owned)
-        if (count > 1)
-        {
-            // Assuming there's a Text component to show the item count (you'll need to add one in the prefab)
-            spawnedItem.GetComponent<PlaceableButtons>().StartUpValues(count);
-        }
-        itemInfo.gameObject = spawnedItem;
-        ListOfFurniture.Add(itemInfo);
     }
     private EnumFloorDataType ReturnFloorType(int id)
     {
@@ -140,9 +135,12 @@ public class UIInvetoryManager : MonoBehaviour
     public void SaveFurnitureAmount()
     {
         List<int> tmpList = new List<int>();
-        foreach (var item in ListOfFurniture)
+        foreach (var item in furnitureCount)
         {
-            tmpList.Add(item.ID);
+            for (int i = 0; i < item.Value; i++)
+            {
+                tmpList.Add(item.Key);
+            }
         }
         spawnedPlayerData.ListOfFurniture = tmpList;
     }
@@ -152,7 +150,7 @@ public class UIInvetoryManager : MonoBehaviour
         {
             if (item.ID == itemID)
             {
-                if (item.gameObject.GetComponent<PlaceableButtons>().amount == 1)
+                if (item.gameObject.GetComponent<PlaceableButtons>().amount <= 1)
                 {
                     item.gameObject.GetComponent<PlaceableButtons>().ChangeValue(-1);
                     ListOfFurniture.Remove(item);

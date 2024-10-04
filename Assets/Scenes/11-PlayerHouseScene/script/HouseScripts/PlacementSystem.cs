@@ -121,6 +121,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             buildingState = new RemovingState(grid,
                 preview,
                 this,
+                invetoryManager,
                 floorData,
                 furnitureData,
                 objectPlacer);
