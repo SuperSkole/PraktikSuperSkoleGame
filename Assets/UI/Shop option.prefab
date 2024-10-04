@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5185246113378291925}
   - component: {fileID: 5332728007596925554}
   - component: {fileID: 4041676419676548741}
+  - component: {fileID: 6625920365373678808}
   m_Layer: 5
   m_Name: Shop option
   m_TagString: Untagged
@@ -113,6 +114,23 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0.018627167, b: 1, a: 0.5}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
+--- !u!114 &6625920365373678808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812212525464843127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1911310745433131138
 GameObject:
   m_ObjectHideFlags: 0

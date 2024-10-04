@@ -9,8 +9,6 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
     public class SerializableKeyValuePair
     {
         public PlaceableTemporayItemsInfo Key;
-        //public Vector3Int Key;
-        //public Vector2Int Key;
 
         public int ID;
 
@@ -26,10 +24,5 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             RotationValue = rotationValue;
             FloorType = floorType;
         }
-
-        public PlacementData CovertToPlacementData(List<Vector3Int> occupiedPositions, int iD, int placedObjectIndex, EnumFloorDataType floorType)
-        {
-            return new PlacementData(occupiedPositions, iD, placedObjectIndex, floorType);
-        }  
     }
 }

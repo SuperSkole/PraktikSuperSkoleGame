@@ -64,6 +64,7 @@ namespace UI.Scripts
 
             MonsterGOContent.SetActive(true);
             HouseGOContent.SetActive(false);
+
             scrollRect.content = MonsterRectContent;
             avaliableMoney = 0;
             meter.SettingValueAfterScene(0);
@@ -86,19 +87,24 @@ namespace UI.Scripts
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
             //Monster clothes they already wear
-            wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
-            wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
-            wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
-
-            if (wearingMid != null && wearingMid != string.Empty)
+            if(PlayerManager.Instance.PlayerData.ClothMid != null && PlayerManager.Instance.PlayerData.ClothMid != string.Empty)
             {
+                wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
                 skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
             }
 
-            if (wearingTop != null && wearingTop != string.Empty)
+            if (PlayerManager.Instance.PlayerData.ClothTop != null && PlayerManager.Instance.PlayerData.ClothTop != string.Empty)
             {
+                wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
+
+            if (PlayerManager.Instance.PlayerData.MonsterColor != null && PlayerManager.Instance.PlayerData.MonsterColor != string.Empty)
+            {
+                wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
+            }
+
+
 
             //Moneyy
             if (PlayerManager.Instance == null)
@@ -141,6 +147,7 @@ namespace UI.Scripts
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
+            
             foreach (ClothInfo cloth in availableClothes)
             {
                 // Instantiate a new ShopOption as a child of shopOptionsParent
@@ -155,7 +162,7 @@ namespace UI.Scripts
         //Shop Option function
         public void Click(string itemName, int thisprice, Shopoption shopOption)
         {
-
+            
             //turns off the outline on the previous item
             if (currentShopOption != null)
             {
@@ -168,20 +175,25 @@ namespace UI.Scripts
 
             if (itemName.Contains("HEAD"))
             {
-
+                Debug.Log("Head" + itemName);
                 //hvis curren item ikke er tom, 
-                if (currentItem != null)
+                if (currentItem != null && (itemName.Contains("MID") || itemName.Contains("HEAD")))
                 {
+                    Debug.Log("current " + currentItem);
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
                 }
                 if (wearingMid != null)
                 {
+                    Debug.Log("mid" + wearingMid);
                     skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                 }
                 if (wearingColor != null)
                 {
+                    Debug.Log("color" + wearingColor);
                     playerColorChanging.ColorChange(wearingColor);
                 }
+
+                Debug.Log("set item");
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
             }
@@ -189,7 +201,7 @@ namespace UI.Scripts
             if (itemName.Contains("MID"))
             {
                 //hvis curren item ikke er tom, 
-                if (currentItem != null)
+                if (currentItem != null && (itemName.Contains("MID") || itemName.Contains("HEAD")))
                 {
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
                 }
@@ -231,6 +243,7 @@ namespace UI.Scripts
 
 
         }
+        
         /// <summary>
         /// Methode for checking if the player has enough money to buy an item
         /// </summary>
@@ -306,8 +319,8 @@ namespace UI.Scripts
                     ModifyMoneyValue(houseItem.Price);
                 }
             }
-
         }
+
         /// <summary>
         /// Takes in a price and then removes it from the pool of money the player has
         /// Used when buying an item 
@@ -321,6 +334,7 @@ namespace UI.Scripts
 
             meter.ChangeValue(-amount);
         }
+
         /// <summary>
         /// Used by buttons sets the HouseItemsBuying so that when clicking the buy button we can buy a furniture item.
         /// </summary>
@@ -352,6 +366,7 @@ namespace UI.Scripts
                     break;
             }
         }
+
         public void CloseShop()
         {
             currentShopOption = null;

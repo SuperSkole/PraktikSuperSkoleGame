@@ -14,7 +14,7 @@ namespace Scenes._50_Minigames.Gamemode
             null,
             null,
             new Level4_POD(),
-            null
+            new Level5_POD()
         };
 
 
@@ -64,7 +64,7 @@ namespace Scenes._50_Minigames.Gamemode
                     modeReturned = new Level4_POD();
                     break;
                 case "level 5":
-                    modeReturned = null;
+                    modeReturned = new Level5_POD();
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, returning default gamemode");
