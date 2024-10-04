@@ -1167,6 +1167,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3977915647139977803, guid: a2b1422817dc26d449da2d5ce16a030f, type: 3}
+      propertyPath: isNPC
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3977915647139977803, guid: a2b1422817dc26d449da2d5ce16a030f, type: 3}
       propertyPath: action.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchToArcadeCatClock
       objectReference: {fileID: 0}
