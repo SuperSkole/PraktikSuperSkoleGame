@@ -38,9 +38,16 @@ public class ProductionLineController : MonoBehaviour
 
     private static LineRenderer lineRend;
 
-    
+    private bool movingToDisplay = false;
     
     private Vector3 mousePos;
+
+    Vector3 letterBoxCheckPosition;
+    Vector3 imageBoxCheckPosition;
+    
+    //rigidbody for den diverse selected Kasser.
+    Rigidbody rbIb;
+    Rigidbody rbLb;
 
     RaycastHit hit;
     Ray ray;
@@ -52,7 +59,12 @@ public class ProductionLineController : MonoBehaviour
         staticDefaultMaterial = defaultMaterial;
         lineRend = GetComponent<LineRenderer>();
         lineRend.positionCount = 2;
-        
+
+        imageBoxCheckPosition = new Vector3(2, 9, 5);
+        letterBoxCheckPosition = new Vector3(-1, 9, 5);
+
+        rbIb = selectedImageBox.GetComponentInParent<Rigidbody>(false);
+        rbLb = selectedLetterBox.GetComponentInParent<Rigidbody>(false);
     }
 
     void Update()
@@ -89,6 +101,15 @@ public class ProductionLineController : MonoBehaviour
             }
         }
 
+
+        if (movingToDisplay)
+        {
+            Vector3 directionImage = (imageBoxCheckPosition - selectedImageBox.transform.position).normalized;
+            rbIb.MovePosition(selectedImageBox.transform.position + directionImage * 2 * Time.deltaTime);
+            Vector3 directionLetter = (letterBoxCheckPosition - selectedLetterBox.transform.position).normalized;
+            rbLb.MovePosition(selectedLetterBox.transform.position + directionLetter * 2 * Time.deltaTime);
+
+        }
     }
 
 
@@ -284,11 +305,41 @@ public class ProductionLineController : MonoBehaviour
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
         points++;
         scoreText.text = $"Score: {points}";
+        movingToDisplay = true;
 
-        particals.transform.localScale = new Vector3(3, 3, 3);
+
+        BoxCollider bcIb = selectedImageBox.GetComponentInChildren<BoxCollider>();
+        bcIb.isTrigger = true;
+        rbIb.useGravity = false;
+        rbIb.isKinematic = false;
+
+        
+        BoxCollider bcLb = selectedLetterBox.GetComponentInChildren<BoxCollider>();
+        bcLb.isTrigger = true;
+        rbLb.isKinematic = false;
+        rbLb.useGravity = false;
+        
+
+        yield return new WaitForSeconds(3);
+
+        particals.transform.localScale = new Vector3(1, 1, 1);
         Instantiate(particals, transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(1);
+
+        movingToDisplay = false;
+
+        bcIb.isTrigger = false;
+        bcLb.isTrigger = false;
+
+        rbIb.isKinematic = true;
+        rbIb.useGravity = true;
+        rbLb.isKinematic = true;
+        rbLb.useGravity = true;
+
+        
+
+
 
         if (selectedLetterBox != null)
         {
