@@ -27,6 +27,11 @@ namespace CORE.Scripts.Game_Rules
             return correctImage.ToUpper();
         }
 
+        public string GetSecondaryAnswer()
+        {
+            return correctImage.ToUpper();
+        }
+
         /// <summary>
         /// Returns a random letter which is not the correct one
         /// </summary>

@@ -3,6 +3,7 @@ using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using UnityEngine;
 using System.Collections.Generic;
+using CORE;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -29,6 +30,7 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
+            
             return (SetRules(level), SetMode(level));
         }
 

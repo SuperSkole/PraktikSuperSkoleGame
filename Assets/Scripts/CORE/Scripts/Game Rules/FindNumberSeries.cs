@@ -40,11 +40,16 @@ namespace CORE.Scripts.Game_Rules
                 }
             }
 
-            /// <summary>
-            /// Returns a random wrong answer
-            /// </summary>
-            /// <returns>a wrong answer</returns>
-            public string GetWrongAnswer()
+        public string GetSecondaryAnswer()
+        {
+            return "";
+        }
+
+        /// <summary>
+        /// Returns a random wrong answer
+        /// </summary>
+        /// <returns>a wrong answer</returns>
+        public string GetWrongAnswer()
             {
                 int wrongAnswer = Random.Range(mminNumber - 5, maxNumber + 5);
                 while(wrongAnswer == currentNumber)

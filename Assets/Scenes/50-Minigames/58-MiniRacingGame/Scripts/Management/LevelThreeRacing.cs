@@ -18,7 +18,7 @@ public class LevelThreeRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør gennem porten der passer til vokalen i billedet";
+        return "K\u00F8r gennem porten der passer til vokalen i billedet";
     }
 
 

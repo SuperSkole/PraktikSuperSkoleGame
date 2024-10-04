@@ -34,6 +34,11 @@ namespace CORE.Scripts.Game_Rules
             return currentWord;
         }
 
+        public string GetSecondaryAnswer()
+        {
+            return currentWord;
+        }
+
 
         /// <summary>
         /// Returns a random letter not in the current word

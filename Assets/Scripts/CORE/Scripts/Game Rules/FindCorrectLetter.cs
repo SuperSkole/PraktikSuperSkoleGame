@@ -26,7 +26,12 @@ namespace CORE.Scripts.Game_Rules
         {
             return correctLetter.ToUpper();
         }
-        
+
+        public string GetSecondaryAnswer()
+        {
+            return correctLetter.ToUpper();
+        }
+
         /// <summary>
         /// Returns a random letter which is not the correct one
         /// </summary>
