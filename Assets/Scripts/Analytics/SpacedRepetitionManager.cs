@@ -6,6 +6,7 @@ using CORE.Scripts;
 using Letters;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using Words;
 
 namespace Analytics
 {
@@ -15,6 +16,7 @@ namespace Analytics
         private readonly TimeSpan repetitionInterval = TimeSpan.FromDays(7);
 
         private ConcurrentDictionary<string, LetterData> letterWeights;
+        private ConcurrentDictionary<string, WordData> wordWeights;
         
         public void EnsureInitialized()
         {
@@ -22,6 +24,17 @@ namespace Analytics
             {
                 letterWeights = PlayerManager.Instance.PlayerData.LettersWeightsProperty;
             }
+            
+            if (wordWeights == null)
+            {
+                wordWeights = PlayerManager.Instance.PlayerData.WordWeightsProperty;
+            }
+            
+            // TODO Sentence weights
+            // if (sentenceWeights == null)
+            // {
+            //     sentenceWeights = PlayerManager.Instance.PlayerData.sentenceWeights;
+            // }
         }
 
         public void InitializeTimeWeights()
