@@ -8,6 +8,10 @@ public class VaultOpener : MonoBehaviour
     [SerializeField] private GameObject vaultHandle;
     [SerializeField] private Transform rotationPoint;
     [SerializeField] private Transform codeBlockTransform;
+    [SerializeField] private AudioSource handleAudioSource;
+    [SerializeField] private AudioClip handleSound;
+    [SerializeField] private AudioSource doorAudioSource;
+    [SerializeField] private AudioClip doorSound;
     private Vector3 codeBlockDestination;
     private bool moving = false;
     private bool startMove = false;
@@ -23,6 +27,13 @@ public class VaultOpener : MonoBehaviour
     {
         if(startMove)
         {
+            if(!handleAudioSource.isPlaying)
+            {
+                handleAudioSource.PlayOneShot(handleSound);
+            }
+            Vector3 velocity = new Vector3(handleSpeed * Time.deltaTime, 0, 0);
+            Vector3 eulers = vaultHandle.transform.localRotation.eulerAngles;
+            vaultHandle.transform.localRotation = Quaternion.Euler(new Vector3(velocity.x, eulers.y, eulers.z + eulers.x));
             if(codeBlockDestination == Vector3.zero || codeBlockDestination == null)
             {
                 codeBlockDestination = new Vector3(vaultHandle.transform.position.x + 0.01f, vaultHandle.transform.position.y - 0.04f, vaultHandle.transform.position.z - 0.39f);
@@ -33,6 +44,7 @@ public class VaultOpener : MonoBehaviour
             {
                 startMove = false;
                 moving = true;
+                doorAudioSource.PlayOneShot(doorSound);
             }
         }
         if(moving)
@@ -40,10 +52,7 @@ public class VaultOpener : MonoBehaviour
             Vector3 velocity = new Vector3(speed * Time.deltaTime, 0, 0);
             moved += velocity.x;
             transform.RotateAround(rotationPoint.position, Vector3.down, velocity.x);
-            velocity = new Vector3(handleSpeed * Time.deltaTime, 0, 0);
-            //vaultHandle.transform.RotateAround(vaultHandle.transform.position, Vector3.forward, velocity.x);
-            Vector3 eulers = vaultHandle.transform.localRotation.eulerAngles;
-            vaultHandle.transform.localRotation = Quaternion.Euler(new Vector3(velocity.x, eulers.y, eulers.z + eulers.x));
+            
             speed += 0.1f;
             //Stops movement after a bit
             if(moved >= 100)

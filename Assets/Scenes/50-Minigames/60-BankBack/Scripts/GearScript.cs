@@ -9,6 +9,8 @@ using UnityEngine;
 public class GearScript : MonoBehaviour
 {
     [SerializeField]private GameObject toothPrefab;
+    [SerializeField]private AudioSource audioSource;
+    [SerializeField]private AudioClip turnSound;
     private float deltaAngle;
     private bool rotating = false;
 
@@ -94,6 +96,7 @@ public class GearScript : MonoBehaviour
                 break;
             }
         }
+        audioSource.PlayOneShot(turnSound);
         rotating = false;
         currentNumber++;
         if(currentNumber > 9)
