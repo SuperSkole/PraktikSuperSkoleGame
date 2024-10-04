@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class AlarmScript : MonoBehaviour
 {
-    [SerializeField]private AudioSource audioSource;
+    public AudioSource audioSource;
     [SerializeField]private AudioClip alarm;
     [SerializeField]private AudioClip policeSiren;
-    private Quaternion startRotation;
     bool rotate = false;
     // Update is called once per frame
     void Update()
@@ -20,16 +19,15 @@ public class AlarmScript : MonoBehaviour
 
     public void DetermineAlarm(float mistakes)
     {
-        if (mistakes > 0 && mistakes < 2)
+        if (mistakes > 0 && mistakes <= 2)
         {
             audioSource.PlayOneShot(alarm);
         }
         if (mistakes > 1)
         {
             rotate = true;
-            startRotation = transform.rotation;
         }
-        if (mistakes >= 2)
+        if (mistakes > 2)
         {
             audioSource.PlayOneShot(policeSiren);
         }

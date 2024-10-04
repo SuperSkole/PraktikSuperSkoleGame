@@ -13,8 +13,8 @@ public class GearChildScript : MonoBehaviour
     /// <summary>
     /// Sends the mouseclick to their parent
     /// </summary>
-    void OnMouseDown()
+    void OnMouseOver()
     {
-        parentScript.OnMouseDown();
+        parentScript.OnMouseOver();
     }
 }

@@ -70,6 +70,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             {
                 if (!isShooting)
                 {
+                    
+
                     isShooting = true;
                     while (rotateThisMuch < 85)
                     {
@@ -78,7 +80,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         yield return new WaitForSecondsRealtime(rotateActualSpeed);
                     }
 
-
+                    manager.flyingProjectileSound.Play();
                     // sets the word being shot onto the brick projectile. 
                     for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
                     {
@@ -106,6 +108,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         rotateThisMuch -= rotateAmount / 5f;
                         yield return new WaitForSeconds(rotateActualSpeed);
                     }
+
+                  
+
                     isShooting = false;
                     catapultIsLoaded = false;
                     manager.ammoLoaded = false;
