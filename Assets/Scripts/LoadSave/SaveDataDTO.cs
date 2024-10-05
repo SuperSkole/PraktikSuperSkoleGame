@@ -28,7 +28,7 @@ namespace LoadSave
         private int playerLanguageLevel;
         [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
         [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
-        //[JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> SentenceWeights = new ConcurrentDictionary<string, ILanguageUnit>();
+        //[JsonIgnore] public ConcurrentDictionary<string, SentenceData> SentenceWeights = new ConcurrentDictionary<string, SentenceData>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
@@ -58,8 +58,8 @@ namespace LoadSave
         // Words and letters
         public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
         public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
-        // public ConcurrentDictionary<string, ILanguageUnit> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
-        // public ConcurrentDictionary<string, ILanguageUnit> SentenceWeightsProperty { get => SentenceWeights; set => SentenceWeights = value; }
+        public ConcurrentDictionary<string, WordData> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
+        //public ConcurrentDictionary<string, SentenceData> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
@@ -72,8 +72,8 @@ namespace LoadSave
         
         // cars
         public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
+        
         //Furniture
         public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
-
     }
 }

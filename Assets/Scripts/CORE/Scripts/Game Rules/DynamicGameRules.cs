@@ -21,10 +21,8 @@ namespace CORE.Scripts.Game_Rules
         int remainingLetterIndex = 1;
         private List<char> wrongAnswerList;
 
-        private 
-
-
-        bool usesSequence = false;
+        private bool usesSequence = false;
+        
         public string GetCorrectAnswer()
         {
             return  correctAnswer;
@@ -85,8 +83,11 @@ namespace CORE.Scripts.Game_Rules
 
         public void SetCorrectAnswer()
         {
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
             List<ILanguageUnit> languageUnitList = GameManager.Instance.DynamicDifficultyAdjustmentManager
-                    .GetNextLanguageUnitsBasedOnLevel(1);
+                    .GetNextLanguageUnitsBasedOnLevel(10);
             switch(languageUnitList[0].LanguageUnitType)
             {
                 case LanguageUnit.Letter:

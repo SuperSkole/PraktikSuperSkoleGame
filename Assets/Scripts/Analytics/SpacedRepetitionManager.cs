@@ -111,10 +111,10 @@ namespace Analytics
                 unit.TimeWeight = CalculateTimeWeight(unit.LastUsed);
             }
 
-            // foreach (var unit in WordWeights.Values)
-            // {
-            //     unit.TimeWeight = CalculateTimeWeight(unit.LastUsed);
-            // }
+            foreach (var unit in wordWeights.Values)
+            {
+                unit.TimeWeight = CalculateTimeWeight(unit.LastUsed);
+            }
         }
 
         private int CalculateTimeWeight(DateTime lastUsed)
@@ -125,17 +125,33 @@ namespace Analytics
             return Mathf.Max(0, daysSinceLastUsed);
         }
 
+        public void UpdateLastUsedAndTimeWeight(string identifier)
+        {
+            // Check if the identifier is for a letter
+            if (letterWeights.TryGetValue(identifier, out var letterData))
+            {
+                letterData.LastUsed = DateTime.Now; // Set the current time as the last used time
+                letterData.TimeWeight = CalculateTimeWeight(letterData.LastUsed); // Update time weight
+                Debug.Log($"Updated TimeWeight: {letterData.TimeWeight} letter: {identifier}, ");
+            }
+            // Check if the identifier is for a word
+            else if (wordWeights.TryGetValue(identifier, out var wordData))
+            {
+                wordData.LastUsed = DateTime.Now; // Set the current time as the last used time
+                wordData.TimeWeight = CalculateTimeWeight(wordData.LastUsed); // Update time weight
+                Debug.Log($"Updated TimeWeight: {wordData.TimeWeight} for word: {identifier}");
+            }
+            else
+            {
+                Debug.LogWarning($"Identifier '{identifier}' not found in either letterWeights or wordWeights.");
+            }
+        }
         
         public void RecordUsage(ILanguageUnit unit)
         {
             unit.LastUsed = DateTime.UtcNow;
-        
-            // Recalculate TimeWeight to reflect the reset usage
             unit.TimeWeight = CalculateTimeWeight(unit.LastUsed);
         }
-
-
-        public void RecordUsage(string unitIdentifier) { throw new NotImplementedException(); }
 
         public void RecordUsage(string identifier, bool isCorrect)
         {
@@ -145,10 +161,14 @@ namespace Analytics
             {
                 UpdateTimeWeight(letterData, isCorrect);
             }
-            // else if (wordWeights.TryGetValue(identifier, out var wordData))
-            // {
-            //     UpdateTimeWeight(wordData, isCorrect);
-            // }
+            else if (wordWeights.TryGetValue(identifier, out var wordData))
+            {
+                UpdateTimeWeight(wordData, isCorrect);
+            }
+            else
+            {
+                Debug.LogWarning("SpacedRepetitionManager.RecordUsage(): Identifier not found in letterWeights or wordWeights.");
+            }
 
             Debug.Log($"Recorded usage for '{identifier}', success: {isCorrect}");
         }

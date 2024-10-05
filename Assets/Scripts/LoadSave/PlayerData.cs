@@ -35,7 +35,7 @@ namespace LoadSave
         [SerializeField] private int playerLanguageLevel;
         [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
         [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
-        [JsonIgnore] public ConcurrentDictionary<string, ILanguageUnit> SentenceWeights = new ConcurrentDictionary<string, ILanguageUnit>();
+        //[JsonIgnore] public ConcurrentDictionary<string, SentenceData> SentenceWeights = new ConcurrentDictionary<string, SentenceData>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         [SerializeField] private int lifetimeTotalWords;
@@ -73,7 +73,7 @@ namespace LoadSave
         public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
         public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public ConcurrentDictionary<string, WordData> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
-        //public ConcurrentDictionary<string, ILanguageUnit> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
+        //public ConcurrentDictionary<string, SentenceData> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
@@ -102,6 +102,7 @@ namespace LoadSave
         /// <param name="position">The current position of the player in the game world.</param>
         /// <param name="playerLanguageLevel">The player's language proficiency level.</param>
         /// <param name="lettersWeights">A dictionary mapping letters to their weights.</param>
+        /// <param name="wordWeights">A dictionary mapping words to their weights.</param>
         /// <param name="collectedWords">The list of words the player has collected.</param>
         /// <param name="collectedLetters">The list of letters the player has collected.</param>
         /// <param name="totalWords">The total number of words collected over the player's lifetime.</param>
@@ -122,6 +123,7 @@ namespace LoadSave
             Vector3 position,
             int playerLanguageLevel,
             ConcurrentDictionary<string, LetterData> lettersWeights,
+            ConcurrentDictionary<string, WordData> wordWeights,
             // TODO ADD WORDS AND SENTENCES
             List<string> collectedWords,
             List<char> collectedLetters,
@@ -148,6 +150,12 @@ namespace LoadSave
             foreach (var kvp in lettersWeights)
             {
                 this.LettersWeights.TryAdd(kvp.Key, kvp.Value);
+            }
+            
+            WordWeights.Clear();
+            foreach (var kvp in wordWeights)
+            {
+                this.WordWeights.TryAdd(kvp.Key, kvp.Value);
             }
             
             CollectedWords.Clear();
@@ -177,22 +185,6 @@ namespace LoadSave
         }
         
         public string ReturnActiveCarName() => GameObject.FindGameObjectWithTag("Car").name;
-        
-        // Method to update word weights from repository
-        public void UpdateWordWeightsFromRepository(IWordRepository wordRepository)
-        {
-            foreach (var wordLength in Enum.GetValues(typeof(WordLength)).Cast<WordLength>())
-            {
-                var words = wordRepository.GetWordsByLength(wordLength);
-                foreach (var wordData in words)
-                {
-                    if (!WordWeights.ContainsKey(wordData.Identifier))
-                    {
-                        WordWeights.TryAdd(wordData.Identifier, wordData);
-                    }
-                }
-            }
-        }
     }
 }
 

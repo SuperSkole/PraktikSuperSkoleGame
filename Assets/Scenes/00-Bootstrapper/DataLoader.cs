@@ -107,7 +107,7 @@ namespace Scenes._00_Bootstrapper
                 string word = lines[i].Trim();
                 if (!string.IsNullOrWhiteSpace(word))
                 {
-                    WordLength length = WordLengthHelper.GetWordLength(word);
+                    WordLength length = DetermineWordLength(word);
                     var wordData = new WordData(word, length, DynamicDifficultyAdjustmentSettings.InitialWeight);
                     wordDataList.Add(wordData);
                 }
@@ -115,6 +115,17 @@ namespace Scenes._00_Bootstrapper
 
             // Pass parsed word data to WordRepository
             WordRepository.AddWords(setName, wordDataList);
+        }
+        
+        private WordLength DetermineWordLength(string word)
+        {
+            return word.Length switch
+            {
+                2 => WordLength.TwoLetters,
+                3 => WordLength.ThreeLetters,
+                4 => WordLength.FourLetters,
+                _ => WordLength.Unknown
+            };
         }
 
         private static void AddWordsToHashsetInLettersAndWordsManager(string filePath, UnityWebRequest request)

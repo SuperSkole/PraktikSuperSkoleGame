@@ -24,6 +24,13 @@ namespace Analytics
         FourLetters,
     }
     
+    public enum WordDifficulty
+    {
+        Easy,
+        Hard,
+        Unknown
+    }
+    
     public interface ILanguageUnit
     {
         string Identifier { get; } // what letter,word or sentence e.g. "A", "Cat", "A Black cat "

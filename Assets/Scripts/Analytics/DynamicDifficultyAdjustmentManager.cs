@@ -12,27 +12,74 @@ namespace Analytics
 {
     public static class PlayerLevelMapper
     {
-        public static readonly Dictionary<int, (LanguageUnit, object)> LevelMapping = new Dictionary<int, (LanguageUnit, object)>
+        public static readonly Dictionary<int, List<(LanguageUnit, object)>> LevelMapping = new Dictionary<int, List<(LanguageUnit, object)>>
         {
-            { 0, (LanguageUnit.Letter, LetterCategory.Vowel) },         // Level 0: Vowels
-            { 1, (LanguageUnit.Letter, LetterCategory.Consonant) },     // Level 1: Consonants
-            { 2, (LanguageUnit.Letter, LetterCategory.All) },           // Level 2: All Letters
-            { 3, (LanguageUnit.Word, WordLength.TwoLetters) },          // Level 3: Two-Letter Words
-            { 4, (LanguageUnit.Word, WordLength.ThreeLetters) },        // Level 4: Three-Letter Words
-            { 5, (LanguageUnit.Word, WordLength.FourLetters) },         // Level 5: Four-Letter Words
-            { 6, (LanguageUnit.Sentence, 5) },                          // Level 6: Sentences
+            {
+                0, new List<(LanguageUnit, object)>
+                {
+                    (LanguageUnit.Letter, LetterCategory.Vowel)
+                }
+            },
+            {
+                1, new List<(LanguageUnit, object)>
+                {
+                    (LanguageUnit.Letter, LetterCategory.Consonant)
+                }
+            },
+            {
+                2, new List<(LanguageUnit, object)>
+                {
+                    (LanguageUnit.Letter, LetterCategory.All)
+                }
+            },
+            {
+                3, new List<(LanguageUnit, object)> 
+                {
+                    (LanguageUnit.Word, WordLength.TwoLetters),
+                    (LanguageUnit.Letter, LetterCategory.All) 
+                } 
+            },
+            {
+                4, new List<(LanguageUnit, object)> 
+                {
+                    (LanguageUnit.Word, WordLength.TwoLetters),
+                    (LanguageUnit.Letter, LetterCategory.All),
+                    (LanguageUnit.Word, WordLength.ThreeLetters),
+                }
+            },
+            {
+                5, new List<(LanguageUnit, object)> 
+                {
+                    (LanguageUnit.Word, WordLength.TwoLetters),
+                    (LanguageUnit.Letter, LetterCategory.All),
+                    (LanguageUnit.Word, WordLength.ThreeLetters),
+                    (LanguageUnit.Word, WordLength.FourLetters),
+                }
+            },
+            {
+                6, new List<(LanguageUnit, object)>
+                {
+                    (LanguageUnit.Word, WordLength.TwoLetters),
+                    (LanguageUnit.Letter, LetterCategory.All),
+                    (LanguageUnit.Word, WordLength.ThreeLetters),
+                    (LanguageUnit.Word, WordLength.FourLetters),
+                    (LanguageUnit.Sentence, null)
+                }
+            }
         };
 
         /// <summary>
-        /// Gets the corresponding content type for a given player level.
+        /// Retrieves a list of content types associated with a specific player level.
         /// </summary>
-        /// <param name="playerLevel">The player's level.</param>
-        /// <returns>A tuple containing the LanguageUnit type and its specific category or length.</returns>
-        public static (LanguageUnit, object) GetContentTypeForLevel(int playerLevel)
+        /// <param name="playerLevel">The level of the player for which content types need to be retrieved.</param>
+        /// <returns>A list of tuples where each tuple contains a LanguageUnit and an associated object representing the content type for the specified player level.</returns>
+        /// <exception cref="ArgumentException">Thrown when the provided player level is not valid.</exception>
+        public static List<(LanguageUnit, object)> GetContentTypesForLevel(
+            int playerLevel)
         {
-            if (LevelMapping.TryGetValue(playerLevel, out var contentType))
+            if (LevelMapping.TryGetValue(playerLevel, out var contentTypes))
             {
-                return contentType;
+                return contentTypes;
             }
 
             throw new ArgumentException($"Invalid player level: {playerLevel}");
@@ -45,17 +92,18 @@ namespace Analytics
         private Dictionary<LanguageUnit, Action<ILanguageUnit, bool>> updateWeightHandlers;
         private Dictionary<LanguageUnit, Action<ILanguageUnit>> timeWeightHandlers;
         
-        private readonly IPerformanceWeightManager performanceWeightManager;
-        private readonly ISpacedRepetitionManager spacedRepetitionManager;
         private Dictionary<string, float> compositeWeights;
         private ConcurrentDictionary<string, LetterData> letterWeights;
         private ConcurrentDictionary<string, WordData> wordWeights;
-
+        
+        private int playerLanguageLevel;
         private const float PerformanceFactor = 1.0f; // Currently prioritizing only performance
         // private const float PerformanceFactor = 0.7f;
         private const float TimeFactor = 0.3f;
+        
+        private readonly IPerformanceWeightManager performanceWeightManager;
+        private readonly ISpacedRepetitionManager spacedRepetitionManager;
 
-        private int PlayerLanguageLevel;
 
         public DynamicDifficultyAdjustmentManager()
         {
@@ -91,21 +139,42 @@ namespace Analytics
         {
             if (PlayerManager.Instance.PlayerData != null)
             {
-                PlayerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
+                //playerLanguageLevel = 3;
             }
-            
-            // Calculate composite weights for each letter based on performance and time data
+
+            // Calculate composite weights for each language unit
             CalculateCompositeWeights();
 
-            var (unitType, specificType) = PlayerLevelMapper.GetContentTypeForLevel(PlayerLanguageLevel);
+            var contentTypes = PlayerLevelMapper.GetContentTypesForLevel(playerLanguageLevel);
+            var allUnits = new List<ILanguageUnit>();
 
-            if (unitHandlers.TryGetValue(unitType, out var handler))
+            foreach (var (unitType, specificType) in contentTypes)
             {
-                return handler(specificType, count);
+                if (unitHandlers.TryGetValue(unitType, out var handler))
+                {
+                    // Fetch 20 units for the content type
+                    var units = handler(specificType, 20);
+                    allUnits.AddRange(units);
+                }
             }
 
-            Debug.LogWarning($"Unsupported content type for player level {PlayerLanguageLevel}.");
-            return new List<ILanguageUnit>();
+            // Remove duplicates based on Identifier
+            var uniqueUnits = allUnits
+                .GroupBy(u => u.Identifier)
+                .Select(g => g.First())
+                .ToList();
+
+            // Sort the combined list by CompositeWeight
+            uniqueUnits = uniqueUnits
+                .OrderByDescending(u => u.CompositeWeight)
+                .ToList();
+
+            // Take the top 'count' units
+            var selectedUnits = uniqueUnits.Take(count).ToList();
+
+            return selectedUnits;
         }
 
         /// <summary>
@@ -191,23 +260,29 @@ namespace Analytics
 
             int currentLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
 
-            // Use LevelMapping to determine the relevant content type and parameter for the current level
-            if (PlayerLevelMapper.LevelMapping.TryGetValue(currentLevel, out var levelData))
+            // Use LevelMapping to determine the relevant content types and parameters for the current level
+            if (PlayerLevelMapper.LevelMapping.TryGetValue(currentLevel, out var contentTypes))
             {
-                var contentType = levelData.Item1;
-                var additionalParameter = levelData.Item2;
+                List<ILanguageUnit> allRelevantUnits = new List<ILanguageUnit>();
 
-                // Get the relevant language units based on the content type and parameter
-                List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+                // Get the relevant language units for each content type
+                foreach (var (contentType, additionalParameter) in contentTypes)
+                {
+                    List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+                    allRelevantUnits.AddRange(relevantUnits);
+                }
 
-                if (relevantUnits.Count == 0)
+                if (allRelevantUnits.Count == 0)
                 {
                     Debug.LogWarning($"No relevant units found for level {currentLevel}.");
                     return;
                 }
 
+                // Remove duplicates if any
+                var uniqueUnits = allRelevantUnits.GroupBy(u => u.Identifier).Select(g => g.First()).ToList();
+
                 // Calculate the average weight for the relevant units
-                float averageWeight = CalculateAverageWeight(relevantUnits);
+                float averageWeight = CalculateAverageWeight(uniqueUnits);
 
                 // Determine if the player has performed well enough to level up
                 if (averageWeight <= DynamicDifficultyAdjustmentSettings.LevelUpThreshold)
@@ -230,20 +305,25 @@ namespace Analytics
         }
 
 
-
-        public void InitializeTimeWeights(int playerLevel)
+        private void InitializeTimeWeights(int playerLevel)
         {
-            // Get the content type and additional parameter for the current level from LevelMapping
-            if (PlayerLevelMapper.LevelMapping.TryGetValue(playerLevel, out var levelData))
+            // Get the content types and additional parameters for the current level from LevelMapping
+            if (PlayerLevelMapper.LevelMapping.TryGetValue(playerLevel, out var contentTypes))
             {
-                var contentType = levelData.Item1;
-                var additionalParameter = levelData.Item2;
+                List<ILanguageUnit> allRelevantUnits = new List<ILanguageUnit>();
 
-                // Get the relevant language units
-                List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+                // Get the relevant language units for each content type
+                foreach (var (contentType, additionalParameter) in contentTypes)
+                {
+                    List<ILanguageUnit> relevantUnits = GetUnitsByContentType((contentType, additionalParameter));
+                    allRelevantUnits.AddRange(relevantUnits);
+                }
+
+                // Remove duplicates if any
+                var uniqueUnits = allRelevantUnits.GroupBy(u => u.Identifier).Select(g => g.First()).ToList();
 
                 // Initialize time weights for the relevant units
-                foreach (var unit in relevantUnits)
+                foreach (var unit in uniqueUnits)
                 {
                     if (unit.LastUsed == DateTime.MinValue)
                     {
@@ -251,8 +331,6 @@ namespace Analytics
                         unit.TimeWeight = 0; // Set initial time weight
                     }
                 }
-
-                Debug.Log($"Initialized time weights for content type: {contentType}, level {playerLevel}");
             }
             else
             {
@@ -260,52 +338,29 @@ namespace Analytics
             }
         }
 
-
         private List<ILanguageUnit> GetUnitsByContentType((LanguageUnit, object) contentType)
         {
             var (unitType, parameter) = contentType;
 
             return unitType switch
             {
-                LanguageUnit.Letter when parameter is LetterCategory category => letterWeights.Values
-                    .Where(letter => letter.Category == category)
-                    .ToList<ILanguageUnit>(),
+                LanguageUnit.Letter when parameter is LetterCategory category =>
+                    category == LetterCategory.All
+                        ? letterWeights.Values.Cast<ILanguageUnit>().ToList()
+                        : letterWeights.Values
+                            .Where(letter => letter.Category == category)
+                            .Cast<ILanguageUnit>()
+                            .ToList(),
 
                 LanguageUnit.Word when parameter is WordLength wordLength => wordWeights.Values
                     .Where(word => word.Length == wordLength)
-                    .ToList<ILanguageUnit>(),
-
-               // LanguageUnit.Sentence => sentenceWeights?.Values.ToList<ILanguageUnit>() ?? new List<ILanguageUnit>(),
+                    .Cast<ILanguageUnit>()
+                    .ToList(),
 
                 _ => new List<ILanguageUnit>()
             };
         }
 
-
-        
-        // private List<ILanguageUnit> GetRelevantUnitsForLevel(int level)
-        // {
-        //     List<ILanguageUnit> relevantUnits = new List<ILanguageUnit>();
-        //
-        //     switch (level)
-        //     {
-        //         case 0:
-        //             relevantUnits.AddRange(letterWeights.Values.Where(letter => letter.Category == LetterCategory.Vowel));
-        //             break;
-        //         case 1:
-        //             relevantUnits.AddRange(letterWeights.Values.Where(letter => letter.Category == LetterCategory.Consonant));
-        //             break;
-        //         case 2:
-        //             relevantUnits.AddRange(letterWeights.Values); // All letters
-        //             break;
-        //         case 3:
-        //             relevantUnits.AddRange(wordWeights.Values.Where(word => word.Length == 2));
-        //             break;
-        //         // Add further levels as required
-        //     }
-        //
-        //     return relevantUnits;
-        // }
 
         private float CalculateAverageWeight(List<ILanguageUnit> units)
         {
@@ -340,13 +395,14 @@ namespace Analytics
                 // Calculate composite weight using the weighted formula
                 languageUnit.CompositeWeight = (performanceWeight * PerformanceFactor) + (timeWeight * TimeFactor);
 
-                Debug.Log($"Composite Weight for {languageUnit.Identifier}: {languageUnit.CompositeWeight}");
+                //Debug.Log($"Composite Weight for {languageUnit.Identifier}: {languageUnit.CompositeWeight}");
             }
+            
+            //PrintAllWeights();
         }
         
         private void InitializeLanguageUnitHandlers()
         {
-            // Initialize handlers for each LanguageUnit type, adding type checks to ensure safety
             unitHandlers = new Dictionary<LanguageUnit, Func<object, int, List<ILanguageUnit>>>
             {
                 {
@@ -356,7 +412,7 @@ namespace Analytics
                         {
                             return GetLetters(letterCategory, count);
                         }
-
+                        
                         throw new ArgumentException($"Expected a LetterCategory but got {specificType.GetType()}");
                     }
                 },
@@ -367,7 +423,7 @@ namespace Analytics
                         {
                             return GetWords(wordLength, count);
                         }
-
+                        
                         throw new ArgumentException($"Expected a WordLength but got {specificType.GetType()}");
                     }
                 }
@@ -381,21 +437,21 @@ namespace Analytics
                 {
                     LanguageUnit.Letter, (unit) =>
                     {
-                        spacedRepetitionManager.RecordUsage(unit.Identifier);
+                        spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
                         Debug.Log($"Updated time weight for letter '{unit.Identifier}'");
                     }
                 },
                 {
                     LanguageUnit.Word, (unit) =>
                     {
-                        spacedRepetitionManager.RecordUsage(unit.Identifier);
+                        spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
                         Debug.Log($"Updated time weight for word '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for individual letters within the word as well
                         foreach (char letter in unit.Identifier)
                         {
                             string letterIdentifier = letter.ToString();
-                            spacedRepetitionManager.RecordUsage(letterIdentifier);
+                            spacedRepetitionManager.UpdateLastUsedAndTimeWeight(letterIdentifier);
                             Debug.Log($"Updated time weight for letter '{letterIdentifier}' within word '{unit.Identifier}'");
                         }
                     }
@@ -403,20 +459,20 @@ namespace Analytics
                 {
                     LanguageUnit.Sentence, (unit) =>
                     {
-                        spacedRepetitionManager.RecordUsage(unit.Identifier);
+                        spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
                         Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for words and letters within the sentence
                         var sentenceWords = unit.Identifier.Split(' ');
                         foreach (var word in sentenceWords)
                         {
-                            spacedRepetitionManager.RecordUsage(word);
+                            spacedRepetitionManager.UpdateLastUsedAndTimeWeight(word);
                             Debug.Log($"Updated time weight for word '{word}' within sentence '{unit.Identifier}'");
 
                             foreach (char letter in word)
                             {
                                 string letterIdentifier = letter.ToString();
-                                spacedRepetitionManager.RecordUsage(letterIdentifier);
+                                spacedRepetitionManager.UpdateLastUsedAndTimeWeight(letterIdentifier);
                                 Debug.Log($"Updated time weight for letter '{letterIdentifier}' within word '{word}'");
                             }
                         }
@@ -433,14 +489,14 @@ namespace Analytics
                     LanguageUnit.Letter, (unit, isCorrect) =>
                     {
                         performanceWeightManager.UpdateLetterWeight(unit.Identifier, isCorrect);
-                        spacedRepetitionManager.RecordUsage(unit.Identifier);
+                        //spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
                     }
                 },
                 {
                     LanguageUnit.Word, (unit, isCorrect) =>
                     {
                         performanceWeightManager.UpdateWordWeight(unit.Identifier, isCorrect);
-                        spacedRepetitionManager.RecordUsage(unit.Identifier);
+                        //spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
                     }
                 }
                 // TODO: Add support for Sentence
@@ -449,11 +505,24 @@ namespace Analytics
                 //     LanguageUnit.Sentence, (unit, isCorrect) =>
                 //     {
                 //         weightManager.UpdateSentenceWeight(unit.Identifier, isCorrect);
-                //         spacedRepetitionManager.RecordUsage(unit.Identifier);
+                //         //spacedRepetitionManager.RecordUsage(unit.Identifier);
                 //     }
                 // }
             };
         }
+        
+        // private List<ILanguageUnit> GetLetters(LetterCategory category, int count)
+        // {
+        //     var letters = performanceWeightManager.GetLettersByCategory(category).Cast<ILanguageUnit>().ToList();
+        //     return letters.OrderByDescending(u => u.CompositeWeight).Take(count).ToList();
+        // }
+        //
+        // private List<ILanguageUnit> GetWords(WordLength length, int count)
+        // {
+        //     var words = performanceWeightManager.GetWordsByLength(length).Cast<ILanguageUnit>().ToList();
+        //     return words.OrderByDescending(u => u.CompositeWeight).Take(count).ToList();
+        // }
+
         
         private List<ILanguageUnit> GetLetters(LetterCategory category, int count)
         {
@@ -464,42 +533,6 @@ namespace Analytics
         {
             return performanceWeightManager.GetNextWords(length, count);
         }
-        
-        
-
-
-
-
-        
-
-
-        
-
-
-
-        // /// <summary>
-        // /// Gets a random entity based on the given weights using a weighted random selection algorithm.
-        // /// </summary>
-        // /// <param name="weights">A dictionary containing entities and their corresponding weights.</param>
-        // /// <returns>The selected entity based on weight.</returns>
-        // private char GetRandomEntityBasedOnWeight(Dictionary<string, float> weights)
-        // {
-        //     float totalWeight = weights.Values.Sum();
-        //     float randomValue = UnityEngine.Random.Range(0, totalWeight);
-        //
-        //     float cumulativeWeight = 0;
-        //     foreach (var kvp in weights)
-        //     {
-        //         cumulativeWeight += kvp.Value;
-        //         if (randomValue <= cumulativeWeight)
-        //         {
-        //             return kvp.Key[0]; // Return the first character of the identifier (assuming it’s a letter)
-        //         }
-        //     }
-        //
-        //     // In case something goes wrong, return a default value (shouldn't typically reach this point)
-        //     return weights.Keys.First()[0];
-        // }
         
         public void EnsureInitialized()
         {

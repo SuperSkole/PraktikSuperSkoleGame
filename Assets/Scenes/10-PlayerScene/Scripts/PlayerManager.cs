@@ -12,6 +12,7 @@ using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Words;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -227,6 +228,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 spawnedPlayer.transform.position,
                 0,
                 new ConcurrentDictionary<string, LetterData>(),
+                new ConcurrentDictionary<string, WordData>(),
                 new List<string>(),
                 new List<char>(),
                 0,
@@ -282,7 +284,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
             GameManager.Instance.IsNewGame = false;
             
-            GameManager.Instance.PerformanceWeightManager.InitializeWeights();
+            GameManager.Instance.PerformanceWeightManager.InitializeLetterWeights();
+            GameManager.Instance.PerformanceWeightManager.InitializeWordWeights();
             GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
             GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
             GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
@@ -336,6 +339,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentPosition,
                 saveData.PlayerLanguageLevel,
                 saveData.LettersWeights,
+                saveData.WordWeights,
                 saveData.CollectedWords,
                 saveData.CollectedLetters,
                 saveData.LifetimeTotalWords,

@@ -102,10 +102,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     Instantiate(coinObject);
                     //StartCoroutine(TakeScreenShot());
                     
-                    Debug.Log("Activelettehandler: right");
-                    GameManager.Instance.PerformanceWeightManager.UpdateWeight(currentSymbol.symbol.ToString(), true);
-                    GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
-                    
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game
@@ -149,10 +145,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 //next Spline in container
                 return true;
             }
-            
-            Debug.Log("Activelettehandler: Wrong");
-            GameManager.Instance.PerformanceWeightManager.UpdateWeight(currentSymbol.symbol.ToString(), false);
-            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
             
             dwaing.positionCount = 0;
             return false;
