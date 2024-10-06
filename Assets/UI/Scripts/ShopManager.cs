@@ -279,18 +279,51 @@ namespace UI.Scripts
                         if (currentItem.Contains("HEAD"))
                         {
                             PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+
+                            if(wearingMid != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
+                            }
+
+                            if (wearingColor != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.MonsterColor = wearingColor;
+                            }
+
                             wearingTop = currentItem;
 
                         }
                         if (currentItem.Contains("MID"))
                         {
                             PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+
+                            if (wearingTop != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                            }
+
+                            if (wearingColor != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.MonsterColor = wearingColor;
+                            }
+
                             wearingMid = currentItem;
 
                         }
                         if (colors.Contains(currentItem.ToString()))
                         {
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                            if (wearingTop != string.Empty)
+                            {
+                               PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                            }
+
+                            if (wearingMid != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
+                            }
+
                             wearingColor = currentItem;
                         }
 

@@ -236,6 +236,8 @@ namespace Scenes._03_StartScene.Scripts
             colorChanging.ColorChange(saveData.MonsterColor);
 
             clothChanging.ChangeClothes(saveData.ClothMid, skeletonGraphic);
+            Debug.Log(saveData.ClothMid);
+
             clothChanging.ChangeClothes(saveData.ClothTop, skeletonGraphic);
         }
 
