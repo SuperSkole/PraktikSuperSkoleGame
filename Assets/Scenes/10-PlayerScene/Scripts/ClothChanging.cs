@@ -17,12 +17,12 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (clothTop != null)
                 {
-                    skeleton.SetAttachment(clothTop, null);
+                    skeleton.SetAttachment(clothTop, clothTop);
                 }
 
                 if (clothMid != null)
                 {
-                    skeleton.SetAttachment(clothMid, null);
+                    skeleton.SetAttachment(clothMid, clothMid);
                 }
 
                 //set new clothing
@@ -30,11 +30,13 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (clothName.Contains("HEAD"))
                 {
+                    Debug.Log("Head " + clothName);
                     clothTop = clothName;
                 }
 
                 if (clothName.Contains("MID"))
                 {
+                    Debug.Log("Mid " + clothName);
                     clothMid = clothName;
                 }
             }

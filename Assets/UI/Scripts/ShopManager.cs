@@ -109,7 +109,7 @@ namespace UI.Scripts
             //Moneyy
             if (PlayerManager.Instance == null)
             {
-                Debug.Log("Didn't find playermanager");
+                Debug.Log("Shop didn't find playermanager");
             }
             else
             {
@@ -177,29 +177,29 @@ namespace UI.Scripts
             {
                 if ((currentItem.Contains("MID") || currentItem.Contains("HEAD")))
                 {
-                    Debug.Log("current " + currentItem);
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
                 }
             }
+
             //HEAD CLOTHING
 
             if (itemName.Contains("HEAD"))
             {
-                Debug.Log("HEAD " + itemName);
 
                 //hvis curren item ikke er tom, 
                 if (wearingMid != string.Empty && wearingMid != null)
                 {
-                    Debug.Log("mid" + wearingMid);
                     skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                 }
                 if (wearingColor != string.Empty && wearingColor != null)
                 {
-                    Debug.Log("color" + wearingColor);
                     playerColorChanging.ColorChange(wearingColor);
                 }
+                if(wearingTop != string.Empty && wearingTop != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+                }
 
-                Debug.Log("set item");
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
             }
@@ -208,7 +208,6 @@ namespace UI.Scripts
 
             if (itemName.Contains("MID"))
             {
-                Debug.Log("MID " + itemName);
 
                 if (wearingTop != string.Empty && wearingTop != null)
                 {
@@ -217,6 +216,10 @@ namespace UI.Scripts
                 if (wearingColor != string.Empty && wearingColor != null)
                 {
                     playerColorChanging.ColorChange(wearingColor);
+                }
+                if (wearingMid != string.Empty && wearingMid != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
                 }
 
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
@@ -284,6 +287,8 @@ namespace UI.Scripts
                         //Get player
                         PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
+
+                        //HEAD
                         if (currentItem.Contains("HEAD"))
                         {
                             PlayerManager.Instance.PlayerData.ClothTop = currentItem;
@@ -301,6 +306,8 @@ namespace UI.Scripts
                             wearingTop = currentItem;
 
                         }
+
+                        //MID
                         if (currentItem.Contains("MID"))
                         {
                             PlayerManager.Instance.PlayerData.ClothMid = currentItem;
@@ -318,13 +325,15 @@ namespace UI.Scripts
                             wearingMid = currentItem;
 
                         }
+
+                        //COLOR
                         if (colors.Contains(currentItem.ToString()))
                         {
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
 
                             if (wearingTop != string.Empty)
                             {
-                               PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                                PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
                             }
 
                             if (wearingMid != string.Empty)
@@ -409,10 +418,7 @@ namespace UI.Scripts
 
         public void CloseShop()
         {
-            currentShopOption = null;
             this.gameObject.SetActive(false);
-            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
-            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
     }
