@@ -13,8 +13,8 @@ namespace Scenes._02_LoginScene.Scripts
             try
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Sign-in successful. Player ID: " + AuthenticationService.Instance.PlayerId);
-                Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
+                // Debug.Log("Sign-in successful. Player ID: " + AuthenticationService.Instance.PlayerId);
+                // Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
             }
             catch (AuthenticationException ex)
             {

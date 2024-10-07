@@ -182,7 +182,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         
         private void AddWordToPlayerData(string word)
         {
-            Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
+            //Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
             
             // Raise the event to send the word to other parts of the game that manage player data
             PlayerEvents.RaiseAddWord(word);

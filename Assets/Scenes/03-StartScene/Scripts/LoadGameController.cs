@@ -19,8 +19,8 @@ namespace Scenes._03_StartScene.Scripts
         /// </summary>
         [SerializeField] private LoadGameSetup loadGameSetup;
         
-        
         private SaveGameController saveGameController;
+        private bool isLoading = false;
         
         /// <summary>
         /// Initializes the singleton instance and the SaveGameController.
@@ -88,17 +88,24 @@ namespace Scenes._03_StartScene.Scripts
         /// </summary>
         private void HandleLoadRequest(string saveKey)
         {
-            Debug.Log($"LoadGameController-HandleLoadRequest: Handling load request for save key: {saveKey}");
-            
+            if (isLoading)
+            {
+                Debug.LogWarning("Load operation is already in progress, ignoring this request.");
+                return;
+            }
+
+            isLoading = true;
+            //Debug.Log($"LoadGameController-HandleLoadRequest: Handling load request for save key: {saveKey}");
+    
             // Load the saved game data using the generic LoadGame<T> method
-            saveGameController.LoadGame<SaveDataDTO>(saveKey, OnDataLoaded);
+            saveGameController.LoadGame<SaveDataDTO>(saveKey, data => OnDataLoaded(data, saveKey));
         }
 
         /// <summary>
         /// Callback function that is triggered when saved game data is successfully loaded.
         /// Sets up the game state with the loaded data and transitions to the appropriate scenes.
         /// </summary>
-        private void OnDataLoaded(SaveDataDTO dataDTO)
+        private void OnDataLoaded(SaveDataDTO dataDTO, string saveKey)
         {
             if (dataDTO != null)
             {
@@ -110,15 +117,21 @@ namespace Scenes._03_StartScene.Scripts
                 onSceneLoaded = (scene, mode) =>
                 {
                     // Early out if not player scene
-                    Debug.Log(scene.name);
                     if (scene.name != SceneNames.Player)
                     {
                         return;
                     }
+                    
                     loadGameSetup.SetupPlayer(playerData);
                         
                     // Unsubscribe from the event
                     SceneManager.sceneLoaded -= onSceneLoaded;
+                    
+                    // Reset loading flag
+                    isLoading = false;
+                    
+                    // Notify SavePanel that loading is complete
+                    NotifyLoadComplete(saveKey);
                 };
 
                 // Subscribe to the scene loaded event
@@ -133,6 +146,19 @@ namespace Scenes._03_StartScene.Scripts
             else
             {
                 Debug.LogError("Failed to load game data.");
+                isLoading = false; // Reset loading flag if loading failed
+            }
+        }
+        
+        private void NotifyLoadComplete(string saveKey)
+        {
+            SavePanel[] panels = FindObjectsOfType<SavePanel>();
+            foreach (var panel in panels)
+            {
+                if (panel.SaveKey == saveKey)
+                {
+                    panel.OnLoadComplete();
+                }
             }
         }
 
