@@ -104,7 +104,6 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             else
             {
-                Debug.Log("No letters found in player data.");
                 return null;
             }
         }
