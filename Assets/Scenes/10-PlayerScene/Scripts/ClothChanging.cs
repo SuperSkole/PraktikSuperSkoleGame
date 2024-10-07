@@ -30,13 +30,11 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (clothName.Contains("HEAD"))
                 {
-                    Debug.Log("Head " + clothName);
                     clothTop = clothName;
                 }
 
                 if (clothName.Contains("MID"))
                 {
-                    Debug.Log("Mid " + clothName);
                     clothMid = clothName;
                 }
             }
