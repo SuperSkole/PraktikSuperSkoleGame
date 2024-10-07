@@ -70,7 +70,6 @@ namespace CORE.Scripts
         {
             // Add the new wordsOrLetters to the valid set
             _validWords.UnionWith(words); 
-            Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
         }
         
         public static List<string> PopulateValidWordsWithRandomWordsByLengthAndCount(int length, int count)
@@ -133,7 +132,6 @@ namespace CORE.Scripts
                 return randomWords;
             }
     
-            Debug.Log($"No wordsOrLetters found for the combination set: {setName}");
             return new List<string>(); // Returns an empty list if no set found or not enough wordsOrLetters are present
         }
 

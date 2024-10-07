@@ -88,7 +88,6 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             else
             {
-                Debug.Log("No wordsOrLetters found in player data.");
                 return null;
             }
         }
@@ -105,7 +104,6 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             else
             {
-                Debug.Log("No letters found in player data.");
                 return null;
             }
         }
