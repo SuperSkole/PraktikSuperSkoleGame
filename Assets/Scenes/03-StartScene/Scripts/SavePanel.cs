@@ -36,6 +36,8 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private SkeletonGraphic skeletonGraphic;
         private ClothChanging clothChanging;
         private ColorChanging colorChanging;
+        
+        private bool isLoading = false;
 
 
         /// <summary>
@@ -73,6 +75,11 @@ namespace Scenes._03_StartScene.Scripts
         public void OnPointerClick(PointerEventData eventData)
         {
             OnLoadButtonPressed();
+        }
+        
+        public void OnLoadComplete()
+        {
+            isLoading = false;
         }
 
         /// <summary>
@@ -144,8 +151,18 @@ namespace Scenes._03_StartScene.Scripts
         /// </summary>
         public void OnLoadButtonPressed()
         {
+            // Prevent loading if a load operation is already in progress
+            if (isLoading)
+            {
+                Debug.Log("Load operation already in progress, ignoring subsequent load request.");
+                return;
+            }
+
+            // Set loading flag to true to prevent multiple loads
+            isLoading = true;
+
             Debug.Log("Load game button pressed: " + SaveKey);
-            OnLoadRequested?.Invoke(SaveKey); 
+            OnLoadRequested?.Invoke(SaveKey);
         }
 
         /// <summary>
