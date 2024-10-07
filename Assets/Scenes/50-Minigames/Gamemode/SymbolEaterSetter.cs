@@ -37,6 +37,11 @@ namespace Scenes._50_Minigames.Gamemode
             new RecognizeSoundOfLetter()
         };
 
+        private List<IGenericGameMode> letterCategoryGamemodes = new List<IGenericGameMode>
+        {
+            new FindSymbols()
+        };
+
 
         private List<IGenericGameMode> wordGamemodes = new List<IGenericGameMode>
         {
@@ -57,7 +62,11 @@ namespace Scenes._50_Minigames.Gamemode
             {
                 case LanguageUnit.Letter:
                     mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
-                    Debug.Log(mode.GetType().Name);
+                    LetterData letterData = (LetterData)languageUnit;
+                    if(letterData.ErrorCategory == LetterCategory.Vowel || letterData.ErrorCategory == LetterCategory.Consonant)
+                    {
+                        mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
+                    }
                     break;
                 case LanguageUnit.Word:
                     mode = wordGamemodes[Random.Range(0, wordGamemodes.Count)];

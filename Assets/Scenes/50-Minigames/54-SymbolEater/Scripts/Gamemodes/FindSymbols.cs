@@ -76,7 +76,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
             numberOfCorrectLettersOnBoard = count;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
-            boardController.SetAnswerText("Find " + gameRules.GetCorrectAnswer() + ". " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Find " + gameRules.GetDisplayAnswer() + ". " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
-                boardController.SetAnswerText("Led efter " + gameRules.GetCorrectAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
+                boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             
             //Checks if the current game is over or if it should continue the current game

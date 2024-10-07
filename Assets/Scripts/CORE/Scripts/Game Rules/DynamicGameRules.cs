@@ -22,6 +22,7 @@ namespace CORE.Scripts.Game_Rules
         private List<char> wrongAnswerList;
 
         private List<ILanguageUnit> languageUnits;
+        private List<ILanguageUnit> languageUnitsList;
 
         private bool usesSequence = false;
         
@@ -29,8 +30,7 @@ namespace CORE.Scripts.Game_Rules
         {
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
-                LetterData letterData = (LetterData)languageUnits[0];
-                if((letterData.Category == LetterCategory.Vowel || letterData.Category == LetterCategory.Consonant) && languageUnits.Count > 0)
+                if(languageUnits.Count > 1)
                 {
                     return languageUnits[Random.Range(0, languageUnits.Count)].Identifier;
                 }
@@ -44,6 +44,15 @@ namespace CORE.Scripts.Game_Rules
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
                 displayString = correctAnswer;
+                LetterData letterData = (LetterData)languageUnits[0];
+                if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Consonant)
+                {
+                    displayString = "vokaler";
+                }
+                else if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Vowel)
+                {
+                    displayString = "konsonanter";
+                }
             }
             else if(languageUnits[0].LanguageUnitType == LanguageUnit.Word)
             {
@@ -103,7 +112,7 @@ namespace CORE.Scripts.Game_Rules
         public void SetCorrectAnswer()
         {
             
-            List<ILanguageUnit> languageUnitsList = GameManager.Instance.DynamicDifficultyAdjustmentManager
+            languageUnitsList = GameManager.Instance.DynamicDifficultyAdjustmentManager
                     .GetNextLanguageUnitsBasedOnLevel(10);
             if(languageUnits == null)
             {
@@ -140,12 +149,13 @@ namespace CORE.Scripts.Game_Rules
             {
                 case LetterCategory.Consonant:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
+                    languageUnits = languageUnitsList;
                     break;
                 case LetterCategory.Vowel:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
+                    languageUnits = languageUnitsList;
                     break;
                 case LetterCategory.All:
-                    Debug.Log("error letter category was all");
                     wrongAnswerList = LetterRepository.GetAllLetters().ToList();
                     wrongAnswerList.Remove(correctAnswer[0]);
                     break;
@@ -160,16 +170,12 @@ namespace CORE.Scripts.Game_Rules
             return word;
         }
 
-        public string GetRandomCorrectAnswer()
-        {
-            return "";
-        }
 
         private bool LanguageUnitsContainsIdentifier(string identifier)
         {
             foreach(ILanguageUnit languageUnit in languageUnits)
             {
-                if(languageUnit.Identifier == identifier)
+                if(languageUnit.Identifier.ToLower() == identifier.ToLower())
                 {
                     return true;
                 }
