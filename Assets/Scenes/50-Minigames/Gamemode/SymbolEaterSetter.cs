@@ -32,8 +32,6 @@ namespace Scenes._50_Minigames.Gamemode
 
         private List<IGenericGameMode> letterGamemodes = new List<IGenericGameMode>
         {
-            new FindSymbols(),
-            new FindSymbol(),
             new Level4_SymbolEater(),
             new RecognizeNameOfLetter(),
             new RecognizeSoundOfLetter()
