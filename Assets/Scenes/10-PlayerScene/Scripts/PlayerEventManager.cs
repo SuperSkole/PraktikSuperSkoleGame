@@ -189,7 +189,6 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <returns></returns>
         private List<char> HandlePlayerDataLettersExtracted(List<char> letters)
         {
-            Debug.Log($"Extracted {letters.Count} letters from player data.");
 
             // Liste hvor de fundne bogstaver skal tilf�jes
             List<char> updatedlettersList = new List<char>();
