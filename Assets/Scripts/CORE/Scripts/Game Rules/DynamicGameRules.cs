@@ -100,7 +100,7 @@ namespace CORE.Scripts.Game_Rules
                     WordData wordData = (WordData)languageUnitList[0];
                     correctAnswer = wordData.Identifier[0].ToString();
                     word = wordData.Identifier;
-                    wrongAnswerList = LetterRepository.GetAllLetters().ToList();
+                    wrongAnswerList = LetterRepository.GetAllLetters().ToList(); // wordrepository
                     break;
                 case LanguageUnit.Sentence:
                 default:

@@ -17,16 +17,6 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>a random letter of the correct type</returns>
         public string GetCorrectAnswer()
         {
-            
-            
-            Debug.Log("Getting vowel");
-            var vowel
-                = GameManager.Instance.DynamicDifficultyAdjustmentManager
-                    .GetNextLanguageUnitsBasedOnLevel(1);
-            
-            Debug.Log("Vowel: " + vowel[0].Identifier);            
-            return vowel[0].Identifier;
-            
             return LetterManager.GetRandomVowel().ToString();
         }
 

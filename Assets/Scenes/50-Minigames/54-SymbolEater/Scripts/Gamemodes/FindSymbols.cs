@@ -119,6 +119,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
                 correctLetter = true;
             }
+            
             GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), correctLetter);
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))

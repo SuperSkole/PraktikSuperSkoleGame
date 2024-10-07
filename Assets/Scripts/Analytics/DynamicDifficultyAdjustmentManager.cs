@@ -141,7 +141,7 @@ namespace Analytics
             {
                 playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
                 if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
-                //playerLanguageLevel = 3;
+                // playerLanguageLevel = 3;
             }
 
             // Calculate composite weights for each language unit
