@@ -1,5 +1,3 @@
-using System;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -14,6 +12,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private ObjectsDataBaseSO database;
         private GridData floorData;
         private GridData furnitureData;
+        private GridData nonePlaceablesData;
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
         private UIInvetoryManager invetoryManager;
@@ -29,6 +28,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
+            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer,
             UIInvetoryManager invetoryManager,
             EnumFloorDataType floorType)
@@ -41,6 +41,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.database = database;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
+            this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
             this.invetoryManager = invetoryManager;
             this.floorType = floorType;
@@ -72,7 +73,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void OnAction(Vector3Int gridPos)
         {
             // Check if the object can be placed at the specified grid position.
-            bool placementValidity = CheckPlacementValidity(gridPos, selectedObjectIndex);
+            bool placementValidity = CheckPlacementValidity(gridPos);
             if (!placementValidity)
                 return;  // If placement is not valid, exit the method.
 
@@ -97,6 +98,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
+                case EnumFloorDataType.NoneRemoveable:
+                    selectedData = nonePlaceablesData;
+                    break;
                     //case EnumFloorDataType.Wall:
                     //    selectedData = furnitureData;
                     //    break;
@@ -120,7 +124,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             // Update the preview position and make it invalid (since the object is placed).
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), false);
-           
+
             if (invetoryManager.ReturnAmountOfRemaingItems(selectedObjectIndex) <= 0)
             {
                 placementSystem.StopPlacement();
@@ -138,7 +142,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             Quaternion targetRotation = Quaternion.Euler(0, RotationValue, 0);
             // Place the object in the world using the object placer.
             int index = objectPlacer.PlaceObject(
-                database.objectData[ID].Prefab,
+                database.objectData[selectedObjectIndex].Prefab,
                 grid.CellToWorld(gridPos),
                 targetRotation);
 
@@ -153,18 +157,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
+                case EnumFloorDataType.NoneRemoveable:
+                    selectedData = nonePlaceablesData;
+                    break;
                     //case EnumFloorDataType.Wall:
                     //    selectedData = furnitureData;
                     //    break;
             }
 
-            GetSizeOnRotation(RotationValue, ID);
+            GetSizeOnRotation(RotationValue, selectedObjectIndex);
 
-            //database.objectData[ID].Size
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
                 SizeCopy,
-                database.objectData[ID].ID,
+                database.objectData[selectedObjectIndex].ID,
                 index,
                 floorType);
 
@@ -210,19 +216,15 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void UpdateState(Vector3Int gridPos)
         {
             // Check if the object can be placed at the new grid position.
-            bool placementValidity = CheckPlacementValidity(gridPos, selectedObjectIndex);
+            bool placementValidity = CheckPlacementValidity(gridPos);
 
             // Update the preview system's position and validity based on the new grid position.
             previewSystem.UpdatePosition(grid.CellToWorld(gridPos), placementValidity);
         }
 
         // Checks if the object can be placed at the specified grid position.
-        private bool CheckPlacementValidity(Vector3Int gridPos, int selectedObjectIndex)
+        private bool CheckPlacementValidity(Vector3Int gridPos)
         {
-            //// Determine whether the object is floor data or furniture data.
-            //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-            //    furnitureData : floorData;
-
             // Determine whether the object is floor data or furniture data.
             GridData selectedData = new();
 
@@ -234,6 +236,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.Furniture:
                     selectedData = furnitureData;
                     break;
+                case EnumFloorDataType.NoneRemoveable:
+                    selectedData = nonePlaceablesData;
+                    break;
                     //case EnumFloorDataType.Wall:
                     //    selectedData = furnitureData;
                     //    break;
@@ -241,7 +246,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             }
             //database.objectData[selectedObjectIndex].Size
             // Check if the object can be placed at the given grid position based on its size.
-            return selectedData.CanPlaceObjectAt(gridPos, SizeCopy);
+            return selectedData.CanPlaceObjectAt(gridPos, SizeCopy, nonePlaceablesData);
         }
     }
 }

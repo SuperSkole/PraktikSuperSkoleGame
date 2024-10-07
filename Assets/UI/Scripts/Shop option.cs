@@ -45,7 +45,6 @@ namespace UI.Scripts
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            //skal lige overf�rer pris ogs�
             shopManager.Click(SpineName, Price, this);
             imageComponent.enabled = true;
             outlineComponent.enabled = true;
