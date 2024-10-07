@@ -50,6 +50,11 @@ namespace Scenes._50_Minigames.Gamemode
             new SymbolEaterLevel3()
         };
 
+        /// <summary>
+        /// Determines which gamemodes to use
+        /// </summary>
+        /// <param name="level">the level of the player</param>
+        /// <returns>a set of a gamemode and gamerules</returns>
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
             //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
@@ -63,7 +68,7 @@ namespace Scenes._50_Minigames.Gamemode
                 case LanguageUnit.Letter:
                     mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
                     LetterData letterData = (LetterData)languageUnit;
-                    if(letterData.ErrorCategory == LetterCategory.Vowel || letterData.ErrorCategory == LetterCategory.Consonant)
+                    if((letterData.ErrorCategory == LetterCategory.Vowel || letterData.ErrorCategory == LetterCategory.Consonant) && level < 2)
                     {
                         mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
                     }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using Analytics;
 using Letters;
+using Scenes._10_PlayerScene.Scripts;
 using Unity;
 using UnityEngine;
 using Words;
@@ -15,6 +16,7 @@ namespace CORE.Scripts.Game_Rules
 {
     public class DynamicGameRules : IGameRules
     {
+        private int maxVowelLevel = 1;
         string correctAnswer;
         string word;
         int index;
@@ -149,11 +151,17 @@ namespace CORE.Scripts.Game_Rules
             {
                 case LetterCategory.Consonant:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
-                    languageUnits = languageUnitsList;
+                    if(PlayerManager.Instance != null && PlayerManager.Instance.PlayerData.CurrentLevel <= maxVowelLevel)
+                    {
+                        languageUnits = languageUnitsList;
+                    }
                     break;
                 case LetterCategory.Vowel:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
-                    languageUnits = languageUnitsList;
+                    if(PlayerManager.Instance != null && PlayerManager.Instance.PlayerData.CurrentLevel <= maxVowelLevel)
+                    {
+                        languageUnits = languageUnitsList;
+                    }
                     break;
                 case LetterCategory.All:
                     wrongAnswerList = LetterRepository.GetAllLetters().ToList();
@@ -167,6 +175,15 @@ namespace CORE.Scripts.Game_Rules
 
         public string GetSecondaryAnswer()
         {
+            if(languageUnits.Count > 1)
+            {
+                string res = "";
+                foreach(ILanguageUnit languageUnit in languageUnits)
+                {
+                    res += languageUnit.Identifier;
+                }
+                return res;
+            }
             return word;
         }
 

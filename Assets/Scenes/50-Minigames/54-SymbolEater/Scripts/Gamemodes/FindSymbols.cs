@@ -34,7 +34,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
         int minCorrectLetters = 1;
 
-
+        List<char> letters = new List<char>();
+        List<char> correctFoundLetters = new List<char>();
+        List<char> wrongFoundLetters = new List<char>();
         /// <summary>
         /// Activates the given cube
         /// </summary>
@@ -62,6 +64,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void GetSymbols()
         {
             gameRules.SetCorrectAnswer();
+            if(gameRules.GetType() == typeof(DynamicGameRules))
+            {
+                string answers = gameRules.GetSecondaryAnswer();
+                foreach(char c in answers)
+                {
+                    letters.Add(c);
+                }
+            }
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
             {
@@ -111,14 +121,22 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
-
+            bool correct = false;
             //Checks if the symbol on the lettercube is the correct one
             if (IsCorrectSymbol(letter.GetLetter()))
             {
+                correct = true;
                 numberOfCorrectLettersOnBoard--;
                 boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
-            
+            if(correct && letters.Count > 0)
+            {
+                correctFoundLetters.Add(letter.GetLetter()[0]);
+            }
+            else if (!correct)
+            {
+                wrongFoundLetters.Add(letter.GetLetter()[0]);
+            }
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
             {
@@ -150,6 +168,20 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                         case DiffcultyPreset.HARD:
                             multiplier = 4;
                             break;
+                    }
+                    foreach(char letterSymbol in correctFoundLetters)
+                    {
+                        if(letterSymbol.ToString().ToLower() != gameRules.GetCorrectAnswer().ToLower())
+                        {
+                            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), true);
+                        }
+                    }
+                    foreach(char letterSymbol in wrongFoundLetters)
+                    {
+                        if(letterSymbol.ToString().ToLower() != gameRules.GetCorrectAnswer().ToLower())
+                        {
+                            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), false);
+                        }
                     }
                     boardController.Won("Du vandt. Du fandt de korrekte Symboler", multiplier * 1, multiplier * 1);
                 }
@@ -202,5 +234,28 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             maxWrongLetters = max;
         }
 
+        /// <summary>
+        /// Updates language weights of found letters
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            if(correctFoundLetters.Count > 0)
+            {
+                foreach(char letterSymbol in correctFoundLetters)
+                    {
+                        if(letterSymbol.ToString().ToLower() != gameRules.GetCorrectAnswer().ToLower())
+                        {
+                            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), true);
+                        }
+                    }
+            }
+            foreach(char letterSymbol in wrongFoundLetters)
+            {
+                if(letterSymbol.ToString().ToLower() != gameRules.GetCorrectAnswer().ToLower())
+                {
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), false);
+                }
+            }
+        }
     }
 }
