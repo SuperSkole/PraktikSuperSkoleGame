@@ -132,7 +132,6 @@ namespace CORE.Scripts
                 return randomWords;
             }
     
-            Debug.Log($"No wordsOrLetters found for the combination set: {setName}");
             return new List<string>(); // Returns an empty list if no set found or not enough wordsOrLetters are present
         }
 
