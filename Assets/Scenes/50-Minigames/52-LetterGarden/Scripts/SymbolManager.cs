@@ -78,8 +78,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     }
                     else
                     {
-                        capitalLettersObjects.Add(gameObject.name[7], gameObject);
-                        capitalLetters.Add(gameObject.name[7], gameObject.GetComponent<SplineContainer>());
+                        capitalLettersObjects.Add(gameObject.name.ToUpper()[7], gameObject);
+                        capitalLetters.Add(gameObject.name.ToUpper()[7], gameObject.GetComponent<SplineContainer>());
                     }
                     
                 }
@@ -88,12 +88,12 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     if (gameObject.name[9] == '(')
                     {
-                        DanishLetterHandler(gameObject, false, gameObject.name.Substring(10,2));
+                        DanishLetterHandler(gameObject, false, gameObject.name.ToLower().Substring(10,2));
                     }
                     else
                     {
-                        lowercaseLettersObjects.Add(gameObject.name[9], gameObject);
-                        lowercaseLetters.Add(gameObject.name[9], gameObject.GetComponent<SplineContainer>());
+                        lowercaseLettersObjects.Add(gameObject.name.ToLower()[9], gameObject);
+                        lowercaseLetters.Add(gameObject.name.ToLower()[9], gameObject.GetComponent<SplineContainer>());
                     }
                     
                 }
@@ -133,7 +133,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
             char letter = ' ';
             //Finds out which letter it is
-            switch (character)
+            switch (character.ToUpper())
             {
                 case "AA":
                     letter = 'Å';
@@ -151,13 +151,13 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             //Inserts the letter into the correct dictionary
             if (isCapitalLetter)
             {
-                capitalLettersObjects.Add(letter, gameObject);
-                capitalLetters.Add(letter, gameObject.GetComponent<SplineContainer>());
+                capitalLettersObjects.Add(char.ToUpper(letter), gameObject);
+                capitalLetters.Add(char.ToUpper(letter), gameObject.GetComponent<SplineContainer>());
             }
             else 
             {
-                lowercaseLettersObjects.Add(letter, gameObject);
-                lowercaseLetters.Add(letter, gameObject.GetComponent<SplineContainer>());
+                lowercaseLettersObjects.Add(char.ToLower(letter), gameObject);
+                lowercaseLetters.Add(char.ToLower(letter), gameObject.GetComponent<SplineContainer>());
             }
         }
     }
