@@ -228,5 +228,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 return false;
             }
         }
+
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
+        }
     }
 }

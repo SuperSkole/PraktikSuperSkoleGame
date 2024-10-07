@@ -182,5 +182,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             minWrongLetters = min;
             maxWrongLetters = max;
         }
+
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
+        }
     }
 }

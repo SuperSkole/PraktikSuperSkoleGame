@@ -195,4 +195,11 @@ public class SymbolEaterLevel3 : ISEGameMode
             maxWrongLetters = max;
         }
 
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
+        }
 }

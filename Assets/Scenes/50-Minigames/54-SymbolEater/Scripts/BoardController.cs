@@ -243,6 +243,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), false);
             monsterHivemind.OnGameOver();
             player.GameOver();
+            gameMode.UpdateLanguageUnitWeight();
             StartCoroutine(ReturnToMainWorld());
         }
 
