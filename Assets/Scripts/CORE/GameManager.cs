@@ -35,6 +35,7 @@ namespace CORE
         public bool IsPlayerBootstrapped { get; set; }
 
         private PlayerData playerData;
+        
         public PlayerData PlayerData
         {
             get
@@ -45,10 +46,12 @@ namespace CORE
                     if (playerData == null)
                         playerData = instance.gameObject.AddComponent<PlayerData>();
                 }
+                
                 return playerData;
             }
             set { playerData = value; }
         }
+        
         /// <summary>
         /// Initializes the singleton instance and sets up the GameManager.
         /// </summary>
