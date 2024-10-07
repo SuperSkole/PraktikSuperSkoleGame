@@ -105,8 +105,7 @@ namespace Analytics
                     var upperLetterData = new LetterData(upperIdentifier,
                         category, DynamicDifficultyAdjustmentSettings.InitialWeight);
                     letterWeights.TryAdd(upperIdentifier, upperLetterData);
-                    Debug.Log(
-                        $"Added uppercase letter: {upperIdentifier} with category '{category}' and initial weight {DynamicDifficultyAdjustmentSettings.InitialWeight}");
+                    //Debug.Log($"Added uppercase letter: {upperIdentifier} with category '{category}' and initial weight {DynamicDifficultyAdjustmentSettings.InitialWeight}");
                 }
 
                 // Add lowercase version of the letter if not already present
@@ -115,8 +114,7 @@ namespace Analytics
                     var lowerLetterData = new LetterData(lowerIdentifier,
                         category, DynamicDifficultyAdjustmentSettings.InitialWeight);
                     letterWeights.TryAdd(lowerIdentifier, lowerLetterData);
-                    Debug.Log(
-                        $"Added lowercase letter: {lowerIdentifier} with category '{category}' and initial weight {DynamicDifficultyAdjustmentSettings.InitialWeight}");
+                    // Debug.Log($"Added lowercase letter: {lowerIdentifier} with category '{category}' and initial weight {DynamicDifficultyAdjustmentSettings.InitialWeight}");
                 }
     
                 //     // if we dont want upper and lower
@@ -149,7 +147,7 @@ namespace Analytics
                 if (!wordWeights.ContainsKey(identifier))
                 {
                     wordWeights.TryAdd(identifier, wordData);
-                    Debug.Log($"Added word: {identifier}, Length: {wordData.Length}, Initial weight: {wordData.Weight}");
+                    //Debug.Log($"Added word: {identifier}, Length: {wordData.Length}, Initial weight: {wordData.Weight}");
                 }
             }
         }
