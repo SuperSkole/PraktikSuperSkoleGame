@@ -76,7 +76,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules, boardController.GetPlayer().transform.position);
             //Activates a random lettercube with the correct letter
             GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-            boardController.SetAnswerText(gameRules.GetDisplayAnswer());
+            boardController.SetAnswerText("Find " + gameRules.GetDisplayAnswer());
         }
 
         /// <summary>

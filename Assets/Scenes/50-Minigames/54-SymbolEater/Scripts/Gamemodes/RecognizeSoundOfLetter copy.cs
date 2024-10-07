@@ -82,7 +82,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void CurrentLetterSound()
         {
             //Finds sound clip from the Audio Clip Manager.
-            AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetDisplayAnswer().ToLower() + 2);
+            AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(gameRules.GetCorrectAnswer().ToLower() + 2);
 
 
 
@@ -120,7 +120,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             {
                 correctLetters++;
                 boardController.monsterHivemind.IncreaseMonsterSpeed();
-                if (correctLetters < 5)
+                if (correctLetters < 1)
                 {
                     boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
@@ -146,7 +146,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                             multiplier = 4;
                             break;
                     }
-                    boardController.Won("Du vandt. Du fandt det korrekte bogstav fem gange", 1 * multiplier, 1 * multiplier);
+                    boardController.Won("Du vandt. Du fandt det korrekte", 1 * multiplier, 1 * multiplier);
 
                 }
 

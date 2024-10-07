@@ -76,7 +76,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             count = Random.Range(minCorrectLetters, maxCorrectLetters + 1);
             numberOfCorrectLettersOnBoard = count;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
-            boardController.SetAnswerText("Find " + gameRules.GetDisplayAnswer() + ". " + numberOfCorrectLettersOnBoard + " tilbage.");
+            boardController.SetAnswerText("Find " + gameRules.GetCorrectAnswer() + ". " + numberOfCorrectLettersOnBoard + " tilbage.");
         }
 
         /// <summary>
@@ -111,16 +111,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <param name="letter">The letter which should be replaced</param>
         public void ReplaceSymbol(LetterCube letter)
         {
-            bool correctLetter = false;
+
             //Checks if the symbol on the lettercube is the correct one
             if (IsCorrectSymbol(letter.GetLetter()))
             {
                 numberOfCorrectLettersOnBoard--;
-                boardController.SetAnswerText("Led efter " + gameRules.GetDisplayAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
-                correctLetter = true;
+                boardController.SetAnswerText("Led efter " + gameRules.GetCorrectAnswer() + ". Der er " + numberOfCorrectLettersOnBoard + " tilbage.");
             }
             
-            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), correctLetter);
             //Checks if the current game is over or if it should continue the current game
             if (!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, false, ActivateCube, IsGameComplete))
             {

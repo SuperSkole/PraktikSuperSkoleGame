@@ -9,6 +9,7 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.Game_Rules;
 using Scenes._00_Bootstrapper;
+using CORE;
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
@@ -49,6 +50,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         public MonsterHivemind monsterHivemind = new MonsterHivemind();
 
+        private IGameRules gameRules;
+
 
         public delegate void LoadFinished();
 
@@ -63,6 +66,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
+            gameRules = targetRules;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
             player.board = this;
             answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
@@ -236,6 +240,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public void Lost()
         {
             gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), false);
             monsterHivemind.OnGameOver();
             player.GameOver();
             StartCoroutine(ReturnToMainWorld());
@@ -247,6 +252,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="winText">The text to display</param>
         public void Won(string winText, int xpReward, int goldReward)
         {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), true);
             gameOverText.text = winText;
             monsterHivemind.OnGameOver();
             //Calls to update the players xp and gold. Temporary values

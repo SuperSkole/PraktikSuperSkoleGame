@@ -1,5 +1,7 @@
 
 
+using Analytics;
+
 namespace CORE.Scripts.Game_Rules 
 {
     /// <summary>
