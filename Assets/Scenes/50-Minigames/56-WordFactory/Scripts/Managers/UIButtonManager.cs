@@ -28,7 +28,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void OnCheckWordButton()
         {
-            Debug.Log("Check Word button clicked");
+            //Debug.Log("Check Word button clicked");
             wordCheckManager.CheckForWord();
         }
 
