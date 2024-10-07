@@ -287,8 +287,8 @@ namespace Scenes._10_PlayerScene.Scripts
             GameManager.Instance.PerformanceWeightManager.InitializeLetterWeights();
             GameManager.Instance.PerformanceWeightManager.InitializeWordWeights();
             GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
-            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
-            GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
+            // GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
+            // GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
         }
 
         public void SetupPlayerFromSave(PlayerData saveData)
