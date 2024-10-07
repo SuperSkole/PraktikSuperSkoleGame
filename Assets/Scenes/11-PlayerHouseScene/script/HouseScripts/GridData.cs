@@ -76,16 +76,21 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// <param name="gridPostion">The grid position where the object would be placed.</param>
         /// <param name="objectSize">The size of the object being placed.</param>
         /// <returns>True if the object can be placed, otherwise false.</returns>
-        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize)
+        //public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize)
+        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize, GridData gridData)
         {
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
             foreach (var pos in positionToOccupy)
             {
-                //Debug.Log($"Checking These pos:{pos}");
-                if (placedObjects.ContainsKey(pos))
+                if (gridData.placedObjects.ContainsKey(pos))
                 {
                     return false;
                 }
+                //Debug.Log($"Checking These pos:{pos}");
+                //if (placedObjects.ContainsKey(pos))
+                //{
+                //    return false;
+                //}
             }
             return true;
         }

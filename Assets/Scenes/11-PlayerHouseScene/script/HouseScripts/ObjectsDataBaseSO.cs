@@ -37,7 +37,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
     {
         Rug,            // Underneath furniture
         Wall,           // decor like wallpaper, images, cabinets or wall lights
-        Furniture      // Tables, chairs, beds, cabinets, etc.
+        Furniture,      // Tables, chairs, beds, cabinets, etc.
+        NoneRemoveable    //For Objects that are not supposed to be removed, Used for the walls of the house
 
        // Ceiling,        // Ceiling or ceiling decorations
        // Appliance,      // Functional items like stoves, fridges, washing machines

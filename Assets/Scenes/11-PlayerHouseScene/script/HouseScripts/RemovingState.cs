@@ -12,6 +12,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private UIInvetoryManager invetoryManager;
         private GridData floorData;
         private GridData furnitureData;
+        private GridData nonePlaceablesData;
         private ObjectPlacer objectPlacer;
 
         public RemovingState(Grid grid,
@@ -20,6 +21,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             UIInvetoryManager invetoryManager,
             GridData floorData,
             GridData furnitureData,
+            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer)
         {
             this.grid = grid;
@@ -28,6 +30,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.invetoryManager = invetoryManager;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
+            this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
 
             previewSystem.StartShowingRemovePreview();
@@ -41,14 +44,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void OnAction(Vector3Int gridPos)
         {
             GridData selectedData = null;
-            if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
+           // if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
+            if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one,furnitureData) == false)
             {
                 selectedData = furnitureData;
             }
-            else if (floorData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
+           // else if (floorData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
+            else if (floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, floorData) == false)
             {
                 selectedData = floorData;
             }
+            //else if ( nonePlaceablesData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
+            //{
+            //    selectedData=nonePlaceablesData;
+            //}
             if (selectedData == null)
             {
                 //PlaySound if nothing to remove
@@ -72,8 +81,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         private bool CheckIfSelectionIsValid(Vector3Int gridPos)
         {
-            return !(furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) &&
-                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one));
+
+            return !(furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one,nonePlaceablesData) &&
+                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData) && nonePlaceablesData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData));
         }
 
         public void UpdateState(Vector3Int gridPos)
