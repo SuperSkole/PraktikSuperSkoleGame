@@ -24,7 +24,12 @@ public class AudioManager : MonoBehaviour
         else
             Destroy(gameObject);
         if(mCamara == null)
-            mCamara = FindAnyObjectByType<AudioListener>()?.gameObject;
+            mCamara = FindAnyObjectByType<AudioListener>(FindObjectsInactive.Include)?.gameObject;
+        if (mCamara == null)
+        {
+            mCamara = Instantiate(new GameObject());
+            mCamara.AddComponent<AudioListener>();
+        }
     }
 
     /// <summary>
@@ -58,7 +63,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="audioClip">the clip you want to play.</param>
     /// <param name="audioType">what type of audio you are playing.</param>
     /// <param name="point">the point you want the audio played at.</param>
-    public void PlaySoud(AudioClip audioClip, SoundType audioType,Vector3 point)
+    public void PlaySound(AudioClip audioClip, SoundType audioType,Vector3 point)
     {
         GameObject go = Instantiate(new GameObject(), point, Quaternion.identity);
         DontDestroyOnLoad(go);
