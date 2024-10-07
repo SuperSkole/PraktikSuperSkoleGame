@@ -14,6 +14,10 @@ public class MapIcon : MonoBehaviour
     [SerializeField] Sprite tower;
     [SerializeField] Sprite player;
     [SerializeField] Sprite home;
+    [SerializeField] Sprite mek;
+    [SerializeField] Sprite leaderBoard;
+    [SerializeField] Sprite bank;
+    [SerializeField] Sprite arcade;
 
     private Image thisImage;
 
@@ -61,6 +65,18 @@ public class MapIcon : MonoBehaviour
                 break;
             case "home":
                 thisImage.sprite = home;
+                break;
+            case "mek":
+                thisImage.sprite = mek;
+                break;
+            case "bank":
+                thisImage.sprite = bank;
+                break;
+            case "leaderboard":
+                thisImage.sprite = leaderBoard;
+                break;
+            case "arcade":
+                thisImage.sprite = arcade;
                 break;
             default:
                 Debug.Log("Invalid image name: " + imageName);

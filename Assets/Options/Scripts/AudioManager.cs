@@ -2,77 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Rendering;
+
+public enum SoundType
+{
+    SFX,
+    Music,
+    Voice
+}
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private GameObject muteIcon;
-    [SerializeField] private GameObject menu;
-    private bool muted = false;
-    private float savedmasterVolume = 0f;
-
-    /// <summary>
-    /// used to set the master volume
-    /// </summary>
-    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
-    public void SetMasterVolume(float volume)
+    public static AudioManager Instance { get; private set; }
+    private GameObject mCamara;
+    [SerializeField] private AudioMixerGroup sfx, music, voice;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Correctness", "UNT0008:Null propagation on Unity objects", Justification = "<Pending>")]
+    private void Awake()
     {
-        savedmasterVolume = volume;
-        if(muted) return;
-        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20f);
-    }
-
-    /// <summary>
-    /// used to set the SFX volume
-    /// </summary>
-    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
-    public void SetSFXVolume(float volume)
-    {
-        audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20f);
-    }
-
-    /// <summary>
-    /// used to set the Music volume
-    /// </summary>
-    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
-    public void SetMusicVolume(float volume)
-    {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20f);
-    }
-
-    /// <summary>
-    /// used to set the Voice volume
-    /// </summary>
-    /// <param name="volume">a float between 0 and 1 that represents the volume</param>
-    public void SetVoiceVolume(float volume)
-    {
-        audioMixer.SetFloat("VoiceVolume", Mathf.Log10(volume) * 20f);
-    }
-
-    /// <summary>
-    /// used to mute and unmute the game. toggles between the 2.
-    /// </summary>
-    public void Mute()
-    {
-        muted = !muted;
-        if (muted)
-        {
-            audioMixer.SetFloat("MasterVolume", -80);
-            muteIcon.SetActive(true);
-        }
+        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+            Instance = this;
         else
-        {
-            audioMixer.SetFloat("MasterVolume", Mathf.Log10(savedmasterVolume) * 20f);
-            muteIcon.SetActive(false);
-        }
+            Destroy(gameObject);
+        if(mCamara == null)
+            mCamara = FindAnyObjectByType<AudioListener>()?.gameObject;
     }
 
     /// <summary>
-    /// used to go back from the audio menu
+    /// Playes a given audio clip at the sceans audio listener.
     /// </summary>
-    public void Back()
+    /// <param name="audioClip">the clip you want to play.</param>
+    /// <param name="audioType">what type of audio you are playing.</param>
+    public void PlaySound(AudioClip audioClip, SoundType audioType)
     {
-        menu.SetActive(false);
+        AudioSource source = mCamara.AddComponent<AudioSource>();
+        source.clip = audioClip;
+        switch(audioType)
+        {
+            case SoundType.SFX:
+                source.outputAudioMixerGroup = sfx;
+                break;
+            case SoundType.Music:
+                source.outputAudioMixerGroup = music;
+                break;
+            case SoundType.Voice:
+                source.outputAudioMixerGroup = voice;
+                break;
+        }
+        source.Play();
+        Destroy(source,audioClip.length);
+    }
+
+    /// <summary>
+    /// Playes a given audio clip at the given point.
+    /// </summary>
+    /// <param name="audioClip">the clip you want to play.</param>
+    /// <param name="audioType">what type of audio you are playing.</param>
+    /// <param name="point">the point you want the audio played at.</param>
+    public void PlaySoud(AudioClip audioClip, SoundType audioType,Vector3 point)
+    {
+        GameObject go = Instantiate(new GameObject(), point, Quaternion.identity);
+        DontDestroyOnLoad(go);
+        AudioSource source = go.AddComponent<AudioSource>();
+        source.clip = audioClip;
+        switch (audioType)
+        {
+            case SoundType.SFX:
+                source.outputAudioMixerGroup = sfx;
+                break;
+            case SoundType.Music:
+                source.outputAudioMixerGroup = music;
+                break;
+            case SoundType.Voice:
+                source.outputAudioMixerGroup = voice;
+                break;
+        }
+        source.Play();
+        Destroy(go, audioClip.length);
     }
 }
