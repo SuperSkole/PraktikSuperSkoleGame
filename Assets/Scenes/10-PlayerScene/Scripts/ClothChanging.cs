@@ -26,17 +26,28 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
 
                 //set new clothing
-                skeleton.SetAttachment(clothName, clothName);
 
                 if (clothName.Contains("HEAD"))
                 {
+
+                    if (clothTop != null)
+                    {
+                        skeleton.SetAttachment(clothTop, null);
+                    }
+
                     clothTop = clothName;
                 }
 
                 if (clothName.Contains("MID"))
                 {
+                    if (clothMid != null)
+                    {
+                        skeleton.SetAttachment(clothMid, null);
+                    }
                     clothMid = clothName;
                 }
+
+                skeleton.SetAttachment(clothName, clothName);
             }
         }
 
