@@ -59,7 +59,7 @@ public class PentagonManager : MonoBehaviour
             var spawnedTriangle = Instantiate(triangle, gameObject.transform.position, transform.rotation, transform.parent);
             Vector3 randomForce2 = new Vector3(randomForce.x, -randomForce.y, 0);
             spawnedTriangle.GetComponent<Rigidbody2D>().AddForce(randomForce2 * speed);
-            spawnedTriangle.GetComponent<SquareManager>().gameManager = gameManager;
+            spawnedTriangle.GetComponent<TriangleManager>().gameManager = gameManager;
 
             Destroy(gameObject);
             Destroy(collision.gameObject);
