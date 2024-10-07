@@ -170,7 +170,6 @@ namespace Scenes._10_PlayerScene.Scripts
         /// <returns></returns>
         private List<string> HandlePlayerDataWordsExtracted(List<string> words)
         {
-            Debug.Log($"Extracted {words.Count} wordsOrLetters from player data.");
 
             // Liste hvor de fundne ord skal tilf�jes
             List<string> updatedWordList = new List<string>();
