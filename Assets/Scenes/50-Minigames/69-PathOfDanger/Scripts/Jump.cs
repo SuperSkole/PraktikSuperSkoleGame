@@ -78,7 +78,10 @@ public class Jump : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        canJump = true;
+        if (collision.gameObject.tag == "Platform")
+        {
+            canJump = true;
+        }
         //Destroys the shadown when colliding with an object. 
         if(spawnedShadow!=null)
         {

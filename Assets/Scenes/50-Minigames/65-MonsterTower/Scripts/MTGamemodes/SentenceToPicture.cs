@@ -32,7 +32,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             words.Add(currentWord.ToString());
             if (words.Count < 3)
             {
-                Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
+                Debug.Log("Tower expected 3 wordsOrLetters sentences but got less. setting random image as correct image");
                 SetWrongAnswer(manager,str);
                 return;
             }

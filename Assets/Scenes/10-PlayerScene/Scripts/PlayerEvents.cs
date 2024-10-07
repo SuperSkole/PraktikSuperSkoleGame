@@ -35,7 +35,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
         public static event Func<List<string>,List<string>> OnPlayerDataWordsExtracted;
 
-        public static event Action<List<char>> OnPlayerDataLettersExtracted;
+        public static event Func<List<char>, List<char>> OnPlayerDataLettersExtracted;
+        
         public static event Action<List<char>> OnPlayerDataNumbersExtracted;
 
 
@@ -45,7 +46,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
  
 
-        // Events for adding or removing words, letters, and numbers
+        // Events for adding or removing wordsOrLetters, letters, and numbers
         public static event PlayerWordEventWithDateTime OnWordAdded;
         public static event PlayerWordEventWithDateTime OnWordRemoved;
         public static event PlayerWordEventWithDateTime OnLetterAdded;
@@ -77,7 +78,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
        
 /// <summary>
-/// Raises an event after extracting words from PlayerData, if any words are found.
+/// Raises an event after extracting wordsOrLetters from PlayerData, if any wordsOrLetters are found.
 /// </summary>
        public static List<string> RaisePlayerDataWordsExtracted()
         {
@@ -87,7 +88,24 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             else
             {
-                Debug.Log("No words found in player data.");
+                Debug.Log("No wordsOrLetters found in player data.");
+                return null;
+            }
+        }
+
+
+        /// <summary>
+        /// Raises an event after extracting letters from PlayerData, if any letters are found.
+        /// </summary>
+        public static List<char> RaisePlayerDataLettersExtracted()
+        {
+            if (PlayerManager.Instance.PlayerData.CollectedWords.Count > 0)
+            {
+                return PlayerEvents.OnPlayerDataLettersExtracted?.Invoke(PlayerManager.Instance.PlayerData.CollectedLetters);
+            }
+            else
+            {
+                Debug.Log("No letters found in player data.");
                 return null;
             }
         }

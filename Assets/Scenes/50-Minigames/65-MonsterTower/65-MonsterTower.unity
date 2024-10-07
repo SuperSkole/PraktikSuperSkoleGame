@@ -2276,9 +2276,10 @@ MonoBehaviour:
   towerManager: {fileID: 1490818982}
   ammoLoaded: 0
   difficulty: 0
-  words: []
+  wordsOrLetters: []
   ammoSpawnPoints: []
   flyingProjectileSound: {fileID: 1818682137}
+  towerAudioSource: {fileID: 1111141042}
 --- !u!54 &525595727
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2905,11 +2906,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -160.00012
+      value: -886
       objectReference: {fileID: 0}
     - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 371
+      value: 336
       objectReference: {fileID: 0}
     - target: {fileID: 2862564307040285533, guid: 3c532bafa801ce54399771b92ecd44d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4928,7 +4929,7 @@ MonoBehaviour:
   rowToDelete: 0
   brickPrefab: {fileID: 147310, guid: b1ad8ef6890687249a641abef8e26baf, type: 3}
   hearLetterButton: {fileID: 654140991}
-  towerAudioSource: {fileID: 0}
+  towerAudioSource: {fileID: 1111141042}
   hearLetterButtonAudioSource: {fileID: 0}
   correctAnswer: 0
   displayBox: {fileID: 1980325502}
