@@ -23,7 +23,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
             if (words.Count < numberOfWords)
             {
-                Debug.LogError("Not enough valid words available.");
+                Debug.LogError("Not enough valid wordsOrLetters available.");
                 return null;
             }
 

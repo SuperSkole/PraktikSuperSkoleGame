@@ -10,10 +10,17 @@ public class DestroyOnAsteroidContact : MonoBehaviour
     [SerializeField] GameObject explosionPrefab;
     [SerializeField] TextMeshProUGUI scoreTextMesh;
     [SerializeField] TextMeshProUGUI finalScoreTextMesh;
+    [SerializeField] PolygonCollider2D playerCollider;
+    [SerializeField] SpriteRenderer playerSpriteRenderer;
+
+    private bool isInvincible;
     
 
     public int lifePoints = 3;
 
+    private float timer=0;
+
+    private float blinkingTimer;
     
 
     // Start is called before the first frame update
@@ -25,7 +32,31 @@ public class DestroyOnAsteroidContact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (isInvincible)
+        {
+            timer += Time.deltaTime;
+
+            if (Mathf.FloorToInt(timer)%2==0)
+            {
+                playerSpriteRenderer.color = Color.white;
+            }
+            else
+            {
+                playerSpriteRenderer.color = Color.gray;
+            }
+            
+
+            if (timer >= 4)
+            {
+                timer = 0;
+                playerCollider.enabled = true;
+                isInvincible = false;
+            }
+
+            
+        }
+
     }
 
 
@@ -46,6 +77,10 @@ public class DestroyOnAsteroidContact : MonoBehaviour
             lifePoints -= 1;
             if (lifePoints > 0)
             {
+                isInvincible = true;
+
+                playerCollider.enabled = false;
+               
                 gameObject.transform.position = spawnPoint;
             }
             else
@@ -59,6 +94,8 @@ public class DestroyOnAsteroidContact : MonoBehaviour
 
         }
     }
+
+    
 
 
    
