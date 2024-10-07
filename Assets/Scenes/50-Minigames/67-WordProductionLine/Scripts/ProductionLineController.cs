@@ -23,6 +23,9 @@ public class ProductionLineController : MonoBehaviour
     [SerializeField]
     private GameObject winScreen;
 
+    [SerializeField]
+    private GameObject letterPool, imagePool;
+
 
     [SerializeField]
     private int points = 0;
@@ -39,12 +42,14 @@ public class ProductionLineController : MonoBehaviour
     private static LineRenderer lineRend;
 
     private bool movingToDisplay = false;
-    
+    private bool movingTowardsPunishment = false;
+
     private Vector3 mousePos;
 
     Vector3 letterBoxCheckPosition;
     Vector3 imageBoxCheckPosition;
-    
+    Vector3 punishmentPosition;
+
     //rigidbody for den diverse selected Kasser.
     Rigidbody rbIb;
     Rigidbody rbLb;
@@ -62,6 +67,7 @@ public class ProductionLineController : MonoBehaviour
 
         imageBoxCheckPosition = new Vector3(2, 9, 5);
         letterBoxCheckPosition = new Vector3(-1, 9, 5);
+        punishmentPosition = new Vector3(-25, 6, 5);
     }
 
     void Update()
@@ -71,7 +77,7 @@ public class ProductionLineController : MonoBehaviour
             mousePos = contact.point;
         }
 
-        
+
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -104,6 +110,22 @@ public class ProductionLineController : MonoBehaviour
             MoveBox(rbIb, selectedImageBox.transform, imageBoxCheckPosition);
 
             MoveBox(rbLb, selectedLetterBox.transform, letterBoxCheckPosition);
+        }
+
+        if (movingTowardsPunishment)
+        {
+            Transform[] letterListTransform = letterPool.transform.GetComponentsInChildren<Transform>();
+            foreach (var letterTransform in letterListTransform)
+            {
+                MoveToPunishmentBox(rbIb, letterTransform, punishmentPosition);
+            }
+
+            Transform[] imageListTransform = imagePool.transform.GetComponentsInChildren<Transform>();
+            foreach (var imageTransform in imageListTransform)
+            {
+                MoveToPunishmentBox(rbLb, imageTransform, punishmentPosition);
+            }
+
         }
     }
 
@@ -303,7 +325,33 @@ public class ProductionLineController : MonoBehaviour
 
         if (boxTransform.position == targetPosition)
         {
-            
+
+            rb.isKinematic = true;
+        }
+    }
+
+    /// <summary>
+    /// Moves box
+    /// </summary>
+    /// <param name="rb">Which boxrigidbody</param>
+    /// <param name="boxTransform">where is it?</param>
+    /// <param name="targetPosition">Where is it going</param>
+    private void MoveToPunishmentBox(Rigidbody rb, Transform boxTransform, Vector3 targetPosition)
+    {
+        if (rb == null) return;
+
+        if (rb.isKinematic)
+        {
+            rb.isKinematic = false;
+        }
+
+        Vector3 newPosition = Vector3.MoveTowards(boxTransform.position, targetPosition, 400 * Time.deltaTime);
+
+        rb.MovePosition(newPosition);
+
+        if (boxTransform.position == targetPosition)
+        {
+
             rb.isKinematic = true;
         }
     }
@@ -324,7 +372,7 @@ public class ProductionLineController : MonoBehaviour
 
         points++;
         scoreText.text = $"Score: {points}";
-        
+
 
         SetBoxState(rbIb, selectedImageBox, true);
         SetBoxState(rbLb, selectedLetterBox, true);
@@ -334,7 +382,8 @@ public class ProductionLineController : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         particals.transform.localScale = new Vector3(1, 1, 1);
-        Instantiate(particals, transform.position, Quaternion.identity);
+        Vector3 particalPostion = new Vector3(1, 9, 5);
+        Instantiate(particals, particalPostion, Quaternion.identity);
 
         yield return new WaitForSeconds(1);
 
@@ -366,10 +415,41 @@ public class ProductionLineController : MonoBehaviour
     /// <param name="isTrigger">can it interact with others objects?</param>
     void SetBoxState(Rigidbody rb, GameObject box, bool isTrigger)
     {
-        BoxCollider bc = box.GetComponentInChildren<BoxCollider>();
-        bc.isTrigger = isTrigger;
-        rb.useGravity = !isTrigger;
-        rb.isKinematic = isTrigger;
+        if (rb != null)
+        {
+            BoxCollider bc = box.GetComponentInChildren<BoxCollider>();
+            if (bc != null)
+            {
+                bc.isTrigger = isTrigger;
+            }
+            rb.isKinematic = isTrigger;
+            rb.useGravity = !isTrigger;
+
+
+        }
+    }
+
+
+    /// <summary>
+    /// Updates all boxes rigid body and collision
+    /// </summary>
+    /// <param name="rb">the selected boxes rigidbody</param>
+    /// <param name="box">the selected box Gameobject</param>
+    /// <param name="isTrigger">can it interact with others objects?</param>
+    void SetAllBoxState(Rigidbody rb, GameObject box, bool isTrigger)
+    {
+        if (rb != null)
+        {
+            BoxCollider bc = box.GetComponentInChildren<BoxCollider>();
+            if (bc != null)
+            {
+                bc.isTrigger = isTrigger;
+            }
+            rb.isKinematic = isTrigger;
+            rb.useGravity = !isTrigger;
+
+
+        }
     }
 
     /// <summary>
@@ -382,9 +462,17 @@ public class ProductionLineController : MonoBehaviour
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = wrongMaterial;
 
-        
 
-        yield return new WaitForSeconds(1);
+        IfWrongSetColliderOff();
+        movingTowardsPunishment = true;
+
+
+        yield return new WaitForSeconds(4);
+
+
+        IfWrongSetColliderOn();
+        movingTowardsPunishment = false;
+
 
         if (selectedLetterBox != null)
         {
@@ -392,13 +480,57 @@ public class ProductionLineController : MonoBehaviour
             ResetCubes(selectedLetterBox);
         }
 
-        if(selectedImageBox != null)
-        { 
+        if (selectedImageBox != null)
+        {
             selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
             ResetCubes(selectedImageBox);
         }
-            
+
 
         checking = false;
+    }
+
+
+
+    /// <summary>
+    /// is here to turn on and off the rigid body and it the collision.
+    /// </summary>
+    private void IfWrongSetColliderOff()
+    {
+        Transform[] letterListTransform = letterPool.transform.GetComponentsInChildren<Transform>();
+        Transform[] imageListTransform = imagePool.transform.GetComponentsInChildren<Transform>();
+
+        foreach (var letterBox in letterListTransform)
+        {
+            Rigidbody letterRb = letterBox.GetComponent<Rigidbody>();
+            SetAllBoxState(letterRb, letterBox.gameObject, true);
+        }
+
+        foreach (var imageBox in imageListTransform)
+        {
+            Rigidbody imageRb = imageBox.GetComponent<Rigidbody>();
+            SetAllBoxState(imageRb, imageBox.gameObject, true);
+        }
+    }
+
+    /// <summary>
+    /// is here to turn on and off the rigid body and it the collision.
+    /// </summary>
+    private void IfWrongSetColliderOn()
+    {
+        Transform[] letterListTransform = letterPool.transform.GetComponentsInChildren<Transform>();
+        Transform[] imageListTransform = imagePool.transform.GetComponentsInChildren<Transform>();
+
+        foreach (var letterBox in letterListTransform)
+        {
+            Rigidbody letterRb = letterBox.GetComponentInParent<Rigidbody>();
+            SetAllBoxState(letterRb, letterBox.gameObject, false);
+        }
+
+        foreach (var imageBox in imageListTransform)
+        {
+            Rigidbody imageRb = imageBox.GetComponentInParent<Rigidbody>();
+            SetAllBoxState(imageRb, imageBox.gameObject, false);
+        }
     }
 }
