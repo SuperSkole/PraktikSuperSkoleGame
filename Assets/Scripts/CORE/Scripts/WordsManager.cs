@@ -70,7 +70,6 @@ namespace CORE.Scripts
         {
             // Add the new wordsOrLetters to the valid set
             _validWords.UnionWith(words); 
-            Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
         }
         
         public static List<string> PopulateValidWordsWithRandomWordsByLengthAndCount(int length, int count)
