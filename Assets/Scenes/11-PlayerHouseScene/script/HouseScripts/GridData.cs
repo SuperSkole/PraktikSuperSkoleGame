@@ -78,12 +78,12 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// <param name="objectSize">The size of the object being placed.</param>
         /// <returns>True if the object can be placed, otherwise false.</returns>
         //public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize)
-        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize, GridData wallGridData, EnumFloorDataType? currentFloorType)
+        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize, GridData? wallGridData, EnumFloorDataType? currentFloorType)
         {
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
             foreach (var pos in positionToOccupy)
             {
-                if (wallGridData.placedObjects.ContainsKey(pos))
+                if (wallGridData != null && wallGridData.placedObjects.ContainsKey(pos))
                 {
                     return false;
                 }

@@ -23,7 +23,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             GridData floorData,
             GridData furnitureData,
             GridData wallfurnitureData,
-            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer)
         {
             this.grid = grid;
@@ -33,7 +32,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.wallfurnitureData = wallfurnitureData;
-            this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
 
             previewSystem.StartShowingRemovePreview();
@@ -47,12 +45,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public void OnAction(Vector3Int gridPos)
         {
             GridData selectedData = null;
-            // if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
             if (furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one, furnitureData, null) == false)
             {
                 selectedData = furnitureData;
             }
-            // else if (floorData.CanPlaceObjectAt(gridPos, Vector2Int.one) == false)
             else if (floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, floorData, null) == false)
             {
                 selectedData = floorData;
@@ -84,9 +80,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         private bool CheckIfSelectionIsValid(Vector3Int gridPos)
         {
-            return !(furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData, null) &&
-                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData, null) && 
-                     wallfurnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one, nonePlaceablesData, null));
+            return !(furnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one, null, null) &&
+                     floorData.CanPlaceObjectAt(gridPos, Vector2Int.one, null, null) && 
+                     wallfurnitureData.CanPlaceObjectAt(gridPos, Vector2Int.one, null, null));
         }
 
         public void UpdateState(Vector3Int gridPos)

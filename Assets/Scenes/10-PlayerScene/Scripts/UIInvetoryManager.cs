@@ -27,6 +27,7 @@ public class UIInvetoryManager : MonoBehaviour
     }
     public void LoadFurnitureAmount()
     {
+        //If you want an icon to the image in the invetory add to this dictionary, This dictionary has to be in the same orientation as the ObjectsDataBaseSO
         DicOfSpritesForItems.Add(0, spritesForIcons[0]);
         DicOfSpritesForItems.Add(1, spritesForIcons[1]);
         DicOfSpritesForItems.Add(2, spritesForIcons[2]);

@@ -41,6 +41,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         {
             // Stop any ongoing placement process.
             StopPlacement();
+
             floorData = new GridData();
             furnitureData = new GridData();
             wallfurnitureData = new GridData();
@@ -120,7 +121,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 floorData,
                 furnitureData,
                 wallfurnitureData,
-                nonePlaceablesData,
                 objectPlacer);
 
             // Subscribe to input events for clicking and exiting the removal mode.
