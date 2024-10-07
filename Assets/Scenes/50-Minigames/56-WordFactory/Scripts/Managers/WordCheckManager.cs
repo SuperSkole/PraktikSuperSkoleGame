@@ -18,6 +18,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
+        [SerializeField] private AudioSource pullHandleAudioSource;
+        
+        private bool hasPlayedPullHandleSound = false;
 
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
@@ -59,7 +62,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
+            // Play PullHandle sound if it's not already playing
             WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+
             
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
