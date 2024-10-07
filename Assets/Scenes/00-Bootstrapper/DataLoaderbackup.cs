@@ -86,7 +86,6 @@ namespace Scenes._00_Bootstrapper
                 }
             }
 
-            Debug.Log($"The File {filePath} was loaded successfully with wordsOrLetters added to set \"{setName}\"");
         }
 
         #region load textures
