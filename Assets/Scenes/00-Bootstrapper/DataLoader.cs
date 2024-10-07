@@ -105,7 +105,7 @@ namespace Scenes._00_Bootstrapper
                 }
             }
 
-            //Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
+            //Debug.Log($"The File {filePath} was loaded successfully with wordsOrLetters added to set \"{setName}\"");
         }
 
         private static string GetFileNameWithoutExtension(string filePath)

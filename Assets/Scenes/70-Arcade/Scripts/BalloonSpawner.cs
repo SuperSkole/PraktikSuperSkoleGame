@@ -34,7 +34,7 @@ public class BalloonSpawner : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        text.text = $"Klik på {correctLetter} \nPoint: {points} \n{lives}/3 liv";
+        text.text = $"Klik på {correctLetter} \nPoint: {points}/10 \n{lives}/3 liv";
     }
 
     /// <summary>

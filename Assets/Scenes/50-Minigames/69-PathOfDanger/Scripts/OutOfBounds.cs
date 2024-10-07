@@ -27,6 +27,8 @@ public class OutOfBounds : MonoBehaviour
             manager.playerLifePoints -= 1;
             manager.DestroyAllPanels();
             PlayerManager.Instance.PositionPlayerAt(startPosition);
+
+            manager.hasAnsweredWrong = false;
             StartCoroutine(manager.WaitUntillDataIsLoaded());
           
         }
