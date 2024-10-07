@@ -17,12 +17,12 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (clothTop != null)
                 {
-                    skeleton.SetAttachment(clothTop, null);
+                    skeleton.SetAttachment(clothTop, clothTop);
                 }
 
                 if (clothMid != null)
                 {
-                    skeleton.SetAttachment(clothMid, null);
+                    skeleton.SetAttachment(clothMid, clothMid);
                 }
 
                 //set new clothing
