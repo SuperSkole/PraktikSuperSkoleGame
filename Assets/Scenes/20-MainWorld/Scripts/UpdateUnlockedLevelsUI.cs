@@ -13,16 +13,21 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
     private SymbolEaterSetter symbolEaterSetter = new SymbolEaterSetter();
     private LetterGardenSetter letterGardenSetter = new LetterGardenSetter();
     private MiniRacingSetter racingSetter =new MiniRacingSetter();
+    private PathOfDangerSetter dangerPathSetter = new PathOfDangerSetter();
+
 
     [SerializeField] private GameObject towerLight;
     [SerializeField] private GameObject symbolEaterLight;
     [SerializeField] private GameObject letterGardenLight;
     [SerializeField] private GameObject racingLight;
+    [SerializeField] private GameObject dangerPathLight;
+
 
     private int towerMinLevelRequired=1;
     private int symbolEaterMinLevelRequired=1;
     private int letterGardenMinLevelRequired=1;
     private int racingMinLevelRequired=1;
+    private int dangerPathMinLevelRequired = 1;
 
     private bool firstItemFound;
 
@@ -36,6 +41,8 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         symbolEaterMinLevelRequired = GetMinLevelRequirements(symbolEaterSetter.gamemodes);
         letterGardenMinLevelRequired = GetMinLevelRequirements(letterGardenSetter.gamemodes);
         racingMinLevelRequired = GetMinLevelRequirements(racingSetter.gamemodes);
+        dangerPathMinLevelRequired = GetMinLevelRequirements(dangerPathSetter.gamemodes);
+
 
         //Debug.Log("TowerMinLevel:"+towerMinLevelRequired);
         //Debug.Log("SymbolMinLevel:"+symbolEaterMinLevelRequired);
@@ -46,6 +53,7 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         if (currentPlayerLevel != symbolEaterMinLevelRequired) symbolEaterLight.SetActive(false);
         if (currentPlayerLevel != letterGardenMinLevelRequired) letterGardenLight.SetActive(false);
         if (currentPlayerLevel != racingMinLevelRequired) racingLight.SetActive(false);
+        if (currentPlayerLevel != dangerPathMinLevelRequired) dangerPathLight.SetActive(false);
         arrow = PlayerManager.Instance.SpawnedPlayer.GetComponentInChildren<ArrowPoint>(true);
     }
 
@@ -71,6 +79,12 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
         {
             level1Text += "\nRacerSpillet";
             arrow.SetTarget(new(49.71f, 0.415f, -16.13f));
+        }
+
+        if (dangerPathMinLevelRequired <= currentPlayerLevel)
+        {
+            level1Text += "\nDen Farlige Rute";
+            arrow.SetTarget(new(dangerPathLight.transform.position.x, 0, dangerPathLight.transform.position.z));
         }
 
         if(towerMinLevelRequired<=currentPlayerLevel)
