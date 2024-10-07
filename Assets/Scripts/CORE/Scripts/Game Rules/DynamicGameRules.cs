@@ -28,8 +28,13 @@ namespace CORE.Scripts.Game_Rules
 
         private bool usesSequence = false;
         
+        /// <summary>
+        /// Retrieves a correct answer
+        /// </summary>
+        /// <returns>a correct answer</returns>
         public string GetCorrectAnswer()
         {
+            //gets a random letter from the languageunits list if it contains more than one element
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
                 if(languageUnits.Count > 1)
@@ -40,13 +45,20 @@ namespace CORE.Scripts.Game_Rules
             return  correctAnswer;
         }
 
+        /// <summary>
+        /// Returns a string used in information display in minigames
+        /// </summary>
+        /// <returns>an information string</returns>
         public string GetDisplayAnswer()
         {
             string displayString = "";
+            //Sets the display string to the correctanswer if it is a letter and there are no extra letters is in languageUnits. In that case it returns the type of letter 
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
+
                 displayString = correctAnswer;
                 LetterData letterData = (LetterData)languageUnits[0];
+                
                 if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Consonant)
                 {
                     displayString = "vokaler";
