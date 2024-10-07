@@ -95,7 +95,7 @@ namespace Scenes._03_StartScene.Scripts
             }
 
             isLoading = true;
-            Debug.Log($"LoadGameController-HandleLoadRequest: Handling load request for save key: {saveKey}");
+            //Debug.Log($"LoadGameController-HandleLoadRequest: Handling load request for save key: {saveKey}");
     
             // Load the saved game data using the generic LoadGame<T> method
             saveGameController.LoadGame<SaveDataDTO>(saveKey, data => OnDataLoaded(data, saveKey));
@@ -117,7 +117,6 @@ namespace Scenes._03_StartScene.Scripts
                 onSceneLoaded = (scene, mode) =>
                 {
                     // Early out if not player scene
-                    Debug.Log(scene.name);
                     if (scene.name != SceneNames.Player)
                     {
                         return;

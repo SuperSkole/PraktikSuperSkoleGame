@@ -161,7 +161,7 @@ namespace Scenes._03_StartScene.Scripts
             // Set loading flag to true to prevent multiple loads
             isLoading = true;
 
-            Debug.Log("Load game button pressed: " + SaveKey);
+            //Debug.Log("Load game button pressed: " + SaveKey);
             OnLoadRequested?.Invoke(SaveKey);
         }
 

@@ -66,24 +66,26 @@ namespace CORE.Scripts
                 _validWords.Clear(); 
             }
         }
+        
         private static void PopulateValidWordsWithListofWords(List<string> words)
         {
             // Add the new words to the valid set
             _validWords.UnionWith(words); 
-            Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
+            //Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
         }
         
         public static List<string> PopulateValidWordsWithRandomWordsByLengthAndCount(int length, int count)
         {
             string setName = GetSetName(length);
-            if (GetWordsFromSet(setName) is HashSet<string> set)
+            if (GetWordsFromSet(setName) is { } set)
             {
                 List<string> randomWords = set.OrderBy(word => Random.value).Take(count).ToList();
                 // Populate valid words with these random words
                 PopulateValidWordsWithListofWords(randomWords);
                 return randomWords;
             }
-            Debug.Log("WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount() returned empty list");
+            
+            Debug.LogWarning("WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount() returned empty list");
             return new List<string>();
         }
         
