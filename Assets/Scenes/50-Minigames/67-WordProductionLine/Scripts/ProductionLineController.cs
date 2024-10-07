@@ -62,9 +62,6 @@ public class ProductionLineController : MonoBehaviour
 
         imageBoxCheckPosition = new Vector3(2, 9, 5);
         letterBoxCheckPosition = new Vector3(-1, 9, 5);
-
-        rbIb = selectedImageBox.GetComponentInParent<Rigidbody>(false);
-        rbLb = selectedLetterBox.GetComponentInParent<Rigidbody>(false);
     }
 
     void Update()
@@ -104,11 +101,9 @@ public class ProductionLineController : MonoBehaviour
 
         if (movingToDisplay)
         {
-            Vector3 directionImage = (imageBoxCheckPosition - selectedImageBox.transform.position).normalized;
-            rbIb.MovePosition(selectedImageBox.transform.position + directionImage * 2 * Time.deltaTime);
-            Vector3 directionLetter = (letterBoxCheckPosition - selectedLetterBox.transform.position).normalized;
-            rbLb.MovePosition(selectedLetterBox.transform.position + directionLetter * 2 * Time.deltaTime);
+            MoveBox(rbIb, selectedImageBox.transform, imageBoxCheckPosition);
 
+            MoveBox(rbLb, selectedLetterBox.transform, letterBoxCheckPosition);
         }
     }
 
@@ -295,30 +290,46 @@ public class ProductionLineController : MonoBehaviour
 
 
     /// <summary>
+    /// Moves box
+    /// </summary>
+    /// <param name="rb">Which boxrigidbody</param>
+    /// <param name="boxTransform">where is it?</param>
+    /// <param name="targetPosition">Where is it going</param>
+    private void MoveBox(Rigidbody rb, Transform boxTransform, Vector3 targetPosition)
+    {
+        Vector3 newPosition = Vector3.MoveTowards(boxTransform.position, targetPosition, 40 * Time.deltaTime);
+
+        rb.MovePosition(newPosition);
+
+        if (boxTransform.position == targetPosition)
+        {
+            
+            rb.isKinematic = true;
+        }
+    }
+
+
+    /// <summary>
     /// changes the color of the cube to green to indiacte Success and increases the Score
     /// </summary>
-    /// <returns> 1 second delay</returns>
+    /// <returns> Actions with delays through second</returns>
     IEnumerator WaitForRightXSeconds()
     {
         checking = true;
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
+
+        rbIb = selectedImageBox.GetComponentInParent<Rigidbody>();
+        rbLb = selectedLetterBox.GetComponentInParent<Rigidbody>();
+
         points++;
         scoreText.text = $"Score: {points}";
+        
+
+        SetBoxState(rbIb, selectedImageBox, true);
+        SetBoxState(rbLb, selectedLetterBox, true);
+
         movingToDisplay = true;
-
-
-        BoxCollider bcIb = selectedImageBox.GetComponentInChildren<BoxCollider>();
-        bcIb.isTrigger = true;
-        rbIb.useGravity = false;
-        rbIb.isKinematic = false;
-
-        
-        BoxCollider bcLb = selectedLetterBox.GetComponentInChildren<BoxCollider>();
-        bcLb.isTrigger = true;
-        rbLb.isKinematic = false;
-        rbLb.useGravity = false;
-        
 
         yield return new WaitForSeconds(3);
 
@@ -329,17 +340,8 @@ public class ProductionLineController : MonoBehaviour
 
         movingToDisplay = false;
 
-        bcIb.isTrigger = false;
-        bcLb.isTrigger = false;
-
-        rbIb.isKinematic = true;
-        rbIb.useGravity = true;
-        rbLb.isKinematic = true;
-        rbLb.useGravity = true;
-
-        
-
-
+        SetBoxState(rbIb, selectedImageBox, false);
+        SetBoxState(rbLb, selectedLetterBox, false);
 
         if (selectedLetterBox != null)
         {
@@ -352,9 +354,22 @@ public class ProductionLineController : MonoBehaviour
             selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
             ResetCubes(selectedImageBox);
         }
-        
 
         checking = false;
+    }
+
+    /// <summary>
+    /// Updates the boxes rigid body and collision
+    /// </summary>
+    /// <param name="rb">the selected boxes rigidbody</param>
+    /// <param name="box">the selected box Gameobject</param>
+    /// <param name="isTrigger">can it interact with others objects?</param>
+    void SetBoxState(Rigidbody rb, GameObject box, bool isTrigger)
+    {
+        BoxCollider bc = box.GetComponentInChildren<BoxCollider>();
+        bc.isTrigger = isTrigger;
+        rb.useGravity = !isTrigger;
+        rb.isKinematic = isTrigger;
     }
 
     /// <summary>
