@@ -57,7 +57,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private bool displayToggle = false;
         //private bool finalStretch = false;
 
-        public readonly List<string> spelledWordsList = new(); // Tracks spelled words
+        public readonly List<string> spelledWordsList = new(); // Tracks spelled wordsOrLetters
         public string targetWord = "";
         public string imageWord = "";
         private int currentIndex = 0;

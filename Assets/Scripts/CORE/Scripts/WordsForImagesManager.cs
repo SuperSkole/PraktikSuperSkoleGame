@@ -20,7 +20,7 @@ namespace CORE.Scripts
             "du", "fe", "bæ"
         };
         /// <summary>
-        /// adds a word to the list of all words, eatch word can only aprear once.
+        /// adds a word to the list of all wordsOrLetters, eatch word can only aprear once.
         /// </summary>
         /// <param name="name">the name to add to the list</param>
         public static void AddNameToSet(string name)
@@ -39,10 +39,10 @@ namespace CORE.Scripts
         }
 
         /// <summary>
-        /// a function to get an amount of random words that has an image.
+        /// a function to get an amount of random wordsOrLetters that has an image.
         /// </summary>
-        /// <param name="amount">the amount of words you want</param>
-        /// <returns>an array of words that has a corresponding image</returns>
+        /// <param name="amount">the amount of wordsOrLetters you want</param>
+        /// <returns>an array of wordsOrLetters that has a corresponding image</returns>
         public static string[] GetRandomWordForImage(int amount)
         {
             string[] words = new string[amount];

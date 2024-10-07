@@ -13,6 +13,7 @@ public class BalloonController : MonoBehaviour
     [SerializeField]private float targetX;
     public float targetY;
     [SerializeField]private float speed;
+    [SerializeField]private AudioClip popSound;
 
     /// <summary>
     /// sets a random x position that the balloon will move towards, then starts the animation to move it
@@ -66,12 +67,13 @@ public class BalloonController : MonoBehaviour
     /// </summary>
     public void Clicked()
     {
+        AudioManager.Instance.PlaySound(popSound, SoundType.SFX);
         if(isCorrect)
         {
             BalloonSpawner mother = GetComponentInParent<BalloonSpawner>();
             mother.points++;
 
-            if (mother.points >= 25)
+            if (mother.points >= 10)
             {
                 SwitchScenes.SwitchToArcadeScene();
             }

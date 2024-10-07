@@ -59,6 +59,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
+            Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
             defaultBeeSpeed = bee.speed;
@@ -116,6 +117,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     if(splines.Count <= 0) return true;//end game
 
                     currentSymbol = splines[0];
+                    Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
                     splines.RemoveAt(0);
                     bee.NextLetter(currentSymbol.splineContainer);
                     //Removes the currently active helper bee if it exists
