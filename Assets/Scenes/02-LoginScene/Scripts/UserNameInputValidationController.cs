@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Text.RegularExpressions;
+using CORE;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Scenes._02_LoginScene.Scripts
     /// <summary>
     /// Manages validation of user input for username and password fields and updates the UI accordingly.
     /// </summary>
-    public class InputValidationManager : MonoBehaviour
+    public class UserNameInputValidationController : MonoBehaviour
     {
         [SerializeField] private TMP_InputField usernameInput;
         [SerializeField] private TextMeshProUGUI usernameFeedback;
@@ -52,6 +53,7 @@ namespace Scenes._02_LoginScene.Scripts
             bool isLengthValid = input.Length is >= MinUsernameLength and <= MaxUsernameLength;
             bool containsWhitespace = input.Any(char.IsWhiteSpace);
             bool isPatternValid = Regex.IsMatch(input, UsernamePattern);
+            bool containsBannedWord = ProfanityFilter.ContainsProfanity(input);
             bool isValid = isLengthValid && isPatternValid && !containsWhitespace;
 
             if (!isLengthValid)
@@ -65,6 +67,10 @@ namespace Scenes._02_LoginScene.Scripts
             else if (!isPatternValid)
             {
                 usernameFeedback.text = "<color=red>Brugernavn må kun indeholde bogstaver, tal eller . - _ @</color>";
+            }
+            else if (containsBannedWord)
+            {
+                usernameFeedback.text = "<color=red>Brugernavn indeholder upassende ord.</color>";
             }
             else
             {
