@@ -1,6 +1,8 @@
 using CORE;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
+using Scenes._50_Minigames._54_SymbolEater.Scripts;
+
 using System.Collections;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -37,6 +39,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void PlayerHouse()
     {
+        FindAnyObjectByType<SymbolEaterPlayer>()?.GameOver();
         SwitchScenes.SwitchToPlayerHouseScene();
         Back();
     }
@@ -68,6 +71,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void Leaderboard()
     {
+        FindAnyObjectByType<SymbolEaterPlayer>()?.GameOver();
         SwitchScenes.SwitchToLeaderBoard();
         Back();
     }
