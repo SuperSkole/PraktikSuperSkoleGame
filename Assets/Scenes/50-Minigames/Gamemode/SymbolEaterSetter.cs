@@ -52,9 +52,9 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager
                     .GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode;
