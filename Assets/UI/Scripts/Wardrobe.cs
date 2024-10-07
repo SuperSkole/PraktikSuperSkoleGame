@@ -63,9 +63,19 @@ namespace UI.Scripts
                 Debug.Log($"Error fetching wardrobe options: {ex.Message}");
             }
 
-            wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
-            wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
-            wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
+            //set variables
+           if(PlayerManager.Instance.PlayerData.ClothMid != null && PlayerManager.Instance.PlayerData.ClothMid != string.Empty)
+           {
+                  wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
+           }
+           if (PlayerManager.Instance.PlayerData.ClothTop != null && PlayerManager.Instance.PlayerData.ClothTop != string.Empty)
+           {
+                 wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+           }
+           if (PlayerManager.Instance.PlayerData.MonsterColor != null && PlayerManager.Instance.PlayerData.MonsterColor != string.Empty)
+           {
+                 wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
+           }
         }
 
         private void OnDisable()
