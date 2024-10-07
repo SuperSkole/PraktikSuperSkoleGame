@@ -19,6 +19,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private HouseLoadSaveController saveManager;
         [SerializeField] private UIInvetoryManager invetoryManager;
         [SerializeField] private PlacementSystem placementSystem;
+        [SerializeField] private PreviewSystem previewSystem;
+        [SerializeField] GameObject inventoryContentUIParent;
 
         [HideInInspector]
         public SaveContainer itemContainer = new SaveContainer();
@@ -36,27 +38,13 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             buildingSystemParent.SetActive(true);
             houseFloorSide.SetActive(true);
 
+            inventoryContentUIParent.transform.localPosition = new Vector3(-250, -540, 0);
+
             invetoryManager.LoadFurnitureAmount();
-            
+
             await LoadingHouseItems();  // Wait for the house data to load
-           
-            if (!saveDataHasBeenMade)
-            {
-                CreateHouseSaveData();
-                Debug.Log("No House Save has been found, We created a new one");
-            }
-           
-            //try
-            //{
-            //}
-            //catch (System.Exception ex)
-            //{
-            //    if (saveManager.ReturnIfGenerateSaveNameWorks())
-            //    {
-                  
-            //    }
-            //    else { print($"Something else went wrong look at error : {ex} "); }
-            //}
+
+
             houseFloorSide.SetActive(false);
             buildingSystemParent.SetActive(false);
 
@@ -207,6 +195,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 Debug.Log("No Save was Found");
                 saveDataHasBeenMade = false;
+                CreateHouseSaveData();
                 return;
             }
 
@@ -232,6 +221,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             if (!buildingSystemParent.activeSelf)
             {
                 buildingSystemParent.SetActive(true);
+
+                inventoryContentUIParent.transform.localPosition = new Vector3(250, -540, 0);
+
+
                 cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
                 spawnedPlayer.SetActive(false);
                 virtualCamera.Follow = cameraMovement.transform;
@@ -244,6 +237,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 saveManager.SaveGridData();
 
                 invetoryManager.SaveFurnitureAmount();
+
+                previewSystem.StopShowingPreview();
 
                 buildingSystemParent.SetActive(false);
                 cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;

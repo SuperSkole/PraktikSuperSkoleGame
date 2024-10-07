@@ -87,10 +87,10 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     return false;
                 }
                 //Debug.Log($"Checking These pos:{pos}");
-                //if (placedObjects.ContainsKey(pos))
-                //{
-                //    return false;
-                //}
+                if (placedObjects.ContainsKey(pos))
+                {
+                    return false;
+                }
             }
             return true;
         }
