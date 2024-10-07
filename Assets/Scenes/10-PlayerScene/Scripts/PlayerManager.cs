@@ -389,6 +389,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 SceneManager.GetActiveScene().name.StartsWith("20") ||
                 SceneManager.GetActiveScene().name.StartsWith("70"))
             {
+                instance.spawnedPlayer.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                instance.spawnedPlayer.transform.GetChild(1).transform.localPosition = new Vector3(-2.24f, 3f, -2f);
+
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = true;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
@@ -400,6 +403,11 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
+            }
+            if (SceneManager.GetActiveScene().name.StartsWith("11"))
+            {
+                instance.spawnedPlayer.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+                instance.spawnedPlayer.transform.GetChild(1).transform.localPosition = new Vector3(-2.24f, 0.9f, -2f);
             }
         }
 
