@@ -738,7 +738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: maxSpeed
-      value: 120
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Enabled
@@ -770,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: handbrakeDriftMultiplier
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 901333271, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
@@ -1223,7 +1223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 3453212339693683068}
   fuelAmount: 0
-  FuelUsageMultiplier: 2.5
+  FuelUsageMultiplier: 1.5
   fuelGauge: {fileID: 0}
 --- !u!114 &4707417479300227861
 MonoBehaviour:

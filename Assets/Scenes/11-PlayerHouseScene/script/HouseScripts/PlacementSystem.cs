@@ -17,10 +17,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         public GameObject GridVisualization { get { return gridVisualization; } private set { } }
 
-        private GridData floorData, furnitureData, nonePlaceablesData;
+        private GridData floorData, furnitureData, wallfurnitureData, nonePlaceablesData;
 
         public GridData FloorData { get => floorData; set => floorData = value; }
         public GridData FurnitureData { get => furnitureData; set => furnitureData = value; }
+        public GridData WallfurnitureData { get => wallfurnitureData; set => wallfurnitureData = value; }
         public GridData NonePlaceablesData { get => nonePlaceablesData; set => nonePlaceablesData = value; }
 
 
@@ -42,7 +43,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             StopPlacement();
             floorData = new GridData();
             furnitureData = new GridData();
+            wallfurnitureData = new GridData();
             nonePlaceablesData = new GridData();
+
 
             return;
 
@@ -58,6 +61,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
                 nonePlaceablesData,
                 objectPlacer,
                 invetoryManager,
@@ -86,6 +90,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
                 nonePlaceablesData,
                 objectPlacer,
                 invetoryManager,
@@ -114,6 +119,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 invetoryManager,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
                 nonePlaceablesData,
                 objectPlacer);
 

@@ -401,7 +401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -540}
+  m_AnchoredPosition: {x: -250, y: -540}
   m_SizeDelta: {x: 500, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &80989968
@@ -793,6 +793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   floorData: {fileID: 1356158577}
   furnitureData: {fileID: 1356158577}
+  wallfurnitureData: {fileID: 1356158577}
   nonePlaceablesData: {fileID: 1356158577}
   placementSystem: {fileID: 1356158577}
 --- !u!1 &207234289 stripped
@@ -5595,6 +5596,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 684839d7e38b10348be6319de331b78b, type: 3}
   - {fileID: 21300000, guid: 47436cbf302c86f4daf5c9ab481db522, type: 3}
   - {fileID: 21300000, guid: 080f4ffd72300d0499171baf6d536a65, type: 3}
+  - {fileID: 21300000, guid: 9c876629b7cf5cd4394e0027915264b6, type: 3}
+  - {fileID: 21300000, guid: 63b26c31cf55f7541be8c6e8d4be455c, type: 3}
   ListOfFurniture: []
   contentTransform: {fileID: 304663464}
   itemTemplate: {fileID: 8553512297858877723, guid: 885f1c6dd7ac3a04a8ddae8591b4ca88, type: 3}
@@ -7799,7 +7802,7 @@ MonoBehaviour:
   invetoryManager: {fileID: 1197627603}
   placementSystem: {fileID: 1356158577}
   previewSystem: {fileID: 548964424}
-  inventoryContentUIParent: {fileID: 63499713}
+  inventoryContentUIParent: {fileID: 63499714}
   itemContainer:
     floorData:
       placedObjectsList: []
