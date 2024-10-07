@@ -173,21 +173,27 @@ namespace UI.Scripts
             currentPrice = thisprice;
             currentShopOption = shopOption;
 
-            if (itemName.Contains("HEAD"))
+            if (currentItem != string.Empty && currentItem != null)
             {
-                Debug.Log("Head" + itemName);
-                //hvis curren item ikke er tom, 
-                if (currentItem != null && (itemName.Contains("MID") || itemName.Contains("HEAD")))
+                if ((currentItem.Contains("MID") || currentItem.Contains("HEAD")))
                 {
                     Debug.Log("current " + currentItem);
                     skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
                 }
-                if (wearingMid != null)
+            }
+            //HEAD CLOTHING
+
+            if (itemName.Contains("HEAD"))
+            {
+                Debug.Log("HEAD " + itemName);
+
+                //hvis curren item ikke er tom, 
+                if (wearingMid != string.Empty && wearingMid != null)
                 {
                     Debug.Log("mid" + wearingMid);
                     skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                 }
-                if (wearingColor != null)
+                if (wearingColor != string.Empty && wearingColor != null)
                 {
                     Debug.Log("color" + wearingColor);
                     playerColorChanging.ColorChange(wearingColor);
@@ -198,21 +204,21 @@ namespace UI.Scripts
                 currentItem = itemName;
             }
 
+            //MID CLOTHING
+
             if (itemName.Contains("MID"))
             {
-                //hvis curren item ikke er tom, 
-                if (currentItem != null && (itemName.Contains("MID") || itemName.Contains("HEAD")))
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-                }
-                if (wearingTop != null)
+                Debug.Log("MID " + itemName);
+
+                if (wearingTop != string.Empty && wearingTop != null)
                 {
                     skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
                 }
-                if (wearingColor != null)
+                if (wearingColor != string.Empty && wearingColor != null)
                 {
                     playerColorChanging.ColorChange(wearingColor);
                 }
+
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
             }
@@ -222,15 +228,16 @@ namespace UI.Scripts
 
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
+
                     playerColorChanging.ColorChange(itemName);
 
                     currentItem = itemName;
 
-                    if (wearingMid != null)
+                    if (wearingMid != string.Empty && wearingMid != null)
                     {
                         skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                     }
-                    if (wearingTop != null)
+                    if (wearingTop != string.Empty && wearingTop != null)
                     {
                         skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
                     }
