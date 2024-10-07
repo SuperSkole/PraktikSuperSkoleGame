@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public enum SoundType
 {
@@ -16,15 +17,21 @@ public class AudioManager : MonoBehaviour
     private GameObject mCamara;
     [SerializeField] private AudioMixerGroup sfx, music, voice;
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Correctness", "UNT0008:Null propagation on Unity objects", Justification = "<Pending>")]
-    private void Awake()
+    private void Start()
     {
         DontDestroyOnLoad(gameObject);
         if (Instance == null)
             Instance = this;
         else
             Destroy(gameObject);
-        if(mCamara == null)
-            mCamara = FindAnyObjectByType<AudioListener>(FindObjectsInactive.Include)?.gameObject;
+        GetAudioListerner(SceneManager.GetActiveScene(),LoadSceneMode.Single);
+        SceneManager.sceneLoaded += GetAudioListerner;
+    }
+
+    private void GetAudioListerner(Scene scene, LoadSceneMode mode)
+    {
+        if (mCamara == null)
+            mCamara = FindAnyObjectByType<AudioListener>()?.gameObject;
         if (mCamara == null)
         {
             mCamara = Instantiate(new GameObject());
