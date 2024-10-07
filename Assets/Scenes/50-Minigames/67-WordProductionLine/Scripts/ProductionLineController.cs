@@ -38,9 +38,16 @@ public class ProductionLineController : MonoBehaviour
 
     private static LineRenderer lineRend;
 
-    
+    private bool movingToDisplay = false;
     
     private Vector3 mousePos;
+
+    Vector3 letterBoxCheckPosition;
+    Vector3 imageBoxCheckPosition;
+    
+    //rigidbody for den diverse selected Kasser.
+    Rigidbody rbIb;
+    Rigidbody rbLb;
 
     RaycastHit hit;
     Ray ray;
@@ -52,7 +59,9 @@ public class ProductionLineController : MonoBehaviour
         staticDefaultMaterial = defaultMaterial;
         lineRend = GetComponent<LineRenderer>();
         lineRend.positionCount = 2;
-        
+
+        imageBoxCheckPosition = new Vector3(2, 9, 5);
+        letterBoxCheckPosition = new Vector3(-1, 9, 5);
     }
 
     void Update()
@@ -89,6 +98,13 @@ public class ProductionLineController : MonoBehaviour
             }
         }
 
+
+        if (movingToDisplay)
+        {
+            MoveBox(rbIb, selectedImageBox.transform, imageBoxCheckPosition);
+
+            MoveBox(rbLb, selectedLetterBox.transform, letterBoxCheckPosition);
+        }
     }
 
 
@@ -274,21 +290,58 @@ public class ProductionLineController : MonoBehaviour
 
 
     /// <summary>
+    /// Moves box
+    /// </summary>
+    /// <param name="rb">Which boxrigidbody</param>
+    /// <param name="boxTransform">where is it?</param>
+    /// <param name="targetPosition">Where is it going</param>
+    private void MoveBox(Rigidbody rb, Transform boxTransform, Vector3 targetPosition)
+    {
+        Vector3 newPosition = Vector3.MoveTowards(boxTransform.position, targetPosition, 40 * Time.deltaTime);
+
+        rb.MovePosition(newPosition);
+
+        if (boxTransform.position == targetPosition)
+        {
+            
+            rb.isKinematic = true;
+        }
+    }
+
+
+    /// <summary>
     /// changes the color of the cube to green to indiacte Success and increases the Score
     /// </summary>
-    /// <returns> 1 second delay</returns>
+    /// <returns> Actions with delays through second</returns>
     IEnumerator WaitForRightXSeconds()
     {
         checking = true;
         selectedLetterBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
         selectedImageBox.GetComponentInChildren<MeshRenderer>().material = correctMaterial;
+
+        rbIb = selectedImageBox.GetComponentInParent<Rigidbody>();
+        rbLb = selectedLetterBox.GetComponentInParent<Rigidbody>();
+
         points++;
         scoreText.text = $"Score: {points}";
+        
 
-        particals.transform.localScale = new Vector3(3, 3, 3);
+        SetBoxState(rbIb, selectedImageBox, true);
+        SetBoxState(rbLb, selectedLetterBox, true);
+
+        movingToDisplay = true;
+
+        yield return new WaitForSeconds(3);
+
+        particals.transform.localScale = new Vector3(1, 1, 1);
         Instantiate(particals, transform.position, Quaternion.identity);
 
         yield return new WaitForSeconds(1);
+
+        movingToDisplay = false;
+
+        SetBoxState(rbIb, selectedImageBox, false);
+        SetBoxState(rbLb, selectedLetterBox, false);
 
         if (selectedLetterBox != null)
         {
@@ -301,9 +354,22 @@ public class ProductionLineController : MonoBehaviour
             selectedImageBox.GetComponentInChildren<IBox>().ResetCube();
             ResetCubes(selectedImageBox);
         }
-        
 
         checking = false;
+    }
+
+    /// <summary>
+    /// Updates the boxes rigid body and collision
+    /// </summary>
+    /// <param name="rb">the selected boxes rigidbody</param>
+    /// <param name="box">the selected box Gameobject</param>
+    /// <param name="isTrigger">can it interact with others objects?</param>
+    void SetBoxState(Rigidbody rb, GameObject box, bool isTrigger)
+    {
+        BoxCollider bc = box.GetComponentInChildren<BoxCollider>();
+        bc.isTrigger = isTrigger;
+        rb.useGravity = !isTrigger;
+        rb.isKinematic = isTrigger;
     }
 
     /// <summary>

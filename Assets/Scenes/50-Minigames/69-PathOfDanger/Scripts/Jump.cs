@@ -34,7 +34,7 @@ public class Jump : MonoBehaviour
     {
         //checks spacebar input and if canJump is true which is only the case when the player is colliding with another collider. 
         // That makes is there to make sure you can't jump mid air. 
-        if (Input.GetKeyDown(KeyCode.Space) && canJump == true)
+        if (Input.GetKeyDown(KeyCode.Space) && canJump == true && manager.hasAnsweredWrong==false)
         {
             isJumping = true;
             canJump = false;
@@ -78,7 +78,10 @@ public class Jump : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        canJump = true;
+        if (collision.gameObject.tag == "Platform")
+        {
+            canJump = true;
+        }
         //Destroys the shadown when colliding with an object. 
         if(spawnedShadow!=null)
         {

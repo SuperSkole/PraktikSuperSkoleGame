@@ -86,6 +86,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         if(currentCustomer == null)
         {
             errorDisplay.Reset();
+            numberDisplay.ClearNumber();
             currentCustomer = customer;
             healthDisplay.SetHearts(3);
             mistakes = 0;

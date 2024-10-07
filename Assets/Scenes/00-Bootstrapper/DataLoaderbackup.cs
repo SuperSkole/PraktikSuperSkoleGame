@@ -65,7 +65,7 @@ namespace Scenes._00_Bootstrapper
                     yield break;
                 }
 
-                // Store words here temp. or send directly to LettersAndWordsManager
+                // Store wordsOrLetters here temp. or send directly to LettersAndWordsManager
                 AddWordsToHashsetInLettersAndWordsManager(filePath, request);
             }
         }
@@ -86,7 +86,6 @@ namespace Scenes._00_Bootstrapper
                 }
             }
 
-            Debug.Log($"The File {filePath} was loaded successfully with words added to set \"{setName}\"");
         }
 
         #region load textures
