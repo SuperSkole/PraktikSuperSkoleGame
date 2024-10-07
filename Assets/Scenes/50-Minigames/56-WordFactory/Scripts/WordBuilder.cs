@@ -18,7 +18,11 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts
             foreach (Transform tooth in teeth)
             {
                 TextMeshProUGUI text = tooth.GetComponentInChildren<TextMeshProUGUI>();
-                letters.Add(text.text[0]);
+                
+                if (text != null)
+                {
+                    letters.Add(text.text[0]);
+                }
             }
 
             return new string(letters.ToArray());

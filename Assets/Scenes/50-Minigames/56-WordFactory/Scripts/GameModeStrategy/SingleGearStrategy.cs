@@ -25,12 +25,12 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
             // Fetch a random word from WordManager
             List<string> words = WordsManager.GetRandomWordsFromCombinationByCount(1);
-            Debug.Log("SingleGearStrategy.GetLettersForWords(): Chosen word: " + words[0]);
+            //Debug.Log("SingleGearStrategy.GetLettersForWords(): Chosen word: " + words[0]);
             string selectedWord = words.FirstOrDefault();
 
             if (string.IsNullOrEmpty(selectedWord))
             {
-                Debug.LogError("SingleGearStrategy.GetLettersForWords(): No valid word found.");
+                Debug.LogWarning("SingleGearStrategy.GetLettersForWords(): No valid word found.");
                 return null;
             }
             

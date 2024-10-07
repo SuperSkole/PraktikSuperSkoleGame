@@ -16,6 +16,11 @@ namespace CORE
         /// </summary>
         public bool AutoUnparentOnAwake = true;
 
+        /// <summary>
+        /// Flag indicating whether the GameObject should persist across scenes. Set via InitializeSingleton call.
+        /// </summary>
+        private bool shouldPersistAcrossScenes;
+
         protected static T instance;
         private static readonly object _lock = new object();
 
@@ -70,6 +75,16 @@ namespace CORE
         }
 
         /// <summary>
+        /// Initializes the singleton instance with an option to destroy it.
+        /// <para><b>IMPORTANT:</b> If you override Awake(bool shouldDestroy), you <b>must</b> call base.Awake(shouldDestroy) to ensure proper singleton initialization.</para>
+        /// </summary>
+        /// <param name="shouldDestroy">A boolean indicating whether the instance should be destroyed if a duplicate exists.</param>
+        protected virtual void Awake(bool shouldDestroy)
+        {
+            InitializeSingleton(shouldDestroy);
+        }
+
+        /// <summary>
         /// Initializes the singleton instance, ensuring that it persists across scene loads.
         /// </summary>
         /// <remarks>
@@ -77,12 +92,14 @@ namespace CORE
         /// If <c>AutoUnparentOnAwake</c> is true, the GameObject's transform will be unparented.
         /// Ensures that there is only one instance of the singleton in the scene and sets it to
         /// not be destroyed on load. If a duplicate instance is found, the new instance is destroyed.
-        protected virtual void InitializeSingleton() 
+        protected virtual void InitializeSingleton(bool dontDestroyOnLoad = true) 
         {
             if (!Application.isPlaying)
             {
                 return;
             }
+            
+            shouldPersistAcrossScenes = dontDestroyOnLoad;
 
             if (AutoUnparentOnAwake)
             {
@@ -92,7 +109,10 @@ namespace CORE
             if (!instance)
             {
                 instance = this as T;
-                DontDestroyOnLoad(gameObject);
+                if (shouldPersistAcrossScenes)
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
             } 
             else if (instance != this)
             {
