@@ -69,6 +69,8 @@ namespace UI.Scripts
             avaliableMoney = 0;
             meter.SettingValueAfterScene(0);
 
+            skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+
             if (playerColorChanging == null)
             {
                 playerColorChanging = this.GetComponent<ColorChanging>();
@@ -135,12 +137,8 @@ namespace UI.Scripts
                 Destroy(shopOptionsParent.GetChild(i).gameObject);
             }
 
-            if (currentItem != null)
-            {
-                skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-            }
-
             PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
@@ -329,15 +327,18 @@ namespace UI.Scripts
                         //COLOR
                         if (colors.Contains(currentItem.ToString()))
                         {
+                            Debug.Log(currentItem+" CURRENTITEM");
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
 
                             if (wearingTop != string.Empty)
                             {
                                 PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                                Debug.Log(wearingTop + " WEARINGTOP");
                             }
 
                             if (wearingMid != string.Empty)
                             {
+                                Debug.Log(wearingMid + " WEARINGMID");
                                 PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
                             }
 
