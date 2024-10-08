@@ -10,6 +10,7 @@ namespace Scenes._10_PlayerScene.Scripts
 
         public void ChangeClothes(string clothName, ISkeletonComponent givenSkeleton)
         {
+            Debug.Log("ChangeClothes: " + clothName);
 
             if (givenSkeleton != null && clothName != null && clothName != string.Empty)
             { 

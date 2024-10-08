@@ -24,6 +24,10 @@ namespace UI.Scripts
         private string wearingMid = null;
         private string wearingTop = null;
         private string wearingColor = null;
+
+        private WardrobeOption wardOptionTop;
+        private WardrobeOption wardOptionMid;
+        private WardrobeOption wardOptionColor;
         
         //colors
         List<string> colors = new List<string>();
@@ -40,11 +44,12 @@ namespace UI.Scripts
 
         private void OnEnable()
         {
+            skeletonGraphic.Skeleton.SetSlotsToSetupPose();
             //change color
             playerColorChanging.SetSkeleton(skeletonGraphic);
             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
 
-            //chnage clothes
+            //change clothes
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
@@ -76,6 +81,9 @@ namespace UI.Scripts
            {
                  wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
            }
+
+           //Set WardrobeOptions
+
         }
 
         private void OnDisable()
