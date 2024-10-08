@@ -21,11 +21,20 @@ namespace Scenes._02_LoginScene.Scripts
         [SerializeField] private TextMeshProUGUI passwordNumberFeedback;
         [SerializeField] private TextMeshProUGUI passwordSpecialFeedback;
         
-        // Define username requirements as const
+        /// <summary>
+        /// Regular expression pattern to validate usernames.
+        /// Usernames must only contain letters, numbers, and specific Danish characters.
+        ///
+        /// a-zA-Z: Tillader engelske bogstaver (store og små).
+        /// æøåÆØÅ: Inkluderer danske bogstaver.
+        /// \d: Tillader tal.
+        /// +: Sikrer, at der er mindst ét tilladt tegn i input.
+        /// ^ og $: Sikrer, at hele inputtet skal overholde mønsteret uden andre tegn i starten eller slutningen.
+        /// </summary>
+        private const string UsernamePattern = @"^[a-zA-ZæøåÆØÅ\d]+$";
         
         private const int MinUsernameLength = 3;
         private const int MaxUsernameLength = 20;
-        private const string UsernamePattern = @"^[a-zA-Z\d.\-@_]+$";
         
         // Define password requirements as const
         private const int MinPasswordLength = 8;
@@ -66,7 +75,7 @@ namespace Scenes._02_LoginScene.Scripts
             }
             else if (!isPatternValid)
             {
-                usernameFeedback.text = "<color=red>Brugernavn må kun indeholde bogstaver, tal eller . - _ @</color>";
+                usernameFeedback.text = "<color=red>Brugernavn må kun indeholde bogstaver eller tal</color>";
             }
             else if (containsBannedWord)
             {

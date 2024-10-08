@@ -215,7 +215,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // Init player data
             playerData.Initialize(
                 GameManager.Instance.CurrentUser,
-                GameManager.Instance.PlayerData.MonsterName,
+                GameManager.Instance.CurrentMonsterName,
                 GameManager.Instance.CurrentMonsterColor,
                 0,
                 0,
