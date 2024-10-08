@@ -25,7 +25,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // Boolean flag to restrict creating more than one block per valid word
         private bool canCreateWordBlock = true;
 
-        // HashSet to keep track of created words
+        // HashSet to keep track of created wordsOrLetters
         private HashSet<string> createdWords = new HashSet<string>();
         private bool isWordValid;
         
@@ -170,7 +170,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 isProcessingWord = false;
                 
-                // Move player back to the starting position if no more words are to be processed
+                // Move player back to the starting position if no more wordsOrLetters are to be processed
                 PlayerEvents.RaiseMovePlayerToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
             }
         }

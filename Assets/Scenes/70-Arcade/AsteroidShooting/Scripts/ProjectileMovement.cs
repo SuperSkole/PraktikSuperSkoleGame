@@ -11,7 +11,7 @@ public class ProjectileMovement : MonoBehaviour
     {
         // A force is added based on the transform.up vector. 
         rb = GetComponent<Rigidbody2D>();
-        projectileSpeed = 10000;
+        projectileSpeed = 40000;
 
         rb.AddForce(new Vector2(transform.up.x, transform.up.y) * projectileSpeed);
     }

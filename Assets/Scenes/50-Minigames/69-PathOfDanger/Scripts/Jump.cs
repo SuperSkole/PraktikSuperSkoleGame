@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Jump : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public Rigidbody playerRigidBody;
 
     [SerializeField] float yForce=10;
 
@@ -18,10 +18,10 @@ public class Jump : MonoBehaviour
     public PathOfDangerManager manager;
 
     public GameObject shadowPrefab;
-    private Vector3 posOffset;
+ 
     private GameObject spawnedShadow;
 
-    [SerializeField] float zOffset=-0.5f;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +34,7 @@ public class Jump : MonoBehaviour
     {
         //checks spacebar input and if canJump is true which is only the case when the player is colliding with another collider. 
         // That makes is there to make sure you can't jump mid air. 
-        if (Input.GetKeyDown(KeyCode.Space) && canJump == true)
+        if (Input.GetKeyDown(KeyCode.Space) && canJump == true && manager.hasAnsweredWrong==false)
         {
             isJumping = true;
             canJump = false;
@@ -63,10 +63,10 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Adds a force to the players rigidbody and cast a shadow on the ground. 
+        // Adds a force to the players playerRigidBody and cast a shadow on the ground. 
         if(isJumping==true)
         { 
-            rigidbody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
+            playerRigidBody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
             isJumping = false;
 
             CastShadow();
@@ -78,7 +78,10 @@ public class Jump : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        canJump = true;
+        if (collision.gameObject.tag == "Platform")
+        {
+            canJump = true;
+        }
         //Destroys the shadown when colliding with an object. 
         if(spawnedShadow!=null)
         {

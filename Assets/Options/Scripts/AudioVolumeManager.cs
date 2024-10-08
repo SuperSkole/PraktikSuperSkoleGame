@@ -10,7 +10,7 @@ public class AudioVolumeManager : MonoBehaviour
     [SerializeField] private GameObject muteIcon;
     [SerializeField] private GameObject menu;
     private bool muted = false;
-    private float savedmasterVolume = 0f;
+    public float savedmasterVolume = 0f, savedSFXVolume = 1f, savedMusicVolume = 1f;
 
     /// <summary>
     /// used to set the master volume
@@ -29,6 +29,7 @@ public class AudioVolumeManager : MonoBehaviour
     /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetSFXVolume(float volume)
     {
+        savedSFXVolume = volume;
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(volume) * 20f);
     }
 
@@ -38,6 +39,7 @@ public class AudioVolumeManager : MonoBehaviour
     /// <param name="volume">a float between 0 and 1 that represents the volume</param>
     public void SetMusicVolume(float volume)
     {
+        savedMusicVolume = volume;
         audioMixer.SetFloat("MusicVolume", Mathf.Log10(volume) * 20f);
     }
 

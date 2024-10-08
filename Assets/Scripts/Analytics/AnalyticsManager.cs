@@ -46,7 +46,7 @@ namespace Analytics
         /// </summary>
         public void AnalyzeData()
         {
-            // Example: Print the total number of logged words and letters
+            // Example: Print the total number of logged wordsOrLetters and letters
             Debug.Log($"Total Words Logged: {wordLog.Count}");
             Debug.Log($"Total Letters Logged: {letterLog.Count}");
             

@@ -128,9 +128,9 @@ namespace CORE.Scripts
         }
 
         /// <summary>
-        /// takes in an array of words and reterns an array of corrisponting images.
+        /// takes in an array of wordsOrLetters and reterns an array of corrisponting images.
         /// </summary>
-        /// <param name="inputWords">the words you want to get images for</param>
+        /// <param name="inputWords">the wordsOrLetters you want to get images for</param>
         /// <returns>a image or if it couldent find anny image it returnes NULL</returns>
         public static Texture2D[] GetImageFromWord(string[] inputWords)
         {

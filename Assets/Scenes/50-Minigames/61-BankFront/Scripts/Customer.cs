@@ -22,7 +22,6 @@ public class Customer : MonoBehaviour
     private bool skinActivated = false;
 
     [SerializeField] private Animator animator;
-    [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip coinHandoverSound;
 
 
@@ -71,7 +70,7 @@ public class Customer : MonoBehaviour
             }
             transform.LookAt(cameraTransform);
             bankManager.HandOverMoney(this);
-            audioSource.PlayOneShot(coinHandoverSound);
+            AudioManager.Instance.PlaySound(coinHandoverSound, SoundType.SFX, transform.position);
             givenMoney = true;
         }
         else if(leaving && currentRoute[currentRoute.Count - 1].transform.position == transform.position)

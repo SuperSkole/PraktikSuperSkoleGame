@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CORE.Scripts
 {
     /// <summary>
-    /// Validate that words are correct either on specific hashset or by looking at all hashset
+    /// Validate that wordsOrLetters are correct either on specific hashset or by looking at all hashset
     /// </summary>
     public class WordValidator : MonoBehaviour
     {
@@ -18,8 +18,8 @@ namespace CORE.Scripts
         // public bool IsValidWord(string word, int wordLength)
         // {
         //     string setName = $"Words_Danish_{wordLength}L";
-        //     var words = WordsManager.GetWordsFromSet(setName);
-        //     return words.Contains(word.ToUpper());
+        //     var wordsOrLetters = WordsManager.GetWordsFromSet(setName);
+        //     return wordsOrLetters.Contains(word.ToUpper());
         // }
         public bool IsValidWord(string word, int wordLength)
         {
@@ -55,7 +55,7 @@ namespace CORE.Scripts
         /// Validates whether a given word is a valid combination that starts with specific initial consonants and exists in any word set.
         /// </summary>
         /// <param name="word">The word to verify.</param>
-        /// <param name="initialConsonants">The initial consonants used to form words (e.g., "sk").</param>
+        /// <param name="initialConsonants">The initial consonants used to form wordsOrLetters (e.g., "sk").</param>
         /// <returns>True if the word starts with the initial consonants and exists in any hashset; otherwise, false.</returns>
         public bool IsValidCombinationWord(string word, string initialConsonants)
         {
