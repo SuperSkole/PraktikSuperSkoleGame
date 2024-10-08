@@ -11,10 +11,13 @@ namespace UI.Scripts
         [SerializeField] Image profilImage;
 
         public string SpineName;
+        public bool chosen;
 
         Outline outlineComponent;
 
         private Wardrop wardrop;
+
+
 
         private void Awake()
         {
@@ -31,8 +34,12 @@ namespace UI.Scripts
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log("click");
             wardrop.Click(SpineName,this);
+            outlineComponent.enabled = true;
+        }
+
+        public void LightUp()
+        {
             outlineComponent.enabled = true;
         }
 

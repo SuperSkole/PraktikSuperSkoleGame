@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
@@ -21,6 +22,7 @@ namespace UI.Scripts
         [SerializeField] Transform WardrobeParent;
 
         private WardrobeOption currentOption;
+        private Image OffButton;
 
         private string wearingMid = null;
         private string wearingTop = null;
@@ -40,6 +42,8 @@ namespace UI.Scripts
             playerColorChanging = this.GetComponent<ColorChanging>();
 
             clothChanging = this.GetComponent<ClothChanging>();
+
+            OffButton = this.transform.Find("EquipButtonOff").GetComponent<Image>();
 
             colors.AddRange(playerColorChanging.colors);
         }
@@ -91,8 +95,24 @@ namespace UI.Scripts
                 if(item.SpineName == wearingTop)
                 {
                     wardOptionTop = item;
+                    item.chosen = true;
+                    item.LightUp();
+                }
+                if(item.SpineName == wearingMid)
+                {
+                    wardOptionMid = item;
+                    item.chosen = true;
+                    item.LightUp();
+                }
+                if(item.SpineName == wearingColor)
+                {
+                    wardOptionColor = item;
+                    item.chosen = true;
+                    item.LightUp();
                 }
             }
+
+            //Light up the chosen options
         }
 
         private void OnDisable()
@@ -125,11 +145,14 @@ namespace UI.Scripts
 
         public void Click(string itemName, WardrobeOption wardrobeShopOption)
         {
-
-            if (currentOption != null)
+            
+            if (currentOption != null && currentOption.chosen == false)
             {
                 currentOption.UnSelect();
             }
+
+            if(!wardrobeShopOption.chosen)
+            {
 
             currentOption = wardrobeShopOption;
 
@@ -195,6 +218,13 @@ namespace UI.Scripts
                     PlayerManager.Instance.PlayerData.MonsterColor = itemName;
                 }
             }
+            }
+
+        }
+
+        public void Equip()
+        {
+
         }
 
         public void CloseShop()
