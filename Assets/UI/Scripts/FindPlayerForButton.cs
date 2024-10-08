@@ -73,12 +73,13 @@ public class FindPlayerForButton : MonoBehaviour
         carRigidbody.velocity = Vector3.zero;
         carRigidbody.angularVelocity = Vector3.zero;
 
-        //Incase there is something wrong with the cars collision that cases the problem with teleporting the car
-        var colliderGO = carGO.transform.GetChild(1).GetChild(0).GetComponent<MeshCollider>() ;
-        colliderGO.enabled = false;
-        //Incase the wheelcoliders were what the problem with teleporting the car
-        var wheels = carGO.transform.GetChild(2);
-        wheels.gameObject.SetActive(false);
+        ////Incase there is something wrong with the cars collision that cases the problem with teleporting the car
+        //var colliderGO = carGO.transform.GetChild(1).GetChild(0).GetComponent<MeshCollider>() ;
+        //colliderGO.enabled = false;
+
+        ////Incase the wheelcoliders were what the problem with teleporting the car
+        //var wheels = carGO.transform.GetChild(2);
+        //wheels.gameObject.SetActive(false);
 
 
         carRigidbody.transform.position = spawnPosition;
@@ -86,8 +87,8 @@ public class FindPlayerForButton : MonoBehaviour
         //This is the gold mine right here remeber to use this if there are problems with transform.position
         Physics.SyncTransforms();
 
-        wheels.gameObject.SetActive(true);
-        colliderGO.enabled = true;
+        //wheels.gameObject.SetActive(true);
+        //colliderGO.enabled = true;
 
         carRigidbody.useGravity = true;
         carRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
