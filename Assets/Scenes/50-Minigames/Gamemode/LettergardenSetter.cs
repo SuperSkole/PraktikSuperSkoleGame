@@ -15,8 +15,6 @@ namespace Scenes._50_Minigames.Gamemode
             new DrawWithBee(),
             new DrawWithoutBee(),
             new DrawWithOrWithOutBee(),
-            new DrawWithBee(),
-            new DrawWithoutBee()
         };
 
         private List<IGameRules> gamerules = new List<IGameRules>()
@@ -32,7 +30,7 @@ namespace Scenes._50_Minigames.Gamemode
         {
             if(GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].LanguageUnitType == Analytics.LanguageUnit.Letter)
             {
-                return(SetRules(level), SetMode(level));
+                return(new DynamicGameRules(), gamemodes[Random.Range(0, gamemodes.Count)]);
             }
             //Lettergarden only supports letters
             else

@@ -73,6 +73,8 @@ public class CorrectLetterHandler : MonoBehaviour
     /// </summary>
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        moving = false;
+        gameObject.SetActive(false);
+
     }
 }
