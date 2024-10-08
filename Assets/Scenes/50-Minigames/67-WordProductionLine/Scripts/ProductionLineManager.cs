@@ -1,8 +1,11 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
@@ -14,8 +17,22 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         [SerializeField]
         private ProductionLineObjectPool objectPool;
 
+        List<ILanguageUnit> langUnit;
+
 
         private string fixedWord;
+
+
+        private void Start()
+        {
+            langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(8);
+
+            if (langUnit[0].LanguageUnitType != LanguageUnit.Word)
+            {
+                SwitchScenes.SwitchToMainWorld();
+            }
+            
+        }
 
         /// <summary>
         /// gets one letter and checks if its correct or not
@@ -34,7 +51,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         /// <returns> random word.</returns>
         public string GetImages()
         {
-
+            
             string randomWord = WordsForImagesManager.GetRandomWordForImage();
 
             return randomWord;
