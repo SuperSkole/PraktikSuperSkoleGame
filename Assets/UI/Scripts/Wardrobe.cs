@@ -151,6 +151,7 @@ namespace UI.Scripts
                 currentOption.UnSelect();
             }
 
+            //HVIS DEN ALDEREDE IKKE ER VALGT
             if(!wardrobeShopOption.chosen)
             {
 
