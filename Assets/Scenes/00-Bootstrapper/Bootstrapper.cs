@@ -1,7 +1,5 @@
-// inspired by Jason Weimann's Bootstrapper
-// https://www.youtube.com/watch?v=o03NpUdpdrc
-
 using System;
+using System.Threading.Tasks;
 using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,28 +11,62 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public class Bootstrapper : MonoBehaviour
     {
+        private const int MaxRetries = 3;
+
+        /// <summary>
+        /// Asynchronously initializes Unity services and loads necessary scenes at start.
+        /// </summary>
         private async void Awake()
         {
             Debug.Log("Initializing Unity services");
 
-            await UnityServices.InitializeAsync();
+            int attempt = 0;
+            bool success = false;
 
-            if (UnityServices.State == ServicesInitializationState.Initialized)
+            while (attempt < MaxRetries && !success)
             {
-                Debug.Log("Unity services initialized successfully.");
+                try
+                {
+                    attempt++;
+                    await UnityServices.InitializeAsync();
+
+                    if (UnityServices.State == ServicesInitializationState.Initialized)
+                    {
+                        Debug.Log("Unity services initialized successfully on attempt: " + attempt);
+                        success = true;
+                    }
+                    else
+                    {
+                        Debug.LogError("Unity services not fully initialized.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Initialization attempt {attempt} failed.");
+                    Debug.LogException(ex);
+
+                    if (attempt >= MaxRetries)
+                    {
+                        Debug.LogError("All initialization attempts failed.");
+                        throw; // TODO handle failure after all attempts fail
+                    }
+
+                    // Wait 1 second before retrying
+                    await Task.Delay(1000); 
+                }
             }
-            else
+
+            // Proceed with the rest of your setup after Unity services are initialized
+            if (success)
             {
-                Debug.LogError("Failed to initialize Unity services.");
+                StartGameSetup();
             }
         }
 
-
         /// <summary>
-        /// Asynchronously initializes Unity services and loads necessary scenes at start.
-        /// Using async Task instead of async void for better error handling and control flow.
+        /// Continues the game setup after Unity services are initialized.
         /// </summary>
-        private void Start()
+        private void StartGameSetup()
         {
             Application.runInBackground = true;
             
@@ -57,21 +89,14 @@ namespace Scenes._00_Bootstrapper
                 SceneManager.LoadScene("00-" + nameof(Bootstrapper));
             }
 
-            // Manage scenes specifically in the Unity editor.
 #if UNITY_EDITOR
-            // Retrieve the currently active scene to check if it's valid.
             var currentlyLoadedEditorScene = SceneManager.GetActiveScene();
-            
-            // If the current scene is valid, load it asynchronously in additive mode, so we can test during dev fase
             if (currentlyLoadedEditorScene.IsValid())
             {
                 SceneManager.LoadSceneAsync(currentlyLoadedEditorScene.name, LoadSceneMode.Additive);
             }
 #else
-        // In the final build, load splash scene additively,
-        // ensuring that it's ready for player interaction without replacing the current scene setup.
-        
-        SceneManager.LoadScene(SceneConfig.InitialScene, LoadSceneMode.Additive);
+            SceneManager.LoadScene(SceneConfig.InitialScene, LoadSceneMode.Additive);
 #endif
         }
     }

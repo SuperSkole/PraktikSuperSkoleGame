@@ -4,7 +4,6 @@ using CORE;
 using TMPro;
 using UI.Scripts;
 using Unity.Services.Authentication;
-using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
