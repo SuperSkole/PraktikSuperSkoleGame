@@ -61,6 +61,7 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
             }
         }
         lastSetup();
+        NetworkManager.Singleton.GetComponent<Scenes.MultiplayerLobby.Scripts.StartClient>().isCharacterSpawned = true;
     }
 
     public override void OnNetworkDespawn()

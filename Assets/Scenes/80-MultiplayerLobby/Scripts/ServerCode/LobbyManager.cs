@@ -44,11 +44,6 @@ namespace Scenes.MultiplayerLobby.Scripts
                 Debug.LogError($"Join Lobby Error: {e}");
             }
         }
-        public async void leave()
-        {
-            string playerId = AuthenticationService.Instance.PlayerId;
-            await LobbyService.Instance.RemovePlayerAsync(lobbyId, playerId);
-        }
 
         public async Task UpdateLobbyRelayCode(string lobbyId, string relayCode)
         {

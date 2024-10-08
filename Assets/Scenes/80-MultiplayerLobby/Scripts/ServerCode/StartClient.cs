@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -24,6 +25,8 @@ namespace Scenes.MultiplayerLobby.Scripts
         private NetworkManager networkManager;
         private StartHost host;
         public string serverID = null;
+        private const float CharacterSpawnTimeout = 10f;
+        public bool isCharacterSpawned = false;
 
         private void Start()
         {
@@ -38,6 +41,10 @@ namespace Scenes.MultiplayerLobby.Scripts
         {
             try
             {
+                if (!isCharacterSpawned)
+                {
+                    StartCoroutine(CheckCharacterSpawnTimeout());
+                }
                 // Query available lobbies
                 var options = new QueryLobbiesOptions
                 {
@@ -102,6 +109,25 @@ namespace Scenes.MultiplayerLobby.Scripts
                 Debug.LogError($"Quick join failed: {e}");
                 SwitchScenes.SwitchToMainWorld();
             }
+        }
+
+        private IEnumerator CheckCharacterSpawnTimeout()
+        {
+            float timer = 0f;
+
+            while (timer < CharacterSpawnTimeout)
+            {
+                if (isCharacterSpawned) // Implement this method to check if the character is spawned
+                {
+                    yield break; // If character is spawned, exit the coroutine
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            Debug.LogError("Character failed to spawn within the time limit. Returning to main world.");
+            SwitchScenes.SwitchToMainWorld();
         }
 
 

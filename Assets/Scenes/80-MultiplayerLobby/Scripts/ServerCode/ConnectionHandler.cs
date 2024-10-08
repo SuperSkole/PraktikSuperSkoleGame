@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using UnityEngine;
 
@@ -53,8 +54,21 @@ public class ConnectionHandler : NetworkBehaviour
         {
             Debug.Log("Disconnected from the host.");
 
-            // Leave the Lobby
-            SwitchScenes.SwitchToMainWorld();
+            //MP_PlayerData playerIdHolder = GetComponent<MP_PlayerData>();
+
+            //LeaveLobbyAndRelay(playerIdHolder.playerId.Value.ToString(), this.gameObject);
+
+            quickLeave();
+        }
+    }
+
+    private async void quickLeave()
+    {
+        if (IsOwner && !IsHost)
+        {
+            LeaveLevel();
+            Destroy(NetworkManager.Singleton.gameObject);
+            //NetworkManager.Singleton.Shutdown();
         }
     }
 
