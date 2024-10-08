@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootVowel : MonoBehaviour, IMTGameMode
+    public class ShootVowel : IMTGameMode
     {
 
         List<char> vowels = LetterManager.GetDanishVowels();

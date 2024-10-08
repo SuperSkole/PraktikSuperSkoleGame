@@ -145,7 +145,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Jump jumpComp = spawnedPlayer.AddComponent<Jump>();
-        jumpComp.rigidbody = playerRigidBody;
+        jumpComp.playerRigidBody = playerRigidBody;
         jumpComp.manager = this;
         jumpComp.shadowPrefab = shadowPrefab;
 
@@ -329,6 +329,11 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         Instantiate(coinPrefab);
         PlayerEvents.RaiseGoldChanged(1);
         PlayerEvents.RaiseXPChanged(1);
+        if (questions.Length >= currentQuestionIndex)
+        {
+            if (questions[currentQuestionIndex-1].Length == 1) PlayerEvents.RaiseAddLetter(questions[currentQuestionIndex - 1][0]);
+            else PlayerEvents.RaiseAddWord(questions[currentQuestionIndex-1]);
+        }
         if (questions.Length <= currentQuestionIndex) return;
         gameMode.GetDisplayAnswer(questions[currentQuestionIndex], this);
        
