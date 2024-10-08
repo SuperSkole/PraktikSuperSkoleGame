@@ -10,8 +10,7 @@ namespace UI.Scripts
         [SerializeField] TextMeshProUGUI Name;
         [SerializeField] Image profilImage;
 
-        //private Image profilImage;
-        private string SpineName;
+        public string SpineName;
 
         Outline outlineComponent;
 

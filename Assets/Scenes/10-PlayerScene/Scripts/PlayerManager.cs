@@ -466,9 +466,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 {
                     // Call the ColorChange method to recolor the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
-                    Debug.Log("Playermanager " + playerData.ClothMid);
                     clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
-                    Debug.Log("Playermanager " + playerData.ClothTop);
                 }
             }
         }

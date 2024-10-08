@@ -1,6 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,8 @@ namespace UI.Scripts
         private WardrobeOption wardOptionTop;
         private WardrobeOption wardOptionMid;
         private WardrobeOption wardOptionColor;
+
+        private List<WardrobeOption> wardrobeOptionList;
         
         //colors
         List<string> colors = new List<string>();
@@ -82,8 +85,14 @@ namespace UI.Scripts
                  wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
            }
 
-           //Set WardrobeOptions
-
+            //Set WardrobeOptions
+            foreach (var item in wardrobeOptionList)
+            {
+                if(item.SpineName == wearingTop)
+                {
+                    wardOptionTop = item;
+                }
+            }
         }
 
         private void OnDisable()
@@ -110,6 +119,7 @@ namespace UI.Scripts
                 //initialize the wardrobeOption with the cloth data
                 WardrobeOption wardrobeOption = newWardrobeObj.GetComponent<WardrobeOption>();
                 wardrobeOption.Initialize(cloth.Name, cloth.image, cloth.SpineName);
+                wardrobeOptionList.Add(wardrobeOption);
             }
         }
 
