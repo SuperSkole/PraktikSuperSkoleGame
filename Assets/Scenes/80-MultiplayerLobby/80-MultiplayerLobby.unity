@@ -1083,8 +1083,8 @@ PrefabInstance:
       value: NetworkManager
       objectReference: {fileID: 0}
     - target: {fileID: 7626879175392938943, guid: 9ce7c72f83c960346b871f98f3323df2, type: 3}
-      propertyPath: m_MaxPacketQueueSize
-      value: 500
+      propertyPath: m_DisconnectTimeoutMS
+      value: 7000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

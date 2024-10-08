@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
+using Unity.Services.Relay;
 using UnityEngine;
 
 public class ConnectionHandler : NetworkBehaviour
@@ -20,7 +21,7 @@ public class ConnectionHandler : NetworkBehaviour
         relayManager = GetComponent<RelayManager>();
 
         // Subscribe to the disconnection event
-        //NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
     }
 
     public override void OnDestroy()
@@ -28,7 +29,7 @@ public class ConnectionHandler : NetworkBehaviour
         // Unsubscribe to prevent memory leaks
         if (NetworkManager.Singleton != null)
         {
-            //NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
+            NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
         }
     }
 
@@ -45,17 +46,17 @@ public class ConnectionHandler : NetworkBehaviour
     }
 
     // This function is called when the client is disconnected from the server
-    //private void OnClientDisconnect(ulong clientId)
-    //{
-    //    // If this client is disconnected from the host
-    //    if (clientId == NetworkManager.Singleton.LocalClientId)
-    //    {
-    //        Debug.Log("Disconnected from the host.");
+    private void OnClientDisconnect(ulong clientId)
+    {
+        // If this client is disconnected from the host
+        if (clientId == NetworkManager.Singleton.LocalClientId)
+        {
+            Debug.Log("Disconnected from the host.");
 
-    //        // Leave the Lobby
-    //        LeaveLobbyAndRelay();
-    //    }
-    //}
+            // Leave the Lobby
+            SwitchScenes.SwitchToMainWorld();
+        }
+    }
 
     public void LeaveLevel()
     {
@@ -67,23 +68,24 @@ public class ConnectionHandler : NetworkBehaviour
     {
         try
         {
-            if (IsHost && !IsOwner)
-            {
-                List<string> lobbies = await LobbyService.Instance.GetJoinedLobbiesAsync();
-
-                await LobbyService.Instance.RemovePlayerAsync(lobbies[0], playerId);
-            }
-            else if (IsOwner && !IsHost)
+            if (IsOwner && !IsHost)
             {
                 LeaveLevel();
+                string serverId = NetworkManager.Singleton.GetComponent<Scenes.MultiplayerLobby.Scripts.StartClient>().serverID;
+                string id = AuthenticationService.Instance.PlayerId;
+                await LobbyService.Instance.RemovePlayerAsync(serverId, id);
+                Destroy(NetworkManager.Singleton.gameObject);
+                //NetworkManager.Singleton.Shutdown();
             }
             else if (IsOwner && IsHost)
             {
-                List<string> lobbies = await LobbyService.Instance.GetJoinedLobbiesAsync();
-
-                await LobbyService.Instance.RemovePlayerAsync(lobbies[0], playerId);
+                //List<string> lobbies = await LobbyService.Instance.GetJoinedLobbiesAsync();
+                string serverId = NetworkManager.Singleton.GetComponent<Scenes.MultiplayerLobby.Scripts.StartClient>().serverID;
+                //await LobbyService.Instance.RemovePlayerAsync(serverId, playerId);
                 LeaveLevel();
                 NetworkManager.Singleton.Shutdown();
+                await LobbyService.Instance.DeleteLobbyAsync(serverId);
+                Destroy(NetworkManager.Singleton.gameObject);
             }
         }
         catch (System.Exception ex)

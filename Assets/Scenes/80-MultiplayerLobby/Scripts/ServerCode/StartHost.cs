@@ -24,6 +24,7 @@ namespace Scenes.MultiplayerLobby.Scripts
             await lobbyManager.CreateLobby(relayCode: joinCode);
             var lobby = await LobbyService.Instance.GetJoinedLobbiesAsync();
             LobbyManager.lobbyId = lobby[0];
+            GetComponent<StartClient>().serverID = lobby[0];
         }
     }
 }
