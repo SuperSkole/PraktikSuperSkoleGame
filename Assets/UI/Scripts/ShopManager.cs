@@ -64,9 +64,12 @@ namespace UI.Scripts
 
             MonsterGOContent.SetActive(true);
             HouseGOContent.SetActive(false);
+
             scrollRect.content = MonsterRectContent;
             avaliableMoney = 0;
             meter.SettingValueAfterScene(0);
+
+            skeletonGraphic.Skeleton.SetSlotsToSetupPose();
 
             if (playerColorChanging == null)
             {
@@ -86,24 +89,29 @@ namespace UI.Scripts
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
             //Monster clothes they already wear
-            wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
-            wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
-            wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
-
-            if (wearingMid != null && wearingMid != string.Empty)
+            if(PlayerManager.Instance.PlayerData.ClothMid != null && PlayerManager.Instance.PlayerData.ClothMid != string.Empty)
             {
+                wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
                 skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
             }
 
-            if (wearingTop != null && wearingTop != string.Empty)
+            if (PlayerManager.Instance.PlayerData.ClothTop != null && PlayerManager.Instance.PlayerData.ClothTop != string.Empty)
             {
+                wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
                 skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
             }
+
+            if (PlayerManager.Instance.PlayerData.MonsterColor != null && PlayerManager.Instance.PlayerData.MonsterColor != string.Empty)
+            {
+                wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
+            }
+
+
 
             //Moneyy
             if (PlayerManager.Instance == null)
             {
-                Debug.Log("Didn't find playermanager");
+                Debug.Log("Shop didn't find playermanager");
             }
             else
             {
@@ -129,18 +137,15 @@ namespace UI.Scripts
                 Destroy(shopOptionsParent.GetChild(i).gameObject);
             }
 
-            if (currentItem != null)
-            {
-                skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-            }
-
             PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
+            
             foreach (ClothInfo cloth in availableClothes)
             {
                 // Instantiate a new ShopOption as a child of shopOptionsParent
@@ -155,7 +160,7 @@ namespace UI.Scripts
         //Shop Option function
         public void Click(string itemName, int thisprice, Shopoption shopOption)
         {
-
+            
             //turns off the outline on the previous item
             if (currentShopOption != null)
             {
@@ -166,41 +171,55 @@ namespace UI.Scripts
             currentPrice = thisprice;
             currentShopOption = shopOption;
 
+            if (currentItem != string.Empty && currentItem != null)
+            {
+                if ((currentItem.Contains("MID") || currentItem.Contains("HEAD")))
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
+                }
+            }
+
+            //HEAD CLOTHING
+
             if (itemName.Contains("HEAD"))
             {
 
                 //hvis curren item ikke er tom, 
-                if (currentItem != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-                }
-                if (wearingMid != null)
+                if (wearingMid != string.Empty && wearingMid != null)
                 {
                     skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                 }
-                if (wearingColor != null)
+                if (wearingColor != string.Empty && wearingColor != null)
                 {
                     playerColorChanging.ColorChange(wearingColor);
                 }
+                if(wearingTop != string.Empty && wearingTop != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+                }
+
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
             }
 
+            //MID CLOTHING
+
             if (itemName.Contains("MID"))
             {
-                //hvis curren item ikke er tom, 
-                if (currentItem != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-                }
-                if (wearingTop != null)
+
+                if (wearingTop != string.Empty && wearingTop != null)
                 {
                     skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
                 }
-                if (wearingColor != null)
+                if (wearingColor != string.Empty && wearingColor != null)
                 {
                     playerColorChanging.ColorChange(wearingColor);
                 }
+                if (wearingMid != string.Empty && wearingMid != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
+                }
+
                 skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
                 currentItem = itemName;
             }
@@ -210,15 +229,16 @@ namespace UI.Scripts
 
                 if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
                 {
+
                     playerColorChanging.ColorChange(itemName);
 
                     currentItem = itemName;
 
-                    if (wearingMid != null)
+                    if (wearingMid != string.Empty && wearingMid != null)
                     {
                         skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
                     }
-                    if (wearingTop != null)
+                    if (wearingTop != string.Empty && wearingTop != null)
                     {
                         skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
                     }
@@ -231,6 +251,7 @@ namespace UI.Scripts
 
 
         }
+        
         /// <summary>
         /// Methode for checking if the player has enough money to buy an item
         /// </summary>
@@ -264,21 +285,63 @@ namespace UI.Scripts
                         //Get player
                         PlayerManager.Instance.PlayerData.BoughtClothes.Add(currentShopOption.ID);
 
+
+                        //HEAD
                         if (currentItem.Contains("HEAD"))
                         {
                             PlayerManager.Instance.PlayerData.ClothTop = currentItem;
+
+                            if(wearingMid != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
+                            }
+
+                            if (wearingColor != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.MonsterColor = wearingColor;
+                            }
+
                             wearingTop = currentItem;
 
                         }
+
+                        //MID
                         if (currentItem.Contains("MID"))
                         {
                             PlayerManager.Instance.PlayerData.ClothMid = currentItem;
+
+                            if (wearingTop != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                            }
+
+                            if (wearingColor != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.MonsterColor = wearingColor;
+                            }
+
                             wearingMid = currentItem;
 
                         }
+
+                        //COLOR
                         if (colors.Contains(currentItem.ToString()))
                         {
+                            Debug.Log(currentItem+" CURRENTITEM");
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
+
+                            if (wearingTop != string.Empty)
+                            {
+                                PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
+                                Debug.Log(wearingTop + " WEARINGTOP");
+                            }
+
+                            if (wearingMid != string.Empty)
+                            {
+                                Debug.Log(wearingMid + " WEARINGMID");
+                                PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
+                            }
+
                             wearingColor = currentItem;
                         }
 
@@ -306,8 +369,8 @@ namespace UI.Scripts
                     ModifyMoneyValue(houseItem.Price);
                 }
             }
-
         }
+
         /// <summary>
         /// Takes in a price and then removes it from the pool of money the player has
         /// Used when buying an item 
@@ -321,6 +384,7 @@ namespace UI.Scripts
 
             meter.ChangeValue(-amount);
         }
+
         /// <summary>
         /// Used by buttons sets the HouseItemsBuying so that when clicking the buy button we can buy a furniture item.
         /// </summary>
@@ -352,12 +416,10 @@ namespace UI.Scripts
                     break;
             }
         }
+
         public void CloseShop()
         {
-            currentShopOption = null;
             this.gameObject.SetActive(false);
-            PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
-            PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
     }

@@ -66,7 +66,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             {
                 boardController.StartImageWait(GetSymbols);
             }
-            //If the words are loaded then it starts generating the board
+            //If the wordsOrLetters are loaded then it starts generating the board
             if (wordsLoaded)
             {
                 //deactives all current active lettercubes

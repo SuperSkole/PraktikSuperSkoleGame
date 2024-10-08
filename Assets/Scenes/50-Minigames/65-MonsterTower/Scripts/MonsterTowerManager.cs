@@ -11,6 +11,10 @@ using Spine.Unity;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using System.Collections;
+using System.ComponentModel;
+using UnityEditor;
+using LoadSave;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 {
@@ -63,21 +67,39 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         Vector3 ammoDimensions; 
 
         //temp
-        public List<string> words;
+        public List<string> wordsOrLetters;
 
         public List<Vector3> ammoSpawnPoints=new List<Vector3>();
 
         private GameObject spawnedPlayer;
 
         public AudioSource flyingProjectileSound;
-       
+
+        private AudioSource hearletterButtonAudioSource;
+
+        [SerializeField] AudioSource towerAudioSource;
+        private List<char> letters;
 
         /// <summary>
-        /// Gets the words collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
+        /// Gets the wordsOrLetters collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
         /// </summary>
         void SetupPlayerWords()
         {
-            words = PlayerEvents.RaisePlayerDataWordsExtracted();
+
+            if (PlayerManager.Instance.PlayerData.CollectedLetters.Count>0)
+            {
+                letters = PlayerEvents.RaisePlayerDataLettersExtracted();
+
+                foreach (var item in letters)
+                {
+                    wordsOrLetters.Add(item.ToString());
+                }
+            }
+            else
+            {
+                wordsOrLetters = PlayerEvents.RaisePlayerDataWordsExtracted();
+            }
+           
            
            
 
@@ -89,9 +111,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
         void Start()
         {
+            //Setting the audio source on the hearletterbutton.
+            hearletterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
 
-           // getting and setting the ammodimensions from the prefab 
-            ammoDimensions=ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
+
+            // getting and setting the ammodimensions from the prefab 
+            ammoDimensions =ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
             // setting up the main camera so it reflects the chosen difficulty. 
             mainCamera.GetComponent<ToggleZoom>().difficulty = difficulty;
 
@@ -106,21 +131,16 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
            
             
-            //Gets the words the playermanager has gotten and copies it to a list of strings named words. 
+            //Gets the wordsOrLetters the playermanager has gotten and copies it to a list of strings named wordsOrLetters. 
             SetupPlayerWords();
             
             
 
-            //Spawns the ammunition with with the words in the words list and is displayed beside the catapult. 
+            //Spawns the ammunition with with the wordsOrLetters in the wordsOrLetters list and is displayed beside the catapult. 
             // its set up in 4 points and then the ammo boxes is stacked on eachother. 
             SpawnAmmoForDisplay();
 
-            // the ammocount is set to the amount of words that player has. 
-            if (words != null)
-            {
-                ammoCount = words.Count;
-            }
-
+           
             
            
             if (ammoCount <= 0)
@@ -216,13 +236,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// </summary>
         void SpawnAmmoForDisplay()
         {
-            //Calculating the size of the 2 dimensional array holding the ammoboxes based on the amount of words given. 
-            if (words != null)
+            //Calculating the size of the 2 dimensional array holding the ammoboxes based on the amount of wordsOrLetters given. 
+            if (wordsOrLetters != null)
             {
-                //dividing the amount of words with 4 because i have 4 spawnpoints . 
+                //dividing the amount of wordsOrLetters with 4 because i have 4 spawnpoints . 
                 // Then making sure its rounded up all the time. 
                 int amountOfSpawnPoints = ammoPlatform.transform.childCount;
-                int wordsMaxHeightIndex = (int)Math.Ceiling((double)words.Count / (double)amountOfSpawnPoints);
+                int wordsMaxHeightIndex = (int)Math.Ceiling((double)wordsOrLetters.Count / (double)amountOfSpawnPoints);
 
                 ammoDisplay = new GameObject[amountOfSpawnPoints, wordsMaxHeightIndex];
             }
@@ -236,19 +256,19 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
             
             //Putting the boxes in the right position and saving the box in ammoDisplay 2D array with a x,y position.
-            // Also puts the words on the list of words on the box itself. 
+            // Also puts the wordsOrLetters on the list of wordsOrLetters on the box itself. 
             //Also setting the name of the box to the position it has and setting a tag on it which can be used to do collision detection. 
 
-            if (words!=null)
+            if (wordsOrLetters!=null)
             {
                
-                for (int x = 0; x < words.Count; x++)
+                for (int x = 0; x < wordsOrLetters.Count; x++)
                 {
 
 
                     for (int i = 0; i < ammoToDisplayPrefab.transform.childCount; i++)
                     {
-                        ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = words[x];
+                        ammoToDisplayPrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = wordsOrLetters[x];
 
                     }
 
@@ -277,8 +297,15 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
                     spawnIndex++;
                 }
+
+                // the ammocount is set to the amount of wordsOrLetters that player has. 
+                if (wordsOrLetters != null)
+                {
+                    ammoCount = wordsOrLetters.Count;
+                }
+
             }
-          
+
         }
 
 
@@ -308,18 +335,34 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// </summary>
         public void PlaySoundFromHearLetterButton()
         {
-            hearLetterButton.GetComponent<AudioSource>().Play();
+
+           StartCoroutine(PlaySoundfromHearLetterButtonOrWait());
         }
 
 
         /// <summary>
-        /// removes ammoCount and updates the wordlist in playerdata and locally for the words List. 
+        /// Waits and checks if the toweraudio source that play letters/words audio from the button is done playing. 
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator PlaySoundfromHearLetterButtonOrWait()
+        {
+            while (towerAudioSource.isPlaying)
+            {
+                yield return null;
+            }
+
+            hearletterButtonAudioSource.Play();
+        }
+
+
+        /// <summary>
+        /// removes ammoCount and updates the wordlist in playerdata and locally for the wordsOrLetters List. 
         /// </summary>
         public void RemoveAmmo()
         {
             
-            PlayerEvents.RaiseWordRemovedValidated((words[ammoCount-1]));
-            words.RemoveAt(ammoCount-1);
+            PlayerEvents.RaiseWordRemovedValidated((wordsOrLetters[ammoCount-1]));
+            wordsOrLetters.RemoveAt(ammoCount-1);
          
             ammoCount--;
 

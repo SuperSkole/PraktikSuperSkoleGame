@@ -36,6 +36,8 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private SkeletonGraphic skeletonGraphic;
         private ClothChanging clothChanging;
         private ColorChanging colorChanging;
+        
+        private bool isLoading = false;
 
 
         /// <summary>
@@ -74,6 +76,11 @@ namespace Scenes._03_StartScene.Scripts
         {
             OnLoadButtonPressed();
         }
+        
+        public void OnLoadComplete()
+        {
+            isLoading = false;
+        }
 
         /// <summary>
         /// Handles the delete button press, shows confirm and cancel buttons.
@@ -93,7 +100,7 @@ namespace Scenes._03_StartScene.Scripts
             confirmDeleteButton.gameObject.SetActive(true);
             cancelDeleteButton.gameObject.SetActive(true);
                 
-            Debug.Log("Delete save button pressed: " + SaveKey);
+            //Debug.Log("Delete save button pressed: " + SaveKey);
         }
         
         /// <summary>
@@ -116,7 +123,7 @@ namespace Scenes._03_StartScene.Scripts
                 return;
             }
 
-            Debug.Log("Confirm delete button pressed: " + SaveKey);
+            //Debug.Log("Confirm delete button pressed: " + SaveKey);
                 
             // Hide the confirm and cancel buttons
             confirmDeleteButton.gameObject.SetActive(false);
@@ -144,8 +151,18 @@ namespace Scenes._03_StartScene.Scripts
         /// </summary>
         public void OnLoadButtonPressed()
         {
-            Debug.Log("Load game button pressed: " + SaveKey);
-            OnLoadRequested?.Invoke(SaveKey); 
+            // Prevent loading if a load operation is already in progress
+            if (isLoading)
+            {
+                Debug.Log("Load operation already in progress, ignoring subsequent load request.");
+                return;
+            }
+
+            // Set loading flag to true to prevent multiple loads
+            isLoading = true;
+
+            //Debug.Log("Load game button pressed: " + SaveKey);
+            OnLoadRequested?.Invoke(SaveKey);
         }
 
         /// <summary>
@@ -208,7 +225,7 @@ namespace Scenes._03_StartScene.Scripts
             // Set SaveKey to null to indicate no save is associated with the panel
             SaveKey = null;
     
-            Debug.Log("SavePanel cleared after save deletion.");
+            //Debug.Log("SavePanel cleared after save deletion.");
         }
 
         /// <summary>
@@ -236,6 +253,8 @@ namespace Scenes._03_StartScene.Scripts
             colorChanging.ColorChange(saveData.MonsterColor);
 
             clothChanging.ChangeClothes(saveData.ClothMid, skeletonGraphic);
+            Debug.Log(saveData.ClothMid);
+
             clothChanging.ChangeClothes(saveData.ClothTop, skeletonGraphic);
         }
 

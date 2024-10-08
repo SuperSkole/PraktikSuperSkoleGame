@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class AlarmScript : MonoBehaviour
 {
-    public AudioSource audioSource;
     [SerializeField]private AudioClip alarm;
     [SerializeField]private AudioClip policeSiren;
     bool rotate = false;
+
+    public bool playingSound = false;
     // Update is called once per frame
     void Update()
     {
@@ -21,7 +22,7 @@ public class AlarmScript : MonoBehaviour
     {
         if (mistakes > 0 && mistakes <= 2)
         {
-            audioSource.PlayOneShot(alarm);
+            AudioManager.Instance.PlaySound(alarm, SoundType.SFX, transform.position);
         }
         if (mistakes > 1)
         {
@@ -29,7 +30,15 @@ public class AlarmScript : MonoBehaviour
         }
         if (mistakes > 2)
         {
-            audioSource.PlayOneShot(policeSiren);
+            AudioManager.Instance.PlaySound(policeSiren, SoundType.SFX, transform.position);
+            StartCoroutine(PlayingSiren());
         }
+    }
+
+    private IEnumerator PlayingSiren()
+    {
+        playingSound = true;
+        yield return new WaitForSeconds(policeSiren.length);
+        playingSound = false;
     }
 }

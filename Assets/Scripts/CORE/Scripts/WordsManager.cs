@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CORE.Scripts
 {
     /// <summary>
-    /// Letter And Word Manager stores all letters and words, and gives minigames a way of populating a vaildWords hashset to use in minigames rounds
+    /// Letter And Word Manager stores all letters and wordsOrLetters, and gives minigames a way of populating a vaildWords hashset to use in minigames rounds
     /// </summary>
     public static class WordsManager
     {
@@ -36,7 +36,7 @@ namespace CORE.Scripts
             _wordSets[setName].Add(word.ToUpper());
         }
         
-        // Fetch words
+        // Fetch wordsOrLetters
         public static HashSet<string> GetWordsFromSet(string setName)
         {
             if (_wordSets.ContainsKey(setName))
@@ -66,24 +66,26 @@ namespace CORE.Scripts
                 _validWords.Clear(); 
             }
         }
+        
         private static void PopulateValidWordsWithListofWords(List<string> words)
         {
-            // Add the new words to the valid set
+            // Add the new wordsOrLetters to the valid set
             _validWords.UnionWith(words); 
-            Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
+            //Debug.Log("WordsManager.PopulateValidWordsWithListofWords(): ValidWords updated with random selection.");
         }
         
         public static List<string> PopulateValidWordsWithRandomWordsByLengthAndCount(int length, int count)
         {
             string setName = GetSetName(length);
-            if (GetWordsFromSet(setName) is HashSet<string> set)
+            if (GetWordsFromSet(setName) is { } set)
             {
                 List<string> randomWords = set.OrderBy(word => Random.value).Take(count).ToList();
-                // Populate valid words with these random words
+                // Populate valid wordsOrLetters with these random wordsOrLetters
                 PopulateValidWordsWithListofWords(randomWords);
                 return randomWords;
             }
-            Debug.Log("WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount() returned empty list");
+            
+            Debug.LogWarning("WordsManager.PopulateValidWordsWithRandomWordsByLengthAndCount() returned empty list");
             return new List<string>();
         }
         
@@ -133,8 +135,7 @@ namespace CORE.Scripts
                 return randomWords;
             }
     
-            Debug.Log($"No words found for the combination set: {setName}");
-            return new List<string>(); // Returns an empty list if no set found or not enough words are present
+            return new List<string>(); // Returns an empty list if no set found or not enough wordsOrLetters are present
         }
 
         #endregion

@@ -1,8 +1,9 @@
+using CORE;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
-    public class WordFactorySoundManager : MonoBehaviour
+    public class WordFactorySoundManager : PersistentSingleton<WordFactorySoundManager>
     {
         public enum SoundEvent
         {
@@ -23,21 +24,21 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private AudioSource audioSource;
 
-        // Singleton
-        public static WordFactorySoundManager Instance { get; private set; }
-        
-        void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-                //DontDestroyOnLoad(gameObject);
-            }
-        }
+        // // Singleton
+        // public static WordFactorySoundManager Instance { get; private set; }
+        //
+        // void Awake()
+        // {
+        //     if (Instance != null && Instance != this)
+        //     {
+        //         Destroy(gameObject);
+        //     }
+        //     else
+        //     {
+        //         Instance = this;
+        //         //DontDestroyOnLoad(gameObject);
+        //     }
+        // }
         
         void Start()
         {
@@ -65,7 +66,11 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     audioSource.PlayOneShot(wordCheckSound);
                     break;
                 case SoundEvent.PullHandle:
-                    audioSource.PlayOneShot(handlePullSound);
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.PlayOneShot(handlePullSound);
+                    }
+
                     break;
             }
         }

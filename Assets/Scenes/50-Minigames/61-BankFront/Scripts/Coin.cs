@@ -10,7 +10,6 @@ public class Coin : MonoBehaviour
 {
     public bool validCoin;
     [SerializeField]private float value;
-    [SerializeField]private AudioSource audioSource;
     [SerializeField]private AudioClip correctSound;
     [SerializeField]private AudioClip incorrectSound;
     private BankManager bankManager;
@@ -51,7 +50,7 @@ public class Coin : MonoBehaviour
             {
                 transform.SetParent(sortedTray.transform);
                 currentTray = sortedTray;
-                audioSource.PlayOneShot(correctSound);
+                AudioManager.Instance.PlaySound(correctSound, SoundType.SFX);
             }
             //Moves the coin to the unsorted tray if it was closer to the sorted tray. The bankmanager is informed and an error sound is played
             else
@@ -59,7 +58,7 @@ public class Coin : MonoBehaviour
                 bankManager.FakeCoinMoved();
                 transform.SetParent(unsortedTray.transform);
                 currentTray = unsortedTray;
-                audioSource.PlayOneShot(incorrectSound);
+                AudioManager.Instance.PlaySound(incorrectSound, SoundType.SFX);
             }
         }
         //Starts moving the coin

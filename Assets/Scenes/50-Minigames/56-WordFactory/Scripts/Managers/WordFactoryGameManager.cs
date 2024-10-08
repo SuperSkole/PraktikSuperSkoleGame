@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CORE;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
     /// <summary>
     /// Manages the Word Factory game, handling gear addition, player positioning, and scene transitions.
     /// </summary>
-    public class WordFactoryGameManager : MonoBehaviour
+    public class WordFactoryGameManager : PersistentSingleton<WordFactoryGameManager>
     {
         public event Action<GameObject> OnGearAdded;
 
@@ -31,21 +32,28 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// <summary>
         /// Singleton instance of the WordFactoryGameManager.
         /// </summary>
-        public static WordFactoryGameManager Instance { get; private set; }
-        
-        private void Awake()
+        // public static WordFactoryGameManager Instance { get; private set; }
+        //
+        // private void Awake()
+        // {
+        //     if (Instance != null && Instance != this)
+        //     {
+        //         Destroy(gameObject);
+        //     }
+        //     else
+        //     {
+        //         Instance = this;
+        //         //DontDestroyOnLoad(gameObject);
+        //         SceneManager.sceneUnloaded += OnSceneUnloaded;
+        //         IntializeFactoryManager();
+        //     }
+        // }
+        protected override void Awake()
         {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                Instance = this;
-                //DontDestroyOnLoad(gameObject);
-                SceneManager.sceneUnloaded += OnSceneUnloaded;
-                IntializeFactoryManager();
-            }
+            base.Awake();
+            
+            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            IntializeFactoryManager();
         }
 
         /// <summary>
@@ -139,16 +147,15 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerManager.Instance.SpawnedPlayer
                     .GetComponent<PlayerFloating>()
                     .enabled = true;
-                StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
+                //StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
                 Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
         
                 // Clean up the game manager and sound manager when transitioning to the main scene
                 Destroy(Instance);
+                instance = null; 
                 Destroy(WordFactorySoundManager.Instance);
-
             }
         }
-
 
         private void OnDestroy()
         {

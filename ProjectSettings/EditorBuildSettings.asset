@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/11-PlayerHouseScene/11-PlayerHouse.unity
     guid: 740f65f9cdf90e849976864be80c351b
   - enabled: 1
+    path: Assets/Scenes/20-MainWorld/20-MainWorld.unity
+    guid: c0f96a123c7f3d04f9ab13b54354f89d
+  - enabled: 1
     path: Assets/UI/UI scenes/23-CarMechanicsScene.unity
     guid: 090a7ba794d16af499ed5fb6b96c653b
   - enabled: 1
@@ -29,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/50-Minigames/Gamemode/LevelSelect.unity
     guid: 9db79f1f5a3d6424d9f7ac0d3078bab4
+  - enabled: 1
+    path: Assets/Scenes/50-Minigames/52-LetterGarden/52-LetterGarden.unity
+    guid: 83081b40d9de10b4d9b1cd4cdf13771a
   - enabled: 1
     path: Assets/Scenes/50-Minigames/Gamemode/53-SymbolEater.unity
     guid: 26fc8a84008b4bf408676a819a4f142d
@@ -42,9 +48,6 @@ EditorBuildSettings:
     path: Assets/Scenes/50-Minigames/56-WordFactory/56-WordFactory.unity
     guid: 28104d6eece377d428d7d4caed747256
   - enabled: 1
-    path: Assets/Scenes/70-Arcade/72-AsteroidShooting.unity
-    guid: fe432d6548f4bee41b9b96b9b0b5c8b8
-  - enabled: 1
     path: Assets/Scenes/50-Minigames/58-MiniRacingGame/58-RacingGame.unity
     guid: 41fc85f721b82554e9799b037bc1b28e
   - enabled: 1
@@ -57,17 +60,8 @@ EditorBuildSettings:
     path: Assets/Scenes/50-Minigames/65-MonsterTower/Scenes/WinScene.unity
     guid: fddbda30ed0bc2c42b7c52520b08d112
   - enabled: 1
-    path: Assets/Scenes/50-Minigames/52-LetterGarden/52-LetterGarden.unity
-    guid: 83081b40d9de10b4d9b1cd4cdf13771a
-  - enabled: 1
     path: Assets/Scenes/50-Minigames/Gamemode/51-LetterGarden.unity
     guid: 612d14d664d4a63419f581f2952a738b
-  - enabled: 1
-    path: Assets/Scenes/70-Arcade/70-ArcadeScene.unity
-    guid: 6295eb662736cb34e9a167c7efecbcab
-  - enabled: 1
-    path: Assets/Scenes/70-Arcade/71-BalloonPopper.unity
-    guid: a99655565fe93564ab3c2fa45e2f4824
   - enabled: 1
     path: Assets/Scenes/50-Minigames/60-BankBack/60-BankBack.unity
     guid: e18ef163cfada4a468c45bedefbab3ee
@@ -75,11 +69,8 @@ EditorBuildSettings:
     path: Assets/Scenes/50-Minigames/Gamemode/59-BankFrontLoading.unity
     guid: d1d6f7b540f0a9d469026f9fd3c9bf88
   - enabled: 1
-    path: Assets/Scenes/20-MainWorld/20-MainWorld.unity
-    guid: c0f96a123c7f3d04f9ab13b54354f89d
-  - enabled: 1
-    path: Assets/Scenes/70-Arcade/AsteroidShooting/AsteroidLoseScreen.unity
-    guid: 70d0550760428d94198cc09f1786cc31
+    path: Assets/Scenes/50-Minigames/Gamemode/68-PathOfDangerAllModesSelector.unity
+    guid: ecd19635650627d4ea485cee4a768403
   - enabled: 1
     path: Assets/Scenes/50-Minigames/69-PathOfDanger/69-PathOfDanger.unity
     guid: 10103333f64169d4884ab42b6d056d50
@@ -87,11 +78,23 @@ EditorBuildSettings:
     path: Assets/Scenes/50-Minigames/69-PathOfDanger/PathOfDangerLoseScreen.unity
     guid: 492733360f9b9c342bcdb7ca7d82e228
   - enabled: 1
+    path: Assets/Scenes/70-Arcade/70-ArcadeScene.unity
+    guid: 6295eb662736cb34e9a167c7efecbcab
+  - enabled: 1
+    path: Assets/Scenes/70-Arcade/71-BalloonPopper.unity
+    guid: a99655565fe93564ab3c2fa45e2f4824
+  - enabled: 1
+    path: Assets/Scenes/70-Arcade/72-AsteroidShooting.unity
+    guid: fe432d6548f4bee41b9b96b9b0b5c8b8
+  - enabled: 1
+    path: Assets/Scenes/70-Arcade/AsteroidShooting/AsteroidLoseScreen.unity
+    guid: 70d0550760428d94198cc09f1786cc31
+  - enabled: 1
     path: Assets/Scenes/70-Arcade/73-CatClockMinigame.unity
     guid: 66cb1bb084d0b6749aecc7192fab31f5
   - enabled: 1
-    path: Assets/Scenes/88-LeaderBoard/88-LeaderBoard.unity
-    guid: fa521aa7bf7349e4493681a6508aef30
+    path: Assets/Scenes/50-Minigames/67-WordProductionLine/67-WordProductionLineMinigame.unity
+    guid: e40a68dc248853c4e94948017e020fa1
   - enabled: 1
     path: Assets/Scenes/80-MultiplayerLobby/80-MultiplayerLobby.unity
     guid: 442c450040b74c14fa7203da258bec56
@@ -99,6 +102,9 @@ EditorBuildSettings:
     path: Assets/Scenes/50-Minigames/61-BankFront/61-BankFront.unity
     guid: 77e6b7babfcd2a141a53de23ee898b3b
   - enabled: 1
-    path: Assets/Scenes/50-Minigames/Gamemode/68-PathOfDangerAllModesSelector.unity
-    guid: ecd19635650627d4ea485cee4a768403
+    path: Assets/Scenes/80-MultiplayerLobby/80-MultiplayerLobby.unity
+    guid: 442c450040b74c14fa7203da258bec56
+  - enabled: 1
+    path: Assets/Scenes/88-LeaderBoard/88-LeaderBoard.unity
+    guid: fa521aa7bf7349e4493681a6508aef30
   m_configObjects: {}

@@ -17,10 +17,13 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
         public GameObject GridVisualization { get { return gridVisualization; } private set { } }
 
-        private GridData floorData, furnitureData;
+        private GridData floorData, furnitureData, wallfurnitureData, nonePlaceablesData;
 
         public GridData FloorData { get => floorData; set => floorData = value; }
         public GridData FurnitureData { get => furnitureData; set => furnitureData = value; }
+        public GridData WallfurnitureData { get => wallfurnitureData; set => wallfurnitureData = value; }
+        public GridData NonePlaceablesData { get => nonePlaceablesData; set => nonePlaceablesData = value; }
+
 
         [SerializeField] private PreviewSystem preview;
         private Vector3Int lastDetectedPosition = Vector3Int.zero;
@@ -32,38 +35,25 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField]
         public Dictionary<PlaceableTemporayItemsInfo, SaveableGridData> placedObjectsSaved = new();
         public List<PlaceableTemporayItemsInfo> itemsFoundPositions = new();
+      
         // Initializes the placement system.
         private void Start()
         {
             // Stop any ongoing placement process.
             StopPlacement();
+
             floorData = new GridData();
             furnitureData = new GridData();
+            wallfurnitureData = new GridData();
+            nonePlaceablesData = new GridData();
+
 
             return;
 
         }
 
-        private Vector3Int previousKey = new();
         public void PlaceItemsStartLoading(Vector3Int key, int ID, EnumFloorDataType floorType, int rotationValue)
         {
-            //if Obj is placed on 0,0,0 this doesnt work like it should
-            //At later date update this so we can have checks for rugs i.e if something is bigger than 1x1
-
-            //if (floorType == EnumFloorDataType.Furniture && previousKey == Vector3Int.zero)
-            //{
-            //    //Dont think this methode will work if size is 2x2 or rotation gets build in
-            //    if (key.y == 0 && key.x == 1)
-            //    {
-            //        return;
-            //    }
-            //    previousKey = key;
-            //}
-            //if (floorType == EnumFloorDataType.Furniture && !key.Equals(previousKey))
-            //{
-            //    previousKey = new();
-            //    return;
-            //}
             // Set the current building state to placement, passing in necessary dependencies.
             buildingState = new PlacementState(ID,
                 grid,
@@ -72,13 +62,17 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
+                nonePlaceablesData,
                 objectPlacer,
                 invetoryManager,
                 floorType);
             buildingState.OnLoadStartUp(key, ID, rotationValue);
         }
-        // Starts the placement process for an object with the specified ID.
-        // public void StartPlacement(int ID, EnumFloorDataType floorType)
+        /// <summary>
+        /// Starts the placement process for an object with the specified ID.
+        /// </summary>
+        /// <param name="info"></param>
         public void StartPlacement(PlaceableButtons info)
         {
             var ID = info.ID;
@@ -97,6 +91,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 database,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
+                nonePlaceablesData,
                 objectPlacer,
                 invetoryManager,
                 floorType);
@@ -124,6 +120,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 invetoryManager,
                 floorData,
                 furnitureData,
+                wallfurnitureData,
+                nonePlaceablesData,
                 objectPlacer);
 
             // Subscribe to input events for clicking and exiting the removal mode.

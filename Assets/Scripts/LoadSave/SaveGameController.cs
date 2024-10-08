@@ -91,9 +91,10 @@ namespace LoadSave
         {
             try
             {
-                // Delete the data with the provided key
-                await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
-                Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
+
+                //Debug.Log($"Save with key '{saveKey}' deleted successfully.");
                 return true;
             }
             catch (Exception ex)
@@ -101,6 +102,58 @@ namespace LoadSave
                 Debug.LogError($"An error occurred while deleting the save with key '{saveKey}': {ex.Message}");
                 return false;
             }
+        }
+        
+        /// <summary>
+        /// Deletes all save files associated with a specific user and monster name.
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="monsterName">The monstername</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAllSavesForMonster(string username, string monsterName)
+        {
+            try
+            {
+                // Step 1: Fetch all save keys associated with the given username and monster name
+                List<string> allSaveKeys = await GetAllSaveKeysForMonsterAsync(username, monsterName);
+        
+                // Step 2: Delete each save key found
+                foreach (var saveKey in allSaveKeys)
+                {
+                    // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                    await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
+                    Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while deleting saves for '{monsterName}': {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all save keys for a specific username and monster name.
+        /// </summary>
+        private async Task<List<string>> GetAllSaveKeysForMonsterAsync(string username, string monsterName)
+        {
+            // Get all save keys for the user from the cloud save service
+            var allKeys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
+    
+            List<string> matchingKeys = new List<string>();
+
+            // Search for keys that match the pattern "username_monsterName_*"
+            foreach (var keyItem in allKeys)
+            {
+                if (keyItem.Key.StartsWith($"{username}_{monsterName}_"))
+                {
+                    matchingKeys.Add(keyItem.Key);
+                }
+            }
+
+            return matchingKeys;
         }
 
         /// <summary>

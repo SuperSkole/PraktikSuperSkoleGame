@@ -8,9 +8,7 @@ public class VaultOpener : MonoBehaviour
     [SerializeField] private GameObject vaultHandle;
     [SerializeField] private Transform rotationPoint;
     [SerializeField] private Transform codeBlockTransform;
-    [SerializeField] private AudioSource handleAudioSource;
     [SerializeField] private AudioClip handleSound;
-    [SerializeField] private AudioSource doorAudioSource;
     [SerializeField] private AudioClip doorSound;
     private Vector3 codeBlockDestination;
     private bool moving = false;
@@ -19,7 +17,7 @@ public class VaultOpener : MonoBehaviour
     float handleSpeed = 200;
     float codeBlockSpeed = 0.1f;
     float moved;
-
+    bool startedHandleMovement = false;
     /// <summary>
     /// Moves the vault door and rotates the handles
     /// </summary>
@@ -27,9 +25,10 @@ public class VaultOpener : MonoBehaviour
     {
         if(startMove)
         {
-            if(!handleAudioSource.isPlaying)
+            if(!startedHandleMovement)
             {
-                handleAudioSource.PlayOneShot(handleSound);
+                startedHandleMovement = true;
+                StartCoroutine(PlayHandleSound());
             }
             Vector3 velocity = new Vector3(handleSpeed * Time.deltaTime, 0, 0);
             Vector3 eulers = vaultHandle.transform.localRotation.eulerAngles;
@@ -44,7 +43,7 @@ public class VaultOpener : MonoBehaviour
             {
                 startMove = false;
                 moving = true;
-                doorAudioSource.PlayOneShot(doorSound);
+                AudioManager.Instance.PlaySound(doorSound, SoundType.SFX, transform.position);
             }
         }
         if(moving)
@@ -68,5 +67,15 @@ public class VaultOpener : MonoBehaviour
     public void StartMove()
     {
         startMove = true;
+    }
+
+    private IEnumerator PlayHandleSound()
+    {
+        AudioManager.Instance.PlaySound(handleSound, SoundType.SFX, vaultHandle.transform.position);
+        yield return new WaitForSeconds(handleSound.length);
+        if(startMove)
+        {
+            StartCoroutine(PlayHandleSound());
+        }
     }
 }

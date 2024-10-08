@@ -11,6 +11,9 @@ public class ClockController : MonoBehaviour
     [SerializeField]
     private Material defaultMaterial, wrongMaterial, correctMaterial;
 
+    [SerializeField]
+    private AudioClip correctCat, wrongCat, buttonTick, backgroundMusic;
+
 
     [SerializeField]
     private Transform hourGameObject, minuteGameObject;
@@ -45,7 +48,7 @@ public class ClockController : MonoBehaviour
 
         initialRotation = submitAnswerLever.transform.rotation;
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
-
+        AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music, true);
 
     }
 
@@ -106,6 +109,7 @@ public class ClockController : MonoBehaviour
                 hourTime = 1;
             }
         }
+        AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);
 
     }
 
@@ -129,6 +133,7 @@ public class ClockController : MonoBehaviour
                 hourTime = 12;
             }
         }
+        AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);
     }
 
     /// <summary>
@@ -141,10 +146,11 @@ public class ClockController : MonoBehaviour
 
         hourTime += 1;
 
-        if (hourTime >= 13)
+        if (hourTime >= 12)
         {
-            hourTime = 1;
+            hourTime = 0;
         }
+        AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);
     }
 
     /// <summary>
@@ -157,10 +163,11 @@ public class ClockController : MonoBehaviour
 
         hourTime -= 1;
 
-        if (hourTime <= 0)
+        if (hourTime <= -1)
         {
-            hourTime = 12;
+            hourTime = 11;
         }
+        AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);
     }
 
 
@@ -204,6 +211,8 @@ public class ClockController : MonoBehaviour
     {
         catGlass.GetComponent<MeshRenderer>().material = wrongMaterial;
 
+        AudioManager.Instance.PlaySound(wrongCat, SoundType.SFX);
+
         yield return new WaitForSeconds(1);
 
         catGlass.GetComponent<MeshRenderer>().material = defaultMaterial;
@@ -216,6 +225,8 @@ public class ClockController : MonoBehaviour
     IEnumerator CorrectAnswer()
     {
         catGlass.GetComponent<MeshRenderer>().material = correctMaterial;
+
+        AudioManager.Instance.PlaySound(correctCat, SoundType.SFX);
 
         yield return new WaitForSeconds(1);
 

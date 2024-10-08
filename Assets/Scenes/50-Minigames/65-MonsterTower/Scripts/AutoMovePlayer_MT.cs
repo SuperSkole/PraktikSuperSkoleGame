@@ -38,7 +38,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private Vector3 scale;
 
 
-        public static event Action OnBlockDroppedOff;
+       // public static event Action OnBlockDroppedOff;
 
         private void Awake()
         {

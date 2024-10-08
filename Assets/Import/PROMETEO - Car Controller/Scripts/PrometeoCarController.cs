@@ -8,6 +8,7 @@ P.S: If you need more cars, you can check my other vehicle assets on the Unity A
 something useful for your game. Best regards, Mena.
 */
 
+using Scenes._20_MainWorld.Scripts.Car;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,7 +137,7 @@ public class PrometeoCarController : MonoBehaviour
     /*
     IMPORTANT: The following variables should not be modified manually since their values are automatically given via script.
     */
-    Rigidbody carRigidbody; // Stores the car's rigidbody.
+    Rigidbody carRigidbody; // Stores the car's playerRigidBody.
     float steeringAxis; // Used to know whether the steering wheel has reached the maximum value. It goes from -1 to 1.
     float throttleAxis; // Used to know whether the throttle has reached the maximum value. It goes from -1 to 1.
     float driftingAxis;
@@ -592,7 +593,7 @@ public class PrometeoCarController : MonoBehaviour
     public void GoForward()
     {
         isReversing = false;
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {
@@ -648,7 +649,7 @@ public class PrometeoCarController : MonoBehaviour
     public void GoReverse()
     {
         isReversing = true;
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {
@@ -708,7 +709,22 @@ public class PrometeoCarController : MonoBehaviour
         rearLeftCollider.motorTorque = 0;
         rearRightCollider.motorTorque = 0;
     }
+    public void NoFuelLeftDisableCar()
+    {
+        ThrottleOff();
+        Brakes();        
+        SetEnabledValue(false);
+        tireScreechSound.Stop();
+        carEngineSound.Stop();
 
+        var exhaustSmoke = GetComponent<CarEvents>().Exhaustsmoke;
+        foreach (var item in exhaustSmoke)
+        {
+            item.SetActive(false);
+        }
+
+
+    }
     // The following method decelerates the speed of the car according to the decelerationMultiplier variable, where
     // 1 is the slowest and 10 is the fastest deceleration. This method is called by the function InvokeRepeating,
     // usually every 0.1f when the user is not pressing W (throttle), S (reverse) or Space bar (handbrake).
@@ -784,7 +800,7 @@ public class PrometeoCarController : MonoBehaviour
         {
             driftingAxis = 1f;
         }
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car lost its traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {

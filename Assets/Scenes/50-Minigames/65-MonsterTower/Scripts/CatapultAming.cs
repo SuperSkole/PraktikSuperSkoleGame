@@ -84,7 +84,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                     // sets the word being shot onto the brick projectile. 
                     for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
                     {
-                        prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = manager.words[manager.ammoCount - 1];
+                        prjectipePrefab.transform.GetChild(i).transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = manager.wordsOrLetters[manager.ammoCount - 1];
 
                     }
                     //destroying the displayprefab and launching the real ammo
