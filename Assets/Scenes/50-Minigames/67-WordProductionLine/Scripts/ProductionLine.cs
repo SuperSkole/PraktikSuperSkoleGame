@@ -11,6 +11,8 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         public float speed;
         Rigidbody rBody;
 
+        
+
         public bool conveyerBeltOn = true;
 
         private void Start()
@@ -24,6 +26,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             if (conveyerBeltOn)
             {
                 MoveConveyerBelt();
+                
             }
 
         }
