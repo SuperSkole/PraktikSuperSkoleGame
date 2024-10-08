@@ -6,11 +6,11 @@ public class FindPlayerForButton : MonoBehaviour
 {
     private float timer;
     [SerializeField] GameObject carGO;
-    Rigidbody carRigidbody;
+    //Rigidbody carRigidbody;
     private void Start()
     {
         carGO = GameObject.FindGameObjectWithTag("Car");
-        carRigidbody = carGO.GetComponent<Rigidbody>();
+        //carRigidbody = carGO.GetComponent<Rigidbody>();
     }
     private void FixedUpdate()
     {
@@ -66,12 +66,12 @@ public class FindPlayerForButton : MonoBehaviour
     {
         timer = 0;
 
-        carRigidbody.interpolation = RigidbodyInterpolation.None;
-        carRigidbody.useGravity = false;
+        //carRigidbody.interpolation = RigidbodyInterpolation.None;
+        //carRigidbody.useGravity = false;
 
-        // Stop the car completely before moving
-        carRigidbody.velocity = Vector3.zero;
-        carRigidbody.angularVelocity = Vector3.zero;
+        //// Stop the car completely before moving
+        //carRigidbody.velocity = Vector3.zero;
+        //carRigidbody.angularVelocity = Vector3.zero;
 
         ////Incase there is something wrong with the cars collision that cases the problem with teleporting the car
         //var colliderGO = carGO.transform.GetChild(1).GetChild(0).GetComponent<MeshCollider>() ;
@@ -81,8 +81,8 @@ public class FindPlayerForButton : MonoBehaviour
         //var wheels = carGO.transform.GetChild(2);
         //wheels.gameObject.SetActive(false);
 
+        //carRigidbody.transform.position = spawnPosition;
 
-        carRigidbody.transform.position = spawnPosition;
         carGO.transform.position = spawnPosition;
         //This is the gold mine right here remeber to use this if there are problems with transform.position
         Physics.SyncTransforms();
@@ -90,7 +90,7 @@ public class FindPlayerForButton : MonoBehaviour
         //wheels.gameObject.SetActive(true);
         //colliderGO.enabled = true;
 
-        carRigidbody.useGravity = true;
-        carRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        //carRigidbody.useGravity = true;
+        //carRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 }
