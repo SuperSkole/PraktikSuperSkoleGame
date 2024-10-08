@@ -3,40 +3,71 @@ using UnityEngine;
 
 public class FindPlayerForButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private float timer;
+    GameObject carGO;
+    Rigidbody carRigidbody;
+    private void Start()
     {
-
+        carGO = GameObject.FindGameObjectWithTag("Car");
+        carRigidbody = carGO.GetComponent<Rigidbody>();
+    }
+    private void FixedUpdate()
+    {
+        timer += Time.deltaTime;
     }
     public void SpawnCarCloseToPlayer()
     {
-        var carGO = GameObject.FindGameObjectWithTag("Car");
-
-        // Define the spawn position near the player
-        Vector3 spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(5, 0, 0);
-
-        // Define the size of the box to check for obstacles (adjust based on your car size)
-        Vector3 boxSize = new Vector3(2, 1, 4); // Width, height, length of the car
-
-        // Check if the area is clear
-        if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
+        if (timer > 0.5f)
         {
-            carGO.transform.position = spawnPosition;
-            //Debug.Log("Car spawned at a safe location.");
-        }
-        else
-        {
-            spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(-5, 0, 0);
+
+            // Define the spawn position near the player
+            Vector3 spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(5, 0, 0);
+
+            // Define the size of the box to check for obstacles
+            Vector3 boxSize = new Vector3(2, 1, 4); // Width, height, length of the car
+
+            // Check if the area is clear
             if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
             {
-                carGO.transform.position = spawnPosition;
-                //Debug.Log("Car spawned at a safe location.");
+                MoveCarToLocation(spawnPosition);
             }
             else
             {
-                // The area is obstructed
-                //Debug.Log("Cannot spawn car, area is obstructed.");
+                spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(-5, 0, 0);
+                if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
+                {
+                    MoveCarToLocation(spawnPosition);
+                }
+                else //continue the loop if you want up and down add here
+                {
+                    spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(0, 0, 5);
+                    if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
+                    {
+                        MoveCarToLocation(spawnPosition);
+                    }
+                    else
+                    {
+                        spawnPosition = PlayerManager.Instance.SpawnedPlayer.transform.position + new Vector3(0, 0, -5);
+                        if (!Physics.CheckBox(spawnPosition, boxSize / 2, Quaternion.identity))
+                        {
+                            MoveCarToLocation(spawnPosition);
+                        }
+                    }
+                }
             }
         }
+    }
+    private void MoveCarToLocation(Vector3 spawnPosition)
+    {
+        timer = 0;
+
+        carRigidbody.interpolation = RigidbodyInterpolation.None;
+        carRigidbody.useGravity = false;
+
+        carRigidbody.transform.position = spawnPosition;
+        carGO.transform.position = spawnPosition;
+
+        carRigidbody.useGravity = true;
+        carRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
     }
 }

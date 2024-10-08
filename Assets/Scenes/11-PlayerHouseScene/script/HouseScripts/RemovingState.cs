@@ -23,6 +23,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             GridData floorData,
             GridData furnitureData,
             GridData wallfurnitureData,
+            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer)
         {
             this.grid = grid;
@@ -32,6 +33,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.floorData = floorData;
             this.furnitureData = furnitureData;
             this.wallfurnitureData = wallfurnitureData;
+            this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
 
             previewSystem.StartShowingRemovePreview();

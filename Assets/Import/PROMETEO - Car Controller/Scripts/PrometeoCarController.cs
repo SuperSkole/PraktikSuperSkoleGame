@@ -8,6 +8,7 @@ P.S: If you need more cars, you can check my other vehicle assets on the Unity A
 something useful for your game. Best regards, Mena.
 */
 
+using Scenes._20_MainWorld.Scripts.Car;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -708,7 +709,22 @@ public class PrometeoCarController : MonoBehaviour
         rearLeftCollider.motorTorque = 0;
         rearRightCollider.motorTorque = 0;
     }
+    public void NoFuelLeftDisableCar()
+    {
+        ThrottleOff();
+        Brakes();        
+        SetEnabledValue(false);
+        tireScreechSound.Stop();
+        carEngineSound.Stop();
 
+        var exhaustSmoke = GetComponent<CarEvents>().Exhaustsmoke;
+        foreach (var item in exhaustSmoke)
+        {
+            item.SetActive(false);
+        }
+
+
+    }
     // The following method decelerates the speed of the car according to the decelerationMultiplier variable, where
     // 1 is the slowest and 10 is the fastest deceleration. This method is called by the function InvokeRepeating,
     // usually every 0.1f when the user is not pressing W (throttle), S (reverse) or Space bar (handbrake).
