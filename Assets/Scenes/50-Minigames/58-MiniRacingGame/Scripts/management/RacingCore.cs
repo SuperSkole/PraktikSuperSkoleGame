@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Minigames;
@@ -84,7 +85,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
-           racingGameMode = (IRacingGameMode)gameMode;
+            
+            racingGameMode = (IRacingGameMode)gameMode;
             
             StartUI.SetActive(false);
             raceActive = true;
@@ -395,9 +397,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             {
                 if (wrongLetter == letter)
                 {
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(wrongLetter.ToString(), true);
                     return true;
                 }
             }
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(wrongLetter.ToString(), false);
             return false;
         }
         /// <summary>
@@ -449,7 +453,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     {
                         currentIndex = 0; // Reset for the next game or end game
                         spelledWordsList.Add(targetWord); // Add the spelled word to the list
-
+                        GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(targetWord, true);
                         racingGameMode.DetermineWordToUse(this); // Select a new random word for the next game
                     }
                 }

@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using System.Collections;
@@ -34,7 +35,7 @@ public class LevelTwoRace : IRacingGameMode
             do
             {
                 core.gameRuleVocal.SetCorrectAnswer();
-                core.targetWord = core.gameRuleVocal.GetCorrectAnswer();
+                core.targetWord = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].Identifier;
             } while (core.spelledWordsList.Contains(core.targetWord));
             if (core.currentMode != GameModes.Mode2)
             {

@@ -1,5 +1,9 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
+using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using System.Collections.Generic;
@@ -17,6 +21,13 @@ namespace Scenes._50_Minigames.Gamemode
             new LevelTwoRace(),
             new LevelThreeRacing(),
             null,
+            new LevelFiveRacing()
+        };
+
+        public List<IGenericGameMode> letterGamemodes = new List<IGenericGameMode>
+        {
+            new LevelTwoRace(),
+            new LevelThreeRacing(),
             new LevelFiveRacing()
         };
 
@@ -70,6 +81,16 @@ namespace Scenes._50_Minigames.Gamemode
         {
             if (gamemodes.Count > level && level >= 0)
             {
+                switch (level)
+                {
+                    case 1:
+                        return null;
+                    case 2:
+
+                        return null;
+                    default:
+                        break;
+                }
                 return gamemodes[level];
             }
             else
@@ -124,7 +145,21 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            return (SetRules(level), SetMode(level));
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode;
+            switch (languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
+                    return (null,mode);
+                case LanguageUnit.Word:
+                    return (null, null);
+                case LanguageUnit.Sentence:
+                    return (null,null);
+                default:
+                    break;
+            }
+            return (null, null);
         }
 
     }
