@@ -31,7 +31,6 @@ public class VaultManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI desiredInput;
     [SerializeField] private GameObject ui;
     [SerializeField] private VaultOpener vaultOpener;
-    [SerializeField] private AudioSource successAudioSource;
     [SerializeField] private AudioClip successSound;
     private bool waitingForEnd;
     private int desiredInputIndex;
@@ -97,7 +96,7 @@ public class VaultManager : MonoBehaviour
             if(correct)
             {
                 ChangeMaterial(correctMaterial);
-                successAudioSource.PlayOneShot(successSound);
+                AudioManager.Instance.PlaySound(successSound, SoundType.SFX);
                 if(usedDesiredInputIndices.Count == 4)
                 {
                     vaultOpener.StartMove();
@@ -228,7 +227,7 @@ public class VaultManager : MonoBehaviour
         waitingForEnd = true;
         if(mistakes >= 3)
         {
-            yield return new WaitUntil(() => !alarmScript.audioSource.isPlaying);
+            yield return new WaitUntil(() => !alarmScript.playingSound);
         }
         else
         {
