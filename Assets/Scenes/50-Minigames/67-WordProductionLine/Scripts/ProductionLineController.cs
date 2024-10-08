@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ProductionLineController : MonoBehaviour
 {
 
-    private static GameObject selectedLetterBox, selectedImageBox, lineObject;
+    private static GameObject selectedLetterBox, selectedImageBox;
 
     [SerializeField] GameObject particals;
 
@@ -50,7 +50,7 @@ public class ProductionLineController : MonoBehaviour
     Vector3 imageBoxCheckPosition;
     Vector3 punishmentPosition;
 
-    //rigidbody for den diverse selected Kasser.
+    //rigidbody for letterboxes and imageboxes
     Rigidbody rbIb;
     Rigidbody rbLb;
 
@@ -67,7 +67,7 @@ public class ProductionLineController : MonoBehaviour
 
         imageBoxCheckPosition = new Vector3(2, 9, 5);
         letterBoxCheckPosition = new Vector3(-1, 9, 5);
-        punishmentPosition = new Vector3(-25, 6, 5);
+        punishmentPosition = new Vector3(-12, 6, 5);
     }
 
     void Update()
@@ -347,7 +347,7 @@ public class ProductionLineController : MonoBehaviour
             rb.isKinematic = false;
         }
 
-        Vector3 newPosition = Vector3.MoveTowards(boxTransform.position, targetPosition, 400 * Time.deltaTime);
+        Vector3 newPosition = Vector3.MoveTowards(boxTransform.position, targetPosition, 50 * Time.deltaTime);
 
         rb.MovePosition(newPosition);
 
