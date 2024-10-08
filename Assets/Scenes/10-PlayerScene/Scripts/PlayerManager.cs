@@ -472,6 +472,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (clothChanging != null)
                 {
+                    skeleton.Skeleton.SetToSetupPose();
                     // Call the ColorChange method to recolor the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
                     clothChanging.ChangeClothes(playerData.ClothTop, skeleton);

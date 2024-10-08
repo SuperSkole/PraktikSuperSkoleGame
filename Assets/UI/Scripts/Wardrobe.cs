@@ -151,88 +151,86 @@ namespace UI.Scripts
                 currentOption.UnSelect();
             }
 
-            //HVIS DEN ALDEREDE IKKE ER VALGT
+            //IF IT'S ALREADY CHOSEN
             if (wardrobeShopOption.chosen)
             {
-                if(itemName.Contains("HEAD"))
+                if (itemName.Contains("HEAD"))
                 {
                     if (wearingTop != string.Empty)
                     {
                         skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
-                        wardrobeShopOption.chosen = false;
+                        wearingTop = string.Empty;
+                        PlayerManager.Instance.PlayerData.ClothTop = string.Empty;
                     }
+                }
+                if (itemName.Contains("MID"))
+                {
+                    if (wearingMid != string.Empty)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
+                        wearingMid = string.Empty;
+                        PlayerManager.Instance.PlayerData.ClothMid = string.Empty;
+                    }
+                }
+                foreach (var color in colors)
+                {
+                    if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        playerColorChanging.ColorChange("white");
+
+                        wearingColor = "white";
+
+                        PlayerManager.Instance.PlayerData.MonsterColor = "white";
+                    }
+                }
+
+                wardrobeShopOption.chosen = false;
+                wardrobeShopOption.UnSelect();
+
+            }
+
+            //IF NOT CHOSEN
+            if (!wardrobeShopOption.chosen)
+            {
+
+                if (itemName.Contains("HEAD"))
+                {
+                    if (wearingTop != string.Empty)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+                    }
+                    skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                    wearingTop = itemName;
+                    PlayerManager.Instance.PlayerData.ClothTop = itemName;
+                }
+                if (itemName.Contains("MID"))
+                {
+                    if (wearingMid != string.Empty)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
+                    }
+                    skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                    wearingMid = itemName;
+                    PlayerManager.Instance.PlayerData.ClothMid = itemName;
+                }
+
+                foreach (var color in colors)
+                {
+                    if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        playerColorChanging.ColorChange(itemName);
+
+                        wearingColor = itemName;
+
+                        PlayerManager.Instance.PlayerData.MonsterColor = itemName;
+                    }
+                }
+
+                wardrobeShopOption.chosen = true;
+                wardrobeShopOption.LightUp();
             }
 
             currentOption = wardrobeShopOption;
-
-            if (itemName.Contains("HEAD"))
-            {
-                if (wearingTop != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
-                }
-                if (wearingMid != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
-                }
-                if (wearingColor != null)
-                {
-                    playerColorChanging.ColorChange(wearingColor);
-                }
-
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                wearingTop = itemName;
-
-                PlayerManager.Instance.PlayerData.ClothTop = itemName;
-            }
-
-            if (itemName.Contains("MID"))
-            {
-                if (wearingMid != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
-                }
-                if (wearingTop != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
-                }
-                if (wearingColor != null)
-                {
-                    playerColorChanging.ColorChange(wearingColor);
-                }
-
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                wearingMid = itemName;
-
-                PlayerManager.Instance.PlayerData.ClothMid = itemName;
-            }
-
-            foreach (var color in colors)
-            {
-                if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
-                {
-                    playerColorChanging.ColorChange(itemName);
-
-                    if (wearingMid != null)
-                    {
-                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
-                    }
-                    if (wearingTop != null)
-                    {
-                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
-                    }
-
-                    wearingColor = itemName;
-
-                    PlayerManager.Instance.PlayerData.MonsterColor = itemName;
-                }
-            }
-            
-
-        }
-
-        public void Equip()
-        {
 
         }
 
