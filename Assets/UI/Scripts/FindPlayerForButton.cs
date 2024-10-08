@@ -1,10 +1,11 @@
 using Scenes._10_PlayerScene.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FindPlayerForButton : MonoBehaviour
 {
     private float timer;
-    GameObject carGO;
+    [SerializeField] GameObject carGO;
     Rigidbody carRigidbody;
     private void Start()
     {
@@ -57,6 +58,10 @@ public class FindPlayerForButton : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// Teleports the players car to a given location.
+    /// </summary>
+    /// <param name="spawnPosition"></param>
     private void MoveCarToLocation(Vector3 spawnPosition)
     {
         timer = 0;
@@ -64,8 +69,25 @@ public class FindPlayerForButton : MonoBehaviour
         carRigidbody.interpolation = RigidbodyInterpolation.None;
         carRigidbody.useGravity = false;
 
+        // Stop the car completely before moving
+        carRigidbody.velocity = Vector3.zero;
+        carRigidbody.angularVelocity = Vector3.zero;
+
+        //Incase there is something wrong with the cars collision that cases the problem with teleporting the car
+        var colliderGO = carGO.transform.GetChild(1).GetChild(0).GetComponent<MeshCollider>() ;
+        colliderGO.enabled = false;
+        //Incase the wheelcoliders were what the problem with teleporting the car
+        var wheels = carGO.transform.GetChild(2);
+        wheels.gameObject.SetActive(false);
+
+
         carRigidbody.transform.position = spawnPosition;
         carGO.transform.position = spawnPosition;
+        //This is the gold mine right here remeber to use this if there are problems with transform.position
+        Physics.SyncTransforms();
+
+        wheels.gameObject.SetActive(true);
+        colliderGO.enabled = true;
 
         carRigidbody.useGravity = true;
         carRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
