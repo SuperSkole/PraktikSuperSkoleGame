@@ -28,7 +28,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void OnCheckWordButton()
         {
-            Debug.Log("Check Word button clicked");
+            //Debug.Log("Check Word button clicked");
             wordCheckManager.CheckForWord();
         }
 
@@ -63,7 +63,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             if (eventData.pointerCurrentRaycast.gameObject == checkWordImage.gameObject)
             {
                 Debug.Log("check button clicked");
-                WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+                
                 OnCheckWordButton();
             }
             else if (eventData.pointerCurrentRaycast.gameObject == exitImage.gameObject)

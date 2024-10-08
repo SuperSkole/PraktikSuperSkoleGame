@@ -12,7 +12,7 @@ namespace CORE.Scripts
 
         protected override void Awake()
         {
-            Debug.Log("weight manager awake");
+            //Debug.Log("weight manager awake");
             base.Awake();
         }
 

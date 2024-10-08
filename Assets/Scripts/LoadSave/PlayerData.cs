@@ -86,9 +86,9 @@ namespace LoadSave
         /// <param name="xpAmount">Initial experience points.</param>
         /// <param name="level">Starting level of the character.</param>
         /// <param name="position">Initial position of the character in the game world.</param>
-        /// <param name="collectedWords">The list of collected words.</param>
+        /// <param name="collectedWords">The list of collected wordsOrLetters.</param>
         /// <param name="collectedLetters">The list of collected letters.</param>
-        /// <param name="totalWords">Total number of words collected.</param>
+        /// <param name="totalWords">Total number of wordsOrLetters collected.</param>
         /// <param name="totalLetters">Total number of letters collected.</param>
         /// <param name="midCloth">The middle clothing of the character.</param>
         /// <param name="topCloth">The top clothing of the character.</param>
@@ -115,14 +115,14 @@ namespace LoadSave
         {
             this.username = username;
             this.monsterName = monsterName;
-            this.monsterTypeID = monsterTypeID;
+            //this.monsterTypeID = monsterTypeID;
             this.monsterColor = monsterColor;
             this.currentGoldAmount = goldAmount;
             this.currentXPAmount = xpAmount;
             this.currentLevel = level;
             this.currentPosition = position;
             
-            // words and letters
+            // wordsOrLetters and letters
             this.CollectedWords.Clear();
             this.CollectedWords.AddRange(collectedWords);
             this.CollectedLetters.Clear();

@@ -46,6 +46,7 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnAddWord += AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated += RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted += HandlePlayerDataWordsExtracted;
+            PlayerEvents.OnPlayerDataLettersExtracted += HandlePlayerDataLettersExtracted;
             PlayerEvents.OnGoldChanged += ModifyGold;
             PlayerEvents.OnXPChanged += ModifyXP;
         }
@@ -56,6 +57,7 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnAddWord -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
+            PlayerEvents.OnPlayerDataLettersExtracted -= HandlePlayerDataLettersExtracted;
             PlayerEvents.OnGoldChanged -= ModifyGold;
             PlayerEvents.OnXPChanged -= ModifyXP;
         }
@@ -66,6 +68,7 @@ namespace Scenes._10_PlayerScene.Scripts
             PlayerEvents.OnAddWord -= AddWordToPlayerData;
             PlayerEvents.OnWordRemovedValidated -= RemoveWordFromPlayerData;
             PlayerEvents.OnPlayerDataWordsExtracted -= HandlePlayerDataWordsExtracted;
+            PlayerEvents.OnPlayerDataLettersExtracted -= HandlePlayerDataLettersExtracted;
             PlayerEvents.OnGoldChanged -= ModifyGold;
             PlayerEvents.OnXPChanged -= ModifyXP;
         }
@@ -100,10 +103,10 @@ namespace Scenes._10_PlayerScene.Scripts
         // }
 
         /// <summary>
-        /// Adds a word to the player's collected words list,
+        /// Adds a word to the player's collected wordsOrLetters list,
         /// if it is not null or empty.
         /// </summary>
-        /// <param name="word">The word to add to the collected words list.</param>
+        /// <param name="word">The word to add to the collected wordsOrLetters list.</param>
         /// <exception cref="ArgumentException">Thrown when the provided word is null or empty.</exception>
         private void AddWordToPlayerData(string word)
         {
@@ -138,10 +141,10 @@ namespace Scenes._10_PlayerScene.Scripts
 
 
         /// <summary>
-        /// Removes a word from the player's collected words list,
+        /// Removes a word from the player's collected wordsOrLetters list,
         /// if it is not null or empty.
         /// </summary>
-        /// <param name="word">The word to add to the collected words list.</param>
+        /// <param name="word">The word to add to the collected wordsOrLetters list.</param>
         /// <exception cref="ArgumentException">Thrown when the provided word is null or empty.</exception>
         private void RemoveWordFromPlayerData(string word)
         {
@@ -160,10 +163,13 @@ namespace Scenes._10_PlayerScene.Scripts
             }
         }
 
-
+        /// <summary>
+        /// Handles the wordsOrLetters extracted from playerdata
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
         private List<string> HandlePlayerDataWordsExtracted(List<string> words)
         {
-            Debug.Log($"Extracted {words.Count} words from player data.");
 
             // Liste hvor de fundne ord skal tilf�jes
             List<string> updatedWordList = new List<string>();
@@ -173,6 +179,25 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // Returner den opdaterede liste
             return updatedWordList;
+        }
+
+
+        /// <summary>
+        /// Handles the letters extracted from playerdata
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        private List<char> HandlePlayerDataLettersExtracted(List<char> letters)
+        {
+
+            // Liste hvor de fundne bogstaver skal tilf�jes
+            List<char> updatedlettersList = new List<char>();
+
+            // Tilf�j de fundne bogstaver til updatedlettersList
+            updatedlettersList.AddRange(letters);
+
+            // Returner den opdaterede liste
+            return updatedlettersList;
         }
 
         /// <summary>

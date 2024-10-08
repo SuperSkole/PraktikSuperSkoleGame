@@ -18,6 +18,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
+        [SerializeField] private AudioSource pullHandleAudioSource;
+        
+        private bool hasPlayedPullHandleSound = false;
 
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
@@ -25,7 +28,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // Boolean flag to restrict creating more than one block per valid word
         private bool canCreateWordBlock = true;
 
-        // HashSet to keep track of created words
+        // HashSet to keep track of created wordsOrLetters
         private HashSet<string> createdWords = new HashSet<string>();
         private bool isWordValid;
         
@@ -59,7 +62,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
+            // Play PullHandle sound if it's not already playing
             WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+
             
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
@@ -170,14 +175,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 isProcessingWord = false;
                 
-                // Move player back to the starting position if no more words are to be processed
+                // Move player back to the starting position if no more wordsOrLetters are to be processed
                 PlayerEvents.RaiseMovePlayerToPosition(WordFactoryGameManager.Instance.PlayerSpawnPoint);
             }
         }
         
         private void AddWordToPlayerData(string word)
         {
-            Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
+            //Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
             
             // Raise the event to send the word to other parts of the game that manage player data
             PlayerEvents.RaiseAddWord(word);
