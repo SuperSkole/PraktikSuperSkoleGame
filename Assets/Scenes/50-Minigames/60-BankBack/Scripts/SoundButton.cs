@@ -8,7 +8,6 @@ using UnityEngine;
 public class SoundButton : MonoBehaviour
 {
     [SerializeField]private AudioClip audioClip;
-    public AudioSource audioSource;
     public int amount;
 
     /// <summary>
@@ -27,8 +26,8 @@ public class SoundButton : MonoBehaviour
     {
         for(int i = 0; i < amount; i++)
         {
-            audioSource.PlayOneShot(audioClip);
-            yield return new WaitUntil(()=> !audioSource.isPlaying);
+            AudioManager.Instance.PlaySound(audioClip, SoundType.SFX);
+            yield return new WaitForSeconds(audioClip.length);
         }
         
     }
