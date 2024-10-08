@@ -483,6 +483,10 @@ PrefabInstance:
       propertyPath: converyerBeltId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: conveyorBeltSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9c8f76c5c30a6d34580eeef054ef3002, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -741,6 +745,10 @@ PrefabInstance:
       propertyPath: converyerBeltId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: conveyorBeltSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9c8f76c5c30a6d34580eeef054ef3002, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1384,6 +1392,10 @@ PrefabInstance:
       propertyPath: converyerBeltId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: conveyorBeltSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9c8f76c5c30a6d34580eeef054ef3002, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1993,6 +2005,8 @@ MonoBehaviour:
   defaultMaterial: {fileID: 2100000, guid: e41d24a8288a62b4e90f6bf4818c5ea3, type: 2}
   wrongMaterial: {fileID: 2100000, guid: 89b91374d5b18ff41ae59e6c21369477, type: 2}
   correctMaterial: {fileID: 2100000, guid: 75248f6808ca07a49a1da231c63872c3, type: 2}
+  wrongBuzz: {fileID: 8300000, guid: 634b8606de50f3c499c04bbc5e896b88, type: 3}
+  correctBuzz: {fileID: 8300000, guid: f6fd3fe7e496ba440bf4a25865bf2c96, type: 3}
   mainCamera: {fileID: 547239265}
   winScreen: {fileID: 1631949114}
   letterPool: {fileID: 114825693}
@@ -3653,6 +3667,10 @@ PrefabInstance:
       propertyPath: converyerBeltId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6942322959477058373, guid: 36fa6fea0d7995e4ca986417d67827ff, type: 3}
+      propertyPath: conveyorBeltSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 9c8f76c5c30a6d34580eeef054ef3002, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

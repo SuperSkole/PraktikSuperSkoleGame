@@ -18,6 +18,8 @@ public class ProductionLineController : MonoBehaviour
 
     private static Material staticDefaultMaterial;
 
+    [SerializeField] private AudioClip wrongBuzz, correctBuzz;
+
     [SerializeField] Camera mainCamera;
 
     [SerializeField]
@@ -372,6 +374,8 @@ public class ProductionLineController : MonoBehaviour
         rbIb = selectedImageBox.GetComponentInParent<Rigidbody>();
         rbLb = selectedLetterBox.GetComponentInParent<Rigidbody>();
 
+        AudioManager.Instance.PlaySound(correctBuzz, SoundType.SFX);
+
         points++;
         scoreText.text = $"Score: {points}";
 
@@ -467,6 +471,7 @@ public class ProductionLineController : MonoBehaviour
 
         IfWrongSetColliderOff();
         movingTowardsPunishment = true;
+        AudioManager.Instance.PlaySound(wrongBuzz, SoundType.SFX);
 
 
         yield return new WaitForSeconds(4);

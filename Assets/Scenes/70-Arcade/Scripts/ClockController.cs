@@ -12,7 +12,7 @@ public class ClockController : MonoBehaviour
     private Material defaultMaterial, wrongMaterial, correctMaterial;
 
     [SerializeField]
-    private AudioClip correctCat, wrongCat, buttonTick;
+    private AudioClip correctCat, wrongCat, buttonTick, backgroundMusic;
 
 
     [SerializeField]
@@ -48,7 +48,7 @@ public class ClockController : MonoBehaviour
 
         initialRotation = submitAnswerLever.transform.rotation;
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
-
+        AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music);
 
     }
 
