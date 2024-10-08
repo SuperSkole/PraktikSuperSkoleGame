@@ -108,6 +108,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     PlayerEvents.RaiseXPChanged(1);
                     oldLetter = currentSymbol.symbol.ToString();
                     GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(currentSymbol.symbol.ToString(), true);
                     Instantiate(coinObject);
                     //StartCoroutine(TakeScreenShot());
                     
