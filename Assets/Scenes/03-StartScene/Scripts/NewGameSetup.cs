@@ -1,4 +1,5 @@
 using CORE;
+using Scenes._10_PlayerScene.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,20 +34,23 @@ namespace Scenes._03_StartScene.Scripts
         
         public void OnClick()
         {
-            SetupPlayer();
-            SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-            SceneLoader.Instance.LoadScene(SceneNames.House);
-        }   
-        
-        private void SetupPlayer()
-        {
+            // Set the new game flag in GameManager
             GameManager.Instance.IsNewGame = true;
-            
+
+            // Set the player name in GameManager for use during player setup
             GameManager.Instance.CurrentMonsterName = monsterNameInput.text;
-            //GameManager.Instance.CurrentMonsterColor = ChosenMonsterColor;
-            
-            GameManager.Instance.PlayerData.MonsterName = monsterNameInput.text;
-            //GameManager.Instance.PlayerData.MonsterColor = ChosenMonsterColor;
+
+            // Load the PlayerScene asynchronously
+            AsyncOperation playerSceneLoad = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
+
+            // Once the PlayerScene is loaded, PlayerManager's Awake() will automatically handle the player setup
+            if (playerSceneLoad != null)
+            {
+                playerSceneLoad.completed += op =>
+                {
+                    SceneLoader.Instance.LoadScene(SceneNames.House);
+                };
+            }
         }
     }
 }
