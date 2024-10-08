@@ -48,12 +48,12 @@ namespace Scenes._03_StartScene.Scripts
         /// <returns>A task representing the asynchronous operation, with a boolean indicating success.</returns>
         public async Task<bool> DeleteSave(string saveKey)
         {
-            Debug.Log("LoadGameController-DeleteSave: Attempting to delete save with key: " + saveKey);
+            //Debug.Log("LoadGameController-DeleteSave: Attempting to delete save with key: " + saveKey);
             
             bool success = await saveGameController.DeleteSave(saveKey);
             if (success)
             {
-                Debug.Log("Save deleted successfully: " + saveKey);
+                //Debug.Log("Save deleted successfully: " + saveKey);
                 // Optionally: Notify UI components or refresh panels after deletion
                 SavePanel[] panels = FindObjectsOfType<SavePanel>();
                 foreach (var panel in panels)

@@ -93,7 +93,7 @@ namespace LoadSave
             {
                 // Delete the data with the provided key
                 await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
-                Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                //Debug.Log($"Save with key '{saveKey}' deleted successfully.");
                 return true;
             }
             catch (Exception ex)
