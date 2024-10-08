@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 
 public class Jump : MonoBehaviour
 {
-    public Rigidbody rigidbody;
+    public Rigidbody playerRigidBody;
 
     [SerializeField] float yForce=10;
 
@@ -18,10 +18,10 @@ public class Jump : MonoBehaviour
     public PathOfDangerManager manager;
 
     public GameObject shadowPrefab;
-    private Vector3 posOffset;
+ 
     private GameObject spawnedShadow;
 
-    [SerializeField] float zOffset=-0.5f;
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -63,10 +63,10 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Adds a force to the players rigidbody and cast a shadow on the ground. 
+        // Adds a force to the players playerRigidBody and cast a shadow on the ground. 
         if(isJumping==true)
         { 
-            rigidbody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
+            playerRigidBody.AddForce(new Vector3(0, yForce, 0),ForceMode.Impulse);
             isJumping = false;
 
             CastShadow();

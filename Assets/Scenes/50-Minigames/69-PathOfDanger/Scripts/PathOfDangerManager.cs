@@ -145,7 +145,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Jump jumpComp = spawnedPlayer.AddComponent<Jump>();
-        jumpComp.rigidbody = playerRigidBody;
+        jumpComp.playerRigidBody = playerRigidBody;
         jumpComp.manager = this;
         jumpComp.shadowPrefab = shadowPrefab;
 
