@@ -121,8 +121,9 @@ namespace UI.Scripts
             }
 
             //Build shop
-
+           
             List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
+
             InitializeShopOptions(theShopOptions);
         }
 
@@ -145,7 +146,7 @@ namespace UI.Scripts
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
-            
+            Debug.Log("InitializeActivated");
             foreach (ClothInfo cloth in availableClothes)
             {
                 // Instantiate a new ShopOption as a child of shopOptionsParent
@@ -327,18 +328,16 @@ namespace UI.Scripts
                         //COLOR
                         if (colors.Contains(currentItem.ToString()))
                         {
-                            Debug.Log(currentItem+" CURRENTITEM");
+
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
 
                             if (wearingTop != string.Empty)
                             {
                                 PlayerManager.Instance.PlayerData.ClothTop = wearingTop;
-                                Debug.Log(wearingTop + " WEARINGTOP");
                             }
 
                             if (wearingMid != string.Empty)
                             {
-                                Debug.Log(wearingMid + " WEARINGMID");
                                 PlayerManager.Instance.PlayerData.ClothMid = wearingMid;
                             }
 
