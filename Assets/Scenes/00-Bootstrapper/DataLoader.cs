@@ -16,6 +16,8 @@ namespace Scenes._00_Bootstrapper
         public static bool IsDataLoaded { get; private set; } = false;
 
         public List<Texture2D> images = new();
+        public List<Texture2D> soundCorrectImages = new();
+        public List<Texture2D> onsetImages = new();
         public List<AudioClip> letterSounds = new();
         public List<AudioClip> danskCongrats = new();
         public List<AudioClip> englishCongrats = new();
