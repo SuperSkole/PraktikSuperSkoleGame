@@ -52,7 +52,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// <returns>A task representing the asynchronous sign-out operation.</returns>
         public async Task SignOutAsync()
         {
-            AuthenticationService.Instance.SignOut();
+            await Task.Run(() => AuthenticationService.Instance.SignOut());
         }
     }
 }

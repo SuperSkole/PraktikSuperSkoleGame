@@ -47,7 +47,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// <summary>
         /// Initializes the login screen and sets up the initial state of the UI elements.
         /// </summary>
-        private async void Awake()
+        private void Awake()
         {
             //Debug.Log("Initializing Unity services");
             //await UnityServices.InitializeAsync();
