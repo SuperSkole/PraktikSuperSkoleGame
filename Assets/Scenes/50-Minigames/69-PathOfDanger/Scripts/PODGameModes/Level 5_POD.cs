@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Level5_POD : MonoBehaviour,IPODGameMode
+public class Level5_POD : IPODGameMode
 {
     List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
     private string previousRetrievedAnswer;

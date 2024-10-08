@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootPicture : MonoBehaviour, IMTGameMode
+    public class ShootPicture: IMTGameMode
     {
         /// <summary>
         /// Will be called by the TowerManager to create a brick with the correct answer
