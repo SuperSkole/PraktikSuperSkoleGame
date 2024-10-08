@@ -29,8 +29,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
-            GridData nonePlaceablesData,
             GridData wallfurnitureData,
+            GridData nonePlaceablesData,
             ObjectPlacer objectPlacer,
             UIInvetoryManager invetoryManager,
             EnumFloorDataType floorType)
