@@ -115,7 +115,7 @@ namespace LoadSave
         {
             this.username = username;
             this.monsterName = monsterName;
-            this.monsterTypeID = monsterTypeID;
+            //this.monsterTypeID = monsterTypeID;
             this.monsterColor = monsterColor;
             this.currentGoldAmount = goldAmount;
             this.currentXPAmount = xpAmount;

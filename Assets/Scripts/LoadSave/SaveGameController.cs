@@ -91,8 +91,9 @@ namespace LoadSave
         {
             try
             {
-                // Delete the data with the provided key
-                await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
+                // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
+
                 //Debug.Log($"Save with key '{saveKey}' deleted successfully.");
                 return true;
             }
@@ -119,7 +120,8 @@ namespace LoadSave
                 // Step 2: Delete each save key found
                 foreach (var saveKey in allSaveKeys)
                 {
-                    await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
+                    // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                    await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
                     Debug.Log($"Save with key '{saveKey}' deleted successfully.");
                 }
 
