@@ -21,6 +21,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private PlacementSystem placementSystem;
         [SerializeField] private PreviewSystem previewSystem;
         [SerializeField] RectTransform inventoryContentUIParent;
+        [SerializeField] RectTransform inScreenView;
+        [SerializeField] RectTransform outSideScreenView;
+
 
         [HideInInspector]
         public SaveContainer itemContainer = new SaveContainer();
@@ -37,6 +40,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             buildingSystemParent.SetActive(true);
             houseFloorSide.SetActive(true);
+
+            inventoryContentUIParent.position = outSideScreenView.position;
 
             invetoryManager.LoadFurnitureAmount();
 
@@ -220,7 +225,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             {
                 buildingSystemParent.SetActive(true);
 
-                inventoryContentUIParent.position = new Vector3(210f, 455f);
+                inventoryContentUIParent.position = inScreenView.position;
 
                 cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
                 spawnedPlayer.SetActive(false);
@@ -233,6 +238,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 saveManager.furnitureData.FurnitureData = placementSystem.FurnitureData;
                 saveManager.SaveGridData();
 
+                inventoryContentUIParent.position = outSideScreenView.position;
                 invetoryManager.SaveFurnitureAmount();
 
                 previewSystem.StopShowingPreview();

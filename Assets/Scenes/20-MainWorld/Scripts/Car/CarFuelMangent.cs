@@ -5,7 +5,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 {
     public class CarFuelMangent : MonoBehaviour
     {
-        [SerializeField] private PrometeoCarController controller;
+        [SerializeField] private PrometeoCarController carController;
         private float speed;
         private float fuelConsumptionRate = 0.001f;
         [SerializeField] private float fuelAmount;
@@ -17,7 +17,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
         private void Awake()
         {
-            controller = GetComponent<PrometeoCarController>();
+            carController = GetComponent<PrometeoCarController>();
             FuelAmount = 1.0f;
         }
         private float time;
@@ -33,15 +33,13 @@ namespace Scenes._20_MainWorld.Scripts.Car
             }
             else if(!IsThereFuelLeft())
             {
-                controller.ThrottleOff();
-                controller.Brakes();
-                controller.enabled = false;
+                carController.NoFuelLeftDisableCar();
             }
         }
 
         private void UpdateFuel()
         {
-            speed = controller.carSpeed;
+            speed = carController.carSpeed;
             // Calculate fuel consumption based on speed
             FuelAmount -= speed * (fuelConsumptionRate * FuelUsageMultiplier) * Time.deltaTime;
 
