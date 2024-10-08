@@ -117,13 +117,15 @@ public class ProductionLineController : MonoBehaviour
             Transform[] letterListTransform = letterPool.transform.GetComponentsInChildren<Transform>();
             foreach (var letterTransform in letterListTransform)
             {
-                MoveToPunishmentBox(rbIb, letterTransform, punishmentPosition);
+                Rigidbody rb = letterTransform.GetComponent<Rigidbody>();
+                MoveToPunishmentBox(rb, letterTransform, punishmentPosition);
             }
 
             Transform[] imageListTransform = imagePool.transform.GetComponentsInChildren<Transform>();
             foreach (var imageTransform in imageListTransform)
             {
-                MoveToPunishmentBox(rbLb, imageTransform, punishmentPosition);
+                Rigidbody rb = imageTransform.GetComponent<Rigidbody>();
+                MoveToPunishmentBox(rb, imageTransform, punishmentPosition);
             }
 
         }
