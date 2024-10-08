@@ -49,13 +49,14 @@ namespace Scenes._03_StartScene.Scripts
         /// <returns>A task representing the asynchronous operation, with a boolean indicating success.</returns>
         public async Task<bool> DeleteSave(string saveKey)
         {
-            //Debug.Log("LoadGameController-DeleteSave: Attempting to delete save with key: " + saveKey);
-            
-            bool success = await saveGameController.DeleteSave(saveKey);
+            var username = GameManager.Instance.CurrentUser;
+            var monsterName = ExtractMonsterNameFromSaveKey(saveKey);
+
+            // Attempt to delete all saves for the given monster
+            bool success = await saveGameController.DeleteAllSavesForMonster(username, monsterName);
+
             if (success)
             {
-                //Debug.Log("Save deleted successfully: " + saveKey);
-                // Optionally: Notify UI components or refresh panels after deletion
                 SavePanel[] panels = FindObjectsOfType<SavePanel>();
                 foreach (var panel in panels)
                 {
@@ -64,7 +65,7 @@ namespace Scenes._03_StartScene.Scripts
                         panel.ClearPanel();
                     }
                 }
-
+                
                 return true;
             }
             else
@@ -188,6 +189,17 @@ namespace Scenes._03_StartScene.Scripts
             {
                 panel.OnLoadRequested -= HandleLoadRequest;
             }
+        }
+
+        /// <summary>
+        /// Extracts the monster's name from the provided save key.
+        /// </summary>
+        /// <param name="saveKey">The unique identifier containing the monster's name.</param>
+        /// <returns>The extracted monster name as a string.</returns>
+        private string ExtractMonsterNameFromSaveKey(string saveKey)
+        {
+            var keyParts = saveKey.Split('_');
+            return keyParts.Length > 1 ? keyParts[1] : string.Empty;
         }
     }
 }
