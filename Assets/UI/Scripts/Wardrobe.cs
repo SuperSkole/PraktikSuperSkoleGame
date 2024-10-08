@@ -145,15 +145,23 @@ namespace UI.Scripts
 
         public void Click(string itemName, WardrobeOption wardrobeShopOption)
         {
-            
+            //turn off the last one
             if (currentOption != null && currentOption.chosen == false)
             {
                 currentOption.UnSelect();
             }
 
             //HVIS DEN ALDEREDE IKKE ER VALGT
-            if(!wardrobeShopOption.chosen)
+            if (wardrobeShopOption.chosen)
             {
+                if(itemName.Contains("HEAD"))
+                {
+                    if (wearingTop != string.Empty)
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+                        wardrobeShopOption.chosen = false;
+                    }
+            }
 
             currentOption = wardrobeShopOption;
 
@@ -219,7 +227,7 @@ namespace UI.Scripts
                     PlayerManager.Instance.PlayerData.MonsterColor = itemName;
                 }
             }
-            }
+            
 
         }
 
