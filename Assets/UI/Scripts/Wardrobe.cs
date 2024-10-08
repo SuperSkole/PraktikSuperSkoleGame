@@ -22,7 +22,6 @@ namespace UI.Scripts
         [SerializeField] Transform WardrobeParent;
 
         private WardrobeOption currentOption;
-        private Image OffButton;
 
         private string wearingMid = null;
         private string wearingTop = null;
@@ -43,15 +42,20 @@ namespace UI.Scripts
 
             clothChanging = this.GetComponent<ClothChanging>();
 
-            OffButton = this.transform.Find("EquipButtonOff").GetComponent<Image>();
-
             colors.AddRange(playerColorChanging.colors);
         }
 
 
         private void OnEnable()
         {
+            if (PlayerManager.Instance?.PlayerData == null)
+            {
+                Debug.LogError("PlayerData is null");
+                return;
+            }
+
             skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+
             //change color
             playerColorChanging.SetSkeleton(skeletonGraphic);
             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
@@ -60,59 +64,55 @@ namespace UI.Scripts
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
-            List<ClothInfo> theWardrobeOptions = new();
+            List<ClothInfo> theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
 
-            try
+            if (theWardrobeOptions.Count != 0)
             {
-                theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
-                if (theWardrobeOptions.Count != 0)
-                {
                     InitializeWardrobeOption(theWardrobeOptions);
-                }
+                    Debug.Log(theWardrobeOptions.Count);
             }
-            catch (Exception ex)
-            {
-                Debug.Log($"Error fetching wardrobe options: {ex.Message}");
-            }
+
+
 
             //set variables
-           if(PlayerManager.Instance.PlayerData.ClothMid != null && PlayerManager.Instance.PlayerData.ClothMid != string.Empty)
-           {
-                  wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
-           }
-           if (PlayerManager.Instance.PlayerData.ClothTop != null && PlayerManager.Instance.PlayerData.ClothTop != string.Empty)
-           {
-                 wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
-           }
-           if (PlayerManager.Instance.PlayerData.MonsterColor != null && PlayerManager.Instance.PlayerData.MonsterColor != string.Empty)
-           {
-                 wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
-           }
-
-            //Set WardrobeOptions
-            foreach (var item in wardrobeOptionList)
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.ClothMid))
             {
-                if(item.SpineName == wearingTop)
-                {
-                    wardOptionTop = item;
-                    item.chosen = true;
-                    item.LightUp();
-                }
-                if(item.SpineName == wearingMid)
-                {
-                    wardOptionMid = item;
-                    item.chosen = true;
-                    item.LightUp();
-                }
-                if(item.SpineName == wearingColor)
-                {
-                    wardOptionColor = item;
-                    item.chosen = true;
-                    item.LightUp();
-                }
+                wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
+            }
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.ClothTop))
+            {
+                wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+            }
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.MonsterColor))
+            {
+                wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
             }
 
-            //Light up the chosen options
+            //Set WardrobeOptions
+            if (wardrobeOptionList != null)
+            {
+                foreach (var item in wardrobeOptionList)
+                {
+                    if (item.SpineName == wearingTop)
+                    {
+                        wardOptionTop = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                    if (item.SpineName == wearingMid)
+                    {
+                        wardOptionMid = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                    if (item.SpineName == wearingColor)
+                    {
+                        wardOptionColor = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                }
+            }
         }
 
         private void OnDisable()
