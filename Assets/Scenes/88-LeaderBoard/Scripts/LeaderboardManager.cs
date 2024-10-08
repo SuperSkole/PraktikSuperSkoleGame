@@ -8,6 +8,7 @@ using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Exceptions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace Scenes._88_LeaderBoard.Scripts
         [SerializeField] private TextMeshProUGUI mostWordsText;
         [SerializeField] private TextMeshProUGUI mostLettersText;
         [SerializeField] private Image exitImageButton;
-        
+
         private const int TOPX_ENTRIES = 3;
         private const int LIMIT_ENTRY_RANGE = 1;
         private const string LEADERBOARD_ID_WORDS = "Most_Words_Leaderboard";
@@ -32,20 +33,20 @@ namespace Scenes._88_LeaderBoard.Scripts
             {
                 await UnityServices.InitializeAsync();
             }
-            
+
             if (!AuthenticationService.Instance.IsSignedIn)
             {
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
         }
-        
+
         public void OnExitButton()
         {
             PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = true;
-            
-            SceneManager.LoadScene(SceneNames.Main); 
+
+            SceneManager.LoadScene(SceneNames.Main);
         }
-        
+
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -55,12 +56,12 @@ namespace Scenes._88_LeaderBoard.Scripts
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-        
+
         private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
             PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
-            
+
             if (scene.name == SceneNames.LeaderBoard)
             {
                 if (UnityServices.State != ServicesInitializationState.Initialized)
@@ -68,13 +69,13 @@ namespace Scenes._88_LeaderBoard.Scripts
                     Debug.Log("unity service is not initialized");
                     return;
                 }
-            
+
                 if (!AuthenticationService.Instance.IsSignedIn)
                 {
                     Debug.Log("not signed in");
                     return;
                 }
-                
+
                 //Debug.Log("Displaying Leaderboard");
                 // Display the leaderboard if leaderboard scene is loaded
                 await Task.Delay(100);
@@ -89,16 +90,15 @@ namespace Scenes._88_LeaderBoard.Scripts
                 Debug.LogError("Textmeshugui components are not assigned.");
                 return;
             }
-            
+
             await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Flest Ord");
             await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Flest Bogstaver");
         }
-        
+
         private async Task DisplayLeaderboard(string leaderboardId, TMP_Text displayText, string title)
         {
             try
             {
-                //Debug.Log("Fethincg top 5  leaderboard");
                 // Fetch the top 5 scores
                 var topScoresResponse = await LeaderboardsService.Instance.GetScoresAsync(
                     leaderboardId,
@@ -108,52 +108,54 @@ namespace Scenes._88_LeaderBoard.Scripts
                         Limit = TOPX_ENTRIES, // Fetch top x players
                     });
 
-                //Debug.Log("Fethincg player");
-                // Fetch the player's rank if they are not in the top x
-                var playerScoreResponse = await LeaderboardsService.Instance.GetPlayerRangeAsync(
-                    leaderboardId,
-                    new GetPlayerRangeOptions
-                    {
-                        IncludeMetadata = true,
-                        RangeLimit = LIMIT_ENTRY_RANGE
-                    });
-
                 string leaderboardContent = $"<u><b>{title}</b></u>\n";
 
                 // Display the top 5 players
                 foreach (var entry in topScoresResponse.Results)
                 {
                     string playerName = string.IsNullOrEmpty(entry.PlayerName) ? entry.PlayerId : entry.PlayerName;
-                    // Split the playerName at the '#' character, if it exists, and take the first part
-                    playerName = entry.PlayerName.Contains("#") 
-                        ? entry.PlayerName.Split('#')[0] 
+                    playerName = entry.PlayerName.Contains("#")
+                        ? entry.PlayerName.Split('#')[0]
                         : entry.PlayerName;
 
-                    // Check if the key "Monstewr" exists and retrieve the value
                     var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(entry.Metadata);
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
-                    
-                    //Debug.Log(entry.Metadata);
+
                     leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Antal: {entry.Score}\n";
                 }
 
-                // Check if the player is outside the top 5
-                if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[LIMIT_ENTRY_RANGE].Rank + 1 > TOPX_ENTRIES) // +1 because 0-index
+                // Attempt to fetch the player's rank if they are not in the top x
+                try
                 {
-                    var playerEntry = playerScoreResponse.Results[LIMIT_ENTRY_RANGE];
-                    
-                    // Split the playerName at the '#' character, if it exists, and take the first part
-                    string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
-                    playerName = playerEntry.PlayerName.Contains("#") 
-                        ? playerEntry.PlayerName.Split('#')[0] 
-                        : playerEntry.PlayerName;
-                    
-                    var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
-                    string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
-            
-                    // Add a separator and the player's rank if they are outside the top x
-                    leaderboardContent += "\n------------------------\n";
-                    leaderboardContent += $"{playerEntry.Rank + 1}: {playerName} - {monsterName} - Antal: {playerEntry.Score}\n";
+                    var playerScoreResponse = await LeaderboardsService.Instance.GetPlayerRangeAsync(
+                        leaderboardId,
+                        new GetPlayerRangeOptions
+                        {
+                            IncludeMetadata = true,
+                            RangeLimit = LIMIT_ENTRY_RANGE
+                        });
+
+                    if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[0].Rank + 1 > TOPX_ENTRIES)
+                    {
+                        var playerEntry = playerScoreResponse.Results[0];
+
+                        string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
+                        playerName = playerEntry.PlayerName.Contains("#")
+                            ? playerEntry.PlayerName.Split('#')[0]
+                            : playerEntry.PlayerName;
+
+                        var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
+                        string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
+
+                        // Add a separator and the player's rank if they are outside the top x
+                        leaderboardContent += "\n------------------------\n";
+                        leaderboardContent += $"{playerEntry.Rank + 1}: {playerName} - {monsterName} - Antal: {playerEntry.Score}\n";
+                    }
+                }
+                catch (LeaderboardsException e)
+                {
+                    // Player has no entry in the leaderboard; skip displaying their rank
+                    Debug.Log("Player has no entry in the leaderboard.");
                 }
 
                 // Set the final content
@@ -166,12 +168,13 @@ namespace Scenes._88_LeaderBoard.Scripts
             }
         }
 
-        
+
+
         public async void GetPlayerRangeWithMetadata(string leaderboardId)
         {
             // Returns a total of 11 entries (the given player plus 5 on either side)
             var rangeLimit = 5;
-            
+
             var scoreResponse
                 = await LeaderboardsService.Instance.GetPlayerRangeAsync(
                     leaderboardId,
