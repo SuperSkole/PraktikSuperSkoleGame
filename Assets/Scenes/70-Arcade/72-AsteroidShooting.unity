@@ -1165,9 +1165,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 57978051}
     - target: {fileID: 7415526147700391920, guid: a2c399efcd19525428267452209bdb65, type: 3}
+      propertyPath: playerCollider
+      value: 
+      objectReference: {fileID: 1475039146}
+    - target: {fileID: 7415526147700391920, guid: a2c399efcd19525428267452209bdb65, type: 3}
       propertyPath: finalScoreTextMesh
       value: 
       objectReference: {fileID: 2012508649}
+    - target: {fileID: 7415526147700391920, guid: a2c399efcd19525428267452209bdb65, type: 3}
+      propertyPath: playerSpriteRenderer
+      value: 
+      objectReference: {fileID: 1475039150}
     - target: {fileID: 7416965510375698404, guid: a2c399efcd19525428267452209bdb65, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1060
@@ -1262,6 +1270,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21a974e383ccf534b9f7a16a6b0d107a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!60 &1475039146 stripped
+PolygonCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5987736610610474397, guid: a2c399efcd19525428267452209bdb65, type: 3}
+  m_PrefabInstance: {fileID: 1475039143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1475039150 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1035263152104790484, guid: a2c399efcd19525428267452209bdb65, type: 3}
+  m_PrefabInstance: {fileID: 1475039143}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1521474331
 GameObject:
   m_ObjectHideFlags: 0

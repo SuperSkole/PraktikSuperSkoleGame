@@ -58,6 +58,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
+            Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
             defaultBeeSpeed = bee.speed;
@@ -89,7 +90,16 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         /// <param name="dwaing">the line the player has drawn</param>
         public bool CheakDwaingQualaty(LineRenderer dwaing)
         {
-            if (LineSegmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing))
+            Vector3 offSet = new Vector3(0, 0, 0);
+            if(SymbolManager.capitalLetters.ContainsValue(currentSymbol.splineContainer))
+            {
+                offSet = SymbolManager.capitalLettersObjects[currentSymbol.symbol].transform.position;
+            }
+            else if(SymbolManager.lowercaseLetters.ContainsValue(currentSymbol.splineContainer))
+            {
+                offSet = SymbolManager.lowercaseLettersObjects[currentSymbol.symbol].transform.position;
+            }
+            if (LineSegmentEvaluator.EvaluateSpline(currentSymbol.splineContainer[currentSymbolIndex],dwaing, offSet))
             {
                 currentSymbolIndex++;
                 if(!bee.NextSplineInLetter())
@@ -105,6 +115,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     if(splines.Count <= 0) return true;//end game
 
                     currentSymbol = splines[0];
+                    Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
                     splines.RemoveAt(0);
                     bee.NextLetter(currentSymbol.splineContainer);
                     //Removes the currently active helper bee if it exists

@@ -67,6 +67,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
+            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer med ordet";
         }
     }
 
