@@ -48,7 +48,7 @@ public class ClockController : MonoBehaviour
 
         initialRotation = submitAnswerLever.transform.rotation;
         scoreText = scoreTextObject.GetComponent<TextMeshProUGUI>();
-        AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music);
+        AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music, true);
 
     }
 
