@@ -70,6 +70,35 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Playes a given audio clip at the sceans audio listener.
+    /// </summary>
+    /// <param name="audioClip">the clip you want to play.</param>
+    /// <param name="audioType">what type of audio you are playing.</param>
+    /// <param name="loop">if the clip suld loop or not</param>
+    public void PlaySound(AudioClip audioClip, SoundType audioType, bool loop)
+    {
+        AudioSource source = mCamara.AddComponent<AudioSource>();
+        source.clip = audioClip;
+        switch (audioType)
+        {
+            case SoundType.SFX:
+                source.outputAudioMixerGroup = sfx;
+                break;
+            case SoundType.Music:
+                source.outputAudioMixerGroup = music;
+                break;
+            case SoundType.Voice:
+                source.outputAudioMixerGroup = voice;
+                StartCoroutine(PlayingVoice(audioClip.length));
+                break;
+        }
+        source.loop = loop;
+        source.Play();
+        if(!loop)
+            Destroy(source, audioClip.length);
+    }
+
+    /// <summary>
     /// Playes a given audio clip at the given point.
     /// </summary>
     /// <param name="audioClip">the clip you want to play.</param>
@@ -96,6 +125,38 @@ public class AudioManager : MonoBehaviour
         }
         source.Play();
         Destroy(go, audioClip.length);
+    }
+
+    /// <summary>
+    /// Playes a given audio clip at the given point.
+    /// </summary>
+    /// <param name="audioClip">the clip you want to play.</param>
+    /// <param name="audioType">what type of audio you are playing.</param> 
+    /// <param name="loop">if the clip suld loop or not</param>
+    /// <param name="point">the point you want the audio played at.</param>
+    public void PlaySound(AudioClip audioClip, SoundType audioType, bool loop, Vector3 point)
+    {
+        GameObject go = Instantiate(new GameObject(), point, Quaternion.identity);
+        DontDestroyOnLoad(go);
+        AudioSource source = go.AddComponent<AudioSource>();
+        source.clip = audioClip;
+        switch (audioType)
+        {
+            case SoundType.SFX:
+                source.outputAudioMixerGroup = sfx;
+                break;
+            case SoundType.Music:
+                source.outputAudioMixerGroup = music;
+                break;
+            case SoundType.Voice:
+                source.outputAudioMixerGroup = voice;
+                StartCoroutine(PlayingVoice(audioClip.length));
+                break;
+        }
+        source.loop = loop;
+        source.Play();
+        if(!loop)
+            Destroy(go, audioClip.length);
     }
 
     private IEnumerator PlayingVoice(float time)
