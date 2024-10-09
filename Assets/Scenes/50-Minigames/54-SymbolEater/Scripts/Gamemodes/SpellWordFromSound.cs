@@ -49,15 +49,15 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
-                oldWord = gameRules.GetDisplayAnswer();
-                if (!sprites.ContainsKey(gameRules.GetDisplayAnswer()))
+                oldWord = gameRules.GetSecondaryAnswer();
+                if (!sprites.ContainsKey(gameRules.GetSecondaryAnswer()))
                 {
-                    boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
+                    boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
                 else
                 {
-                    Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
-                    sprites.Add(gameRules.GetDisplayAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+                    Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetSecondaryAnswer());
+                    sprites.Add(gameRules.GetSecondaryAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
                     
                 }
                 wordsLoaded = true;
@@ -93,9 +93,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
                 }
                 //finds some new letterboxes and assigns them a correct letter
-                for (int i = 0; i < gameRules.GetDisplayAnswer().Length; i++)
+                for (int i = 0; i < gameRules.GetSecondaryAnswer().Length; i++)
                 {
-                    string letter = gameRules.GetDisplayAnswer()[i].ToString();
+                    string letter = gameRules.GetSecondaryAnswer()[i].ToString();
                     LetterCube potentialCube = letterCubes[Random.Range(0, letterCubes.Count)];
 
                     //Check to ensure the potiential cube has not already been activated
@@ -123,10 +123,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public bool IsCorrectSymbol(string letter)
         {
 
-            if (gameRules.IsCorrectSymbol(letter) && gameRules.GetCorrectAnswer()[0] != gameRules.GetDisplayAnswer()[gameRules.GetDisplayAnswer().Length - 1])
+            if (gameRules.IsCorrectSymbol(letter) && gameRules.GetCorrectAnswer()[0] != gameRules.GetSecondaryAnswer()[gameRules.GetSecondaryAnswer().Length - 1])
             {
                 foundLetters.Enqueue(letter[0]);
-                gameRules.SetCorrectAnswer();
                 return true;
             }
             else if (gameRules.IsCorrectSymbol(letter))
@@ -197,7 +196,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (!gameRules.SequenceComplete() || oldLetter[0] != oldWord[oldWord.Length - 1])
             {
                 string newLettercubeValue = gameRules.GetWrongAnswer();
-                if (gameRules.GetDisplayAnswer().Contains(oldLetter))
+                if (gameRules.GetSecondaryAnswer().Contains(oldLetter))
                 {
                     newLettercubeValue = oldLetter;
                 }
