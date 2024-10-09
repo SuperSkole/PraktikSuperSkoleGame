@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 
@@ -9,6 +11,15 @@ namespace Scenes._50_Minigames.Gamemode
     public class PathOfDangerSetter: IGameModeSetter
     {
         public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4_POD(),
+            new Level5_POD()
+        };
+
+        public List<IGenericGameMode> letterGameModes = new List<IGenericGameMode>()
         {
             null,
             null,
@@ -29,7 +40,18 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            return (SetRules(level), SetMode(level));
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode = letterGameModes[Random.Range(4, 5)]; ;
+
+            switch (languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGameModes[Random.Range(4, 5)];
+
+                    break;
+            }
+
+            return (null, mode);
         }
 
         /// <summary>

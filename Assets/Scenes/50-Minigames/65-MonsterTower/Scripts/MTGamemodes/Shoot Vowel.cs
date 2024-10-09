@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using System.Collections.Generic;
 using TMPro;
@@ -9,7 +11,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
     public class ShootVowel : MonoBehaviour, IMTGameMode
     {
 
-        List<char> vowels = LetterManager.GetDanishVowels();
+        List<ILanguageUnit> vowels;
 
 
 
@@ -24,7 +26,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             foreach (var item in vowels)
             {
-                if (item == str.ToCharArray()[0])
+                if (item.Identifier[0] == str.ToCharArray()[0])
                 {
                     manager.textOnBrick.text = item.ToString();
                 }
@@ -73,10 +75,48 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public string[] GenerateAnswers(int count)
         {
             string[] returnedString = new string[count];
+            vowels = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = LetterManager.GetRandomVowel().ToString();
+                returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+
+                bool checkIfAvailable = true;
+
+                while (checkIfAvailable)
+                {
+                    switch (returnedString[i].ToLower())
+                    {
+                        case "y":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "z":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "w":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "c":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "q":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "x":
+                            returnedString[i] = vowels[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
             }
+
             return returnedString;
         }
         /// <summary>

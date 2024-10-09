@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -87,7 +89,50 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
             while (returnedString[i]==previousRetrievedAnswer)
             {
-                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+               
+
+                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+              
+                
+                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+
+                    bool checkIfAvailable = true;
+
+                    while (checkIfAvailable)
+                    {
+                        switch (returnedString[i].ToLower())
+                        {
+                            case "y":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "z":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "w":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "c":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "q":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "x":
+                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            default:
+                                checkIfAvailable = false;
+                                break;
+                        }
+                    }
+
+                
             }
 
             previousRetrievedAnswer = returnedString[i];

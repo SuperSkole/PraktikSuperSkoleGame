@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using System.Collections.Generic;
 using TMPro;
@@ -8,10 +10,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public class ShootConsonant : MonoBehaviour, IMTGameMode
     {
-        /// <summary>
-        /// getting only the consonants F,M,N and S
-        /// </summary>
-        List<char> consonants = LetterManager.GetFMNSConsonants();
+        
+        List<ILanguageUnit> consonants;
 
 
 
@@ -26,7 +26,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             foreach (var item in consonants)
             {
-                if (item == str.ToCharArray()[0])
+                if (item.Identifier[0] == str.ToCharArray()[0])
                 {
                     manager.textOnBrick.text = item.ToString();
                 }
@@ -75,10 +75,50 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public string[] GenerateAnswers(int count)
         {
             string[] returnedString = new string[count];
+
+
+            consonants = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+
+                bool checkIfAvailable = true;
+
+                while (checkIfAvailable)
+                {
+                    switch (returnedString[i].ToLower())
+                    {
+                        case "y":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "z":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "w":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "c":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "q":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "x":
+                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
             }
+           
             return returnedString;
         }
         /// <summary>
