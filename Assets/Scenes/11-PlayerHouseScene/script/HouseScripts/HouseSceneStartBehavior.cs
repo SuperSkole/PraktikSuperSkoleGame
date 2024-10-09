@@ -59,7 +59,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Creates the walls around the house.
             List<SerializableKeyValuePair> defaultObjects = new List<SerializableKeyValuePair>
             {
-                // First set of items
+                // Walls
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-5, -6, 0), EnumFloorDataType.NoneRemoveable),
                     50, 180, EnumFloorDataType.NoneRemoveable),
@@ -92,7 +92,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     new PlaceableTemporayItemsInfo(new Vector3Int(-6, 1, 0), EnumFloorDataType.NoneRemoveable),
                     50, 270, EnumFloorDataType.NoneRemoveable),
 
-                // Next set of items
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-6, 3, 0), EnumFloorDataType.NoneRemoveable),
                     50, 270, EnumFloorDataType.NoneRemoveable),
@@ -137,7 +136,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     new PlaceableTemporayItemsInfo(new Vector3Int(13, 5, 0), EnumFloorDataType.NoneRemoveable),
                     51, 0, EnumFloorDataType.NoneRemoveable),
 
-                // Final set of items
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(15, 3, 0), EnumFloorDataType.NoneRemoveable),
                     50, 90, EnumFloorDataType.NoneRemoveable),
@@ -180,7 +178,25 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(3, -6, 0), EnumFloorDataType.NoneRemoveable),
-                    50, 180, EnumFloorDataType.NoneRemoveable)
+                    50, 180, EnumFloorDataType.NoneRemoveable),
+
+                // Corner pices
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-6, -6, 0), EnumFloorDataType.NoneRemoveable),
+                    53, 0, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-6, 5, 0), EnumFloorDataType.NoneRemoveable),
+                    53, 90, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(15, 5, 0), EnumFloorDataType.NoneRemoveable),
+                    53, 180, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(15, -6, 0), EnumFloorDataType.NoneRemoveable),
+                    53, 270, EnumFloorDataType.NoneRemoveable)
+
             };
 
             foreach (var item in defaultObjects)
