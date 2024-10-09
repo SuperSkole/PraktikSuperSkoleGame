@@ -21,6 +21,9 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         [SerializeField]
         private int leverId;
 
+        [SerializeField]
+        private AudioClip leverSound;
+
         private ProductionLine[] productionLine;
 
         public float rotationAngle = -35f;
@@ -80,12 +83,14 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
                 if (isRotated)
                 {
                     // Rotate back to the original position (reset)
-                    stopBeltLever.transform.rotation = Quaternion.Euler(0, 0, -35);
+                    stopBeltLever.transform.rotation = Quaternion.Euler(0, 0, 35);
+                    AudioManager.Instance.PlaySound(leverSound, SoundType.SFX);
                 }
                 else
                 {
                     // Rotate to the desired angle on the Z-axis
                     stopBeltLever.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
+                    AudioManager.Instance.PlaySound(leverSound, SoundType.SFX);
                 }
 
                 // Toggle the rotation state
