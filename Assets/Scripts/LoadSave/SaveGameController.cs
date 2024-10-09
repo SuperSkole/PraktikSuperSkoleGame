@@ -2,6 +2,8 @@ using CORE;
 using Scenes._10_PlayerScene.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave;
 using UnityEngine;
@@ -163,14 +165,49 @@ namespace LoadSave
         /// <param name="monsterName">The monster name related to the save data.</param>
         /// <param name="dataType">The type of data being saved.</param>
         /// <returns>A string representing the generated save key.</returns>
-        public string GenerateSaveKey(
-            string username,
-            string monsterName,
-            string dataType)
+        public string GenerateSaveKey(string username, string monsterName, string dataType)
         {
-            return $"{username}_{monsterName}_{dataType}";
+            string sanitizedUsername = SanitizeKeyComponent(username);
+            string sanitizedMonsterName = SanitizeKeyComponent(monsterName);
+            string sanitizedDataType = SanitizeKeyComponent(dataType);
+        
+            return $"{sanitizedUsername}_{sanitizedMonsterName}_{sanitizedDataType}";
         }
 
+        public string SanitizeKeyComponent(string input)
+        {
+            // Replace Danish characters with acceptable ASCII equivalents
+            input = input.Replace("æ", "ae").Replace("Æ", "AE");
+            input = input.Replace("ø", "oe").Replace("Ø", "OE");
+            input = input.Replace("å", "aa").Replace("Å", "AA");
+
+            // Normalize the string to decompose characters (e.g., accents)
+            string normalizedString = input.Normalize(NormalizationForm.FormD);
+
+            // Remove diacritical marks
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string withoutDiacritics = regex.Replace(normalizedString, string.Empty);
+
+            // Remove any remaining non-ASCII characters
+            byte[] bytes = Encoding.ASCII.GetBytes(withoutDiacritics);
+            string asciiString = Encoding.ASCII.GetString(bytes);
+
+            // Remove any characters that are not letters, digits, or allowed special characters
+            asciiString = Regex.Replace(asciiString, @"[^a-zA-Z0-9_\-]", "");
+
+            return asciiString;
+        }
+        
+        /// <summary>
+        /// Sanitizes loaded player data.
+        /// </summary>
+        /// <param name="data">The string data to sanitize.</param>
+        /// <returns>Sanitized data as a string.</returns>
+        public string SanitizeLoadedData(string data)
+        {
+            // Reuse the existing sanitize logic or adapt it as needed for loading
+            return SanitizeKeyComponent(data);
+        }
 
         /// <summary>
         /// Gets all save keys for the current user from Unity Cloud Save.
@@ -180,17 +217,28 @@ namespace LoadSave
         {
             var keys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
             List<string> relevantKeys = new List<string>();
+            
+            // Sanitize the username to match the format used in the save keys
+            string sanitizedUsername = SanitizeKeyComponent(GameManager.Instance.CurrentUser);
 
             foreach (var keyItem in keys)
             {
                 // Ensure correct string comparison using the Key property
-                if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser) && !keyItem.Key.Contains("_House"))
+                if (keyItem.Key.StartsWith(sanitizedUsername) && !keyItem.Key.Contains("_House"))
                 {
-                        relevantKeys.Add(keyItem.Key);
+                    relevantKeys.Add(keyItem.Key);
                 }
             }
 
             return relevantKeys;
         }
+
+        // public string GenerateSaveKey(
+        //     string username,
+        //     string monsterName,
+        //     string dataType)
+        // {
+        //     return $"{username}_{monsterName}_{dataType}";
+        // }
     }
 }

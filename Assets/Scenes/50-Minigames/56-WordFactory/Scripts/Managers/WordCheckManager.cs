@@ -20,7 +20,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private BlockCreator blockCreator;
         [SerializeField] private AudioSource pullHandleAudioSource;
         
-        private bool hasPlayedPullHandleSound = false;
+        //private bool hasPlayedPullHandleSound = false;
 
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;

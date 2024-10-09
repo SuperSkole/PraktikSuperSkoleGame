@@ -111,7 +111,7 @@ namespace LoadSave
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
             List<int> ListOfFurniture
-            )
+        )
         {
             this.username = username;
             this.monsterName = monsterName;
