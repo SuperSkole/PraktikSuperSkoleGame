@@ -47,7 +47,7 @@ public class NPCController : MonoBehaviour
         if (destination == Vector3.zero) return;
         float velocity = agent.velocity.magnitude /agent.speed;
         animator.SetFloat("Speed", velocity);
-        if (Vector3.Distance(destination,transform.position) <= 1)
+        if (Vector3.Distance(destination,transform.position) <= 2)
         {
             Reset();
         }
