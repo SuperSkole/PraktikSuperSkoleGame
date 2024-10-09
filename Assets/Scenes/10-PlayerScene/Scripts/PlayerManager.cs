@@ -252,11 +252,12 @@ namespace Scenes._10_PlayerScene.Scripts
             }
 
             // Call the ColorChange method to recolor the player
-            colorChanging.SetSkeleton(skeleton);
-            colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
 
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothMid, skeleton);
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothTop, skeleton);
+
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
 
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
@@ -334,13 +335,14 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ListOfFurniture
             );
 
-            // Call the ColorChange method to recolor the player
-            colorChanging.SetSkeleton(skeleton);
-            colorChanging.ColorChange(playerData.MonsterColor);
 
             // Call the ColorChange method to recolor the player
             clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
             clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+
+            // Call the ColorChange method to recolor the player
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(playerData.MonsterColor);
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
@@ -376,9 +378,8 @@ namespace Scenes._10_PlayerScene.Scripts
             SetCinemachineCameraTarget(scene);
 
             // Color change if scene is house or main
-            UpdatePlayerColorOnSceneChange(scene);
-
             UpdatePlayerClothOnSceneChange(scene);
+            UpdatePlayerColorOnSceneChange(scene);
 
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
@@ -471,7 +472,8 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (clothChanging != null)
                 {
-                    // Call the ColorChange method to recolor the player
+                    skeleton.Skeleton.SetToSetupPose();
+                    // Call the ChangeClothes method to change clothes on the player the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
                     clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
                 }
