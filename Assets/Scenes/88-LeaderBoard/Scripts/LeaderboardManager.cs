@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Scenes._10_PlayerScene.Scripts;
-using Spine.Unity;
 using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Exceptions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -98,7 +98,6 @@ namespace Scenes._88_LeaderBoard.Scripts
         {
             try
             {
-                //Debug.Log("Fethincg top 5  leaderboard");
                 // Fetch the top 5 scores
                 var topScoresResponse = await LeaderboardsService.Instance.GetScoresAsync(
                     leaderboardId,
@@ -108,52 +107,54 @@ namespace Scenes._88_LeaderBoard.Scripts
                         Limit = TOPX_ENTRIES, // Fetch top x players
                     });
 
-                //Debug.Log("Fethincg player");
-                // Fetch the player's rank if they are not in the top x
-                var playerScoreResponse = await LeaderboardsService.Instance.GetPlayerRangeAsync(
-                    leaderboardId,
-                    new GetPlayerRangeOptions
-                    {
-                        IncludeMetadata = true,
-                        RangeLimit = LIMIT_ENTRY_RANGE
-                    });
-
                 string leaderboardContent = $"<u><b>{title}</b></u>\n";
 
                 // Display the top 5 players
                 foreach (var entry in topScoresResponse.Results)
                 {
                     string playerName = string.IsNullOrEmpty(entry.PlayerName) ? entry.PlayerId : entry.PlayerName;
-                    // Split the playerName at the '#' character, if it exists, and take the first part
                     playerName = entry.PlayerName.Contains("#") 
                         ? entry.PlayerName.Split('#')[0] 
                         : entry.PlayerName;
 
-                    // Check if the key "Monstewr" exists and retrieve the value
                     var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(entry.Metadata);
                     string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
-                    
-                    //Debug.Log(entry.Metadata);
+
                     leaderboardContent += $"{entry.Rank + 1}: {playerName} - {monsterName} - Antal: {entry.Score}\n";
                 }
 
-                // Check if the player is outside the top 5
-                if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[LIMIT_ENTRY_RANGE].Rank + 1 > TOPX_ENTRIES) // +1 because 0-index
+                // Attempt to fetch the player's rank if they are not in the top x
+                try
                 {
-                    var playerEntry = playerScoreResponse.Results[LIMIT_ENTRY_RANGE];
-                    
-                    // Split the playerName at the '#' character, if it exists, and take the first part
-                    string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
-                    playerName = playerEntry.PlayerName.Contains("#") 
-                        ? playerEntry.PlayerName.Split('#')[0] 
-                        : playerEntry.PlayerName;
-                    
-                    var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
-                    string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
-            
-                    // Add a separator and the player's rank if they are outside the top x
-                    leaderboardContent += "\n------------------------\n";
-                    leaderboardContent += $"{playerEntry.Rank + 1}: {playerName} - {monsterName} - Antal: {playerEntry.Score}\n";
+                    var playerScoreResponse = await LeaderboardsService.Instance.GetPlayerRangeAsync(
+                        leaderboardId,
+                        new GetPlayerRangeOptions
+                        {
+                            IncludeMetadata = true,
+                            RangeLimit = LIMIT_ENTRY_RANGE
+                        });
+
+                    if (playerScoreResponse.Results.Count > 0 && playerScoreResponse.Results[0].Rank + 1 > TOPX_ENTRIES)
+                    {
+                        var playerEntry = playerScoreResponse.Results[0];
+
+                        string playerName = string.IsNullOrEmpty(playerEntry.PlayerName) ? playerEntry.PlayerId : playerEntry.PlayerName;
+                        playerName = playerEntry.PlayerName.Contains("#") 
+                            ? playerEntry.PlayerName.Split('#')[0] 
+                            : playerEntry.PlayerName;
+
+                        var metadata = JsonConvert.DeserializeObject<Dictionary<string, string>>(playerEntry.Metadata);
+                        string monsterName = metadata.ContainsKey("Monster") ? metadata["Monster"] : playerName;
+
+                        // Add a separator and the player's rank if they are outside the top x
+                        leaderboardContent += "\n------------------------\n";
+                        leaderboardContent += $"{playerEntry.Rank + 1}: {playerName} - {monsterName} - Antal: {playerEntry.Score}\n";
+                    }
+                }
+                catch (LeaderboardsException e)
+                {
+                    // Player has no entry in the leaderboard; skip displaying their rank
+                    Debug.Log("Player has no entry in the leaderboard." + e);
                 }
 
                 // Set the final content
@@ -165,6 +166,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                 displayText.text = $"Failed to load {title} leaderboard.";
             }
         }
+
 
         
         public async void GetPlayerRangeWithMetadata(string leaderboardId)

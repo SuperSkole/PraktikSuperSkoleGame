@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using CORE;
 using TMPro;
@@ -57,6 +58,16 @@ namespace Scenes._03_StartScene.Scripts
                 feedback.text = "<color=green>✔ Gyldigt Monsternavn</color>";
                 return true;
             }
+        }
+        
+        private bool IsAcceptableCharacter(char c)
+        {
+            // Check if the character is a standard letter or digit
+            if (char.IsLetterOrDigit(c))
+                return true;
+    
+            // Include specific Danish characters
+            return "æøåÆØÅ".Contains(c);
         }
     }
 }
