@@ -1,6 +1,7 @@
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class FindPlayerForButton : MonoBehaviour
 {
@@ -14,6 +15,17 @@ public class FindPlayerForButton : MonoBehaviour
     private void FixedUpdate()
     {
         timer += Time.deltaTime;
+        if (carGO != null)
+        {
+            if (carGO.GetComponent<PrometeoCarController>().enabled == false)
+            {
+                gameObject.SetActive(true);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
     public void SpawnCarCloseToPlayer()
     {
@@ -66,6 +78,7 @@ public class FindPlayerForButton : MonoBehaviour
         }
         if (carGO != null)
         {
+            Debug.Log("Found Car");
             StopCoroutine(FindCar());
         }
         yield return new WaitForSeconds(0.5f);
@@ -76,6 +89,10 @@ public class FindPlayerForButton : MonoBehaviour
     /// <param name="spawnPosition"></param>
     private void MoveCarToLocation(Vector3 spawnPosition)
     {
+        if (carGO == null)
+        {
+            carGO = GameObject.FindGameObjectWithTag("Car");
+        }
         timer = 0;
         carGO.transform.position = spawnPosition;
 

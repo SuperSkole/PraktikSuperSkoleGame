@@ -39,15 +39,16 @@ namespace Scenes._20_MainWorld.Scripts.Car
 
         private void UpdateFuel()
         {
-            speed = carController.carSpeed;
-            // Calculate fuel consumption based on speed
-            FuelAmount -= speed * (fuelConsumptionRate * FuelUsageMultiplier) * Time.deltaTime;
+            // Use the absolute value of speed to ensure fuel is consumed when reversing
+            float absoluteSpeed = Mathf.Abs(carController.carSpeed);
+
+            // Calculate fuel consumption based on the absolute speed
+            FuelAmount -= absoluteSpeed * (fuelConsumptionRate * FuelUsageMultiplier) * Time.deltaTime;
 
             // Clamp the fuel to ensure it doesn't go below 0
             FuelAmount = Mathf.Clamp(FuelAmount, 0, 1.0f);
 
             fuelGauge.fillAmount = fuelAmount;
-
         }
 
         private bool IsThereFuelLeft()
