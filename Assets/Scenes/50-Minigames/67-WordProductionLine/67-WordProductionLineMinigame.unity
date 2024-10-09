@@ -832,6 +832,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8442725046635182110, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
+      propertyPath: leverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 33f9cab9d1165324c96c560c893834bc, type: 3}
+    - target: {fileID: 8442725046635182110, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
       propertyPath: createImageBox
       value: 
       objectReference: {fileID: 1022190382}
@@ -913,6 +917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!23 &409543993
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1082,6 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!1 &455848664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,10 +2013,12 @@ MonoBehaviour:
   correctMaterial: {fileID: 2100000, guid: 75248f6808ca07a49a1da231c63872c3, type: 2}
   wrongBuzz: {fileID: 8300000, guid: 634b8606de50f3c499c04bbc5e896b88, type: 3}
   correctBuzz: {fileID: 8300000, guid: f6fd3fe7e496ba440bf4a25865bf2c96, type: 3}
+  backgroundAmbience: {fileID: 8300000, guid: 27e34f9e3c79f664e8ca1c12e7943ed7, type: 3}
   mainCamera: {fileID: 547239265}
   winScreen: {fileID: 1631949114}
   letterPool: {fileID: 114825693}
   imagePool: {fileID: 2142794410}
+  coinEffect: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   points: 0
   scoreTextObject: {fileID: 179154671}
   scoreText: {fileID: 179154673}
@@ -2188,6 +2196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!23 &1066065200
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2699,6 +2708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!1 &1435126605
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,6 +3228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!1 &1743996634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,6 +3610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12acd97cf96a0b34582eec953e1fdd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeSmelt: {fileID: 8300000, guid: b8592f4fb606e694094ef1f8d4211864, type: 3}
 --- !u!1001 &1866197116
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4181,6 +4193,10 @@ PrefabInstance:
       propertyPath: leverId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8442725046635182110, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
+      propertyPath: leverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 33f9cab9d1165324c96c560c893834bc, type: 3}
     - target: {fileID: 8442725046635182110, guid: 7e2459a2b0f34a14488aa4025323b10f, type: 3}
       propertyPath: createImageBox
       value: 
