@@ -49,11 +49,11 @@ namespace Scenes._03_StartScene.Scripts
         /// <returns>A task representing the asynchronous operation, with a boolean indicating success.</returns>
         public async Task<bool> DeleteSave(string saveKey)
         {
-            var username = GameManager.Instance.CurrentUser;
+            // Sanitize the username
+            var sanitizedUsername = saveGameController.SanitizeKeyComponent(GameManager.Instance.CurrentUser);
             var monsterName = ExtractMonsterNameFromSaveKey(saveKey);
 
-            // Attempt to delete all saves for the given monster
-            bool success = await saveGameController.DeleteAllSavesForMonster(username, monsterName);
+            bool success = await saveGameController.DeleteAllSavesForMonster(sanitizedUsername, monsterName);
 
             if (success)
             {
@@ -112,6 +112,13 @@ namespace Scenes._03_StartScene.Scripts
         {
             if (dataDTO != null)
             {
+                // // Sanitize loaded data before converting and setting it up
+                // string sanitizedUsername = saveGameController.SanitizeLoadedData(dataDTO.Username);
+                // string sanitizedMonsterName = saveGameController.SanitizeLoadedData(dataDTO.MonsterName);
+                //
+                // dataDTO.Username = sanitizedUsername;
+                // dataDTO.MonsterName = sanitizedMonsterName;
+                
                 // Convert SaveDataDTO back into PlayerData using the DataConverter
                 PlayerData playerData = GameManager.Instance.Converter.ConvertToPlayerData(dataDTO);
 

@@ -31,7 +31,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// +: Sikrer, at der er mindst ét tilladt tegn i input.
         /// ^ og $: Sikrer, at hele inputtet skal overholde mønsteret uden andre tegn i starten eller slutningen.
         /// </summary>
-        private const string UsernamePattern = @"^[a-zA-Z\d]+$";
+        private const string UsernamePattern = @"^[a-zA-ZæøåÆØÅ\d]+$";
         
         private const int MinUsernameLength = 3;
         private const int MaxUsernameLength = 20;
@@ -63,7 +63,7 @@ namespace Scenes._02_LoginScene.Scripts
             bool containsWhitespace = input.Any(char.IsWhiteSpace);
             bool isPatternValid = Regex.IsMatch(input, UsernamePattern);
             bool containsBannedWord = ProfanityFilter.ContainsProfanity(input);
-            bool isValid = isLengthValid && isPatternValid && !containsWhitespace;
+            bool isValid = isLengthValid && isPatternValid && !containsWhitespace && !containsBannedWord;
 
             if (!isLengthValid)
             {
@@ -99,6 +99,13 @@ namespace Scenes._02_LoginScene.Scripts
             passwordLowercaseFeedback.text = Regex.IsMatch(input, LowercasePattern) ? "<color=green>✔ Lille bogstav</color>" : "<color=red>✘ Lille bogstav Mangler</color>";
             passwordNumberFeedback.text = Regex.IsMatch(input, NumberPattern) ? "<color=green>✔ Tal</color>" : "<color=red>✘ Tal mangler</color>";
             passwordSpecialFeedback.text = Regex.IsMatch(input, SpecialCharPattern) ? "<color=green>✔ Specialtegn</color>" : "<color=red>✘ Specialtegn Mangler</color>";
+        }
+        
+        private bool IsAcceptableCharacter(char c)
+        {
+            // Define acceptable characters explicitly
+            const string acceptableChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789æøåÆØÅ";
+            return acceptableChars.Contains(c);
         }
     }
 }
