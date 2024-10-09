@@ -31,18 +31,18 @@ namespace Scenes._88_LeaderBoard.Scripts
         /// </summary>
         private async void Start()
         {
-            Debug.Log("Initializing Unity Services...");
+            Debug.Log("LeaderboardManager.start(): Initializing Unity Services...");
             if (UnityServices.State != ServicesInitializationState.Initialized)
             {
                 await UnityServices.InitializeAsync();
-                Debug.Log("Unity Services initialized.");
+                Debug.Log("LeaderboardManager.start(): Unity Services initialized.");
             }
 
             if (!AuthenticationService.Instance.IsSignedIn)
             {
-                Debug.Log("Signing in anonymously...");
+                Debug.Log("LeaderboardManager.start(): Signing in anonymously...");
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Signed in successfully.");
+                Debug.Log("LeaderboardManager.start(): Signed in successfully.");
             }
         }
 
@@ -52,16 +52,17 @@ namespace Scenes._88_LeaderBoard.Scripts
         /// <returns>A task that represents the asynchronous operation.</returns>
         private async Task DisplayLeaderboards()
         {
+            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying leaderboards...");
             if (!mostWordsText || !mostLettersText)
             {
                 Debug.LogError("TextMeshPro components are not assigned.");
                 return;
             }
 
-            Debug.Log("Displaying words leaderboard...");
+            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying words leaderboard...");
             await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Flest Ord");
 
-            Debug.Log("Displaying letters leaderboard...");
+            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying letters leaderboard...");
             await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Flest Bogstaver");
         }
 
@@ -155,6 +156,7 @@ namespace Scenes._88_LeaderBoard.Scripts
             
             if (scene.name == SceneNames.LeaderBoard)
             {
+                Debug.Log("LeaderboardManager.Onscenelaoded: inside Leaderboard scene");
                 if (UnityServices.State != ServicesInitializationState.Initialized)
                 {
                     Debug.Log("unity service is not initialized");
@@ -167,7 +169,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                     return;
                 }
                 
-                //Debug.Log("Displaying Leaderboard");
+                Debug.Log("LeaderboardManager.Onscenelaoded: Displaying Leaderboard");
                 // Display the leaderboard if leaderboard scene is loaded
                 await Task.Delay(100);
                 await DisplayLeaderboards();
