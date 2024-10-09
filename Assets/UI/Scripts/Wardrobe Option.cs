@@ -35,7 +35,6 @@ namespace UI.Scripts
         public void OnPointerClick(PointerEventData eventData)
         {
             wardrop.Click(SpineName,this);
-            outlineComponent.enabled = true;
         }
 
         public void LightUp()

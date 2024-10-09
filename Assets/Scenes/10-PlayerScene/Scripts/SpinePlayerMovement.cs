@@ -188,10 +188,10 @@ namespace Scenes._10_PlayerScene.Scripts
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawCube(transform.position + new Vector3(5, 0, 0), new Vector3(2, 1, 4));
-            Gizmos.DrawCube(transform.position + new Vector3(-5, 0, 0), new Vector3(2, 1, 4));
-            Gizmos.DrawCube(transform.position + new Vector3(0, 0, 5), new Vector3(2, 1, 4));
-            Gizmos.DrawCube(transform.position + new Vector3(0, 0, -5), new Vector3(2, 1, 4));
+            Gizmos.DrawCube(transform.position + new Vector3(5, 0, 0), new Vector3(2, 2, 4));
+            Gizmos.DrawCube(transform.position + new Vector3(-5, 0, 0), new Vector3(2, 2, 4));
+            Gizmos.DrawCube(transform.position + new Vector3(0, 0, 5), new Vector3(2, 2, 4));
+            Gizmos.DrawCube(transform.position + new Vector3(0, 0, -5), new Vector3(2, 2, 4));
 
         }
     }

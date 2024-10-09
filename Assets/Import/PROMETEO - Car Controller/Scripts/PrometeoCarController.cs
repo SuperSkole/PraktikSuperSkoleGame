@@ -137,7 +137,7 @@ public class PrometeoCarController : MonoBehaviour
     /*
     IMPORTANT: The following variables should not be modified manually since their values are automatically given via script.
     */
-    Rigidbody carRigidbody; // Stores the car's rigidbody.
+    Rigidbody carRigidbody; // Stores the car's playerRigidBody.
     float steeringAxis; // Used to know whether the steering wheel has reached the maximum value. It goes from -1 to 1.
     float throttleAxis; // Used to know whether the throttle has reached the maximum value. It goes from -1 to 1.
     float driftingAxis;
@@ -593,7 +593,7 @@ public class PrometeoCarController : MonoBehaviour
     public void GoForward()
     {
         isReversing = false;
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {
@@ -649,7 +649,7 @@ public class PrometeoCarController : MonoBehaviour
     public void GoReverse()
     {
         isReversing = true;
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car is losing traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {
@@ -800,7 +800,7 @@ public class PrometeoCarController : MonoBehaviour
         {
             driftingAxis = 1f;
         }
-        //If the forces aplied to the rigidbody in the 'x' asis are greater than
+        //If the forces aplied to the playerRigidBody in the 'x' asis are greater than
         //3f, it means that the car lost its traction, then the car will start emitting particle systems.
         if (Mathf.Abs(localVelocityX) > 2.5f)
         {

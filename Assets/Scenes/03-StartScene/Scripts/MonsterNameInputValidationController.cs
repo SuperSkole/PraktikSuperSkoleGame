@@ -18,7 +18,7 @@ namespace Scenes._03_StartScene.Scripts
         /// +: Sikrer, at der er mindst ét tilladt tegn i input.
         /// ^ og $: Sikrer, at hele inputtet skal overholde mønsteret uden andre tegn i starten eller slutningen.
         /// </summary>
-        private const string MonsterNamePattern = @"^[a-zA-ZæøåÆØÅ\d]+$";
+        private const string MonsterNamePattern = @"^[a-zA-Z\d]+$";
 
         private const int MinMonsterNameLength = 3;
         private const int MaxMonsterNameLength = 15;

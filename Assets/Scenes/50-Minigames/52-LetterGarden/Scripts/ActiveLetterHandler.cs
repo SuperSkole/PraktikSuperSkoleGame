@@ -21,7 +21,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private SymbolManager symbolManager;
         [SerializeField] private Transform splineHolder;
         [SerializeField] private BeeMovement bee;
-        [SerializeField] private AudioSource audioSource;
+        private bool playingSound = false;
         [SerializeField] private GameObject helperBee;
         [SerializeField] private GameObject activeHelperBee;
         public AudioClip letterSound;
@@ -78,10 +78,19 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         public void Update()
         {
-            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !audioSource.isPlaying)
+            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !playingSound)
             {
-                audioSource.PlayOneShot(letterSound);
+                StartCoroutine(PlaySound());
+                
             }
+        }
+
+        private IEnumerator PlaySound()
+        {
+            playingSound = true;
+            AudioManager.Instance.PlaySound(letterSound, SoundType.Voice);
+            yield return new WaitForSeconds(letterSound.length);
+            playingSound = false;
         }
 
         /// <summary>
