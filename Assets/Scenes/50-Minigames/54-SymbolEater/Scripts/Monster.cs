@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -17,6 +18,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public GameObject playerObject;
 
         [SerializeField] private int throwRange = 5;
+
+        [SerializeField] private AudioClip walkSound;
 
         [SerializeField] Vector3 currentDestination;
         public float speed = 0.5f;
@@ -47,18 +50,17 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private BoardController boardController;
 
-    /// <summary>
-    /// Gets the monster ready for movement and gets reference to the player script
-    /// </summary>
-    void Start()
-    {
-        currentDestination = transform.position;
-        if(player == null)
+        /// <summary>
+        /// Gets the monster ready for movement and gets reference to the player script
+        /// </summary>
+        void Start()
         {
-            player = playerObject.GetComponent<SymbolEaterPlayer>();
+            currentDestination = transform.position;
+            if(player == null)
+            {
+                player = playerObject.GetComponent<SymbolEaterPlayer>();
+            }
         }
-    }
-
         public void SetBord(BoardController board)
         {
             boardController = board;
@@ -111,6 +113,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 }
                 currentDestination = velocity + transform.position;
                 Move();
+                AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
             }
             else if (canWalkTowardsPlayer)
             {

@@ -21,6 +21,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         [SerializeField] private GameObject imageObject;
 
+        [SerializeField] private AudioClip correctSound;
+        [SerializeField] private AudioClip incorrectSound;
+
 
         /// <summary>
         /// these 2 are used for the FindImageFromSound gamemode, with a SpriteRendere and a sprite, and a String for the current word.
@@ -281,6 +284,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator IncorrectGuess()
         {
+            AudioManager.Instance.PlaySound(incorrectSound, SoundType.SFX, transform.position);
             readyForDeactivation = true;
             rawImage.color = Color.red;
             meshRenderer.material = incorrectMaterial;
@@ -296,6 +300,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator CorrectGuess()
         {
+            AudioManager.Instance.PlaySound(correctSound, SoundType.SFX, transform.position);
             readyForDeactivation = true;
             rawImage.color = Color.green;
             meshRenderer.material = correctMaterial;
