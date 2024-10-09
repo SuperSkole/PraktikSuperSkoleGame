@@ -41,25 +41,23 @@ namespace UI.Scripts
 
             clothChanging = this.GetComponent<ClothChanging>();
 
-            wardrobeOptionList = new List<WardrobeOption>();
-
-            if (playerColorChanging.colors == null)
-            {
-                Debug.LogError("playerColorChanging.colors is null");
-                return;
-            }
-            colors = new HashSet<string>(playerColorChanging.colors, StringComparer.OrdinalIgnoreCase);
-
-            foreach (var color in colors)
-            {
-                Debug.Log(color);
-            }
         }
 
+        private void Start()
+        {
+            colors = new HashSet<string>(playerColorChanging.colors, StringComparer.OrdinalIgnoreCase);
+
+            if (colors.Count <= 0)
+            {
+                Debug.Log("there is no colors!");
+            }
+
+            Debug.Log("playercolorChanging " + playerColorChanging.colors.Count);
+        }
 
         private void OnEnable()
         {
-
+            wardrobeOptionList = new List<WardrobeOption>();
             if (PlayerManager.Instance?.PlayerData == null)
             {
                 Debug.LogError("PlayerData is null");
@@ -77,6 +75,7 @@ namespace UI.Scripts
                 Debug.LogError("PlayerData.BoughtClothes is null");
                 return;
             }
+
             skeletonGraphic.Skeleton.SetSlotsToSetupPose();
 
             //change color
@@ -91,7 +90,7 @@ namespace UI.Scripts
 
             if (theWardrobeOptions.Count != 0)
             {
-                    InitializeWardrobeOption(theWardrobeOptions);
+               InitializeWardrobeOption(theWardrobeOptions);
             }
 
             //set variables
@@ -230,6 +229,7 @@ namespace UI.Scripts
                     if(wardOptionTop != null)
                     {
                         wardOptionTop.UnSelect();
+                        wardOptionTop.chosen = false;
                     }
                     wardOptionTop = wardrobeShopOption;
 
@@ -247,6 +247,7 @@ namespace UI.Scripts
                     if (wardOptionMid != null)
                     {
                         wardOptionMid.UnSelect();
+                        wardOptionMid.chosen = false;
                     }
                     wardOptionMid = wardrobeShopOption;
 
@@ -262,6 +263,7 @@ namespace UI.Scripts
                         if (wardOptionColor != null)
                         {
                             wardOptionColor.UnSelect();
+                            wardOptionColor.chosen = false;
                         }
                         wardOptionColor = wardrobeShopOption;
 
