@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
 
 
-    public class ProductionLineManager : MonoBehaviour
+    public class ProductionLineManager : MonoBehaviour, IMinigameSetup
     {
 
         [SerializeField]
@@ -25,13 +26,8 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         private void Start()
         {
-            langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(8);
-
-            if (langUnit[0].LanguageUnitType != LanguageUnit.Word)
-            {
-                SwitchScenes.SwitchToMainWorld();
-            }
-            
+            langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(14);
+            Debug.Log(langUnit[0].LanguageUnitType);
         }
 
         /// <summary>
@@ -52,7 +48,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         public string GetImages()
         {
             
-            string randomWord = WordsForImagesManager.GetRandomWordForImage();
+            string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
 
             return randomWord;
         }
@@ -72,6 +68,11 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             return letter;
 
 
+        }
+
+        public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+        {
+            
         }
     }
 

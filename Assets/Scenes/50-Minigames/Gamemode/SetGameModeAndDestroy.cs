@@ -89,6 +89,14 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Den Farlige Rute";
                     }
                     break;
+                case 6:
+                    modeSetter = new WordProdutionLineSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToProductionLine);
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Ord Produktion B\u00E5nd";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {

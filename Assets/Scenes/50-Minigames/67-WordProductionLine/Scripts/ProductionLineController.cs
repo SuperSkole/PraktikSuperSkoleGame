@@ -1,4 +1,5 @@
 using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
+using CORE;
 using Scenes;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
@@ -234,6 +235,7 @@ public class ProductionLineController : MonoBehaviour
 
             if (letter == imageFirstLetter)
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, true);
                 StartCoroutine(WaitForRightXSeconds());
 
                 if (points >= 5)
@@ -244,6 +246,7 @@ public class ProductionLineController : MonoBehaviour
 
             else
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, false);
                 CheckIfWrong();
             }
         }
