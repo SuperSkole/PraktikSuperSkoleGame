@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Minigames;
@@ -30,6 +32,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private GameObject levelCreator;
         public readonly FindLetterInPicture gameRuleVocal = new();
         private readonly FindConsonant gameRuleConsonant = new();
+        public readonly DynamicGameRules dynamicGameRules = new();
         private new AudioSource audio;
 
         public bool imageInitialized = false;
@@ -63,6 +66,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private int currentIndex = 0;
         public readonly string[] level5Consonants = { "f", "m", "n", "s" };
 
+        public List<ILanguageUnit> languageUnits = new List<ILanguageUnit>();
+
         private bool timerRunning = false;
         private float timer = 0f;
 
@@ -73,7 +78,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
         public IRacingGameMode racingGameMode;
 
-
+        private bool setCorrectAnswerHasBeenRan = false;
 
         public float Timer { get => timer; set => timer = value; }
         #endregion
@@ -84,8 +89,16 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// </summary>
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
-           racingGameMode = (IRacingGameMode)gameMode;
+            racingGameMode = (IRacingGameMode)gameMode;
             
+            if(rule.GetType() == typeof(DynamicGameRules))
+            {
+                dynamicGameRules.SetCorrectAnswer();
+                
+
+                languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager
+                    .GetNextLanguageUnitsBasedOnLevel(1);
+            }
             StartUI.SetActive(false);
             raceActive = true;
             audio = playerCar.GetComponent<AudioSource>();
@@ -106,6 +119,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             PlayWordAudio(targetWord);
             StartTimer();
         }
+
+
         /// <summary>
         /// Picks a random word from the list.
         /// </summary>
@@ -124,6 +139,8 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             PlayWordAudio(targetWord);
             UpdateWordImageDisplay();
         }
+        
+
         /// <summary>
         /// Selects a random vocal letter
         /// </summary>
@@ -443,15 +460,21 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     racingGameManager.gold++;
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+                    
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
                     {
+                        GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(targetWord, true);
                         currentIndex = 0; // Reset for the next game or end game
                         spelledWordsList.Add(targetWord); // Add the spelled word to the list
 
                         racingGameMode.DetermineWordToUse(this); // Select a new random word for the next game
                     }
+                }
+                else 
+                {
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(targetWord, false);
                 }
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
