@@ -19,7 +19,7 @@ public class ProductionLineController : MonoBehaviour
 
     private static Material staticDefaultMaterial;
 
-    [SerializeField] private AudioClip wrongBuzz, correctBuzz;
+    [SerializeField] private AudioClip wrongBuzz, correctBuzz, backgroundAmbience;
 
     [SerializeField] Camera mainCamera;
 
@@ -74,6 +74,7 @@ public class ProductionLineController : MonoBehaviour
         imageBoxCheckPosition = new Vector3(2, 9, 5);
         letterBoxCheckPosition = new Vector3(-1, 9, 5);
         punishmentPosition = new Vector3(-12, 6, 5);
+        AudioManager.Instance.PlaySound(backgroundAmbience, SoundType.Music, true);
     }
 
     void Update()
