@@ -32,7 +32,7 @@ public class UpdateUnlockedLevelsUI : MonoBehaviour
     void Start()
     {
         //Gets the minumum level requirement for each of the minigames. 
-        towerMinLevelRequired = GetMinLevelRequirements(towerSetter.gamemodes);
+        towerMinLevelRequired = GetMinLevelRequirements(towerSetter.gameModes);
         symbolEaterMinLevelRequired = GetMinLevelRequirements(symbolEaterSetter.gamemodes);
         letterGardenMinLevelRequired = GetMinLevelRequirements(letterGardenSetter.gamemodes);
         racingMinLevelRequired = GetMinLevelRequirements(racingSetter.gamemodes);

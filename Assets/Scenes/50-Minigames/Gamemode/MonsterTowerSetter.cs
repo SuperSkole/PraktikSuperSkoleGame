@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
@@ -8,7 +10,17 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {
-        public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
+        public List<IGenericGameMode> gameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4(),
+            new Level5()
+        };
+
+
+        public List<IGenericGameMode> letterGameModes = new List<IGenericGameMode>()
         {
             null,
             null,
@@ -29,7 +41,18 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            return (SetRules(level), SetMode(level));
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode= letterGameModes[Random.Range(4, 5)]; ;
+
+            switch(languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGameModes[Random.Range(4,5)];
+
+                    break;
+            }
+
+            return (null, mode);
         }
 
 
@@ -40,9 +63,9 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            if(gamemodes.Count > level && level >= 0)
+            if(letterGameModes.Count > level && level >= 0)
             {
-                return gamemodes[level];
+                return letterGameModes[level];
             }
             else 
             {
@@ -114,5 +137,8 @@ namespace Scenes._50_Minigames.Gamemode
             }
             return rulesReturned;
         }
+
+
+
     }
 }

@@ -33,6 +33,7 @@ public class PlatformFalling : MonoBehaviour
         
         if (isCorrectAnswer == false && enteredBefore == false)
         {
+            manager.wrongAnswer = true;
          
             rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
 
