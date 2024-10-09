@@ -54,6 +54,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             uiBuilding.SetActive(buildingSystemParent.activeSelf);
             cameraMovement.GetComponent<CameraMovement>().enabled = buildingSystemParent.activeSelf;
         }
+        /// <summary>
+        /// Creates a list and spawns in the items that is needed for the house to be build
+        /// </summary>
         private void CreateHouseSaveData()
         {
             // Creates the walls around the house.
@@ -65,18 +68,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     50, 180, EnumFloorDataType.NoneRemoveable),
 
                 new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(-3, -6, 0), EnumFloorDataType.NoneRemoveable),
-                    51, 180, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(-1, -6, 0), EnumFloorDataType.NoneRemoveable),
-                    52, 180, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(1, -6, 0), EnumFloorDataType.NoneRemoveable),
-                    51, 180, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-6, -5, 0), EnumFloorDataType.NoneRemoveable),
                     50, 270, EnumFloorDataType.NoneRemoveable),
 
@@ -85,20 +76,12 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     50, 270, EnumFloorDataType.NoneRemoveable),
 
                 new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(-6, -1, 0), EnumFloorDataType.NoneRemoveable),
-                    51, 270, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-6, 1, 0), EnumFloorDataType.NoneRemoveable),
                     50, 270, EnumFloorDataType.NoneRemoveable),
 
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-6, 3, 0), EnumFloorDataType.NoneRemoveable),
                     50, 270, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(-5, 5, 0), EnumFloorDataType.NoneRemoveable),
-                    51, 0, EnumFloorDataType.NoneRemoveable),
 
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(-3, 5, 0), EnumFloorDataType.NoneRemoveable),
@@ -131,10 +114,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(11, 5, 0), EnumFloorDataType.NoneRemoveable),
                     50, 0, EnumFloorDataType.NoneRemoveable),
-
-                new SerializableKeyValuePair(
-                    new PlaceableTemporayItemsInfo(new Vector3Int(13, 5, 0), EnumFloorDataType.NoneRemoveable),
-                    51, 0, EnumFloorDataType.NoneRemoveable),
 
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(15, 3, 0), EnumFloorDataType.NoneRemoveable),
@@ -179,6 +158,32 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 new SerializableKeyValuePair(
                     new PlaceableTemporayItemsInfo(new Vector3Int(3, -6, 0), EnumFloorDataType.NoneRemoveable),
                     50, 180, EnumFloorDataType.NoneRemoveable),
+                
+                 //Windows
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-5, 5, 0), EnumFloorDataType.NoneRemoveable),
+                    51, 0, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(13, 5, 0), EnumFloorDataType.NoneRemoveable),
+                    51, 0, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-3, -6, 0), EnumFloorDataType.NoneRemoveable),
+                    51, 180, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(1, -6, 0), EnumFloorDataType.NoneRemoveable),
+                    51, 180, EnumFloorDataType.NoneRemoveable),
+
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-6, -1, 0), EnumFloorDataType.NoneRemoveable),
+                    51, 270, EnumFloorDataType.NoneRemoveable),
+
+                //doors
+                new SerializableKeyValuePair(
+                    new PlaceableTemporayItemsInfo(new Vector3Int(-1, -6, 0), EnumFloorDataType.NoneRemoveable),
+                    52, 180, EnumFloorDataType.NoneRemoveable),
 
                 // Corner pices
                 new SerializableKeyValuePair(
@@ -210,7 +215,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Load the house data asynchronously
             var data = await saveManager.LoadGridData<HouseDataDTO>();
 
-            if (data == null)
+            if (data == null)//if there isnt a save, we create the data needed for the save
             {
                 Debug.Log("No Save was Found");
                 saveDataHasBeenMade = false;
