@@ -34,37 +34,76 @@ namespace Scenes._88_LeaderBoard.Scripts
             Debug.Log("LeaderboardManager.start(): Initializing Unity Services...");
             if (UnityServices.State != ServicesInitializationState.Initialized)
             {
-                await UnityServices.InitializeAsync();
-                Debug.Log("LeaderboardManager.start(): Unity Services initialized.");
+                Debug.Log("LeaderboardManager.start(): Unity Services not initialized. Initializing...");
+                try
+                {
+                    await UnityServices.InitializeAsync();
+                    Debug.Log("LeaderboardManager.start(): Unity Services initialized successfully.");
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("LeaderboardManager.start(): Failed to initialize Unity Services: " + e.Message);
+                    return;
+                }
             }
-
+    
             if (!AuthenticationService.Instance.IsSignedIn)
             {
-                Debug.Log("LeaderboardManager.start(): Signing in anonymously...");
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("LeaderboardManager.start(): Signed in successfully.");
+                Debug.Log("LeaderboardManager.start(): not signed in. Signing in anonymously...");
+                try
+                {
+                    Debug.Log("LeaderboardManager.start(): Signing in anonymously...");
+                    await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                    Debug.Log("LeaderboardManager.start(): Anonymous sign-in successful.");
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("LeaderboardManager.start(): Failed to sign in anonymously: " + e.Message);
+                    return;
+                }
             }
         }
+
 
         /// <summary>
         /// Display leaderboards for most words and most letters.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        private async Task DisplayLeaderboards()
+        private async Task<bool> DisplayLeaderboards()
         {
-            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying leaderboards...");
-            if (!mostWordsText || !mostLettersText)
+            Debug.Log("Insdie DisplayLeaderboards");
+            try
             {
-                Debug.LogError("TextMeshPro components are not assigned.");
-                return;
+                Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying leaderboards...");
+
+                // Add delay to ensure WebGL async timing issues don't occur
+                await Task.Delay(500); 
+
+                if (!mostWordsText || !mostLettersText)
+                {
+                    Debug.LogError("TextMeshPro components are not assigned.");
+                    // Return false if required components are missing
+                    return false;  
+                }
+
+                Debug.Log("Fetching words leaderboard...");
+                await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Flest Ord");
+
+                Debug.Log("Fetching letters leaderboard...");
+                await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Flest Bogstaver");
+
+                Debug.Log("LeaderboardManager.DisplayLeaderboards(): Leaderboards fetched successfully.");
+                // Return true if everything went well
+                return true;  
             }
-
-            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying words leaderboard...");
-            await DisplayLeaderboard(LEADERBOARD_ID_WORDS, mostWordsText, "Flest Ord");
-
-            Debug.Log("LeaderboardManager.DisplayLeaderboards(): Displaying letters leaderboard...");
-            await DisplayLeaderboard(LEADERBOARD_ID_LETTERS, mostLettersText, "Flest Bogstaver");
+            catch (Exception e)
+            {
+                Debug.LogError($"Exception in DisplayLeaderboards: {e.Message}\n{e.StackTrace}");
+                // Return false if an error occurred
+                return false;  
+            }
         }
+
 
         /// <summary>
         /// Displays the leaderboard based on the provided parameters.
@@ -154,6 +193,7 @@ namespace Scenes._88_LeaderBoard.Scripts
             PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
             PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
             
+            Debug.Log($"LeaderboardManager.OnSceneLoaded(): Scene loaded: {scene.name}");
             if (scene.name == SceneNames.LeaderBoard)
             {
                 Debug.Log("LeaderboardManager.Onscenelaoded: inside Leaderboard scene");
@@ -169,10 +209,26 @@ namespace Scenes._88_LeaderBoard.Scripts
                     return;
                 }
                 
-                Debug.Log("LeaderboardManager.Onscenelaoded: Displaying Leaderboard");
-                // Display the leaderboard if leaderboard scene is loaded
-                await Task.Delay(100);
-                await DisplayLeaderboards();
+                Debug.Log("LeaderboardManager.OnSceneLoaded: Displaying Leaderboard");
+
+                try
+                {
+                    Debug.Log("LeaderboardManager.OnSceneLoaded: inside try for Displaying Leaderboard");
+                    //await Task.Delay(100);
+                    bool success = await DisplayLeaderboards();
+                    if (success)
+                    {
+                        Debug.Log("Leaderboards displayed successfully.");
+                    }
+                    else
+                    {
+                        Debug.LogError("Failed to display leaderboards.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"Exception occurred while displaying leaderboards: {e.Message}\n{e.StackTrace}");
+                }
             }
         }
         
