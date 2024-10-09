@@ -14,7 +14,7 @@ namespace UI.ScreenLoader
         //ClothChanging
         private ClothChanging clothChanging;
 
-        private void Awake()
+        private void Start()
         {
             if(SkeletonGraphic != null && SkeletonGraphic.AnimationState != null)
             {
