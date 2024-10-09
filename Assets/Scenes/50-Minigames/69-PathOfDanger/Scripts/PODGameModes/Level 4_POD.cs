@@ -96,41 +96,9 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
                 
                     returnedString[i] = words[Random.Range(0, 15)].Identifier;
 
-                    bool checkIfAvailable = true;
+                   
 
-                    while (checkIfAvailable)
-                    {
-                        switch (returnedString[i].ToLower())
-                        {
-                            case "y":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "z":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "w":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "c":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "q":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "x":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            default:
-                                checkIfAvailable = false;
-                                break;
-                        }
-                    }
+                   
 
                 
             }
