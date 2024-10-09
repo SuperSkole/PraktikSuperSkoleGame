@@ -1,15 +1,14 @@
+using CORE.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestTutorial : MonoBehaviour
+public class LetterGardenTutorual : MonoBehaviour
 {
     private KatjaFe katjafe;
 
     [SerializeField] private AudioClip Hey;
     [SerializeField] private AudioClip Move;
-    [SerializeField] private AudioClip Good;
-    [SerializeField] private AudioClip GoToDoor;
 
     private bool waitingForInput = false;
 
@@ -18,7 +17,7 @@ public class TestTutorial : MonoBehaviour
 
         katjafe = GetComponent<KatjaFe>();
 
-        katjafe.Initialize(true,Move);
+        katjafe.Initialize(true, Move);
 
         Speak();
     }
@@ -27,16 +26,16 @@ public class TestTutorial : MonoBehaviour
     {
         katjafe.KatjaIntro(() =>
         {
-            katjafe.KatjaSpeak(Hey, () => 
+            katjafe.KatjaSpeak(Hey, () =>
             {
                 katjafe.KatjaSpeak(Move, () =>
                 {
                     waitingForInput = true;
                 });
-            }); 
+            });
 
         });
-            
+
     }
 
     private void Update()
@@ -46,13 +45,9 @@ public class TestTutorial : MonoBehaviour
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 waitingForInput = false;
-                katjafe.KatjaSpeak(Good, () => 
+                katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0,CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
-                    katjafe.KatjaSpeak(GoToDoor, () => 
-                    { 
-                        katjafe.KatjaExit(); 
-                    });
-                    
+                    katjafe.KatjaExit();
                 });
             }
         }
