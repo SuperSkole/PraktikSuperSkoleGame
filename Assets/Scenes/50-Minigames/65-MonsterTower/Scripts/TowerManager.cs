@@ -144,8 +144,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         public void SetupGame(IGenericGameMode genericGameMode, IGameRules gameRules)
         {
             gameMode = (IMTGameMode)genericGameMode;
-
-
+            
             StartCoroutine(WaitUntillDataIsLoaded());
         }
 

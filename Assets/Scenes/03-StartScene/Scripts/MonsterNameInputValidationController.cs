@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.RegularExpressions;
 using CORE;
 using TMPro;
@@ -7,7 +8,18 @@ namespace Scenes._03_StartScene.Scripts
 {
     public class MonsterNameInputValidationController : MonoBehaviour
     {
-        private const string MonsterNamePattern = @"^[a-zA-Z\d\-_]+$";
+        /// <summary>
+        /// Regular expression pattern to validate monstername.
+        /// Usernames must only contain letters, numbers, and specific Danish characters.
+        ///
+        /// a-zA-Z: Tillader engelske bogstaver (store og små).
+        /// æøåÆØÅ: Inkluderer danske bogstaver.
+        /// \d: Tillader tal.
+        /// +: Sikrer, at der er mindst ét tilladt tegn i input.
+        /// ^ og $: Sikrer, at hele inputtet skal overholde mønsteret uden andre tegn i starten eller slutningen.
+        /// </summary>
+        private const string MonsterNamePattern = @"^[a-zA-ZæøåÆØÅ\d]+$";
+
         private const int MinMonsterNameLength = 3;
         private const int MaxMonsterNameLength = 15;
 
@@ -38,7 +50,7 @@ namespace Scenes._03_StartScene.Scripts
             else if (!isPatternValid)
             {
                 feedback.text
-                    = "<color=red>Navn må kun indeholde bogstaver, tal, - _</color>";
+                    = "<color=red>Navn må kun indeholde bogstaver eller tal</color>";
                 return false;
             }
             else
@@ -46,6 +58,16 @@ namespace Scenes._03_StartScene.Scripts
                 feedback.text = "<color=green>✔ Gyldigt Monsternavn</color>";
                 return true;
             }
+        }
+        
+        private bool IsAcceptableCharacter(char c)
+        {
+            // Check if the character is a standard letter or digit
+            if (char.IsLetterOrDigit(c))
+                return true;
+    
+            // Include specific Danish characters
+            return "æøåÆØÅ".Contains(c);
         }
     }
 }

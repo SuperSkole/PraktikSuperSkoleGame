@@ -6,10 +6,10 @@ using CORE;
 using CORE.Scripts;
 using Letters;
 using LoadSave;
-using Scenes._20_MainWorld.Scripts.Car;
 using Scenes._24_HighScoreScene.Scripts;
 using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Words;
@@ -23,10 +23,10 @@ namespace Scenes._10_PlayerScene.Scripts
     public class PlayerManager : MonoBehaviour
     {
         [SerializeField] private HighScore highScore;
-        
+
         // Fields required for setting up a new game
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private Vector3 dropOffPoint; 
+        [SerializeField] private Vector3 dropOffPoint;
         public GameObject coinPrefab;
         private PlayerData playerData;
         private GameObject spawnedPlayer;
@@ -37,46 +37,46 @@ namespace Scenes._10_PlayerScene.Scripts
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
 
         private ILeaderboardSubmissionService leaderboardSubmissionService;
-        
+
         // public GameObject SpawnedPlayer => spawnedPlayer;
         // public PlayerData PlayerData => playerData;
 
         //temp for testing
-        public GameObject SpawnedPlayer 
+        public GameObject SpawnedPlayer
         {
-            get 
+            get
             {
-                if (spawnedPlayer == null) 
+                if (spawnedPlayer == null)
                 {
                     Debug.Log("SpawnedPlayer accessed before being initialized.");
                 }
-                
+
                 return spawnedPlayer;
             }
         }
 
-        public PlayerData PlayerData 
+        public PlayerData PlayerData
         {
-            get 
+            get
             {
-                if (playerData == null) 
+                if (playerData == null)
                 {
                     Debug.Log("PlayerData accessed before being initialized.");
                 }
-                
+
                 return playerData;
             }
         }
-        
-        public HighScore HighScore 
+
+        public HighScore HighScore
         {
-            get 
+            get
             {
-                if (highScore == null) 
+                if (highScore == null)
                 {
                     Debug.Log("highScore accessed before being initialized.");
                 }
-                
+
                 return highScore;
             }
         }
@@ -107,7 +107,7 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 SetupNewPlayer();
             }
-            
+
             GameManager.Instance.PlayerManager = this;
             leaderboardSubmissionService = new LeaderboardSubmissionService();
         }
@@ -142,21 +142,21 @@ namespace Scenes._10_PlayerScene.Scripts
             SubmitLetterCountToLeaderboard();
         }
 
-        
+
         public async void SubmitWordCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
             int totalWords = PlayerData.LifetimeTotalWords;
             await leaderboardSubmissionService.SubmitMostWords(totalWords, PlayerData.MonsterName);
         }
-        
+
         public async void SubmitLetterCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
             int totalLetters = PlayerData.LifetimeTotalLetters;
             await leaderboardSubmissionService.SubmitMostLetters(totalLetters, PlayerData.MonsterName);
         }
-        
+
         /// <summary>
         /// Positions the player at a specified spawn point in a scene.
         /// </summary>
@@ -177,7 +177,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 Debug.LogError($"Spawn point {spawnPoint} not found for positioning player.");
             }
         }
-        
+
         /// <summary>
         /// Sets up the player object in the game scene with necessary components.
         /// </summary>
@@ -185,17 +185,17 @@ namespace Scenes._10_PlayerScene.Scripts
         {
             spawnedPlayer = Instantiate(playerPrefab, new Vector3(0, 1, 0), Quaternion.identity);
             spawnedPlayer.name = "PlayerMonster";
-            
+
             colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
-            if (colorChanging == null) 
+            if (colorChanging == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
                                "ColorChanging component not found on spawned player.");
                 return;
             }
-            
+
             playerData = spawnedPlayer.GetComponent<PlayerData>();
-            if (playerData == null) 
+            if (playerData == null)
             {
                 Debug.LogError("PlayerManager.SetupPlayer(): " +
                                "PlayerData component not found on spawned player.");
@@ -220,7 +220,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // Init player data
             playerData.Initialize(
                 GameManager.Instance.CurrentUser,
-                GameManager.Instance.PlayerData.MonsterName,
+                GameManager.Instance.CurrentMonsterName,
                 GameManager.Instance.CurrentMonsterColor,
                 0,
                 0,
@@ -249,7 +249,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 },
                 new List<int>()
                 {
-                    0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8
+                    0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 11, 10, 12
                 }
             );
 
@@ -260,11 +260,12 @@ namespace Scenes._10_PlayerScene.Scripts
             }
 
             // Call the ColorChange method to recolor the player
-            colorChanging.SetSkeleton(skeleton);
-            colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
 
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothMid, skeleton);
             clothChanging.ChangeClothes(GameManager.Instance.CurrentClothTop, skeleton);
+
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
 
             // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
             playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
@@ -298,7 +299,7 @@ namespace Scenes._10_PlayerScene.Scripts
             spawnedPlayer.name = "PlayerMonster";
 
             colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
-            if (colorChanging == null) 
+            if (colorChanging == null)
             {
                 Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
                                "ColorChanging component not found on spawned player.");
@@ -306,7 +307,7 @@ namespace Scenes._10_PlayerScene.Scripts
             }
 
             playerData = spawnedPlayer.GetComponent<PlayerData>();
-            if (playerData == null) 
+            if (playerData == null)
             {
                 Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
                                  "PlayerData component not found on spawned player.");
@@ -351,13 +352,14 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ListOfFurniture
             );
 
-            // Call the ColorChange method to recolor the player
-            colorChanging.SetSkeleton(skeleton);
-            colorChanging.ColorChange(playerData.MonsterColor);
 
             // Call the ColorChange method to recolor the player
             clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
             clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
+
+            // Call the ColorChange method to recolor the player
+            colorChanging.SetSkeleton(skeleton);
+            colorChanging.ColorChange(playerData.MonsterColor);
 
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
@@ -394,15 +396,14 @@ namespace Scenes._10_PlayerScene.Scripts
 
             // if login or start screen we have no player yet, but we set camera
             SetCinemachineCameraTarget(scene);
-            
-            // Color change if scene is house or main
-            UpdatePlayerColorOnSceneChange(scene);
 
+            // Color change if scene is house or main
             UpdatePlayerClothOnSceneChange(scene);
+            UpdatePlayerColorOnSceneChange(scene);
 
             // if we are loading into main world, look for last interaction point and set as spawn point
             SetPlayerPositionOnSceneChange(scene);
-            
+
             // TODO : Find a more permnat solution
             if (SceneManager.GetActiveScene().name.StartsWith("11") ||
                 SceneManager.GetActiveScene().name.StartsWith("20") ||
@@ -455,7 +456,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
                 catch
                 {
-                    
+
                 }
             }
         }
@@ -477,7 +478,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Call the ColorChange method to recolor the player
                     colorChanging.SetSkeleton(skeleton);
                     colorChanging.ColorChange(playerData.MonsterColor);
-                }    
+                }
             }
         }
 
@@ -491,13 +492,14 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 if (clothChanging != null)
                 {
-                    // Call the ColorChange method to recolor the player
+                    skeleton.Skeleton.SetToSetupPose();
+                    // Call the ChangeClothes method to change clothes on the player the player
                     clothChanging.ChangeClothes(playerData.ClothMid, skeleton);
                     clothChanging.ChangeClothes(playerData.ClothTop, skeleton);
                 }
             }
         }
-        
+
         /// <summary>
         /// Sets the player's position based on the last interaction point when the scene changes.
         /// </summary>
@@ -520,7 +522,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     Debug.LogError("PlayerData is null");
                 }
             }
-            
+
             // if going to main world spawn at last known interaction point
             if (scene.name == SceneNames.Main)
             {

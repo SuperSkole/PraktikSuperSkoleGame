@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Threading.Tasks;
 using CORE;
 using LoadSave;
@@ -48,13 +49,14 @@ namespace Scenes._03_StartScene.Scripts
         /// <returns>A task representing the asynchronous operation, with a boolean indicating success.</returns>
         public async Task<bool> DeleteSave(string saveKey)
         {
-            // Debug.Log("LoadGameController-DeleteSave: Attempting to delete save with key: " + saveKey);
-            
-            bool success = await saveGameController.DeleteSave(saveKey);
+            // Sanitize the username
+            var sanitizedUsername = saveGameController.SanitizeKeyComponent(GameManager.Instance.CurrentUser);
+            var monsterName = ExtractMonsterNameFromSaveKey(saveKey);
+
+            bool success = await saveGameController.DeleteAllSavesForMonster(sanitizedUsername, monsterName);
+
             if (success)
             {
-                // Debug.Log("Save deleted successfully: " + saveKey);
-                // Optionally: Notify UI components or refresh panels after deletion
                 SavePanel[] panels = FindObjectsOfType<SavePanel>();
                 foreach (var panel in panels)
                 {
@@ -63,7 +65,7 @@ namespace Scenes._03_StartScene.Scripts
                         panel.ClearPanel();
                     }
                 }
-
+                
                 return true;
             }
             else
@@ -98,50 +100,50 @@ namespace Scenes._03_StartScene.Scripts
             //Debug.Log($"LoadGameController-HandleLoadRequest: Handling load request for save key: {saveKey}");
     
             // Load the saved game data using the generic LoadGame<T> method
-            saveGameController.LoadGame<SaveDataDTO>(saveKey, data => OnDataLoaded(data, saveKey));
+            saveGameController.LoadGame<SaveDataDTO>(saveKey, OnDataLoaded);
         }
 
         /// <summary>
-        /// Callback function that is triggered when saved game data is successfully loaded.
-        /// Sets up the game state with the loaded data and transitions to the appropriate scenes.
+        /// Callback function triggered when saved game data is successfully loaded.
+        /// Defines the delegate and subscribes to the sceneLoaded event before loading the Player Scene asynchronously.
+        /// Once the Player Scene is loaded, the player is set up, and then the House Scene is loaded.
         /// </summary>
-        private void OnDataLoaded(SaveDataDTO dataDTO, string saveKey)
+        private void OnDataLoaded(SaveDataDTO dataDTO)
         {
             if (dataDTO != null)
             {
+                // // Sanitize loaded data before converting and setting it up
+                // string sanitizedUsername = saveGameController.SanitizeLoadedData(dataDTO.Username);
+                // string sanitizedMonsterName = saveGameController.SanitizeLoadedData(dataDTO.MonsterName);
+                //
+                // dataDTO.Username = sanitizedUsername;
+                // dataDTO.MonsterName = sanitizedMonsterName;
+                
                 // Convert SaveDataDTO back into PlayerData using the DataConverter
                 PlayerData playerData = GameManager.Instance.Converter.ConvertToPlayerData(dataDTO);
 
                 // Define the delegate and subscribe before loading the scenes
-                UnityEngine.Events.UnityAction<Scene, LoadSceneMode> onSceneLoaded = null;
-                onSceneLoaded = (scene, mode) =>
+                UnityEngine.Events.UnityAction<Scene, LoadSceneMode> onPlayerSceneLoaded = null;
+                onPlayerSceneLoaded = (scene, mode) =>
                 {
-                    // Early out if not player scene
                     if (scene.name != SceneNames.Player)
-                    {
                         return;
-                    }
-                    
-                    loadGameSetup.SetupPlayer(playerData);
-                        
-                    // Unsubscribe from the event
-                    SceneManager.sceneLoaded -= onSceneLoaded;
-                    
-                    // Reset loading flag
-                    isLoading = false;
-                    
-                    // Notify SavePanel that loading is complete
-                    NotifyLoadComplete(saveKey);
+
+                    // Set up the player after the player scene is loaded
+                    PlayerManager.Instance.SetupPlayerFromSave(playerData);
+
+                    // Unsubscribe from event once the player is set up
+                    SceneManager.sceneLoaded -= onPlayerSceneLoaded;
+
+                    // Load the house scene after player setup
+                    StartCoroutine(LoadHouseAfterPlayerSetup());
                 };
 
                 // Subscribe to the scene loaded event
-                SceneManager.sceneLoaded += onSceneLoaded;
+                SceneManager.sceneLoaded += onPlayerSceneLoaded;
 
-                // Load the House and Player scenes, using additive mode for Player
+                // Load the player scene asynchronously
                 SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
-                SceneLoader.Instance.LoadScene(SceneNames.House);
-
-                Debug.Log("Data loaded successfully.");
             }
             else
             {
@@ -149,7 +151,29 @@ namespace Scenes._03_StartScene.Scripts
                 isLoading = false; // Reset loading flag if loading failed
             }
         }
-        
+
+        /// <summary>
+        /// Loads the house scene after ensuring that the player has been fully set up.
+        /// This method is designed to wait until the player setup is complete before proceeding with loading the next scene.
+        /// </summary>
+        /// <returns>An IEnumerator to be used with a coroutine, yielding control while awaiting player setup.</returns>
+        private IEnumerator LoadHouseAfterPlayerSetup()
+        {
+            // Wait until PlayerManager indicates the player is fully set up
+            while (PlayerManager.Instance.SpawnedPlayer == null)
+            {
+                yield return null;  // Wait one frame and check again
+            }
+
+            // Player setup is complete, load the house scene
+            SceneLoader.Instance.LoadScene(SceneNames.House);
+        }
+
+        /// <summary>
+        /// Notifies all save panels that the load operation has completed for the specified save key.
+        /// This triggers the OnLoadComplete event on matching save panels.
+        /// </summary>
+        /// <param name="saveKey">The unique identifier for the save file that has completed loading.</param>
         private void NotifyLoadComplete(string saveKey)
         {
             SavePanel[] panels = FindObjectsOfType<SavePanel>();
@@ -172,6 +196,17 @@ namespace Scenes._03_StartScene.Scripts
             {
                 panel.OnLoadRequested -= HandleLoadRequest;
             }
+        }
+
+        /// <summary>
+        /// Extracts the monster's name from the provided save key.
+        /// </summary>
+        /// <param name="saveKey">The unique identifier containing the monster's name.</param>
+        /// <returns>The extracted monster name as a string.</returns>
+        private string ExtractMonsterNameFromSaveKey(string saveKey)
+        {
+            var keyParts = saveKey.Split('_');
+            return keyParts.Length > 1 ? keyParts[1] : string.Empty;
         }
     }
 }

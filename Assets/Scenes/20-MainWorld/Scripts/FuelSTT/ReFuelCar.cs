@@ -72,7 +72,7 @@ public class ReFuelCar : MonoBehaviour
         }
     }
     /// <summary>
-    /// Refills the gas on the car, but only temp we only have two letter words so far
+    /// Refills the gas on the car, but only temp we only have two letter wordsOrLetters so far
     /// </summary>
     public void wordsTankRefuel()
     {
@@ -91,7 +91,7 @@ public class ReFuelCar : MonoBehaviour
     }
 
     /// <summary>
-    /// Refules the players car if they have enough words, looks thourgh players collected woreds and letters, to see
+    /// Refules the players car if they have enough wordsOrLetters, looks thourgh players collected woreds and letters, to see
     /// exchange rate is 1 letter for 0.2 fuel
     /// </summary>
     public void FullTankRefuelCar()

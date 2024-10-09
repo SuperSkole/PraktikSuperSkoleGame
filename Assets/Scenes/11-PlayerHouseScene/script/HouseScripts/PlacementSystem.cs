@@ -121,6 +121,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 floorData,
                 furnitureData,
                 wallfurnitureData,
+                nonePlaceablesData,
                 objectPlacer);
 
             // Subscribe to input events for clicking and exiting the removal mode.

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 {
     /// <summary>
-    /// Implementation of ISEGamemode where the player should spell incorrect two letter words
+    /// Implementation of ISEGamemode where the player should spell incorrect two letter wordsOrLetters
     /// </summary>
     public class SpellIncorrectWord : ISEGameMode
     {

@@ -22,7 +22,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private SymbolManager symbolManager;
         [SerializeField] private Transform splineHolder;
         [SerializeField] private BeeMovement bee;
-        [SerializeField] private AudioSource audioSource;
+        private bool playingSound = false;
         [SerializeField] private GameObject helperBee;
         [SerializeField] private GameObject activeHelperBee;
         public AudioClip letterSound;
@@ -59,6 +59,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             if (splines.Count <= 0) return;//end game
 
             currentSymbol = splines[0];
+            Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
             splines.RemoveAt(0);
             bee.NextLetter(currentSymbol.splineContainer);
             defaultBeeSpeed = bee.speed;
@@ -78,10 +79,19 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         public void Update()
         {
-            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !audioSource.isPlaying)
+            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !playingSound)
             {
-                audioSource.PlayOneShot(letterSound);
+                StartCoroutine(PlaySound());
+                
             }
+        }
+
+        private IEnumerator PlaySound()
+        {
+            playingSound = true;
+            AudioManager.Instance.PlaySound(letterSound, SoundType.Voice);
+            yield return new WaitForSeconds(letterSound.length);
+            playingSound = false;
         }
 
         /// <summary>
@@ -117,6 +127,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     if(splines.Count <= 0) return true;//end game
 
                     currentSymbol = splines[0];
+                    Debug.Log("the current letter is: " + currentSymbol.splineObject.name);
                     splines.RemoveAt(0);
                     bee.NextLetter(currentSymbol.splineContainer);
                     //Removes the currently active helper bee if it exists

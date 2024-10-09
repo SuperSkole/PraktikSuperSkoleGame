@@ -4,7 +4,6 @@ using CORE;
 using TMPro;
 using UI.Scripts;
 using Unity.Services.Authentication;
-using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -40,7 +39,7 @@ namespace Scenes._02_LoginScene.Scripts
         // Regex for validating password complexity
         // (min 8 chars, at least one uppercase, one lowercase, one number, and one special character)
         private const string PasswordPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$";
-        private const string UsernamePattern = @"^(?i)[a-z\d.\-@_]{3,20}$";
+        private const string UsernamePattern = @"^[a-zA-ZæøåÆØÅ\d]{3,20}$";
 
         private HoverEffectUI loginButtonHoverEffect;
         private BlinkEffectUI panelBlinkEffect;

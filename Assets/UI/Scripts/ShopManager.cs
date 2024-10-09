@@ -69,6 +69,8 @@ namespace UI.Scripts
             avaliableMoney = 0;
             meter.SettingValueAfterScene(0);
 
+            skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+
             if (playerColorChanging == null)
             {
                 playerColorChanging = this.GetComponent<ColorChanging>();
@@ -119,8 +121,9 @@ namespace UI.Scripts
             }
 
             //Build shop
-
+           
             List<ClothInfo> theShopOptions = ClothingManager.Instance.CipherList(PlayerManager.Instance.PlayerData.BoughtClothes);
+
             InitializeShopOptions(theShopOptions);
         }
 
@@ -135,19 +138,15 @@ namespace UI.Scripts
                 Destroy(shopOptionsParent.GetChild(i).gameObject);
             }
 
-            if (currentItem != null)
-            {
-                skeletonGraphic.Skeleton.SetAttachment(currentItem, null);
-            }
-
             PlayerManager.Instance.UpdatePlayerClothOnSceneChange(SceneManager.GetActiveScene());
+
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
-            
+            Debug.Log("InitializeActivated");
             foreach (ClothInfo cloth in availableClothes)
             {
                 // Instantiate a new ShopOption as a child of shopOptionsParent
@@ -329,6 +328,7 @@ namespace UI.Scripts
                         //COLOR
                         if (colors.Contains(currentItem.ToString()))
                         {
+
                             PlayerManager.Instance.PlayerData.MonsterColor = currentItem;
 
                             if (wearingTop != string.Empty)

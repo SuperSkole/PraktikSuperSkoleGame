@@ -100,7 +100,7 @@ namespace Scenes._03_StartScene.Scripts
             confirmDeleteButton.gameObject.SetActive(true);
             cancelDeleteButton.gameObject.SetActive(true);
                 
-            // Debug.Log("Delete save button pressed: " + SaveKey);
+            //Debug.Log("Delete save button pressed: " + SaveKey);
         }
         
         /// <summary>
@@ -123,7 +123,7 @@ namespace Scenes._03_StartScene.Scripts
                 return;
             }
 
-            // Debug.Log("Confirm delete button pressed: " + SaveKey);
+            //Debug.Log("Confirm delete button pressed: " + SaveKey);
                 
             // Hide the confirm and cancel buttons
             confirmDeleteButton.gameObject.SetActive(false);
@@ -225,7 +225,7 @@ namespace Scenes._03_StartScene.Scripts
             // Set SaveKey to null to indicate no save is associated with the panel
             SaveKey = null;
     
-            // Debug.Log("SavePanel cleared after save deletion.");
+            //Debug.Log("SavePanel cleared after save deletion.");
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace Scenes._03_StartScene.Scripts
             colorChanging.ColorChange(saveData.MonsterColor);
 
             clothChanging.ChangeClothes(saveData.ClothMid, skeletonGraphic);
-            //Debug.Log(saveData.ClothMid);
+            Debug.Log(saveData.ClothMid);
 
             clothChanging.ChangeClothes(saveData.ClothTop, skeletonGraphic);
         }

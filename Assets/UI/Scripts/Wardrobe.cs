@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
@@ -24,9 +25,14 @@ namespace UI.Scripts
         private string wearingMid = null;
         private string wearingTop = null;
         private string wearingColor = null;
-        
-        //colors
-        List<string> colors = new List<string>();
+
+        private WardrobeOption wardOptionTop;
+        private WardrobeOption wardOptionMid;
+        private WardrobeOption wardOptionColor;
+
+        private List<WardrobeOption> wardrobeOptionList;
+
+        HashSet<string> colors;
 
         private void Awake()
         {
@@ -34,48 +40,101 @@ namespace UI.Scripts
 
             clothChanging = this.GetComponent<ClothChanging>();
 
-            colors.AddRange(playerColorChanging.colors);
+            wardrobeOptionList = new List<WardrobeOption>();
+
+            if (playerColorChanging.colors == null)
+            {
+                Debug.LogError("playerColorChanging.colors is null");
+                return;
+            }
+            colors = new HashSet<string>(playerColorChanging.colors, StringComparer.OrdinalIgnoreCase);
+
+            foreach (var color in colors)
+            {
+                Debug.Log(color);
+            }
         }
 
 
         private void OnEnable()
         {
+
+            if (PlayerManager.Instance?.PlayerData == null)
+            {
+                Debug.LogError("PlayerData is null");
+                return;
+            }
+
+            if (ClothingManager.Instance == null)
+            {
+                Debug.LogError("ClothingManager.Instance is null");
+                return;
+            }
+
+            if (PlayerManager.Instance.PlayerData.BoughtClothes == null)
+            {
+                Debug.LogError("PlayerData.BoughtClothes is null");
+                return;
+            }
+            skeletonGraphic.Skeleton.SetSlotsToSetupPose();
+
             //change color
             playerColorChanging.SetSkeleton(skeletonGraphic);
             playerColorChanging.ColorChange(PlayerManager.Instance.PlayerData.MonsterColor);
 
-            //chnage clothes
+            //change clothes
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothMid, skeletonGraphic);
             clothChanging.ChangeClothes(PlayerManager.Instance.PlayerData.ClothTop, skeletonGraphic);
 
-            List<ClothInfo> theWardrobeOptions = new();
+            List<ClothInfo> theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
 
-            try
+            if (theWardrobeOptions.Count != 0)
             {
-                theWardrobeOptions = ClothingManager.Instance.WardrobeContent(PlayerManager.Instance.PlayerData.BoughtClothes);
-                if (theWardrobeOptions.Count != 0)
-                {
                     InitializeWardrobeOption(theWardrobeOptions);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Log($"Error fetching wardrobe options: {ex.Message}");
             }
 
             //set variables
-           if(PlayerManager.Instance.PlayerData.ClothMid != null && PlayerManager.Instance.PlayerData.ClothMid != string.Empty)
-           {
-                  wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
-           }
-           if (PlayerManager.Instance.PlayerData.ClothTop != null && PlayerManager.Instance.PlayerData.ClothTop != string.Empty)
-           {
-                 wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
-           }
-           if (PlayerManager.Instance.PlayerData.MonsterColor != null && PlayerManager.Instance.PlayerData.MonsterColor != string.Empty)
-           {
-                 wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
-           }
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.ClothMid))
+            {
+                wearingMid = PlayerManager.Instance.PlayerData.ClothMid;
+                Debug.Log("wearingMid "+wearingMid);
+            }
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.ClothTop))
+            {
+                wearingTop = PlayerManager.Instance.PlayerData.ClothTop;
+                Debug.Log("wearingTop "+wearingTop);
+            }
+            if (!string.IsNullOrEmpty(PlayerManager.Instance.PlayerData.MonsterColor))
+            {
+                wearingColor = PlayerManager.Instance.PlayerData.MonsterColor;
+                Debug.Log("wearingcolor "+wearingColor);
+            }
+
+            //Set WardrobeOptions
+            if (wardrobeOptionList != null)
+            {
+                foreach (var item in wardrobeOptionList)
+                {
+                    if (item.SpineName == wearingTop)
+                    {
+                        wardOptionTop = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                    if (item.SpineName == wearingMid)
+                    {
+                        wardOptionMid = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                    if (item.SpineName == wearingColor)
+                    {
+                        wardOptionColor = item;
+                        item.chosen = true;
+                        item.LightUp();
+                    }
+                }
+            }
         }
 
         private void OnDisable()
@@ -102,81 +161,120 @@ namespace UI.Scripts
                 //initialize the wardrobeOption with the cloth data
                 WardrobeOption wardrobeOption = newWardrobeObj.GetComponent<WardrobeOption>();
                 wardrobeOption.Initialize(cloth.Name, cloth.image, cloth.SpineName);
+
+                wardrobeOptionList.Add(wardrobeOption);
             }
         }
 
         public void Click(string itemName, WardrobeOption wardrobeShopOption)
         {
-
-            if (currentOption != null)
+            //turn off the last one
+            if (currentOption != null && currentOption.chosen == false)
             {
                 currentOption.UnSelect();
             }
 
-            currentOption = wardrobeShopOption;
-
-            if (itemName.Contains("HEAD"))
+            //IF IT'S ALREADY CHOSEN
+            if (wardrobeShopOption.chosen)
             {
-                if (wearingTop != null)
+                if (itemName.Contains("HEAD"))
                 {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
-                }
-                if (wearingMid != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
-                }
-                if (wearingColor != null)
-                {
-                    playerColorChanging.ColorChange(wearingColor);
-                }
-
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                wearingTop = itemName;
-
-                PlayerManager.Instance.PlayerData.ClothTop = itemName;
-            }
-
-            if (itemName.Contains("MID"))
-            {
-                if (wearingMid != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
-                }
-                if (wearingTop != null)
-                {
-                    skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
-                }
-                if (wearingColor != null)
-                {
-                    playerColorChanging.ColorChange(wearingColor);
-                }
-
-                skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
-                wearingMid = itemName;
-
-                PlayerManager.Instance.PlayerData.ClothMid = itemName;
-            }
-
-            foreach (var color in colors)
-            {
-                if (itemName.Contains(color, System.StringComparison.OrdinalIgnoreCase))
-                {
-                    playerColorChanging.ColorChange(itemName);
-
-                    if (wearingMid != null)
+                    if (!string.IsNullOrEmpty(wearingTop))
                     {
-                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, wearingMid);
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);
+
+                        wearingTop = string.Empty;
+                        wardOptionTop = null;
+
+
+
+                        PlayerManager.Instance.PlayerData.ClothTop = string.Empty;
                     }
-                    if (wearingTop != null)
+                }
+                if (itemName.Contains("MID"))
+                {
+                    if (!string.IsNullOrEmpty(wearingMid))
                     {
-                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, wearingTop);
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
+
+                        wearingMid = string.Empty;
+                        wardOptionMid = null;
+
+                        PlayerManager.Instance.PlayerData.ClothMid = string.Empty;
+                    }
+                }
+                if (colors.Contains(itemName))
+                {
+                    playerColorChanging.ColorChange(null);
+
+                        wearingColor = null;
+                        wardOptionColor = null;
+
+                        PlayerManager.Instance.PlayerData.MonsterColor = null;                  
+                }
+
+                wardrobeShopOption.chosen = false;
+                wardrobeShopOption.UnSelect();
+            }
+            //IF IT'S NOT CHOSEN
+            else
+            {
+                if (itemName.Contains("HEAD"))
+                {
+                    if (!string.IsNullOrEmpty(wearingTop))
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingTop, null);    
                     }
 
-                    wearingColor = itemName;
+                    if(wardOptionTop != null)
+                    {
+                        wardOptionTop.UnSelect();
+                    }
+                    wardOptionTop = wardrobeShopOption;
 
-                    PlayerManager.Instance.PlayerData.MonsterColor = itemName;
+                    skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                    wearingTop = itemName;
+                    PlayerManager.Instance.PlayerData.ClothTop = itemName;
                 }
+                if (itemName.Contains("MID"))
+                {
+                    if (!string.IsNullOrEmpty(wearingMid))
+                    {
+                        skeletonGraphic.Skeleton.SetAttachment(wearingMid, null);
+                    }
+
+                    if (wardOptionMid != null)
+                    {
+                        wardOptionMid.UnSelect();
+                    }
+                    wardOptionMid = wardrobeShopOption;
+
+                    skeletonGraphic.Skeleton.SetAttachment(itemName, itemName);
+                    wearingMid = itemName;
+                    PlayerManager.Instance.PlayerData.ClothMid = itemName;
+                }
+
+                if (colors.Contains(itemName))
+                {                
+                        playerColorChanging.ColorChange(itemName);
+
+                        if (wardOptionColor != null)
+                        {
+                            wardOptionColor.UnSelect();
+                        }
+                        wardOptionColor = wardrobeShopOption;
+
+                        wearingColor = itemName;
+
+                        PlayerManager.Instance.PlayerData.MonsterColor = itemName;                
+                }
+
+                wardrobeShopOption.chosen = true;
+                wardrobeShopOption.LightUp();
             }
+
+                currentOption = wardrobeShopOption;
+
         }
 
         public void CloseShop()
@@ -187,7 +285,7 @@ namespace UI.Scripts
             PlayerManager.Instance.UpdatePlayerColorOnSceneChange(SceneManager.GetActiveScene());
         }
 
-       
+
     }
 
 }

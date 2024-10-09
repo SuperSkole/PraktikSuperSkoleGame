@@ -48,7 +48,6 @@ public class BankManager : MonoBehaviour, IMinigameSetup
     [SerializeField]private Image unifiedFieldBackground;
     [SerializeField]private ErrorExplainer mistakeExplainer;
     [SerializeField]private HealthDisplay healthDisplay;
-    [SerializeField]private AudioSource audioSource;
     [SerializeField]private AudioClip correctSound;
     [SerializeField]private AudioClip incorrectSound;
     public GameObject dragArea;
@@ -86,6 +85,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         if(currentCustomer == null)
         {
             errorDisplay.Reset();
+            numberDisplay.ClearNumber();
             currentCustomer = customer;
             healthDisplay.SetHearts(3);
             mistakes = 0;
@@ -130,9 +130,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
         if(result < 2)
         {
-            mistakeExplainer.gameObject.SetActive(true);
-            mistakeExplainer.AddExplanation(gamemode.GetErrorExplainText());
-            audioSource.PlayOneShot(incorrectSound);
+            AudioManager.Instance.PlaySound(incorrectSound, SoundType.SFX);
         }
         if(result == 2)
         {
@@ -140,7 +138,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
             Instantiate(coinPrefab);
-            audioSource.PlayOneShot(correctSound);
+            AudioManager.Instance.PlaySound(correctSound, SoundType.SFX);
             StartCoroutine(Restart());
         }
         //Changes the background color of the trays to yellow if either the guess or the sorting is correct

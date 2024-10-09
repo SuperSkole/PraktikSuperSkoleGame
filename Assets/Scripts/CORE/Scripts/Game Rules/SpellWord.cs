@@ -5,7 +5,7 @@ namespace CORE.Scripts.Game_Rules
 
 
     /// <summary>
-    /// Implementation of IGameRules for games where the player should spell words
+    /// Implementation of IGameRules for games where the player should spell wordsOrLetters
     /// </summary>
     public class SpellWord : IGameRules
     {

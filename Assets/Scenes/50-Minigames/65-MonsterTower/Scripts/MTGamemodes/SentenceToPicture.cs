@@ -34,7 +34,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             words.Add(currentWord.ToString());
             if (words.Count < 3)
             {
-                Debug.Log("Tower expected 3 words sentences but got less. setting random image as correct image");
                 SetWrongAnswer(manager,str);
                 return;
             }
@@ -138,6 +137,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.answerHolderPrefab = manager.imageHolderPrefab;
             manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
             manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
+
+            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer til sætningen";
         }
     }
 }

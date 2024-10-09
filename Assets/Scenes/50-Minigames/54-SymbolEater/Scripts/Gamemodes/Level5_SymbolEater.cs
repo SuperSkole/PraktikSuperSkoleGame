@@ -105,7 +105,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 //finds new letterboxes to be activated and assigns them a random image. If it selects the correct Image the count for it is increased
                 for (int i = 0; i < count; i++)
                 {
-                    // creates random words from the word list, then creates images to fit those random words.
+                    // creates random wordsOrLetters from the word list, then creates images to fit those random wordsOrLetters.
 
                     string randoImage = gameRules.GetWrongAnswer();
 

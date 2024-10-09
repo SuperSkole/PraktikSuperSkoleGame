@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootConsonant : MonoBehaviour, IMTGameMode
+    public class ShootConsonant : IMTGameMode
     {
         
         List<ILanguageUnit> consonants;

@@ -78,8 +78,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     }
                     else
                     {
-                        capitalLettersObjects.Add(gameObject.name[7], gameObject);
-                        capitalLetters.Add(gameObject.name[7], gameObject.GetComponent<SplineContainer>());
+                        capitalLettersObjects.Add(gameObject.name.ToUpper()[7], gameObject);
+                        capitalLetters.Add(gameObject.name.ToUpper()[7], gameObject.GetComponent<SplineContainer>());
                     }
                     
                 }
@@ -88,7 +88,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     if (gameObject.name[9] == '(')
                     {
-                        DanishLetterHandler(gameObject, false, gameObject.name.Substring(10,2));
+                        DanishLetterHandler(gameObject, false, gameObject.name.ToLower().Substring(10,2));
                     }
                     else
                     {
@@ -151,8 +151,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             //Inserts the letter into the correct dictionary
             if (isCapitalLetter)
             {
-                capitalLettersObjects.Add(letter, gameObject);
-                capitalLetters.Add(letter, gameObject.GetComponent<SplineContainer>());
+                capitalLettersObjects.Add(char.ToUpper(letter), gameObject);
+                capitalLetters.Add(char.ToUpper(letter), gameObject.GetComponent<SplineContainer>());
             }
             else 
             {
