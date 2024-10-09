@@ -62,7 +62,12 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>Whether the symbol is the same as the current letter</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return currentLetter.ToLower() == symbol.ToLower();
+            currentIndex++;
+            if(currentIndex < currentWord.Length)
+            {
+                currentLetter = currentWord[currentIndex].ToString();
+            }
+            return true;
         }
 
         /// <summary>
