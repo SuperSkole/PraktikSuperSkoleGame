@@ -31,7 +31,7 @@ namespace Scenes._02_LoginScene.Scripts
         /// +: Sikrer, at der er mindst ét tilladt tegn i input.
         /// ^ og $: Sikrer, at hele inputtet skal overholde mønsteret uden andre tegn i starten eller slutningen.
         /// </summary>
-        private const string UsernamePattern = @"^[a-zA-Z\d]+$";
+        private const string UsernamePattern = @"^[a-zA-ZæøåÆØÅ\d]+$";
         
         private const int MinUsernameLength = 3;
         private const int MaxUsernameLength = 20;
