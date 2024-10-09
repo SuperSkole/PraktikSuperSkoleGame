@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
@@ -124,7 +126,20 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            return (SetRules(level), SetMode(level));
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode = null;
+            IGameRules rules = null;
+            if(languageUnit.LanguageUnitType == LanguageUnit.Letter)
+            {
+                mode = new LevelFiveRacing();
+                rules = new DynamicGameRules();
+            }
+            else if(languageUnit.LanguageUnitType == LanguageUnit.Word)
+            {
+                mode = new LevelThreeRacing();
+                rules = new DynamicGameRules();
+            }
+            return (rules, mode);
         }
 
     }
