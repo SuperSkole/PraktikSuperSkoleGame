@@ -90,6 +90,13 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         { 180f, new Vector3(0.9f, 0f, 0.9f)  },
         { 270f, new Vector3(0.9f, 0f, 0.12f)  }
     };
+        Dictionary<float, Vector3> BasicWallCornerNotRemoveAble = new Dictionary<float, Vector3>()
+    {
+        { 0f, new Vector3(0.9f, 0f, 0.9f) },
+        { 90f, new Vector3(0.9f, 0f, 0.1f)  },
+        { 180f, new Vector3(0.1f, 0f, 0.1f)  },
+        { 270f, new Vector3(0.1f, 0f, 0.9f)  }
+    };
 
 
         #endregion
@@ -157,6 +164,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     return WallWindowParent.ContainsKey(rotationY) ? WallWindowParent[rotationY] : Vector3.zero;
                 case "IntranceDoorParent(Clone)":
                     return IntranceDoorParent.ContainsKey(rotationY) ? IntranceDoorParent[rotationY] : Vector3.zero;
+                case "StandardWallCronerparent(Clone)":
+                    return BasicWallCornerNotRemoveAble.ContainsKey(rotationY) ? BasicWallCornerNotRemoveAble[rotationY] : Vector3.zero;
                     
                 default:
                     return Vector3.zero;
