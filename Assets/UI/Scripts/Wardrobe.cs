@@ -42,11 +42,7 @@ namespace UI.Scripts
             clothChanging = this.GetComponent<ClothChanging>();
 
             wardrobeOptionList = new List<WardrobeOption>();
-        }
 
-
-        private void OnEnable()
-        {
             if (playerColorChanging.colors == null)
             {
                 Debug.LogError("playerColorChanging.colors is null");
@@ -54,11 +50,15 @@ namespace UI.Scripts
             }
             colors = new HashSet<string>(playerColorChanging.colors, StringComparer.OrdinalIgnoreCase);
 
-            foreach(var color in colors)
+            foreach (var color in colors)
             {
-
-            Debug.Log(color);
+                Debug.Log(color);
             }
+        }
+
+
+        private void OnEnable()
+        {
 
             if (PlayerManager.Instance?.PlayerData == null)
             {
@@ -178,7 +178,6 @@ namespace UI.Scripts
             //IF IT'S ALREADY CHOSEN
             if (wardrobeShopOption.chosen)
             {
-                Debug.Log(itemName);
                 if (itemName.Contains("HEAD"))
                 {
                     if (!string.IsNullOrEmpty(wearingTop))
@@ -207,7 +206,6 @@ namespace UI.Scripts
                 }
                 if (colors.Contains(itemName))
                 {
-                    Debug.Log("We in");
                     playerColorChanging.ColorChange(null);
 
                         wearingColor = null;
