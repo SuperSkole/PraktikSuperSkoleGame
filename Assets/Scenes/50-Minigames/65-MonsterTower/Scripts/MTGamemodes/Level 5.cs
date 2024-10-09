@@ -58,7 +58,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             AudioClip clip= LetterAudioManager.GetAudioClipFromLetter(str+"1");
 
-            manager.hearLetterButton.GetComponent<AudioSource>().clip = clip;
+            manager.VoiceClip = clip;
 
         }
 

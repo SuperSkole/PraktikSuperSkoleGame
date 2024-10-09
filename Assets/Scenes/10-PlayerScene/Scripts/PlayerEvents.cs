@@ -98,7 +98,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         public static List<char> RaisePlayerDataLettersExtracted()
         {
-            if (PlayerManager.Instance.PlayerData.CollectedWords.Count > 0)
+            if (PlayerManager.Instance.PlayerData.CollectedLetters.Count > 0)
             {
                 return PlayerEvents.OnPlayerDataLettersExtracted?.Invoke(PlayerManager.Instance.PlayerData.CollectedLetters);
             }

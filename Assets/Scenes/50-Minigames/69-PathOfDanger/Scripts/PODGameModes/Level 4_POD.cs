@@ -65,7 +65,7 @@ public class Level4_POD : IPODGameMode
 
         AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
 
-        manager.hearLetterButtonAudioSource.GetComponent<AudioSource>().clip = clip;
+        manager.hearLetterButtonAudioClip = clip;
 
     }
 

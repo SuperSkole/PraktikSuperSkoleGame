@@ -52,7 +52,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
   
 
-    public AudioSource hearLetterButtonAudioSource;
+    public AudioClip hearLetterButtonAudioClip;
 
     public TextMeshProUGUI descriptionText;
 
@@ -76,7 +76,6 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject healthUI;
 
-    [SerializeField] AudioSource backGroundMusicSource;
 
     [SerializeField] GameObject mapSection;
 
@@ -84,11 +83,13 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     private bool mapLoaded = false;
 
     public bool hasAnsweredWrong=false;
+
+    [SerializeField] AudioClip backGroundMusic;
     void Start()
     {
-       
+        AudioManager.Instance.PlaySound(backGroundMusic, SoundType.Music, true);
 
-        hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
+       
 
         if (PlayerManager.Instance != null)
         {
@@ -404,7 +405,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     public void PlaySoundFromHearLetterButton()
     {
-        hearLetterButtonAudioSource.GetComponent<AudioSource>().Play();
+        AudioManager.Instance.PlaySound(hearLetterButtonAudioClip, SoundType.Voice, false);
     }
 
     /// <summary>
