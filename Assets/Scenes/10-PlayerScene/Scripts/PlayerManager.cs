@@ -1,6 +1,10 @@
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using LoadSave;
 using Scenes._24_HighScoreScene.Scripts;
 using Scenes._88_LeaderBoard.Scripts;
@@ -8,6 +12,7 @@ using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Words;
 
 namespace Scenes._10_PlayerScene.Scripts
 {
@@ -221,6 +226,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 0,
                 1,
                 spawnedPlayer.transform.position,
+                0,
+                new ConcurrentDictionary<string, LetterData>(),
+                new ConcurrentDictionary<string, WordData>(),
                 new List<string>(),
                 new List<char>(),
                 0,
@@ -276,6 +284,12 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
 
             GameManager.Instance.IsNewGame = false;
+            
+            GameManager.Instance.PerformanceWeightManager.InitializeLetterWeights();
+            GameManager.Instance.PerformanceWeightManager.InitializeWordWeights();
+            GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
+            // GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
+            // GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
         }
 
         public void SetupPlayerFromSave(PlayerData saveData)
@@ -287,7 +301,7 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
             if (colorChanging == null)
             {
-                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
+                Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
                                "ColorChanging component not found on spawned player.");
                 return;
             }
@@ -295,24 +309,24 @@ namespace Scenes._10_PlayerScene.Scripts
             playerData = spawnedPlayer.GetComponent<PlayerData>();
             if (playerData == null)
             {
-                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
-                               "PlayerData component not found on spawned player.");
+                Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
+                                 "PlayerData component not found on spawned player.");
                 return;
             }
 
             skeleton = spawnedPlayer.GetComponentInChildren<ISkeletonComponent>();
             if (skeleton == null)
             {
-                Debug.LogError("PlayerManager.SetupPlayerFromSave(): " +
-                               "ISkeletonComponent component not found on spawned player.");
+                Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
+                                 "ISkeletonComponent component not found on spawned player.");
                 //return;
             }
 
             clothChanging = spawnedPlayer.GetComponentInChildren<ClothChanging>();
             if (clothChanging == null)
             {
-                Debug.LogError("PlayerManager.SetupPlayer(): " +
-                               "ClothChanging component not found on spawned player.");
+                Debug.LogWarning("PlayerManager.SetupPlayer(): " +
+                                 "ClothChanging component not found on spawned player.");
             }
 
             // Init player data with saved data
@@ -324,6 +338,9 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.CurrentXPAmount,
                 saveData.CurrentLevel,
                 saveData.CurrentPosition,
+                saveData.PlayerLanguageLevel,
+                saveData.LettersWeights,
+                saveData.WordWeights,
                 saveData.CollectedWords,
                 saveData.CollectedLetters,
                 saveData.LifetimeTotalWords,
@@ -360,6 +377,9 @@ namespace Scenes._10_PlayerScene.Scripts
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
+            
+            GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
+            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
         }
 
         // TODO maybe refactor onSceneLoaded into new script 

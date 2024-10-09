@@ -75,10 +75,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
-                
-                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayerInFactory>();
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<SpinePlayerMovement>().enabled = false;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<CapsuleCollider>().enabled = true;
+                
+                PlayerManager.Instance.SpawnedPlayer.AddComponent<AutoMovePlayerInFactory>();
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().DropOffPoint = dropOffPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().PlayerSpawnPoint = PlayerSpawnPoint;
                 PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerAnimatior>().SetCharacterState("Idle");

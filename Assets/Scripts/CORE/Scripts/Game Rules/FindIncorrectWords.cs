@@ -29,7 +29,12 @@ namespace CORE.Scripts.Game_Rules
         {
             return "";
         }
-        
+
+        public string GetSecondaryAnswer()
+        {
+            return "";
+        }
+
         /// <summary>
         /// Returns a random consonant
         /// </summary>

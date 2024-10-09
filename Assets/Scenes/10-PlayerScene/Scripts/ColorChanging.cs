@@ -82,7 +82,6 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 GameManager.Instance.CurrentMonsterColor = "White";
             }
-
         }
 
 

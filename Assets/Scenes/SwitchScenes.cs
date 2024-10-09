@@ -37,5 +37,6 @@ namespace Scenes
         public static void SwitchToBankFrontLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.BankFrontLoading);
         public static void SwitchToMultiplayerLobbyScene() => SceneLoader.Instance.LoadScene(SceneNames.MultiplayerLobby);
         public static void SwitchToProductionLine() => SceneLoader.Instance.LoadScene(SceneNames.WordLine);
+        public static void SwitchToProductionLineLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.WordLineLoad);
     }
 }

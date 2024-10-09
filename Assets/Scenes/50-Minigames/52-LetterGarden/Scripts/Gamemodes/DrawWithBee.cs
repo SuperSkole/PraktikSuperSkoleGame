@@ -22,6 +22,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
             List<string> usedLetters = new List<string>();
             //Adds a given amount of random letters to the result list based on the given game rules.
+            gameRules.SetCorrectAnswer();
             for (int i = 0; i < amount; i++)
             {
                 string letter = gameRules.GetCorrectAnswer();

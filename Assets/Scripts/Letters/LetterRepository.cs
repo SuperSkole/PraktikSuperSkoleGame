@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Analytics;
 
-namespace CORE.Scripts
+namespace Letters
 {
-    public class LetterProvider : ILetterProvider
+    public static class LetterRepository
     {
         /// <summary>
         /// A collection of all Danish letters.
@@ -39,25 +40,25 @@ namespace CORE.Scripts
         /// Retrieves a collection of all Danish letters.
         /// </summary>
         /// <returns>An IEnumerable of all Danish letters.</returns>
-        public IEnumerable<char> GetAllLetters()
+        public static IEnumerable<char> GetAllLetters()
         {
             return AllDanishLetters;
         }
-
+        
         /// <summary>
         /// Retrieves a collection of all Danish vowels.
         /// </summary>
         /// <returns>An IEnumerable of all Danish vowels.</returns>
-        public IEnumerable<char> GetVowels()
+        public static IEnumerable<char> GetVowels()
         {
             return DanishVowels;
         }
-
+        
         /// <summary>
         /// Retrieves a collection of all Danish consonants.
         /// </summary>
         /// <returns>An IEnumerable of all Danish consonants.</returns>
-        public IEnumerable<char> GetConsonants()
+        public static IEnumerable<char> GetConsonants()
         {
             return Consonants;
         }

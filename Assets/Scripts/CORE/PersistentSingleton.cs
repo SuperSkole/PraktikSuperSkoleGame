@@ -1,4 +1,4 @@
-// inspired by git-amend's video about Bettter Singletons:
+// inspired by git-amend's video about Better Singletons:
 // https://www.youtube.com/watch?v=LFOXge7Ak3E
 
 using UnityEngine;

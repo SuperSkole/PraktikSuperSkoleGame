@@ -1,8 +1,13 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using Analytics;
+using Letters;
 using Newtonsoft.Json;
 using Unity.Mathematics;
 using UnityEngine;
+using Words;
 
 namespace LoadSave
 {
@@ -27,6 +32,10 @@ namespace LoadSave
         [SerializeField] private Vector3 currentPosition;
         
         // Words and letters
+        [SerializeField] private int playerLanguageLevel;
+        [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
+        [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
+        //[JsonIgnore] public ConcurrentDictionary<string, SentenceData> SentenceWeights = new ConcurrentDictionary<string, SentenceData>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         [SerializeField] private int lifetimeTotalWords;
@@ -44,8 +53,10 @@ namespace LoadSave
         [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
         [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
 
+        // Furniture
         [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
 
+        // Properties for encapsulation and dataconvertion reflection
 
         public string Username { get => username; set => username = value; }
         public string MonsterName { get => monsterName; set => monsterName = value; }
@@ -59,6 +70,10 @@ namespace LoadSave
         public Vector3 CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
+        public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
+        public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
+        public ConcurrentDictionary<string, WordData> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
+        //public ConcurrentDictionary<string, SentenceData> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
@@ -76,25 +91,29 @@ namespace LoadSave
         public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
 
         /// <summary>
-        /// Initializes the game character with provided attributes.
+        /// Initializes the player's data with the provided parameters.
         /// </summary>
-        /// <param name="username">The name of the user.</param>
-        /// <param name="monsterName">The name of the monster associated with the user.</param>
-        /// <param name="monsterTypeID">The ID of the monster type.</param>
-        /// <param name="monsterColor">The color of the monster.</param>
-        /// <param name="goldAmount">Initial amount of gold.</param>
-        /// <param name="xpAmount">Initial experience points.</param>
-        /// <param name="level">Starting level of the character.</param>
-        /// <param name="position">Initial position of the character in the game world.</param>
-        /// <param name="collectedWords">The list of collected wordsOrLetters.</param>
-        /// <param name="collectedLetters">The list of collected letters.</param>
-        /// <param name="totalWords">Total number of wordsOrLetters collected.</param>
-        /// <param name="totalLetters">Total number of letters collected.</param>
-        /// <param name="midCloth">The middle clothing of the character.</param>
-        /// <param name="topCloth">The top clothing of the character.</param>
-        /// <param name="boughtClothes">The list of bought clothes.</param>
-        /// <param name="listOfCars">The list of cars associated with the character.</param>
-        public void Initialize(string username,
+        /// <param name="username">The username of the player.</param>
+        /// <param name="monsterName">The name of the player's monster.</param>
+        /// <param name="monsterColor">The color of the player's monster.</param>
+        /// <param name="goldAmount">The amount of gold the player currently has.</param>
+        /// <param name="xpAmount">The amount of experience points the player currently has.</param>
+        /// <param name="level">The current level of the player.</param>
+        /// <param name="position">The current position of the player in the game world.</param>
+        /// <param name="playerLanguageLevel">The player's language proficiency level.</param>
+        /// <param name="lettersWeights">A dictionary mapping letters to their weights.</param>
+        /// <param name="wordWeights">A dictionary mapping words to their weights.</param>
+        /// <param name="collectedWords">The list of words the player has collected.</param>
+        /// <param name="collectedLetters">The list of letters the player has collected.</param>
+        /// <param name="totalWords">The total number of words collected over the player's lifetime.</param>
+        /// <param name="totalLetters">The total number of letters collected over the player's lifetime.</param>
+        /// <param name="midCloth">The identifier for the middle clothing item the player has equipped.</param>
+        /// <param name="topCloth">The identifier for the top clothing item the player has equipped.</param>
+        /// <param name="boughtClothes">The list of clothing items the player has bought.</param>
+        /// <param name="listOfCars">The list of cars the player owns.</param>
+        /// <param name="ListOfFurniture">The list of furniture items the player owns.</param>
+        public void Initialize(
+            string username,
             string monsterName,
             //int monsterTypeID,
             string monsterColor,
@@ -102,6 +121,10 @@ namespace LoadSave
             int xpAmount,
             int level,
             Vector3 position,
+            int playerLanguageLevel,
+            ConcurrentDictionary<string, LetterData> lettersWeights,
+            ConcurrentDictionary<string, WordData> wordWeights,
+            // TODO ADD WORDS AND SENTENCES
             List<string> collectedWords,
             List<char> collectedLetters,
             int totalWords,
@@ -110,39 +133,51 @@ namespace LoadSave
             string topCloth,
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
-            List<int> ListOfFurniture
-        )
+            List<int> ListOfFurniture)
         {
             this.username = username;
             this.monsterName = monsterName;
             //this.monsterTypeID = monsterTypeID;
             this.monsterColor = monsterColor;
-            this.currentGoldAmount = goldAmount;
-            this.currentXPAmount = xpAmount;
-            this.currentLevel = level;
-            this.currentPosition = position;
+            currentGoldAmount = goldAmount;
+            currentXPAmount = xpAmount;
+            currentLevel = level;
+            currentPosition = position;
             
-            // wordsOrLetters and letters
-            this.CollectedWords.Clear();
-            this.CollectedWords.AddRange(collectedWords);
-            this.CollectedLetters.Clear();
-            this.CollectedLetters.AddRange(collectedLetters);
-            this.LifetimeTotalWords = totalWords;
-            this.LifetimeTotalLetters = totalLetters;
+            // words and letters
+            this.playerLanguageLevel = playerLanguageLevel;
+            LettersWeights.Clear();
+            foreach (var kvp in lettersWeights)
+            {
+                this.LettersWeights.TryAdd(kvp.Key, kvp.Value);
+            }
+            
+            WordWeights.Clear();
+            foreach (var kvp in wordWeights)
+            {
+                this.WordWeights.TryAdd(kvp.Key, kvp.Value);
+            }
+            
+            CollectedWords.Clear();
+            CollectedWords.AddRange(collectedWords);
+            CollectedLetters.Clear();
+            CollectedLetters.AddRange(collectedLetters);
+            LifetimeTotalWords = totalWords;
+            LifetimeTotalLetters = totalLetters;
             
             // cloth
-            this.clothMid = midCloth;
-            this.clothTop = topCloth;
-            this.BoughtClothes.Clear();
-            this.BoughtClothes.AddRange(boughtClothes);
+            clothMid = midCloth;
+            clothTop = topCloth;
+            BoughtClothes.Clear();
+            BoughtClothes.AddRange(boughtClothes);
             
             // cars
-            this.ListOfCars.Clear();
-            this.ListOfCars.AddRange(listOfCars);
+            ListOfCars.Clear();
+            ListOfCars.AddRange(listOfCars);
+            
+            // Furniture
             this.ListOfFurniture = ListOfFurniture;
         }
-
-
 
         public void SetLastInteractionPoint(Vector3 position)
         {
