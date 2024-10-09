@@ -1,5 +1,6 @@
 using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using Scenes;
+using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using TMPro;
@@ -27,6 +28,9 @@ public class ProductionLineController : MonoBehaviour
 
     [SerializeField]
     private GameObject letterPool, imagePool;
+
+    [SerializeField]
+    private GameObject coinEffect;
 
 
     [SerializeField]
@@ -276,10 +280,16 @@ public class ProductionLineController : MonoBehaviour
 
             if (letter == imageFirstLetter)
             {
+
+                PlayerEvents.RaiseGoldChanged(1);
+                Instantiate(coinEffect);
+                PlayerEvents.RaiseXPChanged(1);
+                PlayerEvents.RaiseAddWord(imageName);
                 StartCoroutine(WaitForRightXSeconds());
 
                 if (points >= 5)
                 {
+
                     StartCoroutine(CheckIfYouWin());
                 }
             }
