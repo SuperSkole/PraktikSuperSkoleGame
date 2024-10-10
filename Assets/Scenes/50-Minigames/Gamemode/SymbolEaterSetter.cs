@@ -68,7 +68,7 @@ namespace Scenes._50_Minigames.Gamemode
                 case LanguageUnit.Letter:
                     mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
                     LetterData letterData = (LetterData)languageUnit;
-                    if(letterData.ErrorCategory == LetterCategory.Vowel || letterData.ErrorCategory == LetterCategory.Consonant)
+                    if(letterData.Category == LetterCategory.Vowel || letterData.Category == LetterCategory.Consonant)
                     {
                         mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
                     }
