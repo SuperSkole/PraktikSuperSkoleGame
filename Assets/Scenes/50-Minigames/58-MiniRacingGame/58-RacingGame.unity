@@ -3605,7 +3605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477628535345694894, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 477628535345694894, guid: 6284e70c734184a4c8a6735fda84b079, type: 3}
       propertyPath: m_TagString
@@ -4181,6 +4181,134 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1802603700}
   m_CullTransparentMesh: 1
+--- !u!1 &1817767631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1817767632}
+  - component: {fileID: 1817767633}
+  m_Layer: 0
+  m_Name: CarSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1817767632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817767631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1817767633
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1817767631}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -5101719981853252328, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1845715635
 GameObject:
   m_ObjectHideFlags: 3
@@ -4395,6 +4523,7 @@ GameObject:
   - component: {fileID: 1884677011}
   - component: {fileID: 1884677014}
   - component: {fileID: 1884677016}
+  - component: {fileID: 1884677017}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4554,6 +4683,102 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!82 &1884677017
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884677010}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -5101719981853252328, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1946681794
 GameObject:
   m_ObjectHideFlags: 0
@@ -5056,6 +5281,7 @@ GameObject:
   - component: {fileID: 2058392655}
   - component: {fileID: 2058392657}
   - component: {fileID: 2058392656}
+  - component: {fileID: 2058392661}
   m_Layer: 0
   m_Name: RacingGameManager
   m_TagString: Setup
@@ -5072,7 +5298,7 @@ Transform:
   m_GameObject: {fileID: 2058392650}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.607738, y: 6.282996, z: -142.00488}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5137,16 +5363,120 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   endGameUI: {fileID: 0}
   StartUI: {fileID: 315754821}
-  playerCar: {fileID: 2029994145}
   carController: {fileID: 0}
   racingGameManager: {fileID: 2058392656}
   coinEffect: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   levelCreator: {fileID: 1087775996}
+  audio: {fileID: 1884677017}
   imageInitialized: 0
   objectiveText: {fileID: 2986998205466991338}
   targetWord: 
   imageWord: 
   currentMode: 
+--- !u!114 &2058392661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2058392650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec93c615384af54ca0c1f5e9b3bf448, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CarListMaterials:
+  - CarName: Mustang
+    materialInfo:
+    - MaterialName: Red
+      CarMaterial: {fileID: 2100000, guid: 27075bf6e034cf645a8cb35548d8ee5f, type: 2}
+    - MaterialName: Yellow
+      CarMaterial: {fileID: 2100000, guid: 78009f963c1429045803a8b95b3c0dbc, type: 2}
+    - MaterialName: Purple
+      CarMaterial: {fileID: 2100000, guid: 6f1b4b8d7debd314ba9d70da904b5c16, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: a8baadc9d5f2b714b8ce785e9c93e586, type: 2}
+    - MaterialName: Orange
+      CarMaterial: {fileID: 2100000, guid: f822395ba23d88b4eaa68a7520f58367, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: 808f9db45fc635e4faa248781a9970f8, type: 2}
+  - CarName: Van
+    materialInfo:
+    - MaterialName: Black
+      CarMaterial: {fileID: 2100000, guid: a1829ada767859a46a5fd32962c5195f, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: d9e1a266f68cdd540b4d524d7324fb13, type: 2}
+    - MaterialName: Gray
+      CarMaterial: {fileID: 2100000, guid: c1d48912bfca1d54e96b41fea12cd010, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: d5873f541c4f09e46b4431f99e32c069, type: 2}
+    - MaterialName: Orange
+      CarMaterial: {fileID: 2100000, guid: a53cfd3407a62f649b35d974bfc1703c, type: 2}
+    - MaterialName: Pink
+      CarMaterial: {fileID: 2100000, guid: de6d2d12465c4b24dba3aaeae03e26b0, type: 2}
+  - CarName: Police
+    materialInfo:
+    - MaterialName: Black
+      CarMaterial: {fileID: 2100000, guid: ae0cf56d8eb7f2643a6a9ad9fabca67a, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: 6a1872e7df091154f98728e6f7a3d386, type: 2}
+    - MaterialName: Orange
+      CarMaterial: {fileID: 2100000, guid: 4ddbe0c5b6b9b66408286b7372217ef8, type: 2}
+    - MaterialName: White
+      CarMaterial: {fileID: 2100000, guid: 07bdf3b1744382349a66cc9db90694a8, type: 2}
+  - CarName: Cab
+    materialInfo:
+    - MaterialName: Yellow
+      CarMaterial: {fileID: 2100000, guid: 2c37416999807f04191e622209151edb, type: 2}
+    - MaterialName: White
+      CarMaterial: {fileID: 2100000, guid: 0860a1b4c4f458a40a5d52eea6fa3156, type: 2}
+    - MaterialName: Red
+      CarMaterial: {fileID: 2100000, guid: 2e38faa697369f74cb4dac4e9b6ecccf, type: 2}
+    - MaterialName: Purple
+      CarMaterial: {fileID: 2100000, guid: cb2907f39624d5844a559e93a16ca702, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: c8d15ce4e07243f48af3aeabbc299ff8, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: 56e5eccd4469d9b458b289fb8999e9e4, type: 2}
+  - CarName: TopHat
+    materialInfo:
+    - MaterialName: Black
+      CarMaterial: {fileID: 2100000, guid: 680558c20f4797546945ec3ddf3a5d46, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: 5402b8e3aa1f44b4ea50c248dc9c2da5, type: 2}
+    - MaterialName: Purple
+      CarMaterial: {fileID: 2100000, guid: 617b045f0b4237a498ef7b2093c9199f, type: 2}
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: 5f619559d60d30f4e99815a4c649dc85, type: 2}
+  - CarName: GoKart
+    materialInfo:
+    - MaterialName: Blue
+      CarMaterial: {fileID: 2100000, guid: 27ef5a226ab842d4d955307306782274, type: 2}
+    - MaterialName: Green
+      CarMaterial: {fileID: 2100000, guid: f507bcd6a3843a34b80a6524eb3104a6, type: 2}
+    - MaterialName: Red
+      CarMaterial: {fileID: 2100000, guid: 2c7258d612fda7b409145bd1cb658132, type: 2}
+    - MaterialName: Purple
+      CarMaterial: {fileID: 2100000, guid: d6792e069aba6844d8cfb50ae7231139, type: 2}
+    - MaterialName: Black
+      CarMaterial: {fileID: 2100000, guid: b4dd3b1c97006084ba290aacbc184bbb, type: 2}
+  CarListGameObjects:
+  - CarName: Mustang
+    CarGameObject: {fileID: 477628535345694894, guid: d0bf42575929f584c9b189fe72872f58, type: 3}
+  - CarName: Van
+    CarGameObject: {fileID: 2811824126819119337, guid: 0aabdc59d0baf024f8bee66590c9d90f, type: 3}
+  - CarName: Police
+    CarGameObject: {fileID: 2811824126819119337, guid: ae4d16810f70c9545ab1796beb842509, type: 3}
+  - CarName: Cab
+    CarGameObject: {fileID: 2811824126819119337, guid: d16c4173fd404cf4da5b2dc55dd3d444, type: 3}
+  - CarName: TopHat
+    CarGameObject: {fileID: 2811824126819119337, guid: 8f56c9dda1075614296a322fbf1fa91a, type: 3}
+  - CarName: GoKart
+    CarGameObject: {fileID: 2811824126819119337, guid: 2b38573e58df4de45b849b989821022b, type: 3}
+  CarSpawnPos: {fileID: 1817767632}
+  spawnedCar: {fileID: 0}
+  virtualCamera: {fileID: 765765165}
+  speedTxt: {fileID: 409966521}
 --- !u!222 &664682909551195383
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5241,3 +5571,4 @@ SceneRoots:
   - {fileID: 1087775998}
   - {fileID: 1346009754}
   - {fileID: 1862461236}
+  - {fileID: 1817767632}

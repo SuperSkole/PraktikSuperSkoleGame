@@ -1,5 +1,6 @@
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,23 +8,27 @@ public class FindPlayerForButton : MonoBehaviour
 {
     private float timer;
     [SerializeField] GameObject carGO;
-    //Rigidbody carRigidbody;
+    [SerializeField] GameObject buttonGO;
+
     private void Start()
     {
-        StartCoroutine(FindCar());
+        StartCoroutine(StartUp());
     }
     private void FixedUpdate()
     {
         timer += Time.deltaTime;
+
         if (carGO != null)
         {
-            if (carGO.GetComponent<PrometeoCarController>().enabled == false)
+            var carController = carGO.GetComponent<PrometeoCarController>();
+
+            if (carController.enabled == false)
             {
-                gameObject.SetActive(true);
+                buttonGO.SetActive(true);
             }
             else
             {
-                gameObject.SetActive(false);
+                buttonGO.SetActive(false);
             }
         }
     }
@@ -70,18 +75,28 @@ public class FindPlayerForButton : MonoBehaviour
             }
         }
     }
+    /// <summary>
+    /// If WebGL build is slower at starting, give it 1 second to load things in
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator StartUp()
+    {
+        yield return new WaitForSeconds(1.0f); // Delay to ensure objects are initialized
+        StartCoroutine(FindCar());
+    }
     private IEnumerator FindCar()
     {
-        if (carGO == null)
+        while (carGO == null)
         {
             carGO = GameObject.FindGameObjectWithTag("Car");
+
+            if (carGO != null)
+            {
+                Debug.Log("Found Car");
+            }
+
+            yield return new WaitForSeconds(0.5f); // Keep checking every 0.5 seconds
         }
-        if (carGO != null)
-        {
-            Debug.Log("Found Car");
-            StopCoroutine(FindCar());
-        }
-        yield return new WaitForSeconds(0.5f);
     }
     /// <summary>
     /// Teleports the players car to a given location.
