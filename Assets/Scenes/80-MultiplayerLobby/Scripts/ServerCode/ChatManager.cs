@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using TMPro;
 using LoadSave;
+using System.Collections;
 
 public class ChatManager : NetworkBehaviour
 {
@@ -12,14 +13,19 @@ public class ChatManager : NetworkBehaviour
     [SerializeField] ChatMessage chatMessagePrefab;
     [SerializeField] CanvasGroup chatContent;
     [SerializeField] TMP_InputField chatInput;
+    ScrollRect scrollRect;
 
     public string playerName;
 
     private void Awake()
     {
         ChatManager.Singleton = this;
-        chatContent = GameObject.Find("ChatContent").GetComponent<CanvasGroup>();
-        chatInput = GameObject.Find("ChatBox Input").GetComponent<TMP_InputField>();
+        GameObject uiHolder = GameObject.Find("ChatPanel");
+        chatContent = uiHolder.GetComponentInChildren<CanvasGroup>();
+        chatInput = uiHolder.GetComponentInChildren<TMP_InputField>();
+        scrollRect = uiHolder.GetComponentInChildren<ScrollRect>();
+        //chatContent = GameObject.Find("ChatContent").GetComponent<CanvasGroup>();
+        //chatInput = GameObject.Find("ChatBox Input").GetComponent<TMP_InputField>();
         GameObject originPlayer = GameObject.Find("PlayerMonster");
         playerName = originPlayer.GetComponent<PlayerData>().MonsterName;
     }
@@ -45,6 +51,13 @@ public class ChatManager : NetworkBehaviour
     {
         ChatMessage CM = Instantiate(chatMessagePrefab, chatContent.transform);
         CM.SetText(msg);
+        StartCoroutine(ScrollToTop());
+    }
+
+    IEnumerator ScrollToTop()
+    {
+        yield return new WaitForEndOfFrame();
+        scrollRect.normalizedPosition = new Vector2(0, 0);
     }
 
     [ServerRpc(RequireOwnership = false)]
