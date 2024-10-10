@@ -131,8 +131,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         private void SetGearStrategy()
         {
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klø", 60);
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klo", 60);
+            // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klø", 60);
+            // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klo", 60);
             
             // Clear existing lists
             ClearWordAndLetterLists();
