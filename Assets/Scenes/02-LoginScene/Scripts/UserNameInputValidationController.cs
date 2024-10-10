@@ -83,7 +83,7 @@ namespace Scenes._02_LoginScene.Scripts
             }
             else
             {
-                usernameFeedback.text = "<color=green>✔ Gyldigt Brugernavn</color>";
+                usernameFeedback.text = "<color=green>Gyldigt Brugernavn</color>";
             }
         }
 
