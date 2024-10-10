@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -18,6 +19,7 @@ public class BankFrontTutorial : MonoBehaviour
     {
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialBankFront) return;
         controller = FindFirstObjectByType<BankManager>();
         Speak();
     }

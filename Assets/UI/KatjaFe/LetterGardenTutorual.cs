@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts;
 using System.Collections;
@@ -16,10 +17,9 @@ public class LetterGardenTutorual : MonoBehaviour
 
     private void Start()
     {
-
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, followBee);
+        if (GameManager.Instance.PlayerData.TutorialLetterGarden) return;
         drawingHandler = FindFirstObjectByType<DrawingHandler>();
         Speak();
     }
@@ -35,9 +35,7 @@ public class LetterGardenTutorual : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

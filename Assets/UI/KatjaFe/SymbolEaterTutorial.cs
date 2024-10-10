@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._54_SymbolEater.Scripts;
 using System.Collections;
@@ -19,6 +20,7 @@ public class SymbolEaterTutorual : MonoBehaviour
     {
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true, Move);
+        if (GameManager.Instance.PlayerData.TutorialSymbolEater) return;
         controller = FindFirstObjectByType<BoardController>();
         Speak();
     }

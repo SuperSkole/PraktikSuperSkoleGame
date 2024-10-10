@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class RaceTutorial : MonoBehaviour
     {
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialRace) return;
         controller = FindFirstObjectByType<RacingCore>();
         Speak();
     }

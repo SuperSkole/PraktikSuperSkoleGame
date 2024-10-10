@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -16,9 +17,9 @@ public class PathOfDangerTutorial : MonoBehaviour
 
     private void Start()
     {
-
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialPathOfDanger) return;
         controller = FindFirstObjectByType<PathOfDangerManager>();
         Speak();
     }

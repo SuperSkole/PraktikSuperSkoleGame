@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
@@ -18,8 +19,8 @@ public class FactoryTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialFactory) return;
         controller = FindFirstObjectByType<WordCheckManager>();
         Speak();
     }
@@ -35,9 +36,7 @@ public class FactoryTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

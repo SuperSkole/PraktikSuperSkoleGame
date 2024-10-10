@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -16,8 +17,10 @@ public class BankbackTutorial : MonoBehaviour
 
     private void Start()
     {
+        
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true, Explane);
+        if(GameManager.Instance.PlayerData.TutorialBankBack) return;
         controller = FindFirstObjectByType<VaultManager>();
         Speak();
     }

@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -17,8 +18,8 @@ public class TransportTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialTransportbond) return;
         controller = FindFirstObjectByType<ProductionLineController>();
         Speak();
     }
@@ -34,9 +35,7 @@ public class TransportTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

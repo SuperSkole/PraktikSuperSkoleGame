@@ -1,3 +1,4 @@
+using CORE;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,9 @@ public class TestTutorial : MonoBehaviour
 
     private void Start()
     {
-
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true,Move);
-
+        if (GameManager.Instance.PlayerData.TutorialHouse) return;
         Speak();
     }
 
@@ -34,9 +33,7 @@ public class TestTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             }); 
-
-        });
-            
+        });            
     }
 
     private void Update()
@@ -51,8 +48,7 @@ public class TestTutorial : MonoBehaviour
                     katjafe.KatjaSpeak(GoToDoor, () => 
                     { 
                         katjafe.KatjaExit(); 
-                    });
-                    
+                    });                    
                 });
             }
         }

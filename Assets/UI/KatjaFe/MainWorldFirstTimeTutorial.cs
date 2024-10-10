@@ -1,3 +1,4 @@
+using CORE;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ public class MainWorldFirstTimeTutorial : MonoBehaviour
     {
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(false, Explane);
+        if (GameManager.Instance.PlayerData.TutorialMainWorldFirstTime) return;
         Speak();
     }
 

@@ -1,3 +1,4 @@
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._54_SymbolEater.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
@@ -18,8 +19,8 @@ public class MonsterTowerTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
+        if (GameManager.Instance.PlayerData.TutorialMosterTower) return;
         controller = FindFirstObjectByType<TowerManager>();
         Speak();
     }
@@ -35,9 +36,7 @@ public class MonsterTowerTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()
