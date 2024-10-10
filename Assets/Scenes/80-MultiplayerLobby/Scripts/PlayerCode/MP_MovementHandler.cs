@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class MP_MovementHandler : NetworkBehaviour
@@ -55,8 +56,16 @@ public class MP_MovementHandler : NetworkBehaviour
     {
         if (IsOwner)
         {
-            HandleInput();
-            HandleAnimation();
+            if(EventSystem.current.currentSelectedGameObject == null)
+            {
+                HandleInput();
+                HandleAnimation();
+            }
+            else
+            {
+                movementInput = new Vector3();
+                UpdateAnimationStateServerRpc("Idle");
+            }
         }
     }
 
