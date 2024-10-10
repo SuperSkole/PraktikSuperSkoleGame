@@ -2,15 +2,16 @@ using Analytics;
 using CORE;
 using CORE.Scripts;
 using System.Collections.Generic;
-
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootPicture: IMTGameMode
+    public class Level5_Words : IMTGameMode
     {
         private string previousRetrievedAnswer;
+
 
         /// <summary>
         /// Will be called by the TowerManager to create a brick with the correct answer
@@ -19,7 +20,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
-            manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
+
+           
+            manager.soloImage.texture = ImageManager.GetImageFromWord(str);
+
+
         }
 
         /// <summary>
@@ -30,7 +35,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-            while(rndImageWithKey.Item2==correctAnswer)
+            while (rndImageWithKey.Item2 == correctAnswer)
             {
                 rndImageWithKey = ImageManager.GetRandomImageWithKey();
             }
@@ -38,7 +43,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.soloImage.texture = rndImageWithKey.Item1;
             manager.imageKey = rndImageWithKey.Item2;
 
-            
+
         }
 
         /// <summary>
@@ -48,7 +53,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void GetDisplayAnswer(string str, TowerManager manager)
         {
-            manager.displayBox.text = str;
+
+            
+
+            AudioClip clip= LetterAudioManager.GetAudioClipFromLetter(str[0] +"1");
+
+            manager.VoiceClip = clip;
+
         }
 
         /// <summary>
@@ -58,6 +69,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count)
         {
+
+
             string[] returnedString = new string[count];
 
             List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
@@ -155,9 +168,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the towermanager</param>
         public void SetAnswerPrefab(TowerManager manager)
         {
+            manager.hearLetterButton.SetActive(true);
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer med ordet";
+
+            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd billedet der har ens forlyd";
         }
     }
 

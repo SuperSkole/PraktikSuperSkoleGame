@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
-    public class ShootPicture: IMTGameMode
+    public class ShootPicture_Words: IMTGameMode
     {
         private string previousRetrievedAnswer;
 
@@ -19,7 +19,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
-            manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
+            manager.soloImage.texture = ImageManager.GetImageFromWord(str);
         }
 
         /// <summary>
@@ -66,85 +66,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             {
                 returnedString[i] = words[Random.Range(0, 15)].Identifier;
 
-
-                bool checkIfAvailable = true;
-
-                while (checkIfAvailable)
+                while (returnedString[i] ==previousRetrievedAnswer)
                 {
-                    switch (returnedString[i].ToLower())
-                    {
-                        case "y":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
 
-                        case "z":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
-
-                        case "w":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
-
-                        case "c":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
-
-                        case "q":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
-
-                        case "x":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                            break;
-
-                        default:
-                            checkIfAvailable = false;
-                            break;
-                    }
-                }
-
-                while (returnedString[i] == previousRetrievedAnswer)
-                {
                     returnedString[i] = words[Random.Range(0, 15)].Identifier;
 
-
-                    checkIfAvailable = true;
-
-                    while (checkIfAvailable)
-                    {
-                        switch (returnedString[i].ToLower())
-                        {
-                            case "y":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "z":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "w":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "c":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "q":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            case "x":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
-                                break;
-
-                            default:
-                                checkIfAvailable = false;
-                                break;
-                        }
-                    }
                 }
                 previousRetrievedAnswer = returnedString[i];
+
             }
 
             return returnedString;

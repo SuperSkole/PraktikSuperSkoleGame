@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Level5_POD : IPODGameMode
+public class Level5_POD_Words : IPODGameMode
 {
     List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
     private string previousRetrievedAnswer;
@@ -21,7 +21,7 @@ public class Level5_POD : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetCorrectAnswer(string str, PathOfDangerManager manager)
     {
-        manager.soloImage.texture = ImageManager.GetImageFromLetter(str.ToLower());
+        manager.soloImage.texture = ImageManager.GetImageFromWord(str.ToLower());
 
 
     }
@@ -57,7 +57,7 @@ public class Level5_POD : IPODGameMode
 
 
 
-        AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
+        AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str[0] + "1");
 
         manager.hearLetterButtonAudioClip = clip;
 
@@ -78,44 +78,6 @@ public class Level5_POD : IPODGameMode
 
             returnedString[i] = words[Random.Range(0, 10)].Identifier;
 
-            bool checkIfAvailable = true;
-
-            while (checkIfAvailable)
-            {
-                switch (returnedString[i].ToLower())
-                {
-                    case "y":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    case "z":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    case "w":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    case "c":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    case "q":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    case "x":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                        break;
-
-                    default:
-                        checkIfAvailable = false;
-                        break;
-                }
-            }
-
-
-
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
             while (returnedString[i] == previousRetrievedAnswer)
             {
@@ -126,41 +88,9 @@ public class Level5_POD : IPODGameMode
 
                 returnedString[i] = words[Random.Range(0, 10)].Identifier;
 
-                checkIfAvailable = true;
+               
 
-                while (checkIfAvailable)
-                {
-                    switch (returnedString[i].ToLower())
-                    {
-                        case "y":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        case "z":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        case "w":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        case "c":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        case "q":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        case "x":
-                            returnedString[i] = words[Random.Range(0, 10)].Identifier;
-                            break;
-
-                        default:
-                            checkIfAvailable = false;
-                            break;
-                    }
-                }
+               
                 
 
             }
