@@ -35,6 +35,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         [SerializeField] private GameObject targetMarker;
 
         [SerializeField] private GameObject rangeMarker;
+        [SerializeField] private AudioClip grabSound;
+        [SerializeField] private AudioClip throwSound;
 
         GameObject spawnedRangeMarker;
 
@@ -132,6 +134,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             if (other.gameObject.tag == "Player" && !player.thrown)
             {
                 ThrowPlayer();
+                AudioManager.Instance.PlaySound(grabSound, SoundType.SFX, transform.position);
                 //canWalk = false;
             }
         }
@@ -148,8 +151,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 player.gameObject.GetComponent<CapsuleCollider>().enabled = false;
                 //sets up the rangemarker
                 Vector3 scale = new Vector3(throwRange * 0.2f, 0, throwRange * 0.2f);
-                spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
-                spawnedRangeMarker.transform.localScale = scale;
+                //spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
+                //spawnedRangeMarker.transform.localScale = scale;
                 //removes a life from the player
                 if (player.LivesRemaining > 0)
                 {
@@ -234,7 +237,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 {
                     if(safty >= 100) return;
                     safty++;
-                    Destroy(spawnedRangeMarker);
+                    //Destroy(spawnedRangeMarker);
                     ThrowPlayer();
                     return;
                 }
@@ -296,7 +299,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 canWalkTowardsPlayer = true;
                 player.CurrentDestination = playerDestination;
                 Instantiate(targetMarker, playerDestination, Quaternion.identity);
-                Destroy(spawnedRangeMarker);
+                AudioManager.Instance.PlaySound(throwSound, SoundType.SFX, transform.position);
+                //Destroy(spawnedRangeMarker);
             }
         }
 
