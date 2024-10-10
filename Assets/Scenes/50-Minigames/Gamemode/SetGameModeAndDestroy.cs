@@ -111,44 +111,7 @@ namespace Scenes._50_Minigames.Gamemode
                 {
                     errorText.text = "";
                 }
-                //Destroys the first button if the player is level 1 or if no game mode exist for it.
-                /*if (playerLevel == 1)
-                {
-                    Destroy(buttons[0]);
-                }
-                else
-                {
-                    SetGameRulesAndGameMode(playerLevel - 1);
-                    if (gamemode == null && gameRule == null)
-                    {
-                        Destroy(buttons[0]);
-                    }
-                }
-                //Destroys the last button if the player is max level or if no gamemode exist for it.
-                if (playerLevel == 5)
-                {
-                    Destroy(buttons[2]);
-                }
-                else
-                {
-                    SetGameRulesAndGameMode(playerLevel + 1);
-                    if (gamemode == null && gameRule == null)
-                    {
-                        Destroy(buttons[2]);
-                    }
-                }
-                //Destroys the middle button if no gamemode exists for it
-                SetGameRulesAndGameMode(playerLevel);
-                if (gamemode == null && gameRule == null)
-                {
-                    Destroy(buttons[1]);
-                }*/
             }
-            
-        }
-
-        void Update()
-        {
             
         }
 

@@ -166,7 +166,7 @@ namespace CORE.Scripts.Game_Rules
                 case LanguageUnit.Letter:
                     LetterData letterData = (LetterData)languageUnits[0];
                     correctAnswer = letterData.Identifier;
-                    DetermineWrongLetterCategory(letterData.ErrorCategory);
+                    DetermineWrongLetterCategory(letterData.Category);
                     break;
                 //If a word it sets up the word and retrieves the first letter of it and sets up the wrong answer list
                 case LanguageUnit.Word:
@@ -193,7 +193,7 @@ namespace CORE.Scripts.Game_Rules
             {
                 //for consonants and vowels if the player is low enough level it also sets up so correct answer looks for a random correct letter
                 case LetterCategory.Consonant:
-                    wrongAnswerList = LetterRepository.GetConsonants().ToList();
+                    wrongAnswerList = LetterRepository.GetVowels().ToList();
                     languageUnits = languageUnitsList;
                     break;
                 case LetterCategory.Vowel:
