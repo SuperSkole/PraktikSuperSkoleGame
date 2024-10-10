@@ -237,7 +237,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3963241562183589234, guid: de115575ff979e842b854ad84bfd7339, type: 3}
+  - {fileID: 2100000, guid: a95546ce182494a03939c61bbcea3e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -298,6 +298,7 @@ MonoBehaviour:
   cooldownTextObject: {fileID: 3222111376729888875}
   healthTextObject: {fileID: 0}
   placePlayerMonster: {fileID: 6359093352640829581}
+  impactSound: {fileID: 8300000, guid: 971f8ac198100ea409624c2e33c3ff9f, type: 3}
   thrown: 0
   hasMoved: 0
   speed: 2
