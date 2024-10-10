@@ -65,7 +65,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 }
 
                 SpawnCar(ReturnThePlayerCar(item.Name));
-                PreviewColorOfCar(new CarColorShowCaseButtons(ReturnTheRightMaterial(item.MaterialName), item.MaterialName));
+                PreviewColorOfCar(new CarColorShowCaseButtons(ReturnTheRightMaterial(item.MaterialName,item.Name), item.MaterialName));
                 StartCoroutine(StartRotationOfCar());
                 break;
             }
@@ -174,15 +174,19 @@ public class CarShowCaseRoomManager : MonoBehaviour
     /// </summary>
     /// <param name="value">Material Name</param>
     /// <returns></returns>
-    private Material ReturnTheRightMaterial(string value)
+    private Material ReturnTheRightMaterial(string value, string carName)
     {
         foreach (var item in CarListMaterials)
         {
-            foreach (var info in item.materialInfo)
+            if (carName == item.CarName)
             {
-                if (value == info.MaterialName)
+
+                foreach (var info in item.materialInfo)
                 {
-                    return info.CarMaterial;
+                    if (value == info.MaterialName)
+                    {
+                        return info.CarMaterial;
+                    }
                 }
             }
         }
