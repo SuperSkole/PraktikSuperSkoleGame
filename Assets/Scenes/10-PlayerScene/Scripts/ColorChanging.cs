@@ -52,6 +52,7 @@ namespace Scenes._10_PlayerScene.Scripts
             if (colorName == null)
             {
                 colorName = "White";
+                Debug.Log("WHite");
             }
 
             if (colorMap.TryGetValue(colorName.ToLower(), out string hexValue))
@@ -81,7 +82,6 @@ namespace Scenes._10_PlayerScene.Scripts
             {
                 GameManager.Instance.CurrentMonsterColor = "White";
             }
-
         }
 
 

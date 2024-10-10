@@ -14,7 +14,7 @@ namespace UI.Scripts
         [SerializeField] Image image;
         [SerializeField] TextMeshProUGUI amount;
 
-        [SerializeField] int maxAmount = 100;
+        [SerializeField] int maxAmount = 5;
 
         [SerializeField] TextMeshProUGUI level;
 

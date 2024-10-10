@@ -1,5 +1,7 @@
 
 
+using Analytics;
+
 namespace CORE.Scripts.Game_Rules 
 {
     /// <summary>
@@ -30,6 +32,8 @@ namespace CORE.Scripts.Game_Rules
         /// <returns></returns>
         public string GetDisplayAnswer();
 
+        public string GetSecondaryAnswer();
+
         /// <summary>
         /// Checks whether the symbol is the correct one
         /// </summary>
@@ -42,5 +46,6 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         /// <returns>Whether the sequence is complete</returns>
         public bool SequenceComplete();
+
     }
 }

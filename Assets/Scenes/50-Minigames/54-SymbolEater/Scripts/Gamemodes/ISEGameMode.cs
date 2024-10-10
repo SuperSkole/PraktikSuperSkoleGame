@@ -72,6 +72,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <returns></returns>
         public bool IsGameComplete();
 
+        /// <summary>
+        /// Used to update language weights of found letters
+        /// </summary>
+        public void UpdateLanguageUnitWeight();
+
     }
 
 }

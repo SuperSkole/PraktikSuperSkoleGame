@@ -2,6 +2,8 @@ using CORE;
 using Scenes._10_PlayerScene.Scripts;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Unity.Services.CloudSave;
 using UnityEngine;
@@ -91,9 +93,10 @@ namespace LoadSave
         {
             try
             {
-                // Delete the data with the provided key
-                await CloudSaveService.Instance.Data.ForceDeleteAsync(saveKey);
-                Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
+
+                //Debug.Log($"Save with key '{saveKey}' deleted successfully.");
                 return true;
             }
             catch (Exception ex)
@@ -101,6 +104,58 @@ namespace LoadSave
                 Debug.LogError($"An error occurred while deleting the save with key '{saveKey}': {ex.Message}");
                 return false;
             }
+        }
+        
+        /// <summary>
+        /// Deletes all save files associated with a specific user and monster name.
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <param name="monsterName">The monstername</param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAllSavesForMonster(string username, string monsterName)
+        {
+            try
+            {
+                // Step 1: Fetch all save keys associated with the given username and monster name
+                List<string> allSaveKeys = await GetAllSaveKeysForMonsterAsync(username, monsterName);
+        
+                // Step 2: Delete each save key found
+                foreach (var saveKey in allSaveKeys)
+                {
+                    // Delete the data with the provided key, stupid unity why do you need deleteoptions
+                    await CloudSaveService.Instance.Data.Player.DeleteAsync(saveKey, new Unity.Services.CloudSave.Models.Data.Player.DeleteOptions());
+                    Debug.Log($"Save with key '{saveKey}' deleted successfully.");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"An error occurred while deleting saves for '{monsterName}': {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves all save keys for a specific username and monster name.
+        /// </summary>
+        private async Task<List<string>> GetAllSaveKeysForMonsterAsync(string username, string monsterName)
+        {
+            // Get all save keys for the user from the cloud save service
+            var allKeys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
+    
+            List<string> matchingKeys = new List<string>();
+
+            // Search for keys that match the pattern "username_monsterName_*"
+            foreach (var keyItem in allKeys)
+            {
+                if (keyItem.Key.StartsWith($"{username}_{monsterName}_"))
+                {
+                    matchingKeys.Add(keyItem.Key);
+                }
+            }
+
+            return matchingKeys;
         }
 
         /// <summary>
@@ -110,14 +165,49 @@ namespace LoadSave
         /// <param name="monsterName">The monster name related to the save data.</param>
         /// <param name="dataType">The type of data being saved.</param>
         /// <returns>A string representing the generated save key.</returns>
-        public string GenerateSaveKey(
-            string username,
-            string monsterName,
-            string dataType)
+        public string GenerateSaveKey(string username, string monsterName, string dataType)
         {
-            return $"{username}_{monsterName}_{dataType}";
+            string sanitizedUsername = SanitizeKeyComponent(username);
+            string sanitizedMonsterName = SanitizeKeyComponent(monsterName);
+            string sanitizedDataType = SanitizeKeyComponent(dataType);
+        
+            return $"{sanitizedUsername}_{sanitizedMonsterName}_{sanitizedDataType}";
         }
 
+        public string SanitizeKeyComponent(string input)
+        {
+            // Replace Danish characters with acceptable ASCII equivalents
+            input = input.Replace("æ", "ae").Replace("Æ", "AE");
+            input = input.Replace("ø", "oe").Replace("Ø", "OE");
+            input = input.Replace("å", "aa").Replace("Å", "AA");
+
+            // Normalize the string to decompose characters (e.g., accents)
+            string normalizedString = input.Normalize(NormalizationForm.FormD);
+
+            // Remove diacritical marks
+            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            string withoutDiacritics = regex.Replace(normalizedString, string.Empty);
+
+            // Remove any remaining non-ASCII characters
+            byte[] bytes = Encoding.ASCII.GetBytes(withoutDiacritics);
+            string asciiString = Encoding.ASCII.GetString(bytes);
+
+            // Remove any characters that are not letters, digits, or allowed special characters
+            asciiString = Regex.Replace(asciiString, @"[^a-zA-Z0-9_\-]", "");
+
+            return asciiString;
+        }
+        
+        /// <summary>
+        /// Sanitizes loaded player data.
+        /// </summary>
+        /// <param name="data">The string data to sanitize.</param>
+        /// <returns>Sanitized data as a string.</returns>
+        public string SanitizeLoadedData(string data)
+        {
+            // Reuse the existing sanitize logic or adapt it as needed for loading
+            return SanitizeKeyComponent(data);
+        }
 
         /// <summary>
         /// Gets all save keys for the current user from Unity Cloud Save.
@@ -127,17 +217,28 @@ namespace LoadSave
         {
             var keys = await CloudSaveService.Instance.Data.Player.ListAllKeysAsync();
             List<string> relevantKeys = new List<string>();
+            
+            // Sanitize the username to match the format used in the save keys
+            string sanitizedUsername = SanitizeKeyComponent(GameManager.Instance.CurrentUser);
 
             foreach (var keyItem in keys)
             {
                 // Ensure correct string comparison using the Key property
-                if (keyItem.Key.StartsWith(GameManager.Instance.CurrentUser) && !keyItem.Key.Contains("_House"))
+                if (keyItem.Key.StartsWith(sanitizedUsername) && !keyItem.Key.Contains("_House"))
                 {
-                        relevantKeys.Add(keyItem.Key);
+                    relevantKeys.Add(keyItem.Key);
                 }
             }
 
             return relevantKeys;
         }
+
+        // public string GenerateSaveKey(
+        //     string username,
+        //     string monsterName,
+        //     string dataType)
+        // {
+        //     return $"{username}_{monsterName}_{dataType}";
+        // }
     }
 }

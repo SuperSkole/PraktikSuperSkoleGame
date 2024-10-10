@@ -1,5 +1,7 @@
 using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
+using CORE;
 using Scenes;
+using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using TMPro;
@@ -18,7 +20,7 @@ public class ProductionLineController : MonoBehaviour
 
     private static Material staticDefaultMaterial;
 
-    [SerializeField] private AudioClip wrongBuzz, correctBuzz;
+    [SerializeField] private AudioClip wrongBuzz, correctBuzz, backgroundAmbience;
 
     [SerializeField] Camera mainCamera;
 
@@ -27,6 +29,9 @@ public class ProductionLineController : MonoBehaviour
 
     [SerializeField]
     private GameObject letterPool, imagePool;
+
+    [SerializeField]
+    private GameObject coinEffect;
 
 
     [SerializeField]
@@ -70,6 +75,7 @@ public class ProductionLineController : MonoBehaviour
         imageBoxCheckPosition = new Vector3(2, 9, 5);
         letterBoxCheckPosition = new Vector3(-1, 9, 5);
         punishmentPosition = new Vector3(-12, 6, 5);
+        AudioManager.Instance.PlaySound(backgroundAmbience, SoundType.Music, true);
     }
 
     void Update()
@@ -276,16 +282,24 @@ public class ProductionLineController : MonoBehaviour
 
             if (letter == imageFirstLetter)
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, true);
+
+                PlayerEvents.RaiseGoldChanged(1);
+                Instantiate(coinEffect);
+                PlayerEvents.RaiseXPChanged(1);
+                PlayerEvents.RaiseAddWord(imageName);
                 StartCoroutine(WaitForRightXSeconds());
 
                 if (points >= 5)
                 {
+
                     StartCoroutine(CheckIfYouWin());
                 }
             }
 
             else
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, false);
                 CheckIfWrong();
             }
         }

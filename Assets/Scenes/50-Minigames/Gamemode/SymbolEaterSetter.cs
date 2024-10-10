@@ -3,6 +3,9 @@ using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using UnityEngine;
 using System.Collections.Generic;
+using CORE;
+using Analytics;
+using Letters;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -20,12 +23,69 @@ namespace Scenes._50_Minigames.Gamemode
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
-            new FindVowel(),
+            new DynamicGameRules(),
             null,
-            new FindLetterInPicture(),
-            new FindFMNSConsonantBySound(),
-            new FindFMNSConsonantBySound()
+            new DynamicGameRules(),
+            new DynamicGameRules(),
+            new DynamicGameRules()
         };
+
+        private List<IGenericGameMode> letterGamemodes = new List<IGenericGameMode>
+        {
+            new Level4_SymbolEater(),
+            new RecognizeNameOfLetter(),
+            new RecognizeSoundOfLetter()
+        };
+
+        private List<IGenericGameMode> letterCategoryGamemodes = new List<IGenericGameMode>
+        {
+            new FindSymbols()
+        };
+
+
+        private List<IGenericGameMode> wordGamemodes = new List<IGenericGameMode>
+        {
+            new SpellWordFromImage(),
+            new FindFirstLetterFromImage(),
+            new SymbolEaterLevel3()
+        };
+
+        /// <summary>
+        /// Determines which gamemodes to use
+        /// </summary>
+        /// <param name="level">the level of the player</param>
+        /// <returns>a set of a gamemode and gamerules</returns>
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager
+                    .GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode;
+            switch(languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
+                    LetterData letterData = (LetterData)languageUnit;
+                    if((letterData.ErrorCategory == LetterCategory.Vowel || letterData.ErrorCategory == LetterCategory.Consonant) && level < 2)
+                    {
+                        mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
+                    }
+                    break;
+                case LanguageUnit.Word:
+                    mode = wordGamemodes[Random.Range(0, wordGamemodes.Count)];
+                    break;
+                case LanguageUnit.Sentence:
+                default:
+                    Debug.LogError("the type of language unit has not been implemented");
+                    mode = new FindSymbols();
+                    break;
+            }
+            return (new DynamicGameRules(), mode);
+        }
+
+
         /// <summary>
         /// returns a gamemode of the Symbol Eater type
         /// </summary>
