@@ -21,10 +21,10 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         [SerializeField]
         private GameObject StartUI;
         [SerializeField]
-        private GameObject playerCar;
-        [SerializeField]
-        private CarController carController;
-        [SerializeField]
+        //private GameObject playerCar;
+        //[SerializeField]
+        //private CarController carController;
+        //[SerializeField]
         private RacingGameManager racingGameManager;
         [SerializeField]
         private GameObject coinEffect;
@@ -33,7 +33,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public readonly FindLetterInPicture gameRuleVocal = new();
         private readonly FindConsonant gameRuleConsonant = new();
         public readonly DynamicGameRules dynamicGameRules = new();
-        private new AudioSource audio;
+        public new AudioSource audio;
 
         public bool imageInitialized = false;
 
@@ -101,7 +101,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             }
             StartUI.SetActive(false);
             raceActive = true;
-            audio = playerCar.GetComponent<AudioSource>();
+            //audio = playerCar.GetComponent<AudioSource>();
 
             //Set map conditions: (To do : make in seperate script)
             imageDisplayActive = true;
@@ -113,7 +113,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             racingGameMode.DetermineWordToUse(this); // Select a random word from the list
             levelCreator.GetComponent<LevelLayoutGenerator>().mapSeedSuggestion = targetWord;
             levelCreator.SetActive(true);
-            playerCar.SetActive(true);
+           // playerCar.SetActive(true);
 
             UpdateBillBoard();
             PlayWordAudio(targetWord);
@@ -226,7 +226,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
             if (Input.GetKeyDown(KeyCode.F)) //Respawn
             {
-                FlipCar();
+                //FlipCar();
 
             }
         }
@@ -236,11 +236,11 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private void FlipCar()
         {
 
-            Vector3 newPosition = playerCar.transform.position + new Vector3(0, 1.0f, 0);
-            playerCar.transform.position = newPosition;
+            //Vector3 newPosition = playerCar.transform.position + new Vector3(0, 1.0f, 0);
+            //playerCar.transform.position = newPosition;
 
-            float yRotation = playerCar.transform.eulerAngles.y;
-            playerCar.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+            //float yRotation = playerCar.transform.eulerAngles.y;
+            //playerCar.transform.rotation = Quaternion.Euler(0, yRotation, 0);
         }
         #endregion
 
