@@ -24,6 +24,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         { "ChairParent(Clone)", new Vector3(0.5f, 0f, 0.5f) },
         { "RedSofaChairParent(Clone)", new Vector3(0.5f, 0f, 0.5f) },
         { "RedSofaSingleParent(Clone)", new Vector3(0.5f, 0f, 0.5f) },
+        { "OvenNStoveParent(Clone)", new Vector3(0.5f, 0f, 0.5f) },
+        { "BookCaseWithBooksParent(Clone)", new Vector3(0.5f, 0f, 0.5f) },
+        { "KitchenTopBasic(Clone)", new Vector3(0.5f, 0f, 0.5f) },
         { "DoubleBedParent(Clone)", new Vector3(1f, 0f, 1f) }
     };
 
@@ -79,6 +82,20 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         { 90f, new Vector3(0f, 0f, 2f) },
         { 180f, new Vector3(2f, 0f, 1f) },
         { 270f, new Vector3(1f, 0f, 0f) }
+    };
+        Dictionary<float, Vector3> StoveAirSuckyParent = new Dictionary<float, Vector3>()
+    {
+        { 0f, new Vector3(0.12f, 0f, 0f) },
+        { 90f, new Vector3(0f, 0f, 0.9f)  },
+        { 180f, new Vector3(0.9f, 0f, 0.9f)  },
+        { 270f, new Vector3(0.9f, 0f, 0.12f)  }
+    };
+        Dictionary<float, Vector3> BasicWallCornerNotRemoveAble = new Dictionary<float, Vector3>()
+    {
+        { 0f, new Vector3(0.9f, 0f, 0.9f) },
+        { 90f, new Vector3(0.9f, 0f, 0.1f)  },
+        { 180f, new Vector3(0.1f, 0f, 0.1f)  },
+        { 270f, new Vector3(0.1f, 0f, 0.9f)  }
     };
 
 
@@ -136,6 +153,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     return doubleDeckerBedPositions.ContainsKey(rotationY) ? doubleDeckerBedPositions[rotationY] : Vector3.zero;
                 case "SingleBedParent(Clone)":
                     return singleBedPositions.ContainsKey(rotationY) ? singleBedPositions[rotationY] : Vector3.zero;
+                case "StoveAirSucky(Clone)":
+                    return singleBedPositions.ContainsKey(rotationY) ? StoveAirSuckyParent[rotationY] : Vector3.zero;
+
 
                 //None Placeables Only for the house walls
                 case "StandardWallparent(Clone)":
@@ -144,6 +164,8 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                     return WallWindowParent.ContainsKey(rotationY) ? WallWindowParent[rotationY] : Vector3.zero;
                 case "IntranceDoorParent(Clone)":
                     return IntranceDoorParent.ContainsKey(rotationY) ? IntranceDoorParent[rotationY] : Vector3.zero;
+                case "StandardWallCronerparent(Clone)":
+                    return BasicWallCornerNotRemoveAble.ContainsKey(rotationY) ? BasicWallCornerNotRemoveAble[rotationY] : Vector3.zero;
                     
                 default:
                     return Vector3.zero;

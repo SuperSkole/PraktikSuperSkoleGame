@@ -33,5 +33,7 @@ namespace Scenes._50_Minigames.Gamemode
         /// <param name="gamerules">the string representation of the desired gamerules</param>
         /// <returns>some gamerules</returns>
         public IGameRules SetRules(string gamerules);
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level);
     }
 }

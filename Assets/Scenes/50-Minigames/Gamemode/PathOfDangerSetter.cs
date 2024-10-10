@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 
@@ -17,6 +19,15 @@ namespace Scenes._50_Minigames.Gamemode
             new Level5_POD()
         };
 
+        public List<IGenericGameMode> letterGameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4_POD(),
+            new Level5_POD()
+        };
+
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
@@ -26,6 +37,23 @@ namespace Scenes._50_Minigames.Gamemode
             null,
             null,
         };
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode = letterGameModes[Random.Range(4, 5)]; ;
+
+            switch (languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGameModes[Random.Range(4, 5)];
+
+                    break;
+            }
+
+            return (null, mode);
+        }
+
         /// <summary>
         /// returns a gamemode of the Path of Danger type
         /// </summary>

@@ -9,7 +9,7 @@ namespace Scenes._03_StartScene.Scripts
         [SerializeField] private SkeletonGraphic previewImg;
         [SerializeField] private SkeletonDataAsset skeletonDataAsset;
 
-        public int monsterId;
+        private int monsterId;
 
         public void OnClick(int monsterID)
         {
@@ -17,10 +17,5 @@ namespace Scenes._03_StartScene.Scripts
             previewImg.enabled = true;
             previewImg.skeletonDataAsset = skeletonDataAsset;
         }
-
-
-
-
-
     }
 }

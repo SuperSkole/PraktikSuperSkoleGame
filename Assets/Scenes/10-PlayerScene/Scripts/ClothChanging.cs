@@ -17,26 +17,37 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 if (clothTop != null)
                 {
-                    skeleton.SetAttachment(clothTop, null);
+                    skeleton.SetAttachment(clothTop, clothTop);
                 }
 
                 if (clothMid != null)
                 {
-                    skeleton.SetAttachment(clothMid, null);
+                    skeleton.SetAttachment(clothMid, clothMid);
                 }
 
                 //set new clothing
-                skeleton.SetAttachment(clothName, clothName);
 
                 if (clothName.Contains("HEAD"))
                 {
+
+                    if (clothTop != null)
+                    {
+                        skeleton.SetAttachment(clothTop, null);
+                    }
+
                     clothTop = clothName;
                 }
 
                 if (clothName.Contains("MID"))
                 {
+                    if (clothMid != null)
+                    {
+                        skeleton.SetAttachment(clothMid, null);
+                    }
                     clothMid = clothName;
                 }
+
+                skeleton.SetAttachment(clothName, clothName);
             }
         }
 

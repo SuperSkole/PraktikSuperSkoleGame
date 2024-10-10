@@ -48,14 +48,14 @@ namespace Scenes._24_HighScoreScene.Scripts
         {
             PlayerEvents.OnAddLetter += AddLetter;
             PlayerEvents.OnAddWord += AddWord;
-            PlayerEvents.OnAddNumber += AddNumber;
+            //PlayerEvents.OnAddNumber += AddNumber;
         }
 
         private void OnDisable()
         {
             PlayerEvents.OnAddLetter -= AddLetter;
             PlayerEvents.OnAddWord -= AddWord;
-            PlayerEvents.OnAddNumber -= AddNumber;
+            //PlayerEvents.OnAddNumber -= AddNumber;
         }
 
         /// <summary>

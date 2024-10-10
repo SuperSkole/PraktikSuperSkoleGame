@@ -4,6 +4,7 @@ using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CORE;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -14,20 +15,33 @@ namespace Scenes._50_Minigames.Gamemode
             new DrawWithBee(),
             new DrawWithoutBee(),
             new DrawWithOrWithOutBee(),
-            new DrawWithBee(),
-            new DrawWithoutBee()
         };
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
-            new FindVowel(),
-            new FindVowel(),
-            new FindVowel(),
-            new FindConsonant(),
-            new FindConsonant()
+            new DynamicGameRules(),
+            new DynamicGameRules(),
+            new DynamicGameRules(),
+            new DynamicGameRules(),
+            new DynamicGameRules()
         };
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            if(GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].LanguageUnitType == Analytics.LanguageUnit.Letter)
+            {
+                return(new DynamicGameRules(), gamemodes[Random.Range(0, gamemodes.Count)]);
+            }
+            //Lettergarden only supports letters
+            else
+            {
+                return(null, null);
+            }
+        }
+
+
         /// <summary>
-        /// returns a gamemode of the Symbol Eater type
+        /// returns a gamemode of the lettergarden type
         /// </summary>
         /// <param name="level">the playerlevel used as index on the gamemode list</param>
         /// <returns>the gamemode for the level if it exists. otherwise it returns null</returns>

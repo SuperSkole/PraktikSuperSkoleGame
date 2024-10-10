@@ -17,7 +17,7 @@ public class LevelFiveRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør gennem porten, der passer konsonanten";
+        return "K\u00f8r gennem porten, der passer bogstavet";
     }
     /// <summary>
     /// Sets what the correct word/image is for the current gameMode.
@@ -31,6 +31,11 @@ public class LevelFiveRacing : IRacingGameMode
             do
             {
                 core.targetWord = core.level5Consonants[Random.Range(0, core.level5Consonants.Length)];
+                if(core.languageUnits.Count > 0 && core.languageUnits[0].LanguageUnitType == Analytics.LanguageUnit.Letter)
+                {
+                    core.dynamicGameRules.SetCorrectAnswer();
+                    core.targetWord = core.dynamicGameRules.GetCorrectAnswer();
+                }
             } while (core.spelledWordsList.Contains(core.targetWord));
             core.imageWord = "";
 

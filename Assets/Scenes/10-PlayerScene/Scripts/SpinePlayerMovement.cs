@@ -181,5 +181,19 @@ namespace Scenes._10_PlayerScene.Scripts
             }
             return Vector3.zero;
         }
+
+        /// <summary>
+        /// Used for showing where the car can spawn when hitting the Call Car button
+        /// </summary>
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawCube(transform.position + new Vector3(3, 0, 0), new Vector3(5, 2, 2));
+            Gizmos.DrawCube(transform.position + new Vector3(-3, 0, 0), new Vector3(5, 2, 2));
+
+            Gizmos.DrawCube(transform.position + new Vector3(0, 0, 3), new Vector3(2, 2, 5));
+            Gizmos.DrawCube(transform.position + new Vector3(0, 0, -3), new Vector3(2, 2, 5));
+
+        }
     }
 }
