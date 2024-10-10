@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Analytics;
 using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
@@ -82,6 +83,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
                     Debug.Log("Valid word: " + formedWord);
+                    
+                    // Report correct guess to DDA system
+                    DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(formedWord.ToLower(), true);
     
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
@@ -113,6 +117,12 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             else
             {
                 Debug.Log("Invalid word: " + formedWord);
+                
+                // Report each letter in the word as incorrect to DDA
+                foreach (char letter in formedWord)
+                {
+                    DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(letter.ToString(), false);  
+                }
 
                 // Blink each closest tooth red using the event system
                 foreach (Transform tooth in closestTeeth)
