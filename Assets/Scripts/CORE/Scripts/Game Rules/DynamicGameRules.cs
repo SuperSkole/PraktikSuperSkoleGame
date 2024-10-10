@@ -194,17 +194,11 @@ namespace CORE.Scripts.Game_Rules
                 //for consonants and vowels if the player is low enough level it also sets up so correct answer looks for a random correct letter
                 case LetterCategory.Consonant:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
-                    if(PlayerManager.Instance != null && PlayerManager.Instance.PlayerData.CurrentLevel <= maxVowelLevel)
-                    {
-                        languageUnits = languageUnitsList;
-                    }
+                    languageUnits = languageUnitsList;
                     break;
                 case LetterCategory.Vowel:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
-                    if(PlayerManager.Instance != null && PlayerManager.Instance.PlayerData.CurrentLevel <= maxVowelLevel)
-                    {
-                        languageUnits = languageUnitsList;
-                    }
+                    languageUnits = languageUnitsList;
                     break;
                 case LetterCategory.All:
                     wrongAnswerList = LetterRepository.GetAllLetters().ToList();

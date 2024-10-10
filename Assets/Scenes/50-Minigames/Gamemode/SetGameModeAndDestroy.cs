@@ -4,6 +4,7 @@ using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,7 @@ namespace Scenes._50_Minigames.Gamemode
         [SerializeField] private TextMeshProUGUI title;
 
         [SerializeField]private bool usePlayerLevel = false;
-
+        [SerializeField]private TextMeshProUGUI errorText;
         SceneSwitch sceneSwitcher;
 
         [SerializeField] private int playerLevel = 3;
@@ -100,8 +101,18 @@ namespace Scenes._50_Minigames.Gamemode
             }
             if(usePlayerLevel)
             {
+                SetGameRulesAndGameMode(playerLevel);
+                if(gamemode == null && gameRule == null)
+                {
+                    buttons[0].SetActive(false);
+                    errorText.text = "Du kan ikke spille det her lige nu. Prøv igen Senere";
+                }
+                else
+                {
+                    errorText.text = "";
+                }
                 //Destroys the first button if the player is level 1 or if no game mode exist for it.
-                if (playerLevel == 1)
+                /*if (playerLevel == 1)
                 {
                     Destroy(buttons[0]);
                 }
@@ -131,8 +142,13 @@ namespace Scenes._50_Minigames.Gamemode
                 if (gamemode == null && gameRule == null)
                 {
                     Destroy(buttons[1]);
-                }
+                }*/
             }
+            
+        }
+
+        void Update()
+        {
             
         }
 
