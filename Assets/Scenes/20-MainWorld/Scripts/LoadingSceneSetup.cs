@@ -39,6 +39,9 @@ public class LoadingSceneSetup : MonoBehaviour
                 case 5:
                     SwitchScenes.SwitchToPathOfDangerAllModesSelector();
                     break;
+                case 6:
+                    SwitchScenes.SwitchToProductionLineLoadingScene();
+                    break;
                 default:
                     Debug.LogError("unknown sceneID");
                     break;
