@@ -38,6 +38,10 @@ namespace Scenes._03_StartScene.Scripts
 
         private async void Start()
         {
+            // Deactivate buttons until we have checket saves.
+            newMonster.SetActive(false);
+            loadMonster.SetActive(false);
+            
             await CheckSaveCountAndToggleUIElements();
         }
 

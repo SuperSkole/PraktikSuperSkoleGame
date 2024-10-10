@@ -1,3 +1,5 @@
+using CORE;
+using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -281,6 +283,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator IncorrectGuess()
         {
+            
             readyForDeactivation = true;
             rawImage.color = Color.red;
             meshRenderer.material = incorrectMaterial;

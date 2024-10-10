@@ -42,8 +42,9 @@ namespace Scenes._02_LoginScene.Scripts
         
         public async Task SignOutAsync()
         {
-            AuthenticationService.Instance.SignOut();
+            await Task.Run(() => AuthenticationService.Instance.SignOut());
         }
+
 
 
         public async Task<bool> SignUpWithUsernamePasswordAsync()

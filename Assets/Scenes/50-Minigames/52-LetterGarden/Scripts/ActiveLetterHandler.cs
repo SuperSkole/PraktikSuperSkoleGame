@@ -4,6 +4,7 @@ using System.Linq;
 using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
@@ -21,7 +22,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private SymbolManager symbolManager;
         [SerializeField] private Transform splineHolder;
         [SerializeField] private BeeMovement bee;
-        [SerializeField] private AudioSource audioSource;
+        private bool playingSound = false;
         [SerializeField] private GameObject helperBee;
         [SerializeField] private GameObject activeHelperBee;
         public AudioClip letterSound;
@@ -78,10 +79,19 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 
         public void Update()
         {
-            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !audioSource.isPlaying)
+            if (letterSound != null && Input.GetKeyDown(KeyCode.Space) && !playingSound)
             {
-                audioSource.PlayOneShot(letterSound);
+                StartCoroutine(PlaySound());
+                
             }
+        }
+
+        private IEnumerator PlaySound()
+        {
+            playingSound = true;
+            AudioManager.Instance.PlaySound(letterSound, SoundType.Voice);
+            yield return new WaitForSeconds(letterSound.length);
+            playingSound = false;
         }
 
         /// <summary>
@@ -108,8 +118,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     PlayerEvents.RaiseXPChanged(1);
                     oldLetter = currentSymbol.symbol.ToString();
                     GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(currentSymbol.symbol.ToString(), true);
                     Instantiate(coinObject);
                     //StartCoroutine(TakeScreenShot());
+                    
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game
@@ -154,6 +166,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 //next Spline in container
                 return true;
             }
+            
             dwaing.positionCount = 0;
             return false;
         }

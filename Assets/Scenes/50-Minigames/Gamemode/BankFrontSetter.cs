@@ -9,6 +9,11 @@ using UnityEngine;
 
 public class BankFrontSetter : IGameModeSetter
 {
+    public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+    {
+        return (SetRules(level), SetMode(level));
+    }
+
     public IGenericGameMode SetMode(int level)
     {
         return new SortAndCountAll();

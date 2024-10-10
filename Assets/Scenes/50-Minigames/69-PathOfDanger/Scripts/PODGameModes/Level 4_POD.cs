@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
@@ -5,7 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Level4_POD : MonoBehaviour,IPODGameMode
+public class Level4_POD : IPODGameMode
 {
     List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
     private string previousRetrievedAnswer;
@@ -87,7 +89,18 @@ public class Level4_POD : MonoBehaviour,IPODGameMode
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
             while (returnedString[i]==previousRetrievedAnswer)
             {
-                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+               
+
+                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+              
+                
+                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+
+                   
+
+                   
+
+                
             }
 
             previousRetrievedAnswer = returnedString[i];

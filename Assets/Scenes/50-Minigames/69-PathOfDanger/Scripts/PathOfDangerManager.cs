@@ -1,4 +1,5 @@
 using Cinemachine;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes;
@@ -82,6 +83,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject planes;
     private bool mapLoaded = false;
+    public bool wrongAnswer;
 
     public bool hasAnsweredWrong=false;
     void Start()
@@ -145,7 +147,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         spawnedPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Jump jumpComp = spawnedPlayer.AddComponent<Jump>();
-        jumpComp.rigidbody = playerRigidBody;
+        jumpComp.playerRigidBody = playerRigidBody;
         jumpComp.manager = this;
         jumpComp.shadowPrefab = shadowPrefab;
 
@@ -159,12 +161,18 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     {
         if (correctAnswer)
         {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], true);
             currentQuestionIndex++;
             SetNextQuestion();
            
             correctAnswer = false;
         }
 
+        if(wrongAnswer)
+        {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], false);
+            wrongAnswer = false;
+        }
         UpdatePlayerHealthUI();
 
 

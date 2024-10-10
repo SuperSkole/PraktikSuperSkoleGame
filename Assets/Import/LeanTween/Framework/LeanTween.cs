@@ -1039,7 +1039,7 @@ namespace Import.LeanTween.Framework
 
             if (tween.time <= 0f)
                 tween.updateInternal();
-            //tween.hasPhysics = gameObject.rigidbody!=null;
+            //tween.hasPhysics = gameObject.playerRigidBody!=null;
 
             return tween;
         }

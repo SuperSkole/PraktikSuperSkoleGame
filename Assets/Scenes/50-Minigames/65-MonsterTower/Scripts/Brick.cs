@@ -26,6 +26,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                 gameObject.GetComponentInParent<TowerManager>().correctAnswer = true;
                 checkCollision = false;
             }
+            
+            if(checkCollision && isCorrect==false)
+            {
+                gameObject.GetComponentInParent<TowerManager>().wrongAnswer = true;
+                checkCollision = false;
+
+            }
         }
     }
 
