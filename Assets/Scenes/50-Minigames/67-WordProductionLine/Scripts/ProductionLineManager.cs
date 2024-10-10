@@ -27,7 +27,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         private void Start()
         {
             langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(14);
-            Debug.Log(langUnit[0].LanguageUnitType);
+            
         }
 
         /// <summary>

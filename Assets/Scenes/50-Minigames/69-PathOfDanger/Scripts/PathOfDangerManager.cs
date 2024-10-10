@@ -53,7 +53,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
   
 
-    public AudioSource hearLetterButtonAudioSource;
+    public AudioClip hearLetterButtonAudioClip;
 
     public TextMeshProUGUI descriptionText;
 
@@ -77,7 +77,6 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject healthUI;
 
-    [SerializeField] AudioSource backGroundMusicSource;
 
     [SerializeField] GameObject mapSection;
 
@@ -86,11 +85,13 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public bool wrongAnswer;
 
     public bool hasAnsweredWrong=false;
+
+    [SerializeField] AudioClip backGroundMusic;
     void Start()
     {
-       
+        AudioManager.Instance.PlaySound(backGroundMusic, SoundType.Music, true);
 
-        hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
+       
 
         if (PlayerManager.Instance != null)
         {
@@ -233,6 +234,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     {
                         //dividing z/2 due the fact the z_amount ofplatforms is twice the amount of actual falling platforms. 
                         // that is because the safeplatforms in between is also taken into account. 
+                      
                         gameMode.SetCorrectAnswer(questions[z/2], this);
 
 
@@ -241,6 +243,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     }
                     else
                     {
+                        
                         gameMode.SetWrongAnswer(this, questions[z/2]);
                         platformPrefabFallingScript.isCorrectAnswer = false;
                     }
@@ -369,6 +372,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         currentQuestionIndex = 0;
         questions = gameMode.GenerateAnswers(3);
 
+      
         //The amounts of platforms is the questions.lenght*2 because the need for safeplatforms in between the falling platforms. 
 
         z_AmountOfPlatforms = questions.Length*2;
@@ -412,7 +416,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     public void PlaySoundFromHearLetterButton()
     {
-        hearLetterButtonAudioSource.GetComponent<AudioSource>().Play();
+        AudioManager.Instance.PlaySound(hearLetterButtonAudioClip, SoundType.Voice, false);
     }
 
     /// <summary>

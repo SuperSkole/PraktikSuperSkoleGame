@@ -39,6 +39,9 @@ public class LoadingSceneSetup : MonoBehaviour
                 case 5:
                     SwitchScenes.SwitchToPathOfDangerAllModesSelector();
                     break;
+                case 6:
+                    SwitchScenes.SwitchToProductionLineLoadingScene();
+                    break;
                 default:
                     Debug.LogError("unknown sceneID");
                     break;
@@ -54,6 +57,7 @@ public class LoadingSceneSetup : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         GameObject gamemode = GameObject.FindGameObjectWithTag("GamemodeSelect");
+        
         gamemode.GetComponent<SetGameModeAndDestroy>().sceneID = sceneID;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
