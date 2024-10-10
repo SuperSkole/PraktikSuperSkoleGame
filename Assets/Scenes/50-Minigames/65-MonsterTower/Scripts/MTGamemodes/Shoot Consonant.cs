@@ -12,6 +12,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
     {
         
         List<ILanguageUnit> consonants;
+        private string previousRetrievedAnswer;
 
 
 
@@ -117,6 +118,48 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                             break;
                     }
                 }
+
+                while (returnedString[i] == previousRetrievedAnswer)
+                {
+                    returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+
+                    checkIfAvailable = true;
+
+                    while (checkIfAvailable)
+                    {
+                        switch (returnedString[i].ToLower())
+                        {
+                            case "y":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "z":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "w":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "c":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "q":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "x":
+                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            default:
+                                checkIfAvailable = false;
+                                break;
+                        }
+                    }
+                }
+                previousRetrievedAnswer = returnedString[i];
             }
            
             return returnedString;

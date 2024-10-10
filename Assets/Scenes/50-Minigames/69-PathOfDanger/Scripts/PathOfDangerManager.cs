@@ -234,6 +234,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     {
                         //dividing z/2 due the fact the z_amount ofplatforms is twice the amount of actual falling platforms. 
                         // that is because the safeplatforms in between is also taken into account. 
+                      
                         gameMode.SetCorrectAnswer(questions[z/2], this);
 
 
@@ -242,6 +243,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     }
                     else
                     {
+                        
                         gameMode.SetWrongAnswer(this, questions[z/2]);
                         platformPrefabFallingScript.isCorrectAnswer = false;
                     }
@@ -370,6 +372,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         currentQuestionIndex = 0;
         questions = gameMode.GenerateAnswers(3);
 
+      
         //The amounts of platforms is the questions.lenght*2 because the need for safeplatforms in between the falling platforms. 
 
         z_AmountOfPlatforms = questions.Length*2;
