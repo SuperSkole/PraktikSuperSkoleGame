@@ -19,8 +19,13 @@ public class BankbackTutorial : MonoBehaviour
     {
         
         katjafe = GetComponent<KatjaFe>();
+        if(GameManager.Instance.PlayerData.TutorialBankBack)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if(GameManager.Instance.PlayerData.TutorialBankBack) return;
         controller = FindFirstObjectByType<VaultManager>();
         Speak();
     }
@@ -49,6 +54,7 @@ public class BankbackTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialBankBack = true;
                 });
             }
         }

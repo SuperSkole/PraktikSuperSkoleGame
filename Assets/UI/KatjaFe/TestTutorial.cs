@@ -18,7 +18,11 @@ public class TestTutorial : MonoBehaviour
     {
         katjafe = GetComponent<KatjaFe>();
         katjafe.Initialize(true,Move);
-        if (GameManager.Instance.PlayerData.TutorialHouse) return;
+        if (GameManager.Instance.PlayerData.TutorialHouse)
+        {
+            katjafe.Initialize(false, Move);
+            return;
+        }
         Speak();
     }
 
@@ -47,7 +51,8 @@ public class TestTutorial : MonoBehaviour
                 {
                     katjafe.KatjaSpeak(GoToDoor, () => 
                     { 
-                        katjafe.KatjaExit(); 
+                        katjafe.KatjaExit();
+                        GameManager.Instance.PlayerData.TutorialHouse = true;
                     });                    
                 });
             }

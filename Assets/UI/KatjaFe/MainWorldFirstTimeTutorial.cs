@@ -14,8 +14,13 @@ public class MainWorldFirstTimeTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialMainWorldFirstTime)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(false, Explane);
-        if (GameManager.Instance.PlayerData.TutorialMainWorldFirstTime) return;
         Speak();
     }
 
@@ -28,6 +33,7 @@ public class MainWorldFirstTimeTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(Explane, () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialMainWorldFirstTime = true;
                 });
             });
         });

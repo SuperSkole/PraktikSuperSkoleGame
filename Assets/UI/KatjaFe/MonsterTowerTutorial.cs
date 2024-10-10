@@ -19,8 +19,13 @@ public class MonsterTowerTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialMosterTower)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if (GameManager.Instance.PlayerData.TutorialMosterTower) return;
         controller = FindFirstObjectByType<TowerManager>();
         Speak();
     }
@@ -49,6 +54,7 @@ public class MonsterTowerTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialMosterTower = true;
                 });
             }
         }

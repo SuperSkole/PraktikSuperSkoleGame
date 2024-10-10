@@ -19,8 +19,13 @@ public class FactoryTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialFactory)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if (GameManager.Instance.PlayerData.TutorialFactory) return;
         controller = FindFirstObjectByType<WordCheckManager>();
         Speak();
     }
@@ -49,6 +54,7 @@ public class FactoryTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialFactory = true;
                 });
             }
         }

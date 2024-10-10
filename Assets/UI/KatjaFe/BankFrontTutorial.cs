@@ -18,8 +18,13 @@ public class BankFrontTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialBankFront)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if (GameManager.Instance.PlayerData.TutorialBankFront) return;
         controller = FindFirstObjectByType<BankManager>();
         Speak();
     }
@@ -48,6 +53,7 @@ public class BankFrontTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialBankFront = true;
                 });
             }
         }

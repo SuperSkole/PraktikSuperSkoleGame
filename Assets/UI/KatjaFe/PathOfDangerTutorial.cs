@@ -18,8 +18,13 @@ public class PathOfDangerTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialPathOfDanger)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if (GameManager.Instance.PlayerData.TutorialPathOfDanger) return;
         controller = FindFirstObjectByType<PathOfDangerManager>();
         Speak();
     }
@@ -48,6 +53,7 @@ public class PathOfDangerTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialPathOfDanger = true;
                 });
             }
         }

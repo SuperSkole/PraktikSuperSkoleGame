@@ -18,8 +18,13 @@ public class LetterGardenTutorual : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialLetterGarden)
+        {
+
+            katjafe.Initialize(false, followBee);
+            return;
+        }
         katjafe.Initialize(true, followBee);
-        if (GameManager.Instance.PlayerData.TutorialLetterGarden) return;
         drawingHandler = FindFirstObjectByType<DrawingHandler>();
         Speak();
     }
@@ -48,6 +53,7 @@ public class LetterGardenTutorual : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0,CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialLetterGarden = true;
                 });
             }
         }

@@ -16,8 +16,13 @@ public class RaceTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialRace)
+        {
+
+            katjafe.Initialize(false, Explane);
+            return;
+        }
         katjafe.Initialize(true, Explane);
-        if (GameManager.Instance.PlayerData.TutorialRace) return;
         controller = FindFirstObjectByType<RacingCore>();
         Speak();
     }
@@ -46,6 +51,7 @@ public class RaceTutorial : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialRace = true;
                 });
             }
         }

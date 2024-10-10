@@ -19,8 +19,13 @@ public class SymbolEaterTutorual : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
+        if (GameManager.Instance.PlayerData.TutorialSymbolEater)
+        {
+
+            katjafe.Initialize(false, Move);
+            return;
+        }
         katjafe.Initialize(true, Move);
-        if (GameManager.Instance.PlayerData.TutorialSymbolEater) return;
         controller = FindFirstObjectByType<BoardController>();
         Speak();
     }
@@ -49,6 +54,7 @@ public class SymbolEaterTutorual : MonoBehaviour
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
+                    GameManager.Instance.PlayerData.TutorialSymbolEater = true;
                 });
             }
         }
