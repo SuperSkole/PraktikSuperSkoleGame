@@ -1,5 +1,7 @@
+using Analytics;
 using CORE;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,6 +73,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 {
                     letters.Add(c);
                 }
+                
             }
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)

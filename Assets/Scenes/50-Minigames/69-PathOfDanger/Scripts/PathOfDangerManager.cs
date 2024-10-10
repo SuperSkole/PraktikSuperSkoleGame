@@ -35,7 +35,11 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public RawImage soloImage;
     public TextMeshProUGUI textOnPlatform;
     public string imageKey;
-    public AudioSource hearLetterButtonAudioSource;
+
+  
+
+    public AudioClip hearLetterButtonAudioClip;
+
     public TextMeshProUGUI descriptionText;
     private IPODGameMode gameMode;
     private string[] questions;
@@ -49,16 +53,21 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     [SerializeField] GameObject shadowPrefab;
     [SerializeField] GameObject safePlatform;
     [SerializeField] GameObject healthUI;
-    [SerializeField] AudioSource backGroundMusicSource;
+
+
     [SerializeField] GameObject mapSection;
     [SerializeField] GameObject planes;
     private bool mapLoaded = false;
     public bool wrongAnswer;
     public bool hasAnsweredWrong=false;
     public bool isTutorialOver = false;
+
+    [SerializeField] AudioClip backGroundMusic;
     void Start()
-    {   
-        hearLetterButtonAudioSource = Camera.main.GetComponent<AudioSource>();
+    {
+        AudioManager.Instance.PlaySound(backGroundMusic, SoundType.Music, true);
+
+       
 
         if (PlayerManager.Instance != null)
         {
@@ -167,11 +176,13 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
                     {
                         //dividing z/2 due the fact the z_amount ofplatforms is twice the amount of actual falling platforms. 
                         // that is because the safeplatforms in between is also taken into account. 
+                      
                         gameMode.SetCorrectAnswer(questions[z/2], this);
                         platformPrefabFallingScript.isCorrectAnswer = true;
                     }
                     else
                     {
+                        
                         gameMode.SetWrongAnswer(this, questions[z/2]);
                         platformPrefabFallingScript.isCorrectAnswer = false;
                     }
@@ -305,7 +316,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     /// </summary>
     public void PlaySoundFromHearLetterButton()
     {
-        hearLetterButtonAudioSource.GetComponent<AudioSource>().Play();
+        AudioManager.Instance.PlaySound(hearLetterButtonAudioClip, SoundType.Voice, false);
     }
 
     /// <summary>

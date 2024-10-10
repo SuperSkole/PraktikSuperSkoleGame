@@ -73,11 +73,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
         private GameObject spawnedPlayer;
 
-        public AudioSource flyingProjectileSound;
-
-        private AudioSource hearletterButtonAudioSource;
-
-        [SerializeField] AudioSource towerAudioSource;
+        [SerializeField] AudioClip backGroundMusic;
+       
         private List<char> letters;
 
         /// <summary>
@@ -104,8 +101,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
 
         void Start()
         {
-            //Setting the audio source on the hearletterbutton.
-            hearletterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
+            AudioManager.Instance.PlaySound(backGroundMusic, SoundType.Music, true);
 
             // getting and setting the ammodimensions from the prefab 
             ammoDimensions =ammoToDisplayPrefab.GetComponent<MeshRenderer>().bounds.size;
@@ -277,23 +273,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
         /// </summary>
         public void PlaySoundFromHearLetterButton()
         {
-           StartCoroutine(PlaySoundfromHearLetterButtonOrWait());
+            AudioManager.Instance.PlaySound(towerManager.VoiceClip, SoundType.Voice, false);
+           
         }
 
 
-        /// <summary>
-        /// Waits and checks if the toweraudio source that play letters/words audio from the button is done playing. 
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator PlaySoundfromHearLetterButtonOrWait()
-        {
-            while (towerAudioSource.isPlaying)
-            {
-                yield return null;
-            }
-
-            hearletterButtonAudioSource.Play();
-        }
+       
 
 
         /// <summary>

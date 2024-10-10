@@ -9,9 +9,10 @@ using UnityEngine;
 
 public class Level4_POD : IPODGameMode
 {
-    List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
+    
     private string previousRetrievedAnswer;
 
+   
 
     /// <summary>
     /// Will be called by the PathOfDangerManager to create a platform with the correct answer
@@ -22,13 +23,10 @@ public class Level4_POD : IPODGameMode
     {
 
 
-        foreach (var item in FMNSConsonants)
-        {
-            if (item == str.ToCharArray()[0])
-            {
-                manager.textOnPlatform.text = item.ToString();
-            }
-        }
+      
+                manager.textOnPlatform.text = str.ToUpper();
+            
+        
 
 
     }
@@ -39,18 +37,19 @@ public class Level4_POD : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetWrongAnswer(PathOfDangerManager manager, string correctAnswer)
     {
-        var rndVowelWithKey = LetterManager.GetRandomFMNSConsonant();
+        var rndLetterWithKey = LetterManager.GetRandomLetter();
 
-        while (rndVowelWithKey == correctAnswer.ToCharArray()[0])
+
+        while (rndLetterWithKey == correctAnswer.ToCharArray()[0])
         {
-            rndVowelWithKey = LetterManager.GetRandomFMNSConsonant();
+            rndLetterWithKey = LetterManager.GetRandomLetter();
         }
 
-        manager.textOnPlatform.text = rndVowelWithKey.ToString();
+        manager.textOnPlatform.text = rndLetterWithKey.ToString();
 
 
 
-        manager.imageKey = rndVowelWithKey.ToString();
+        manager.imageKey = rndLetterWithKey.ToString();
 
 
     }
@@ -63,11 +62,10 @@ public class Level4_POD : IPODGameMode
     public void GetDisplayAnswer(string str, PathOfDangerManager manager)
     {
 
-
-
+       
         AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
 
-        manager.hearLetterButtonAudioSource.GetComponent<AudioSource>().clip = clip;
+        manager.hearLetterButtonAudioClip = clip;
 
     }
 
@@ -80,33 +78,27 @@ public class Level4_POD : IPODGameMode
     {
 
 
+        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
         {
-            
-            returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
+
+            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+
             while (returnedString[i]==previousRetrievedAnswer)
             {
-               
+          
+                    returnedString[i] = words[Random.Range(0, 10)].Identifier;
 
-                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
-              
-                
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
-
-                   
-
-                   
-
-                
             }
 
             previousRetrievedAnswer = returnedString[i];
         }
 
-
+   
 
         return returnedString;
     }
