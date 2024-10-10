@@ -36,6 +36,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // created word queue
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
+        private int wrongWordCount;
 
         private void Update()
         {
@@ -132,6 +133,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 
                 uiFactoryManager.UpdateInfoBoard(WordCheckState.Wrong);
                 uiFactoryManager.TriggerLightBlink(WordCheckState.Wrong, 3);
+                
+                wrongWordCount++;
             }
         }
 

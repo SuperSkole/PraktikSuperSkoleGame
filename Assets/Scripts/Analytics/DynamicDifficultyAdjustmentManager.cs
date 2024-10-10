@@ -140,7 +140,7 @@ namespace Analytics
             if (PlayerManager.Instance.PlayerData != null)
             {
                 playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
-                //playerLanguageLevel = 4; //test level
+                //playerLanguageLevel = 3; //test level
                 if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
             }
 

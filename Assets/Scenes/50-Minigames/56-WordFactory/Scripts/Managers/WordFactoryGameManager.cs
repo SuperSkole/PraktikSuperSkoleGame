@@ -44,9 +44,26 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             base.Awake();
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-            IntializeFactoryManager();
 
             Playerlevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+            
+            if (Playerlevel < 3)
+            {
+                // Player level too low, load the main scene
+                SceneManager.LoadScene(SceneNames.Main);
+    
+                // If player has an AutoMovePlayerInFactory component, destroy it
+                var autoMoveComponent = PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>();
+                if (autoMoveComponent != null)
+                {
+                    Destroy(autoMoveComponent);
+                }
+                
+                // Early return to stop further execution
+                return;
+            }
+            
+            IntializeFactoryManager();
         }
 
         /// <summary>
@@ -131,6 +148,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         private void SetGearStrategy()
         {
+            
+            
             // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klø", 60);
             // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klo", 60);
             
