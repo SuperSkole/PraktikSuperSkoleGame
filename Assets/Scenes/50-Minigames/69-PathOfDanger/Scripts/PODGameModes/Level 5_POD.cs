@@ -184,6 +184,6 @@ public class Level5_POD : IPODGameMode
         manager.answerHolderPrefab = manager.singleImageHolderPrefab;
         manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på billedet som starter med bogstavet du hørte";
+        manager.descriptionText.text = " Tryk pï¿½ MellemRum knappen for at hoppe. Tryk pï¿½ F for at hï¿½re et bogstav. Hop pï¿½ billedet som starter med bogstavet du hï¿½rte";
     }
 }
