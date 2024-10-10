@@ -59,7 +59,7 @@ namespace Scenes._50_Minigames.Gamemode
         {
             //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
             //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
             DynamicGameRules dynamicGameRules = new DynamicGameRules();
             List<ILanguageUnit> languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager
                     .GetNextLanguageUnitsBasedOnLevel(80);
