@@ -27,7 +27,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
             if(gameRules.GetType() == typeof(DynamicGameRules))
             {
                 LetterData letterData = (LetterData)GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
-                if(letterData.ErrorCategory == Analytics.LetterCategory.All)
+                if(letterData.Category == Analytics.LetterCategory.All)
                 {
                     shouldRegenerateAnswer = true;
                 }
