@@ -19,7 +19,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
-            manager.soloImage.texture = ImageManager.GetImageFromWord(str);
+            manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
         }
 
         /// <summary>

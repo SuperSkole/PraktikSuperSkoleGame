@@ -1,3 +1,4 @@
+using CORE;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,18 +7,22 @@ public class TestTutorial : MonoBehaviour
 {
     private KatjaFe katjafe;
 
-    public AudioClip audioClip1;
-    public AudioClip audioClip2;
+    [SerializeField] private AudioClip Hey;
+    [SerializeField] private AudioClip Move;
+    [SerializeField] private AudioClip Good;
+    [SerializeField] private AudioClip GoToDoor;
 
     private bool waitingForInput = false;
 
     private void Start()
     {
-
-        katjafe = this.GetComponent<KatjaFe>();
-
-        katjafe.Initialize(true,audioClip2);
-
+        katjafe = GetComponent<KatjaFe>();
+        katjafe.Initialize(true,Move);
+        if (GameManager.Instance.PlayerData.TutorialHouse)
+        {
+            katjafe.Initialize(false, Move);
+            return;
+        }
         Speak();
     }
 
@@ -25,13 +30,14 @@ public class TestTutorial : MonoBehaviour
     {
         katjafe.KatjaIntro(() =>
         {
-            katjafe.KatjaSpeak(audioClip1, () => 
-            { 
-                waitingForInput = true; 
+            katjafe.KatjaSpeak(Hey, () => 
+            {
+                katjafe.KatjaSpeak(Move, () =>
+                {
+                    waitingForInput = true;
+                });
             }); 
-
-        });
-            
+        });            
     }
 
     private void Update()
@@ -41,10 +47,15 @@ public class TestTutorial : MonoBehaviour
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 waitingForInput = false;
-                katjafe.KatjaSpeak(audioClip2, () => { katjafe.KatjaExit(); });
+                katjafe.KatjaSpeak(Good, () => 
+                {
+                    katjafe.KatjaSpeak(GoToDoor, () => 
+                    { 
+                        katjafe.KatjaExit();
+                        GameManager.Instance.PlayerData.TutorialHouse = true;
+                    });                    
+                });
             }
         }
-
-
     }
 }

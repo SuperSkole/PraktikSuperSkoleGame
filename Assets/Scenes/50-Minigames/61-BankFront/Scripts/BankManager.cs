@@ -58,6 +58,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
 
     private int completedGames = 0;
     private float mistakes = 0;
+    public bool isTutorialOver = false;
 
 
     void Start()
@@ -117,14 +118,12 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         {
             Debug.LogError("Attempted to add coins to ongoing game");
         }
-        
     }
     /// <summary>
     /// Checks if the player has sorted the coins correctly and if their total for the correct ones is correct
     /// </summary>
     public void Validate()
     {
-        
         //Checks if the coins have been sorted correctly and calculates the total value of the correct ones
         int result = gamemode.Validate(numberDisplay.GetNumber());
         //Ends the current game if the player sorted correctly and calculated the value of the correct conins correctly
@@ -134,6 +133,7 @@ public class BankManager : MonoBehaviour, IMinigameSetup
         }
         if(result == 2)
         {
+            isTutorialOver = true;
             errorDisplay.Correct();
             PlayerEvents.RaiseGoldChanged(1);
             PlayerEvents.RaiseXPChanged(1);
