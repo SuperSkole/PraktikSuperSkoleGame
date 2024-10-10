@@ -1,7 +1,9 @@
 using CORE.Scripts;
+using Scenes._50_Minigames._54_SymbolEater.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class SymbolEaterTutorual : MonoBehaviour
 {
@@ -11,13 +13,14 @@ public class SymbolEaterTutorual : MonoBehaviour
     [SerializeField] private AudioClip Move;
 
     private bool waitingForInput = false;
+    private BoardController controller;
 
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
 
         katjafe.Initialize(true, Move);
-
+        controller = FindFirstObjectByType<BoardController>();
         Speak();
     }
 
@@ -41,7 +44,7 @@ public class SymbolEaterTutorual : MonoBehaviour
     {
         if (waitingForInput)
         {
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (controller.isTutorialOver)
             {
                 waitingForInput = false;
                 katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>

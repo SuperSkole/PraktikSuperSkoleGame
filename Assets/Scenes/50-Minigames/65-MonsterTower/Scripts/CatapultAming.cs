@@ -70,8 +70,6 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             {
                 if (!isShooting)
                 {
-                    
-
                     isShooting = true;
                     while (rotateThisMuch < 85)
                     {

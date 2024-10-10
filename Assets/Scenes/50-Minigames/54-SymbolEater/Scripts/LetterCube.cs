@@ -93,7 +93,6 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 else if (active && other.gameObject.tag == "Player" && !board.GetPlayer().thrown && board.GetPlayer().hasMoved)
                 {
                     StartCoroutine(CorrectGuess());
-                    
                 }
             }
         }

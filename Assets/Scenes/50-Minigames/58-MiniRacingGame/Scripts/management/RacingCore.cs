@@ -81,6 +81,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private bool setCorrectAnswerHasBeenRan = false;
 
         public float Timer { get => timer; set => timer = value; }
+        public bool isTutorialOver = false;
         #endregion
 
         #region setup
@@ -412,6 +413,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             {
                 if (wrongLetter == letter)
                 {
+                    isTutorialOver = true;
                     return true;
                 }
             }

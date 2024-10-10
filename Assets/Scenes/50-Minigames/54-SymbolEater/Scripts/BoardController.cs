@@ -49,7 +49,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public DifficultyManager difficultyManager = new DifficultyManager();
 
         public MonsterHivemind monsterHivemind = new MonsterHivemind();
-
+        public bool isTutorialOver = false;
         private IGameRules gameRules;
 
 
@@ -125,6 +125,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns>whether the letter is the same as the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
+            if(!isTutorialOver)
+                isTutorialOver = gameMode.IsCorrectSymbol(letter);
             return gameMode.IsCorrectSymbol(letter);
         }
 
