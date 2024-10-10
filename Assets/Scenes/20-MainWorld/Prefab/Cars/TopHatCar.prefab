@@ -204,7 +204,7 @@ AudioSource:
   m_GameObject: {fileID: 5205935780683776697}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1412578436185701664, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
   m_audioClip: {fileID: 8300000, guid: f632e2ace80a32e47a2c531f64901a50, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.05
@@ -573,7 +573,7 @@ AudioSource:
   m_GameObject: {fileID: 7687752643860494689}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -1412578436185701664, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
   m_audioClip: {fileID: 8300000, guid: 771ce407ce807b74885ec23ebd1e6647, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.1
@@ -738,7 +738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: maxSpeed
-      value: 120
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Enabled
@@ -770,7 +770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 627556911, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: handbrakeDriftMultiplier
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 901333271, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
@@ -1221,9 +1221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2877f846aa69048a0c50aa0073e336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 3453212339693683068}
+  carController: {fileID: 0}
   fuelAmount: 0
-  FuelUsageMultiplier: 2.5
+  FuelUsageMultiplier: 1.5
   fuelGauge: {fileID: 0}
 --- !u!114 &4707417479300227861
 MonoBehaviour:

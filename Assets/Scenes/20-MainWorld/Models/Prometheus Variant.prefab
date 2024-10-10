@@ -955,6 +955,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 1017544330230184320, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1025541434198643357, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -986,6 +990,10 @@ PrefabInstance:
     - target: {fileID: 4402756320984974861, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575599446629713621, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5135156708204615449, guid: 79d0ca8b77e301442afdb49f102e8aed, type: 3}
       propertyPath: m_Interpolate
@@ -1196,7 +1204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be2877f846aa69048a0c50aa0073e336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 3453212339693683068}
+  carController: {fileID: 0}
   fuelAmount: 0
   FuelUsageMultiplier: 2.5
   fuelGauge: {fileID: 0}

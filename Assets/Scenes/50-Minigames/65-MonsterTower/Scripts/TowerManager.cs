@@ -13,6 +13,7 @@ using static UnityEngine.ParticleSystem;
 using System;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scripts;
+using CORE;
 
 
 
@@ -40,6 +41,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
 
         public bool correctAnswer = false;
+
+        public bool wrongAnswer = false;
 
         private Vector3 brickDimensions;
 
@@ -172,10 +175,17 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
             if (correctAnswer)
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], true);
                 currentQuestionIndex++;
                 SetNextQuestion();
                 DestroyLowestTowerLane();
                 correctAnswer = false;
+            }
+
+            if(wrongAnswer)
+            {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], false);
+                wrongAnswer = false;
             }
 
             if(falling)
@@ -194,12 +204,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             if (rowToDelete >= towerHeight)
                 return;
 
+    
             for (int i = 0; i < numberOfBricksInLane; i++)
             {
 
                 Destroy(tower[i, rowToDelete]);
-
-
 
             }
 
@@ -335,8 +344,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             //that will have the effect that the next time the monstertower scene is loaded a new tower is built because there are no lanes saved. 
 
             // DataPersistenceManager.instance.SaveGame();
-           
 
+            
 
             SceneManager.LoadScene("WinScene");
         }

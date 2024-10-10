@@ -1,4 +1,5 @@
 using Cinemachine;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using Scenes;
@@ -81,6 +82,7 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
 
     [SerializeField] GameObject planes;
     private bool mapLoaded = false;
+    public bool wrongAnswer;
 
     public bool hasAnsweredWrong=false;
 
@@ -160,12 +162,18 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     {
         if (correctAnswer)
         {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], true);
             currentQuestionIndex++;
             SetNextQuestion();
            
             correctAnswer = false;
         }
 
+        if(wrongAnswer)
+        {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], false);
+            wrongAnswer = false;
+        }
         UpdatePlayerHealthUI();
 
 

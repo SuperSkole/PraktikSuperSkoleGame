@@ -1,3 +1,5 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using System.Collections.Generic;
 using System.Text;
@@ -102,15 +104,18 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             {
                 //update the range if more options are needed for the binding word of the sentence generator, the range should be (0, x) where x is the number of cases
                 int rnd = Random.Range(0, 2);
-                string[] words = WordsForImagesManager.GetRandomWordForImage(2);
+                
+
+                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+                
                 switch (rnd)
                 {
                     case 0:
-                        sentence = words[0] + " p\u00e5 " + words[1];
+                        sentence = words[Random.Range(0,10)].Identifier + " p\u00e5 " + words[Random.Range(0, 10)].Identifier;
                         break;
 
                     case 1:
-                        sentence = words[0] + " under " + words[1];
+                        sentence = words[Random.Range(0, 10)].Identifier + " under " + words[Random.Range(0, 10)].Identifier;
                         break;
 
                     default:

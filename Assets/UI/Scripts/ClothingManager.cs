@@ -1,3 +1,4 @@
+using CORE;
 using System.Collections;
 using System.Collections.Generic;
 using UI.Scripts;
@@ -6,7 +7,7 @@ using UnityEngine.UI;
 
 namespace UI.Scripts
 {
-    public class ClothingManager : MonoBehaviour
+    public class ClothingManager : PersistentSingleton<ClothingManager>
     {
         //IMAGES FOR SHOPITEM
         [SerializeField] private Sprite briller;
@@ -23,23 +24,13 @@ namespace UI.Scripts
         [SerializeField] private Sprite bla;
         [SerializeField] private Sprite pink;
 
-        public static ClothingManager Instance;
         [SerializeField] public List<ClothInfo> AvailableClothesList = new List<ClothInfo>();
 
-        private void Awake()
+        private void Start()
         {
-            // Singleton
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-                InitializeClothes();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            InitializeClothes();
         }
+
         private void InitializeClothes()
         {
             // SHOPITEMS

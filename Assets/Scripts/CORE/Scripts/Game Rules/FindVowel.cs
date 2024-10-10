@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace CORE.Scripts.Game_Rules
@@ -61,6 +62,11 @@ namespace CORE.Scripts.Game_Rules
         public bool SequenceComplete()
         {
             return true;
+        }
+
+        public string GetSecondaryAnswer()
+        {
+            return "";
         }
     }
 }
