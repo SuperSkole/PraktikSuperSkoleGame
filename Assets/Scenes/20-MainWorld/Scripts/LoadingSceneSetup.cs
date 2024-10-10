@@ -18,7 +18,7 @@ public class LoadingSceneSetup : MonoBehaviour
     {
         
         //loads the general level selector and prepares the setup method if the player level is low enough 
-        if(GameManager.Instance.PlayerData.CurrentLevel < 7)
+        if(GameManager.Instance.DynamicDifficultyAdjustmentManager.playerLanguageLevel < 7)
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SwitchScenes.SwitchToMinigameLoadingScene();
