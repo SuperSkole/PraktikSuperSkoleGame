@@ -1,10 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Analytics;
 using CORE;
+using CORE.Scripts;
+using Letters;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Words;
+using Random = UnityEngine.Random;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
@@ -16,10 +22,15 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public event Action<GameObject> OnGearAdded;
 
         // public so other can access the "game settings"
+        public int Playerlevel { get; private set; }
         public int NumberOfGears = 2; // Default to 2 gears
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
         public GameObject CoinPrefab;
+        
+        // Lists for storing words and letters
+        public List<string> WordList { get; private set; } = new List<string>();
+        public List<string> LetterList { get; private set; } = new List<string>();
         
         public GameObject PlayerSpawnPoint;
         [SerializeField] private GameObject dropOffPoint;
@@ -28,32 +39,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private List<GameObject> gears = new List<GameObject>();
         private IGearStrategy gearStrategy;
 
-        // Word Factory GameManger singleton
-        /// <summary>
-        /// Singleton instance of the WordFactoryGameManager.
-        /// </summary>
-        // public static WordFactoryGameManager Instance { get; private set; }
-        //
-        // private void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //         //DontDestroyOnLoad(gameObject);
-        //         SceneManager.sceneUnloaded += OnSceneUnloaded;
-        //         IntializeFactoryManager();
-        //     }
-        // }
         protected override void Awake()
         {
             base.Awake();
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             IntializeFactoryManager();
+
+            Playerlevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
         }
 
         /// <summary>
@@ -113,6 +106,23 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public int GetNumberOfTeeth() => NumberOfTeeth;
 
         public int GetDifficultyLevel() => DifficultyLevel;
+        
+        // Methods to clear and populate word and letter lists
+        public void ClearWordAndLetterLists()
+        {
+            WordList.Clear();
+            LetterList.Clear();
+        }
+
+        public void AddWordsToList(IEnumerable<string> words)
+        {
+            WordList.AddRange(words);
+        }
+
+        public void AddLettersToList(IEnumerable<string> letters)
+        {
+            LetterList.AddRange(letters);
+        }
 
         public void SetDifficultyLevel(int level) => DifficultyLevel = level;
         
@@ -121,20 +131,65 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         private void SetGearStrategy()
         {
-            if (NumberOfGears >= 2)
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klø", 60);
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("klo", 60);
+            
+            // Clear existing lists
+            ClearWordAndLetterLists();
+
+            // Fetch language units from DDA system
+            var languageUnits = DynamicDifficultyAdjustmentManager.Instance.GetNextLanguageUnitsBasedOnLevel(20);
+            
+            // If not enough units are found, handle fallback logic
+            if (languageUnits.Count < 5)
             {
-                gearStrategy = new MultiGearStrategy();
+                Debug.LogWarning("Not enough language units found, fetching additional units.");
+                languageUnits.AddRange(DynamicDifficultyAdjustmentManager.Instance.GetNextLanguageUnitsBasedOnLevel(20));
+            }
+            
+            // Add words and letters to the lists
+            AddWordsToList(languageUnits.Where(u => u is WordData)
+                .Select(u => u.Identifier.ToUpper()));
+
+            AddLettersToList(languageUnits.Where(u => u is LetterData)
+                .Select(u => u.Identifier.ToUpper()));
+
+            // Get the highest-weighted word
+            ILanguageUnit highestWeightedUnit = languageUnits
+                .Where(unit => unit is WordData) // Ensure you're only looking at words
+                .OrderByDescending(unit => unit.CompositeWeight)
+                .FirstOrDefault();
+
+            if (highestWeightedUnit != null)
+            {
+                WordData wordData = highestWeightedUnit as WordData;
+
+                if (wordData != null)
+                {
+                    if (wordData.Length == WordLength.TwoLetters)
+                    {
+                        gearStrategy = new MultiGearStrategy();
+                        NumberOfGears = 2;
+                    }
+                    else if (wordData.Length == WordLength.ThreeLetters)
+                    {
+                        gearStrategy = new SingleGearStrategy();
+                        NumberOfGears = 1;
+                    }
+                }
             }
             else
             {
-                gearStrategy = new SingleGearStrategy();
+                Debug.LogError("No valid word data found to determine gear strategy.");
             }
 
+            // Additional setup or error handling
             if (gearStrategy == null)
             {
                 Debug.LogError("Failed to initialize gear strategy.");
             }
         }
+
         
         /// <summary>
         /// If Next scene is main re-enable player movement and destroy factory singleton managers.

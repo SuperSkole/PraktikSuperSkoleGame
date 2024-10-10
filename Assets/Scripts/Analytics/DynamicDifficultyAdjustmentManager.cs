@@ -139,9 +139,9 @@ namespace Analytics
         {
             if (PlayerManager.Instance.PlayerData != null)
             {
-                playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                //playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                playerLanguageLevel = 4;
                 if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
-                // playerLanguageLevel = 3;
             }
 
             // Calculate composite weights for each language unit
@@ -155,7 +155,7 @@ namespace Analytics
                 if (unitHandlers.TryGetValue(unitType, out var handler))
                 {
                     // Fetch 20 units for the content type
-                    var units = handler(specificType, 20);
+                    var units = handler(specificType, 5);
                     allUnits.AddRange(units);
                 }
             }
