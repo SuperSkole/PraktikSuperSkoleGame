@@ -21,7 +21,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private AudioSource pullHandleAudioSource;
         
         //private bool hasPlayedPullHandleSound = false;
-
+        public bool waitingForInput = false;
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
 
@@ -165,7 +165,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerEvents.RaiseGoldChanged(1);
                 PlayerEvents.RaiseXPChanged(1);
                 WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
-        
+                waitingForInput = true;
                 AddWordToPlayerData(word);
                 AddWordToHighScore(word);        
                 
