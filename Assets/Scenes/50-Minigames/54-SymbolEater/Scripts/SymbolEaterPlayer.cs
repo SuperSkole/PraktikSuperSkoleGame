@@ -27,6 +27,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         [SerializeField] private GameObject healthTextObject;
 
         [SerializeField] private GameObject placePlayerMonster;
+        [SerializeField] private AudioClip impactSound;
 
         private GameObject playerMonster;
 
@@ -280,6 +281,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
             if (transform.position == currentDestination && thrown)
             {
+                AudioManager.Instance.PlaySound(impactSound, SoundType.SFX, transform.position);
                 thrown = false;
                 colider.enabled = true;
             }
