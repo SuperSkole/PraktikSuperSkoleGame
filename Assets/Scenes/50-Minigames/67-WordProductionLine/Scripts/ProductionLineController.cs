@@ -1,4 +1,5 @@
 using Assets.Scenes._50_Minigames._67_WordProductionLine.Scripts;
+using CORE;
 using Scenes;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
@@ -281,6 +282,7 @@ public class ProductionLineController : MonoBehaviour
 
             if (letter == imageFirstLetter)
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, true);
 
                 PlayerEvents.RaiseGoldChanged(1);
                 Instantiate(coinEffect);
@@ -297,6 +299,7 @@ public class ProductionLineController : MonoBehaviour
 
             else
             {
+                GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, false);
                 CheckIfWrong();
             }
         }

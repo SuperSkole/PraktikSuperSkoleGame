@@ -3,6 +3,7 @@ using CORE.Scripts.Game_Rules;
 using Scenes._00_Bootstrapper;
 using System.Collections.Generic;
 using UnityEngine;
+using Words;
 
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
@@ -71,13 +72,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             {
 
                 gameRules.SetCorrectAnswer();
-                if (!texture.ContainsKey(gameRules.GetCorrectAnswer()))
+                if (!texture.ContainsKey(gameRules.GetSecondaryAnswer()))
                 {
-                    texture.Add(gameRules.GetCorrectAnswer(), ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer()));
+                    texture.Add(gameRules.GetSecondaryAnswer(), ImageManager.GetImageFromWord(gameRules.GetSecondaryAnswer()));
                 }
                 else
                 {
-                    Texture2D texture2D = ImageManager.GetImageFromWord(gameRules.GetCorrectAnswer());
+                    Texture2D texture2D = ImageManager.GetImageFromWord(gameRules.GetSecondaryAnswer());
 
                     letterCube = letterCubes[Random.Range(0, letterCubes.Count)];
                     
@@ -105,10 +106,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 //finds new letterboxes to be activated and assigns them a random image. If it selects the correct Image the count for it is increased
                 for (int i = 0; i < count; i++)
                 {
-                    // creates random wordsOrLetters from the word list, then creates images to fit those random wordsOrLetters.
+                    // creates random words from the word list, then creates images to fit those random words.
 
-                    string randoImage = gameRules.GetWrongAnswer();
-
+                    string randoImage = WordRepository.GetAllWords()[Random.Range(0, WordRepository.GetAllWords().Count)].Identifier;
+                    while(!WordsForImagesManager.imageWords.Contains(randoImage))
+                    {
+                        randoImage = WordRepository.GetAllWords()[Random.Range(0, WordRepository.GetAllWords().Count)].Identifier;
+                    }
                     if (!texture.ContainsKey(randoImage))
                     {
                         texture.Add(randoImage, ImageManager.GetImageFromWord(randoImage));
@@ -181,7 +185,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void CurrentWordSound()
         {
             //Uses currentWord to find the right sound in tempgrovædersound in resource foulder
-            string audioFileName = gameRules.GetCorrectAnswer().ToLower() + "_audio";
+            string audioFileName = gameRules.GetSecondaryAnswer().ToLower() + "_audio";
 
             AudioClip clip = Resources.Load<AudioClip>($"AudioWords/{audioFileName}");
 
@@ -232,11 +236,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if (correctLetterCount > 0)
             {
 
-                // yet again creates random wordsOrLetters from the Word list.
-                string randoWords = gameRules.GetWrongAnswer();
-                while (randoWords == gameRules.GetCorrectAnswer())
+                // yet again creates random words from the Word list.
+                string randoWords = WordRepository.GetAllWords()[Random.Range(0, WordRepository.GetAllWords().Count)].Identifier;
+                while(!WordsForImagesManager.imageWords.Contains(randoWords) && randoWords == gameRules.GetSecondaryAnswer())
                 {
-                    randoWords = gameRules.GetWrongAnswer();
+                    randoWords = WordRepository.GetAllWords()[Random.Range(0, WordRepository.GetAllWords().Count)].Identifier;
                 }
 
                 //then adds the images to the texture dictionary if dosnt already exists.
@@ -344,6 +348,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public bool IsGameComplete()
         {
             return false;
+        }
+
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
         }
     }
 

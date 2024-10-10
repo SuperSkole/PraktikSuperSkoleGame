@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -77,22 +78,48 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// <param name="objectSize">The size of the object being placed.</param>
         /// <returns>True if the object can be placed, otherwise false.</returns>
         //public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize)
-        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize, GridData gridData)
+        public bool CanPlaceObjectAt(Vector3Int gridPostion, Vector2Int objectSize, GridData? wallGridData, EnumFloorDataType? currentFloorType)
         {
             List<Vector3Int> positionToOccupy = CalculatePositions(gridPostion, objectSize);
             foreach (var pos in positionToOccupy)
             {
-                if (gridData.placedObjects.ContainsKey(pos))
+                if (wallGridData != null && wallGridData.placedObjects.ContainsKey(pos))
                 {
                     return false;
                 }
                 //Debug.Log($"Checking These pos:{pos}");
-                //if (placedObjects.ContainsKey(pos))
-                //{
-                //    return false;
-                //}
+                if (placedObjects.ContainsKey(pos))
+                {
+                    return false;
+                }
+                if (currentFloorType != null && currentFloorType == EnumFloorDataType.WallPlaceable)
+                {
+                    return IsWallNearBy(pos, wallGridData);
+                }
             }
             return true;
+        }
+
+        private bool IsWallNearBy(Vector3Int gridposition, GridData wallGridData)
+        {
+            if (wallGridData.placedObjects.ContainsKey(new Vector3Int(gridposition.x, gridposition.y+1, gridposition.z)))
+            {
+                return true;
+            }
+            if (wallGridData.placedObjects.ContainsKey(new Vector3Int(gridposition.x+1, gridposition.y, gridposition.z)))
+            {
+                return true;
+            }   
+            if (wallGridData.placedObjects.ContainsKey(new Vector3Int(gridposition.x, gridposition.y-1, gridposition.z)))
+            {
+                return true;
+            }   
+            if (wallGridData.placedObjects.ContainsKey(new Vector3Int(gridposition.x-1, gridposition.y, gridposition.z)))
+            {
+                return true;
+            }   
+
+            return false;
         }
 
         /// <summary>
@@ -113,11 +140,11 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         /// Removes the object at the specified grid position from the grid.
         /// </summary>
         /// <param name="gridPos">The grid position of the object to be removed.</param>
-        internal void RemoveObjectAt(Vector3Int gridPos,PlacementSystem placementSystem,EnumFloorDataType floorType)
+        internal void RemoveObjectAt(Vector3Int gridPos, PlacementSystem placementSystem, EnumFloorDataType floorType)
         {
             foreach (var pos in placedObjects[gridPos].occupiedPositions)
             {
-                placementSystem.itemsFoundPositions.Add(new PlaceableTemporayItemsInfo(pos,floorType));
+                placementSystem.itemsFoundPositions.Add(new PlaceableTemporayItemsInfo(pos, floorType));
                 placedObjects.Remove(pos);
             }
         }

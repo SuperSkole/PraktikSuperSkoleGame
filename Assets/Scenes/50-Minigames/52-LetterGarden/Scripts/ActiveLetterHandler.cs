@@ -4,6 +4,7 @@ using System.Linq;
 using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using Scenes.Minigames.LetterGarden.Scripts.Gamemodes;
@@ -117,8 +118,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                     PlayerEvents.RaiseXPChanged(1);
                     oldLetter = currentSymbol.symbol.ToString();
                     GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
+                    GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(currentSymbol.symbol.ToString(), true);
                     Instantiate(coinObject);
                     //StartCoroutine(TakeScreenShot());
+                    
                     //next letter
                     currentSymbolIndex = 0;
                     if(splines.Count <= 0) return true;//end game
@@ -163,6 +166,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 //next Spline in container
                 return true;
             }
+            
             dwaing.positionCount = 0;
             return false;
         }

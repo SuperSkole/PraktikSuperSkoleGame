@@ -1,3 +1,5 @@
+using CORE;
+using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;

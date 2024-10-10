@@ -1,31 +1,58 @@
-using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using UnityEngine;
 
 namespace Scenes._02_LoginScene.Scripts
 {
-    // Service for anonymous authentication
+    /// <summary>
+    /// Service for anonymous authentication
+    /// </summary>
     public class AnonymousAuthenticationService : IAuthenticationService
-    { 
+    {
+        private const int MaxRetries = 3;
+
+        /// <summary>
+        /// Attempts to sign in anonymously, with retry logic in case of failure.
+        /// </summary>
         public async Task SignInAsync()
         {
-            try
+            int attempt = 0;
+            bool success = false;
+
+            while (attempt < MaxRetries && !success)
             {
-                await AuthenticationService.Instance.SignInAnonymouslyAsync();
-                Debug.Log("Sign-in successful. Player ID: " + AuthenticationService.Instance.PlayerId);
-                Debug.Log("Player ID: " + AuthenticationService.Instance.PlayerId);
-            }
-            catch (AuthenticationException ex)
-            {
-                Debug.Log("Sign-in failed!");
-                Debug.LogException(ex);
+                try
+                {
+                    attempt++;
+                    await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                    success = true; // Break loop if successful
+                    Debug.Log("Sign-in successful on attempt: " + attempt);
+                }
+                catch (AuthenticationException ex)
+                {
+                    Debug.LogError($"Sign-in attempt {attempt} failed.");
+                    Debug.LogException(ex);
+
+                    if (attempt >= MaxRetries)
+                    {
+                        // If all retries fail, report the failure
+                        Debug.LogError("All sign-in attempts failed.");
+                        throw;
+                    }
+
+                    // Wait 1 second before retrying
+                    await Task.Delay(1000); 
+                }
             }
         }
 
+        /// <summary>
+        /// Attempts to sign out the authenticated user.
+        /// </summary>
+        /// <returns>A task representing the asynchronous sign-out operation.</returns>
         public async Task SignOutAsync()
         {
-            AuthenticationService.Instance.SignOut();
+            await Task.Run(() => AuthenticationService.Instance.SignOut());
         }
     }
 }

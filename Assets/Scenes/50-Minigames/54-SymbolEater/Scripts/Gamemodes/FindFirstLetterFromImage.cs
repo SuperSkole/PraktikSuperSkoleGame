@@ -43,14 +43,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
-                if(sprites.ContainsKey(gameRules.GetDisplayAnswer())){
-                    boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
+                if(sprites.ContainsKey(gameRules.GetSecondaryAnswer())){
+                    boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
                 else
                 {
-                    Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
-                    sprites.Add(gameRules.GetDisplayAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
-                    boardController.SetImage(sprites[gameRules.GetDisplayAnswer()]);
+                    Texture2D texture = ImageManager.GetImageFromWord(gameRules.GetSecondaryAnswer());
+                    sprites.Add(gameRules.GetSecondaryAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
+                    boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
                 wordsLoaded = true;
             }
@@ -196,6 +196,14 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public bool IsGameComplete()
         {
             return foundLetter;
+        }
+
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         private ObjectsDataBaseSO database;
         private GridData floorData;
         private GridData furnitureData;
+        private GridData wallfurnitureData;
         private GridData nonePlaceablesData;
         private ObjectPlacer objectPlacer;
         private EnumFloorDataType floorType;
@@ -28,6 +29,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ObjectsDataBaseSO database,
             GridData floorData,
             GridData furnitureData,
+            GridData wallfurnitureData,
             GridData nonePlaceablesData,
             ObjectPlacer objectPlacer,
             UIInvetoryManager invetoryManager,
@@ -41,6 +43,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             this.database = database;
             this.floorData = floorData;
             this.furnitureData = furnitureData;
+            this.wallfurnitureData = wallfurnitureData;
             this.nonePlaceablesData = nonePlaceablesData;
             this.objectPlacer = objectPlacer;
             this.invetoryManager = invetoryManager;
@@ -101,10 +104,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.NoneRemoveable:
                     selectedData = nonePlaceablesData;
                     break;
-                    //case EnumFloorDataType.Wall:
-                    //    selectedData = furnitureData;
-                    //    break;
-
+                case EnumFloorDataType.WallPlaceable:
+                    selectedData = wallfurnitureData;
+                    break;
             }
             // Record the placed object's position, size, ID, and index in the grid data.
             selectedData.AddObjectAt(gridPos,
@@ -160,9 +162,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.NoneRemoveable:
                     selectedData = nonePlaceablesData;
                     break;
-                    //case EnumFloorDataType.Wall:
-                    //    selectedData = furnitureData;
-                    //    break;
+                case EnumFloorDataType.WallPlaceable:
+                    selectedData = wallfurnitureData;
+                    break;
             }
 
             GetSizeOnRotation(RotationValue, selectedObjectIndex);
@@ -239,14 +241,21 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 case EnumFloorDataType.NoneRemoveable:
                     selectedData = nonePlaceablesData;
                     break;
-                    //case EnumFloorDataType.Wall:
-                    //    selectedData = furnitureData;
-                    //    break;
+                case EnumFloorDataType.WallPlaceable:
+                    selectedData = wallfurnitureData;
+                    break;
 
             }
             //database.objectData[selectedObjectIndex].Size
             // Check if the object can be placed at the given grid position based on its size.
-            return selectedData.CanPlaceObjectAt(gridPos, SizeCopy, nonePlaceablesData);
+            if (selectedData == wallfurnitureData)
+            {
+                return selectedData.CanPlaceObjectAt(gridPos, SizeCopy, nonePlaceablesData, EnumFloorDataType.WallPlaceable);
+            }
+            else
+            {
+                return selectedData.CanPlaceObjectAt(gridPos, SizeCopy, nonePlaceablesData, null);
+            }
         }
     }
 }
