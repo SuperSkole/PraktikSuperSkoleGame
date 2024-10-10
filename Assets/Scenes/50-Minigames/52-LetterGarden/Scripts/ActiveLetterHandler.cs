@@ -31,9 +31,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         public SplineSymbolDataHolder currentSymbol;
         private int currentSymbolIndex = 0;
         [SerializeField] GameObject coinObject;
-
          public TextMeshProUGUI descriptionText;
-
         private LettergardenGameMode gamemode;
         public string oldLetter;
 

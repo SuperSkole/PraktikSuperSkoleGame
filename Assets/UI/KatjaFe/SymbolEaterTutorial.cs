@@ -1,26 +1,23 @@
 using CORE.Scripts;
-using Scenes.Minigames.LetterGarden.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LetterGardenTutorual : MonoBehaviour
+public class SymbolEaterTutorual : MonoBehaviour
 {
     private KatjaFe katjafe;
 
     [SerializeField] private AudioClip Hey;
-    [SerializeField] private AudioClip followBee;
+    [SerializeField] private AudioClip Move;
 
     private bool waitingForInput = false;
-    private DrawingHandler drawingHandler;
 
     private void Start()
     {
-
         katjafe = GetComponent<KatjaFe>();
 
-        katjafe.Initialize(true, followBee);
-        drawingHandler = FindFirstObjectByType<DrawingHandler>();
+        katjafe.Initialize(true, Move);
+
         Speak();
     }
 
@@ -30,7 +27,7 @@ public class LetterGardenTutorual : MonoBehaviour
         {
             katjafe.KatjaSpeak(Hey, () =>
             {
-                katjafe.KatjaSpeak(followBee, () =>
+                katjafe.KatjaSpeak(Move, () =>
                 {
                     waitingForInput = true;
                 });
@@ -44,10 +41,10 @@ public class LetterGardenTutorual : MonoBehaviour
     {
         if (waitingForInput)
         {
-            if (drawingHandler.IsTutorualOver)
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
                 waitingForInput = false;
-                katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0,CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
+                katjafe.KatjaSpeak(CongratsAudioManager.GetAudioClipFromDanishSet(Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList())), () =>
                 {
                     katjafe.KatjaExit();
                 });
