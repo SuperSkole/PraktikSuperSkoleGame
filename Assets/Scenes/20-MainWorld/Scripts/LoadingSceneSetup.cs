@@ -57,7 +57,7 @@ public class LoadingSceneSetup : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         GameObject gamemode = GameObject.FindGameObjectWithTag("GamemodeSelect");
-        Debug.Log("load scene id" + sceneID);
+        
         gamemode.GetComponent<SetGameModeAndDestroy>().sceneID = sceneID;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
