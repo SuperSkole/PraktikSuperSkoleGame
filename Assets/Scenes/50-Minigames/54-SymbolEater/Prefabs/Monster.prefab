@@ -122,7 +122,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
   throwRange: 5
+  walkSound: {fileID: 8300000, guid: aad385bf71993df4f8d6ec16ed999d99, type: 3}
   currentDestination: {x: 0, y: 0, z: 0}
   speed: 0.5
   targetMarker: {fileID: 5097691074125696330, guid: e86ccc4114c88a041aa7e82025ed8250, type: 3}
   rangeMarker: {fileID: 7251615746188109195, guid: 4ca498da9b0c2974faf3e91d8015df5c, type: 3}
+  grabSound: {fileID: 8300000, guid: e2ccf65abf542b04fa38ccd645cfc5ed, type: 3}
+  throwSound: {fileID: 8300000, guid: 50d7ab910da01504499bfae4f01117b3, type: 3}

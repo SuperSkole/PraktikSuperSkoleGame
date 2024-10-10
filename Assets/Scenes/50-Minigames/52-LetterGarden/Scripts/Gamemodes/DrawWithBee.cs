@@ -5,6 +5,8 @@ using System.Linq;
 using UnityEngine;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
+using CORE;
 
 namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
     /// <summary>
@@ -21,14 +23,31 @@ namespace Scenes.Minigames.LetterGarden.Scripts.Gamemodes {
         {
             List<SplineSymbolDataHolder> result = new List<SplineSymbolDataHolder>();
             List<string> usedLetters = new List<string>();
+            bool shouldRegenerateAnswer = false;
+            if(gameRules.GetType() == typeof(DynamicGameRules))
+            {
+                LetterData letterData = (LetterData)GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+                if(letterData.Category == Analytics.LetterCategory.All)
+                {
+                    shouldRegenerateAnswer = true;
+                }
+            }
             //Adds a given amount of random letters to the result list based on the given game rules.
             gameRules.SetCorrectAnswer();
             for (int i = 0; i < amount; i++)
             {
+                if(shouldRegenerateAnswer)
+                {
+                    gameRules.SetCorrectAnswer();
+                }
                 string letter = gameRules.GetCorrectAnswer();
                 
                 while(usedLetters.Contains(letter))
                 {
+                    if(shouldRegenerateAnswer)
+                    {
+                        gameRules.SetCorrectAnswer();
+                    }
                     letter = gameRules.GetCorrectAnswer();
                 }
                 usedLetters.Add(letter);
