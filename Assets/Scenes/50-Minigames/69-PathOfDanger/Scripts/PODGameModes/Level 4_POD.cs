@@ -78,7 +78,17 @@ public class Level4_POD : IPODGameMode
     {
 
 
-        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+        List<ILanguageUnit> letters=new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if(item.LanguageUnitType==LanguageUnit.Letter)
+            {
+                letters.Add(item);
+            }
+        }
 
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
@@ -86,12 +96,12 @@ public class Level4_POD : IPODGameMode
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
 
             while (returnedString[i]==previousRetrievedAnswer)
             {
           
-                    returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, 10)].Identifier;
 
             }
 

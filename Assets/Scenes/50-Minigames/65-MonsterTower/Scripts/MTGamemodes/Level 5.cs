@@ -21,7 +21,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
 
-            Debug.Log("setCorrect="+str);
+       
             manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
 
 
@@ -69,15 +69,25 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count)
         {
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    letters.Add(item);
+                }
+            }
 
             string[] returnedString = new string[count];
 
-            List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+            
 
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
 
 
                 bool checkIfAvailable = true;
@@ -87,27 +97,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (returnedString[i].ToLower())
                     {
                         case "y":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         case "z":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         case "w":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         case "c":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         case "q":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         case "x":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                             break;
 
                         default:
@@ -118,7 +128,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, 15)].Identifier;
 
 
                     checkIfAvailable = true;
@@ -128,27 +138,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                         switch (returnedString[i].ToLower())
                         {
                             case "y":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             case "z":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             case "w":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             case "c":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             case "q":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             case "x":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
                                 break;
 
                             default:
