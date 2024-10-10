@@ -12,14 +12,13 @@ public class BankbackTutorial : MonoBehaviour
     [SerializeField] private AudioClip Explane;
 
     private bool waitingForInput = false;
-    private BankManager controller;
+    private VaultManager controller;
 
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
-        controller = FindFirstObjectByType<BankManager>();
+        controller = FindFirstObjectByType<VaultManager>();
         Speak();
     }
 
@@ -34,9 +33,7 @@ public class BankbackTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

@@ -15,7 +15,6 @@ public class RaceTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
         controller = FindFirstObjectByType<RacingCore>();
         Speak();
@@ -32,9 +31,7 @@ public class RaceTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

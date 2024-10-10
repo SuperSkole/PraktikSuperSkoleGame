@@ -18,7 +18,6 @@ public class SymbolEaterTutorual : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Move);
         controller = FindFirstObjectByType<BoardController>();
         Speak();
@@ -35,9 +34,7 @@ public class SymbolEaterTutorual : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

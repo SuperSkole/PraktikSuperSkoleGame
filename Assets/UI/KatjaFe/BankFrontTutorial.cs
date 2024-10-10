@@ -17,7 +17,6 @@ public class BankFrontTutorial : MonoBehaviour
     private void Start()
     {
         katjafe = GetComponent<KatjaFe>();
-
         katjafe.Initialize(true, Explane);
         controller = FindFirstObjectByType<BankManager>();
         Speak();
@@ -34,9 +33,7 @@ public class BankFrontTutorial : MonoBehaviour
                     waitingForInput = true;
                 });
             });
-
         });
-
     }
 
     private void Update()

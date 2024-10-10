@@ -413,7 +413,6 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             {
                 if (wrongLetter == letter)
                 {
-                    isTutorialOver = true;
                     return true;
                 }
             }
@@ -462,7 +461,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     racingGameManager.gold++;
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
-                    
+                    isTutorialOver = true;
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)

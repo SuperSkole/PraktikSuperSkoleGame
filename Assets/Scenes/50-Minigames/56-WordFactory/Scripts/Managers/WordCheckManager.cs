@@ -35,6 +35,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // created word queue
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
+        public bool isTutorialOver = false;
 
         private void Update()
         {
@@ -82,7 +83,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
                     Debug.Log("Valid word: " + formedWord);
-    
+                    isTutorialOver = true;
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
                     createdWords.Add(formedWord);
