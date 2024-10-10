@@ -42,12 +42,12 @@ namespace Scenes._50_Minigames.Gamemode
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
-            IGenericGameMode mode= letterGameModes[Random.Range(4, 5)]; ;
+            IGenericGameMode mode= letterGameModes[Random.Range(3, 5)]; ;
 
             switch(languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
-                    mode = letterGameModes[Random.Range(4,5)];
+                    mode = letterGameModes[Random.Range(3,5)];
 
                     break;
             }

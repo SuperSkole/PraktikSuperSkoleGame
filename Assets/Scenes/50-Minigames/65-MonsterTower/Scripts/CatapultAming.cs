@@ -24,6 +24,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         static float rotateActualSpeed = 1f / rotateSpeed;
 
         bool catapultIsLoaded=false;
+
+        [SerializeField] AudioClip flyingProjectileSound;
         /// <summary>
         /// calcolates the terejectory to hit at point and returnes a velosity to hit it
         /// </summary>
@@ -80,7 +82,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                         yield return new WaitForSecondsRealtime(rotateActualSpeed);
                     }
 
-                    manager.flyingProjectileSound.Play();
+                    AudioManager.Instance.PlaySound(flyingProjectileSound, SoundType.SFX, false);
                     // sets the word being shot onto the brick projectile. 
                     for (int i = 0; i < prjectipePrefab.transform.childCount; i++)
                     {

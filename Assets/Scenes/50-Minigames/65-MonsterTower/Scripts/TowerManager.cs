@@ -34,9 +34,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         [SerializeField] GameObject brickPrefab;
         public GameObject hearLetterButton;
 
-        public AudioSource towerAudioSource;
-
-        public AudioSource hearLetterButtonAudioSource;
+        public AudioClip VoiceClip;
 
         private int towerRadius = 20;
         private int numberOfBricksInLane = 30;
@@ -86,9 +84,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
         void Start()
         {
-            towerAudioSource = mainCamera.GetComponent<AudioSource>();
-            hearLetterButtonAudioSource = hearLetterButton.GetComponent<AudioSource>();
             
+           
         }
      
         
@@ -266,7 +263,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             PlayAudioExplosion();
 
             // Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
-           StartCoroutine( PlayAudioPraise());
+              PlayAudioPraise();
 
            
             
@@ -313,19 +310,14 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         ///  Gets a random audiocclip from the congratsAudioManager and plays it so the player is praised. 
         ///  Is set To Danish as default but can be changed if needed. 
         /// </summary>
-        IEnumerator PlayAudioPraise()
+        private void PlayAudioPraise()
         {
-            while (towerAudioSource.isPlaying)
-            {
-                yield return null;
-            }
-
             int rndIndex = UnityEngine.Random.Range(0, CongratsAudioManager.GetLenghtOfAudioClipDanishList());
 
             AudioClip CongratsAudio = CongratsAudioManager.GetAudioClipFromDanishSet(rndIndex);
-            towerAudioSource.clip = CongratsAudio;
+            AudioManager.Instance.PlaySound(CongratsAudio, SoundType.Voice, false);
 
-            towerAudioSource.Play();
+           
         }
 
         /// <summary>
@@ -335,8 +327,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         void PlayAudioExplosion()
         {
             AudioClip explosionAudio = SoundFXManager.GetAudioClipFromExplosionsList(0);
-            towerAudioSource.clip = explosionAudio;
-            towerAudioSource.Play();
+
+            AudioManager.Instance.PlaySound(explosionAudio, SoundType.SFX, false);
+           
         }
 
 
