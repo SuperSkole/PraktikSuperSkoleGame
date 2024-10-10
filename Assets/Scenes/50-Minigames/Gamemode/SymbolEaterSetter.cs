@@ -59,15 +59,16 @@ namespace Scenes._50_Minigames.Gamemode
         {
             //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
             //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("X", 60);
-            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
-            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager
-                    .GetNextLanguageUnitsBasedOnLevel(1)[0];
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            DynamicGameRules dynamicGameRules = new DynamicGameRules();
+            List<ILanguageUnit> languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager
+                    .GetNextLanguageUnitsBasedOnLevel(80);
             IGenericGameMode mode;
-            switch(languageUnit.LanguageUnitType)
+            switch(languageUnit[0].LanguageUnitType)
             {
                 case LanguageUnit.Letter:
                     mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
-                    LetterData letterData = (LetterData)languageUnit;
+                    LetterData letterData = (LetterData)languageUnit[0];
                     if(letterData.Category == LetterCategory.Vowel || letterData.Category == LetterCategory.Consonant)
                     {
                         mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
@@ -75,6 +76,24 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case LanguageUnit.Word:
                     mode = wordGamemodes[Random.Range(0, wordGamemodes.Count)];
+                    List<ILanguageUnit>filteredWords = new List<ILanguageUnit>();
+                    for(int i = 0; i < languageUnit.Count; i++)
+                    {
+                        if(languageUnit[i].LanguageUnitType == LanguageUnit.Word && WordsForImagesManager.imageWords.Contains(languageUnit[i].Identifier))
+                        {
+                            filteredWords.Add(languageUnit[i]);
+                        }
+                    }
+                    if(filteredWords.Count > 0)
+                    {
+                        dynamicGameRules.AddFilteredList(filteredWords);
+                    }
+                    else
+                    {
+                        (IGenericGameMode, DynamicGameRules) modeSet = NoValidWordsMode(languageUnit);
+                        dynamicGameRules = modeSet.Item2;
+                        mode = modeSet.Item1;
+                    }
                     break;
                 case LanguageUnit.Sentence:
                 default:
@@ -82,9 +101,49 @@ namespace Scenes._50_Minigames.Gamemode
                     mode = new FindSymbols();
                     break;
             }
-            return (new DynamicGameRules(), mode);
+            return (dynamicGameRules, mode);
         }
 
+        private (IGenericGameMode, DynamicGameRules) NoValidWordsMode(List<ILanguageUnit> languageUnits)
+        {
+            IGenericGameMode mode = null;
+            DynamicGameRules dynamicGameRules = new DynamicGameRules();
+            List<ILanguageUnit> filteredLetters = new List<ILanguageUnit>();
+            bool pickedGamemode = false;
+            
+            LetterData letter = new LetterData("ds", LetterCategory.Consonant, 1);
+            for(int i = 1; i < languageUnits.Count; i++)
+            {
+                if(languageUnits[i].LanguageUnitType == LanguageUnit.Letter)
+                {
+                    LetterData letterData = (LetterData)languageUnits[i];
+                    if(!pickedGamemode)
+                    {
+                        mode = letterGamemodes[Random.Range(0, letterGamemodes.Count)];
+                        
+                        if(letterData.Category == LetterCategory.Vowel || letterData.Category == LetterCategory.Consonant)
+                        {
+                            mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
+                        }
+                        pickedGamemode = true;
+                        letter = letterData;
+                    }
+                    if(letter.Identifier.Length == 1 && letterData.Category == letter.Category)
+                    {
+                        filteredLetters.Add(letter);
+                    }
+                }
+            }
+            if(filteredLetters.Count > 0)
+            {
+                dynamicGameRules.AddFilteredList(filteredLetters);
+                return (mode, dynamicGameRules);
+            }
+            else
+            {
+                return (null, null);
+            }
+        }
 
         /// <summary>
         /// returns a gamemode of the Symbol Eater type

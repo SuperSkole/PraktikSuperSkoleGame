@@ -16,6 +16,7 @@ namespace CORE.Scripts.Game_Rules
 {
     public class DynamicGameRules : IGameRules
     {
+        public static bool usesImages = true;
         private int maxVowelLevel = 1;
         string correctAnswer;
         string word;
@@ -23,8 +24,8 @@ namespace CORE.Scripts.Game_Rules
         int remainingLetterIndex = 1;
         private List<char> wrongAnswerList;
 
-        private List<ILanguageUnit> languageUnits;
-        private List<ILanguageUnit> languageUnitsList;
+        private List<ILanguageUnit> languageUnits = new List<ILanguageUnit>();
+        private List<ILanguageUnit> languageUnitsList = new List<ILanguageUnit>();
 
         private bool usesSequence = false;
         
@@ -147,10 +148,11 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         public void SetCorrectAnswer()
         {
-            
-            languageUnitsList = GameManager.Instance.DynamicDifficultyAdjustmentManager
-                    .GetNextLanguageUnitsBasedOnLevel(10);
-            
+            if(languageUnitsList.Count == 0)
+            {
+                languageUnitsList = GameManager.Instance.DynamicDifficultyAdjustmentManager
+                    .GetNextLanguageUnitsBasedOnLevel(80);
+            }
             if(languageUnits == null)
             {
                 languageUnits = new List<ILanguageUnit>();
@@ -158,7 +160,7 @@ namespace CORE.Scripts.Game_Rules
             else {
                 languageUnits.Clear();
             }
-            languageUnits.Add(languageUnitsList[Random.Range(0, 10)]);
+            languageUnits.Add(languageUnitsList[Random.Range(0, languageUnitsList.Count)]);
             //Checks which mode the gamerules should run in
             switch(languageUnits[0].LanguageUnitType)
             {
@@ -174,7 +176,7 @@ namespace CORE.Scripts.Game_Rules
                     WordData wordData = (WordData)languageUnits[0];
                     correctAnswer = wordData.Identifier[0].ToString();
                     word = wordData.Identifier;
-                    wrongAnswerList = LetterRepository.GetAllLetters().ToList();
+                    wrongAnswerList = LetterRepository.GetAllLetters().ToList();                
                     break;
                 case LanguageUnit.Sentence:
                 default:
@@ -194,15 +196,43 @@ namespace CORE.Scripts.Game_Rules
                 //for consonants and vowels if the player is low enough level it also sets up so correct answer looks for a random correct letter
                 case LetterCategory.Consonant:
                     wrongAnswerList = LetterRepository.GetVowels().ToList();
-                    languageUnits = languageUnitsList;
+                    foreach(ILanguageUnit languageUnit in languageUnitsList)
+                    {
+                        if(languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            LetterData letterData = (LetterData)languageUnit; 
+                            if(letterData.Category == LetterCategory.Consonant)
+                            {
+                                languageUnits.Add(languageUnit);
+                            }
+                        }
+                    }
+
                     break;
                 case LetterCategory.Vowel:
                     wrongAnswerList = LetterRepository.GetConsonants().ToList();
-                    languageUnits = languageUnitsList;
+                    foreach(ILanguageUnit languageUnit in languageUnitsList)
+                    {
+                        if(languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            LetterData letterData = (LetterData)languageUnit; 
+                            if(letterData.Category == LetterCategory.Vowel)
+                            {
+                                languageUnits.Add(languageUnit);
+                            }
+                        }
+                    }
                     break;
                 case LetterCategory.All:
                     wrongAnswerList = LetterRepository.GetAllLetters().ToList();
                     wrongAnswerList.Remove(correctAnswer[0]);
+                    foreach(ILanguageUnit languageUnit in languageUnitsList)
+                    {
+                        if(languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            languageUnits.Add(languageUnit);
+                        }
+                    }
                     break;
                 default:
                     Debug.LogError("unknown letter category");
@@ -235,6 +265,11 @@ namespace CORE.Scripts.Game_Rules
                 }
             }
             return false;
+        }
+
+        public void AddFilteredList(List<ILanguageUnit> languageUnits)
+        {
+            languageUnitsList = languageUnits;
         }
     }
 }
