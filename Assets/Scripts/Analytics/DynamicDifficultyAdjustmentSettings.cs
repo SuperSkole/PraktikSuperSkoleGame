@@ -10,7 +10,7 @@ namespace Analytics
         public const float WeightMinorDecrement = 1f; // correct
         public const float MaxWeight = 99f;
         public const float MinWeight = 0f;
-        public const float LevelUpThreshold = 49f;
+        public const float LevelUpThreshold = 48f;
         
         // Time weight settings
         public const float TimeWeightFactor = 0.1f;
