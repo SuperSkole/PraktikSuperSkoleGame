@@ -72,9 +72,33 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3528756460843319430, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528756460843319430, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_ForwardFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3528756460843319430, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 4707417479300227861, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809667052773520956, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809667052773520956, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_ForwardFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809667052773520956, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4951991328332435066, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
       propertyPath: m_IsActive
@@ -83,6 +107,30 @@ PrefabInstance:
     - target: {fileID: 6007478485219320263, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
       propertyPath: m_TagString
       value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284925152277587101, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284925152277587101, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_ForwardFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284925152277587101, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376474269262753258, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376474269262753258, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_ForwardFriction.m_ExtremumSlip
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376474269262753258, guid: 21ab97eade4e2c340864872881aa499a, type: 3}
+      propertyPath: m_SidewaysFriction.m_ExtremumSlip
+      value: 0.8
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 968645865177766098, guid: 21ab97eade4e2c340864872881aa499a, type: 3}

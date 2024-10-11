@@ -45,6 +45,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         private ISEGameMode gameMode;
 
         [SerializeField] GameObject monsterPrefab;
+        [SerializeField] AudioClip backgroundMusic;
 
         public DifficultyManager difficultyManager = new DifficultyManager();
 
@@ -64,6 +65,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="targetMode">The game mode which should be used</param>
         public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
+            AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music, true);
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
             gameRules = targetRules;
