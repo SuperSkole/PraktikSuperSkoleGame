@@ -184,7 +184,7 @@ namespace Analytics
             EnsureInitialized();
             
             // Debug: Check if letterWeights is initialized and populated
-            Debug.Log($"Total letters in letterWeights: {letterWeights.Count}");
+            //Debug.Log($"Total letters in letterWeights: {letterWeights.Count}");
     
             if (letterWeights.Count == 0)
             {
@@ -215,7 +215,7 @@ namespace Analytics
             EnsureInitialized();
             
             // Debug: Check if wordWeights is initialized and populated
-            Debug.Log($"Total letters in wordWeights: {wordWeights.Count}");
+            //Debug.Log($"Total letters in wordWeights: {wordWeights.Count}");
     
             if (wordWeights.Count == 0)
             {
