@@ -1,6 +1,3 @@
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
@@ -9,6 +6,7 @@ using LoadSave;
 using Scenes._24_HighScoreScene.Scripts;
 using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -250,7 +248,10 @@ namespace Scenes._10_PlayerScene.Scripts
                 new List<int>()
                 {
                     0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 11, 10, 12
-                }
+                },
+                1f
+
+
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -284,7 +285,7 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
 
             GameManager.Instance.IsNewGame = false;
-            
+
             GameManager.Instance.PerformanceWeightManager.InitializeLetterWeights();
             GameManager.Instance.PerformanceWeightManager.InitializeWordWeights();
             GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
@@ -349,7 +350,8 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ClothTop,
                 saveData.BoughtClothes,
                 saveData.ListOfCars,
-                saveData.ListOfFurniture
+                saveData.ListOfFurniture,
+                saveData.FuelAmount
             );
 
 
@@ -377,7 +379,7 @@ namespace Scenes._10_PlayerScene.Scripts
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
-            
+
             GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
             //GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
         }

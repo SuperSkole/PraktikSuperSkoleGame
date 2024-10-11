@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -10,6 +11,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         [SerializeField] private List<GameObject> placedGameObjects = new List<GameObject>();
         [SerializeField] private GameObject parent;
 
+        [SerializeField] PreviewSystem previewSystem;
+        
+
         public List<GameObject> PlacedGameObjects {  get { return placedGameObjects; } set { placedGameObjects = value; } }
         // Method to place an object at the specified position.
         // Takes a prefab and a position in the world as arguments.
@@ -19,14 +23,13 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Instantiate a new object from the provided prefab.
             GameObject newObject = Instantiate(prefab,parent.transform);
 
+
             // Set the position of the new object to the specified position.
             newObject.transform.position = pos;
             newObject.transform.rotation *= rotation;
 
             //This nudges the placed GO to the middle of the click gridplace,
             //If new models are used or the grid is smaller change this accordingly.
-            PreviewSystem previewSystem = new();
-
             newObject.transform.position += previewSystem.ReturnLocationOfGameObject(newObject.name, newObject);
 
             // Add the newly placed object to the list of placed objects.

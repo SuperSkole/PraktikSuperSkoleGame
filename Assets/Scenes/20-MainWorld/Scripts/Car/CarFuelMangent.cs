@@ -1,3 +1,5 @@
+using LoadSave;
+using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +23,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
         private void Awake()
         {
             carController = GetComponent<PrometeoCarController>();
-            FuelAmount = 1.0f;
+            FuelAmount = PlayerManager.Instance.PlayerData.FuelAmount;
         }
         private float time;
 
