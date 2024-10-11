@@ -70,7 +70,17 @@ public class Level5_POD_Words : IPODGameMode
     /// <returns>Returns a set of answers strings to be used by the PathOfDangerManager</returns>
     public string[] GenerateAnswers(int count)
     {
-        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+        List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Word)
+            {
+                words.Add(item);
+            }
+        }
 
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)

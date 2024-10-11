@@ -14,6 +14,7 @@ using System;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using CORE;
+using Analytics;
 
 
 
@@ -59,13 +60,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         private bool falling = false;
         public TextMeshProUGUI descriptionText;
         public bool isTutorialOver = false;
+    
 
         void Start()
         {
-            
-           
+
         }
-     
+
         /// <summary>
         /// if the images arent loaded, waits with setting tower data and building the tower until the images are loaded
         /// 
@@ -133,6 +134,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         {
             if (correctAnswer)
             {
+
+                PlayerEvents.RaiseGoldChanged(1);
+                PlayerEvents.RaiseXPChanged(1);
+
+
                 isTutorialOver = true;
                 GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], true);
                 currentQuestionIndex++;
@@ -166,9 +172,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
                 Destroy(tower[i, rowToDelete]);
             }
 
-            //Adds gold and Xp To the player for destroying a lane of the tower. 
-            PlayerEvents.RaiseGoldChanged(1);
-            PlayerEvents.RaiseXPChanged(1);
+        
 
             // list holding data on the lanes is also updated so the lowest lane is removed from the save data. 
             loadedBrickLanes.RemoveAt(0);

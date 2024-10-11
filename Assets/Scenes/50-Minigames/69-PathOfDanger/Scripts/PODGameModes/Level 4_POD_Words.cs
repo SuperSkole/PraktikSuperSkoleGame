@@ -38,13 +38,26 @@ public class Level4_POD_Words : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetWrongAnswer(PathOfDangerManager manager, string correctAnswer)
     {
-        var words=GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(20);
-        var rndLetterWithKey = words[Random.Range(0,20)].Identifier;
+
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+        List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Word)
+            {
+                words.Add(item);
+            }
+        }
+
+
+        var rndLetterWithKey = words[Random.Range(0,10)].Identifier;
 
 
         while (rndLetterWithKey == correctAnswer)
         {
-            rndLetterWithKey = words[Random.Range(0, 20)].Identifier;
+            rndLetterWithKey = words[Random.Range(0, 10)].Identifier;
         }
 
         manager.textOnPlatform.text = rndLetterWithKey.ToString();
@@ -78,9 +91,18 @@ public class Level4_POD_Words : IPODGameMode
     /// <returns>Returns a set of answers strings to be used by the PathOfDangerManager</returns>
     public string[] GenerateAnswers(int count)
     {
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
-       
-        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+        List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Word)
+            {
+                words.Add(item);
+            }
+        }
+
 
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
