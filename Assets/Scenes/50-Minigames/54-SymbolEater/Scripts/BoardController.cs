@@ -264,6 +264,16 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             player.GameOver();
             PlayerEvents.RaiseGoldChanged(goldReward);
             PlayerEvents.RaiseXPChanged(xpReward);
+            string answer = gameRules.GetCorrectAnswer();
+            gameMode.UpdateLanguageUnitWeight();
+            if(answer.Length > 1)
+            {
+                PlayerEvents.RaiseAddWord(answer);
+            }
+            else
+            {
+                PlayerEvents.RaiseAddLetter(answer[0]);
+            }
             StartCoroutine(ReturnToMainWorld());
         }
 

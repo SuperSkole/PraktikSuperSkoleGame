@@ -469,12 +469,21 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     racingGameManager.gold++;
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+
                     isTutorialOver = true;
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
                     {
                         GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(targetWord, true);
+                        if(targetWord.Length > 1)
+                        {
+                            PlayerEvents.RaiseAddWord(targetWord);
+                        }
+                        else
+                        {
+                            PlayerEvents.RaiseAddLetter(targetWord[0]);
+                        }
                         currentIndex = 0; // Reset for the next game or end game
                         spelledWordsList.Add(targetWord); // Add the spelled word to the list
 
