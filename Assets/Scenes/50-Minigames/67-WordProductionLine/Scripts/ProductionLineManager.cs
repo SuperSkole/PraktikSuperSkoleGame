@@ -20,14 +20,32 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         List<ILanguageUnit> langUnit;
 
+        private bool kickedOut = false;
 
         private string fixedWord;
 
 
         private void Start()
         {
-            langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(14);
-            
+            langUnit = new List<ILanguageUnit>();
+            List<ILanguageUnit> units = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+            foreach (ILanguageUnit unit in units)
+            {
+                if (unit.LanguageUnitType == LanguageUnit.Word && WordsForImagesManager.imageWords.Contains(unit.Identifier))
+                {
+                    langUnit.Add(unit);
+                }
+            }
+        }
+
+
+        private void Update()
+        {
+            if (langUnit.Count == 0 && !kickedOut)
+            {
+                kickedOut = true;
+                SwitchScenes.SwitchToMainWorld();
+            }
         }
 
         /// <summary>
