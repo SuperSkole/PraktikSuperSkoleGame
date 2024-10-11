@@ -24,28 +24,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private AudioClip handlePullSound;
 
         private AudioSource audioSource;
-
         private bool playingHandleSound = false;
+        protected override void Awake() { base.Awake(false); }
 
-        // // Singleton
-        // public static WordFactorySoundManager Instance { get; private set; }
-        //
-        // void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //         //DontDestroyOnLoad(gameObject);
-        //     }
-        // }
-        
-
-
-        IEnumerator PlayHandleSound()
+        void Start()
         {
             playingHandleSound = true;
             AudioManager.Instance.PlaySound(handlePullSound, SoundType.SFX, transform.position);
