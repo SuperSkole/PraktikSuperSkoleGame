@@ -51,7 +51,7 @@ namespace LoadSave
         [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
         [ExcludeFromSave] public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
         [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
-        [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
+        public float FuelAmount { get; set; }
 
         // Furniture
         [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
@@ -133,7 +133,8 @@ namespace LoadSave
             string topCloth,
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
-            List<int> ListOfFurniture)
+            List<int> ListOfFurniture,
+            float fuelAmount)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -174,9 +175,11 @@ namespace LoadSave
             // cars
             ListOfCars.Clear();
             ListOfCars.AddRange(listOfCars);
-            
+            FuelAmount = fuelAmount;
+
             // Furniture
             this.ListOfFurniture = ListOfFurniture;
+
         }
 
         public void SetLastInteractionPoint(Vector3 position)
