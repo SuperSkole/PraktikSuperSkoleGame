@@ -17,8 +17,6 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
-
             if (GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].LanguageUnitType == Analytics.LanguageUnit.Word)
             {
                 return (new DynamicGameRules(), null);
