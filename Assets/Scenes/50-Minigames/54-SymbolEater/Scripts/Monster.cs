@@ -114,8 +114,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     velocity.x = 0;
                 }
                 currentDestination = velocity + transform.position;
+                transform.LookAt(currentDestination);
+                //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.x, 0);
                 Move();
-                AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
+                //AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
             }
             else if (canWalkTowardsPlayer)
             {
