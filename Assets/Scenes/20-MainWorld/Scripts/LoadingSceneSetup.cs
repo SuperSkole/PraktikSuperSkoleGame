@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Analytics;
 using CORE;
 using Scenes;
 using Scenes._50_Minigames.Gamemode;
@@ -17,7 +18,7 @@ public class LoadingSceneSetup : MonoBehaviour
     {
         
         //loads the general level selector and prepares the setup method if the player level is low enough 
-        if(GameManager.Instance.PlayerData.CurrentLevel < 7)
+        if(GameManager.Instance.DynamicDifficultyAdjustmentManager.playerLanguageLevel < 7)
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SwitchScenes.SwitchToMinigameLoadingScene();
@@ -25,10 +26,21 @@ public class LoadingSceneSetup : MonoBehaviour
         //loads the specific gamemode selector for the given sceneID
         else 
         {
-            switch(sceneID)
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            switch (sceneID)
             {
+
+                 
                 case 0:
-                    SwitchScenes.SwitchToTowerLoaderScene();
+                    if (languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        SwitchScenes.SwitchToTowerLoaderScene();
+                    }
+                    if (languageUnit.LanguageUnitType == LanguageUnit.Word)
+                    {
+                        SwitchScenes.SwitchToTowerLoaderScene_Words();
+                    }
+
                     break;
                 case 1:
                     SwitchScenes.SwitchToSymbolEaterLoaderScene();
@@ -37,7 +49,15 @@ public class LoadingSceneSetup : MonoBehaviour
                     SwitchScenes.SwitchToLetterGardenLoaderScene();
                     break;
                 case 5:
-                    SwitchScenes.SwitchToPathOfDangerAllModesSelector();
+                    if (languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        SwitchScenes.SwitchToPathOfDangerAllModesSelector();
+                    }
+                    
+                    if(languageUnit.LanguageUnitType==LanguageUnit.Word)
+                    {
+                        SwitchScenes.SwitchToPathOfDangerAllModesSelector_Words();
+                    }
                     break;
                 case 6:
                     SwitchScenes.SwitchToProductionLineLoadingScene();

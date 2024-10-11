@@ -10,6 +10,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public class SentenceToPictures : IMTGameMode
     {
+        private string previousRetrievedAnswer;
+
         /// <summary>
         /// sets the Tower Manager's images based on the sentence given
         /// </summary>
@@ -41,12 +43,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             switch (words[1])
             {
                 case "på":
-                    manager.bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    manager.topImage.texture = ImageManager.GetImageFromWord(words[0]);
+                    manager.bottomImage.texture = ImageManager.GetImageFromLetter(words[2]);
+                    manager.topImage.texture = ImageManager.GetImageFromLetter(words[0]);
                     break;
                 case "under":
-                    manager.topImage.texture = ImageManager.GetImageFromWord(words[2]);
-                    manager.bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
+                    manager.topImage.texture = ImageManager.GetImageFromLetter(words[2]);
+                    manager.bottomImage.texture = ImageManager.GetImageFromLetter(words[0]);
                     break;
                 default:
                     Debug.Log("word is not in switch case please add it.");
@@ -71,10 +73,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                 rndImageWithKey2 = ImageManager.GetRandomImageWithKey();
             }
 
+
             manager.bottomImage.texture = rndImageWithKey1.Item1;
             manager.topImage.texture = rndImageWithKey2.Item1;
 
-            manager.imageKey = rndImageWithKey2.Item2 + " \u00e5 " + rndImageWithKey1.Item2;
+            manager.imageKey = rndImageWithKey2.Item2 + " p\u00e5 " + rndImageWithKey1.Item2;
 
 
 
@@ -100,22 +103,115 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             string sentence;
             string[] answers = new string[count];
+
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    letters.Add(item);
+                }
+            }
+
             for (int i = 0; i < count; i++)
             {
                 //update the range if more options are needed for the binding word of the sentence generator, the range should be (0, x) where x is the number of cases
                 int rnd = Random.Range(0, 2);
                 
 
-                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
-                
+              
+
+                string first= letters[Random.Range(0, 10)].Identifier;
+                string second= letters[Random.Range(0, 10)].Identifier;
+
+
+                bool checkIfAvailable = true;
+
+                while (checkIfAvailable)
+                {
+                    switch (first.ToLower())
+                    {
+                        case "y":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "z":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "w":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "c":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "q":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "x":
+                            first = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
+
+                checkIfAvailable = true;
+
+
+                while (checkIfAvailable)
+                {
+                    switch (second.ToLower())
+                    {
+                        case "y":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "z":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "w":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "c":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "q":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "x":
+                            second = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
+
+
+
+
                 switch (rnd)
                 {
                     case 0:
-                        sentence = words[Random.Range(0,10)].Identifier + " p\u00e5 " + words[Random.Range(0, 10)].Identifier;
+                        sentence = first+ " p\u00e5 " + second;
                         break;
 
                     case 1:
-                        sentence = words[Random.Range(0, 10)].Identifier + " under " + words[Random.Range(0, 10)].Identifier;
+                        sentence =first + " under " + second;
                         break;
 
                     default:
@@ -123,6 +219,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                         Debug.Log("the number given was out of the range of expected results, defaulting to ko på is");
                         break;
                 }
+
+
+
+              
+
                 answers[i] = sentence;
             }
             return answers;

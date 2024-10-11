@@ -2,6 +2,7 @@ using Analytics;
 using CORE;
 using CORE.Scripts.Game_Rules;
 using Letters;
+using Scenes._10_PlayerScene.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -35,6 +36,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         int maxCorrectLetters = 5;
 
         int minCorrectLetters = 1;
+        bool won = false;
 
         List<char> letters = new List<char>();
         List<char> correctFoundLetters = new List<char>();
@@ -186,6 +188,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                             GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), false);
                         }
                     }
+                    won = true;
                     boardController.Won("Du vandt. Du fandt de korrekte Symboler", multiplier * 1, multiplier * 1);
                 }
             }
@@ -249,6 +252,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                         if(letterSymbol.ToString().ToLower() != gameRules.GetCorrectAnswer().ToLower())
                         {
                             GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(letterSymbol.ToString(), true);
+                            if(won)
+                            {
+                                PlayerEvents.RaiseAddLetter(letterSymbol);
+                            }
                         }
                     }
             }

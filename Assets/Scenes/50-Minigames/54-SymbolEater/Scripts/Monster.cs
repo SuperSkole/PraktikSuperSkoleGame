@@ -114,8 +114,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     velocity.x = 0;
                 }
                 currentDestination = velocity + transform.position;
+                transform.LookAt(currentDestination);
+                //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.x, 0);
                 Move();
-                AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
+                //AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
             }
             else if (canWalkTowardsPlayer)
             {
@@ -291,6 +293,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 Vector3 m1 = Vector3.Lerp(playerCatchPoint, throwArcPoint, throwArcProgress);
                 Vector3 m2 = Vector3.Lerp(throwArcPoint, throwReleasePoint, throwArcProgress);
                 player.transform.position = Vector3.Lerp(m1, m2, throwArcProgress);
+                transform.LookAt(player.transform.position);
             }
             //Cleanup once the player has reached the endpoint of the arc
             else

@@ -1720,6 +1720,7 @@ MonoBehaviour:
   buttons: []
   title: {fileID: 0}
   usePlayerLevel: 0
+  errorText: {fileID: 0}
   playerLevel: 3
 --- !u!1 &1830852400
 GameObject:
@@ -1963,7 +1964,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: level 5
+          m_StringArgument: level 5 words
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1749027816}
@@ -2120,7 +2121,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 4
           m_FloatArgument: 0
-          m_StringArgument: level 4
+          m_StringArgument: level 4 words
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1749027816}

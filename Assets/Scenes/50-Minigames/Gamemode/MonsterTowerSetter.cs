@@ -3,6 +3,7 @@ using Analytics;
 using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using UnityEngine;
 
@@ -29,6 +30,15 @@ namespace Scenes._50_Minigames.Gamemode
             new Level5()
         };
 
+        public List<IGenericGameMode> wordGameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4_Words(),
+            new Level5_Words()
+        };
+
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
@@ -41,18 +51,50 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
-            IGenericGameMode mode= letterGameModes[Random.Range(4, 5)]; ;
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
-            switch(languageUnit.LanguageUnitType)
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode = null;
+
+            switch (languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
-                    mode = letterGameModes[Random.Range(4,5)];
-
+                    mode = letterGameModes[Random.Range(3, 5)];
+                    break;
+                case LanguageUnit.Word:
+                    mode = wordGameModes[3];
                     break;
             }
 
+            
+
+            LetterData letterData = (LetterData)languageUnits[0];
+            if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+            {
+                List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                foreach (var item in languageUnits)
+                {
+                    if (item.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                        {
+                            letters.Add(item);
+                        }
+                    }
+                }
+
+                if(letters.Count<3)
+                {
+                    return (null, null);
+                }
+
+
+            }
+           
+
+
             return (null, mode);
+     
         }
 
 
@@ -94,6 +136,14 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "level 5":
                     modeReturned = new Level5();
+                    break;
+
+                case "sentences words":
+                    modeReturned = new SentenceToPictures_Words();
+                break;
+
+                case "shoot picture words":
+                    modeReturned = new ShootPicture_Words();
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, returning default gamemode");

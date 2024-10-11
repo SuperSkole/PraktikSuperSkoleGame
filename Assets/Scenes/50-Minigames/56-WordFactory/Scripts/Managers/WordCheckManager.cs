@@ -24,7 +24,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private AudioSource pullHandleAudioSource;
         
         //private bool hasPlayedPullHandleSound = false;
-
+        public bool waitingForInput = false;
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
 
@@ -39,6 +39,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
         private int wrongWordCount;
+        public bool isTutorialOver = false;
 
         private void Start()
         {
@@ -100,6 +101,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     // Report correct guess to DDA system
                     DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(formedWord.ToLower(), true);
     
+                    isTutorialOver = true;
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
                     createdWords.Add(formedWord);
@@ -217,7 +219,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerEvents.RaiseGoldChanged(1);
                 PlayerEvents.RaiseXPChanged(1);
                 WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
-        
+                waitingForInput = true;
                 AddWordToPlayerData(word);
                 AddWordToHighScore(word);        
                 

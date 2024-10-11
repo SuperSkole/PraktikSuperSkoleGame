@@ -32,9 +32,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         public SplineSymbolDataHolder currentSymbol;
         private int currentSymbolIndex = 0;
         [SerializeField] GameObject coinObject;
-
          public TextMeshProUGUI descriptionText;
-
         private LettergardenGameMode gamemode;
         public string oldLetter;
 
@@ -116,6 +114,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 {
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
+                    PlayerEvents.RaiseAddLetter(currentSymbol.symbol);
                     oldLetter = currentSymbol.symbol.ToString();
                     GameManager.Instance.PlayerData.CollectedLetters.Add(currentSymbol.symbol);
                     GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(currentSymbol.symbol.ToString(), true);
