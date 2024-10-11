@@ -33,7 +33,8 @@ namespace Scenes._20_MainWorld.Scripts
                 doorMechanism = door.GetComponent<OpenCloseDoor>();
             }
             playerEventManager = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerEventManager>();
-            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
+            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().PlayerLanguageLevel;
+            //playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
             // TODO : Remove Try catch at later date
             try
             {
@@ -49,8 +50,8 @@ namespace Scenes._20_MainWorld.Scripts
         /// <param name="collision"></param>
         public void OnTriggerEnter(Collider collision)
         {
-            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().CurrentLevel;
-            if (collision.gameObject.CompareTag("Player") && !isGasSTT && playerLvl >= neededLvlToEnter)
+            playerLvl = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>().PlayerLanguageLevel;
+            if (collision.gameObject.CompareTag("Player") && playerLvl >= neededLvlToEnter)
             {
                 //Some Obj dont need a parent to work, a quick failsafe
                 try
@@ -95,15 +96,6 @@ namespace Scenes._20_MainWorld.Scripts
                 {
                     carEventsMa.CarInteraction = action;
                     carEventsMa.interactionIcon.SetActive(true);
-                }
-                catch { }
-            } 
-            else if (collision.gameObject.CompareTag("Player") && isGasSTT)
-            {
-                try
-                {
-                    playerEventManager.PlayerInteraction = action;
-                    playerEventManager.interactionIcon.SetActive(true);
                 }
                 catch { }
             }

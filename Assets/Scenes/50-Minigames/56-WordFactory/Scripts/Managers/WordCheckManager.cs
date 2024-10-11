@@ -250,7 +250,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // Trigger fireworks and exit the game on 3 correct words
         private void TriggerSuccessEffect()
         {
-            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainXP);
+            // TODO PlayerSound doesnt work
+            //WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainXP);
             // Blink gears green for success
             StartCoroutine(BlinkGearsAndExit(Color.green));  
         }

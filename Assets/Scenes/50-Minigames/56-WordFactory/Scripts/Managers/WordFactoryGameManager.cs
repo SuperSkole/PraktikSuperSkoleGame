@@ -317,11 +317,20 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 .enabled = true;
             //StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
-        
+
             // Clean up the game manager and sound manager when transitioning to the main scene
-            Destroy(Instance);
-            instance = null; 
-            Destroy(WordFactorySoundManager.Instance);
+            // Destroy WordFactoryGameManager
+            if (Instance != null)
+            {
+                Destroy(Instance);
+                instance = null;
+            }
+
+            // Destroy WordFactorySoundManager
+            if (WordFactorySoundManager.Instance != null)
+            {
+                Destroy(WordFactorySoundManager.Instance);
+            }
         }
 
         private void OnDestroy()

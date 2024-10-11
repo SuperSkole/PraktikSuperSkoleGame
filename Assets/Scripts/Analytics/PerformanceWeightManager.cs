@@ -254,13 +254,13 @@ namespace Analytics
         {
             EnsureInitialized();
     
-            Debug.Log($"GetNextLanguageUnits called with type: {type}, category: {category}, count: {count}");
+            //Debug.Log($"GetNextLanguageUnits called with type: {type}, category: {category}, count: {count}");
 
             // filter units by type
             var filteredUnits = letterWeights.Values
                 .Where(u => u.LanguageUnitType == type);
 
-            Debug.Log($"Filtered units count after type filter: {filteredUnits.Count()}");
+            //Debug.Log($"Filtered units count after type filter: {filteredUnits.Count()}");
 
             if (type == LanguageUnit.Letter)
             {
@@ -272,7 +272,7 @@ namespace Analytics
                 };
 
                 filteredUnits = filteredUnits.Where(u => validIdentifiers.Contains(u.Identifier));
-                Debug.Log($"Filtered units count after category filter: {filteredUnits.Count()}");
+                //Debug.Log($"Filtered units count after category filter: {filteredUnits.Count()}");
             }
 
             var unitList = filteredUnits.ToList();
@@ -290,15 +290,15 @@ namespace Analytics
                 .Cast<ILanguageUnit>()
                 .ToList();
 
-            Debug.Log($"Total sorted units count: {sortedUnits.Count}");
+            //Debug.Log($"Total sorted units count: {sortedUnits.Count}");
 
             // return the asked for count of units
             var result = sortedUnits.Take(count).ToList();
 
-            Debug.Log($"Returning {result.Count} units.");
+            //Debug.Log($"Returning {result.Count} units.");
             foreach (var unit in result)
             {
-                Debug.Log($"Unit: {unit.Identifier}, Weight: {unit.Weight}");
+                //Debug.Log($"Unit: {unit.Identifier}, Weight: {unit.Weight}");
             }
 
             return result;
@@ -317,7 +317,7 @@ namespace Analytics
                     ? Mathf.Max(currentUnit.Weight - DynamicDifficultyAdjustmentSettings.WeightDecrement, DynamicDifficultyAdjustmentSettings.MinWeight)
                     : Mathf.Min(currentUnit.Weight + DynamicDifficultyAdjustmentSettings.WeightIncrement, DynamicDifficultyAdjustmentSettings.MaxWeight);
 
-                Debug.Log($"Updated weight for letter '{identifier}' to {currentUnit.Weight}");
+                //Debug.Log($"Updated weight for letter '{identifier}' to {currentUnit.Weight}");
             }
             else
             {
