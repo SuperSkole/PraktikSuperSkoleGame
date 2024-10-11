@@ -100,7 +100,6 @@ public class Level4_POD : IPODGameMode
                 }
                 else if (letterData.Category == modeLetterType.Category)
                 {
-                    Debug.Log("Organising Category");
                     letters.Add(item);
                 }
             }

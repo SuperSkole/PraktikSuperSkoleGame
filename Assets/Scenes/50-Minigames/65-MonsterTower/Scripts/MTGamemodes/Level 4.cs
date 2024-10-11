@@ -91,9 +91,9 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                 {
                     LetterData letterData = (LetterData)item;
                     if ( GameManager.Instance.PlayerData.PlayerLanguageLevel>=2)
-                  { 
+                    { 
                         letters.Add(item);
-                  }
+                    }
                   else if (letterData.Category == modeLetterType.Category)
                   {
                         letters.Add(item);
