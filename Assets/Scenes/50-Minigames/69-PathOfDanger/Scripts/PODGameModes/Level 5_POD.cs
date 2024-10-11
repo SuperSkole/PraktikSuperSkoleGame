@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,11 +75,21 @@ public class Level5_POD : IPODGameMode
 
         List<ILanguageUnit> letters = new List<ILanguageUnit>();
 
+        LetterData modeLetterType = (LetterData)languageUnits[0];
+
         foreach (var item in languageUnits)
         {
             if (item.LanguageUnitType == LanguageUnit.Letter)
             {
-                letters.Add(item);
+                LetterData letterData = (LetterData)item;
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel >= 2)
+                {
+                    letters.Add(item);
+                }
+                else if (letterData.Category == modeLetterType.Category)
+                {
+                    letters.Add(item);
+                }
             }
         }
         string[] returnedString = new string[count];

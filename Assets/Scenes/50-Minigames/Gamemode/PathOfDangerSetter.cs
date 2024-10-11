@@ -3,6 +3,7 @@ using Analytics;
 using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using UnityEngine;
 
 namespace Scenes._50_Minigames.Gamemode
@@ -48,7 +49,9 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            //GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
             
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode = null ;
@@ -57,12 +60,37 @@ namespace Scenes._50_Minigames.Gamemode
             {
                 case LanguageUnit.Letter:
                     mode = letterGameModes[Random.Range(3, 5)];
-                    Debug.Log("Using Letter");
+                   
                     break;
                 case LanguageUnit.Word:
                     mode = wordGameModes[3];
-                    Debug.Log("Using Word");
+                   
                     break;
+            }
+
+
+
+            LetterData letterData = (LetterData)languageUnits[0];
+            if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+            {
+                List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                foreach (var item in languageUnits)
+                {
+                    if (item.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                        {
+                            letters.Add(item);
+                        }
+                    }
+                }
+
+                if (letters.Count < 3)
+                {
+                    return (null, null);
+                }
+
+
             }
 
             return (null, mode);

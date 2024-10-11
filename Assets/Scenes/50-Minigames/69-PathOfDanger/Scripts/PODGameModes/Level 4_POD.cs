@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ public class Level4_POD : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetWrongAnswer(PathOfDangerManager manager, string correctAnswer)
     {
+
+
+
         var rndLetterWithKey = LetterManager.GetRandomLetter();
 
 
@@ -83,11 +87,22 @@ public class Level4_POD : IPODGameMode
 
         List<ILanguageUnit> letters=new List<ILanguageUnit>();
 
+        LetterData modeLetterType = (LetterData)languageUnits[0];
+
         foreach (var item in languageUnits)
         {
-            if(item.LanguageUnitType==LanguageUnit.Letter)
+            if (item.LanguageUnitType == LanguageUnit.Letter)
             {
-                letters.Add(item);
+                LetterData letterData = (LetterData)item;
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel >= 2)
+                {
+                    letters.Add(item);
+                }
+                else if (letterData.Category == modeLetterType.Category)
+                {
+                    Debug.Log("Organising Category");
+                    letters.Add(item);
+                }
             }
         }
 

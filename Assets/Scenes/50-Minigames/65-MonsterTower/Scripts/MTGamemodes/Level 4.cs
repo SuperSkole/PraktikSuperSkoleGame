@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -82,11 +83,21 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             List<ILanguageUnit> letters = new List<ILanguageUnit>();
 
+            LetterData modeLetterType = (LetterData)languageUnits[0];
+
             foreach (var item in languageUnits)
             {
                 if (item.LanguageUnitType == LanguageUnit.Letter)
                 {
-                    letters.Add(item);
+                    LetterData letterData = (LetterData)item;
+                    if ( GameManager.Instance.PlayerData.PlayerLanguageLevel>=2)
+                  { 
+                        letters.Add(item);
+                  }
+                  else if (letterData.Category == modeLetterType.Category)
+                  {
+                        letters.Add(item);
+                  }
                 }
             }
 
