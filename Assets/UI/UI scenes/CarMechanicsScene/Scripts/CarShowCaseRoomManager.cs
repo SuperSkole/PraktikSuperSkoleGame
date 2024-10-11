@@ -40,6 +40,9 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     [SerializeField] private GameObject colorsTab;
     [SerializeField] private GameObject carsTabs;
+    
+    private bool isOnColorTab = true;
+
 
     [Header("Car Info")]
     [SerializeField] private Slider speedSlider;
@@ -458,7 +461,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
 
     }
 
-    private bool isOnColorTab = true;
     public void ClickOnColorTab()
     {
         if (ReturnIsCarActive())
