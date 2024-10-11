@@ -20,7 +20,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
             
             var words = WordFactoryGameManager.Instance.WordList;
             
-            Debug.Log("chosen words: " + string.Join(", ", words));
+            //Debug.Log("chosen words: " + string.Join(", ", words));
 
             if (words.Count < numberOfGears)
             {
@@ -60,12 +60,21 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
             return gearLetters;
         }
-
+        
         private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
         {
-            var letters = WordFactoryGameManager.Instance.LetterList;
-            HashSet<char> usedLetters = new HashSet<char>(gearLetters.SelectMany(gear => gear));
-
+            // Set to track used letters to avoid duplicates
+            HashSet<char> usedLetters = new HashSet<char>();
+        
+            // Add the already used letters from gearLetters to the set
+            foreach (var gear in gearLetters)
+            {
+                foreach (var letter in gear)
+                {
+                    usedLetters.Add(letter);
+                }
+            }
+        
             foreach (var gear in gearLetters)
             {
                 while (gear.Count < numberOfTeeth)
@@ -73,45 +82,15 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
                     char newLetter;
                     do
                     {
-                        newLetter = Convert.ToChar(letters[Random.Range(0, letters.Count)]);
-                    } while (usedLetters.Contains(newLetter));
-
+                        // Generate a new letter
+                        newLetter = LetterManager.GetRandomLetters(1).First();
+                    } while (usedLetters.Contains(newLetter)); 
+        
+                    // Add the new unique letter to the gear and track it
                     gear.Add(newLetter);
                     usedLetters.Add(newLetter);
                 }
             }
         }
-        
-        // private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
-        // {
-        //     // Set to track used letters to avoid duplicates
-        //     HashSet<char> usedLetters = new HashSet<char>();
-        //
-        //     // Add the already used letters from gearLetters to the set
-        //     foreach (var gear in gearLetters)
-        //     {
-        //         foreach (var letter in gear)
-        //         {
-        //             usedLetters.Add(letter);
-        //         }
-        //     }
-        //
-        //     foreach (var gear in gearLetters)
-        //     {
-        //         while (gear.Count < numberOfTeeth)
-        //         {
-        //             char newLetter;
-        //             do
-        //             {
-        //                 // Generate a new letter
-        //                 newLetter = LetterManager.GetRandomLetters(1).First();
-        //             } while (usedLetters.Contains(newLetter)); 
-        //
-        //             // Add the new unique letter to the gear and track it
-        //             gear.Add(newLetter);
-        //             usedLetters.Add(newLetter);
-        //         }
-        //     }
-        // }
     }
 }

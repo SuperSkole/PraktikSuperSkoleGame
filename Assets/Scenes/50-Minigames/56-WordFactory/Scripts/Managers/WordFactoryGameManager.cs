@@ -7,6 +7,7 @@ using CORE.Scripts;
 using Letters;
 using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Words;
@@ -19,6 +20,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
     /// </summary>
     public class WordFactoryGameManager : PersistentSingleton<WordFactoryGameManager>
     {
+        [SerializeField] private UIFactoryManager uiFactoryManager;
         public event Action<GameObject> OnGearAdded;
 
         // public so other can access the "game settings"
@@ -27,26 +29,50 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         public int NumberOfTeeth = 8; // Default to 8 teeth per gear
         public int DifficultyLevel = 1; // Default difficulty level
         public GameObject CoinPrefab;
-        
-        // Lists for storing words and letters
-        public List<string> WordList { get; private set; } = new List<string>();
-        public List<string> LetterList { get; private set; } = new List<string>();
-        
         public GameObject PlayerSpawnPoint;
         [SerializeField] private GameObject dropOffPoint;
         
         private GameObject wordBlockPrefabForSingleGearMode;
         private List<GameObject> gears = new List<GameObject>();
         private IGearStrategy gearStrategy;
+        private WordValidator wordValidator;
+        private WordBuilder wordBuilder;
+        
+        // Lists for storing words and letters
+        public List<string> WordList { get; private set; } = new List<string>();
+        public List<string> LetterList { get; private set; } = new List<string>();
+        
+        // track guesses
+        public int CorrectWordCount { get; private set; } = 0;   
+        public int CorrectWordCountTotal { get; private set; } = 0;   
+        public int WrongWordCount { get; private set; } = 0;  
+        public int MaxWrongGuesses { get; private set; } = 3;  
 
         protected override void Awake()
         {
             base.Awake();
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-            IntializeFactoryManager();
 
             Playerlevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+            //Playerlevel = 3;
+            if (Playerlevel < 3)
+            {
+                // Player level too low, load the main scene
+                SceneManager.LoadScene(SceneNames.Main);
+    
+                // If player has an AutoMovePlayerInFactory component, destroy it
+                var autoMoveComponent = PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>();
+                if (autoMoveComponent != null)
+                {
+                    Destroy(autoMoveComponent);
+                }
+                
+                // Early return to stop further execution
+                return;
+            }
+            
+            IntializeFactoryManager();
         }
 
         /// <summary>
@@ -65,6 +91,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private void Start()
         {
+            wordValidator = this.AddComponent<WordValidator>();
+            wordBuilder = this.AddComponent<WordBuilder>();
+            
             if (PlayerManager.Instance != null)
             {
                 PlayerManager.Instance.PositionPlayerAt(PlayerSpawnPoint);
@@ -81,12 +110,85 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 Debug.Log("WordFactory GM.Start(): Player Manager is null");
             }
+            
+            CalculateValidWords();
+            uiFactoryManager.UpdateWordCounts(CorrectWordCount, CorrectWordCountTotal, WrongWordCount);
+        }
+        
+        /// <summary>
+        /// Find all valid words by combining letters from different gears and checking them with the WordValidator.
+        /// </summary>
+        public void CalculateValidWords()
+        {
+            int totalCombinations = 0;
+            int validWords = 0;
+    
+            // Fetch the gears and their teeth
+            var gears = GetGears();
+    
+            if (gears == null || gears.Count < 2)
+            {
+                Debug.LogError("Need at least two gears to form words.");
+                return;
+            }
+
+            // Loop through teeth of Gear 1 and Gear 2 to form words
+            Transform gear1TeethContainer = gears[0].transform.Find("TeethContainer");
+            Transform gear2TeethContainer = gears[1].transform.Find("TeethContainer");
+
+            if (gear1TeethContainer == null || gear2TeethContainer == null)
+            {
+                Debug.LogError("Teeth containers missing in one or both gears.");
+                return;
+            }
+
+            List<Transform> teethCombination = new List<Transform>();
+            WordBuilder wordBuilder = GetComponent<WordBuilder>();
+
+            // Loop through all teeth in Gear 1 and Gear 2
+            foreach (Transform tooth1 in gear1TeethContainer)
+            {
+                foreach (Transform tooth2 in gear2TeethContainer)
+                {
+                    // Combine teeth from Gear 1 and Gear 2
+                    teethCombination.Clear();
+                    teethCombination.Add(tooth1);
+                    teethCombination.Add(tooth2);
+
+                    // Build the word
+                    string formedWord = wordBuilder.BuildWord(teethCombination);
+                    int wordLength = formedWord.Length;
+
+                    // Validate the word
+                    bool isValid = wordValidator.IsValidWord(formedWord, wordLength);
+                    totalCombinations++;
+
+                    if (isValid)
+                    {
+                        validWords++;
+                    }
+                }
+            }
+
+            // Log the result and update the UI
+            Debug.Log($"Valid words: {validWords} out of {totalCombinations}");
+            CorrectWordCountTotal += validWords;
         }
         
         /// <summary>
         /// Retrieves the current gear strategy.
         /// </summary>
         public IGearStrategy GetGearStrategy() => gearStrategy;
+        
+        public void ResetWordCounts()
+        {
+            CorrectWordCount = 0;
+            WrongWordCount = 0;
+        }
+
+        // Methods to increase word counts
+        public void IncrementCorrectCount() => CorrectWordCount++;
+        public void IncrementWrongCount() => WrongWordCount++;
 
         /// <summary>
         /// Adds a gear to the game and invokes the OnGearAdded event.
