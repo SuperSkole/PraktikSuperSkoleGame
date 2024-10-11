@@ -162,7 +162,7 @@ namespace LoadSave
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
             List<int> ListOfFurniture,
-            float fuelAmount)
+            float fuelAmount,
             bool tutorialHouse,
             bool tutorialMainWorldFirstTime,
             bool tutorialLetterGarden,
