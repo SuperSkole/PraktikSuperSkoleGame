@@ -22,8 +22,8 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             if (other.gameObject.CompareTag("ProductionCube"))
             {
                 other.gameObject.GetComponentInChildren<IBox>().ResetCube();
-                ProductionLineController.ResetCubes(other.gameObject);
-                ProductionLineController.ResetLine();
+                ProductionLineManager.ResetCubes(other.gameObject);
+                ProductionLineManager.ResetLine();
 
                 AudioManager.Instance.PlaySound(cubeSmelt, SoundType.SFX);
             }

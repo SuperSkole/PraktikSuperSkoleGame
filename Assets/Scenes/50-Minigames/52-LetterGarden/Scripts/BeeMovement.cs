@@ -10,7 +10,6 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private GameObject SplineParent;
 
         public SplineContainer letterSpline;
-        private GameObject body;
         private Vector3 currentPos;
         private Vector3 direction;
         private float distancePercentage = 0;
@@ -27,6 +26,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         {
             letterSpline = currentLetter;
             splineIndex = 0;
+            distancePercentage = 0;
             spineLeangth = letterSpline.CalculateLength(splineIndex);
         }
 

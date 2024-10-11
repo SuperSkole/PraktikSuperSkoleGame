@@ -96,7 +96,7 @@ namespace Analytics
         private ConcurrentDictionary<string, LetterData> letterWeights;
         private ConcurrentDictionary<string, WordData> wordWeights;
         
-        private int playerLanguageLevel;
+        public int playerLanguageLevel;
         private const float PerformanceFactor = 1.0f; // Currently prioritizing only performance
         // private const float PerformanceFactor = 0.7f;
         private const float TimeFactor = 0.3f;
