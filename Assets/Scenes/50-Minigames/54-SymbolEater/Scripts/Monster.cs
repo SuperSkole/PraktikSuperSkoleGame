@@ -293,6 +293,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 Vector3 m1 = Vector3.Lerp(playerCatchPoint, throwArcPoint, throwArcProgress);
                 Vector3 m2 = Vector3.Lerp(throwArcPoint, throwReleasePoint, throwArcProgress);
                 player.transform.position = Vector3.Lerp(m1, m2, throwArcProgress);
+                transform.LookAt(player.transform.position);
             }
             //Cleanup once the player has reached the endpoint of the arc
             else
