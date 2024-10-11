@@ -125,34 +125,34 @@ public class Level5_POD : IPODGameMode
 
 
 
-            bool checkIfAvailable = true;
+             checkIfAvailable = true;
 
             while (checkIfAvailable)
             {
                 switch (returnedString[i].ToLower())
                 {
                     case "y":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     case "z":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     case "w":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     case "c":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     case "q":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     case "x":
-                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                         break;
 
                     default:
