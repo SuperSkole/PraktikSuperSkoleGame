@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Spine;
-
-using UnityEditor.Experimental.GraphView;
-
 namespace CORE
 {
     public static class ProfanityFilter
@@ -16,7 +13,7 @@ namespace CORE
             "øgleyngel", "agurketud", "forpulede", "kvabodder", "kvajhoved", "kvajpande", "lorteøre", "pattebarn",
             "slapsvans", "forpulet", "nakkeost", "narrehat", "pikfjæs", "pikhoved", "skiderik", "abelort", "fandeme",
             "fåking", "fåkker", "møgdyr", "narrøv", "urinere", "bovlam", "fanden", "fandme", "focker", "narhat", "satan",
-            "satme", "skide", "skvat", "fock", "fåk", "lort", "pjok", "skid", "svin", "urin", "sgu"         
+            "satme", "skide", "skvat", "fock", "fåk", "lort", "pjok", "skid", "svin", "urin", "sgu", "nigger","negger","neger"         
         };
 
         /// <summary>
