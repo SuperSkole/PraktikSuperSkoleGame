@@ -24,22 +24,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private AudioSource audioSource;
 
-        // // Singleton
-        // public static WordFactorySoundManager Instance { get; private set; }
-        //
-        // void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //         //DontDestroyOnLoad(gameObject);
-        //     }
-        // }
-        
+        protected override void Awake() { base.Awake(false); }
+
         void Start()
         {
             audioSource = GetComponent<AudioSource>();

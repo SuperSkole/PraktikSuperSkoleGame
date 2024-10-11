@@ -291,6 +291,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private void ExitFactory()
         {
+            WordFactoryGameManager.Instance.CleanUpGameManagerAndSoundManager();
             SceneLoader.Instance.LoadScene(SceneNames.Main); 
         }
     }

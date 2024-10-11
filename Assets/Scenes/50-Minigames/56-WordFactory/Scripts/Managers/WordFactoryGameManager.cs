@@ -50,12 +50,12 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         protected override void Awake()
         {
-            base.Awake();
+            base.Awake(false);
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             Playerlevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
-            //Playerlevel = 3;
+            Playerlevel = 3;
             if (Playerlevel < 3)
             {
                 // Player level too low, load the main scene
@@ -118,14 +118,17 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// <summary>
         /// Find all valid words by combining letters from different gears and checking them with the WordValidator.
         /// </summary>
-        public void CalculateValidWords()
+        private void CalculateValidWords()
         {
             int totalCombinations = 0;
             int validWords = 0;
     
+            // Create a HashSet to store valid words and avoid duplicates
+            HashSet<string> uniqueValidWords = new HashSet<string>();
+
             // Fetch the gears and their teeth
             var gears = GetGears();
-    
+
             if (gears == null || gears.Count < 2)
             {
                 Debug.LogError("Need at least two gears to form words.");
@@ -163,8 +166,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     bool isValid = wordValidator.IsValidWord(formedWord, wordLength);
                     totalCombinations++;
 
-                    if (isValid)
+                    if (isValid && !uniqueValidWords.Contains(formedWord))
                     {
+                        uniqueValidWords.Add(formedWord);
                         validWords++;
                     }
                 }
@@ -172,8 +176,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
             // Log the result and update the UI
             Debug.Log($"Valid words: {validWords} out of {totalCombinations}");
-            CorrectWordCountTotal += validWords;
+            CorrectWordCountTotal = validWords;  // Ensure it updates correctly, without adding up multiple times
         }
+
         
         /// <summary>
         /// Retrieves the current gear strategy.
@@ -300,18 +305,23 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         {
             if (scene.name == SceneNames.Factory)
             {
-                // remove automove
-                PlayerManager.Instance.SpawnedPlayer
-                    .GetComponent<PlayerFloating>()
-                    .enabled = true;
-                //StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
-                Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
-        
-                // Clean up the game manager and sound manager when transitioning to the main scene
-                Destroy(Instance);
-                instance = null; 
-                Destroy(WordFactorySoundManager.Instance);
+                CleanUpGameManagerAndSoundManager();
             }
+        }
+
+        public void CleanUpGameManagerAndSoundManager()
+        {
+            // remove automove
+            PlayerManager.Instance.SpawnedPlayer
+                .GetComponent<PlayerFloating>()
+                .enabled = true;
+            //StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
+            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
+        
+            // Clean up the game manager and sound manager when transitioning to the main scene
+            Destroy(Instance);
+            instance = null; 
+            Destroy(WordFactorySoundManager.Instance);
         }
 
         private void OnDestroy()

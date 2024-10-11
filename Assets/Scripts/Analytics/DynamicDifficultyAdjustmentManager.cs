@@ -139,8 +139,8 @@ namespace Analytics
         {
             if (PlayerManager.Instance.PlayerData != null)
             {
-                playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
-                //playerLanguageLevel = 3; //test level
+                //playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                playerLanguageLevel = 3; //test level
                 if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
             }
 
@@ -438,7 +438,7 @@ namespace Analytics
                     LanguageUnit.Word, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for word '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for word '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for individual letters within the word as well
                         foreach (char letter in unit.Identifier)
@@ -453,7 +453,7 @@ namespace Analytics
                     LanguageUnit.Sentence, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for words and letters within the sentence
                         var sentenceWords = unit.Identifier.Split(' ');
