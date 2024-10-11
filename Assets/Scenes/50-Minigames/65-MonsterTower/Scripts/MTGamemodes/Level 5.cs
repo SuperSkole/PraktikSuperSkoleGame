@@ -35,7 +35,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-            while (rndImageWithKey.Item2 == correctAnswer)
+            while (rndImageWithKey.Item2[0] == correctAnswer[0])
             {
                 rndImageWithKey = ImageManager.GetRandomImageWithKey();
             }

@@ -35,7 +35,7 @@ public class Level5_POD : IPODGameMode
 
         var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-        while (rndImageWithKey.Item2 == correctAnswer)
+        while (rndImageWithKey.Item2[0] == correctAnswer[0])
         {
             rndImageWithKey = ImageManager.GetRandomImageWithKey();
         }
