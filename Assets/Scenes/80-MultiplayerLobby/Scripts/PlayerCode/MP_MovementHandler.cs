@@ -193,18 +193,4 @@ public class MP_MovementHandler : NetworkBehaviour
         animator.SetCharacterState(animationState);
     }
     #endregion
-
-    #region CheckIfTrue
-    /// <summary>
-    /// Checks if the clothing or color exists
-    /// </summary>
-    /// <param name="CheckedItem">What is to be checked</param>
-    /// <returns>Is the value not null or similar?</returns>
-    private bool StringIsSetCheck(string CheckedItem)
-    {
-        if (CheckedItem is not "white" and not "" and not null)
-            return true;
-        return false;
-    }
-    #endregion
 }
