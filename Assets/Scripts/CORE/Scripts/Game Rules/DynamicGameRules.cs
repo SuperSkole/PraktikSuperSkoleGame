@@ -86,7 +86,12 @@ namespace CORE.Scripts.Game_Rules
             //Returns a letter from the wronganswerlist if a word is currently not used
             if(!usesSequence)
             {
-                return wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                string answer = wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                while(GetSecondaryAnswer().Length > 0 && GetSecondaryAnswer().Contains(answer[0]))
+                {
+                    answer = wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                }
+                return answer;
             }
             //Returns a letter from the current word tat is not the one the player is looking for
             else if(remainingLetterIndex < word.Length)
