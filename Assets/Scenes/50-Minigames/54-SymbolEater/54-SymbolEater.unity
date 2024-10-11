@@ -4914,7 +4914,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -160, y: 100}
+  m_AnchoredPosition: {x: -1707.8, y: 100}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &731337234
@@ -9143,8 +9143,8 @@ MonoBehaviour:
   playerObject: {fileID: 1777014168}
   coinAnimationPrefab: {fileID: 4789875805035089658, guid: 44edc6b21d77c664e9dbd70b58502d11, type: 3}
   monsterPrefab: {fileID: 5232203753461534465, guid: 62ca29d52e064d649b85b9067a6ae05b, type: 3}
-  isTutorialOver: 0
   backgroundMusic: {fileID: 8300000, guid: 25c91f240c5b7b243a50a47f567bb2d8, type: 3}
+  isTutorialOver: 0
 --- !u!1 &1210221080 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5984104342079197732, guid: 1a854bdac77a3c44bae747d83ed23583, type: 3}
