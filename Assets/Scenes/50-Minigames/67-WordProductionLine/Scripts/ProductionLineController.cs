@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
-
 
     public class ProductionLineController : MonoBehaviour, IMinigameSetup
     {
@@ -65,7 +65,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         /// <returns> random word.</returns>
         public string GetImages()
         {
-            
+
 
             string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
 
@@ -98,7 +98,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
         public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
         {
-            
+
         }
     }
 

@@ -62,9 +62,6 @@ public class LoadingSceneSetup : MonoBehaviour
                 case 6:
                     SwitchScenes.SwitchToProductionLineLoadingScene();
                     break;
-                case 6:
-                    SwitchScenes.SwitchToProductionLineLoadingScene();
-                    break;
                 default:
                     Debug.LogError("unknown sceneID");
                     break;

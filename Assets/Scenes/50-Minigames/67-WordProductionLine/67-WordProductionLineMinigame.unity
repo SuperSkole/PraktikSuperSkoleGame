@@ -273,7 +273,7 @@ MonoBehaviour:
   pooledObjects: []
   amountToPool: 10
   amountSpawned: 0
-  productionManager: {fileID: 1022190383}
+  productionManager: {fileID: 0}
   BoxPrefab: {fileID: 6623479340320266743, guid: 95e671b640f7e894495140303a24cf0c, type: 3}
 --- !u!4 &114825695
 Transform:
@@ -2293,7 +2293,7 @@ MonoBehaviour:
   botSpawnPoint: {fileID: 1940302197}
   isOn: 1
   objectBoxPool: {fileID: 114825694}
-  productionManager: {fileID: 1022190383}
+  productionController: {fileID: 1022190383}
 --- !u!114 &1022190382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2309,7 +2309,7 @@ MonoBehaviour:
   topSpawnPoint: {fileID: 1435126605}
   isOn: 1
   objectBoxPool: {fileID: 2142794411}
-  productionManager: {fileID: 1022190383}
+  productionController: {fileID: 1022190383}
 --- !u!114 &1022190383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4791,7 +4791,7 @@ MonoBehaviour:
   pooledObjects: []
   amountToPool: 10
   amountSpawned: 0
-  productionManager: {fileID: 1022190383}
+  productionManager: {fileID: 0}
   BoxPrefab: {fileID: 5323300840861755305, guid: 3064d8a4ab92367459379fb9627fc74d, type: 3}
 --- !u!4 &2142794412
 Transform:
