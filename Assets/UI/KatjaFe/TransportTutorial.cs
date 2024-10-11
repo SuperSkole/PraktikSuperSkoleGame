@@ -1,9 +1,11 @@
 using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
+using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class TransportTutorial : MonoBehaviour
 {
@@ -13,7 +15,7 @@ public class TransportTutorial : MonoBehaviour
     [SerializeField] private AudioClip Explane;
 
     private bool waitingForInput = false;
-    private ProductionLineController controller;
+    private ProductionLineManager controller;
 
     private void Start()
     {
@@ -25,7 +27,7 @@ public class TransportTutorial : MonoBehaviour
             return;
         }
         katjafe.Initialize(true, Explane);
-        controller = FindFirstObjectByType<ProductionLineController>();
+        controller = FindFirstObjectByType<ProductionLineManager>();
         Speak();
     }
 
