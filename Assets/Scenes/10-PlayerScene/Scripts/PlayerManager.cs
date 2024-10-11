@@ -250,7 +250,20 @@ namespace Scenes._10_PlayerScene.Scripts
                 new List<int>()
                 {
                     0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 11, 10, 12
-                }
+                },
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -349,7 +362,20 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ClothTop,
                 saveData.BoughtClothes,
                 saveData.ListOfCars,
-                saveData.ListOfFurniture
+                saveData.ListOfFurniture,
+                saveData.TutorialHouse,
+                saveData.TutorialMainWorldFirstTime,
+                saveData.TutorialLetterGarden,
+                saveData.TutorialSymbolEater,
+                saveData.TutorialBankFront,
+                saveData.TutorialBankBack,
+                saveData.TutorialRace,
+                saveData.TutorialPathOfDanger,
+                saveData.TutorialFactory,
+                saveData.TutorialMosterTower,
+                saveData.TutorialTransportbond,
+                saveData.TutorialCar,
+                saveData.TutorialDecorHouse
             );
 
 

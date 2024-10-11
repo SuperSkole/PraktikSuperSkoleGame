@@ -29,6 +29,15 @@ namespace Scenes._50_Minigames.Gamemode
             new Level5()
         };
 
+        public List<IGenericGameMode> wordGameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4_Words(),
+            new Level5_Words()
+        };
+
 
         private List<IGameRules> gamerules = new List<IGameRules>()
         {
@@ -42,17 +51,20 @@ namespace Scenes._50_Minigames.Gamemode
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
-            IGenericGameMode mode= letterGameModes[Random.Range(4, 5)]; ;
+            IGenericGameMode mode = null;
 
-            switch(languageUnit.LanguageUnitType)
+            switch (languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
-                    mode = letterGameModes[Random.Range(4,5)];
-
+                    mode = letterGameModes[Random.Range(3, 5)];
+                    break;
+                case LanguageUnit.Word:
+                    mode = wordGameModes[Random.Range(3, 5)];
                     break;
             }
 
             return (null, mode);
+     
         }
 
 
@@ -94,6 +106,14 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "level 5":
                     modeReturned = new Level5();
+                    break;
+
+                case "sentences words":
+                    modeReturned = new SentenceToPictures_Words();
+                break;
+
+                case "shoot picture words":
+                    modeReturned = new ShootPicture_Words();
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, returning default gamemode");

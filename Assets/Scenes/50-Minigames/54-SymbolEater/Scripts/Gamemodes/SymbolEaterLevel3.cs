@@ -70,6 +70,10 @@ public class SymbolEaterLevel3 : ISEGameMode
         public void GetSymbols()
         {
             gameRules.SetCorrectAnswer();
+            if(gameRules.GetType() == typeof(DynamicGameRules))
+            {
+                gameRules.IsCorrectSymbol(gameRules.GetSecondaryAnswer()[0].ToString());
+            }
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
             {
@@ -130,7 +134,7 @@ public class SymbolEaterLevel3 : ISEGameMode
                 //Checks if the player has won. If not a new game is started
                 correctLetters++;
                 boardController.monsterHivemind.IncreaseMonsterSpeed();
-                if (correctLetters < 4)
+                if (correctLetters < 1)
                 {
                     boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();

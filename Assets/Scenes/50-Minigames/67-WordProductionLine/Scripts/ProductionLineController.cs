@@ -52,6 +52,7 @@ public class ProductionLineController : MonoBehaviour
     private bool movingTowardsPunishment = false;
 
     private Vector3 mousePos;
+    public bool isTutorialOver = false;
 
     Vector3 letterBoxCheckPosition;
     Vector3 imageBoxCheckPosition;
@@ -283,7 +284,7 @@ public class ProductionLineController : MonoBehaviour
             if (letter == imageFirstLetter)
             {
                 GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(imageName, true);
-
+                isTutorialOver = true;
                 PlayerEvents.RaiseGoldChanged(1);
                 Instantiate(coinEffect);
                 PlayerEvents.RaiseXPChanged(1);
