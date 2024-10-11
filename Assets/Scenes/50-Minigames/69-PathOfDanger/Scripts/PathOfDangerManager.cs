@@ -1,3 +1,4 @@
+using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
@@ -62,12 +63,14 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
     public bool hasAnsweredWrong=false;
     public bool isTutorialOver = false;
 
+    private LanguageUnit letterModeType;
+
     [SerializeField] AudioClip backGroundMusic;
     void Start()
     {
         AudioManager.Instance.PlaySound(backGroundMusic, SoundType.Music, true);
 
-       
+        letterModeType=GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].LanguageUnitType;
 
         if (PlayerManager.Instance != null)
         {
@@ -120,6 +123,19 @@ public class PathOfDangerManager : MonoBehaviour, IMinigameSetup
         if (correctAnswer)
         {
             GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(questions[currentQuestionIndex], true);
+            if (letterModeType == LanguageUnit.Letter)
+            {
+                PlayerEvents.RaiseAddLetter(questions[currentQuestionIndex][0]);
+            }
+
+            if (letterModeType == LanguageUnit.Word)
+            {
+                PlayerEvents.RaiseAddWord(questions[currentQuestionIndex]);
+            }
+
+            PlayerEvents.RaiseGoldChanged(1);
+            PlayerEvents.RaiseXPChanged(1);
+
             isTutorialOver = true;
             currentQuestionIndex++;
             SetNextQuestion();           
