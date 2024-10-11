@@ -125,6 +125,44 @@ public class Level5_POD : IPODGameMode
 
 
 
+            bool checkIfAvailable = true;
+
+            while (checkIfAvailable)
+            {
+                switch (returnedString[i].ToLower())
+                {
+                    case "y":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "z":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "w":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "c":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "q":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "x":
+                        returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    default:
+                        checkIfAvailable = false;
+                        break;
+                }
+            }
+
+
+
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
             while (returnedString[i] == previousRetrievedAnswer)
             {

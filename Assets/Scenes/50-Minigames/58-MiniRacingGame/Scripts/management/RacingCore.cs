@@ -81,6 +81,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         private bool setCorrectAnswerHasBeenRan = false;
 
         public float Timer { get => timer; set => timer = value; }
+        public bool isTutorialOver = false;
         #endregion
 
         #region setup
@@ -460,7 +461,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                     racingGameManager.gold++;
                     PlayerEvents.RaiseGoldChanged(1);
                     PlayerEvents.RaiseXPChanged(1);
-                    
+                    isTutorialOver = true;
                     currentIndex++;
 
                     if (currentIndex >= targetWord.Length)
