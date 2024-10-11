@@ -23,7 +23,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Instantiate a new object from the provided prefab.
             GameObject newObject = Instantiate(prefab,parent.transform);
 
-
             // Set the position of the new object to the specified position.
             newObject.transform.position = pos;
             newObject.transform.rotation *= rotation;
