@@ -379,7 +379,7 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
             
             GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
-            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
+            //GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
         }
 
         // TODO maybe refactor onSceneLoaded into new script 

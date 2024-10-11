@@ -20,7 +20,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
             
             var words = WordFactoryGameManager.Instance.WordList;
             
-            Debug.Log("chosen words: " + string.Join(", ", words));
+            //Debug.Log("chosen words: " + string.Join(", ", words));
 
             if (words.Count < numberOfGears)
             {
@@ -60,63 +60,6 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
             return gearLetters;
         }
-
-        // private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
-        // {
-        //     var letters = WordFactoryGameManager.Instance.LetterList;
-        //     HashSet<char> usedLetters = new HashSet<char>(gearLetters.SelectMany(gear => gear));
-        //
-        //     foreach (var gear in gearLetters)
-        //     {
-        //         while (gear.Count < numberOfTeeth)
-        //         {
-        //             char newLetter;
-        //             do
-        //             {
-        //                 newLetter = Convert.ToChar(letters[Random.Range(0, letters.Count)]);
-        //             } while (usedLetters.Contains(newLetter));
-        //
-        //             gear.Add(newLetter);
-        //             usedLetters.Add(newLetter);
-        //         }
-        //     }
-        // }
-        
-        // private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
-        // {
-        //     // Get the available letters
-        //     var letters = WordFactoryGameManager.Instance.LetterList;
-        //
-        //     // Create a HashSet to store all used letters
-        //     HashSet<char> usedLetters = new HashSet<char>(gearLetters.SelectMany(gear => gear));
-        //
-        //     // Create a list of available letters by removing already used letters
-        //     var availableLetters = letters.Where(letter => !usedLetters.Contains(letter)).ToList();
-        //
-        //     // Iterate over each gear
-        //     foreach (var gear in gearLetters)
-        //     {
-        //         // While the gear doesn't have enough letters, fill it with random available letters
-        //         while (gear.Count < numberOfTeeth && availableLetters.Count > 0)
-        //         {
-        //             // Select a random letter from the available letters
-        //             int randomIndex = Random.Range(0, availableLetters.Count);
-        //             char newLetter = availableLetters[randomIndex];
-        //
-        //             // Add the new letter to the gear and update the used letters
-        //             gear.Add(newLetter);
-        //             usedLetters.Add(newLetter);
-        //             availableLetters.RemoveAt(randomIndex); // Remove the used letter from the available list
-        //         }
-        //
-        //         // If there are no more available letters, break out of the loop early
-        //         if (availableLetters.Count == 0)
-        //         {
-        //             break;
-        //         }
-        //     }
-        // }
-
         
         private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
         {
