@@ -132,14 +132,14 @@ namespace Analytics
             {
                 letterData.LastUsed = DateTime.Now; // Set the current time as the last used time
                 letterData.TimeWeight = CalculateTimeWeight(letterData.LastUsed); // Update time weight
-                Debug.Log($"Updated TimeWeight: {letterData.TimeWeight} letter: {identifier}, ");
+                //Debug.Log($"Updated TimeWeight: {letterData.TimeWeight} letter: {identifier}, ");
             }
             // Check if the identifier is for a word
             else if (wordWeights.TryGetValue(identifier, out var wordData))
             {
                 wordData.LastUsed = DateTime.Now; // Set the current time as the last used time
                 wordData.TimeWeight = CalculateTimeWeight(wordData.LastUsed); // Update time weight
-                Debug.Log($"Updated TimeWeight: {wordData.TimeWeight} for word: {identifier}");
+                //Debug.Log($"Updated TimeWeight: {wordData.TimeWeight} for word: {identifier}");
             }
             else
             {

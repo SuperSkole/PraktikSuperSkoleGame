@@ -152,7 +152,7 @@ namespace Analytics
             var allUnits = new List<ILanguageUnit>();
 
             // Fetch units for each content type
-            int numberOfUnitsToFetch = 5;
+            int numberOfUnitsToFetch = 10;
             foreach (var (unitType, specificType) in contentTypes)
             {
                 // Use the specific handler for the content type
@@ -438,7 +438,7 @@ namespace Analytics
                     LanguageUnit.Word, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for word '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for word '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for individual letters within the word as well
                         foreach (char letter in unit.Identifier)
@@ -453,7 +453,7 @@ namespace Analytics
                     LanguageUnit.Sentence, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for words and letters within the sentence
                         var sentenceWords = unit.Identifier.Split(' ');
