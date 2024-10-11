@@ -1,5 +1,10 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Analytics;
+using Letters;
 using Newtonsoft.Json;
+using UnityEngine;
+using Words;
 
 namespace LoadSave
 {
@@ -21,6 +26,10 @@ namespace LoadSave
         private SerializablePlayerPosition currentPosition;
 
         // Words and letters
+        private int playerLanguageLevel;
+        [JsonIgnore] public ConcurrentDictionary<string, LetterData> LettersWeights = new ConcurrentDictionary<string, LetterData>();
+        [JsonIgnore] public ConcurrentDictionary<string, WordData> WordWeights = new ConcurrentDictionary<string, WordData>();
+        //[JsonIgnore] public ConcurrentDictionary<string, SentenceData> SentenceWeights = new ConcurrentDictionary<string, SentenceData>();
         [JsonIgnore] public List<string> CollectedWords = new List<string>();
         [JsonIgnore] public List<char> CollectedLetters = new List<char>();
         private int lifetimeTotalWords;
@@ -30,6 +39,20 @@ namespace LoadSave
         private string clothMid;
         private string clothTop;
         [JsonIgnore] public List<int> BoughtClothes = new List<int>();
+
+        [SerializeField] private bool tutorialHouse;
+        [SerializeField] private bool tutorialMainWorldFirstTime;
+        [SerializeField] private bool tutorialLetterGarden;
+        [SerializeField] private bool tutorialSymbolEater;
+        [SerializeField] private bool tutorialBankFront;
+        [SerializeField] private bool tutorialBankBack;
+        [SerializeField] private bool tutorialRace;
+        [SerializeField] private bool tutorialPathOfDanger;
+        [SerializeField] private bool tutorialFactory;
+        [SerializeField] private bool tutorialMosterTower;
+        [SerializeField] private bool tutorialTransportbond;
+        [SerializeField] private bool tutorialCar;
+        [SerializeField] private bool tutorialDecorHouse;
 
         // Cars
         [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
@@ -48,6 +71,10 @@ namespace LoadSave
         public SerializablePlayerPosition CurrentPosition { get => currentPosition; set => currentPosition = value; }
         
         // Words and letters
+        public int PlayerLanguageLevel { get => playerLanguageLevel; set => playerLanguageLevel = value; }
+        public ConcurrentDictionary<string, LetterData> LettersWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
+        public ConcurrentDictionary<string, WordData> WordWeightsProperty { get => WordWeights; set => WordWeights = value; }
+        //public ConcurrentDictionary<string, SentenceData> SentenceWeightsProperty { get => LettersWeights; set => LettersWeights = value; }
         public List<string> CollectedWordsProperty { get => CollectedWords; set => CollectedWords = value; }
         public List<char> CollectedLettersProperty { get => CollectedLetters; set => CollectedLetters = value; }
         public int LifetimeTotalWords { get => lifetimeTotalWords; set => lifetimeTotalWords = value; }
@@ -60,8 +87,21 @@ namespace LoadSave
         
         // cars
         public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
+        
         //Furniture
         public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
-
+        public bool TutorialHouse { get => tutorialHouse; set => tutorialHouse = value; }
+        public bool TutorialMainWorldFirstTime { get => tutorialMainWorldFirstTime; set => tutorialMainWorldFirstTime = value; }
+        public bool TutorialLetterGarden { get => tutorialLetterGarden; set => tutorialLetterGarden = value; }
+        public bool TutorialSymbolEater { get => tutorialSymbolEater; set => tutorialSymbolEater = value; }
+        public bool TutorialBankFront { get => tutorialBankFront; set => tutorialBankFront = value; }
+        public bool TutorialBankBack { get => tutorialBankBack; set => tutorialBankBack = value; }
+        public bool TutorialRace { get => tutorialRace; set => tutorialRace = value; }
+        public bool TutorialPathOfDanger { get => tutorialPathOfDanger; set => tutorialPathOfDanger = value; }
+        public bool TutorialFactory { get => tutorialFactory; set => tutorialFactory = value; }
+        public bool TutorialMosterTower { get => tutorialMosterTower; set => tutorialMosterTower = value; }
+        public bool TutorialTransportbond { get => tutorialTransportbond; set => tutorialTransportbond = value; }
+        public bool TutorialCar { get => tutorialCar; set => tutorialCar = value; }
+        public bool TutorialDecorHouse { get => tutorialDecorHouse; set => tutorialDecorHouse = value; }
     }
 }

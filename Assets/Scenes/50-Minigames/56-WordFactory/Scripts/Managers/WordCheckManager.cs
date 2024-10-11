@@ -18,7 +18,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private WordValidator wordValidator;
         [SerializeField] private ScoreManager scoreManager;
         [SerializeField] private BlockCreator blockCreator;
-
+        [SerializeField] private AudioSource pullHandleAudioSource;
+        
+        //private bool hasPlayedPullHandleSound = false;
+        public bool waitingForInput = false;
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
 
@@ -32,6 +35,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // created word queue
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
+        public bool isTutorialOver = false;
 
         private void Update()
         {
@@ -59,7 +63,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         public void CheckForWord()
         {
+            // Play PullHandle sound if it's not already playing
             WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+
             
             List<Transform> closestTeeth = closestTeethFinder.FindClosestTeeth(WordFactoryGameManager.Instance.GetGears());
             string formedWord = wordBuilder.BuildWord(closestTeeth);
@@ -77,7 +83,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
                     Debug.Log("Valid word: " + formedWord);
-    
+                    isTutorialOver = true;
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
                     createdWords.Add(formedWord);
@@ -160,7 +166,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerEvents.RaiseGoldChanged(1);
                 PlayerEvents.RaiseXPChanged(1);
                 WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
-        
+                waitingForInput = true;
                 AddWordToPlayerData(word);
                 AddWordToHighScore(word);        
                 
@@ -177,7 +183,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         
         private void AddWordToPlayerData(string word)
         {
-            Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
+            //Debug.Log($"WordCheckManager.AddWordToPlayerData: added {word} to playerdata list");
             
             // Raise the event to send the word to other parts of the game that manage player data
             PlayerEvents.RaiseAddWord(word);

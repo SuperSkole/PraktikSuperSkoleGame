@@ -102,7 +102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 126
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8368996097861606805
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +301,7 @@ MonoBehaviour:
   isNPC: 0
   isCar: 0
   isGasSTT: 1
-  interactions: {fileID: 0}
+  neededLvlToEnter: 0
 --- !u!135 &8419614315819758167
 SphereCollider:
   m_ObjectHideFlags: 0

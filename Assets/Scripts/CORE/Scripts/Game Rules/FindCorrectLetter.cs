@@ -1,3 +1,5 @@
+using Analytics;
+
 namespace CORE.Scripts.Game_Rules
 {
     /// <summary>
@@ -24,7 +26,12 @@ namespace CORE.Scripts.Game_Rules
         {
             return correctLetter.ToUpper();
         }
-        
+
+        public string GetSecondaryAnswer()
+        {
+            return correctLetter.ToUpper();
+        }
+
         /// <summary>
         /// Returns a random letter which is not the correct one
         /// </summary>
@@ -46,7 +53,7 @@ namespace CORE.Scripts.Game_Rules
         /// <returns>Whether it is the correct one</returns>
         public bool IsCorrectSymbol(string symbol)
         {
-            return correctLetter == symbol.ToLower();
+            return correctLetter.ToLower() == symbol.ToLower();
         }
 
 
@@ -64,7 +71,7 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         public void SetCorrectAnswer()
         {
-            correctLetter = LetterManager.GetRandomLetter().ToString().ToLower();
+            correctLetter = GameManager.Instance.PerformanceWeightManager.GetNextLanguageUnitsByTypeAndCategory(LanguageUnit.Letter, LetterCategory.All, 1)[0].Identifier;;
         }
     }
 }

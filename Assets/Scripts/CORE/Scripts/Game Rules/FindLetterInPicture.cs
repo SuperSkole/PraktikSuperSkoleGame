@@ -93,6 +93,11 @@ namespace CORE.Scripts.Game_Rules
         {
             return true;
         }
+
+        public string GetSecondaryAnswer()
+        {
+            return displayName;
+        }
     }
 
 }

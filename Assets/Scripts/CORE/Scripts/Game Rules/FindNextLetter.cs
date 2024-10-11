@@ -31,7 +31,12 @@ namespace CORE.Scripts.Game_Rules
         {
             return "Find bogstavet efter " + previousLetter;
         }
-        
+
+        public string GetSecondaryAnswer()
+        {
+            return "";
+        }
+
         /// <summary>
         /// Returns a random letter which is not the correct one
         /// </summary>

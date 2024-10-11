@@ -1,4 +1,3 @@
-using LoadSave;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,13 +30,13 @@ namespace Scenes._10_PlayerScene.Scripts
         // Actions for sending word, letter and number to playerData
         public static event Action<string> OnAddWord;
         public static event Action<char> OnAddLetter;
-        public static event Action<char> OnAddNumber;
+        //public static event Action<char> OnAddNumber;
 
         public static event Func<List<string>,List<string>> OnPlayerDataWordsExtracted;
 
         public static event Func<List<char>, List<char>> OnPlayerDataLettersExtracted;
         
-        public static event Action<List<char>> OnPlayerDataNumbersExtracted;
+        //public static event Action<List<char>> OnPlayerDataNumbersExtracted;
 
 
 
@@ -98,7 +97,7 @@ namespace Scenes._10_PlayerScene.Scripts
         /// </summary>
         public static List<char> RaisePlayerDataLettersExtracted()
         {
-            if (PlayerManager.Instance.PlayerData.CollectedWords.Count > 0)
+            if (PlayerManager.Instance.PlayerData.CollectedLetters.Count > 0)
             {
                 return PlayerEvents.OnPlayerDataLettersExtracted?.Invoke(PlayerManager.Instance.PlayerData.CollectedLetters);
             }

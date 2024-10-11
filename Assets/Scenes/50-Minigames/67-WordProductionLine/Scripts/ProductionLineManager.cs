@@ -1,21 +1,34 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
+using CORE.Scripts.Game_Rules;
 using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 {
 
 
-    public class ProductionLineManager : MonoBehaviour
+    public class ProductionLineManager : MonoBehaviour, IMinigameSetup
     {
 
         [SerializeField]
         private ProductionLineObjectPool objectPool;
 
+        List<ILanguageUnit> langUnit;
+
 
         private string fixedWord;
+
+
+        private void Start()
+        {
+            langUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(14);
+            
+        }
 
         /// <summary>
         /// gets one letter and checks if its correct or not
@@ -34,8 +47,8 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         /// <returns> random word.</returns>
         public string GetImages()
         {
-
-            string randomWord = WordsForImagesManager.GetRandomWordForImage();
+            
+            string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
 
             return randomWord;
         }
@@ -55,6 +68,11 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             return letter;
 
 
+        }
+
+        public void SetupGame(IGenericGameMode gameMode, IGameRules gameRules)
+        {
+            
         }
     }
 

@@ -1,3 +1,5 @@
+using CORE;
+using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +22,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// A gameobject to have the images sprite onto.
         /// </summary>
         [SerializeField] private GameObject imageObject;
+
+        [SerializeField] private AudioClip correctSound;
+        [SerializeField] private AudioClip incorrectSound;
 
 
         /// <summary>
@@ -281,6 +286,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator IncorrectGuess()
         {
+            AudioManager.Instance.PlaySound(incorrectSound, SoundType.SFX, transform.position);
             readyForDeactivation = true;
             rawImage.color = Color.red;
             meshRenderer.material = incorrectMaterial;
@@ -296,6 +302,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator CorrectGuess()
         {
+            AudioManager.Instance.PlaySound(correctSound, SoundType.SFX, transform.position);
             readyForDeactivation = true;
             rawImage.color = Color.green;
             meshRenderer.material = correctMaterial;

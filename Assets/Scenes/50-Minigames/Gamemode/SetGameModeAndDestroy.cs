@@ -4,6 +4,7 @@ using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +23,7 @@ namespace Scenes._50_Minigames.Gamemode
         [SerializeField] private TextMeshProUGUI title;
 
         [SerializeField]private bool usePlayerLevel = false;
-
+        [SerializeField]private TextMeshProUGUI errorText;
         SceneSwitch sceneSwitcher;
 
         [SerializeField] private int playerLevel = 3;
@@ -89,43 +90,26 @@ namespace Scenes._50_Minigames.Gamemode
                         title.text = "Den Farlige Rute";
                     }
                     break;
+                case 6:
+                    modeSetter = new WordProdutionLineSetter();
+                    sceneSwitcher = new SceneSwitch(SwitchScenes.SwitchToProductionLine);
+                    if (usePlayerLevel)
+                    {
+                        title.text = "Ord Produktion B\u00E5nd";
+                    }
+                    break;
             }
             if(usePlayerLevel)
             {
-                //Destroys the first button if the player is level 1 or if no game mode exist for it.
-                if (playerLevel == 1)
+                SetGameRulesAndGameMode(playerLevel);
+                if(gamemode == null && gameRule == null)
                 {
-                    Destroy(buttons[0]);
+                    buttons[0].SetActive(false);
+                    errorText.text = "Du kan ikke spille det her lige nu. Prøv igen Senere";
                 }
                 else
                 {
-                    Setgamemode(playerLevel - 1);
-                    SetGameRules(playerLevel - 1);
-                    if (gamemode == null && gameRule == null)
-                    {
-                        Destroy(buttons[0]);
-                    }
-                }
-                //Destroys the last button if the player is max level or if no gamemode exist for it.
-                if (playerLevel == 5)
-                {
-                    Destroy(buttons[2]);
-                }
-                else
-                {
-                    Setgamemode(playerLevel + 1);
-                    SetGameRules(playerLevel + 1);
-                    if (gamemode == null && gameRule == null)
-                    {
-                        Destroy(buttons[2]);
-                    }
-                }
-                //Destroys the middle button if no gamemode exists for it
-                Setgamemode(playerLevel);
-                SetGameRules(playerLevel);
-                if (gamemode == null && gameRule == null)
-                {
-                    Destroy(buttons[1]);
+                    errorText.text = "";
                 }
             }
             
@@ -150,15 +134,17 @@ namespace Scenes._50_Minigames.Gamemode
 
             Destroy(gameObject);
         }
+
+        public void SetGameRulesAndGameMode(int level)
+        {
+            (IGameRules, IGenericGameMode) gamerulesAndGamemode = modeSetter.DetermineGamemodeAndGameRulesToUse(level - 1);
+            gameRule = gamerulesAndGamemode.Item1;
+            gamemode = gamerulesAndGamemode.Item2;
+        }
         /// <summary>
         /// sets a gamemode in this object, so that OnSceneLoaded can set the correct gamemode when entering the scene
         /// </summary>
         /// <param name="gamemodeID">The gamemode we are setting</param>
-        public void Setgamemode(int level)
-        {
-            gamemode = modeSetter.SetMode(level - 1);
-        }
-
         public void Setgamemode(string mode)
         {
             gamemode = modeSetter.SetMode(mode);
@@ -167,11 +153,6 @@ namespace Scenes._50_Minigames.Gamemode
         /// sets a gamerule in this object, so that OnSceneLoaded can set the correct GameRule when entering the scene
         /// </summary>
         /// <param name="gameRuleID"></param>
-        public void SetGameRules(int level)
-        {
-            gameRule = modeSetter.SetRules(level - 1);
-        }
-
         public void SetGameRules(string gamerules)
         {
             gameRule = modeSetter.SetRules(gamerules);
@@ -185,8 +166,7 @@ namespace Scenes._50_Minigames.Gamemode
 
         public void OnClick(int mod)
         {
-            Setgamemode(playerLevel + mod);
-            SetGameRules(playerLevel + mod);
+            SetGameRulesAndGameMode(playerLevel + mod);
             sceneSwitcher();
         }
     }

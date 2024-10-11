@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._00_Bootstrapper;
 using Scenes._50_Minigames._54_SymbolEater.Scripts;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
@@ -43,7 +45,17 @@ public class SymbolEaterLevel3 : ISEGameMode
         {
             if (correct)
             {
-                letterCube.Activate(gameRules.GetCorrectAnswer().ToLower(), true);
+                List<char> vowels = LetterRepository.GetVowels().ToList();
+                char letter = 'b';
+                foreach(char charLetter in gameRules.GetSecondaryAnswer())
+                {
+                    if(vowels.Contains(charLetter))
+                    {
+                        letter = charLetter;
+                        break;
+                    }
+                }
+                letterCube.Activate(letter.ToString().ToLower(), true);
                 numberOfCorrectLettersOnBoard++;
             }
             else
@@ -58,6 +70,10 @@ public class SymbolEaterLevel3 : ISEGameMode
         public void GetSymbols()
         {
             gameRules.SetCorrectAnswer();
+            if(gameRules.GetType() == typeof(DynamicGameRules))
+            {
+                gameRules.IsCorrectSymbol(gameRules.GetSecondaryAnswer()[0].ToString());
+            }
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
             {
@@ -70,7 +86,7 @@ public class SymbolEaterLevel3 : ISEGameMode
             //creates a random number of correct letters on the board
             count = 1;
             GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, true, gameRules, boardController.GetPlayer().transform.position);
-            Texture2D answerImage = ImageManager.GetImageFromWord(gameRules.GetDisplayAnswer());
+            Texture2D answerImage = ImageManager.GetImageFromWord(gameRules.GetSecondaryAnswer());
             boardController.SetImage(Sprite.Create(answerImage, new Rect(0.0f, 0.0f, answerImage.width, answerImage.height), new Vector2(0.5f, 0.5f), 100.0f));
             boardController.SetAnswerText("Find vokalen i billedet");
         }
@@ -118,7 +134,7 @@ public class SymbolEaterLevel3 : ISEGameMode
                 //Checks if the player has won. If not a new game is started
                 correctLetters++;
                 boardController.monsterHivemind.IncreaseMonsterSpeed();
-                if (correctLetters < 4)
+                if (correctLetters < 1)
                 {
                     boardController.monsterHivemind.ResetSpeed();
                     GetSymbols();
@@ -195,4 +211,11 @@ public class SymbolEaterLevel3 : ISEGameMode
             maxWrongLetters = max;
         }
 
+        /// <summary>
+        /// Not used
+        /// </summary>
+        public void UpdateLanguageUnitWeight()
+        {
+            
+        }
 }

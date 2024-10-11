@@ -1,8 +1,11 @@
 using CORE.Scripts;
+using Letters;
 using Scenes._50_Minigames._58_MiniRacingGame.Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Words;
 
 public class LevelThreeRacing : IRacingGameMode
 {
@@ -18,7 +21,7 @@ public class LevelThreeRacing : IRacingGameMode
     /// </summary>
     public string displayObjective()
     {
-        return "Kør gennem porten der passer til vokalen i billedet";
+        return "K\u00F8r gennem porten der passer til vokalen i billedet";
     }
 
 
@@ -35,8 +38,24 @@ public class LevelThreeRacing : IRacingGameMode
             //Selects a random vocal letter
             do
             {
+                
                 core.gameRuleVocal.SetCorrectAnswer();
                 core.targetWord = core.gameRuleVocal.GetCorrectAnswer();
+                if(core.languageUnits.Count > 0 && core.languageUnits[0].LanguageUnitType == Analytics.LanguageUnit.Word)
+                {
+                    string word = core.dynamicGameRules.GetSecondaryAnswer();
+                    char vowel = word[0];
+                    List<char> vowels = LetterRepository.GetVowels().ToList();
+                    foreach(char letter in word)
+                    {
+                        if(vowels.Contains(char.ToUpper(letter)))
+                        {
+                            vowel = letter;
+                            break;
+                        }
+                    }
+                    core.targetWord = vowel.ToString();
+                }
             } while (core.spelledWordsList.Contains(core.targetWord));
             if (core.currentMode != GameModes.Mode2)
             {
