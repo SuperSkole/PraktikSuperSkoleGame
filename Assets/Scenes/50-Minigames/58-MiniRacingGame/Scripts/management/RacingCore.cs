@@ -33,7 +33,10 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public readonly FindLetterInPicture gameRuleVocal = new();
         private readonly FindConsonant gameRuleConsonant = new();
         public readonly DynamicGameRules dynamicGameRules = new();
-        private new AudioSource audio;
+
+        [SerializeField] private AudioClip music;
+        [SerializeField] private AudioClip correctSound;
+        [SerializeField] private AudioClip incorrectSound;
 
         public bool imageInitialized = false;
 
@@ -73,7 +76,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
 
         public Dictionary<string, AudioClip> wordsAudioMap = new();
         public Dictionary<string, Sprite> wordsImageMap = new(); //sprite? Or texture2D?
-
+        private IGameRules gameRules;
         public string currentMode;
 
         public IRacingGameMode racingGameMode;
@@ -91,7 +94,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         public void SetupGame(IGenericGameMode gameMode, IGameRules rule)
         {
             racingGameMode = (IRacingGameMode)gameMode;
-            
+            AudioManager.Instance.PlaySound(music, SoundType.Music, true);
             if(rule.GetType() == typeof(DynamicGameRules))
             {
                 dynamicGameRules.SetCorrectAnswer();
@@ -102,8 +105,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             }
             StartUI.SetActive(false);
             raceActive = true;
-            audio = playerCar.GetComponent<AudioSource>();
-
+            gameRules = rule;
             //Set map conditions: (To do : make in seperate script)
             imageDisplayActive = true;
             audioActive = true;
@@ -388,10 +390,15 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
             if (currentMode == GameModes.Mode3 || currentMode == GameModes.Mode2)
             {
                 wrongLetter = gameRuleVocal.GetWrongAnswer().ToCharArray()[0];
+                
             }
             else if (currentMode == GameModes.Mode5)
             {
                 wrongLetter = gameRuleConsonant.GetWrongAnswer().ToCharArray()[0];
+            }
+            else if (gameRules.GetType() == typeof(DynamicGameRules))
+            {
+                wrongLetter = gameRules.GetWrongAnswer()[0];
             }
             else
             {
@@ -411,7 +418,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         {
             foreach (char letter in correctWord)
             {
-                if (wrongLetter == letter)
+                if (char.ToLower(wrongLetter) == char.ToLower(letter))
                 {
                     return true;
                 }
@@ -457,6 +464,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 if (chosenBranch == correctBranch)
                 {
                     Instantiate(coinEffect);
+                    AudioManager.Instance.PlaySound(correctSound, SoundType.SFX);
                     racingGameManager.xp++;
                     racingGameManager.gold++;
                     PlayerEvents.RaiseGoldChanged(1);
@@ -476,6 +484,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
                 else 
                 {
                     GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(targetWord, false);
+                    AudioManager.Instance.PlaySound(incorrectSound, SoundType.SFX);
                 }
                 displayToggle = !displayToggle;
                 correctBranch = (Random.Range(0, 2) == 0) ? Branch.Left : Branch.Right;
@@ -545,14 +554,10 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// <param name="word"></param>
         public void PlayWordAudio(string word)
         {
-            if (audioActive == true && (currentMode == GameModes.Mode2 || currentMode == GameModes.Mode5))
+            if (audioActive && (currentMode == GameModes.Mode2 || currentMode == GameModes.Mode5))
             {
                 AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(word + 1);
-                if (clip && audio.isActiveAndEnabled)
-                {
-                    audio.clip = clip;
-                    audio.Play();
-                }
+                AudioManager.Instance.PlaySound(clip, SoundType.Voice);
             }
         }
         #endregion
