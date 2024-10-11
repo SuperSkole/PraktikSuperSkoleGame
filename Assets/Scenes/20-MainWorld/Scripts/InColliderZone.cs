@@ -97,6 +97,15 @@ namespace Scenes._20_MainWorld.Scripts
                     carEventsMa.interactionIcon.SetActive(true);
                 }
                 catch { }
+            } 
+            else if (collision.gameObject.CompareTag("Player") && isGasSTT)
+            {
+                try
+                {
+                    playerEventManager.PlayerInteraction = action;
+                    playerEventManager.interactionIcon.SetActive(true);
+                }
+                catch { }
             }
         }
 

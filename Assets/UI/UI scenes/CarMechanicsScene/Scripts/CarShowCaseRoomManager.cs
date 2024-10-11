@@ -13,7 +13,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
     [SerializeField] private List<SpeceficCarMaterialnfo> CarListMaterials;
     [SerializeField] private Transform ShowcasedSpawnPoint;
     private GameObject spawnedCar;
-    [SerializeField] private float rotationSpeed = 20f;  // Adjust speed here
+    [SerializeField] private float rotationSpeed = 20f;
     string clickedMaterialName = string.Empty;
 
 
@@ -70,17 +70,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 break;
             }
         }
-        UpdateValues();
-
-
-        //SpawnCar(ShowcasedCar[0]);
-        //StartCoroutine(StartRotationOfCar());
+        UpdateValues(); 
     }
 
     private void InstantiateColorBoxes(CarMaterialnfo info, int index)
     {
-        //var spawnedObj = Instantiate(colorOptionsPrefab, colorOptionsParent).GetComponent<CarShowCaseButtons>();
-
         // Instantiate the prefab and get the component
         var spawnedObj = Instantiate(colorOptionsPrefab, colorOptionsParent.transform);
         var showcaseButtons = spawnedObj.GetComponent<CarColorShowCaseButtons>();
@@ -100,8 +94,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
             Debug.LogError($"Invalid color string: {info.MaterialName}. Defaulting to white.");
             backgroundImage.color = Color.white;
         }
-
-        //spawnedObj.GetComponentInChildren<TextMeshProUGUI>().text = info.MaterialName;
 
         // Set the object's name to a custom name without the "(Clone)" suffix
         spawnedObj.gameObject.name = $"ColorButton ({index})";
@@ -153,11 +145,6 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         return 0;
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="value">Car from list name</param>
-    /// <returns></returns>
     private GameObject ReturnThePlayerCar(string value)
     {
         foreach (var item in ShowcasedCar)
@@ -169,11 +156,7 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         return null;
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="value">Material Name</param>
-    /// <returns></returns>
+
     private Material ReturnTheRightMaterial(string value, string carName)
     {
         foreach (var item in CarListMaterials)
@@ -427,6 +410,9 @@ public class CarShowCaseRoomManager : MonoBehaviour
         colorsTab.SetActive(false);
         carsTabs.SetActive(true);
 
+        priceHolder.enabled = false;
+        price.enabled = false;
+
         UpdateCarButtonInfo();
 
         foreach (var item in colorBoxsList)
@@ -435,6 +421,8 @@ public class CarShowCaseRoomManager : MonoBehaviour
         }
         colorBoxsList.Clear();
         isOnColorTab = false;
+
+        FindCarButtonInstance();
     }
     private void UpdateCarButtonInfo()
     {
@@ -454,6 +442,20 @@ public class CarShowCaseRoomManager : MonoBehaviour
                 }
             }
         }
+    }
+    private void FindCarButtonInstance()
+    {
+        for (int i = 0; i < ShowcasedCar.Count; i++)
+        {
+            var tmp = GameObject.Find($"CarButton ({i})").GetComponent<CarShowCaseButton>();
+            if (tmp.nameOfCar+"(Clone)" == spawnedCar.name)
+            {
+                carButtonInstance = tmp;
+                break;
+            }
+        }
+
+
     }
 
     private bool isOnColorTab = true;
@@ -490,14 +492,22 @@ public class CarShowCaseRoomManager : MonoBehaviour
     /// <returns></returns>
     private bool ReturnIsCarActive()
     {
-        foreach (var item in playerData.ListOfCars)
+        try//A try here so we dont get a red error when clicking on the colorbutton before clicking on the car button
         {
-            if (carButtonInstance.nameOfCar == item.Name)
+            foreach (var item in playerData.ListOfCars)
             {
-                return true;
+                if (carButtonInstance.nameOfCar == item.Name)
+                {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        catch 
+        {
+            return false;
+        }
+        
     }
 
     private IEnumerator StartRotationOfCar()
