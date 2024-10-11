@@ -19,7 +19,10 @@ namespace Scenes._20_MainWorld.Scripts.Car
             set { fuelAmount = value; }
         }
         public Image fuelGauge;
-
+        private void OnEnable()
+        {
+            FuelAmount = PlayerManager.Instance.PlayerData.FuelAmount;
+        }
         private void Awake()
         {
             carController = GetComponent<PrometeoCarController>();
@@ -36,6 +39,7 @@ namespace Scenes._20_MainWorld.Scripts.Car
                 if (time > 0.1f && IsThereFuelLeft())
                 {
                     UpdateFuel();
+                    carController.SetEnabledValue(true);
                     time = 0.0f;
                 }
                 else if (!IsThereFuelLeft())
