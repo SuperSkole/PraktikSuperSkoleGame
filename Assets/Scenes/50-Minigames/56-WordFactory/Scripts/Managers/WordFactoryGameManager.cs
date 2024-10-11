@@ -55,7 +55,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             Playerlevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
-            Playerlevel = 3;
+            //Playerlevel = 3;
             if (Playerlevel < 3)
             {
                 // Player level too low, load the main scene
