@@ -515,7 +515,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Set the player's position to player house magic number
                     spawnedPlayer.GetComponent<Rigidbody>().position = new Vector3(0, 2, 0);
                     spawnedPlayer.transform.position = new Vector3(0, 2, 0);
-                    Debug.Log("Player spawned in house at 0,2,0");
+                    //Debug.Log("Player spawned in house at 0,2,0");
                 }
                 else
                 {

@@ -92,7 +92,7 @@ public class FindPlayerForButton : MonoBehaviour
 
             if (carGO != null)
             {
-                Debug.Log("Found Car");
+                //Debug.Log("Found Car");
             }
 
             yield return new WaitForSeconds(0.5f); // Keep checking every 0.5 seconds
