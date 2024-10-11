@@ -59,7 +59,7 @@ namespace Scenes._50_Minigames.Gamemode
                     mode = letterGameModes[Random.Range(3, 5)];
                     break;
                 case LanguageUnit.Word:
-                    mode = wordGameModes[Random.Range(3, 5)];
+                    mode = wordGameModes[3];
                     break;
             }
 

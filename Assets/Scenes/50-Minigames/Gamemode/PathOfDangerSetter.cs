@@ -48,7 +48,8 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 20);
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ko", 60);
+            
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode = null ;
 
@@ -56,9 +57,11 @@ namespace Scenes._50_Minigames.Gamemode
             {
                 case LanguageUnit.Letter:
                     mode = letterGameModes[Random.Range(3, 5)];
+                    Debug.Log("Using Letter");
                     break;
                 case LanguageUnit.Word:
-                    mode = wordGameModes[Random.Range(3, 5)];
+                    mode = wordGameModes[3];
+                    Debug.Log("Using Word");
                     break;
             }
 
