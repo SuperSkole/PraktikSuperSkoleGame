@@ -5,6 +5,7 @@ namespace CORE
 {
     public static class ProfanityFilter
     {
+        // TODO : add more slurs
         private static readonly HashSet<string> bannedWords = new HashSet<string>
         {
             "ass", "pussy", "fuck", "åndsforsnottet", "skidespræller","skvadderhoved", "pestspreder", "skvatpisser", 
