@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 
@@ -18,6 +19,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         [SerializeField] private int throwRange = 5;
 
+        [SerializeField] private AudioClip walkSound;
+
         [SerializeField] Vector3 currentDestination;
         public float speed = 0.5f;
 
@@ -32,6 +35,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         [SerializeField] private GameObject targetMarker;
 
         [SerializeField] private GameObject rangeMarker;
+        [SerializeField] private AudioClip grabSound;
+        [SerializeField] private AudioClip throwSound;
 
         GameObject spawnedRangeMarker;
 
@@ -47,18 +52,17 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 
         private BoardController boardController;
 
-    /// <summary>
-    /// Gets the monster ready for movement and gets reference to the player script
-    /// </summary>
-    void Start()
-    {
-        currentDestination = transform.position;
-        if(player == null)
+        /// <summary>
+        /// Gets the monster ready for movement and gets reference to the player script
+        /// </summary>
+        void Start()
         {
-            player = playerObject.GetComponent<SymbolEaterPlayer>();
+            currentDestination = transform.position;
+            if(player == null)
+            {
+                player = playerObject.GetComponent<SymbolEaterPlayer>();
+            }
         }
-    }
-
         public void SetBord(BoardController board)
         {
             boardController = board;
@@ -110,7 +114,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                     velocity.x = 0;
                 }
                 currentDestination = velocity + transform.position;
+                transform.LookAt(currentDestination);
+                //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.x, 0);
                 Move();
+                //AudioManager.Instance.PlaySound(walkSound, SoundType.SFX, transform.position);
             }
             else if (canWalkTowardsPlayer)
             {
@@ -129,6 +136,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
             if (other.gameObject.tag == "Player" && !player.thrown)
             {
                 ThrowPlayer();
+                AudioManager.Instance.PlaySound(grabSound, SoundType.SFX, transform.position);
                 //canWalk = false;
             }
         }
@@ -145,8 +153,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 player.gameObject.GetComponent<CapsuleCollider>().enabled = false;
                 //sets up the rangemarker
                 Vector3 scale = new Vector3(throwRange * 0.2f, 0, throwRange * 0.2f);
-                spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
-                spawnedRangeMarker.transform.localScale = scale;
+                //spawnedRangeMarker = Instantiate(rangeMarker, transform.position, Quaternion.identity);
+                //spawnedRangeMarker.transform.localScale = scale;
                 //removes a life from the player
                 if (player.LivesRemaining > 0)
                 {
@@ -231,7 +239,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 {
                     if(safty >= 100) return;
                     safty++;
-                    Destroy(spawnedRangeMarker);
+                    //Destroy(spawnedRangeMarker);
                     ThrowPlayer();
                     return;
                 }
@@ -285,6 +293,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 Vector3 m1 = Vector3.Lerp(playerCatchPoint, throwArcPoint, throwArcProgress);
                 Vector3 m2 = Vector3.Lerp(throwArcPoint, throwReleasePoint, throwArcProgress);
                 player.transform.position = Vector3.Lerp(m1, m2, throwArcProgress);
+                transform.LookAt(player.transform.position);
             }
             //Cleanup once the player has reached the endpoint of the arc
             else
@@ -293,7 +302,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
                 canWalkTowardsPlayer = true;
                 player.CurrentDestination = playerDestination;
                 Instantiate(targetMarker, playerDestination, Quaternion.identity);
-                Destroy(spawnedRangeMarker);
+                AudioManager.Instance.PlaySound(throwSound, SoundType.SFX, transform.position);
+                //Destroy(spawnedRangeMarker);
             }
         }
 

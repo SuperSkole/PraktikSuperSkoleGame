@@ -217,7 +217,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             if (data == null)//if there isnt a save, we create the data needed for the save
             {
-                Debug.Log("No Save was Found");
+                //Debug.Log("No Save was Found");
                 saveDataHasBeenMade = false;
                 CreateHouseSaveData();
                 return;
@@ -237,7 +237,7 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Apply the loaded grid data to the house systems
             itemContainer.SavedGridData = houseDataDTO.SavedGridData;
 
-            Debug.Log("House data applied successfully.");
+            //Debug.Log("House data applied successfully.");
         }
 
         public void EnableBuildingSystem()

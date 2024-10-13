@@ -37,7 +37,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] private RectTransform screenShotBounds;
         [SerializeField] private GameObject correctLetterBox;
         [SerializeField] private TMP_FontAsset altFont;
-
+        public bool IsTutorualOver = false;
 
         private void Start()
         {
@@ -159,7 +159,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
                 if(letterHandler.CheakDwaingQualaty(currentLineRenderer))
                 {
                     currentLineRenderer = null;
-                    if(currentSymbol != letterHandler.currentSymbol)
+                    IsTutorualOver = true;
+                    if (currentSymbol != letterHandler.currentSymbol)
                     {
                         currentSymbol = letterHandler.currentSymbol;
                         StartCoroutine(TakeScreenShot());

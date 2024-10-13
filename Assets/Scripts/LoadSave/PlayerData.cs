@@ -46,12 +46,26 @@ namespace LoadSave
         [SerializeField] private string clothTop;
         [JsonIgnore] public List<int> BoughtClothes = new List<int>();
 
+        [SerializeField] private bool tutorialHouse;
+        [SerializeField] private bool tutorialMainWorldFirstTime;
+        [SerializeField] private bool tutorialLetterGarden;
+        [SerializeField] private bool tutorialSymbolEater;
+        [SerializeField] private bool tutorialBankFront;
+        [SerializeField] private bool tutorialBankBack;
+        [SerializeField] private bool tutorialRace;
+        [SerializeField] private bool tutorialPathOfDanger;
+        [SerializeField] private bool tutorialFactory;
+        [SerializeField] private bool tutorialMosterTower;
+        [SerializeField] private bool tutorialTransportbond;
+        [SerializeField] private bool tutorialCar;
+        [SerializeField] private bool tutorialDecorHouse;
+
 
         //For the Car
         [JsonIgnore] public List<CarInfo> ListOfCars = new List<CarInfo>();
         [ExcludeFromSave] public Vector3 CarPos { get; set; } = new Vector3(-13, 0, 35);
         [ExcludeFromSave] public quaternion CarRo { get; set; } = new Quaternion(0, 180, 0, 1);
-        [ExcludeFromSave] public float FuelAmount { get; set; } = 1f;
+        public float FuelAmount { get; set; }
 
         // Furniture
         [JsonIgnore] public List<int> ListOfFurniture = new List<int>();
@@ -89,6 +103,20 @@ namespace LoadSave
 
         //Furniture
         public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
+
+        public bool TutorialHouse { get => tutorialHouse; set => tutorialHouse = value; }
+        public bool TutorialMainWorldFirstTime { get => tutorialMainWorldFirstTime; set => tutorialMainWorldFirstTime = value; }
+        public bool TutorialLetterGarden { get => tutorialLetterGarden; set => tutorialLetterGarden = value; }
+        public bool TutorialSymbolEater { get => tutorialSymbolEater; set => tutorialSymbolEater = value; }
+        public bool TutorialBankFront { get => tutorialBankFront; set => tutorialBankFront = value; }
+        public bool TutorialBankBack { get => tutorialBankBack; set => tutorialBankBack = value; }
+        public bool TutorialRace { get => tutorialRace; set => tutorialRace = value; }
+        public bool TutorialPathOfDanger { get => tutorialPathOfDanger; set => tutorialPathOfDanger = value; }
+        public bool TutorialFactory { get => tutorialFactory; set => tutorialFactory = value; }
+        public bool TutorialMosterTower { get => tutorialMosterTower; set => tutorialMosterTower = value; }
+        public bool TutorialTransportbond { get => tutorialTransportbond; set => tutorialTransportbond = value; }
+        public bool TutorialCar { get => tutorialCar; set => tutorialCar = value; }
+        public bool TutorialDecorHouse { get => tutorialDecorHouse; set => tutorialDecorHouse = value; }
 
         /// <summary>
         /// Initializes the player's data with the provided parameters.
@@ -133,7 +161,21 @@ namespace LoadSave
             string topCloth,
             List<int> boughtClothes,
             List<CarInfo> listOfCars,
-            List<int> ListOfFurniture)
+            List<int> ListOfFurniture,
+            float fuelAmount,
+            bool tutorialHouse,
+            bool tutorialMainWorldFirstTime,
+            bool tutorialLetterGarden,
+            bool tutorialSymbolEater,
+            bool tutorialBankFront,
+            bool tutorialBankBack,
+            bool tutorialRace,
+            bool tutorialPathOfDanger,
+            bool tutorialFactory,
+            bool tutorialMosterTower,
+            bool tutorialTransportbond,
+            bool tutorialCar,
+            bool tutorialDecorHouse)
         {
             this.username = username;
             this.monsterName = monsterName;
@@ -174,9 +216,24 @@ namespace LoadSave
             // cars
             ListOfCars.Clear();
             ListOfCars.AddRange(listOfCars);
-            
+            FuelAmount = fuelAmount;
+
             // Furniture
             this.ListOfFurniture = ListOfFurniture;
+
+            this.tutorialHouse = tutorialHouse;
+            this.tutorialMainWorldFirstTime = tutorialMainWorldFirstTime;
+            this.tutorialLetterGarden = tutorialLetterGarden;
+            this.tutorialSymbolEater = tutorialSymbolEater;
+            this.tutorialBankFront = tutorialBankFront;
+            this.tutorialBankBack = tutorialBankBack;
+            this.tutorialRace = tutorialRace;
+            this.tutorialPathOfDanger = tutorialPathOfDanger;
+            this.tutorialFactory = tutorialFactory;
+            this.tutorialMosterTower = tutorialMosterTower;
+            this.tutorialTransportbond = tutorialTransportbond;
+            this.tutorialCar = tutorialCar;
+            this.tutorialDecorHouse = tutorialDecorHouse;
         }
 
         public void SetLastInteractionPoint(Vector3 position)

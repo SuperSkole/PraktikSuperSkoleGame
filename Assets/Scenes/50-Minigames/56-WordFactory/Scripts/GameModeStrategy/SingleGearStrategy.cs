@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CORE.Scripts;
+using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
@@ -20,13 +21,16 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
         public List<List<char>> GetLettersForGears()
         {
-            // The number of teeth on the gear is fixed at 9
-            //int numberOfTeeth = 9;
-
-            // Fetch a random word from WordManager
-            List<string> words = WordsManager.GetRandomWordsFromCombinationByCount(1);
-            //Debug.Log("SingleGearStrategy.GetLettersForWords(): Chosen word: " + words[0]);
-            string selectedWord = words.FirstOrDefault();
+            var wordList = WordFactoryGameManager.Instance.WordList;
+    
+            if (!wordList.Any())
+            {
+                Debug.LogError("No words available for Single Gear Strategy.");
+                return null;
+            }
+            
+            // Take the first word (highest-weighted word)
+            string selectedWord = wordList.First();
 
             if (string.IsNullOrEmpty(selectedWord))
             {

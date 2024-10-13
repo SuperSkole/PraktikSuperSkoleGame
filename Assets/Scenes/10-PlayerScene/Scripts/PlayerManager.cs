@@ -1,6 +1,3 @@
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Analytics;
 using Cinemachine;
 using CORE;
 using CORE.Scripts;
@@ -9,6 +6,7 @@ using LoadSave;
 using Scenes._24_HighScoreScene.Scripts;
 using Scenes._88_LeaderBoard.Scripts;
 using Spine.Unity;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -250,7 +248,21 @@ namespace Scenes._10_PlayerScene.Scripts
                 new List<int>()
                 {
                     0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 11, 10, 12
-                }
+                },
+                1f,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
             );
 
             if (GameManager.Instance.IsPlayerBootstrapped)
@@ -284,7 +296,7 @@ namespace Scenes._10_PlayerScene.Scripts
             DontDestroyOnLoad(spawnedPlayer);
 
             GameManager.Instance.IsNewGame = false;
-            
+
             GameManager.Instance.PerformanceWeightManager.InitializeLetterWeights();
             GameManager.Instance.PerformanceWeightManager.InitializeWordWeights();
             GameManager.Instance.SpacedRepetitionManager.InitializeTimeWeights();
@@ -349,7 +361,21 @@ namespace Scenes._10_PlayerScene.Scripts
                 saveData.ClothTop,
                 saveData.BoughtClothes,
                 saveData.ListOfCars,
-                saveData.ListOfFurniture
+                saveData.ListOfFurniture,
+                saveData.FuelAmount,
+                saveData.TutorialHouse,
+                saveData.TutorialMainWorldFirstTime,
+                saveData.TutorialLetterGarden,
+                saveData.TutorialSymbolEater,
+                saveData.TutorialBankFront,
+                saveData.TutorialBankBack,
+                saveData.TutorialRace,
+                saveData.TutorialPathOfDanger,
+                saveData.TutorialFactory,
+                saveData.TutorialMosterTower,
+                saveData.TutorialTransportbond,
+                saveData.TutorialCar,
+                saveData.TutorialDecorHouse
             );
 
 
@@ -377,9 +403,9 @@ namespace Scenes._10_PlayerScene.Scripts
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
-            
+
             GameManager.Instance.SpacedRepetitionManager.UpdateWeightsBasedOnTime();
-            GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
+            //GameManager.Instance.PerformanceWeightManager.PrintAllWeights();
         }
 
         // TODO maybe refactor onSceneLoaded into new script 
@@ -515,7 +541,7 @@ namespace Scenes._10_PlayerScene.Scripts
                     // Set the player's position to player house magic number
                     spawnedPlayer.GetComponent<Rigidbody>().position = new Vector3(0, 2, 0);
                     spawnedPlayer.transform.position = new Vector3(0, 2, 0);
-                    Debug.Log("Player spawned in house at 0,2,0");
+                    //Debug.Log("Player spawned in house at 0,2,0");
                 }
                 else
                 {

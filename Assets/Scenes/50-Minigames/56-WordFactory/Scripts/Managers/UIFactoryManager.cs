@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
@@ -19,6 +20,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
     /// </summary>
     public class UIFactoryManager : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI correctWordText;
+        [SerializeField] private TextMeshProUGUI wrongWordText; 
         [SerializeField] private Image infoBoardHolder;  
         [SerializeField] private Image lightHolder;     
 
@@ -60,6 +63,13 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             }
 
             StartCoroutine(ResetInfoBoard(5f));
+        }
+        
+        // Call this method whenever the count changes
+        public void UpdateWordCounts(int correct, int total, int wrong)
+        {
+            correctWordText.text = $"Ord: {correct}/{total}";
+            wrongWordText.text = $"Fejl: {wrong}/3";
         }
 
         /// <summary>

@@ -36,20 +36,20 @@ namespace Scenes._00_Bootstrapper
             switch (detectedDeviceType)
             {
                 case DeviceType.Desktop:
-                    Debug.Log("Device detected: Running on a Desktop device.");
+                    //Debug.Log("Device detected: Running on a Desktop device.");
                     GameManager.Instance.UserDevice = DeviceType.Desktop;
                     break;
                 case DeviceType.Handheld:
-                    Debug.Log("Device detected: Running on a Handheld device");
+                    //Debug.Log("Device detected: Running on a Handheld device");
                     GameManager.Instance.UserDevice = DeviceType.Handheld;
                     break;
                 case DeviceType.Console:
-                    Debug.Log("Device detected: Running on a Console device.");
+                    //Debug.Log("Device detected: Running on a Console device.");
                     GameManager.Instance.UserDevice = DeviceType.Console;
                     break;
                 case DeviceType.Unknown:
                 default:
-                    Debug.Log("Device detected: Running on an Unknown device type.");
+                    //Debug.Log("Device detected: Running on an Unknown device type.");
                     GameManager.Instance.UserDevice = DeviceType.Unknown;
                     break;
             }

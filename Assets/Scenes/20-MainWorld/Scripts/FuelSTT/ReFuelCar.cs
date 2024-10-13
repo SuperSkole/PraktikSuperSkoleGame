@@ -23,7 +23,7 @@ public class ReFuelCar : MonoBehaviour
     private void Awake()
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
-        carFuelMa = GameObject.Find("Prometheus Variant").GetComponent<CarFuelMangent>();
+        carFuelMa = GameObject.FindGameObjectWithTag("Car").GetComponent<CarFuelMangent>();
     }
     private void OnEnable()
     {

@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CORE;
 using CORE.Scripts;
 using Scenes._50_Minigames._56_WordFactory.Scripts.Managers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 {
@@ -16,18 +17,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
         {
             int numberOfGears = WordFactoryGameManager.Instance.GetNumberOfGears();
             int numberOfTeeth = WordFactoryGameManager.Instance.GetNumberOfTeeth();
-            int difficulty = WordFactoryGameManager.Instance.GetDifficultyLevel();
-
-            int numberOfWords = numberOfTeeth - difficulty;
-
-            // todo get words from DDA, then spilt words and use, and if any listters use for fill remanindletters method
             
+            var words = WordFactoryGameManager.Instance.WordList;
             
-            List<string> words = WordsManager.GetRandomWordsByLengthAndCount(numberOfGears, numberOfWords);
+            //Debug.Log("chosen words: " + string.Join(", ", words));
 
-            if (words.Count < numberOfWords)
+            if (words.Count < numberOfGears)
             {
-                Debug.LogError("Not enough valid wordsOrLetters available.");
+                Debug.LogError("Not enough valid words available.");
                 return null;
             }
 
@@ -63,12 +60,12 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
 
             return gearLetters;
         }
-
+        
         private void FillRemainingLetters(List<List<char>> gearLetters, int numberOfTeeth)
         {
             // Set to track used letters to avoid duplicates
             HashSet<char> usedLetters = new HashSet<char>();
-
+        
             // Add the already used letters from gearLetters to the set
             foreach (var gear in gearLetters)
             {
@@ -77,7 +74,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
                     usedLetters.Add(letter);
                 }
             }
-
+        
             foreach (var gear in gearLetters)
             {
                 while (gear.Count < numberOfTeeth)
@@ -88,7 +85,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.GameModeStrategy
                         // Generate a new letter
                         newLetter = LetterManager.GetRandomLetters(1).First();
                     } while (usedLetters.Contains(newLetter)); 
-
+        
                     // Add the new unique letter to the gear and track it
                     gear.Add(newLetter);
                     usedLetters.Add(newLetter);

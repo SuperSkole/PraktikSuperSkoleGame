@@ -271,7 +271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   katjaFeSkeleton: {fileID: 3327973866342063855}
   offButton: {fileID: 8062408825451320099}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 9081588609098292349}
   tutorial: 0
 --- !u!82 &9081588609098292349
 AudioSource:
@@ -282,7 +282,7 @@ AudioSource:
   m_GameObject: {fileID: 4930651543218279197}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -5101719981853252328, guid: 50f1c46d3c16cea429317672546405d0, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
