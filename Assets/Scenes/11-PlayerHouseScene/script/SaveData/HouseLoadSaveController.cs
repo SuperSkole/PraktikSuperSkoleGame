@@ -33,7 +33,6 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             // Use SaveGameController to save the house data to Unity Cloud Save
             await saveGameController.SaveDataAsync(houseDataDTO, HOUSETAG);
 
-            //Debug.Log("House data saved successfully to cloud.");
         }
 
         public async Task<T> LoadGridData<T>() where T : IDataTransferObject
