@@ -159,12 +159,19 @@ namespace Scenes._00_Bootstrapper
 
         private IEnumerator LoadAllTextures()
         {
-            
+            foreach (Texture2D fileName in soundCorrectImages)
+            {
+                StartCoroutine(LoadAndSetDic(fileName));
+            }
+            foreach (Texture2D fileName in onsetImages)
+            {
+
+            }
             foreach (Texture2D fileName in images)
             {
                 StartCoroutine(LoadAndSetDic(fileName));
             }
-            yield return null;
+            return null;
         }
 
         private IEnumerator LoadAndSetDic(Texture2D texture)
@@ -173,9 +180,6 @@ namespace Scenes._00_Bootstrapper
             name = GetName(name);
             string firstLetterName = name[0].ToString();
             
-
-            
-
 
             ImageManager.AddImageToSet(name, texture);
             ImageManager.AddImageToLetterSet(firstLetterName, texture);

@@ -19,6 +19,9 @@ namespace CORE.Scripts
     {
 
         private static Dictionary<string, List<Texture2D>> imageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> onsetImageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> soundCorrectImageDictionary = new();
+
 
         private static Dictionary<string, List<Texture2D>> letterImageDictionary = new();
 
