@@ -94,7 +94,7 @@ MonoBehaviour:
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
   m_MaxConnectAttempts: 60
-  m_DisconnectTimeoutMS: 30000
+  m_DisconnectTimeoutMS: 7000
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
@@ -151,3 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfecb8cf2cfb27640b6621beda52253b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverID: 
+  isCharacterSpawned: 0

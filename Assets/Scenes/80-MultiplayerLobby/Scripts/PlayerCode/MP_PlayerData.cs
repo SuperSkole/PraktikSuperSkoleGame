@@ -1,22 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Services.Authentication;
-using UnityEngine;
 
 public class MP_PlayerData : NetworkBehaviour
 {
     public NetworkVariable<FixedString128Bytes> playerId = new();
 
+    /// <summary>
+    /// Saves the player's id to easily fetch it later.
+    /// </summary>
     public void SetupId()
     {
-        if(IsOwner)
+        if (IsOwner)
             setIdServerRpc(AuthenticationService.Instance.PlayerId);
     }
 
+    /// <summary>
+    /// Sets the id on the server.
+    /// </summary>
+    /// <param name="id"></param>
     [ServerRpc(RequireOwnership = false)]
-    void setIdServerRpc(string id)
+    private void setIdServerRpc(string id)
     {
         playerId.Value = id;
     }

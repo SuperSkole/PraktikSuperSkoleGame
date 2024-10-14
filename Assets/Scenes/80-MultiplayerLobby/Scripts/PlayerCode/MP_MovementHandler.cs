@@ -1,13 +1,8 @@
-using Cinemachine;
-using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using TMPro;
-using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class MP_MovementHandler : NetworkBehaviour
 {
@@ -26,7 +21,7 @@ public class MP_MovementHandler : NetworkBehaviour
     [SerializeField] private PlayerAnimatior animator;
     [SerializeField] private Transform spriteTransform;
     private ISkeletonComponent skeleton;
-    MP_PlayerSetupHandler playerSetup;
+    private MP_PlayerSetupHandler playerSetup;
 
     [SerializeField] private GameObject textDisplay;
     public NetworkVariable<Vector3> textRotation = new();
@@ -56,7 +51,7 @@ public class MP_MovementHandler : NetworkBehaviour
     {
         if (IsOwner)
         {
-            if(EventSystem.current.currentSelectedGameObject == null)
+            if (EventSystem.current.currentSelectedGameObject == null)
             {
                 HandleInput();
                 HandleAnimation();

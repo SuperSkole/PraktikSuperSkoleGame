@@ -1082,10 +1082,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7626879175392938943, guid: 9ce7c72f83c960346b871f98f3323df2, type: 3}
-      propertyPath: m_DisconnectTimeoutMS
-      value: 7000
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2671,7 +2667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4308885848898473052, guid: 483db8eabc4792c47969f29b350220e3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0000029057264
+      value: -0.0000104904175
       objectReference: {fileID: 0}
     - target: {fileID: 4348053783687639226, guid: 483db8eabc4792c47969f29b350220e3, type: 3}
       propertyPath: m_Name
@@ -2696,10 +2692,6 @@ PrefabInstance:
     - target: {fileID: 6570391225727200120, guid: 483db8eabc4792c47969f29b350220e3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8328780052071386968, guid: 483db8eabc4792c47969f29b350220e3, type: 3}
-      propertyPath: m_UiScaleMode
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

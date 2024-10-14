@@ -2,15 +2,11 @@ using Cinemachine;
 using LoadSave;
 using Scenes._10_PlayerScene.Scripts;
 using Spine.Unity;
-using System.Collections.Generic;
-using System.Globalization;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class MP_PlayerSetupHandler : NetworkBehaviour
 {
@@ -21,17 +17,19 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
     private TextMeshProUGUI textField;
 
     private ISkeletonComponent skeleton;
-    MP_PlayerData MPData;
-    CinemachineVirtualCamera playerCamera;
+    private CinemachineVirtualCamera playerCamera;
 
     public NetworkVariable<FixedString32Bytes> colorPick = new();
     public NetworkVariable<FixedString32Bytes> clothMid = new();
     public NetworkVariable<FixedString32Bytes> clothTop = new();
     public NetworkVariable<FixedString32Bytes> text = new();
-
-    MP_MovementHandler movementHandler;
+    private MP_MovementHandler movementHandler;
     #endregion
 
+    #region setup
+    /// <summary>
+    /// Sets up the MP character to be a copy of the SP character.
+    /// </summary>
     public void SetupCharacter()
     {
         GetComponents();
@@ -46,7 +44,7 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
         {
             if (IsOwner)
             {
-                playerCamera.Follow = this.gameObject.transform;
+                playerCamera.Follow = gameObject.transform;
                 GameObject originPlayer = GameObject.Find("PlayerMonster");
                 string monsterColor = originPlayer.GetComponent<PlayerData>().MonsterColor;
                 RequestColorPickServerRpc(monsterColor);
@@ -64,6 +62,9 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
         NetworkManager.Singleton.GetComponent<Scenes.MultiplayerLobby.Scripts.StartClient>().isCharacterSpawned = true;
     }
 
+    /// <summary>
+    /// Removes several calls when despawning.
+    /// </summary>
     public override void OnNetworkDespawn()
     {
         colorPick.OnValueChanged -= UpdateColorServerRpc;
@@ -72,17 +73,22 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
         text.OnValueChanged -= UpdateNameServerRpc;
     }
 
+    /// <summary>
+    /// Fetches relevant components.
+    /// </summary>
     private void GetComponents()
     {
-        MPData = GetComponent<MP_PlayerData>();
         skeleton = GetComponentInChildren<ISkeletonComponent>();
         clothChange = GetComponent<ClothChanging>();
         colorChange = GetComponent<ColorChanging>();
         textField = GetComponentInChildren<TextMeshProUGUI>();
-        textDisplay = this.gameObject.transform.Find("Canvas").Find("NameDisplay").GameObject();
+        textDisplay = gameObject.transform.Find("Canvas").Find("NameDisplay").GameObject();
         movementHandler = GetComponent<MP_MovementHandler>();
     }
 
+    /// <summary>
+    /// Sets up listeners to ensure everyone gets updated properly.
+    /// </summary>
     private void SetupListener()
     {
         colorPick.OnValueChanged += UpdateColorServerRpc;
@@ -90,6 +96,7 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
         clothTop.OnValueChanged += UpdateCloth;
         text.OnValueChanged += UpdateNameServerRpc;
     }
+    #endregion
 
     #region ColorHandling
     /// <summary>
@@ -122,7 +129,7 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
     [ClientRpc]
     private void UpdateColorClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        if (StringIsSetCheck(current.ToString()))
+        if (string.IsNullOrWhiteSpace(current.ToString()))
         {
             colorChange.ColorChange(current.ToString());
         }
@@ -169,7 +176,7 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
     [ClientRpc]
     private void UpdateClothClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        if (StringIsSetCheck(current.ToString()))
+        if (string.IsNullOrWhiteSpace(current.ToString()))
         {
             clothChange.ChangeClothes(current.ToString(), skeleton);
         }
@@ -207,42 +214,27 @@ public class MP_PlayerSetupHandler : NetworkBehaviour
     [ClientRpc]
     private void UpdateNameClientRpc(FixedString32Bytes past, FixedString32Bytes current)
     {
-        if (StringIsSetCheck(current.ToString()))
+        if (string.IsNullOrWhiteSpace(current.ToString()))
         {
             textField.text = current.ToString();
         }
     }
     #endregion
 
+    /// <summary>
+    /// The last bits of setup to handle, mainly to set up the visuals properly.
+    /// </summary>
     private void lastSetup()
     {
-        if (StringIsSetCheck(colorPick.Value.ToString()))
+        if (string.IsNullOrWhiteSpace(colorPick.Value.ToString()))
             colorChange.ColorChange(colorPick.Value.ToString());
-        if (StringIsSetCheck(clothMid.Value.ToString()))
+        if (string.IsNullOrWhiteSpace(clothMid.Value.ToString()))
             clothChange.ChangeClothes(clothMid.Value.ToString(), skeleton);
-        if (StringIsSetCheck(clothTop.Value.ToString()))
+        if (string.IsNullOrWhiteSpace(clothTop.Value.ToString()))
             clothChange.ChangeClothes(clothTop.Value.ToString(), skeleton);
-        if (StringIsSetCheck(text.Value.ToString()))
+        if (string.IsNullOrWhiteSpace(text.Value.ToString()))
             textField.text = text.Value.ToString();
-        Debug.Log("0");
         if (movementHandler.textRotation.Value != new Vector3())
-        {
-            Debug.Log("1: " + textDisplay.transform);
-            Debug.Log("2: " + movementHandler.textRotation.Value);
             textDisplay.transform.localScale = movementHandler.textRotation.Value;
-            Debug.Log("3");
-        }
-    }
-
-    /// <summary>
-    /// Checks if the clothing or color exists
-    /// </summary>
-    /// <param name="CheckedItem">What is to be checked</param>
-    /// <returns>Is the value not null or similar?</returns>
-    private bool StringIsSetCheck(string CheckedItem)
-    {
-        if (CheckedItem is not "white" and not "" and not null)
-            return true;
-        return false;
     }
 }

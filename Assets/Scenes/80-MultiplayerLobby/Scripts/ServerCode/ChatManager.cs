@@ -1,22 +1,24 @@
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Unity.Netcode;
-using TMPro;
 using LoadSave;
 using System.Collections;
+using TMPro;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatManager : NetworkBehaviour
 {
     public static ChatManager Singleton;
 
-    [SerializeField] ChatMessage chatMessagePrefab;
-    [SerializeField] CanvasGroup chatContent;
-    [SerializeField] TMP_InputField chatInput;
-    ScrollRect scrollRect;
+    [SerializeField] private ChatMessage chatMessagePrefab;
+    [SerializeField] private CanvasGroup chatContent;
+    [SerializeField] private TMP_InputField chatInput;
+    private ScrollRect scrollRect;
 
     public string playerName;
 
+    /// <summary>
+    /// Fetches all the relevant components.
+    /// </summary>
     private void Awake()
     {
         ChatManager.Singleton = this;
@@ -24,12 +26,13 @@ public class ChatManager : NetworkBehaviour
         chatContent = uiHolder.GetComponentInChildren<CanvasGroup>();
         chatInput = uiHolder.GetComponentInChildren<TMP_InputField>();
         scrollRect = uiHolder.GetComponentInChildren<ScrollRect>();
-        //chatContent = GameObject.Find("ChatContent").GetComponent<CanvasGroup>();
-        //chatInput = GameObject.Find("ChatBox Input").GetComponent<TMP_InputField>();
         GameObject originPlayer = GameObject.Find("PlayerMonster");
         playerName = originPlayer.GetComponent<PlayerData>().MonsterName;
     }
 
+    /// <summary>
+    /// Checks if the player clicks enter, if so, send a chat message.
+    /// </summary>
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
@@ -39,6 +42,9 @@ public class ChatManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles sending the chat message as long as it isn't null, whitespace or blank.
+    /// </summary>
     public void SendChatMessage(string _message, string _fromWho = null)
     {
         if (string.IsNullOrWhiteSpace(_message)) return;
@@ -47,27 +53,39 @@ public class ChatManager : NetworkBehaviour
         SendChatMessageServerRpc(S);
     }
 
-    void AddMessage(string msg)
+    /// <summary>
+    /// Adds new chat messages to the chatbox.
+    /// </summary>
+    private void AddMessage(string msg)
     {
         ChatMessage CM = Instantiate(chatMessagePrefab, chatContent.transform);
         CM.SetText(msg);
-        StartCoroutine(ScrollToTop());
+        StartCoroutine(ScrollToBottom());
     }
 
-    IEnumerator ScrollToTop()
+    /// <summary>
+    /// Scrolls to the bottom of the chatbox when receiving new mesasges
+    /// </summary>
+    private IEnumerator ScrollToBottom()
     {
         yield return new WaitForEndOfFrame();
         scrollRect.normalizedPosition = new Vector2(0, 0);
     }
 
+    /// <summary>
+    /// Gets the server to send a chat message to players.
+    /// </summary>
     [ServerRpc(RequireOwnership = false)]
-    void SendChatMessageServerRpc(string message)
+    private void SendChatMessageServerRpc(string message)
     {
         ReceiveChatMessageClientRpc(message);
     }
 
+    /// <summary>
+    /// Receives a chat message from the server and puts it in the chatbox for the player.
+    /// </summary>
     [ClientRpc]
-    void ReceiveChatMessageClientRpc(string message)
+    private void ReceiveChatMessageClientRpc(string message)
     {
         ChatManager.Singleton.AddMessage(message);
     }

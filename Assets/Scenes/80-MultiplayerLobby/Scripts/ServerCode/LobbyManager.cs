@@ -1,21 +1,25 @@
-using Unity.Services.Lobbies;
-using Unity.Services.Lobbies.Models;
-using Unity.Services.Authentication;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Services.Lobbies;
+using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using System.Collections;
 
 namespace Scenes.MultiplayerLobby.Scripts
 {
     public class LobbyManager : MonoBehaviour
     {
-        static public string lobbyId;
-        public async Task CreateLobby(string lobbyName = "Lobby Manager", int maxPlayers = 10, string relayCode = "")
+        public static string lobbyId;
+
+        /// <summary>
+        /// Creates a multiplayer lobby.
+        /// </summary>
+        /// <returns></returns>
+        public async Task CreateLobby(string relayCode, string lobbyName = "Lobby Manager", int maxPlayers = 10)
         {
             try
             {
-                var options = new CreateLobbyOptions();
+                CreateLobbyOptions options = new();
                 options.IsPrivate = false;
                 options.Data = new Dictionary<string, DataObject>
                 {
@@ -23,7 +27,6 @@ namespace Scenes.MultiplayerLobby.Scripts
                 };
 
                 Lobby lobby = await Lobbies.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
-                Debug.Log($"Created Lobby: {lobby.Name}, LobbyCode: {lobby.LobbyCode}");
                 StartCoroutine(HeartbeatLobbyCoroutine(lobby.Id, 15));
             }
             catch (LobbyServiceException e)
@@ -32,12 +35,14 @@ namespace Scenes.MultiplayerLobby.Scripts
             }
         }
 
+        /// <summary>
+        /// Attempts to join a lobby.
+        /// </summary>
         public async Task JoinLobby(string lobbyCode)
         {
             try
             {
                 Lobby lobby = await Lobbies.Instance.JoinLobbyByCodeAsync(lobbyCode);
-                Debug.Log($"Joined Lobby: {lobby.Name}");
             }
             catch (LobbyServiceException e)
             {
@@ -45,26 +50,33 @@ namespace Scenes.MultiplayerLobby.Scripts
             }
         }
 
+        // TODO: Implement the UpdateLobbyRelayCode function fully.
+        /// <summary>
+        /// Attempts to update the lobby relay code.
+        /// </summary>
         public async Task UpdateLobbyRelayCode(string lobbyId, string relayCode)
         {
             try
             {
-                var data = new Dictionary<string, DataObject>
+                Dictionary<string, DataObject> data = new()
                 {
                     { "RelayCode", new DataObject(DataObject.VisibilityOptions.Public, relayCode, DataObject.IndexOptions.S1) }
                 };
 
                 await Lobbies.Instance.UpdateLobbyAsync(lobbyId, new UpdateLobbyOptions { Data = data });
-                Debug.Log("Lobby updated with relay code.");
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError($"Update Lobby Error: {e}");
             }
         }
-        IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
+
+        /// <summary>
+        /// Initiates the heartbeat routine that keeps a server alive.
+        /// </summary>
+        private IEnumerator HeartbeatLobbyCoroutine(string lobbyId, float waitTimeSeconds)
         {
-            var delay = new WaitForSecondsRealtime(waitTimeSeconds);
+            WaitForSecondsRealtime delay = new(waitTimeSeconds);
 
             while (true)
             {
