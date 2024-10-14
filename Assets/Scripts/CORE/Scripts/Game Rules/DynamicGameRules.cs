@@ -57,14 +57,14 @@ namespace CORE.Scripts.Game_Rules
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
 
-                displayString = correctAnswer;
+                displayString = "Error";
                 LetterData letterData = (LetterData)languageUnits[0];
                 
-                if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Consonant)
+                if(languageUnits.Count > 1 && letterData.Category == LetterCategory.Vowel)
                 {
                     displayString = "vokaler";
                 }
-                else if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Vowel)
+                else if(languageUnits.Count > 1 && letterData.Category == LetterCategory.Consonant)
                 {
                     displayString = "konsonanter";
                 }
