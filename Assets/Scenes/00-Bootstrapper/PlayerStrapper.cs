@@ -30,7 +30,7 @@ namespace Scenes._00_Bootstrapper
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
                 Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.name == SceneNames.Login)
+                if (scene.name == SceneNames.Splash)
                 {
                     loginSceneActive = true;
                     break;
