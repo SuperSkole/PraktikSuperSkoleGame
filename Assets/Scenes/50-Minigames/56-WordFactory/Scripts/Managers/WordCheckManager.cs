@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Analytics;
 using CORE.Scripts;
 using Scenes._10_PlayerScene.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
@@ -35,8 +38,19 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // created word queue
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
+        private int wrongWordCount;
         public bool isTutorialOver = false;
 
+        private void Start()
+        {
+            // Fetch the current word counts from WordFactoryGameManager when the scene starts
+            int correct = WordFactoryGameManager.Instance.CorrectWordCount;
+            int total = WordFactoryGameManager.Instance.CorrectWordCountTotal;
+            int wrong = WordFactoryGameManager.Instance.WrongWordCount;
+
+            // Update the UI with the fetched values
+            uiFactoryManager.UpdateWordCounts(correct, total, wrong);
+        }
         private void Update()
         {
             // Check if the spacebar is pressed
@@ -83,6 +97,10 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
                     Debug.Log("Valid word: " + formedWord);
+                    
+                    // Report correct guess to DDA system
+                    DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(formedWord.ToLower(), true);
+    
                     isTutorialOver = true;
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
@@ -94,8 +112,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                         ColorTooth.RaiseColorChangeEvent(tooth, Color.green, 3, 0.25f);
                     }
                     
+                    WordFactoryGameManager.Instance.IncrementCorrectCount();
+                    
                     uiFactoryManager.UpdateInfoBoard(WordCheckState.Correct);
                     uiFactoryManager.TriggerLightBlink(WordCheckState.Correct, 3);
+                    int correct = WordFactoryGameManager.Instance.CorrectWordCount;
+                    int total = WordFactoryGameManager.Instance.CorrectWordCountTotal;
+                    int wrong = WordFactoryGameManager.Instance.WrongWordCount;
+                    uiFactoryManager.UpdateWordCounts(correct, total, wrong);
                 }
                 else
                 {
@@ -110,10 +134,27 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     uiFactoryManager.UpdateInfoBoard(WordCheckState.Repeated);
                     uiFactoryManager.TriggerLightBlink(WordCheckState.Repeated, 3);
                 }
+                
+                if (WordFactoryGameManager.Instance.CorrectWordCount >= 3)
+                {
+                    TriggerSuccessEffect();
+                }
+                
+                // if we want to let them find all words 
+                if (WordFactoryGameManager.Instance.CorrectWordCount == WordFactoryGameManager.Instance.CorrectWordCountTotal)
+                {
+                    TriggerSuccessEffect();
+                }
             }
             else
             {
                 Debug.Log("Invalid word: " + formedWord);
+                
+                // Report each letter in the word as incorrect to DDA
+                foreach (char letter in formedWord)
+                {
+                    DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(letter.ToString(), false);  
+                }
 
                 // Blink each closest tooth red using the event system
                 foreach (Transform tooth in closestTeeth)
@@ -121,8 +162,20 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     ColorTooth.RaiseColorChangeEvent(tooth, Color.red, 3, 0.25f);
                 }
                 
+                WordFactoryGameManager.Instance.IncrementWrongCount(); 
+                
                 uiFactoryManager.UpdateInfoBoard(WordCheckState.Wrong);
                 uiFactoryManager.TriggerLightBlink(WordCheckState.Wrong, 3);
+                int correct = WordFactoryGameManager.Instance.CorrectWordCount;
+                int total = WordFactoryGameManager.Instance.CorrectWordCountTotal;
+                int wrong = WordFactoryGameManager.Instance.WrongWordCount;
+                int maxWrongGuesses = WordFactoryGameManager.Instance.MaxWrongGuesses;
+                uiFactoryManager.UpdateWordCounts(correct, total, wrong);
+                
+                if (wrong >= maxWrongGuesses)
+                {
+                    TriggerFailureEffect();
+                }
             }
         }
 
@@ -192,6 +245,57 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         private void AddWordToHighScore(string word)
         {
             // GameManager.Instance.HighScore.AddWord(word);
+        }
+        
+        // Trigger fireworks and exit the game on 3 correct words
+        private void TriggerSuccessEffect()
+        {
+            // TODO PlayerSound doesnt work
+            //WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainXP);
+            // Blink gears green for success
+            StartCoroutine(BlinkGearsAndExit(Color.green));  
+        }
+
+        private void TriggerFailureEffect()
+        {
+            WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.PullHandle);
+            // Blink gears red for failure
+            StartCoroutine(BlinkGearsAndExit(Color.red)); 
+        }
+
+        private IEnumerator BlinkGearsAndExit(Color blinkColor)
+        {
+            // Blink all gears in the specified color for celebration
+            foreach (var gear in WordFactoryGameManager.Instance.GetGears())
+            {
+                // Blink the gear's teeth in the given color
+                BlinkGearTeeth(gear, blinkColor);
+            }
+
+            // Wait for blinking to complete (you can adjust timing if needed)
+            yield return new WaitForSeconds(3);
+
+            // Exit the game after the blinking effect
+            ExitFactory();
+        }
+        
+        private void BlinkGearTeeth(GameObject gear, Color color)
+        {
+            Transform teethContainer = gear.transform.Find("TeethContainer");
+            if (teethContainer != null)
+            {
+                foreach (Transform tooth in teethContainer)
+                {
+                    // Use the method you already have to raise a color change event for each tooth
+                    ColorTooth.RaiseColorChangeEvent(tooth, color, 3, 0.25f);  // Blinks 3 times at 0.25s interval
+                }
+            }
+        }
+
+        private void ExitFactory()
+        {
+            WordFactoryGameManager.Instance.CleanUpGameManagerAndSoundManager();
+            SceneLoader.Instance.LoadScene(SceneNames.Main); 
         }
     }
 }

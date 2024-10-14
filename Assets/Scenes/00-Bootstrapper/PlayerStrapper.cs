@@ -47,7 +47,7 @@ namespace Scenes._00_Bootstrapper
                 
                 OnPlayerAuthenticated?.Invoke();
          
-                Debug.Log("Loading PlayerScene...");
+                //Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
 
                 // Wait until the PlayerScene is fully loaded

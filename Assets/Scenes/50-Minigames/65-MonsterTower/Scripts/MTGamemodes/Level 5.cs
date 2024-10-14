@@ -98,7 +98,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                //Random.Range(0, 15)
+                returnedString[i] = letters[Random.Range(0, 10)].Identifier;
 
 
                 bool checkIfAvailable = true;
@@ -108,27 +109,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (returnedString[i].ToLower())
                     {
                         case "y":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         case "z":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         case "w":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         case "c":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         case "q":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         case "x":
-                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
                             break;
 
                         default:

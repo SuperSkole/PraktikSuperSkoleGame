@@ -87,7 +87,8 @@ namespace LoadSave
         
         // cars
         public List<CarInfo> ListOfCarsProperty { get => ListOfCars; set => ListOfCars = value; }
-        
+        public float FuelAmount { get; set; } = 1f;
+
         //Furniture
         public List<int> ListOfFurnitureBought { get => ListOfFurniture; set => ListOfFurniture = value; }
         public bool TutorialHouse { get => tutorialHouse; set => tutorialHouse = value; }

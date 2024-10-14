@@ -10,35 +10,9 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private int score;
 
-        // public static ScoreManager Instance { get; private set; }
-        // private void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //     }
-        //
-        //     if (scoreTextObject != null)
-        //     {
-        //         scoreDisplay = scoreTextObject.GetComponent<IScoreDisplay>();
-        //         if (scoreDisplay == null)
-        //         {
-        //             Debug.LogError("IScoreDisplay component not found on ScoreText object.");
-        //         }
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("ScoreText object is not assigned in the inspector.");
-        //     }
-        // }
-
         protected override void Awake()
         {
-            base.Awake();
+            base.Awake(false);
             
             if (scoreTextObject != null)
             {
