@@ -57,12 +57,16 @@ namespace UI.Scripts
                
         }
 
+        /// <summary>
+        /// Instantiatese a given amount of coins to fly towards the corner
+        /// </summary>
+        /// <param name="amount">how many coins should be instantiated</param>
+        /// <returns></returns>
         private IEnumerator AddGold(int amount)
         {
-            
+            //Creates a coin waits a bit and then creates a new coin until the given amount of coins have been created
             while (amount > 0)
             {
-                Debug.Log("Adding gold");
                 Instantiate(coinPrefab);
                 amount--;
                 yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
