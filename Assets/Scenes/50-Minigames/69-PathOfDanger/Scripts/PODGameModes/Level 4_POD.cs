@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ public class Level4_POD : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetWrongAnswer(PathOfDangerManager manager, string correctAnswer)
     {
+
+
+
         var rndLetterWithKey = LetterManager.GetRandomLetter();
 
 
@@ -78,7 +82,28 @@ public class Level4_POD : IPODGameMode
     {
 
 
-        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+        
+
+        List<ILanguageUnit> letters=new List<ILanguageUnit>();
+
+        LetterData modeLetterType = (LetterData)languageUnits[0];
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Letter)
+            {
+                LetterData letterData = (LetterData)item;
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel >= 2)
+                {
+                    letters.Add(item);
+                }
+                else if (letterData.Category == modeLetterType.Category)
+                {
+                    letters.Add(item);
+                }
+            }
+        }
 
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
@@ -86,12 +111,12 @@ public class Level4_POD : IPODGameMode
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
 
             while (returnedString[i]==previousRetrievedAnswer)
             {
           
-                    returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, 10)].Identifier;
 
             }
 

@@ -217,8 +217,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5e7a57bb11c9281449fd884ccf926ef2, type: 2}
+  m_sharedMaterial: {fileID: 4834721485754973061, guid: 5e7a57bb11c9281449fd884ccf926ef2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -380,6 +380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: {fileID: 3180887205131955929}
   profilImage: {fileID: 5332547814972629847}
+  SpineName: 
+  chosen: 0
 --- !u!114 &2960715139156784963
 MonoBehaviour:
   m_ObjectHideFlags: 0

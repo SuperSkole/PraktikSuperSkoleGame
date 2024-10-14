@@ -70,7 +70,7 @@ namespace Scenes._03_StartScene.Scripts
             }
             else
             {
-                Debug.LogError("Failed to delete save: " + saveKey);
+                Debug.LogWarning("Failed to delete save: " + saveKey);
             }
 
             return false;

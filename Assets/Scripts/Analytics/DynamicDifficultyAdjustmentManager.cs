@@ -140,22 +140,26 @@ namespace Analytics
             if (PlayerManager.Instance.PlayerData != null)
             {
                 playerLanguageLevel = PlayerManager.Instance.PlayerData.PlayerLanguageLevel;
+                //playerLanguageLevel = 3; //test level
                 if (playerLanguageLevel != 5) CheckAndUpdatePlayerLevel();
-                // playerLanguageLevel = 3;
             }
 
             // Calculate composite weights for each language unit
             CalculateCompositeWeights();
 
+            // Get the content types for the player's level
             var contentTypes = PlayerLevelMapper.GetContentTypesForLevel(playerLanguageLevel);
             var allUnits = new List<ILanguageUnit>();
 
+            // Fetch units for each content type
+            int numberOfUnitsToFetch = 10;
             foreach (var (unitType, specificType) in contentTypes)
             {
+                // Use the specific handler for the content type
                 if (unitHandlers.TryGetValue(unitType, out var handler))
                 {
-                    // Fetch 20 units for the content type
-                    var units = handler(specificType, 20);
+                    // Fetch x units for the content type
+                    var units = handler(specificType, numberOfUnitsToFetch);
                     allUnits.AddRange(units);
                 }
             }
@@ -210,8 +214,13 @@ namespace Analytics
                 Debug.LogWarning($"No language unit found for identifier '{identifier}'.");
             }
         }
-        
-        public ILanguageUnit GetLanguageUnitByIdentifier(string identifier)
+
+        /// <summary>
+        /// Retrieves a language unit based on the provided identifier.
+        /// </summary>
+        /// <param name="identifier">The identifier of the language unit to be retrieved.</param>
+        /// <returns>The language unit that matches the given identifier or null if no match is found.</returns
+        private ILanguageUnit GetLanguageUnitByIdentifier(string identifier)
         {
             EnsureInitialized();
 
@@ -229,31 +238,15 @@ namespace Analytics
             return null;
         }
 
-
-        
         /// <summary>
-        /// Updates the weight of a language unit based on the player's performance.
+        /// Checks the current player's language level and updates it if necessary based on their performance and predefined level mappings.
         /// </summary>
-        public void UpdateLanguageUnitWeight(ILanguageUnit unit, bool isCorrect)
-        {
-            // Calculate composite weights to ensure data is up-to-date before updating
-            CalculateCompositeWeights();
-
-            // Update weight based on performance
-            if (updateWeightHandlers.TryGetValue(unit.LanguageUnitType, out var updateHandler))
-            {
-                updateHandler(unit, isCorrect);
-            }
-
-            // Update time weight based on usage
-            if (timeWeightHandlers.TryGetValue(unit.LanguageUnitType, out var timeHandler))
-            {
-                timeHandler(unit);
-            }
-
-            Debug.Log($"Updated weight for {unit.Identifier} based on performance and time: {isCorrect}");
-        }
-        
+        /// <remarks>
+        /// This method ensures that the player's language level is up-to-date with their current performance metrics.
+        /// It retrieves relevant language units for the player's current level, calculates the average weight of these units,
+        /// and determines whether the player should be leveled up.
+        /// </remarks>
+        /// <exception cref="KeyNotFoundException">Thrown when no mapping is found for the player's current level.</exception>
         public void CheckAndUpdatePlayerLevel()
         {
             EnsureInitialized();
@@ -445,7 +438,7 @@ namespace Analytics
                     LanguageUnit.Word, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for word '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for word '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for individual letters within the word as well
                         foreach (char letter in unit.Identifier)
@@ -460,7 +453,7 @@ namespace Analytics
                     LanguageUnit.Sentence, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for sentence '{unit.Identifier}'");
 
                         // TODO Optionally update time weight for words and letters within the sentence
                         var sentenceWords = unit.Identifier.Split(' ');
