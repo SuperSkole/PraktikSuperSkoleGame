@@ -38,7 +38,8 @@ namespace UI.Scripts
 
             textMeshPro.text = currentAmount.ToString();
             barFill.fillAmount = Mathf.Clamp01((float)currentAmount / maxAmount);
-
+            coinPrefab =  GameManager.Instance.PlayerManager.coinPrefab;
+            StartCoroutine(AddGold(GameManager.Instance.PlayerData.PendingGoldAmount));
             ChangeValue(GameManager.Instance.PlayerData.PendingGoldAmount);
         }
         private void OnEnable()
@@ -53,6 +54,19 @@ namespace UI.Scripts
             textMeshPro.text = amount.ToString();
             barFill.fillAmount = Mathf.Clamp01((float)amount / maxAmount);
             currentAmount = amount;
+               
+        }
+
+        private IEnumerator AddGold(int amount)
+        {
+            
+            while (amount > 0)
+            {
+                Debug.Log("Adding gold");
+                Instantiate(coinPrefab);
+                amount--;
+                yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
+            }
         }
 
         public void ChangeValue(int amount)
@@ -61,7 +75,7 @@ namespace UI.Scripts
             {
                 StopCoroutine(changeValueCoroutine);
             }
-
+            
             currentAmount += amount;
 
             GameManager.Instance.PlayerData.CurrentGoldAmount = currentAmount;
@@ -104,10 +118,7 @@ namespace UI.Scripts
                 // Update the text
                 textMeshPro.text = Mathf.RoundToInt(currentFillAmount).ToString();
 
-                if(amount > 0 && coinPrefab != null)
-                {
-                    Instantiate(coinPrefab);
-                }                
+                            
                 // Wait until the next frame
                 yield return null;
                 
