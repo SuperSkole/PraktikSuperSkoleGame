@@ -181,4 +181,9 @@ public class KatjaFe : MonoBehaviour
         //Example
         KatjaIntro(() => { KatjaSpeak(oldaudio, () => {KatjaExit();});});
     }
+
+    public void End()
+    {
+        KatjaExit();
+    }
 }
