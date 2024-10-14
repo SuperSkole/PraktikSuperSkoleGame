@@ -1,5 +1,5 @@
-using System.Collections;
 using CORE;
+using System.Collections;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
@@ -15,7 +15,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             CheckWord,
             PullHandle
         }
-        
+
         [SerializeField] private AudioClip gearRotationSound;
         [SerializeField] private AudioClip xpGainSound;
         [SerializeField] private AudioClip goldGainSound;
@@ -24,32 +24,14 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private AudioClip handlePullSound;
 
         private AudioSource audioSource;
-
         private bool playingHandleSound = false;
-
-        // // Singleton
-        // public static WordFactorySoundManager Instance { get; private set; }
-        //
-        // void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //         //DontDestroyOnLoad(gameObject);
-        //     }
-        // }
-        
-
+        protected override void Awake() { base.Awake(false); }
 
         IEnumerator PlayHandleSound()
         {
             playingHandleSound = true;
             AudioManager.Instance.PlaySound(handlePullSound, SoundType.SFX, transform.position);
-            
+
             yield return new WaitForSeconds(handlePullSound.length);
             playingHandleSound = false;
         }
@@ -78,9 +60,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     if (!playingHandleSound)
                     {
                         StartCoroutine(PlayHandleSound());
-                        
                     }
-                    
                     break;
             }
         }

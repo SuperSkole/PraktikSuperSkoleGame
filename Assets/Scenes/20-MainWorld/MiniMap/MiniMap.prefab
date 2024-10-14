@@ -82,13 +82,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3292074967894563755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3c89edfceaefb34588a5b5f93251e4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 65c7ec8e51228f84997553675938a805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MiniMapCamera: {fileID: 0}
-  closePanel: {fileID: 3459730855802576007}
-  iconPrefab: {fileID: 7001867644839784536, guid: dc3fda7cd62b6ff4d9a9884e0548f9c6, type: 3}
-  miniMapUI: {fileID: 1264387756051393031}
+  closePanel: {fileID: 0}
+  iconPrefab: {fileID: 0}
+  miniMapUI: {fileID: 0}
 --- !u!1 &8107231855357693773
 GameObject:
   m_ObjectHideFlags: 0

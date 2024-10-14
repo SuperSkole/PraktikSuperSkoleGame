@@ -41,7 +41,7 @@ namespace CORE
                     lock (_lock)
                     {
 #if UNITY_EDITOR
-                        Debug.Log("Inside singleton lock");
+                        //Debug.Log("Inside singleton lock");
 #endif
                         if (!instance)
                         {
@@ -49,7 +49,7 @@ namespace CORE
                             Debug.Log("Creating new instance using FindAnyObjectByType");
                             instance = FindAnyObjectByType<T>();
 #else
-                            Debug.Log("Creating new instance using FindObjectOfType");
+                            //Debug.Log("Creating new instance using FindObjectOfType");
                             instance = FindObjectOfType<T>();
 #endif
                             if (!instance) 
