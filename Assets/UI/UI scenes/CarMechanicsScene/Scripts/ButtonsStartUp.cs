@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Made to be attached to the color prefab for the cars
+/// On awake it findes the scenemanger and den addes the right listerners for when the player clicks on a color button.
+/// </summary>
 public class ButtonsStartUp : MonoBehaviour
 {
     private void Awake()
     {
         var manager = GameObject.FindWithTag("Manager").GetComponent<CarShowCaseRoomManager>();
-        //var self =GetComponent<CarShowCaseButtons>();
-        //GetComponent<Button>().onClick.AddListener(delegate { manager.PreviewColorOfCar(self); });
         var self = GetComponent<CarColorShowCaseButtons>();
         GetComponent<Button>().onClick.AddListener(()
             => manager.PreviewColorOfCar(self));
@@ -15,7 +17,6 @@ public class ButtonsStartUp : MonoBehaviour
             => manager.SettingButtonsUp(self));
         GetComponent<Button>().onClick.AddListener(()
             => manager.SetButtonName(gameObject));
-        //SaveMaterialName());
 
     }
 }
