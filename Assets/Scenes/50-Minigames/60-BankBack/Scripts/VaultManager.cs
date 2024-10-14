@@ -44,6 +44,7 @@ public class VaultManager : MonoBehaviour
 
     private int[] answer = new int[4];
     private List<int> usedDesiredInputIndices = new List<int>();
+    public bool isTutorialOver = false;
     /// <summary>
     /// Currently just calls startgame
     /// </summary>
@@ -95,6 +96,7 @@ public class VaultManager : MonoBehaviour
             }
             if(correct)
             {
+                isTutorialOver = true;
                 ChangeMaterial(correctMaterial);
                 AudioManager.Instance.PlaySound(successSound, SoundType.SFX);
                 if(usedDesiredInputIndices.Count == 4)

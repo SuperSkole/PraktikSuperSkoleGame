@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Analytics;
 using CORE.Scripts;
 using UnityEngine;
 using UnityEngine.Networking;
+using Words;
 
 namespace Scenes._00_Bootstrapper
 {
@@ -54,7 +56,6 @@ namespace Scenes._00_Bootstrapper
         {
             IsDataLoaded = true;
             string directoryPath = Application.streamingAssetsPath + "/WordData/";
-            string configFilePath = directoryPath + "files.txt"; 
 
             // List CSV FILES
             string[] csvFiles = new string[]
@@ -87,7 +88,43 @@ namespace Scenes._00_Bootstrapper
                 }
 
                 AddWordsToHashsetInLettersAndWordsManager(filePath, request);
+                AddWordsToHashsetInWordRepository(filePath, request);
             }
+        }
+
+        private void AddWordsToHashsetInWordRepository(string filePath, UnityWebRequest request)
+        {
+            Debug.Log("Adding words to WordRepository");
+            // Parse CSV Data
+            string csvData = request.downloadHandler.text;
+            string[] lines = csvData.Split('\n');
+            string setName = GetFileNameWithoutExtension(filePath);
+            List<WordData> wordDataList = new List<WordData>();
+
+            for (int i = 1; i < lines.Length; i++) // Skip the header
+            {
+                string word = lines[i].Trim();
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    WordLength length = DetermineWordLength(word);
+                    var wordData = new WordData(word, length, DynamicDifficultyAdjustmentSettings.InitialWeight);
+                    wordDataList.Add(wordData);
+                }
+            }
+
+            // Pass parsed word data to WordRepository
+            WordRepository.AddWords(setName, wordDataList);
+        }
+        
+        private WordLength DetermineWordLength(string word)
+        {
+            return word.Length switch
+            {
+                2 => WordLength.TwoLetters,
+                3 => WordLength.ThreeLetters,
+                4 => WordLength.FourLetters,
+                _ => WordLength.Unknown
+            };
         }
 
         private static void AddWordsToHashsetInLettersAndWordsManager(string filePath, UnityWebRequest request)
@@ -132,8 +169,12 @@ namespace Scenes._00_Bootstrapper
         {
             string name = texture.name;
             name = GetName(name);
-            string firstLetterName = GetName(texture.name.ToCharArray()[0].ToString());
+            string firstLetterName = name[0].ToString();
             
+
+            
+
+
             ImageManager.AddImageToSet(name, texture);
             ImageManager.AddImageToLetterSet(firstLetterName, texture);
             WordsForImagesManager.AddNameToSet(name);

@@ -1,4 +1,8 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
+using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +10,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public class ShootPicture: IMTGameMode
     {
+        private string previousRetrievedAnswer;
+
         /// <summary>
         /// Will be called by the TowerManager to create a brick with the correct answer
         /// </summary>
@@ -13,7 +19,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
-            manager.soloImage.texture = ImageManager.GetImageFromWord(str);
+            manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
         }
 
         /// <summary>
@@ -53,10 +59,104 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public string[] GenerateAnswers(int count)
         {
             string[] returnedString = new string[count];
+
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    letters.Add(item);
+                }
+            }
+
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = WordsForImagesManager.GetRandomWordForImage();
+                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+
+
+                bool checkIfAvailable = true;
+
+                while (checkIfAvailable)
+                {
+                    switch (returnedString[i].ToLower())
+                    {
+                        case "y":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "z":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "w":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "c":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "q":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        case "x":
+                            returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
+
+                while (returnedString[i] == previousRetrievedAnswer)
+                {
+                    returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+
+
+                    checkIfAvailable = true;
+
+                    while (checkIfAvailable)
+                    {
+                        switch (returnedString[i].ToLower())
+                        {
+                            case "y":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "z":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "w":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "c":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "q":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            case "x":
+                                returnedString[i] = letters[Random.Range(0, 15)].Identifier;
+                                break;
+
+                            default:
+                                checkIfAvailable = false;
+                                break;
+                        }
+                    }
+                }
+                previousRetrievedAnswer = returnedString[i];
             }
+
             return returnedString;
         }
         /// <summary>

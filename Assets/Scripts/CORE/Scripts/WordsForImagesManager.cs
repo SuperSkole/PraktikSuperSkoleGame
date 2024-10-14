@@ -7,17 +7,17 @@ namespace CORE.Scripts
 
     public class WordsForImagesManager : MonoBehaviour
     {
-        private static List<string> imageWords = new();
+        public static List<string> imageWords = new();
 
         private static List<string> soundCorrectWords = new List<string>
         {
             "alf", "and", "en", "et", "ild", "is", "os", "orm", "ur", "ulv", "ugle",
-            "æg", "øl", "ål", "bad", "hval", "spand", "tand", "hat", "kat", "mel", "pil",
+            "\u00e6g", "\u00f8l", "\u00e5l", "bad", "hval", "spand", "tand", "hat", "kat", "mel", "pil",
             "lim", "slim", "skib", "ris", "sort", "sut", "lus", "mus", "hus", "jul",
-            "syl", "lys", "nys", "læs", "sæl", "hæl", "pæl", "knus", "spa", "ske", "sne",
+            "syl", "lys", "nys", "l\u00f8s", "s\u00e6l", "h\u00e6l", "p\u00e6l", "knus", "spa", "ske", "sne",
             "ble", "fri", "ski", "bi", "sko", "klo", "bro", "ko", "kno", "sky", "fly",
-            "klø", "knæ", "blå", "grå", "små", "ti", "to", "ve", "te", "tå", "hø", "gå",
-            "du", "fe", "bæ"
+            "kl\u00f8", "kn\u00e6", "bl\u00e5", "gr\u00e5", "sm\u00e5", "ti", "to", "ve", "te", "t\u00f8", "h\u00f8", "g\u00f8",
+            "du", "fe", "b\u00e6"
         };
         /// <summary>
         /// adds a word to the list of all wordsOrLetters, eatch word can only aprear once.
@@ -60,9 +60,9 @@ namespace CORE.Scripts
             while (true)
             {
                 word = soundCorrectWords[Random.Range(0, soundCorrectWords.Count)];
-                word.Replace("æ", "(ae)");
-                word.Replace("ø", "(oe)");
-                word.Replace("å", "(aa)");
+                word.Replace("\u00e6", "(ae)");
+                word.Replace("\u00f8", "(oe)");
+                word.Replace("\u00e5", "(aa)");
                 if (imageWords.Contains(word))
                 {
                     return word;

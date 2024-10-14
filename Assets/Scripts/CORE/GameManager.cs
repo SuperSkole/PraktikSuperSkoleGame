@@ -1,3 +1,4 @@
+using Analytics;
 using CORE.Scripts;
 using LoadSave;
 using Scenes;
@@ -17,7 +18,10 @@ namespace CORE
         public SaveGameController SaveGameController; 
         public PlayerManager PlayerManager;
 
-        public WeightManager WeightManager { get; private set; }
+        public PerformanceWeightManager PerformanceWeightManager { get; private set; }
+        public SpacedRepetitionManager SpacedRepetitionManager { get; private set; }
+        public DynamicDifficultyAdjustmentManager DynamicDifficultyAdjustmentManager { get; private set; }
+        
         public DataConverter Converter { get; } = new DataConverter();
         public HighScore HighScore;
         public string CurrentUser { get; set; }
@@ -31,6 +35,7 @@ namespace CORE
         public bool IsPlayerBootstrapped { get; set; }
 
         private PlayerData playerData;
+        
         public PlayerData PlayerData
         {
             get
@@ -41,10 +46,12 @@ namespace CORE
                     if (playerData == null)
                         playerData = instance.gameObject.AddComponent<PlayerData>();
                 }
+                
                 return playerData;
             }
             set { playerData = value; }
         }
+        
         /// <summary>
         /// Initializes the singleton instance and sets up the GameManager.
         /// </summary>
@@ -146,9 +153,19 @@ namespace CORE
                 PlayerData = gameObject.AddComponent<PlayerData>();
             }
             
-            if (!GetComponent<WeightManager>())
+            if (!GetComponent<SpacedRepetitionManager>())
             {
-                WeightManager = gameObject.AddComponent<WeightManager>();
+                SpacedRepetitionManager = gameObject.AddComponent<SpacedRepetitionManager>();
+            }
+            
+            if (!GetComponent<PerformanceWeightManager>())
+            {
+                PerformanceWeightManager = gameObject.AddComponent<PerformanceWeightManager>();
+            }
+            
+            if (!GetComponent<DynamicDifficultyAdjustmentManager>())
+            {
+                DynamicDifficultyAdjustmentManager = gameObject.AddComponent<DynamicDifficultyAdjustmentManager>();
             }
         }
 

@@ -27,7 +27,7 @@ namespace Scenes._10_PlayerScene.Scripts
         //public bool IsInCar { get; set; }
 
         // Event to trigger visual effects or other responses to leveling up
-        public event Action OnLevelUp;
+        //public event Action OnLevelUp;
         public UnityEvent PlayerInteraction { get; set; } = new UnityEvent();
         public GameObject interactionIcon;
 

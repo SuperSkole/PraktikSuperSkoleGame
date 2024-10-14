@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using Analytics;
+using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using UnityEngine;
 
@@ -8,13 +11,32 @@ namespace Scenes._50_Minigames.Gamemode
 {
     public class MonsterTowerSetter: IGameModeSetter
     {
-        public List<IGenericGameMode> gamemodes = new List<IGenericGameMode>()
+        public List<IGenericGameMode> gameModes = new List<IGenericGameMode>()
         {
             null,
             null,
             null,
             new Level4(),
             new Level5()
+        };
+
+
+        public List<IGenericGameMode> letterGameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4(),
+            new Level5()
+        };
+
+        public List<IGenericGameMode> wordGameModes = new List<IGenericGameMode>()
+        {
+            null,
+            null,
+            null,
+            new Level4_Words(),
+            new Level5_Words()
         };
 
 
@@ -26,6 +48,56 @@ namespace Scenes._50_Minigames.Gamemode
             null,
             null,
         };
+
+        public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
+        {
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
+            IGenericGameMode mode = null;
+
+            switch (languageUnit.LanguageUnitType)
+            {
+                case LanguageUnit.Letter:
+                    mode = letterGameModes[Random.Range(3, 5)];
+                    break;
+                case LanguageUnit.Word:
+                    mode = wordGameModes[3];
+                    break;
+            }
+
+            
+
+            LetterData letterData = (LetterData)languageUnits[0];
+            if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+            {
+                List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                foreach (var item in languageUnits)
+                {
+                    if (item.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                        {
+                            letters.Add(item);
+                        }
+                    }
+                }
+
+                if(letters.Count<3)
+                {
+                    return (null, null);
+                }
+
+
+            }
+           
+
+
+            return (null, mode);
+     
+        }
+
+
         /// <summary>
         /// returns a gamemode of the Monster Tower type
         /// </summary>
@@ -33,9 +105,9 @@ namespace Scenes._50_Minigames.Gamemode
         /// <returns></returns>
         public IGenericGameMode SetMode(int level)
         {
-            if(gamemodes.Count > level && level >= 0)
+            if(letterGameModes.Count > level && level >= 0)
             {
-                return gamemodes[level];
+                return letterGameModes[level];
             }
             else 
             {
@@ -64,6 +136,14 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
                 case "level 5":
                     modeReturned = new Level5();
+                    break;
+
+                case "sentences words":
+                    modeReturned = new SentenceToPictures_Words();
+                break;
+
+                case "shoot picture words":
+                    modeReturned = new ShootPicture_Words();
                     break;
                 default:
                     Debug.Log("given mode was not among expected options, returning default gamemode");
@@ -107,5 +187,8 @@ namespace Scenes._50_Minigames.Gamemode
             }
             return rulesReturned;
         }
+
+
+
     }
 }

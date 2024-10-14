@@ -57,10 +57,12 @@ namespace Scenes
         
         public const string Breakin = "63-BreakInGame";
         public const string TowerLoading = "64-MonsterTower";
+        public const string TowerLoading_Words = "64-MonsterTower_Words";
         public const string Tower = "65-MonsterTower";
         public const string WordLineLoad = "66-WordLineLoadScene";
         public const string WordLine = "67-WordProductionLineMinigame";
         public const string PathOfDangerAllModesSelector = "68-PathOfDangerAllModesSelector";
+        public const string PathOfDangerAllModesSelector_Words = "68-PathOfDangerAllModesSelector_Words";
         public const string PathOfDanger = "69-PathOfDanger";
         public const string PathOfDangerLoseScreen = "PathOfDangerLoseScreen";
         public const string MinigameLoading = "LevelSelect";

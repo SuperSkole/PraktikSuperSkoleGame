@@ -1,4 +1,7 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
+using Letters;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,7 +11,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 {
     public class Level4 : IMTGameMode
     {
-        private readonly List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
+        private string previousRetrievedAnswer;
+
 
 
 
@@ -21,13 +25,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
 
 
-            foreach (var item in FMNSConsonants)
-            {
-                if (item == str.ToCharArray()[0])
-                {
-                    manager.textOnBrick.text = item.ToString();
-                }
-            }
+            manager.textOnBrick.text = str.ToUpper();
 
 
         }
@@ -38,18 +36,18 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
         public void SetWrongAnswer(TowerManager manager,string correctAnswer)
         {
-            var rndVowelWithKey = LetterManager.GetRandomFMNSConsonant();
+            var rndLetterWithKey = LetterManager.GetRandomLetter();
 
-            while (rndVowelWithKey == correctAnswer.ToCharArray()[0])
+            while (rndLetterWithKey == correctAnswer.ToCharArray()[0])
             {
-                rndVowelWithKey = LetterManager.GetRandomFMNSConsonant();
+                rndLetterWithKey = LetterManager.GetRandomLetter();
             }
 
-            manager.textOnBrick.text = rndVowelWithKey.ToString();
+            manager.textOnBrick.text = rndLetterWithKey.ToString();
 
 
 
-            manager.imageKey = rndVowelWithKey.ToString();
+            manager.imageKey = rndLetterWithKey.ToString();
 
 
         }
@@ -66,7 +64,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             AudioClip clip= LetterAudioManager.GetAudioClipFromLetter(str+"1");
 
-            manager.hearLetterButton.GetComponent<AudioSource>().clip = clip;
+            manager.VoiceClip = clip;
 
         }
 
@@ -80,11 +78,45 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
 
             string[] returnedString = new string[count];
+
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            LetterData modeLetterType = (LetterData)languageUnits[0];
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    LetterData letterData = (LetterData)item;
+                    if ( GameManager.Instance.PlayerData.PlayerLanguageLevel>=2)
+                    { 
+                        letters.Add(item);
+                    }
+                  else if (letterData.Category == modeLetterType.Category)
+                  {
+                        letters.Add(item);
+                  }
+                }
+            }
+
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+
+                //Code to make sure that the previous answer is not getting repeated imediatly after. 
+
+                returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+
+                while (returnedString[i] == previousRetrievedAnswer)
+                {
+
+                    returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                }
+
+                previousRetrievedAnswer = returnedString[i];
             }
-            
+
             return returnedString;
         }
         /// <summary>

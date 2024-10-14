@@ -104,9 +104,9 @@ public class ClockController : MonoBehaviour
         {
             minuteTime = 0;
             hourTime++;
-            if (hourTime >= 13)
+            if (hourTime >= 12)
             {
-                hourTime = 1;
+                hourTime = 0;
             }
         }
         AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);
@@ -128,9 +128,9 @@ public class ClockController : MonoBehaviour
         {
             minuteTime = 55;
             hourTime--;
-            if (hourTime <= 0)
+            if (hourTime <= -1)
             {
-                hourTime = 12;
+                hourTime = 11;
             }
         }
         AudioManager.Instance.PlaySound(buttonTick, SoundType.SFX);

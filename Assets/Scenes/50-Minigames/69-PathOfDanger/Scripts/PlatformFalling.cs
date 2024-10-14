@@ -23,7 +23,7 @@ public class PlatformFalling : MonoBehaviour
 
     /// <summary>
     /// When anything is colliding with the platform ,in this case the player, a check is made if is the correct platform with the right answer. 
-    /// If correctAnswer is false the playerRigidBody on the platform will be set with no constraint on the y position axes and will fall. 
+    /// If correctAnswer is false the rigidbody on the platform will be set with no constraint on the y position axes and will fall. 
     /// If correctanswer is true the manager gets told and the next question is qued up. 
     /// also makes sure the code is also only run once with the enteredBefore bool. 
     /// </summary>
@@ -33,7 +33,10 @@ public class PlatformFalling : MonoBehaviour
         
         if (isCorrectAnswer == false && enteredBefore == false)
         {
+            manager.wrongAnswer = true;
+
             manager.hasAnsweredWrong = true;
+         
             rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX;
 
             enteredBefore = true;

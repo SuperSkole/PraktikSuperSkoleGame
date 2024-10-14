@@ -1,5 +1,6 @@
 using CORE.Scripts;
 using System.Collections;
+using Scenes._50_Minigames._67_WordProductionLine.Scripts;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
@@ -16,7 +17,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         private ProductionLineObjectPool objectBoxPool;
 
         [SerializeField]
-        private ProductionLineManager productionManager;
+        private ProductionLineController productionController;
 
 
 
@@ -36,7 +37,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
             if (imageBox != null)
             {
-                string randoWord = productionManager.GetImages();
+                string randoWord = productionController.GetImages();
                 Texture2D randoImg = ImageManager.GetImageFromWord(randoWord);
                 imageBox.transform.GetChild(0).gameObject.GetComponent<ImageBox>().GetImage(randoImg);
                 imageBox.transform.position = topSpawnPoint.transform.position;

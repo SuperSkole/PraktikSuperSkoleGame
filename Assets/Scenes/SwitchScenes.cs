@@ -13,6 +13,8 @@ namespace Scenes
         public static void SwitchToArcadeCatClock() => SceneManager.LoadScene(SceneNames.ArcadeCatClock);
         public static void SwitchToRacingScene() => SceneLoader.Instance.LoadScene(SceneNames.House);
         public static void SwitchToPathOfDangerAllModesSelector() => SceneManager.LoadScene(SceneNames.PathOfDangerAllModesSelector);
+
+        public static void SwitchToPathOfDangerAllModesSelector_Words() => SceneManager.LoadScene(SceneNames.PathOfDangerAllModesSelector_Words);
         public static void SwitchToPathOfDanger() => SceneManager.LoadScene(SceneNames.PathOfDanger);
         public static void SwitchToPathOfDangerLoseScene() => SceneManager.LoadScene(SceneNames.PathOfDangerLoseScreen);
         public static void SwitchToSymbolEaterScene() => SceneLoader.Instance.LoadScene(SceneNames.Eater);    
@@ -20,6 +22,7 @@ namespace Scenes
         public static void SwitchToSymbolEaterLoaderScene() => SceneLoader.Instance.LoadScene(SceneNames.EaterLoading);
         public static void SwitchToTowerScene() => SceneLoader.Instance.LoadScene(SceneNames.Tower);
         public static void SwitchToTowerLoaderScene() => SceneLoader.Instance.LoadScene(SceneNames.TowerLoading);
+        public static void SwitchToTowerLoaderScene_Words() => SceneLoader.Instance.LoadScene(SceneNames.TowerLoading_Words);
         public static void SwitchToRacerLoaderScene() => SceneLoader.Instance.LoadScene(SceneNames.RacerLoading);
         public static void SwitchToRacerScene() => SceneLoader.Instance.LoadScene(SceneNames.Racer);
         public static void SwitchToArcadeScene() => SceneLoader.Instance.LoadScene(SceneNames.Arcade);
@@ -37,5 +40,6 @@ namespace Scenes
         public static void SwitchToBankFrontLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.BankFrontLoading);
         public static void SwitchToMultiplayerLobbyScene() => SceneLoader.Instance.LoadScene(SceneNames.MultiplayerLobby);
         public static void SwitchToProductionLine() => SceneLoader.Instance.LoadScene(SceneNames.WordLine);
+        public static void SwitchToProductionLineLoadingScene() => SceneLoader.Instance.LoadScene(SceneNames.WordLineLoad);
     }
 }

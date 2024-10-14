@@ -1,4 +1,7 @@
+using Analytics;
+using CORE;
 using CORE.Scripts;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +11,7 @@ using UnityEngine.UI;
 
 public class Level5_POD : IPODGameMode
 {
-    List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
+  
     private string previousRetrievedAnswer;
 
 
@@ -19,7 +22,7 @@ public class Level5_POD : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetCorrectAnswer(string str, PathOfDangerManager manager)
     {
-        manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
+        manager.soloImage.texture = ImageManager.GetImageFromLetter(str.ToLower());
 
 
     }
@@ -33,7 +36,7 @@ public class Level5_POD : IPODGameMode
 
         var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-        while (rndImageWithKey.Item2 == correctAnswer)
+        while (rndImageWithKey.Item2[0] == correctAnswer[0])
         {
             rndImageWithKey = ImageManager.GetRandomImageWithKey();
         }
@@ -57,7 +60,7 @@ public class Level5_POD : IPODGameMode
 
         AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
 
-        manager.hearLetterButtonAudioSource.GetComponent<AudioSource>().clip = clip;
+        manager.hearLetterButtonAudioClip = clip;
 
     }
 
@@ -68,24 +71,163 @@ public class Level5_POD : IPODGameMode
     /// <returns>Returns a set of answers strings to be used by the PathOfDangerManager</returns>
     public string[] GenerateAnswers(int count)
     {
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
+        List<ILanguageUnit> letters = new List<ILanguageUnit>();
 
+        LetterData modeLetterType = (LetterData)languageUnits[0];
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Letter)
+            {
+                LetterData letterData = (LetterData)item;
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel >= 2)
+                {
+                    letters.Add(item);
+                }
+                else if (letterData.Category == modeLetterType.Category)
+                {
+                    letters.Add(item);
+                }
+            }
+        }
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
         {
-            
-            returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
 
-            //Code to make sure that the previous answer is not getting repeated imediatly after. 
-            while (returnedString[i]==previousRetrievedAnswer)
+            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+
+            bool checkIfAvailable = true;
+
+            while (checkIfAvailable)
             {
-                returnedString[i] = LetterManager.GetRandomFMNSConsonant().ToString();
+                switch (returnedString[i].ToLower())
+                {
+                    case "y":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "z":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "w":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "c":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "q":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "x":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    default:
+                        checkIfAvailable = false;
+                        break;
+                }
             }
 
+
+
+             checkIfAvailable = true;
+
+            while (checkIfAvailable)
+            {
+                switch (returnedString[i].ToLower())
+                {
+                    case "y":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "z":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "w":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "c":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "q":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    case "x":
+                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        break;
+
+                    default:
+                        checkIfAvailable = false;
+                        break;
+                }
+            }
+
+
+
+            //Code to make sure that the previous answer is not getting repeated imediatly after. 
+            while (returnedString[i] == previousRetrievedAnswer)
+            {
+
+
+               
+
+
+                returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+
+                checkIfAvailable = true;
+
+                while (checkIfAvailable)
+                {
+                    switch (returnedString[i].ToLower())
+                    {
+                        case "y":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "z":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "w":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "c":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "q":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        case "x":
+                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            break;
+
+                        default:
+                            checkIfAvailable = false;
+                            break;
+                    }
+                }
+                
+
+            }
             previousRetrievedAnswer = returnedString[i];
+
         }
 
-       
+
+
 
         return returnedString;
     }
@@ -100,6 +242,6 @@ public class Level5_POD : IPODGameMode
         manager.answerHolderPrefab = manager.singleImageHolderPrefab;
         manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på billedet som starter med bogstavet du hørte";
+        manager.descriptionText.text = " Tryk pï¿½ MellemRum knappen for at hoppe. Tryk pï¿½ F for at hï¿½re et bogstav. Hop pï¿½ billedet som starter med bogstavet du hï¿½rte";
     }
 }

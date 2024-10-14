@@ -9,6 +9,7 @@ using Scenes._10_PlayerScene.Scripts;
 using Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes;
 using CORE.Scripts.Game_Rules;
 using Scenes._00_Bootstrapper;
+using CORE;
 
 namespace Scenes._50_Minigames._54_SymbolEater.Scripts
 {
@@ -44,10 +45,13 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         private ISEGameMode gameMode;
 
         [SerializeField] GameObject monsterPrefab;
+        [SerializeField] AudioClip backgroundMusic;
 
         public DifficultyManager difficultyManager = new DifficultyManager();
 
         public MonsterHivemind monsterHivemind = new MonsterHivemind();
+        public bool isTutorialOver = false;
+        private IGameRules gameRules;
 
 
         public delegate void LoadFinished();
@@ -61,8 +65,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="targetMode">The game mode which should be used</param>
         public void SetupGame(IGenericGameMode targetMode, IGameRules targetRules)
         {
+            AudioManager.Instance.PlaySound(backgroundMusic, SoundType.Music, true);
             //Sets various fieldvariables and their field variables
             gameMode = (ISEGameMode)targetMode;
+            gameRules = targetRules;
             player = playerObject.GetComponent<SymbolEaterPlayer>();
             player.board = this;
             answerText = answerTextObject.GetComponent<TextMeshProUGUI>();
@@ -121,6 +127,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns>whether the letter is the same as the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
+            if(!isTutorialOver)
+                isTutorialOver = gameMode.IsCorrectSymbol(letter);
             return gameMode.IsCorrectSymbol(letter);
         }
 
@@ -236,8 +244,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         public void Lost()
         {
             gameOverText.text = "Du tabte. Monsteret smed dig ud af brættet";
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), false);
             monsterHivemind.OnGameOver();
             player.GameOver();
+            gameMode.UpdateLanguageUnitWeight();
             StartCoroutine(ReturnToMainWorld());
         }
 
@@ -247,12 +257,23 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <param name="winText">The text to display</param>
         public void Won(string winText, int xpReward, int goldReward)
         {
+            GameManager.Instance.DynamicDifficultyAdjustmentManager.UpdateLanguageUnitWeight(gameRules.GetCorrectAnswer(), true);
             gameOverText.text = winText;
             monsterHivemind.OnGameOver();
             //Calls to update the players xp and gold. Temporary values
             player.GameOver();
             PlayerEvents.RaiseGoldChanged(goldReward);
             PlayerEvents.RaiseXPChanged(xpReward);
+            string answer = gameRules.GetCorrectAnswer();
+            gameMode.UpdateLanguageUnitWeight();
+            if(answer.Length > 1)
+            {
+                PlayerEvents.RaiseAddWord(answer);
+            }
+            else
+            {
+                PlayerEvents.RaiseAddLetter(answer[0]);
+            }
             StartCoroutine(ReturnToMainWorld());
         }
 

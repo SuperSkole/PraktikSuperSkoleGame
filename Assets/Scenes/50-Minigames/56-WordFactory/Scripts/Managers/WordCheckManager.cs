@@ -20,8 +20,8 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private BlockCreator blockCreator;
         [SerializeField] private AudioSource pullHandleAudioSource;
         
-        private bool hasPlayedPullHandleSound = false;
-
+        //private bool hasPlayedPullHandleSound = false;
+        public bool waitingForInput = false;
         // Public boolean to allow unlimited blocks for testing
         public bool unlimitedBlocks = false;
 
@@ -35,6 +35,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         // created word queue
         private Queue<string> wordQueue = new Queue<string>();
         private bool isProcessingWord = false;
+        public bool isTutorialOver = false;
 
         private void Update()
         {
@@ -82,7 +83,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
                     Debug.Log("Valid word: " + formedWord);
-    
+                    isTutorialOver = true;
                     scoreManager.AddScore(formedWord.Length);
                     OnValidWord?.Invoke(formedWord);
                     createdWords.Add(formedWord);
@@ -165,7 +166,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 PlayerEvents.RaiseGoldChanged(1);
                 PlayerEvents.RaiseXPChanged(1);
                 WordFactorySoundManager.Instance.PlaySound(WordFactorySoundManager.SoundEvent.GainGold);
-        
+                waitingForInput = true;
                 AddWordToPlayerData(word);
                 AddWordToHighScore(word);        
                 

@@ -17,7 +17,7 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
 
 
         [SerializeField]
-        private ProductionLineManager productionManager;
+        private ProductionLineController productionController;
 
 
 
@@ -41,11 +41,11 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
             {
                 if (Random.Range(0, 2) == 1)
                 {
-                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetFixedCorrect());
+                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionController.GetFixedCorrect());
                 }
                 else
                 {
-                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionManager.GetLetters());
+                    letterBox.transform.GetChild(0).gameObject.GetComponent<LetterBox>().GetLetter(productionController.GetLetters());
                 }
                 
                 letterBox.transform.position = botSpawnPoint.transform.position;
