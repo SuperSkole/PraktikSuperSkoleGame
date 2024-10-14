@@ -37,7 +37,7 @@ namespace Scenes._00_Bootstrapper
                     }
                     else
                     {
-                        //Debug.LogError("Unity services not fully initialized.");
+                        Debug.LogError("Unity services not fully initialized.");
                     }
                 }
                 catch (Exception ex)
@@ -47,7 +47,7 @@ namespace Scenes._00_Bootstrapper
 
                     if (attempt >= MaxRetries)
                     {
-                        //Debug.LogError("All initialization attempts failed.");
+                        Debug.LogWarning("All initialization attempts failed.");
                         throw; // TODO handle failure after all attempts fail
                     }
 
@@ -106,6 +106,6 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public static class SceneConfig
     {
-        public const string InitialScene = SceneNames.Login; // TODO: Update to "SplashScene" when made.
+        public const string InitialScene = SceneNames.Splash;
     }
 }
