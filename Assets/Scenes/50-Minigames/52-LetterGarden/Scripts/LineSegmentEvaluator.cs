@@ -11,7 +11,7 @@ namespace Scenes.Minigames.LetterGarden.Scripts
 {
     public static class LineSegmentEvaluator
     {
-        [SerializeField] private static float maxDist = 1;
+        [SerializeField] private static float maxDist = 4;
         [SerializeField] private static float ispointAtEndOfSplineCutoff = 0.8f;
         [SerializeField] private static float ispointAtStartOfSplineCutoff = 0.2f;
 

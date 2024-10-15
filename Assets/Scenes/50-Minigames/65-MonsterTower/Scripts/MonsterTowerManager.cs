@@ -77,6 +77,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
        
         private List<char> letters;
 
+        private int maxLetterAmmoAmount=16;
+
         /// <summary>
         /// Gets the wordsOrLetters collected by the player from the playerManager so it can be used to display the ammunition and the amount of ammo the player has. 
         /// </summary>
@@ -87,10 +89,18 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scripts
             {
                 letters = PlayerEvents.RaisePlayerDataLettersExtracted();
 
+                var letterAmount = 0;
+                
                 foreach (var item in letters)
                 {
-                    wordsOrLetters.Add(item.ToString());
+                    if (letterAmount <= maxLetterAmmoAmount)
+                    {
+                        wordsOrLetters.Add(item.ToString());
+                        letterAmount += 1;
+                    }
+
                 }
+
             }
             else
             {

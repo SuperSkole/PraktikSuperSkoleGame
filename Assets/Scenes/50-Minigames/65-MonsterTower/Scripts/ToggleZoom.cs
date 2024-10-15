@@ -1,3 +1,4 @@
+using Cinemachine;
 using Scenes._50_Minigames._65_MonsterTower.Scripts;
 using System;
 using System.Collections;
@@ -20,9 +21,11 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
         bool doneZoom = true;
        public bool zoomingIn = true;
 
-        [SerializeField] Camera cam;
+        [SerializeField] CinemachineVirtualCamera cam;
 
         public bool towerLaneDestroyed = false;
+
+        [SerializeField] GameObject gameGuideUI;
 
         
       
@@ -31,13 +34,13 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
 
         void Start()
         {
-            minZoom = cam.fieldOfView;
+            minZoom = cam.m_Lens.FieldOfView;
             currentZoom = minZoom;
 
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    maxZoom = 35;
+                    maxZoom = 30;
                     break;
                 case Difficulty.Medium:
                     maxZoom = 21;
@@ -57,10 +60,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             if(Input.GetKeyDown(KeyCode.Z) && doneZoom ||towerLaneDestroyed)
             {
                 doneZoom = false;
+                gameGuideUI.SetActive(!gameGuideUI.activeSelf);
             }
             if(!doneZoom)
             {
                 Zoom();
+               
             }
         }
 
@@ -69,8 +74,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips
             if(zoomingIn) currentZoom -= zoomSpeed * 0.1f * Time.deltaTime;
             else currentZoom -= zoomSpeed * -0.1f * Time.deltaTime;
             currentZoom = Mathf.Clamp(currentZoom, maxZoom, minZoom);
-            cam.fieldOfView = Mathf.SmoothDamp(cam.fieldOfView,currentZoom,ref velocity,smoothTime);
-            if (cam.fieldOfView <= maxZoom + 0.1f && zoomingIn || cam.fieldOfView >= minZoom -0.1f && !zoomingIn)
+            cam.m_Lens.FieldOfView = Mathf.SmoothDamp(cam.m_Lens.FieldOfView, currentZoom,ref velocity,smoothTime);
+            if (cam.m_Lens.FieldOfView <= maxZoom + 0.1f && zoomingIn || cam.m_Lens.FieldOfView >= minZoom -0.1f && !zoomingIn)
             {
                 doneZoom = true;
 

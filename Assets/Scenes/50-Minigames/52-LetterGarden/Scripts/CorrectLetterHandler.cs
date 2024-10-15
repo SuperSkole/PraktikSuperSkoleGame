@@ -26,13 +26,17 @@ public class CorrectLetterHandler : MonoBehaviour
     /// </summary>
     void Update()
     {
-        if(moving)
+        if(moving && gameObject.activeSelf)
         {
             float velocity = speed * Time.deltaTime;
             
             transform.position = Vector3.MoveTowards(transform.position, endPos, velocity);
             float newScale = Vector3.Distance(transform.position, endPos)/ startDistance;
-            transform.localScale = new Vector3(newScale, newScale, newScale);
+            if(newScale > 0.01f)
+            {
+                transform.localScale = new Vector3(newScale, newScale, newScale);
+            }
+            
 
         }
     }

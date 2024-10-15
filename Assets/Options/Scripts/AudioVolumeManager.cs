@@ -12,6 +12,11 @@ public class AudioVolumeManager : MonoBehaviour
     private bool muted = false;
     public float savedmasterVolume = 0f, savedSFXVolume = 1f, savedMusicVolume = 1f;
 
+    private void Start()
+    {
+        SetMusicVolume(0.5f);
+    }
+
     /// <summary>
     /// used to set the master volume
     /// </summary>

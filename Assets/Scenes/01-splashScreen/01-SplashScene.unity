@@ -1072,8 +1072,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18.942, y: 9.471}
-  m_SizeDelta: {x: 833.195, y: 999.792}
+  m_AnchoredPosition: {x: 32.599, y: 9.471}
+  m_SizeDelta: {x: 1629.222, y: 999.792}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2102894771
 MonoBehaviour:
@@ -1095,8 +1095,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Mpho Thor Bonde\nThorbj\xF8rn Ulrik Mortensen\nJonathan L. Andersen\n\nClara
-    Heyman Donovan\nSofie Harbo Jensen\n"
+  m_text: "Praktikanter:\nProjeckt Leder - Mpho Thor Bonde\nLead Developer -Thorbj\xF8rn
+    Ulrik Mortensen\nGrafik Lead - Jonathan L. Andersen\n\nProjekt Praktikanter:\nScrum
+    Master - Luna Allie Wing\nLead Program\xF8r - Sofie Harbo Jensen\nProgram\xF8r
+    - Clara Heyman Donovan\nProgram\xF8r - Marc J\xFCrgensen S\xF8rensen\nProgram\xF8r
+    - Henrik Cadag M\xF8lg\xE5rd Hansen\nProgram\xF8r - Casper Bynge Korsgaard Larsen"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1130,7 +1133,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

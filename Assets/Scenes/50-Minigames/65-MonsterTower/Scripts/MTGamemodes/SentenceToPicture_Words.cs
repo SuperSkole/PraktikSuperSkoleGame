@@ -120,8 +120,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     }
                 }
 
-                string first= words[Random.Range(0, 10)].Identifier;
-                string second= words[Random.Range(0, 10)].Identifier;
+                string first= words[Random.Range(0, words.Count)].Identifier;
+                string second= words[Random.Range(0, words.Count)].Identifier;
 
 
                 switch (rnd)
@@ -157,7 +157,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
             manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer til sætningen";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nSkyd det billede der passer til st\u00e6ningen";
         }
     }
 }
