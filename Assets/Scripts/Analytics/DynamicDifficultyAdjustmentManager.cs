@@ -10,8 +10,18 @@ using Words;
 
 namespace Analytics
 {
+    /// <summary>
+    /// Provides mapping of player levels to a list of language unit types and associated categories.
+    /// </summary>
     public static class PlayerLevelMapper
     {
+        /// <summary>
+        /// A static dictionary mapping player levels to their respective types of language units
+        /// and additional parameters. Each key is an integer representing the player's level,
+        /// and the corresponding value is a list of tuples. Each tuple consists of a
+        /// LanguageUnit enum value and an associated object, which provides additional
+        /// context or parameters relevant for that language unit.
+        /// </summary>
         public static readonly Dictionary<int, List<(LanguageUnit, object)>> LevelMapping = new Dictionary<int, List<(LanguageUnit, object)>>
         {
             {
@@ -85,7 +95,12 @@ namespace Analytics
             throw new ArgumentException($"Invalid player level: {playerLevel}");
         }
     }
-    
+
+    /// <summary>
+    /// Manages dynamic difficulty adjustment by evaluating player performance and adjusting
+    /// the difficulty of language units accordingly. This includes managing composite weights
+    /// and spaced repetition to ensure a balanced and adaptive learning experience.
+    /// </summary>
     public class DynamicDifficultyAdjustmentManager : PersistentSingleton<DynamicDifficultyAdjustmentManager>, IDynamicDifficultyAdjustmentManager
     {
         private Dictionary<LanguageUnit, Func<object, int, List<ILanguageUnit>>> unitHandlers;
@@ -97,8 +112,8 @@ namespace Analytics
         private ConcurrentDictionary<string, WordData> wordWeights;
         
         public int playerLanguageLevel;
-        private const float PerformanceFactor = 1.0f; // Currently prioritizing only performance
-        // private const float PerformanceFactor = 0.7f;
+        //private const float PerformanceFactor = 1.0f; // Currently prioritizing only performance
+        private const float PerformanceFactor = 0.7f;
         private const float TimeFactor = 0.3f;
         
         private readonly IPerformanceWeightManager performanceWeightManager;
@@ -297,7 +312,12 @@ namespace Analytics
             }
         }
 
-
+        /// <summary>
+        /// Initializes the time weights for the language units associated with the specified player level.
+        /// This involves retrieving relevant content types and their corresponding units, removing duplicates, and setting initial time weights based on their usage history.
+        /// </summary>
+        /// <param name="playerLevel">The current level of the player, used to fetch relevant content types and their associated units.</param>
+        /// <exception cref="KeyNotFoundException">Thrown when no content types are found for the provided player level.</exception>
         private void InitializeTimeWeights(int playerLevel)
         {
             // Get the content types and additional parameters for the current level from LevelMapping
@@ -331,7 +351,13 @@ namespace Analytics
             }
         }
 
-        private List<ILanguageUnit> GetUnitsByContentType((LanguageUnit, object) contentType)
+        /// <summary>
+        /// Retrieves a list of language units based on a specified content type and additional parameter.
+        /// </summary>
+        /// <param name="contentType">A tuple containing the LanguageUnit type and an associated object representing additional parameters to filter the language units.</param>
+        /// <returns>A list of language units matching the specified content type and additional filtering parameters.</returns>
+        private List<ILanguageUnit> GetUnitsByContentType(
+            (LanguageUnit, object) contentType)
         {
             var (unitType, parameter) = contentType;
 
@@ -354,7 +380,11 @@ namespace Analytics
             };
         }
 
-
+        /// <summary>
+        /// Calculates the average weight of a given list of language units.
+        /// </summary>
+        /// <param name="units">A list of ILanguageUnit instances whose average weight needs to be calculated.</param>
+        /// <returns>The average weight of the provided language units. If the list is empty or null, returns <c>float.MaxValue</c> to prevent level up.</returns>
         private float CalculateAverageWeight(List<ILanguageUnit> units)
         {
             if (units == null || units.Count == 0)
@@ -393,7 +423,13 @@ namespace Analytics
             
             //PrintAllWeights();
         }
-        
+
+        /// <summary>
+        /// Initializes the handlers for different types of language units.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// Thrown when the specific type provided to a handler does not match the expected type for the language unit.
+        /// </exception>
         private void InitializeLanguageUnitHandlers()
         {
             unitHandlers = new Dictionary<LanguageUnit, Func<object, int, List<ILanguageUnit>>>
@@ -422,7 +458,11 @@ namespace Analytics
                 }
             };
         }
-        
+
+        /// <summary>
+        /// Initializes the handlers responsible for managing time-based weights of language units.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if a language unit type is not handled properly.</exception>
         private void InitializeTimeWeightHandlers()
         {
             timeWeightHandlers = new Dictionary<LanguageUnit, Action<ILanguageUnit>>
@@ -473,7 +513,10 @@ namespace Analytics
                 }
             };
         }
-        
+
+        /// <summary>
+        /// Initializes the dictionary of handlers for updating the weights of various language units.
+        /// </summary>
         private void InitializeUpdateWeightHandlers()
         {
             updateWeightHandlers = new Dictionary<LanguageUnit, Action<ILanguageUnit, bool>>
@@ -503,30 +546,36 @@ namespace Analytics
                 // }
             };
         }
-        
-        // private List<ILanguageUnit> GetLetters(LetterCategory category, int count)
-        // {
-        //     var letters = performanceWeightManager.GetLettersByCategory(category).Cast<ILanguageUnit>().ToList();
-        //     return letters.OrderByDescending(u => u.CompositeWeight).Take(count).ToList();
-        // }
-        //
-        // private List<ILanguageUnit> GetWords(WordLength length, int count)
-        // {
-        //     var words = performanceWeightManager.GetWordsByLength(length).Cast<ILanguageUnit>().ToList();
-        //     return words.OrderByDescending(u => u.CompositeWeight).Take(count).ToList();
-        // }
 
-        
-        private List<ILanguageUnit> GetLetters(LetterCategory category, int count)
+        /// <summary>
+        /// Retrieves a list of language units of type letters from a specified category.
+        /// </summary>
+        /// <param name="category">The category of letters to be retrieved (e.g., Vowel, Consonant, All).</param>
+        /// <param name="count">The number of letter language units to retrieve.</param>
+        /// <returns>A list of language units that match the specified category and count.</returns>
+        private List<ILanguageUnit> GetLetters(
+            LetterCategory category,
+            int count)
         {
             return performanceWeightManager.GetNextLetters(category, count);
         }
 
+        /// <summary>
+        /// Retrieves a list of words based on the specified word length and count.
+        /// </summary>
+        /// <param name="length">The length of the words to be retrieved.</param>
+        /// <param name="count">The number of words to be retrieved.</param>
+        /// <returns>A list of ILanguageUnit instances representing the words of the specified length.</returns>
         private List<ILanguageUnit> GetWords(WordLength length, int count)
         {
             return performanceWeightManager.GetNextWords(length, count);
         }
-        
+
+        /// <summary>
+        /// Ensures that the weight dictionaries for letters and words are initialized
+        /// by loading data from the PlayerManager's PlayerData. If they are not already
+        /// initialized, this method populates them with the appropriate data.
+        /// </summary>
         public void EnsureInitialized()
         {
             if (letterWeights == null)
@@ -546,6 +595,11 @@ namespace Analytics
             // }
         }
         
+        /// <summary>
+        /// debug tool
+        /// Prints all letter weights to the debug log.
+        /// This method ensures that the weights are initialized before printing.
+        /// </summary>
         public void PrintAllWeights()
         {
             EnsureInitialized();
