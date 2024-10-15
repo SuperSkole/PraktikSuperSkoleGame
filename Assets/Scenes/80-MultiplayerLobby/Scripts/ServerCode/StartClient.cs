@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -10,34 +11,36 @@ using UnityEngine;
 
 namespace Scenes.MultiplayerLobby.Scripts
 {
-    [RequireComponent(typeof(RelayManager))]
-    [RequireComponent(typeof(LobbyManager))]
-    [RequireComponent(typeof(StartHost))]
-    [RequireComponent(typeof(NetworkManager))]
-    [RequireComponent(typeof(NetworkTransport))]
     public class StartClient : MonoBehaviour
     {
-        private RelayManager relayManager;
-        private LobbyManager lobbyManager;
-        private NetworkTransport transport;
-        private NetworkManager networkManager;
         private StartHost host;
+        public string serverID = null;
+        private const float CharacterSpawnTimeout = 10f;
+        public bool isCharacterSpawned = false;
 
+        /// <summary>
+        /// Gets the host and begins booting multiplayer.
+        /// </summary>
         private void Start()
         {
-            relayManager = GetComponent<RelayManager>();
-            lobbyManager = GetComponent<LobbyManager>();
-            transport = GetComponent<NetworkTransport>();
-            networkManager = GetComponent<NetworkManager>();
             host = GetComponent<StartHost>();
             QuickJoinGame();
         }
+
+        /// <summary>
+        /// Calls the spawn timeout and begins filtering to fetch the possible servers.
+        /// Afterwards, attempts to join the server.
+        /// </summary>
         public async void QuickJoinGame()
         {
             try
             {
+                if (!isCharacterSpawned)
+                {
+                    StartCoroutine(CheckCharacterSpawnTimeout());
+                }
                 // Query available lobbies
-                var options = new QueryLobbiesOptions
+                QueryLobbiesOptions options = new()
                 {
                     Filters = new List<QueryFilter>
                     {
@@ -52,11 +55,9 @@ namespace Scenes.MultiplayerLobby.Scripts
                 {
                     // Join the first available lobby
                     Lobby firstAvailableLobby = queryResponse.Results[0];
-                    Debug.Log($"Joining Lobby: {firstAvailableLobby.Name}");
+                    serverID = firstAvailableLobby.Id;
+                    Lobby joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(serverID);
 
-                    Lobby joinedLobby = await Lobbies.Instance.JoinLobbyByIdAsync(firstAvailableLobby.Id);
-                    Debug.Log($"Successfully joined lobby: {joinedLobby.Name}");
-                    
                     // Retrieve the relay join code from the lobby data
                     if (joinedLobby.Data.ContainsKey("RelayCode"))
                     {
@@ -64,11 +65,9 @@ namespace Scenes.MultiplayerLobby.Scripts
 
                         if (!string.IsNullOrEmpty(relayJoinCode))
                         {
-                            // Join the relay using the retrieved join code
+                            JoinAllocation joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
 
-                            var joinAllocation = await RelayService.Instance.JoinAllocationAsync(relayJoinCode);
-
-                            RelayServerData relayServerData = new RelayServerData(joinAllocation, "wss");
+                            RelayServerData relayServerData = new(joinAllocation, "wss");
                             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
                             // Start the Netcode client
@@ -79,26 +78,53 @@ namespace Scenes.MultiplayerLobby.Scripts
                         else
                         {
                             Debug.LogError("Relay join code is missing from the lobby.");
+                            SwitchScenes.SwitchToMainWorld();
                         }
                     }
                     else
                     {
                         Debug.LogError("Lobby does not contain relay join code.");
+                        SwitchScenes.SwitchToMainWorld();
                     }
                 }
-                else if(queryResponse.Results != null)
+                else if (queryResponse.Results != null)
                 {
                     host.StartHostGame();
                 }
                 else
                 {
                     Debug.LogWarning("Query returned null.");
+                    SwitchScenes.SwitchToMainWorld();
                 }
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError($"Quick join failed: {e}");
+                SwitchScenes.SwitchToMainWorld();
             }
+        }
+
+        /// <summary>
+        /// Waits a time to check if the MP character has spawned.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator CheckCharacterSpawnTimeout()
+        {
+            float timer = 0f;
+
+            while (timer < CharacterSpawnTimeout)
+            {
+                if (isCharacterSpawned)
+                {
+                    yield break;
+                }
+
+                timer += Time.deltaTime;
+                yield return null;
+            }
+
+            Debug.LogError("Character failed to spawn within the time limit. Returning to main world.");
+            SwitchScenes.SwitchToMainWorld();
         }
 
 

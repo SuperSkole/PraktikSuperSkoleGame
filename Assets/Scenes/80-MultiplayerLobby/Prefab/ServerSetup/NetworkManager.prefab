@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6566263196077745790}
   - component: {fileID: 8979784055632089717}
   - component: {fileID: 5781832658972406468}
-  - component: {fileID: 2227810573646429972}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -90,12 +89,12 @@ MonoBehaviour:
   m_ProtocolType: 1
   m_UseWebSockets: 1
   m_UseEncryption: 0
-  m_MaxPacketQueueSize: 128
+  m_MaxPacketQueueSize: 500
   m_MaxPayloadSize: 6144
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
   m_MaxConnectAttempts: 60
-  m_DisconnectTimeoutMS: 30000
+  m_DisconnectTimeoutMS: 7000
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
@@ -152,15 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfecb8cf2cfb27640b6621beda52253b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2227810573646429972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4846501207198430511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43dd46c140711644f859a2ee9be66d47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serverID: 
+  isCharacterSpawned: 0

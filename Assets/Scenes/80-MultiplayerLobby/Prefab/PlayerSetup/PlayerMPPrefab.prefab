@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4366339486587980278}
   - component: {fileID: 3031599016211094441}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: NameDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -334,19 +334,17 @@ PrefabInstance:
       addedObject: {fileID: 2401108497053250027}
     - targetCorrespondingSourceObject: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7449222551028336592}
+    - targetCorrespondingSourceObject: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4668080565261438234}
+    - targetCorrespondingSourceObject: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3080605763153849163}
+    - targetCorrespondingSourceObject: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 2186962860626712563}
   m_SourcePrefab: {fileID: 100100000, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
---- !u!114 &708424902885697990 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2014260511405141757, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
-  m_PrefabInstance: {fileID: 1306259332965107515}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1658376028974010828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a36cc408569ee6241878b291bb81f95b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1658376028974010828 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 370280089111779063, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
@@ -416,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2186962860626712563
+--- !u!114 &7449222551028336592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -425,19 +423,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1658376028974010828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c2423a7d77856945b26c22da067d07d, type: 3}
+  m_Script: {fileID: 11500000, guid: bf31a08b370f24b4c80c5f42c8cda6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorChange: {fileID: 708424902885697990}
-  clothChange: {fileID: 8288504489357994207}
-  moveSpeed: 5
-  rb: {fileID: 4874562020106437559}
-  animator: {fileID: 4424333071203226479}
-  spriteTransform: {fileID: 4403310850550148086}
-  textDisplay: {fileID: 1141546081774564311}
-  textField: {fileID: 3031599016211094441}
-  textRotation:
-    m_InternalValue: {x: 0, y: 0, z: 0}
   colorPick:
     m_InternalValue:
       utf8LengthInBytes: 0
@@ -578,6 +566,187 @@ MonoBehaviour:
         byte0027: 0
         byte0028: 0
         byte0029: 0
+--- !u!114 &4668080565261438234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658376028974010828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d61d7d4e056fc94c974b7553c950986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateDebugMessages: 1
+--- !u!114 &3080605763153849163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658376028974010828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc824d8c56ebcd40afde829531e1225, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerId:
+    m_InternalValue:
+      utf8LengthInBytes: 0
+      bytes:
+        offset0000:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0016:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0032:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0048:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0064:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0080:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        offset0096:
+          byte0000: 0
+          byte0001: 0
+          byte0002: 0
+          byte0003: 0
+          byte0004: 0
+          byte0005: 0
+          byte0006: 0
+          byte0007: 0
+          byte0008: 0
+          byte0009: 0
+          byte0010: 0
+          byte0011: 0
+          byte0012: 0
+          byte0013: 0
+          byte0014: 0
+          byte0015: 0
+        byte0112: 0
+        byte0113: 0
+        byte0114: 0
+        byte0115: 0
+        byte0116: 0
+        byte0117: 0
+        byte0118: 0
+        byte0119: 0
+        byte0120: 0
+        byte0121: 0
+        byte0122: 0
+        byte0123: 0
+        byte0124: 0
+        byte0125: 0
+--- !u!114 &2186962860626712563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658376028974010828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2423a7d77856945b26c22da067d07d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rb: {fileID: 4874562020106437559}
+  animator: {fileID: 4424333071203226479}
+  spriteTransform: {fileID: 4403310850550148086}
+  textDisplay: {fileID: 533830292449207520}
+  textRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0}
 --- !u!4 &4403310850550148086 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3403437169497779405, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
@@ -599,14 +768,3 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 5874153678614725772, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
   m_PrefabInstance: {fileID: 1306259332965107515}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8288504489357994207 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7000402631017721828, guid: f92e15cd7fac9a94b8d7cc02999fe778, type: 3}
-  m_PrefabInstance: {fileID: 1306259332965107515}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1658376028974010828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d38a7c2f5cb5bc44b3821cfdb7dc79c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
