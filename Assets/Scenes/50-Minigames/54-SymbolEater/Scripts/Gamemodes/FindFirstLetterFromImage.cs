@@ -43,6 +43,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
+                if(gameRules.GetType() == typeof(DynamicGameRules))
+                {
+                    DynamicGameRules dynamicGameRules = (DynamicGameRules)gameRules;
+                    dynamicGameRules.UseFirstLetter();
+                }
                 if(sprites.ContainsKey(gameRules.GetSecondaryAnswer())){
                     boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
@@ -52,6 +57,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     sprites.Add(gameRules.GetSecondaryAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
                     boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
+                boardController.SetAnswerText("Find det første bogstav i ordet");
                 wordsLoaded = true;
             }
             else 

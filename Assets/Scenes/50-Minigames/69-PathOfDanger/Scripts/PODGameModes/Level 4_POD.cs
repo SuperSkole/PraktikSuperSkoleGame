@@ -111,12 +111,12 @@ public class Level4_POD : IPODGameMode
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
             while (returnedString[i]==previousRetrievedAnswer)
             {
           
-                    returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
             }
 

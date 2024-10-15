@@ -52,12 +52,12 @@ public class Level4_POD_Words : IPODGameMode
         }
 
 
-        var rndLetterWithKey = words[Random.Range(0,10)].Identifier;
+        var rndLetterWithKey = words[Random.Range(0,words.Count)].Identifier;
 
 
         while (rndLetterWithKey == correctAnswer)
         {
-            rndLetterWithKey = words[Random.Range(0, 10)].Identifier;
+            rndLetterWithKey = words[Random.Range(0, words.Count)].Identifier;
         }
 
         manager.textOnPlatform.text = rndLetterWithKey.ToString();
@@ -110,12 +110,12 @@ public class Level4_POD_Words : IPODGameMode
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+            returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             while (returnedString[i]==previousRetrievedAnswer)
             {
           
-                    returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             }
 
@@ -137,6 +137,6 @@ public class Level4_POD_Words : IPODGameMode
 
         manager.textOnPlatform = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på det rigtige bogstav";
+        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et bogstav. Hop p\u00e5 det rigtige bogstav";
     }
 }

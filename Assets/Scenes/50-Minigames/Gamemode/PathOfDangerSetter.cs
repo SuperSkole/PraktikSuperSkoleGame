@@ -69,23 +69,45 @@ namespace Scenes._50_Minigames.Gamemode
             }
 
 
-
-            LetterData letterData = (LetterData)languageUnits[0];
-            if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+            if (languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
-                List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                LetterData letterData = (LetterData)languageUnits[0];
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+                {
+                    List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                    foreach (var item in languageUnits)
+                    {
+                        if (item.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                            {
+                                letters.Add(item);
+                            }
+                        }
+                    }
+
+                    if (letters.Count < 3)
+                    {
+                        return (null, null);
+                    }
+
+
+                }
+            }
+            else
+            {
+                List<ILanguageUnit> words = new List<ILanguageUnit>();
                 foreach (var item in languageUnits)
                 {
-                    if (item.LanguageUnitType == LanguageUnit.Letter)
+                    if (item.LanguageUnitType == LanguageUnit.Word)
                     {
-                        if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
-                        {
-                            letters.Add(item);
-                        }
+
+                        words.Add(item);
+
                     }
                 }
 
-                if (letters.Count < 3)
+                if (words.Count < 3)
                 {
                     return (null, null);
                 }

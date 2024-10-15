@@ -18,6 +18,8 @@ namespace Scenes._00_Bootstrapper
         public static bool IsDataLoaded { get; private set; } = false;
 
         public List<Texture2D> images = new();
+        public List<Texture2D> soundCorrectImages = new();
+        public List<Texture2D> onsetImages = new();
         public List<AudioClip> letterSounds = new();
         public List<AudioClip> danskCongrats = new();
         public List<AudioClip> englishCongrats = new();
@@ -157,7 +159,14 @@ namespace Scenes._00_Bootstrapper
 
         private IEnumerator LoadAllTextures()
         {
-            
+            foreach (Texture2D fileName in soundCorrectImages)
+            {
+                StartCoroutine(LoadAndSetDicSoundCorrect(fileName));
+            }
+            foreach (Texture2D fileName in onsetImages)
+            {
+                StartCoroutine(LoadAndSetDicOnset(fileName));
+            }
             foreach (Texture2D fileName in images)
             {
                 StartCoroutine(LoadAndSetDic(fileName));
@@ -172,14 +181,45 @@ namespace Scenes._00_Bootstrapper
             string firstLetterName = name[0].ToString();
             
 
-            
-
-
             ImageManager.AddImageToSet(name, texture);
             ImageManager.AddImageToLetterSet(firstLetterName, texture);
             WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }
+
+        private IEnumerator LoadAndSetDicOnset(Texture2D texture)
+        {
+            string name = texture.name;
+            name = GetName(name);
+            string firstLetterName = name[0].ToString();
+
+
+            OnsetImageManager.AddImageToSet(name, texture);
+            OnsetImageManager.AddImageToLetterSet(firstLetterName, texture);
+            ImageManager.AddImageToSet(name, texture);
+            ImageManager.AddImageToLetterSet(firstLetterName, texture);
+            WordsForImagesManager.AddNameToSet(name);
+            yield return null;
+        }
+
+        private IEnumerator LoadAndSetDicSoundCorrect(Texture2D texture)
+        {
+            string name = texture.name;
+            name = GetName(name);
+            string firstLetterName = name[0].ToString();
+
+
+            SoundCorrectImageManager.AddImageToSet(name, texture);
+            SoundCorrectImageManager.AddImageToLetterSet(firstLetterName, texture);
+            OnsetImageManager.AddImageToSet(name, texture);
+            OnsetImageManager.AddImageToLetterSet(firstLetterName, texture);
+            ImageManager.AddImageToSet(name, texture);
+            ImageManager.AddImageToLetterSet(firstLetterName, texture);
+            WordsForImagesManager.AddNameToSet(name);
+            yield return null;
+        }
+
+
 
         private string GetName(string name)
         {

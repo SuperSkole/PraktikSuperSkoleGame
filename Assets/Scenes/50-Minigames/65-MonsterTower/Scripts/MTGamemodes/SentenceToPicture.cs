@@ -124,8 +124,8 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
               
 
-                string first= letters[Random.Range(0, 10)].Identifier;
-                string second= letters[Random.Range(0, 10)].Identifier;
+                string first= letters[Random.Range(0, letters.Count)].Identifier;
+                string second= letters[Random.Range(0, letters.Count)].Identifier;
 
 
                 bool checkIfAvailable = true;
@@ -135,27 +135,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (first.ToLower())
                     {
                         case "y":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "z":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "w":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "c":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "q":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "x":
-                            first = letters[Random.Range(0, 10)].Identifier;
+                            first = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         default:
@@ -172,27 +172,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (second.ToLower())
                     {
                         case "y":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "z":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "w":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "c":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "q":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "x":
-                            second = letters[Random.Range(0, 10)].Identifier;
+                            second = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         default:
@@ -239,7 +239,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
             manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer til sætningen";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nSkyd det billede der passer til st\u00e6ningen";
         }
     }
 }

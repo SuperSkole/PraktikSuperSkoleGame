@@ -72,7 +72,8 @@ public class SymbolEaterLevel3 : ISEGameMode
             gameRules.SetCorrectAnswer();
             if(gameRules.GetType() == typeof(DynamicGameRules))
             {
-                gameRules.IsCorrectSymbol(gameRules.GetSecondaryAnswer()[0].ToString());
+                DynamicGameRules dynamicGameRules = (DynamicGameRules)gameRules;
+                dynamicGameRules.UseFirstVowel();
             }
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
