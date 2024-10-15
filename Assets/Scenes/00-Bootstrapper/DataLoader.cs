@@ -162,13 +162,10 @@ namespace Scenes._00_Bootstrapper
             foreach (Texture2D fileName in soundCorrectImages)
             {
                 StartCoroutine(LoadAndSetDicSoundCorrect(fileName));
-                StartCoroutine(LoadAndSetDicOnset(fileName));
-                StartCoroutine(LoadAndSetDic(fileName));
             }
             foreach (Texture2D fileName in onsetImages)
             {
                 StartCoroutine(LoadAndSetDicOnset(fileName));
-                StartCoroutine(LoadAndSetDic(fileName));
             }
             foreach (Texture2D fileName in images)
             {
@@ -199,6 +196,8 @@ namespace Scenes._00_Bootstrapper
 
             OnsetImageManager.AddImageToSet(name, texture);
             OnsetImageManager.AddImageToLetterSet(firstLetterName, texture);
+            ImageManager.AddImageToSet(name, texture);
+            ImageManager.AddImageToLetterSet(firstLetterName, texture);
             WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }
@@ -212,6 +211,10 @@ namespace Scenes._00_Bootstrapper
 
             SoundCorrectImageManager.AddImageToSet(name, texture);
             SoundCorrectImageManager.AddImageToLetterSet(firstLetterName, texture);
+            OnsetImageManager.AddImageToSet(name, texture);
+            OnsetImageManager.AddImageToLetterSet(firstLetterName, texture);
+            ImageManager.AddImageToSet(name, texture);
+            ImageManager.AddImageToLetterSet(firstLetterName, texture);
             WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }
