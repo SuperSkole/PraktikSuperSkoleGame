@@ -221,10 +221,10 @@ namespace Scenes.Minigames.LetterGarden.Scripts
             yield return new WaitForEndOfFrame (); // it must be a coroutine 
 
             //Sets up the bounds of the screenshot
-            float width = 400;
+            float width = 340;
             float height = 600;
-            Vector3 worldStart = new Vector3(screenShotBounds.transform.position.x, -34 - height/2, 400 - width/2);
-            Vector3 worldEnd = new Vector3(screenShotBounds.transform.position.x, -34 + height/2, 400 + width/2);
+            Vector3 worldStart = new Vector3(screenShotBounds.transform.position.x, -38 - height/2, 340 - width/2);
+            Vector3 worldEnd = new Vector3(screenShotBounds.transform.position.x, -38 + height/2, 340 + width/2);
             Vector2 screenStart = Camera.main.WorldToScreenPoint(worldStart);
             Vector2 screenEnd = Camera.main.WorldToScreenPoint(worldEnd);
             width = screenStart.x - screenEnd.x;
