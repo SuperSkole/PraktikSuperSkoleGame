@@ -45,17 +45,7 @@ public class SymbolEaterLevel3 : ISEGameMode
         {
             if (correct)
             {
-                List<char> vowels = LetterRepository.GetVowels().ToList();
-                char letter = 'b';
-                foreach(char charLetter in gameRules.GetSecondaryAnswer())
-                {
-                    if(vowels.Contains(charLetter))
-                    {
-                        letter = charLetter;
-                        break;
-                    }
-                }
-                letterCube.Activate(letter.ToString().ToLower(), true);
+                letterCube.Activate(gameRules.GetCorrectAnswer(), true);
                 numberOfCorrectLettersOnBoard++;
             }
             else

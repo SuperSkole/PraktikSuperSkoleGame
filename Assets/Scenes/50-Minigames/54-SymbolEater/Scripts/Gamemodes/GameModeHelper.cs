@@ -42,20 +42,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             {
                 if (letterCube.active)
                 {
-                    if (correct && gameRules.IsCorrectSymbol(letterCube.GetLetter()))
-                    {
-                        foundLetterCubes++;
-                        activeLetterCubes.Add(letterCube);
-                    }
-                    else if (!correct && !gameRules.IsCorrectSymbol(letterCube.GetLetter()))
-                    {
-                        foundLetterCubes++;
-                        activeLetterCubes.Add(letterCube);
-                    }
-                    if (foundLetterCubes == amount)
-                    {
-                        break;
-                    }
+                    foundLetterCubes++;
+                    activeLetterCubes.Add(letterCube);
                 }
             }
             if(foundLetterCubes < amount)
