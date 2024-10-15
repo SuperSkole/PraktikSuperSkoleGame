@@ -65,18 +65,23 @@ namespace Scenes._50_Minigames._67_WordProductionLine.Scripts
         /// <returns> random word.</returns>
         public string GetImages()
         {
-
-
-            string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
-
-            if (randomWord.Length <= 1)
+            if (Random.Range(0, 2) == 1)
             {
+                string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
+
                 randomWord = WordsForImagesManager.GetRandomWordForImage();
+                return randomWord;
             }
+            else
+            {
+                string randomWord = langUnit[Random.Range(0, langUnit.Count)].Identifier;
 
-
-
-            return randomWord;
+                if (randomWord.Length <= 1)
+                {
+                    randomWord = WordsForImagesManager.GetRandomWordForImage();
+                }
+                return randomWord;
+            }
         }
 
         /// <summary>
