@@ -2,13 +2,19 @@ using System;
 
 namespace Analytics
 {
-    public enum LanguageUnit 
+    /// <summary>
+    /// Specifies different units of language that can be analyzed.
+    /// </summary>
+    public enum LanguageUnit
     {
         Letter,
         Word,
         Sentence
     }
 
+    /// <summary>
+    /// Specifies categories of letters for language analysis.
+    /// </summary>
     public enum LetterCategory
     {
         Vowel,
@@ -16,6 +22,9 @@ namespace Analytics
         All
     }
 
+    /// <summary>
+    /// Specifies different categories of word lengths.
+    /// </summary>
     public enum WordLength
     {
         Unknown,
@@ -23,14 +32,20 @@ namespace Analytics
         ThreeLetters,
         FourLetters,
     }
-    
+
+    /// <summary>
+    /// Specifies different difficulty levels for words.
+    /// </summary>
     public enum WordDifficulty
     {
         Easy,
         Hard,
         Unknown
     }
-    
+
+    /// <summary>
+    /// Represents a unit of language, which can be a letter, word, or sentence.
+    /// </summary>
     public interface ILanguageUnit
     {
         string Identifier { get; } // what letter,word or sentence e.g. "A", "Cat", "A Black cat "

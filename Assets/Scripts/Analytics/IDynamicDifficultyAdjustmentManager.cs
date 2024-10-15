@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Analytics
 {
     /// <summary>
@@ -6,6 +8,7 @@ namespace Analytics
     /// </summary>
     public interface IDynamicDifficultyAdjustmentManager
     {
-        
+        List<ILanguageUnit> GetNextLanguageUnitsBasedOnLevel(int count);
+        void UpdateLanguageUnitWeight(string identifier, bool isCorrect);
     }
 }

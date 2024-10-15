@@ -11,6 +11,9 @@ using Random = UnityEngine.Random;
 
 namespace Analytics
 {
+    /// <summary>
+    /// Manages the performance weights for letters and words to aid in language unit selection and performance tracking.
+    /// </summary>
     public class PerformanceWeightManager : PersistentSingleton<PerformanceWeightManager>, IPerformanceWeightManager
     {
         private ConcurrentDictionary<string, LetterData> letterWeights;
@@ -38,7 +41,14 @@ namespace Analytics
             // }
         }
 
-        public IEnumerable<KeyValuePair<string, ILanguageUnit>> GetAllLanguageUnits()
+        /// <summary>
+        /// Retrieves all language units, including letters and words, along with their respective identifiers.
+        /// Ensures that the necessary data structures (letterWeights and wordWeights) are initialized before accessing them.
+        /// </summary>
+        /// <returns>An IEnumerable of KeyValuePair, where the key is a string representing the identifier
+        /// and the value is an ILanguageUnit representing the language unit associated with that identifier.</returns>
+        public IEnumerable<KeyValuePair<string, ILanguageUnit>>
+            GetAllLanguageUnits()
         {
             EnsureInitialized();
             
@@ -154,6 +164,7 @@ namespace Analytics
 
         /// <summary>
         /// Sets the weight of a specific entity.
+        /// used for testing
         /// </summary>
         public void SetEntityWeight(string identifier, int weight)
         {
@@ -178,11 +189,19 @@ namespace Analytics
                 Debug.LogWarning($"Identifier '{identifier}' not found in either letterWeights or wordWeights.");
             }
         }
-        
-        public List<ILanguageUnit> GetNextLetters(LetterCategory category, int count)
+
+        /// <summary>
+        /// Retrieves the next set of letter units based on the specified category and count.
+        /// </summary>
+        /// <param name="category">The category of letters to retrieve (vowel, consonant, or all).</param>
+        /// <param name="count">The number of letter units to retrieve.</param>
+        /// <returns>A list of letter units that match the specified category and count.</returns>
+        public List<ILanguageUnit> GetNextLetters(
+            LetterCategory category,
+            int count)
         {
             EnsureInitialized();
-            
+
             // Debug: Check if letterWeights is initialized and populated
             //Debug.Log($"Total letters in letterWeights: {letterWeights.Count}");
     
@@ -210,10 +229,16 @@ namespace Analytics
             return GetHighestWeightedUnitsInRandomOrder(filteredList, count);
         }
 
+        /// <summary>
+        /// Retrieves the next set of words of a specified length and count.
+        /// </summary>
+        /// <param name="length">The desired word length.</param>
+        /// <param name="count">The number of words to retrieve.</param>
+        /// <returns>A list of the next words based on the specified length and count.</returns>
         public List<ILanguageUnit> GetNextWords(WordLength length, int count)
         {
             EnsureInitialized();
-            
+
             // Debug: Check if wordWeights is initialized and populated
             //Debug.Log($"Total letters in wordWeights: {wordWeights.Count}");
     
@@ -236,7 +261,15 @@ namespace Analytics
             return GetHighestWeightedUnitsInRandomOrder(filteredUnits, count);
         }
 
-        private List<ILanguageUnit> GetHighestWeightedUnitsInRandomOrder(List<ILanguageUnit> units, int count)
+        /// <summary>
+        /// Returns a list of the highest weighted language units in a random order.
+        /// </summary>
+        /// <param name="units">The list of language units to be sorted and weighted.</param>
+        /// <param name="count">The number of language units to return.</param>
+        /// <returns>A list containing the highest weighted language units in random order.</returns>
+        private List<ILanguageUnit> GetHighestWeightedUnitsInRandomOrder(
+            List<ILanguageUnit> units,
+            int count)
         {
             // Sort units by composite weight in descending order, if weights are equal, randomize the order of the equal weight units
             var sortedUnits = units
@@ -249,11 +282,20 @@ namespace Analytics
             return sortedUnits.Take(count).ToList();
         }
 
-        
-        public List<ILanguageUnit> GetNextLanguageUnitsByTypeAndCategory(LanguageUnit type, LetterCategory category, int count)
+        /// <summary>
+        /// Retrieves the next set of language units filtered by a specific type and category.
+        /// </summary>
+        /// <param name="type">The type of language unit to filter by (e.g. Letter, Word, Sentence).</param>
+        /// <param name="category">The category of letters to filter by (e.g. Vowel, Consonant, All).</param>
+        /// <param name="count">The number of language units to retrieve.</param>
+        /// <returns>A list of language units matching the specified type and category, sorted by weight and randomly ordered within each weight group.</returns>
+        public List<ILanguageUnit> GetNextLanguageUnitsByTypeAndCategory(
+            LanguageUnit type,
+            LetterCategory category,
+            int count)
         {
             EnsureInitialized();
-    
+
             //Debug.Log($"GetNextLanguageUnits called with type: {type}, category: {category}, count: {count}");
 
             // filter units by type
@@ -426,6 +468,11 @@ namespace Analytics
         //     }
         // }
 
+        /// <summary>
+        /// debug tool
+        /// Prints all letter weights to the debug log.
+        /// This method ensures that the weights are initialized before printing.
+        /// </summary>
         public void PrintAllWeights()
         {
             EnsureInitialized();
