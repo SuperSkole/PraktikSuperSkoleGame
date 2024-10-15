@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -78,18 +79,39 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             string[] returnedString = new string[count];
 
-            List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            LetterData modeLetterType = (LetterData)languageUnits[0];
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    LetterData letterData = (LetterData)item;
+                    if ( GameManager.Instance.PlayerData.PlayerLanguageLevel>=2)
+                    { 
+                        letters.Add(item);
+                    }
+                  else if (letterData.Category == modeLetterType.Category)
+                  {
+                        letters.Add(item);
+                  }
+                }
+            }
+
             for (int i = 0; i < count; i++)
             {
 
                 //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
 
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                 }
 
                 previousRetrievedAnswer = returnedString[i];
@@ -108,7 +130,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             manager.textOnBrick = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd det bogstav du hørte";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nTryk P\u00e5 den gr\u00f8nne knap og skyd det bogstav du h\u00f8rte";
         }
     }
 

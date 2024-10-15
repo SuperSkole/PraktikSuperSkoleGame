@@ -51,7 +51,7 @@ namespace Scenes._00_Bootstrapper
             yield return StartCoroutine(congratsSoundCoroutine);
             yield return StartCoroutine(soundFxCourutine);
 
-            Debug.Log("All resources loaded.");
+            //Debug.Log("All resources loaded.");
         }
 
         private IEnumerator LoadAllCsvFiles()

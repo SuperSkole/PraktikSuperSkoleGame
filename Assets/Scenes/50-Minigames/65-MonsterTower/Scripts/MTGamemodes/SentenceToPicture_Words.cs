@@ -43,12 +43,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             switch (words[1])
             {
                 case "på":
-                    manager.bottomImage.texture = ImageManager.GetImageFromLetter(words[2]);
-                    manager.topImage.texture = ImageManager.GetImageFromLetter(words[0]);
+                    manager.bottomImage.texture = ImageManager.GetImageFromWord(words[2]);
+                    manager.topImage.texture = ImageManager.GetImageFromWord(words[0]);
                     break;
                 case "under":
-                    manager.topImage.texture = ImageManager.GetImageFromLetter(words[2]);
-                    manager.bottomImage.texture = ImageManager.GetImageFromLetter(words[0]);
+                    manager.topImage.texture = ImageManager.GetImageFromWord(words[2]);
+                    manager.bottomImage.texture = ImageManager.GetImageFromWord(words[0]);
                     break;
                 default:
                     Debug.Log("word is not in switch case please add it.");
@@ -107,12 +107,21 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             {
                 //update the range if more options are needed for the binding word of the sentence generator, the range should be (0, x) where x is the number of cases
                 int rnd = Random.Range(0, 2);
-                
 
-                List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+                List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
-                string first= words[Random.Range(0, 10)].Identifier;
-                string second= words[Random.Range(0, 10)].Identifier;
+                List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+                foreach (var item in languageUnits)
+                {
+                    if (item.LanguageUnitType == LanguageUnit.Word)
+                    {
+                        words.Add(item);
+                    }
+                }
+
+                string first= words[Random.Range(0, words.Count)].Identifier;
+                string second= words[Random.Range(0, words.Count)].Identifier;
 
 
                 switch (rnd)
@@ -148,7 +157,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.topImage = manager.answerHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
             manager.bottomImage = manager.answerHolderPrefab.transform.GetChild(1).GetComponent<RawImage>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer til sætningen";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nSkyd det billede der passer til st\u00e6ningen";
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Scenes._11_PlayerHouseScene.script.HouseScripts
@@ -9,6 +10,9 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         // List to store references to all the objects that have been placed.
         [SerializeField] private List<GameObject> placedGameObjects = new List<GameObject>();
         [SerializeField] private GameObject parent;
+
+        [SerializeField] PreviewSystem previewSystem;
+        
 
         public List<GameObject> PlacedGameObjects {  get { return placedGameObjects; } set { placedGameObjects = value; } }
         // Method to place an object at the specified position.
@@ -25,8 +29,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
 
             //This nudges the placed GO to the middle of the click gridplace,
             //If new models are used or the grid is smaller change this accordingly.
-            PreviewSystem previewSystem = new();
-
             newObject.transform.position += previewSystem.ReturnLocationOfGameObject(newObject.name, newObject);
 
             // Add the newly placed object to the list of placed objects.

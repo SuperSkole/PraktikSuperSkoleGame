@@ -59,17 +59,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public string[] GenerateAnswers(int count)
         {
             string[] returnedString = new string[count];
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
-            List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+            List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Word)
+                {
+                    words.Add(item);
+                }
+            }
+
 
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
                 while (returnedString[i] ==previousRetrievedAnswer)
                 {
 
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
                 }
                 previousRetrievedAnswer = returnedString[i];
@@ -86,7 +96,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer med ordet";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nSkyd det billede der passer med ordet";
         }
     }
 

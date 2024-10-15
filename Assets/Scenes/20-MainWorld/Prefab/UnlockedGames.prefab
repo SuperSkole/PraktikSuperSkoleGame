@@ -51,6 +51,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMesh: {fileID: 4808843994275404512}
+  towerLight: {fileID: 0}
+  symbolEaterLight: {fileID: 0}
+  letterGardenLight: {fileID: 0}
+  racingLight: {fileID: 0}
+  dangerPathLight: {fileID: 0}
   currentPlayerLevel: 0
 --- !u!1001 &1634531702199688783
 PrefabInstance:
@@ -173,9 +178,17 @@ PrefabInstance:
 '
       objectReference: {fileID: 0}
     - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e7a57bb11c9281449fd884ccf926ef2, type: 2}
+    - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
       propertyPath: m_fontColor.a
       value: 0.54509807
       objectReference: {fileID: 0}
+    - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4834721485754973061, guid: 5e7a57bb11c9281449fd884ccf926ef2, type: 2}
     - target: {fileID: 283970282050757660, guid: 4c4ad1b6a5162994192863e41dff369c, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 2332033024

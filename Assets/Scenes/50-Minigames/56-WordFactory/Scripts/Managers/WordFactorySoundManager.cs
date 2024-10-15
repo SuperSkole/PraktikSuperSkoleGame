@@ -1,4 +1,5 @@
 using CORE;
+using System.Collections;
 using UnityEngine;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
@@ -14,7 +15,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             CheckWord,
             PullHandle
         }
-        
+
         [SerializeField] private AudioClip gearRotationSound;
         [SerializeField] private AudioClip xpGainSound;
         [SerializeField] private AudioClip goldGainSound;
@@ -23,26 +24,16 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         [SerializeField] private AudioClip handlePullSound;
 
         private AudioSource audioSource;
+        private bool playingHandleSound = false;
+        protected override void Awake() { base.Awake(false); }
 
-        // // Singleton
-        // public static WordFactorySoundManager Instance { get; private set; }
-        //
-        // void Awake()
-        // {
-        //     if (Instance != null && Instance != this)
-        //     {
-        //         Destroy(gameObject);
-        //     }
-        //     else
-        //     {
-        //         Instance = this;
-        //         //DontDestroyOnLoad(gameObject);
-        //     }
-        // }
-        
-        void Start()
+        IEnumerator PlayHandleSound()
         {
-            audioSource = GetComponent<AudioSource>();
+            playingHandleSound = true;
+            AudioManager.Instance.PlaySound(handlePullSound, SoundType.SFX, transform.position);
+
+            yield return new WaitForSeconds(handlePullSound.length);
+            playingHandleSound = false;
         }
 
         // Method to play sound based on the event name
@@ -51,26 +42,25 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             switch (soundEvent)
             {
                 case SoundEvent.RotateGear:
-                    audioSource.PlayOneShot(gearRotationSound);
+                    AudioManager.Instance.PlaySound(gearRotationSound, SoundType.SFX, transform.position);
                     break;
                 case SoundEvent.GainXP:
-                    audioSource.PlayOneShot(xpGainSound);
+                    AudioManager.Instance.PlaySound(xpGainSound, SoundType.SFX, transform.position);
                     break;
                 case SoundEvent.GainGold:
-                    audioSource.PlayOneShot(goldGainSound);
+                    AudioManager.Instance.PlaySound(goldGainSound, SoundType.SFX, transform.position);
                     break;
                 case SoundEvent.PronounceLetter:
-                    audioSource.PlayOneShot(letterPronounceSound);
+                    AudioManager.Instance.PlaySound(letterPronounceSound, SoundType.SFX, transform.position);
                     break;
                 case SoundEvent.CheckWord:
-                    audioSource.PlayOneShot(wordCheckSound);
+                    AudioManager.Instance.PlaySound(wordCheckSound, SoundType.SFX, transform.position);
                     break;
                 case SoundEvent.PullHandle:
-                    if (!audioSource.isPlaying)
+                    if (!playingHandleSound)
                     {
-                        audioSource.PlayOneShot(handlePullSound);
+                        StartCoroutine(PlayHandleSound());
                     }
-
                     break;
             }
         }

@@ -57,14 +57,14 @@ namespace CORE.Scripts.Game_Rules
             if(languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
 
-                displayString = correctAnswer;
+                displayString = "Error";
                 LetterData letterData = (LetterData)languageUnits[0];
                 
-                if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Consonant)
+                if(languageUnits.Count > 1 && letterData.Category == LetterCategory.Vowel)
                 {
                     displayString = "vokaler";
                 }
-                else if(languageUnits.Count > 1 && letterData.ErrorCategory == LetterCategory.Vowel)
+                else if(languageUnits.Count > 1 && letterData.Category == LetterCategory.Consonant)
                 {
                     displayString = "konsonanter";
                 }
@@ -86,7 +86,12 @@ namespace CORE.Scripts.Game_Rules
             //Returns a letter from the wronganswerlist if a word is currently not used
             if(!usesSequence)
             {
-                return wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                string answer = wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                while(GetSecondaryAnswer().Length > 0 && GetSecondaryAnswer().Contains(answer[0]))
+                {
+                    answer = wrongAnswerList[Random.Range(0, wrongAnswerList.Count)].ToString();
+                }
+                return answer;
             }
             //Returns a letter from the current word tat is not the one the player is looking for
             else if(remainingLetterIndex < word.Length)

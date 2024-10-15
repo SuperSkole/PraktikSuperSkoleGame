@@ -38,13 +38,26 @@ public class Level4_POD_Words : IPODGameMode
     /// <param name="manager">a reference back to the tower manager so it can modify the tower manager</param>
     public void SetWrongAnswer(PathOfDangerManager manager, string correctAnswer)
     {
-        var words=GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(20);
-        var rndLetterWithKey = words[Random.Range(0,20)].Identifier;
+
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+        List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Word)
+            {
+                words.Add(item);
+            }
+        }
+
+
+        var rndLetterWithKey = words[Random.Range(0,words.Count)].Identifier;
 
 
         while (rndLetterWithKey == correctAnswer)
         {
-            rndLetterWithKey = words[Random.Range(0, 20)].Identifier;
+            rndLetterWithKey = words[Random.Range(0, words.Count)].Identifier;
         }
 
         manager.textOnPlatform.text = rndLetterWithKey.ToString();
@@ -78,9 +91,18 @@ public class Level4_POD_Words : IPODGameMode
     /// <returns>Returns a set of answers strings to be used by the PathOfDangerManager</returns>
     public string[] GenerateAnswers(int count)
     {
+        List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
-       
-        List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(10);
+        List<ILanguageUnit> words = new List<ILanguageUnit>();
+
+        foreach (var item in languageUnits)
+        {
+            if (item.LanguageUnitType == LanguageUnit.Word)
+            {
+                words.Add(item);
+            }
+        }
+
 
         string[] returnedString = new string[count];
         for (int i = 0; i < count; i++)
@@ -88,12 +110,12 @@ public class Level4_POD_Words : IPODGameMode
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+            returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             while (returnedString[i]==previousRetrievedAnswer)
             {
           
-                    returnedString[i] = words[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             }
 
@@ -115,6 +137,6 @@ public class Level4_POD_Words : IPODGameMode
 
         manager.textOnPlatform = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på det rigtige bogstav";
+        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et bogstav. Hop p\u00e5 det rigtige bogstav";
     }
 }

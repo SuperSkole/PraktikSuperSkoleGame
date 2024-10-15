@@ -3,8 +3,10 @@ using Analytics;
 using CORE;
 using CORE.Scripts;
 using CORE.Scripts.Game_Rules;
+using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using UnityEngine;
+using Words;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -50,18 +52,77 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
+           // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 70);
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode = null;
 
+           
             switch (languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
                     mode = letterGameModes[Random.Range(3, 5)];
                     break;
                 case LanguageUnit.Word:
-                    mode = wordGameModes[Random.Range(3, 5)];
+                    mode = wordGameModes[3];
                     break;
             }
+
+            LetterData letterData;
+            if (languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
+            {
+                letterData = (LetterData)languageUnits[0];
+
+
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+                {
+                    List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                    foreach (var item in languageUnits)
+                    {
+                        if (item.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                            {
+                                letters.Add(item);
+                            }
+                        }
+                    }
+
+                    if (letters.Count < 3)
+                    {
+                        return (null, null);
+                    }
+
+
+                }
+            }
+            else
+            {
+                    List<ILanguageUnit> words = new List<ILanguageUnit>();
+                    foreach (var item in languageUnits)
+                    {
+                        if (item.LanguageUnitType == LanguageUnit.Word)
+                        {
+                           
+                                words.Add(item);
+                           
+                        }
+                    }
+
+                    if (words.Count < 3)
+                    {
+                        return (null, null);
+                    }
+
+
+            }
+
+
+            
+
+
+
 
             return (null, mode);
      

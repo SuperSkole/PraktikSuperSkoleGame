@@ -38,8 +38,6 @@ public class SetUpPlayerCar : MonoBehaviour
                 break;
             }
         }
-        //carFuelMeterUI.SetActive(false);
-        //carSpeedTextUI.SetActive(false);
     }
     /// <summary>
     /// 
@@ -105,16 +103,6 @@ public class SetUpPlayerCar : MonoBehaviour
             }
         }
         return null;
-        //foreach (var item in MaterialDic)
-        //{
-        //    foreach (var info in item.Value)
-        //    {
-        //        if (value == info.MaterialName)
-        //        {
-        //            return info;
-        //        }
-        //    }
-        //}
     }
     private GameObject ReturnThePlayerCar(string value)
     {

@@ -4,6 +4,7 @@ using CORE.Scripts;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.UI;
 
 namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
@@ -81,7 +82,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             consonants = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
 
                 bool checkIfAvailable = true;
 
@@ -90,27 +91,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (returnedString[i].ToLower())
                     {
                         case "y":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         case "z":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         case "w":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         case "c":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         case "q":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         case "x":
-                            returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                             break;
 
                         default:
@@ -121,7 +122,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
-                    returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
 
                     checkIfAvailable = true;
 
@@ -130,27 +131,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                         switch (returnedString[i].ToLower())
                         {
                             case "y":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             case "z":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             case "w":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             case "c":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             case "q":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             case "x":
-                                returnedString[i] = consonants[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = consonants[Random.Range(0, consonants.Count)].Identifier;
                                 break;
 
                             default:

@@ -1,6 +1,7 @@
 using Analytics;
 using CORE;
 using CORE.Scripts;
+using Letters;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         public void SetCorrectAnswer(string str, TowerManager manager)
         {
 
-            Debug.Log("setCorrect="+str);
+       
             manager.soloImage.texture = ImageManager.GetImageFromLetter(str);
 
 
@@ -35,7 +36,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             var rndImageWithKey = ImageManager.GetRandomImageWithKey();
 
-            while (rndImageWithKey.Item2 == correctAnswer)
+            while (rndImageWithKey.Item2[0] == correctAnswer[0])
             {
                 rndImageWithKey = ImageManager.GetRandomImageWithKey();
             }
@@ -69,15 +70,36 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         /// <returns>Returns a set of answers strings to be used by the towerManager</returns>
         public string[] GenerateAnswers(int count)
         {
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
+            List<ILanguageUnit> letters = new List<ILanguageUnit>();
+
+            LetterData modeLetterType = (LetterData)languageUnits[0];
+
+            foreach (var item in languageUnits)
+            {
+                if (item.LanguageUnitType == LanguageUnit.Letter)
+                {
+                    LetterData letterData = (LetterData)item;
+                    if (GameManager.Instance.PlayerData.PlayerLanguageLevel >= 2)
+                    {
+                        letters.Add(item);
+                    }
+                    else if (letterData.Category == modeLetterType.Category)
+                    {
+                        letters.Add(item);
+                    }
+                }
+            }
 
             string[] returnedString = new string[count];
 
-            List<ILanguageUnit> words = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(15);
+            
 
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                //Random.Range(0, 15)
+                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
 
                 bool checkIfAvailable = true;
@@ -87,27 +109,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                     switch (returnedString[i].ToLower())
                     {
                         case "y":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "z":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "w":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "c":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "q":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "x":
-                            returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         default:
@@ -118,7 +140,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
 
                     checkIfAvailable = true;
@@ -128,27 +150,27 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                         switch (returnedString[i].ToLower())
                         {
                             case "y":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             case "z":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             case "w":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             case "c":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             case "q":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             case "x":
-                                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                                 break;
 
                             default:
@@ -172,7 +194,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd billedet der har ens forlyd";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nTryk p\u00e5 den gr\u00f8nne knap og skyd billedet der har ens forlyd";
         }
     }
 

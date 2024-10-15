@@ -271,7 +271,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   katjaFeSkeleton: {fileID: 3327973866342063855}
   offButton: {fileID: 8062408825451320099}
-  audioSource: {fileID: 9081588609098292349}
   tutorial: 0
 --- !u!82 &9081588609098292349
 AudioSource:
@@ -380,6 +379,7 @@ GameObject:
   - component: {fileID: 6637724477722195860}
   - component: {fileID: 3311882588824800939}
   - component: {fileID: 8062408825451320099}
+  - component: {fileID: 2039644040241365764}
   m_Layer: 5
   m_Name: OffButton
   m_TagString: Untagged
@@ -444,6 +444,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2039644040241365764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5525176604058117052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8891462649930181965}
+          m_TargetAssemblyTypeName: KatjaFe, Assembly-CSharp
+          m_MethodName: End
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &5817983598233513444
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +484,7 @@ GameObject:
   - component: {fileID: 3236272275961404200}
   - component: {fileID: 3500920218300293464}
   - component: {fileID: 3327973866342063855}
+  - component: {fileID: 425903293771693152}
   m_Layer: 0
   m_Name: SkeletonGraphic (KatjaMonster)
   m_TagString: Untagged
@@ -546,3 +576,32 @@ MonoBehaviour:
       immutableTriangles: 0
   updateTiming: 1
   unscaledTime: 0
+--- !u!114 &425903293771693152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5817983598233513444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8891462649930181965}
+          m_TargetAssemblyTypeName: KatjaFe, Assembly-CSharp
+          m_MethodName: End
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
