@@ -210,8 +210,8 @@ public class UIInvetoryManager : MonoBehaviour
         }
         return null;
     }
-
 }
+
 [Serializable]
 public class FurnitureItemsInfo
 {
