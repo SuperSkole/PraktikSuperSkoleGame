@@ -161,11 +161,14 @@ namespace Scenes._00_Bootstrapper
         {
             foreach (Texture2D fileName in soundCorrectImages)
             {
+                StartCoroutine(LoadAndSetDicSoundCorrect(fileName));
+                StartCoroutine(LoadAndSetDicOnset(fileName));
                 StartCoroutine(LoadAndSetDic(fileName));
             }
             foreach (Texture2D fileName in onsetImages)
             {
-
+                StartCoroutine(LoadAndSetDicOnset(fileName));
+                StartCoroutine(LoadAndSetDic(fileName));
             }
             foreach (Texture2D fileName in images)
             {
@@ -186,6 +189,34 @@ namespace Scenes._00_Bootstrapper
             WordsForImagesManager.AddNameToSet(name);
             yield return null;
         }
+
+        private IEnumerator LoadAndSetDicOnset(Texture2D texture)
+        {
+            string name = texture.name;
+            name = GetName(name);
+            string firstLetterName = name[0].ToString();
+
+
+            OnsetImageManager.AddImageToSet(name, texture);
+            OnsetImageManager.AddImageToLetterSet(firstLetterName, texture);
+            WordsForImagesManager.AddNameToSet(name);
+            yield return null;
+        }
+
+        private IEnumerator LoadAndSetDicSoundCorrect(Texture2D texture)
+        {
+            string name = texture.name;
+            name = GetName(name);
+            string firstLetterName = name[0].ToString();
+
+
+            SoundCorrectImageManager.AddImageToSet(name, texture);
+            SoundCorrectImageManager.AddImageToLetterSet(firstLetterName, texture);
+            WordsForImagesManager.AddNameToSet(name);
+            yield return null;
+        }
+
+
 
         private string GetName(string name)
         {

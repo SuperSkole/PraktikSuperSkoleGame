@@ -15,12 +15,12 @@ using UnityEngine.Windows;
 namespace CORE.Scripts
 {
 
-    public class ImageManager : MonoBehaviour
+    public class OnsetImageManager : MonoBehaviour
     {
 
-        private static Dictionary<string, List<Texture2D>> imageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> onsetImageDictionary = new();
 
-        private static Dictionary<string, List<Texture2D>> letterImageDictionary = new();
+        private static Dictionary<string, List<Texture2D>> letterOnsetImageDictionary = new();
 
         private static List<string> firstLettersForImages=new();
        
@@ -34,12 +34,12 @@ namespace CORE.Scripts
         /// <param name="image">the image to add</param>
         public static void AddImageToSet(string name,Texture2D image)
         {
-            if (imageDictionary.ContainsKey(name.ToLower()))
-                imageDictionary[name.ToLower()].Add(image);
+            if (onsetImageDictionary.ContainsKey(name.ToLower()))
+                onsetImageDictionary[name.ToLower()].Add(image);
             else
             {
-                imageDictionary.Add(name.ToLower(), new List<Texture2D>());
-                imageDictionary[name.ToLower()].Add(image);
+                onsetImageDictionary.Add(name.ToLower(), new List<Texture2D>());
+                onsetImageDictionary[name.ToLower()].Add(image);
             }
             IsDataLoaded = true;
         }
@@ -52,12 +52,12 @@ namespace CORE.Scripts
         public static void AddImageToLetterSet(string letter, Texture2D image)
         {
             
-            if (letterImageDictionary.ContainsKey(letter.ToLower()))
-                letterImageDictionary[letter.ToLower()].Add(image);
+            if (letterOnsetImageDictionary.ContainsKey(letter.ToLower()))
+                letterOnsetImageDictionary[letter.ToLower()].Add(image);
             else
             {
-                letterImageDictionary.Add(letter.ToLower(), new List<Texture2D>());
-                letterImageDictionary[letter.ToLower()].Add(image);
+                letterOnsetImageDictionary.Add(letter.ToLower(), new List<Texture2D>());
+                letterOnsetImageDictionary[letter.ToLower()].Add(image);
                 
             }
             IsDataLoaded = true;
@@ -78,7 +78,7 @@ namespace CORE.Scripts
             letterToGet.Replace("(ae)", "\u00e6");
             letterToGet.Replace("(oe)", "\u00f8");
 
-            if (!letterImageDictionary.TryGetValue(letterToGet.ToLower(), out List<Texture2D> data))
+            if (!letterOnsetImageDictionary.TryGetValue(letterToGet.ToLower(), out List<Texture2D> data))
                 data = null;
             Texture2D image;
             if (data == null)
@@ -98,11 +98,11 @@ namespace CORE.Scripts
         {
             string returnedLetter="";
 
-            int randIndex = UnityEngine.Random.Range(0, letterImageDictionary.Count);
+            int randIndex = UnityEngine.Random.Range(0, letterOnsetImageDictionary.Count);
 
             int currentindex = 0;
 
-            foreach (var item in letterImageDictionary.Keys)
+            foreach (var item in letterOnsetImageDictionary.Keys)
             {
                 if(currentindex==randIndex)
                 {
@@ -123,7 +123,7 @@ namespace CORE.Scripts
         /// <returns>a image or if it couldent find an image it returnes NULL</returns>
         public static Texture2D GetImageFromWord(string inputWord)
         {
-            if (!imageDictionary.TryGetValue(inputWord.ToLower(), out List<Texture2D> data))
+            if (!onsetImageDictionary.TryGetValue(inputWord.ToLower(), out List<Texture2D> data))
                 data = null;
             Texture2D image;
             if (data == null)
@@ -146,7 +146,7 @@ namespace CORE.Scripts
             Texture2D[] images = new Texture2D[inputWords.Length];
             for (int i = 0; i < inputWords.Length; i++)
             {
-                if (!imageDictionary.TryGetValue(inputWords[i].ToLower(), out List<Texture2D> data))
+                if (!onsetImageDictionary.TryGetValue(inputWords[i].ToLower(), out List<Texture2D> data))
                     data = null;
                 if (data == null)
                     Debug.LogError($"Error getting image for the word: {inputWords[i]}");
@@ -164,7 +164,7 @@ namespace CORE.Scripts
         /// <returns>a random image</returns>
         public static Texture2D GetRandomImage()
         {
-            List<Texture2D> data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+            List<Texture2D> data = onsetImageDictionary.ElementAt(UnityEngine.Random.Range(0, onsetImageDictionary.Keys.Count)).Value;
             Texture2D image;
             if (data == null)
                 Debug.LogError($"Error getting a random image");
@@ -182,8 +182,8 @@ namespace CORE.Scripts
         public static Tuple<Texture2D,string> GetRandomImageWithKey()
         {
             List<Texture2D> data;
-            string name = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Key;
-            data = imageDictionary[name];
+            string name = onsetImageDictionary.ElementAt(UnityEngine.Random.Range(0, onsetImageDictionary.Keys.Count)).Key;
+            data = onsetImageDictionary[name];
            
             Texture2D image;
          
@@ -217,7 +217,7 @@ namespace CORE.Scripts
             for (int i = 0; i < amonunt; i++)
             {
                 List<Texture2D> data;
-                data = imageDictionary.ElementAt(UnityEngine.Random.Range(0, imageDictionary.Keys.Count)).Value;
+                data = onsetImageDictionary.ElementAt(UnityEngine.Random.Range(0, onsetImageDictionary.Keys.Count)).Value;
                 if (data == null)
                 {
                     Debug.LogError($"Error getting random images");
