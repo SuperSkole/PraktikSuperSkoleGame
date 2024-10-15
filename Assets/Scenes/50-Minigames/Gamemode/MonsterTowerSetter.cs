@@ -58,7 +58,7 @@ namespace Scenes._50_Minigames.Gamemode
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode = null;
 
-            Debug.Log(languageUnit.LanguageUnitType);
+           
             switch (languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
