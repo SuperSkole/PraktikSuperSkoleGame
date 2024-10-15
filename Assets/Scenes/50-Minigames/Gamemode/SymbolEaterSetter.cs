@@ -73,6 +73,19 @@ namespace Scenes._50_Minigames.Gamemode
                     {
                         mode = letterCategoryGamemodes[Random.Range(0, letterCategoryGamemodes.Count)];
                     }
+                    List<ILanguageUnit> filteredLetters = new List<ILanguageUnit>();
+                    foreach(ILanguageUnit unit in languageUnit)
+                    {
+                        if(unit.LanguageUnitType == LanguageUnit.Letter)
+                        {
+                            if(unit.Identifier.Length > 1)
+                            {
+                                Debug.LogError("word got sorted into wrong category");
+                            }
+                            filteredLetters.Add(unit);
+                        }
+                    }
+                    dynamicGameRules.AddFilteredList(filteredLetters);
                     break;
                 case LanguageUnit.Word:
                     mode = wordGamemodes[Random.Range(0, wordGamemodes.Count)];
