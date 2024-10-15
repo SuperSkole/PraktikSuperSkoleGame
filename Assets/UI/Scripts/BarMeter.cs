@@ -38,8 +38,11 @@ namespace UI.Scripts
 
             textMeshPro.text = currentAmount.ToString();
             barFill.fillAmount = Mathf.Clamp01((float)currentAmount / maxAmount);
-            coinPrefab =  GameManager.Instance.PlayerManager.coinPrefab;
-            StartCoroutine(AddGold(GameManager.Instance.PlayerData.PendingGoldAmount));
+            if(GameManager.Instance.PlayerManager != null)
+            {
+                coinPrefab =  GameManager.Instance.PlayerManager.coinPrefab;
+                StartCoroutine(AddGold(GameManager.Instance.PlayerData.PendingGoldAmount));
+            }
             ChangeValue(GameManager.Instance.PlayerData.PendingGoldAmount);
         }
         private void OnEnable()
