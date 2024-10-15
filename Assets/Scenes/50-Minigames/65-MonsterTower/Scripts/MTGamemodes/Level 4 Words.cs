@@ -47,12 +47,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
                 }
             }
 
-            var rndWordWithKey = words[Random.Range(0, 20)].Identifier;
+            var rndWordWithKey = words[Random.Range(0, words.Count)].Identifier;
 
 
             while (rndWordWithKey == correctAnswer)
             {
-                rndWordWithKey = words[Random.Range(0, 20)].Identifier;
+                rndWordWithKey = words[Random.Range(0, words.Count)].Identifier;
             }
 
             manager.textOnBrick.text = rndWordWithKey.ToString();
@@ -104,12 +104,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
                 //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
 
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = words[Random.Range(0,words.Count)].Identifier;
                 }
 
                 previousRetrievedAnswer = returnedString[i];
@@ -128,7 +128,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             manager.textOnBrick = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            manager.descriptionText.text = "Tryk p� ammunition for at lade. \nTryk P� den gr�nne knap og skyd det bogstav du h�rte";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nTryk p\u00e5 den gr\u00f8nne knap og skyd det bogstav du h\u00f8rte";
         }
     }
 

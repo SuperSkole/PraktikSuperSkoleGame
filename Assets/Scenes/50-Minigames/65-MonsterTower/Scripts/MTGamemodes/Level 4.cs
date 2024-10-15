@@ -106,12 +106,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
                 //Code to make sure that the previous answer is not getting repeated imediatly after. 
 
-                returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
                 while (returnedString[i] == previousRetrievedAnswer)
                 {
 
-                    returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                    returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                 }
 
                 previousRetrievedAnswer = returnedString[i];
@@ -130,7 +130,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             manager.textOnBrick = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nTryk På den grønne knap og skyd det bogstav du hørte";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nTryk P\u00e5 den gr\u00f8nne knap og skyd det bogstav du h\u00f8rte";
         }
     }
 

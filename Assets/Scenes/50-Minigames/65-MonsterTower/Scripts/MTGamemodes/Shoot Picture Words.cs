@@ -74,12 +74,12 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
 
             for (int i = 0; i < count; i++)
             {
-                returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
                 while (returnedString[i] ==previousRetrievedAnswer)
                 {
 
-                    returnedString[i] = words[Random.Range(0, 15)].Identifier;
+                    returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
                 }
                 previousRetrievedAnswer = returnedString[i];
@@ -96,7 +96,7 @@ namespace Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes
         {
             manager.answerHolderPrefab = manager.singleImageHolderPrefab;
             manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
-            manager.descriptionText.text = "Tryk på ammunition for at lade. \nSkyd det billede der passer med ordet";
+            manager.descriptionText.text = "Tryk p\u00e5 ammunition for at lade. \nSkyd det billede der passer med ordet";
         }
     }
 

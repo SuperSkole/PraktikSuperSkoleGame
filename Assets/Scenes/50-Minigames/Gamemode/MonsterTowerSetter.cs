@@ -6,6 +6,7 @@ using CORE.Scripts.Game_Rules;
 using Letters;
 using Scenes._50_Minigames._65_MonsterTower.Scrips.MTGameModes;
 using UnityEngine;
+using Words;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -51,11 +52,13 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
+           // GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 70);
             List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
 
             ILanguageUnit languageUnit = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0];
             IGenericGameMode mode = null;
 
+           
             switch (languageUnit.LanguageUnitType)
             {
                 case LanguageUnit.Letter:
@@ -66,31 +69,59 @@ namespace Scenes._50_Minigames.Gamemode
                     break;
             }
 
-            
-
-            LetterData letterData = (LetterData)languageUnits[0];
-            if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
+            LetterData letterData;
+            if (languageUnits[0].LanguageUnitType == LanguageUnit.Letter)
             {
-                List<ILanguageUnit> letters = new List<ILanguageUnit>();
-                foreach (var item in languageUnits)
+                letterData = (LetterData)languageUnits[0];
+
+
+                if (GameManager.Instance.PlayerData.PlayerLanguageLevel < 2 && (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel))
                 {
-                    if (item.LanguageUnitType == LanguageUnit.Letter)
+                    List<ILanguageUnit> letters = new List<ILanguageUnit>();
+                    foreach (var item in languageUnits)
                     {
-                        if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                        if (item.LanguageUnitType == LanguageUnit.Letter)
                         {
-                            letters.Add(item);
+                            if (letterData.Category == LetterCategory.Consonant || letterData.Category == LetterCategory.Vowel)
+                            {
+                                letters.Add(item);
+                            }
                         }
                     }
-                }
 
-                if(letters.Count<3)
-                {
-                    return (null, null);
+                    if (letters.Count < 3)
+                    {
+                        return (null, null);
+                    }
+
+
                 }
+            }
+            else
+            {
+                    List<ILanguageUnit> words = new List<ILanguageUnit>();
+                    foreach (var item in languageUnits)
+                    {
+                        if (item.LanguageUnitType == LanguageUnit.Word)
+                        {
+                           
+                                words.Add(item);
+                           
+                        }
+                    }
+
+                    if (words.Count < 3)
+                    {
+                        return (null, null);
+                    }
 
 
             }
-           
+
+
+            
+
+
 
 
             return (null, mode);
