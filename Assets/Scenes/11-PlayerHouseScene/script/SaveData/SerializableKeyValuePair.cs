@@ -16,7 +16,6 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
 
         public EnumFloorDataType FloorType;
 
-        //public SerializableKeyValuePair(Vector3Int key, int iD)
         public SerializableKeyValuePair(PlaceableTemporayItemsInfo key, int iD, int rotationValue, EnumFloorDataType floorType)
         {
             Key = key;

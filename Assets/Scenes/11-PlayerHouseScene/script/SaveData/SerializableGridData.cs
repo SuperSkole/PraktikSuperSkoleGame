@@ -16,7 +16,6 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
             {
                 foreach (var item in dictionary)
                 {
-                    //placedObjectsList.Add(new SerializableKeyValuePair(item.Key, item.Value.ID,item.Value.rotationValue));
                     placedObjectsList.Add(new SerializableKeyValuePair(item.Key,
                         item.Value.ID,
                         item.Value.rotationValue,
@@ -24,17 +23,5 @@ namespace Scenes._11_PlayerHouseScene.script.SaveData
                 }
             }
         }
-        //public SerializableGridData(Dictionary<Vector3Int, PlacementData> dictionary)
-        //{
-        //    placedObjectsList = new List<SerializableKeyValuePair>();
-        //    if (dictionary != null)
-        //    {
-        //        foreach (var item in dictionary)
-        //        {
-        //            //placedObjectsList.Add(new SerializableKeyValuePair(item.Key, item.Value.ID,item.Value.rotationValue));
-        //            placedObjectsList.Add(new SerializableKeyValuePair(item.Key, item.Value.ID));
-        //        }
-        //    }
-        //}
     }
 }

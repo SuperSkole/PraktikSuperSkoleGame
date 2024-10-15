@@ -261,5 +261,4 @@ public class PlaceableTemporayItemsInfo
         hash = hash * 31 + floorDataType.GetHashCode();
         return hash;
     }
-
 }
