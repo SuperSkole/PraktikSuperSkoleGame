@@ -19,6 +19,9 @@ public class AudioManager : MonoBehaviour
     private AudioVolumeManager mVolumeManager;
     [SerializeField] private AudioMixerGroup sfx, music, voice;
     [SerializeField] private AudioMixer mixer;
+
+    private AudioSource voiceSource;
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Correctness", "UNT0008:Null propagation on Unity objects", Justification = "<Pending>")]
     private void Start()
     {
@@ -62,6 +65,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case SoundType.Voice:
                 source.outputAudioMixerGroup = voice;
+                voiceSource = source;
                 StartCoroutine(PlayingVoice(audioClip.length));
                 break;
         }
@@ -89,6 +93,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case SoundType.Voice:
                 source.outputAudioMixerGroup = voice;
+                voiceSource = source;
                 StartCoroutine(PlayingVoice(audioClip.length));
                 break;
         }
@@ -120,6 +125,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case SoundType.Voice:
                 source.outputAudioMixerGroup = voice;
+                voiceSource = source;
                 StartCoroutine(PlayingVoice(audioClip.length));
                 break;
         }
@@ -150,6 +156,7 @@ public class AudioManager : MonoBehaviour
                 break;
             case SoundType.Voice:
                 source.outputAudioMixerGroup = voice;
+                voiceSource = source;
                 StartCoroutine(PlayingVoice(audioClip.length));
                 break;
         }
@@ -181,6 +188,16 @@ public class AudioManager : MonoBehaviour
         {
             mixer.SetFloat("SFXVolume", Mathf.Log10(1) * 20f);
             mixer.SetFloat("MusicVolume", Mathf.Log10(1) * 20f);
+        }
+    }
+
+    public void StopVoice()
+    {
+        if (voiceSource != null && voiceSource.isPlaying)
+        {
+            voiceSource.Stop();
+            Destroy(voiceSource); 
+            voiceSource = null; 
         }
     }
 }
