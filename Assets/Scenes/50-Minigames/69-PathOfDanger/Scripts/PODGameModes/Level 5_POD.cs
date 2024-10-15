@@ -11,7 +11,6 @@ using UnityEngine.UI;
 
 public class Level5_POD : IPODGameMode
 {
-  
     private string previousRetrievedAnswer;
 
 
@@ -56,8 +55,6 @@ public class Level5_POD : IPODGameMode
     public void GetDisplayAnswer(string str, PathOfDangerManager manager)
     {
 
-
-
         AudioClip clip = LetterAudioManager.GetAudioClipFromLetter(str + "1");
 
         manager.hearLetterButtonAudioClip = clip;
@@ -96,7 +93,7 @@ public class Level5_POD : IPODGameMode
         for (int i = 0; i < count; i++)
         {
 
-            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
             bool checkIfAvailable = true;
 
@@ -105,27 +102,27 @@ public class Level5_POD : IPODGameMode
                 switch (returnedString[i].ToLower())
                 {
                     case "y":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "z":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "w":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "c":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "q":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "x":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     default:
@@ -143,27 +140,27 @@ public class Level5_POD : IPODGameMode
                 switch (returnedString[i].ToLower())
                 {
                     case "y":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "z":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "w":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "c":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "q":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     case "x":
-                        returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                        returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                         break;
 
                     default:
@@ -182,7 +179,7 @@ public class Level5_POD : IPODGameMode
                
 
 
-                returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
 
                 checkIfAvailable = true;
 
@@ -191,27 +188,27 @@ public class Level5_POD : IPODGameMode
                     switch (returnedString[i].ToLower())
                     {
                         case "y":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "z":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "w":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "c":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "q":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         case "x":
-                            returnedString[i] = letters[Random.Range(0, 10)].Identifier;
+                            returnedString[i] = letters[Random.Range(0, letters.Count)].Identifier;
                             break;
 
                         default:
@@ -238,10 +235,9 @@ public class Level5_POD : IPODGameMode
     public void SetAnswerPrefab(PathOfDangerManager manager)
     {
 
-        
         manager.answerHolderPrefab = manager.singleImageHolderPrefab;
         manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-        manager.descriptionText.text = " Tryk p� MellemRum knappen for at hoppe. Tryk p� F for at h�re et bogstav. Hop p� billedet som starter med bogstavet du h�rte";
+        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et bogstav. Hop p\u00e5 billedet som starter med bogstavet du h\u00f8rte";
     }
 }
