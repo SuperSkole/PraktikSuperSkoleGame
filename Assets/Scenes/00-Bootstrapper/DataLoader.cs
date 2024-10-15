@@ -171,7 +171,7 @@ namespace Scenes._00_Bootstrapper
             {
                 StartCoroutine(LoadAndSetDic(fileName));
             }
-            return null;
+            yield return null;
         }
 
         private IEnumerator LoadAndSetDic(Texture2D texture)
