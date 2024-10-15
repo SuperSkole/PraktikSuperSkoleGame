@@ -34,7 +34,8 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         [SerializeField] public GameObject bee;
         BeeMovement beeMovement;
 
-        [SerializeField] private RectTransform screenShotBounds;
+        [SerializeField] private Transform upperLeftBound;
+        [SerializeField] private Transform lowerRightBound;
         [SerializeField] private GameObject correctLetterBox;
         [SerializeField] private TMP_FontAsset altFont;
         public bool IsTutorualOver = false;
@@ -219,20 +220,13 @@ namespace Scenes.Minigames.LetterGarden.Scripts
         public IEnumerator TakeScreenShot()
         {
             yield return new WaitForEndOfFrame (); // it must be a coroutine 
-
-            //Sets up the bounds of the screenshot
-            float width = 340;
-            float height = 600;
-            Vector3 worldStart = new Vector3(screenShotBounds.transform.position.x, -38 - height/2, 340 - width/2);
-            Vector3 worldEnd = new Vector3(screenShotBounds.transform.position.x, -38 + height/2, 340 + width/2);
-            Vector2 screenStart = Camera.main.WorldToScreenPoint(worldStart);
-            Vector2 screenEnd = Camera.main.WorldToScreenPoint(worldEnd);
-            width = screenStart.x - screenEnd.x;
-            height = screenEnd.y - screenStart.y;
-            
+            Vector2 screenStart = Camera.main.WorldToScreenPoint(upperLeftBound.position);
+            Vector2 screenEnd = Camera.main.WorldToScreenPoint(lowerRightBound.position);
+            float width = screenEnd.x - screenStart.x;
+            float height = screenStart.y - screenEnd.y;
             //takes the screenshot
             var tex = new Texture2D ((int)System.MathF.Round(width), (int)System.MathF.Round(height), TextureFormat.RGB24, false);
-            tex.ReadPixels (new Rect(screenStart.x, screenStart.y, width, height), 0, 0);
+            tex.ReadPixels (new Rect(screenStart.x, screenEnd.y, width, height), 0, 0);
             tex.Apply();
 
             //Instantiates the correctletterbox
