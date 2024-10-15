@@ -17,6 +17,7 @@ public class KatjaFe : MonoBehaviour
 
     //tutorial or tip
     public bool tutorial;
+    private bool itIsOut;
 
     /// <summary>
     /// used to initialize the farry
@@ -66,13 +67,18 @@ public class KatjaFe : MonoBehaviour
     /// <param name="onComplete">a callback that is called after the exit animation is played</param>
     public void KatjaExit(System.Action onComplete = null)
     {
-        Clear();
+        if(!itIsOut)
+        {
+            itIsOut = true;
 
-        katjaFeSkeleton.AnimationState.SetAnimation(0, "Exit", false);
+            Clear();
 
-        float animationDuration = katjaFeSkeleton.AnimationState.GetCurrent(0).Animation.Duration;
+            katjaFeSkeleton.AnimationState.SetAnimation(0, "Exit", false);
 
-        currentCoroutine = StartCoroutine(WaitForAnimationToEnd(animationDuration, onComplete, false));
+            float animationDuration = katjaFeSkeleton.AnimationState.GetCurrent(0).Animation.Duration;
+
+            currentCoroutine = StartCoroutine(WaitForAnimationToEnd(animationDuration, onComplete, false));
+        }
     }
 
     /// <summary>
@@ -82,6 +88,8 @@ public class KatjaFe : MonoBehaviour
     public void KatjaIntro(System.Action onComplete)
     {
         Clear();
+
+        itIsOut = false;
 
         //Set the button off
         if (offButton != null)
@@ -107,6 +115,7 @@ public class KatjaFe : MonoBehaviour
         {
             StopCoroutine(currentCoroutine);
         }
+        AudioManager.Instance.StopVoice();
 
         katjaFeSkeleton.AnimationState.ClearTrack(0);
         currentCoroutine = null;
@@ -180,5 +189,13 @@ public class KatjaFe : MonoBehaviour
     {
         //Example
         KatjaIntro(() => { KatjaSpeak(oldaudio, () => {KatjaExit();});});
+    }
+
+    public void End()
+    {
+       
+          KatjaExit();
+
+        
     }
 }

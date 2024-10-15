@@ -304,6 +304,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// </summary>
         public void GameOver()
         {
+            canMove = false;
             playerMonster.transform.parent = null;
             playerMonster.transform.localScale = playerOldScale;
             playerMonster.transform.rotation = Quaternion.Euler(0, 0, 0);
