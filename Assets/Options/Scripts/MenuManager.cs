@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
     /// <summary>
     /// showes the "pause" menu when the "P" buton is pressed
     /// </summary>
-    private void OnPause()
+    public void OnPause()
     {
         if(!SceneManager.GetActiveScene().name.StartsWith("0"))
             transform.GetChild(0).gameObject.SetActive(true);

@@ -30,7 +30,7 @@ namespace Scenes._00_Bootstrapper
             for (int i = 0; i < SceneManager.sceneCount; i++)
             {
                 Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.name == SceneNames.Login)
+                if (scene.name == SceneNames.Splash)
                 {
                     loginSceneActive = true;
                     break;
@@ -47,7 +47,7 @@ namespace Scenes._00_Bootstrapper
                 
                 OnPlayerAuthenticated?.Invoke();
          
-                Debug.Log("Loading PlayerScene...");
+                //Debug.Log("Loading PlayerScene...");
                 AsyncOperation loadPlayerScene = SceneManager.LoadSceneAsync(SceneNames.Player, LoadSceneMode.Additive);
 
                 // Wait until the PlayerScene is fully loaded

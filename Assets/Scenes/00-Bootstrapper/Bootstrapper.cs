@@ -18,7 +18,7 @@ namespace Scenes._00_Bootstrapper
         /// </summary>
         private async void Awake()
         {
-            Debug.Log("Initializing Unity services");
+            //Debug.Log("Initializing Unity services");
 
             int attempt = 0;
             bool success = false;
@@ -32,7 +32,7 @@ namespace Scenes._00_Bootstrapper
 
                     if (UnityServices.State == ServicesInitializationState.Initialized)
                     {
-                        Debug.Log("Unity services initialized successfully on attempt: " + attempt);
+                        //Debug.Log("Unity services initialized successfully on attempt: " + attempt);
                         success = true;
                     }
                     else
@@ -42,12 +42,12 @@ namespace Scenes._00_Bootstrapper
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Initialization attempt {attempt} failed.");
-                    Debug.LogException(ex);
+                    //Debug.LogError($"Initialization attempt {attempt} failed.");
+                    //Debug.LogException(ex);
 
                     if (attempt >= MaxRetries)
                     {
-                        Debug.LogError("All initialization attempts failed.");
+                        Debug.LogWarning("All initialization attempts failed.");
                         throw; // TODO handle failure after all attempts fail
                     }
 
@@ -106,6 +106,6 @@ namespace Scenes._00_Bootstrapper
     /// </summary>
     public static class SceneConfig
     {
-        public const string InitialScene = SceneNames.Login; // TODO: Update to "SplashScene" when made.
+        public const string InitialScene = SceneNames.Splash;
     }
 }

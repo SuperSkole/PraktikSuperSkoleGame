@@ -55,7 +55,7 @@ namespace Scenes._03_StartScene.Scripts
             }
             else
             {
-                feedback.text = "<color=green>✔ Gyldigt Monsternavn</color>";
+                feedback.text = "<color=green>Gyldigt Monsternavn</color>";
                 return true;
             }
         }

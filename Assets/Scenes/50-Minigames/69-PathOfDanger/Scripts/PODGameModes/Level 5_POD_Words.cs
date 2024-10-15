@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 public class Level5_POD_Words : IPODGameMode
 {
-    List<char> FMNSConsonants = LetterManager.GetFMNSConsonants();
     private string previousRetrievedAnswer;
 
 
@@ -86,22 +85,13 @@ public class Level5_POD_Words : IPODGameMode
         for (int i = 0; i < count; i++)
         {
 
-            returnedString[i] = words[Random.Range(0, 10)].Identifier;
+            returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             //Code to make sure that the previous answer is not getting repeated imediatly after. 
             while (returnedString[i] == previousRetrievedAnswer)
             {
 
-
-               
-
-
-                returnedString[i] = words[Random.Range(0, 10)].Identifier;
-
-               
-
-               
-                
+                returnedString[i] = words[Random.Range(0, words.Count)].Identifier;
 
             }
             previousRetrievedAnswer = returnedString[i];
@@ -124,6 +114,6 @@ public class Level5_POD_Words : IPODGameMode
         manager.answerHolderPrefab = manager.singleImageHolderPrefab;
         manager.soloImage = manager.singleImageHolderPrefab.transform.GetChild(0).GetComponent<RawImage>();
 
-        manager.descriptionText.text = " Tryk på MellemRum knappen for at hoppe. Tryk på F for at høre et bogstav. Hop på billedet som starter med bogstavet du hørte";
+        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et bogstav. Hop p\u00e5 billedet som starter med bogstavet du h\u00f8rte";
     }
 }

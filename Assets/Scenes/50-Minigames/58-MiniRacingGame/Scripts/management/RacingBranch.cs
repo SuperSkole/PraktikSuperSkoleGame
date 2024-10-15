@@ -17,7 +17,7 @@ namespace Scenes._50_Minigames._58_MiniRacingGame.Scripts
         /// <param name="other"></param>
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("ActiveCar"))
+            if (other.CompareTag("Car"))
             {
                 if (!exited)
                 {
