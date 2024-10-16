@@ -1,5 +1,8 @@
 namespace Analytics
 {
+    /// <summary>
+    /// A static class that holds constant settings used for dynamic difficulty adjustment.
+    /// </summary>
     public static class DynamicDifficultyAdjustmentSettings
     {
         // Weight settings
