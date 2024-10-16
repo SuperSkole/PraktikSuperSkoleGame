@@ -58,7 +58,7 @@ namespace Scenes._00_Bootstrapper
             }
             else
             {
-                Debug.Log("LoginScene is active. Bypassing PlayerScene load.");
+                //Debug.Log("LoginScene is active. Bypassing PlayerScene load.");
             }
         }
 

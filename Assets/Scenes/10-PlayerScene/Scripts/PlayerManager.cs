@@ -35,11 +35,7 @@ namespace Scenes._10_PlayerScene.Scripts
         private Vector3 tmpPlayerSpawnPoint = new Vector3(0f, 3f, 28f);
 
         private ILeaderboardSubmissionService leaderboardSubmissionService;
-
-        // public GameObject SpawnedPlayer => spawnedPlayer;
-        // public PlayerData PlayerData => playerData;
-
-        //temp for testing
+     
         public GameObject SpawnedPlayer
         {
             get
@@ -110,6 +106,9 @@ namespace Scenes._10_PlayerScene.Scripts
             leaderboardSubmissionService = new LeaderboardSubmissionService();
         }
 
+        /// <summary>
+        /// Cleans up event subscriptions and resets the singleton instance when the PlayerManager is destroyed.
+        /// </summary>
         private void OnDestroy()
         {
             PlayerEvents.OnAddWord -= OnAddWordHandler;
@@ -118,29 +117,48 @@ namespace Scenes._10_PlayerScene.Scripts
             instance = null;
         }
 
+        /// <summary>
+        /// Registers event handlers for player actions when the object becomes enabled in the scene.
+        /// </summary>
         private void OnEnable()
         {
             PlayerEvents.OnAddWord += OnAddWordHandler;
             PlayerEvents.OnAddLetter += OnAddLetterHandler;
         }
 
+        /// <summary>
+        /// Unsubscribes the player manager from relevant player events
+        /// to prevent memory leaks and ensure proper cleanup when the player manager is disabled.
+        /// </summary>
         private void OnDisable()
         {
             PlayerEvents.OnAddWord -= OnAddWordHandler;
             PlayerEvents.OnAddLetter -= OnAddLetterHandler;
         }
 
+        /// <summary>
+        /// Handles the event when a word is added by the player, triggering the submission of the word count to the leaderboard.
+        /// </summary>
+        /// <param name="word">The word added by the player.</param>
         private void OnAddWordHandler(string word)
         {
             SubmitWordCountToLeaderboard();
         }
 
+        /// <summary>
+        /// Handles the event when a letter is added by the player.
+        /// Updates the leaderboard with the total number of letters submitted.
+        /// </summary>
+        /// <param name="letter">The letter that was added by the player.</param>
         private void OnAddLetterHandler(char letter)
         {
             SubmitLetterCountToLeaderboard();
         }
 
-
+        /// <summary>
+        /// Submits the player's lifetime total word count to the leaderboard.
+        /// This method ensures the player is signed in before attempting the submission.
+        /// </summary>
         public async void SubmitWordCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
@@ -148,6 +166,10 @@ namespace Scenes._10_PlayerScene.Scripts
             await leaderboardSubmissionService.SubmitMostWords(totalWords, PlayerData.MonsterName);
         }
 
+        /// <summary>
+        /// Submits the player's lifetime total letter count to the leaderboard.
+        /// This method ensures the player is signed in before attempting the submission.
+        /// </summary>
         public async void SubmitLetterCountToLeaderboard()
         {
             await leaderboardSubmissionService.EnsureSignedIn();
@@ -168,7 +190,6 @@ namespace Scenes._10_PlayerScene.Scripts
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
                 spawnedPlayer.transform.rotation = spawnPoint.transform.rotation;
                 spawnedPlayer.transform.position = spawnPoint.transform.position;
-
             }
             else
             {
@@ -279,19 +300,10 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(GameManager.Instance.CurrentMonsterColor);
 
-            // TODO CHANGE DISCUSTING MAGIC NUMBER FIX THE FUXKING MAIN WORLD
+            
             playerData.SetLastInteractionPoint(tmpPlayerSpawnPoint);
 
-            // Log for debugging
-            // Debug.Log(
-            //     $"PlayerManager.SetupPlayer(): " +
-            //     $"username: {playerData.Username} " +
-            //     $"Player Name: {playerData.MonsterName} " +
-            //     $"Monster Color: {playerData.MonsterColor} " +
-            //     $"XP: {playerData.CurrentXPAmount} " +
-            //     $"Gold: {playerData.CurrentGoldAmount}");
-
-            // TODO: delete at later date when PlayerManger works
+            
             GameManager.Instance.PlayerData = playerData;
             DontDestroyOnLoad(spawnedPlayer);
 
@@ -304,6 +316,13 @@ namespace Scenes._10_PlayerScene.Scripts
             // GameManager.Instance.SpacedRepetitionManager.PrintAllWeights();
         }
 
+        /// <summary>
+        /// Sets up the player using data from a saved game.
+        /// Instantiates a player object in the scene and initializes various player components and attributes
+        /// from the given saved data.
+        /// </summary>
+        /// <param name="saveData">The data containing the saved state of the player which includes username,
+        /// monster name, monster color, current gold amount, XP amount, level, position, and other relevant attributes.</param>
         public void SetupPlayerFromSave(PlayerData saveData)
         {
             // instantiate player object in scene
@@ -313,8 +332,7 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging = spawnedPlayer.GetComponentInChildren<ColorChanging>();
             if (colorChanging == null)
             {
-                Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " +
-                               "ColorChanging component not found on spawned player.");
+                Debug.LogWarning("PlayerManager.SetupPlayerFromSave(): " + "ColorChanging component not found on spawned player.");
                 return;
             }
 
@@ -387,18 +405,11 @@ namespace Scenes._10_PlayerScene.Scripts
             colorChanging.SetSkeleton(skeleton);
             colorChanging.ColorChange(playerData.MonsterColor);
 
+            // Set the last interaction point to the saved position
             playerData.SetLastInteractionPoint(
                 playerData.LastInteractionPoint == Vector3.zero
                     ? tmpPlayerSpawnPoint
                     : playerData.LastInteractionPoint);
-
-            // // Log for debugging
-            // Debug.Log($"Player loaded from save: " +
-            //           $"username: {playerData.Username} " +
-            //           $"Player Name: {playerData.MonsterName} " +
-            //           $"Monster Color: {playerData.MonsterColor} " +
-            //           $"XP: {playerData.CurrentXPAmount} " +
-            //           $"Gold: {playerData.CurrentGoldAmount}");
 
             // Assign to GameManager for global access
             GameManager.Instance.PlayerData = playerData;
@@ -450,6 +461,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 instance.spawnedPlayer.GetComponent<Rigidbody>().useGravity = false;
                 instance.spawnedPlayer.GetComponent<CapsuleCollider>().enabled = false;
             }
+            
             if (SceneManager.GetActiveScene().name.StartsWith("11"))
             {
                 instance.spawnedPlayer.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
@@ -482,7 +494,7 @@ namespace Scenes._10_PlayerScene.Scripts
                 }
                 catch
                 {
-
+                    // TODO: empty catch?
                 }
             }
         }

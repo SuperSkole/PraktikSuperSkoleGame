@@ -3,6 +3,10 @@ using Analytics;
 
 namespace Letters
 {
+    /// <summary>
+    /// Represents a data structure for storing information about a letter,
+    /// including its identifier, category, weight, and usage statistics.
+    /// </summary>
     public class LetterData : ILanguageUnit
     {
         public LanguageUnit LanguageUnitType => LanguageUnit.Letter;
@@ -16,7 +20,14 @@ namespace Letters
         public DateTime LastUsed { get; set; }
         public int ErrorCount { get; set; }
 
-        public LetterData(string identifier, LetterCategory category, float weight)
+        /// <summary>
+        /// Represents data associated with a letter, including its identifier, category,
+        /// weight, time weight, composite weight, last usage time, and error count.
+        /// </summary>
+        public LetterData(
+            string identifier,
+            LetterCategory category,
+            float weight)
         {
             Identifier = identifier;
             Category = category;

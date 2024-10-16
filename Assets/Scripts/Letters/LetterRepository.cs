@@ -3,6 +3,9 @@ using Analytics;
 
 namespace Letters
 {
+    /// <summary>
+    /// Provides methods to retrieve collections of Danish letters.
+    /// </summary>
     public static class LetterRepository
     {
         /// <summary>

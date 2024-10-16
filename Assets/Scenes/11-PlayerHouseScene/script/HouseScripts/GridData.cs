@@ -187,7 +187,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             ID = iD;
             PlacedObjectIndex = placedObjectIndex;
             FloorType = floorType;
-            //this.rotationValue = rotationValue;
         }
     }
 }
