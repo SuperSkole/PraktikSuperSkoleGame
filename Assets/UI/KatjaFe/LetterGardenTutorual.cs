@@ -10,7 +10,9 @@ public class LetterGardenTutorual : MonoBehaviour
     private KatjaFe katjafe;
 
     [SerializeField] private AudioClip Hey;
+    [SerializeField] private AudioClip Intro;
     [SerializeField] private AudioClip followBee;
+    [SerializeField] private AudioClip noBee;
 
     private bool waitingForInput = false;
     private DrawingHandler drawingHandler;
@@ -35,9 +37,23 @@ public class LetterGardenTutorual : MonoBehaviour
         {
             katjafe.KatjaSpeak(Hey, () =>
             {
-                katjafe.KatjaSpeak(followBee, () =>
+                katjafe.KatjaSpeak(Intro, () =>
                 {
-                    waitingForInput = true;
+                    if(true)
+                    {
+                        katjafe.KatjaSpeak(followBee, () =>
+                        {
+                            waitingForInput = true;
+                        });
+                    }
+                    else
+                    {
+                        katjafe.KatjaSpeak(noBee, () =>
+                        {
+                            waitingForInput = true;
+                        });
+                    }
+                    
                 });
             });
         });
