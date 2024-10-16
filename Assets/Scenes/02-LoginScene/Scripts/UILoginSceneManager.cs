@@ -224,7 +224,7 @@ namespace Scenes._02_LoginScene.Scripts
                 {
                     // Use the assigned service to log in
                     await authService.SignInAsync();
-                    Debug.Log("Login successful.");
+                    //Debug.Log("Login successful.");
                     GameManager.Instance.CurrentUser = string.IsNullOrEmpty(username) ? "TEST" : username;
                     await AuthenticationService.Instance.UpdatePlayerNameAsync(
                         GameManager.Instance.CurrentUser);

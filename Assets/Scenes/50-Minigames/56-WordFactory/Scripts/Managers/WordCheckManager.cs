@@ -96,7 +96,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             {
                 if (unlimitedBlocks || (!createdWords.Contains(formedWord) && canCreateWordBlock))
                 {
-                    Debug.Log("Valid word: " + formedWord);
+                    //Debug.Log("Valid word: " + formedWord);
                     
                     // Report correct guess to DDA system
                     DynamicDifficultyAdjustmentManager.Instance.UpdateLanguageUnitWeight(formedWord.ToLower(), true);
@@ -123,7 +123,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                 }
                 else
                 {
-                    Debug.Log("Word already used: " + formedWord);
+                    //Debug.Log("Word already used: " + formedWord);
 
                     // Blink each closest tooth yellow if the word is repeated using the event system
                     foreach (Transform tooth in closestTeeth)
@@ -148,7 +148,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             }
             else
             {
-                Debug.Log("Invalid word: " + formedWord);
+                //Debug.Log("Invalid word: " + formedWord);
                 
                 // Report each letter in the word as incorrect to DDA
                 foreach (char letter in formedWord)

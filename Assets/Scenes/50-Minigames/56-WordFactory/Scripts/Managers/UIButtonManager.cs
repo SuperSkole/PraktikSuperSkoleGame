@@ -49,7 +49,6 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
             
             // Load the main scene
-            Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
             SceneManager.LoadScene(SceneNames.Main); 
         }
 

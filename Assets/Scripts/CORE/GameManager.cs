@@ -131,7 +131,7 @@ namespace CORE
             // Proceed to save if all conditions are met
             if (PlayerManager.Instance.SpawnedPlayer != null)
             {
-                Debug.Log("Saving game...");
+                //Debug.Log("Saving game...");
                 //await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
                 
                 // Convert the PlayerData to a SaveDataDTO

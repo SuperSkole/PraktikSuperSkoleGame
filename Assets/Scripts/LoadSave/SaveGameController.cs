@@ -45,7 +45,7 @@ namespace LoadSave
                 // Save player data, overwriting the existing save if necessary
                 await cloudSaveService.SaveAsync(DTO, saveKey);
 
-                Debug.Log("Game saved successfully for " + monsterName);
+                //Debug.Log("Game saved successfully for " + monsterName);
             }
             catch (Exception ex)
             {
@@ -68,7 +68,7 @@ namespace LoadSave
                     
                 if (data != null)
                 {
-                    Debug.Log("Game loaded successfully.");
+                    //Debug.Log("Game loaded successfully.");
                     onDataLoaded?.Invoke(data);
                 }
                 else
