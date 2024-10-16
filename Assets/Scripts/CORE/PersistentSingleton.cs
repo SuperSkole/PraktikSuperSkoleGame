@@ -12,12 +12,6 @@ namespace CORE
     public class PersistentSingleton<T> : MonoBehaviour where T : Component 
     {
         /// <summary>
-        /// Indicates whether the application is in the process of quitting.
-        /// Used to prevent the creation of new singleton instances during the application's shutdown phase.
-        /// </summary>
-        private static bool applicationIsQuitting = false;
-        
-        /// <summary>
         /// If true, the GameObject will be unparented on Awake(). Useful for keeping singletons across scenes.
         /// </summary>
         public bool AutoUnparentOnAwake = true;
@@ -42,11 +36,6 @@ namespace CORE
         {
             get 
             {
-                if (applicationIsQuitting)
-                {
-                    return null;
-                }
-                
                 if (!instance) 
                 {
                     lock (_lock)
@@ -136,12 +125,6 @@ namespace CORE
         //{
         //    // Force singleton initialization
         //    _ = Instance;
-        //}
-        
-        protected virtual void OnDestroy()
-        {
-            // Set the flag when the singleton is being destroyed
-            applicationIsQuitting = true;
-        }
+        //}ww
     }
 }
