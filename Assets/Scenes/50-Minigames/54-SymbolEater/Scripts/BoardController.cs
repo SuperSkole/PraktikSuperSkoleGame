@@ -285,6 +285,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns></returns>
         IEnumerator ReturnToMainWorld()
         {
+            if(SymbolEaterSoundController.playSound)
+            {
+                SymbolEaterSoundController.playSound = false;
+            }
             player.GameOver();
             yield return new WaitForSeconds(5);
             SwitchScenes.SwitchToMainWorld();
