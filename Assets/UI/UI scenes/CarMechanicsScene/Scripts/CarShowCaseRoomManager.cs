@@ -50,7 +50,9 @@ public class CarShowCaseRoomManager : MonoBehaviour
     [SerializeField] private Slider driftSlider;
     [SerializeField] private Slider fuelSlider;
 
-    // Start is called before the first frame update
+    /// <summary>
+    ///  Initializes the system, finds the player’s active car, spawns it, and sets up the available color options.
+    /// </summary>
     void Start()
     {
         playerData = PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>();
@@ -76,6 +78,11 @@ public class CarShowCaseRoomManager : MonoBehaviour
         UpdateValues(); 
     }
 
+    /// <summary>
+    /// Instantiates color selection buttons based on the car's available materials.
+    /// </summary>
+    /// <param name="info"></param>
+    /// <param name="index"></param>
     private void InstantiateColorBoxes(CarMaterialnfo info, int index)
     {
         // Instantiate the prefab and get the component
