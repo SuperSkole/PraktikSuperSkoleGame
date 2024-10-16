@@ -37,8 +37,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
         public bool IsPointerOverUI() 
             => EventSystem.current.IsPointerOverGameObject();
 
-
-
         public Vector3 GetSelectedMapPosition()
         {
             Vector3 mousePos = Input.mousePosition;

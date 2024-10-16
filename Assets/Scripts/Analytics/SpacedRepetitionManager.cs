@@ -10,6 +10,9 @@ using Words;
 
 namespace Analytics
 {
+    /// <summary>
+    /// Manages spaced repetition functionality including initialization, updating, and recording usage metrics for language learning units.
+    /// </summary>
     public class SpacedRepetitionManager : PersistentSingleton<SpacedRepetitionManager>, ISpacedRepetitionManager
     {
         private readonly IPerformanceWeightManager performanceWeightManager;
@@ -17,7 +20,11 @@ namespace Analytics
 
         private ConcurrentDictionary<string, LetterData> letterWeights;
         private ConcurrentDictionary<string, WordData> wordWeights;
-        
+
+        /// <summary>
+        /// Ensures that the letter and word weights are initialized from the player's data.
+        /// If the weights are not already initialized, it retrieves the weights data from PlayerManager.
+        /// </summary>
         public void EnsureInitialized()
         {
             if (letterWeights == null)
@@ -37,6 +44,10 @@ namespace Analytics
             // }
         }
 
+        /// <summary>
+        /// Initializes the time-based weights used for spaced repetition.
+        /// This method updates the weights according to predefined time intervals.
+        /// </summary>
         public void InitializeTimeWeights()
         {
             UpdateWeightsBasedOnTime();
@@ -102,6 +113,10 @@ namespace Analytics
         //     Debug.Log($"Initialized time weights for level {playerLevel}");
         // }
 
+        /// <summary>
+        /// Updates the time-based weights for letters and words based on when they were last used.
+        /// This method ensures that the weights are initialized before performing the update.
+        /// </summary>
         public void UpdateWeightsBasedOnTime()
         {
             EnsureInitialized();
@@ -117,6 +132,12 @@ namespace Analytics
             }
         }
 
+        /// <summary>
+        /// Calculates the time weight based on the last used date.
+        /// The time weight is determined by the number of days elapsed since the last use.
+        /// </summary>
+        /// <param name="lastUsed">The date when the item was last used.</param>
+        /// <returns>The calculated time weight as an integer.</returns>
         private int CalculateTimeWeight(DateTime lastUsed)
         {
             int daysSinceLastUsed = (int)(DateTime.UtcNow - lastUsed).TotalDays;
@@ -125,6 +146,12 @@ namespace Analytics
             return Mathf.Max(0, daysSinceLastUsed);
         }
 
+        /// <summary>
+        /// Updates the last used timestamp and recalculates the time weight for the specified identifier.
+        /// This method checks whether the given identifier corresponds to a letter or word and updates the
+        /// respective data structures with the current time and new time weight.
+        /// </summary>
+        /// <param name="identifier">The identifier for the letter or word whose weights are to be updated.</param>
         public void UpdateLastUsedAndTimeWeight(string identifier)
         {
             // Check if the identifier is for a letter
@@ -146,13 +173,12 @@ namespace Analytics
                 Debug.LogWarning($"Identifier '{identifier}' not found in either letterWeights or wordWeights.");
             }
         }
-        
-        public void RecordUsage(ILanguageUnit unit)
-        {
-            unit.LastUsed = DateTime.UtcNow;
-            unit.TimeWeight = CalculateTimeWeight(unit.LastUsed);
-        }
 
+        /// <summary>
+        /// Records the usage of a specific language learning unit, updating its time weight based on the user's performance.
+        /// </summary>
+        /// <param name="identifier">The unique identifier for the language learning unit.</param>
+        /// <param name="isCorrect">A boolean indicating whether the user's interaction with the unit was correct.</param>
         public void RecordUsage(string identifier, bool isCorrect)
         {
             EnsureInitialized();
@@ -173,6 +199,11 @@ namespace Analytics
             Debug.Log($"Recorded usage for '{identifier}', success: {isCorrect}");
         }
 
+        /// <summary>
+        /// Updates the time weight for a given language unit based on its last usage and correctness of the response.
+        /// </summary>
+        /// <param name="unit">The language unit (letter, word, or sentence) whose time weight is being updated.</param>
+        /// <param name="isCorrect">Indicates whether the response to the language unit was correct or incorrect.</param>
         private void UpdateTimeWeight(ILanguageUnit unit, bool isCorrect)
         {
             // Basic time weight calculation inspired by Anki's repetition model
@@ -196,26 +227,13 @@ namespace Analytics
             Debug.Log($"Updated time weight for '{unit.Identifier}', new time weight: {unit.TimeWeight}");
         }
 
-
-        // public void AdjustWeightsBasedOnPerformance(string identifier, bool isCorrect)
-        // {
-        //     EnsureInitialized();
-        //     
-        //     if (letterWeights.TryGetValue(identifier, out LetterData languageUnit))
-        //     {
-        //         if (isCorrect)
-        //         {
-        //             languageUnit.TimeWeight += DynamicDifficultyAdjustmentSettings.WeightIncrement;
-        //         }
-        //         else
-        //         {
-        //             languageUnit.TimeWeight += DynamicDifficultyAdjustmentSettings.WeightDecrement;
-        //         }
-        //
-        //         languageUnit.LastUsed = DateTime.Now;
-        //     }
-        // }
-
+        /// <summary>
+        /// debug tool
+        /// Retrieves the current time-based weights for letters.
+        /// Ensures that the letter weights are initialized before fetching
+        /// the time weights and converting them into a dictionary.
+        /// </summary>
+        /// <returns>A dictionary where keys are characters and values are their corresponding time weights.</returns>
         public Dictionary<char, int> GetCurrentTimeWeights()
         {
             EnsureInitialized();
@@ -232,7 +250,12 @@ namespace Analytics
 
             return currentWeights;
         }
-        
+
+        /// <summary>
+        /// debug tool
+        /// Prints all letter weights to the debug log.
+        /// This method ensures that the weights are initialized before printing.
+        /// </summary>
         public void PrintAllWeights()
         {
             EnsureInitialized();

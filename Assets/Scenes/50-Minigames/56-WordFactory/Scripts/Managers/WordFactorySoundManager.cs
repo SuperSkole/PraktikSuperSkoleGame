@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 {
-    public class WordFactorySoundManager : PersistentSingleton<WordFactorySoundManager>
+    public class WordFactorySoundManager : GenericSingleton<WordFactorySoundManager>
     {
         public enum SoundEvent
         {
@@ -25,7 +25,6 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         private AudioSource audioSource;
         private bool playingHandleSound = false;
-        protected override void Awake() { base.Awake(false); }
 
         IEnumerator PlayHandleSound()
         {
@@ -61,6 +60,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
                     {
                         StartCoroutine(PlayHandleSound());
                     }
+                    
                     break;
             }
         }

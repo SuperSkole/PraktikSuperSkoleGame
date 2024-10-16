@@ -86,14 +86,9 @@ namespace CORE
         
         #endregion Login Region
 
-        public void LoadGame()
-        {
-            // Logic to load game data
-            //LoadManager.LoadGame(CurrentUser);
-                
-            Debug.Log("Loading game");
-        }
-
+        /// <summary>
+        /// Handles cleanup and game state saving when the application is quitting.
+        /// </summary>
         public void OnApplicationQuit()
         {
             // Cleanup or save state before exiting
@@ -108,7 +103,12 @@ namespace CORE
             AuthenticationService.Instance.SignOut();
             Application.Quit();
         }
-        
+
+        /// <summary>
+        /// Saves the current game state by converting PlayerData into a SaveDataDTO and persisting it
+        /// using the SaveGameController. If the PlayerManager, SaveGameController, or PlayerData
+        /// is not available, the method logs a warning and exits.
+        /// </summary>
         public async void SaveGame()
         {
             // Early exit if PlayerManager is missing
@@ -131,7 +131,7 @@ namespace CORE
             // Proceed to save if all conditions are met
             if (PlayerManager.Instance.SpawnedPlayer != null)
             {
-                Debug.Log("Saving game...");
+                //Debug.Log("Saving game...");
                 //await SaveGameController.SaveGameAsync(PlayerManager.Instance.SpawnedPlayer.GetComponent<PlayerData>());
                 
                 // Convert the PlayerData to a SaveDataDTO
@@ -145,7 +145,11 @@ namespace CORE
             }
         }
 
-        
+        /// <summary>
+        /// Initializes various managers required for the GameManager's functionality.
+        /// This includes PlayerData, SpacedRepetitionManager, PerformanceWeightManager,
+        /// and DynamicDifficultyAdjustmentManager if they are not already present in the GameManager.
+        /// </summary>
         private void InitializeGameManager()
         {  
             if (!GetComponent<PlayerData>())
@@ -169,15 +173,24 @@ namespace CORE
             }
         }
 
-        
+        /// <summary>
+        /// Instantiates and initializes various game-related managers such as SaveGameController,
+        /// </summary>
         private void InitializeManagers()
         {            
             SaveGameController = new SaveGameController();
         }
 
+        /// <summary>
+        /// Called when a new scene has been loaded. This method will handle necessary operations
+        /// after a scene transition, such as saving player data before entering a new scene.
+        /// Will early out if wrong scene.
+        /// </summary>
+        /// <param name="scene">The scene that was loaded.</param>
+        /// <param name="mode">The mode in which the scene was loaded.</param>
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            // Early out
+            // Early out; if the scene is a bootstrapper or playerscene, do not save the game.
             if (scene.name.StartsWith("0") ||
                 scene.name.Equals(SceneNames.Player) ||
                 scene.name.Equals(SceneNames.Boot))
@@ -189,6 +202,9 @@ namespace CORE
             SaveGame();
         }
 
+        /// <summary>
+        /// Cleans up resources and detaches event handlers before the GameManager is destroyed.
+        /// </summary>
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;

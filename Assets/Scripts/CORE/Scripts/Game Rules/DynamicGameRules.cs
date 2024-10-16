@@ -28,6 +28,7 @@ namespace CORE.Scripts.Game_Rules
         private List<ILanguageUnit> languageUnitsList = new List<ILanguageUnit>();
 
         private bool usesSequence = false;
+
         
         /// <summary>
         /// Retrieves a correct answer
@@ -153,6 +154,8 @@ namespace CORE.Scripts.Game_Rules
         /// </summary>
         public void SetCorrectAnswer()
         {
+            index = 0;
+            remainingLetterIndex = 1;
             if(languageUnitsList.Count == 0)
             {
                 languageUnitsList = GameManager.Instance.DynamicDifficultyAdjustmentManager
@@ -275,6 +278,23 @@ namespace CORE.Scripts.Game_Rules
         public void AddFilteredList(List<ILanguageUnit> languageUnits)
         {
             languageUnitsList = languageUnits;
+        }
+
+        public void UseFirstLetter()
+        {
+            correctAnswer = word[0].ToString();
+        }
+        public void UseFirstVowel()
+        {
+            List<Char> vowels = LetterRepository.GetVowels().ToList();
+            for(int i = 0; i < word.Length; i++)
+            {
+                if(vowels.Contains(word.ToUpper()[i]))
+                {
+                    correctAnswer = word[i].ToString();
+                    break;
+                }
+            }
         }
     }
 }

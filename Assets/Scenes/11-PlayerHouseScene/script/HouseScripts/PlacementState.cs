@@ -86,10 +86,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
                 grid.CellToWorld(gridPos),
                 previewSystem.ReturnItemRotation());
 
-            //// Determine whether the object is floor data or furniture data. has to fit with the Database
-            //GridData selectedData = database.objectData[selectedObjectIndex].ID == 0 ?
-            //    furnitureData : floorData;
-
             // Determine whether the object is floor data or furniture data. has to fit with the Database
             GridData selectedData = new();
 

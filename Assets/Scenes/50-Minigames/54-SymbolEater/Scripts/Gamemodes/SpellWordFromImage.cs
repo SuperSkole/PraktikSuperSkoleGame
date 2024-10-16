@@ -50,6 +50,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
+                if(gameRules.GetType() == typeof(DynamicGameRules))
+                {
+                    DynamicGameRules dynamicGameRules = (DynamicGameRules) gameRules;
+                    dynamicGameRules.UseFirstLetter();
+                }
                 oldWord = gameRules.GetSecondaryAnswer();
                 if(sprites.ContainsKey(gameRules.GetSecondaryAnswer())){
                     boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
@@ -74,6 +79,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 {
                     lC.Deactivate();
                 }
+                if(gameRules.GetType() == typeof(DynamicGameRules))
+                {
+                    DynamicGameRules dynamicGameRules = (DynamicGameRules) gameRules;
+                    dynamicGameRules.UseFirstLetter();
+                }
                 int count = Random.Range(minWrongLetters, maxWrongLetters + 1);
                 activeLetterCubes.Clear();
                 
@@ -95,14 +105,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public bool IsCorrectSymbol(string letter)
         {
             
-            if(gameRules.IsCorrectSymbol(letter) && gameRules.GetCorrectAnswer()[0] != gameRules.GetSecondaryAnswer()[gameRules.GetSecondaryAnswer().Length - 1])
+            if(gameRules.IsCorrectSymbol(letter))
             {
                 foundLetters.Enqueue(letter[0]);
-                return true;
-            }
-            else if(gameRules.IsCorrectSymbol(letter))
-            {
-                foundLetters.Enqueue(letter.ToLower()[0]);
                 return true;
             }
             else
@@ -119,7 +124,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void ReplaceSymbol(LetterCube letter)
         {
             //Updates the display of letters which the player has already found
-            if(foundLetters.Count > 0 && letter.GetLetter() == foundLetters.Peek().ToString())
+            while(foundLetters.Count > 0)
             {
                 foundWordPart += foundLetters.Dequeue();
                 boardController.SetAnswerText(foundWordPart);
@@ -207,7 +212,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         {
             if(correct)
             {
-                letterCube.Activate(gameRules.GetDisplayAnswer()[activationIndex].ToString());
+                letterCube.Activate(gameRules.GetCorrectAnswer());
             }
             else 
             {
@@ -221,7 +226,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <returns></returns>
         public bool IsGameComplete()
         {
-            return foundWordPart.Length == gameRules.GetDisplayAnswer().Length;
+            return gameRules.SequenceComplete();
         }
 
         /// <summary>

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Words
 {
+    /// <summary>
+    /// WordRepository is a static class that manages the storage and retrieval of words.
+    /// It provides methods to add words to the repository and to fetch words based on specific criteria.
+    /// </summary>
     public static class WordRepository
     {
         private static readonly Dictionary<string, List<WordData>> wordsBySet = new Dictionary<string, List<WordData>>(); 

@@ -43,6 +43,11 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(DataLoader.IsDataLoaded)
             {
                 gameRules.SetCorrectAnswer();
+                if(gameRules.GetType() == typeof(DynamicGameRules))
+                {
+                    DynamicGameRules dynamicGameRules = (DynamicGameRules)gameRules;
+                    dynamicGameRules.UseFirstLetter();
+                }
                 if(sprites.ContainsKey(gameRules.GetSecondaryAnswer())){
                     boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
@@ -52,6 +57,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                     sprites.Add(gameRules.GetSecondaryAnswer(), Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f));
                     boardController.SetImage(sprites[gameRules.GetSecondaryAnswer()]);
                 }
+                boardController.SetAnswerText("Find det første bogstav i ordet");
                 wordsLoaded = true;
             }
             else 
@@ -62,6 +68,12 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             if(wordsLoaded)
             {
                 foundLetter = false;
+                //gameRules.SetCorrectAnswer();
+                if(gameRules.GetType() == typeof(DynamicGameRules))
+                {
+                    DynamicGameRules dynamicGameRules = (DynamicGameRules)gameRules;
+                    dynamicGameRules.UseFirstLetter();
+                }
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
                 {
@@ -74,7 +86,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules, boardController.GetPlayer().transform.position);
                 //finds a new letterbox and assigns it the correct letter
                 GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-                boardController.SetAnswerText("");
+                boardController.SetAnswerText("Find det første bogstav i ordet");
             }
         }
         /// <summary>
@@ -84,7 +96,8 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         /// <returns>Whether the letter is the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
-            return gameRules.IsCorrectSymbol(letter);
+            foundLetter = gameRules.IsCorrectSymbol(letter);
+            return foundLetter;
         }
 
         /// <summary>
@@ -94,10 +107,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
         public void ReplaceSymbol(LetterCube letter)
         {
             //Updates the display of letters which the player has already found
-            if(IsCorrectSymbol(letter.GetLetter()))
-            {
-                foundLetter = true;
-            }
+            
             //Checks if the game is over. If it is it informs the boardcontroller that the game is over. Otherwise it just restarts with a new word.
             if(!GameModeHelper.ReplaceOrVictory(letter, letterCubes, activeLetterCubes, true, ActivateCube, IsGameComplete))
             {

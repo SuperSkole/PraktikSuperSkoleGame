@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Words
 {
+    /// <summary>
+    /// Represents a word data entity which includes metadata
+    /// such as length, weights, last used time, and error count.
+    /// Implements the ILanguageUnit interface.
+    /// </summary>
     public class WordData : ILanguageUnit
     {
         public LanguageUnit LanguageUnitType => LanguageUnit.Word;
@@ -16,6 +21,11 @@ namespace Words
         public DateTime LastUsed { get; set; }
         public int ErrorCount { get; set; }
 
+        /// <summary>
+        /// Represents a word data entity which includes metadata
+        /// such as length, weights, last used time, and error count.
+        /// Implements the ILanguageUnit interface.
+        /// </summary>
         public WordData(string identifier, WordLength length, float weight)
         {
             Identifier = identifier;

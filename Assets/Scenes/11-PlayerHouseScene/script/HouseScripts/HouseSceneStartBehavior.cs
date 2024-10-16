@@ -237,7 +237,6 @@ namespace Scenes._11_PlayerHouseScene.script.HouseScripts
             // Apply the loaded grid data to the house systems
             itemContainer.SavedGridData = houseDataDTO.SavedGridData;
 
-            //Debug.Log("House data applied successfully.");
         }
 
         public void EnableBuildingSystem()

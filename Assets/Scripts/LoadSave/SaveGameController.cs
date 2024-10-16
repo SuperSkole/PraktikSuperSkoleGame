@@ -24,7 +24,15 @@ namespace LoadSave
             cloudSaveService = new UnityCloudSaveService(repository);
         }
 
-        public async Task SaveDataAsync(IDataTransferObject DTO, string dataType)
+        /// <summary>
+        /// Asynchronously saves the provided data transfer object (DTO) to the cloud storage.
+        /// </summary>
+        /// <param name="DTO">The data transfer object to be saved.</param>
+        /// <param name="dataType">The type of data being saved, used to generate the save key.</param>
+        /// <returns>A task representing the asynchronous save operation.</returns>
+        public async Task SaveDataAsync(
+            IDataTransferObject DTO,
+            string dataType)
         {
             var username = PlayerManager.Instance.PlayerData.Username;
             var monsterName = PlayerManager.Instance.PlayerData.MonsterName;
@@ -37,7 +45,7 @@ namespace LoadSave
                 // Save player data, overwriting the existing save if necessary
                 await cloudSaveService.SaveAsync(DTO, saveKey);
 
-                Debug.Log("Game saved successfully for " + monsterName);
+                //Debug.Log("Game saved successfully for " + monsterName);
             }
             catch (Exception ex)
             {
@@ -60,7 +68,7 @@ namespace LoadSave
                     
                 if (data != null)
                 {
-                    Debug.Log("Game loaded successfully.");
+                    //Debug.Log("Game loaded successfully.");
                     onDataLoaded?.Invoke(data);
                 }
                 else
@@ -174,6 +182,13 @@ namespace LoadSave
             return $"{sanitizedUsername}_{sanitizedMonsterName}_{sanitizedDataType}";
         }
 
+        /// <summary>
+        /// Sanitizes the given input string by replacing Danish characters, removing diacritical marks,
+        /// converting to ASCII, and eliminating any characters that are not letters, digits,
+        /// or allowed special characters.
+        /// </summary>
+        /// <param name="input">The input string to sanitize.</param>
+        /// <returns>The sanitized string suitable for use as a key component.</returns>
         public string SanitizeKeyComponent(string input)
         {
             // Replace Danish characters with acceptable ASCII equivalents

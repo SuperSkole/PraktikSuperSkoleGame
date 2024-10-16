@@ -26,7 +26,7 @@ namespace Scenes._02_LoginScene.Scripts
                     attempt++;
                     await AuthenticationService.Instance.SignInAnonymouslyAsync();
                     success = true; // Break loop if successful
-                    Debug.Log("Sign-in successful on attempt: " + attempt);
+                    //Debug.Log("Sign-in successful on attempt: " + attempt);
                 }
                 catch (AuthenticationException ex)
                 {
