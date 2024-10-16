@@ -137,6 +137,6 @@ public class Level4_POD_Words : IPODGameMode
 
         manager.textOnPlatform = manager.textHolderPrefab.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
-        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et bogstav. Hop p\u00e5 det rigtige bogstav";
+        manager.descriptionText.text = " Tryk p\u00e5 MellemRum knappen for at hoppe. Tryk p\u00e5 F for at h\u00f8re et forbogstav. Hop p\u00e5 det ord som har forbogstavet";
     }
 }

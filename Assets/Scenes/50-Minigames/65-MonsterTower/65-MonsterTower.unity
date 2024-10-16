@@ -2264,7 +2264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -107, y: 240}
+  m_AnchoredPosition: {x: -78, y: 1124}
   m_SizeDelta: {x: 150, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &528660899
@@ -4594,8 +4594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c32c4dd0ef324148bd64175e6ec012f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hey: {fileID: 8300000, guid: 89cc8bd2178f2414598820944ad04b2b, type: 3}
-  Explane: {fileID: 8300000, guid: 6f8f81755054f1843bdeb87719d2a5ea, type: 3}
+  Hey: {fileID: 8300000, guid: 3e649cbbe2b3fb34095493e84859db8a, type: 3}
+  Explane: {fileID: 8300000, guid: 7bff07b0afca6f64288de590a810f9a6, type: 3}
 --- !u!1 &1372216847
 GameObject:
   m_ObjectHideFlags: 0
@@ -5467,6 +5467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   images: []
+  soundCorrectImages: []
+  onsetImages: []
   letterSounds: []
   danskCongrats: []
   englishCongrats: []

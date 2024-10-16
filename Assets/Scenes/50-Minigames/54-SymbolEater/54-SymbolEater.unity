@@ -9926,7 +9926,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hey: {fileID: 8300000, guid: 89cc8bd2178f2414598820944ad04b2b, type: 3}
-  Move: {fileID: 8300000, guid: 6f8f81755054f1843bdeb87719d2a5ea, type: 3}
+  Intro: {fileID: 8300000, guid: 623e31f228fed244cb84428e66feb491, type: 3}
+  letterSound: {fileID: 8300000, guid: 492785604cb57f54f9ae76d121ed785b, type: 3}
+  onsetForPicture: {fileID: 8300000, guid: 569252c961ee6cd45be86531727e5170, type: 3}
+  PictureToOnset: {fileID: 8300000, guid: 935db6d16fea8fd49a4b423a0ea776f2, type: 3}
+  PictureToVowel: {fileID: 8300000, guid: 5bcdab304d0eff64885991099b7ec2ab, type: 3}
+  PictureToWord: {fileID: 8300000, guid: 556dec4eb45f4a540b925fa1e7505a1d, type: 3}
+  VowelForPicture: {fileID: 8300000, guid: b25e60dfcdf11094ba37efc618ebf42e, type: 3}
+  VowelHunt: {fileID: 8300000, guid: 663ae86981d5f4441b343859ffda460d, type: 3}
+  WordToPicture: {fileID: 8300000, guid: 49daaba29d6e4764f8ced28d3b7cde6c, type: 3}
+  gamemode: 0
 --- !u!1 &1396993459 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5984104342079197732, guid: 1a854bdac77a3c44bae747d83ed23583, type: 3}
