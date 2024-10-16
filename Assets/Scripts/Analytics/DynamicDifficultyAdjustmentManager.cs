@@ -222,7 +222,7 @@ namespace Analytics
                     timeHandler(unit);
                 }
 
-                Debug.Log($"Updated weight for {identifier} based on performance: {isCorrect}");
+                //Debug.Log($"Updated weight for {identifier} based on performance: {isCorrect}");
             }
             else
             {
@@ -303,7 +303,7 @@ namespace Analytics
                 }
                 else
                 {
-                    Debug.Log($"Player remains at level {currentLevel} with average weight: {averageWeight}");
+                    //Debug.Log($"Player remains at level {currentLevel} with average weight: {averageWeight}");
                 }
             }
             else
@@ -471,7 +471,7 @@ namespace Analytics
                     LanguageUnit.Letter, (unit) =>
                     {
                         spacedRepetitionManager.UpdateLastUsedAndTimeWeight(unit.Identifier);
-                        Debug.Log($"Updated time weight for letter '{unit.Identifier}'");
+                        //Debug.Log($"Updated time weight for letter '{unit.Identifier}'");
                     }
                 },
                 {
@@ -485,7 +485,7 @@ namespace Analytics
                         {
                             string letterIdentifier = letter.ToString();
                             spacedRepetitionManager.UpdateLastUsedAndTimeWeight(letterIdentifier);
-                            Debug.Log($"Updated time weight for letter '{letterIdentifier}' within word '{unit.Identifier}'");
+                            //Debug.Log($"Updated time weight for letter '{letterIdentifier}' within word '{unit.Identifier}'");
                         }
                     }
                 },

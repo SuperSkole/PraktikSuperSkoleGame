@@ -18,7 +18,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
     /// <summary>
     /// Manages the Word Factory game, handling gear addition, player positioning, and scene transitions.
     /// </summary>
-    public class WordFactoryGameManager : PersistentSingleton<WordFactoryGameManager>
+    public class WordFactoryGameManager : GenericSingleton<WordFactoryGameManager>
     {
         [SerializeField] private UIFactoryManager uiFactoryManager;
         public event Action<GameObject> OnGearAdded;
@@ -50,7 +50,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
 
         protected override void Awake()
         {
-            base.Awake(false);
+            base.Awake();
             
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
@@ -80,7 +80,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
         /// </summary>
         private void IntializeFactoryManager()
         {
-            Debug.Log("IntializeFactoryManager");
+            //Debug.Log("IntializeFactoryManager");
             
             // Retrieve the number of gears from GameConfig
             NumberOfGears = GameConfig.NumberOfGears;
@@ -175,7 +175,7 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             }
 
             // Log the result and update the UI
-            Debug.Log($"Valid words: {validWords} out of {totalCombinations}");
+            //Debug.Log($"Valid words: {validWords} out of {totalCombinations}");
             CorrectWordCountTotal = validWords;  // Ensure it updates correctly, without adding up multiple times
         }
 
@@ -318,23 +318,24 @@ namespace Scenes._50_Minigames._56_WordFactory.Scripts.Managers
             //StopCoroutine(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>().MoveToPositionCoroutine(null));
             Destroy(PlayerManager.Instance.SpawnedPlayer.GetComponent<AutoMovePlayerInFactory>());
 
-            // Clean up the game manager and sound manager when transitioning to the main scene
             // Destroy WordFactoryGameManager
-            if (Instance != null)
+            if (HasInstance)
             {
-                Destroy(Instance);
+                Destroy(instance.gameObject);
                 instance = null;
             }
 
             // Destroy WordFactorySoundManager
-            if (WordFactorySoundManager.Instance != null)
+            if (WordFactorySoundManager.HasInstance)
             {
-                Destroy(WordFactorySoundManager.Instance);
+                Destroy(WordFactorySoundManager.instance.gameObject);
+                WordFactorySoundManager.instance = null;
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
         }
     }

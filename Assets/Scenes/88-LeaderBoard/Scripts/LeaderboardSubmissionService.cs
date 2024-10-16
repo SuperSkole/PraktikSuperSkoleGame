@@ -20,7 +20,7 @@ namespace Scenes._88_LeaderBoard.Scripts
         {
             await SubmitWithRetry(async () => 
             {
-                Debug.Log($"Submitting {wordCount} words to leaderboard...");
+                //Debug.Log($"Submitting {wordCount} words to leaderboard...");
                 var playerEntry = await LeaderboardsService.Instance.AddPlayerScoreAsync(
                     LEADERBOARD_ID_WORDS,
                     wordCount,
@@ -32,7 +32,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                         }
                     });
 
-                Debug.Log("Most Words submitted successfully.");
+                //Debug.Log("Most Words submitted successfully.");
             }, "Most Words");
         }
 
@@ -43,7 +43,7 @@ namespace Scenes._88_LeaderBoard.Scripts
         {
             await SubmitWithRetry(async () => 
             {
-                Debug.Log($"Submitting {letterCount} letters to leaderboard...");
+                //Debug.Log($"Submitting {letterCount} letters to leaderboard...");
                 var playerEntry = await LeaderboardsService.Instance.AddPlayerScoreAsync(
                     LEADERBOARD_ID_LETTERS,
                     letterCount,
@@ -55,7 +55,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                         }
                     });
 
-                Debug.Log("Most Letters submitted successfully.");
+                //Debug.Log("Most Letters submitted successfully.");
             }, "Most Letters");
         }
 
@@ -72,7 +72,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                 try
                 {
                     attempt++;
-                    Debug.Log($"Attempt {attempt} to submit to {leaderboardName} leaderboard.");
+                    //Debug.Log($"Attempt {attempt} to submit to {leaderboardName} leaderboard.");
                     await submissionTask();
                     success = true;
                 }
@@ -106,7 +106,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                 try
                 {
                     attempt++;
-                    Debug.Log($"Attempt {attempt} to ensure Unity Services are initialized and player is signed in.");
+                    //Debug.Log($"Attempt {attempt} to ensure Unity Services are initialized and player is signed in.");
 
                     // Initialize Unity Services if needed
                     if (Unity.Services.Core.UnityServices.State != Unity.Services.Core.ServicesInitializationState.Initialized)
@@ -125,7 +125,7 @@ namespace Scenes._88_LeaderBoard.Scripts
                     }
                     else
                     {
-                        Debug.Log("Already signed in.");
+                        //Debug.Log("Already signed in.");
                     }
 
                     // Break loop if successfuls
