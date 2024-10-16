@@ -146,7 +146,7 @@ namespace UI.Scripts
         //Create the shop options
         private void InitializeShopOptions(List<ClothInfo> availableClothes)
         {
-            Debug.Log("InitializeActivated");
+            //Debug.Log("InitializeActivated");
             foreach (ClothInfo cloth in availableClothes)
             {
                 // Instantiate a new ShopOption as a child of shopOptionsParent
