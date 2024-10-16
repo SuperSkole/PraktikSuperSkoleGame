@@ -11,7 +11,8 @@ public class FactoryTutorial : MonoBehaviour
     private KatjaFe katjafe;
 
     [SerializeField] private AudioClip Hey;
-    [SerializeField] private AudioClip Explane;
+    [SerializeField] private AudioClip Intro;
+    [SerializeField] private AudioClip twoWeels;
 
     private bool waitingForInput = false;
     private WordCheckManager controller;
@@ -22,10 +23,10 @@ public class FactoryTutorial : MonoBehaviour
         if (GameManager.Instance.PlayerData.TutorialFactory)
         {
 
-            katjafe.Initialize(false, Explane);
+            katjafe.Initialize(false, twoWeels);
             return;
         }
-        katjafe.Initialize(true, Explane);
+        katjafe.Initialize(true, twoWeels);
         controller = FindFirstObjectByType<WordCheckManager>();
         Speak();
     }
@@ -36,9 +37,12 @@ public class FactoryTutorial : MonoBehaviour
         {
             katjafe.KatjaSpeak(Hey, () =>
             {
-                katjafe.KatjaSpeak(Explane, () =>
+                katjafe.KatjaSpeak(Intro, () =>
                 {
-                    waitingForInput = true;
+                    katjafe.KatjaSpeak(twoWeels, () =>
+                    {
+                        waitingForInput = true;
+                    });
                 });
             });
         });

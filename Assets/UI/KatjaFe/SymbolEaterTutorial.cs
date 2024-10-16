@@ -11,8 +11,16 @@ public class SymbolEaterTutorual : MonoBehaviour
     private KatjaFe katjafe;
 
     [SerializeField] private AudioClip Hey;
-    [SerializeField] private AudioClip Move;
-
+    [SerializeField] private AudioClip Intro;
+    [SerializeField] private AudioClip letterSound;
+    [SerializeField] private AudioClip onsetForPicture;
+    [SerializeField] private AudioClip PictureToOnset;
+    [SerializeField] private AudioClip PictureToVowel;
+    [SerializeField] private AudioClip PictureToWord;
+    [SerializeField] private AudioClip VowelForPicture;
+    [SerializeField] private AudioClip VowelHunt;
+    [SerializeField] private AudioClip WordToPicture;
+    public int gamemode = 0;
     private bool waitingForInput = false;
     private BoardController controller;
 
@@ -22,10 +30,10 @@ public class SymbolEaterTutorual : MonoBehaviour
         if (GameManager.Instance.PlayerData.TutorialSymbolEater)
         {
 
-            katjafe.Initialize(false, Move);
+            katjafe.Initialize(false, onsetForPicture);
             return;
         }
-        katjafe.Initialize(true, Move);
+        katjafe.Initialize(true, onsetForPicture);
         controller = FindFirstObjectByType<BoardController>();
         Speak();
     }
@@ -36,9 +44,68 @@ public class SymbolEaterTutorual : MonoBehaviour
         {
             katjafe.KatjaSpeak(Hey, () =>
             {
-                katjafe.KatjaSpeak(Move, () =>
+                katjafe.KatjaSpeak(Intro, () =>
                 {
-                    waitingForInput = true;
+                    switch (gamemode)
+                    {
+                        case 0:
+                            katjafe.KatjaSpeak(onsetForPicture, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 1:
+                            katjafe.KatjaSpeak(PictureToOnset, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 2:
+                            katjafe.KatjaSpeak(PictureToVowel, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 3:
+                            katjafe.KatjaSpeak(PictureToWord, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 4:
+                            katjafe.KatjaSpeak(VowelForPicture, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 5:
+                            katjafe.KatjaSpeak(VowelHunt, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        case 6:
+                            katjafe.KatjaSpeak(WordToPicture, () =>
+                            {
+                                waitingForInput = true;
+                            });
+                            break;
+                        default:
+                            Debug.LogError("no gamemode selected");
+                            break;
+                    }
+                    if (true)
+                    {
+                        
+                    }
+                    else
+                    {
+                        katjafe.KatjaSpeak(PictureToOnset, () =>
+                        {
+                            waitingForInput = true;
+                        });
+                    }
+
                 });
             });
         });
