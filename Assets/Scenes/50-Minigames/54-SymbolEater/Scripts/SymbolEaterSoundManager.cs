@@ -8,6 +8,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
     public class SymbolEaterSoundController : MonoBehaviour
     {
 
+        public static bool playSound = false;
 
         private AudioClip letterSoundClip;
 
@@ -29,7 +30,7 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         {
 
             //plays the audioLetterSource once by pressing space
-            if (Input.GetKeyDown(KeyCode.Space) && keydown == false)
+            if (playSound && Input.GetKeyDown(KeyCode.Space) && keydown == false)
             {
                 
                 AudioManager.Instance.PlaySound(letterSoundClip, SoundType.Voice);
