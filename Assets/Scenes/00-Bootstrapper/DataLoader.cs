@@ -96,7 +96,7 @@ namespace Scenes._00_Bootstrapper
 
         private void AddWordsToHashsetInWordRepository(string filePath, UnityWebRequest request)
         {
-            Debug.Log("Adding words to WordRepository");
+            //Debug.Log("Adding words to WordRepository");
             // Parse CSV Data
             string csvData = request.downloadHandler.text;
             string[] lines = csvData.Split('\n');
