@@ -169,6 +169,8 @@ namespace Scenes._10_PlayerScene.Scripts
 
                 // Move towards the block
                 spawnedPlayer.transform.position = Vector3.MoveTowards(spawnedPlayer.transform.position, targetPosition, moveSpeed * Time.deltaTime);
+                //for low fps this is fix
+                Physics.SyncTransforms();
                 yield return null;
             }
             playerAnimator.SetCharacterState("Idle");
