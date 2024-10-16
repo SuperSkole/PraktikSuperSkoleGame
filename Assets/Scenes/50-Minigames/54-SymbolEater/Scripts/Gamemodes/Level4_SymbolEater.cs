@@ -69,6 +69,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
             /// </summary>
             public void GetSymbols()
             {
+                if(!SymbolEaterSoundController.playSound)
+                {
+                    SymbolEaterSoundController.playSound = true;
+                }
                 gameRules.SetCorrectAnswer();
                 //deactives all current active lettercubes
                 foreach (LetterCube lC in activeLetterCubes)
@@ -82,9 +86,9 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
                 GameModeHelper.ActivateLetterCubes(count, letterCubes, activeLetterCubes, ActivateCube, false, gameRules,boardController.GetPlayer().transform.position);
                 //Activates a random lettercube with the correct letter
                 GameModeHelper.ActivateLetterCube(letterCubes, activeLetterCubes, ActivateCube, true);
-            boardController.SetAnswerText("Tryk [Mellemrum] og find bogstavet.");
+                boardController.SetAnswerText("Tryk [Mellemrum] og find bogstavet.");
 
-            CurrentWordSound();
+                CurrentWordSound();
 
 
             }

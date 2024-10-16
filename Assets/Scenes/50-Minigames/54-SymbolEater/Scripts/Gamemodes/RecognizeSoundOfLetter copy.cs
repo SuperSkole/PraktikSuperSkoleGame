@@ -36,12 +36,18 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts.Gamemodes
 
         int minCorrectLetters = 1;
 
+        
+
 
         /// <summary>
         /// Gets the letters for the current game
         /// </summary>
         public void GetSymbols()
         {
+            if(!SymbolEaterSoundController.playSound)
+            {
+                SymbolEaterSoundController.playSound = true;
+            }
             gameRules.SetCorrectAnswer();
             //deactives all current active lettercubes
             foreach (LetterCube lC in activeLetterCubes)
