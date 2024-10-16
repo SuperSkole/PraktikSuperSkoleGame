@@ -127,9 +127,10 @@ namespace Scenes._50_Minigames._54_SymbolEater.Scripts
         /// <returns>whether the letter is the same as the correct one</returns>
         public bool IsCorrectSymbol(string letter)
         {
+            bool correct = gameMode.IsCorrectSymbol(letter);
             if(!isTutorialOver)
-                isTutorialOver = gameMode.IsCorrectSymbol(letter);
-            return gameMode.IsCorrectSymbol(letter);
+                isTutorialOver = correct;
+            return correct;
         }
 
         /// <summary>

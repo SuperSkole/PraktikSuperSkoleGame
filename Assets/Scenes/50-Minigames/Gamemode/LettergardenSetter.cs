@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CORE;
+using Analytics;
 
 namespace Scenes._50_Minigames.Gamemode
 {
@@ -28,9 +29,22 @@ namespace Scenes._50_Minigames.Gamemode
 
         public (IGameRules, IGenericGameMode) DetermineGamemodeAndGameRulesToUse(int level)
         {
-            if(GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(1)[0].LanguageUnitType == Analytics.LanguageUnit.Letter)
+            GameManager.Instance.PerformanceWeightManager.SetEntityWeight("ø", 60);
+            List<ILanguageUnit> languageUnits = GameManager.Instance.DynamicDifficultyAdjustmentManager.GetNextLanguageUnitsBasedOnLevel(80);
+
+            if(languageUnits[0].LanguageUnitType == Analytics.LanguageUnit.Letter)
             {
-                return(new DynamicGameRules(), gamemodes[Random.Range(0, gamemodes.Count)]);
+                DynamicGameRules dynamicGameRules = new DynamicGameRules();
+                List<ILanguageUnit> filteredList = new List<ILanguageUnit>();
+                foreach(ILanguageUnit languageUnit in languageUnits)
+                {
+                    if(languageUnit.LanguageUnitType == LanguageUnit.Letter)
+                    {
+                        filteredList.Add(languageUnit);
+                    }
+                }
+                dynamicGameRules.AddFilteredList(filteredList);
+                return(dynamicGameRules, gamemodes[Random.Range(0, gamemodes.Count)]);
             }
             //Lettergarden only supports letters
             else
